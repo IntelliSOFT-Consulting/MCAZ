@@ -91,3 +91,15 @@ h1.has-warning, h2.has-warning, h3.has-warning, h4.has-warning, h5.has-warning, 
 h1.has-error, h2.has-error, h3.has-error, h4.has-error, h5.has-error, p.has-error {
     color: #a94442;
 }
+
+
+.footer {
+    background-color: #2F1F50;
+    margin-top: 2px;
+    padding: 30px 0;
+}
+
+.footer p {
+    color: #FFFFFF;
+    margin-bottom: 0;
+}

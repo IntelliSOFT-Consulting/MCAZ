@@ -110,6 +110,7 @@ class AppController extends Controller
                 'element' => 'error'
             ]
         ]);
+        // $this->Auth->allow(); 
     }
 
     /*1. Ported from 1.2*/
@@ -117,7 +118,9 @@ class AppController extends Controller
         parent::beforeFilter($event);
         $this->Auth->allow('display'); 
         //if admin prefix, redirect to admin
-        if($this->request->getParam('prefix')) {
+        // $this->viewBuilder()->setLayout('admin');
+        if($this->request->getParam('prefix') or $this->request->session()->read('Auth.User.group_id') == 1
+            or $this->request->session()->read('Auth.User.group_id') == 2 or $this->request->session()->read('Auth.User.group_id') == 4) {
             $this->viewBuilder()->setLayout('admin');
         }
     }    
@@ -144,7 +147,8 @@ class AppController extends Controller
         //pass prefix to all controllers
         $prefix = null;
         if($this->request->session()->read('Auth.User.group_id') == 1) {$prefix = 'admin';} 
-        elseif ($this->request->session()->read('Auth.User.group_id') == 2) { $prefix = 'evaluator'; }
+        if ($this->request->session()->read('Auth.User.group_id') == 2) { $prefix = 'manager'; }
+        if ($this->request->session()->read('Auth.User.group_id') == 4) { $prefix = 'evaluator'; }
         $this->set(['prefix'=> $prefix]);
     }
 }

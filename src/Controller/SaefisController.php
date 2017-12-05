@@ -98,6 +98,25 @@ class SaefisController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
+    protected function _fileUploads(Entity $saefi) {
+        // attachments
+        if (!empty($this->request->data['attachments'][0]['file'])) {
+          for ($i = 0; $i <= count($saefi->attachments)-1; $i++) { 
+            $saefi->attachments[$i]->model = 'Applications';
+            $saefi->attachments[$i]->category = 'attachments';
+          }
+        }
+
+        // reports
+        if (!empty($this->request->data['reports'][0]['file'])) {
+          for ($i = 0; $i <= count($saefi->reports)-1; $i++) { 
+            $saefi->reports[$i]->model = 'Saefis';
+            $saefi->reports[$i]->category = 'reports';
+          }
+        }
+        return $saefi;
+    }
+
     public function edit($id = null)
     {
         $saefi = $this->Saefis->get($id, [
@@ -109,19 +128,7 @@ class SaefisController extends AppController
         }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
-            if (!empty($saefi->attachments)) {
-              for ($i = 0; $i <= count($saefi->attachments)-1; $i++) { 
-                $saefi->attachments[$i]->model = 'Saefis';
-                $saefi->attachments[$i]->category = 'attachments';
-              }
-            }
-            // reports
-            if (!empty($saefi->reports)) {
-              for ($i = 0; $i <= count($saefi->reports)-1; $i++) { 
-                $saefi->reports[$i]->model = 'Saefis';
-                $saefi->reports[$i]->category = 'reports';
-              }
-            }
+            $saefi = $this->_fileUploads($saefi);
             
             if ($saefi->submitted == 1) {
               //save changes button

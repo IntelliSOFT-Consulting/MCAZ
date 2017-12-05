@@ -10,7 +10,7 @@
         <p class="text-center">
           <?php echo $this->Html->link(
                 '<i class="fa fa-dashboard" aria-hidden="true"></i> Dashboard',
-                ['controller' => 'Users', 'action' => 'view', 'prefix' => $prefix], ['escape' => false, 'class' => 'btn btn-primary btn-lg']
+                ['controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix], ['escape' => false, 'class' => 'btn btn-primary btn-lg']
               );  
           ?>
         </p>

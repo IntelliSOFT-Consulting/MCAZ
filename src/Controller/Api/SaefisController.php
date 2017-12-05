@@ -62,11 +62,50 @@ class SaefisController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
+    protected function _attachments(){
+        if (!empty($this->request->data['attachments'])) {
+            for ($i = 0; $i <= count($this->request->data['attachments'])-1; $i++) { 
+                $this->request->data['attachments'][$i]['model'] = 'Saefis';
+                $this->request->data['attachments'][$i]['category'] = 'attachments';
+
+                $file = explode(',', $this->request->data['attachments'][$i]['file']);
+                //data:image/jpeg;base64
+                $mystring = $file[0];
+                $end = strpos($mystring, ';');
+                $start2 = strpos($mystring, '/');
+                $start3 = strpos($mystring, ':');
+                $fileExt = substr($mystring, $start2+1, $end - $start2-1); //jpeg
+                $fileType = substr($mystring, $start3+1, $end - $start3-1); //image/jpeg
+
+                //decode it
+                $data = base64_decode($file[1]);
+
+                $filename =  (isset($this->request->data['attachments'][$i]['filename'])) ? $this->request->data['attachments'][$i]['filename'] :  uniqid().'.' . $fileExt;
+                $file_dir = WWW_ROOT . DS. 'files' .DS. 'Attachments' .DS. 'file' .DS. $filename;
+                //file create
+                file_put_contents($file_dir, $data);
+
+                //not necessarily. I write it for use delete function this plugin
+                $filesize = filesize($file_dir);
+
+                //after base64 decode ,file delete
+                $this->request->data['attachments'][$i]['file'] = null;
+
+                $this->request->data['attachments'][$i]['file']['name'] = $filename;
+                $this->request->data['attachments'][$i]['file']['type'] = $fileType;
+                $this->request->data['attachments'][$i]['file']['tmp_name'] = $file_dir;
+                $this->request->data['attachments'][$i]['file']['error'] = 0;
+                $this->request->data['attachments'][$i]['file']['size'] = $filesize;
+           }
+        }        
+    }
+
     public function add()
     {
         $saefi = $this->Saefis->newEntity();
         if ($this->request->is('post')) {
-            $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
+           $this->_attachments();
+           $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
             $saefi->user_id = $this->Auth->user('id');
             if ($this->Saefis->save($saefi, ['validate' => false])) {
                 //update field

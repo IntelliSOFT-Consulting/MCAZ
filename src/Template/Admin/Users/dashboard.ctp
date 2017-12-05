@@ -61,21 +61,6 @@
             echo $this->Html->link('<i class="fa fa-users" aria-hidden="true"></i> Groups', ['controller' => 'Groups', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
           ?>
         </li>
-        <li class="list-group-item">
-          <?php
-            echo $this->Html->link('<i class="fa fa-user" aria-hidden="true"></i> User Roles', ['controller' => 'Users', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
-          ?>
-        </li>
-        <li class="list-group-item">
-          <?php
-            echo $this->Html->link('<i class="fa fa-user" aria-hidden="true"></i> Role Permissions', ['controller' => 'Users', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
-          ?>
-        </li>
-        <li class="list-group-item">
-          <?php
-            echo $this->Html->link('<i class="fa fa-user" aria-hidden="true"></i> User Permissions', ['controller' => 'Users', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
-          ?>
-        </li>
       </ul>
     </div>
     <div class="col-xs-6 col-sm-4 placeholder">

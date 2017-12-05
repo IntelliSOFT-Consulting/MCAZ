@@ -31,15 +31,6 @@ class Attachment extends Entity
      * @var array
      */
     protected $_accessible = [
-        'foreign_key' => true,
-        'file' => true,
-        'dir' => true,
-        'size' => true,
-        'type' => true,
-        'model' => true,
-        'group' => true,
-        'description' => true,
-        'created' => true,
-        'modified' => true
+        '*' => true,
     ];
 }

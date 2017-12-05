@@ -47,6 +47,16 @@ class UsersController extends AppController
     //     }
     // }
 
+    public function dashboard() {
+        if ($this->request->session()->read('Auth.User.group_id') == 1) {
+            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'admin']);
+        } elseif ($this->request->session()->read('Auth.User.group_id') == 2) {
+            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator']);
+        } elseif ($this->request->session()->read('Auth.User.group_id') == 3) {
+            return $this->redirect(['controller' => 'Users', 'action' => 'home', 'prefix' => false]);
+        }
+    }
+
     //Login with username or password
     public function login()
     {
@@ -70,6 +80,8 @@ class UsersController extends AppController
                 if ($user['group_id'] == 1) {
                     return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'admin']);
                 } elseif ($user['group_id'] == 2) {
+                    return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'manager']);
+                } elseif ($user['group_id'] == 4) {
                     return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator']);
                 }    
                 return $this->redirect($this->Auth->redirectUrl());            

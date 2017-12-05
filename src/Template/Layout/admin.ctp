@@ -13,7 +13,7 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'MCAZ PV Admin';
+$cakeDescription = 'MCAZ PV';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,18 +70,36 @@ $cakeDescription = 'MCAZ PV Admin';
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">MCAZ PV <?= $this->request->getParam('prefix') ?> <small>(restricted)</small></a>
+          <?php
+              if($this->request->session()->read('Auth.User')) {
+                  echo $this->Html->link('<i class="fa fa-ravelry" aria-hidden="true"></i> MCAZ PV '.$prefix.' <small>(restricted)</small>',
+                      array('controller' => 'users', 'action' => 'dashboard', 'prefix' => $prefix,) , array('escape' => false, 'class' => 'navbar-brand'));                    
+              } else {
+                  echo $this->Html->link('<i class="fa fa-ravelry" aria-hidden="true"></i> MCAZ PV '.$prefix.' <small>(restricted)</small>',
+                      array('controller' => 'pages', 'action' =>  'home', 'prefix' => false) , array('escape' => false, 'class' => 'navbar-brand'));
+              }
+          ?>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li>
-              <?= $this->Html->link('<i class="fa fa-tachometer" aria-hidden="true"></i>
- Dashboard', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => $prefix], array('escape' => false)); ?>
+              <?= $this->Html->link('<i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard', ['controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix], array('escape' => false)); ?>
             </li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Profile</a></li>
+            <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i> Settings</a></li>
+            <li><!-- <a href="#">Profile</a> -->
+                <?php
+                    //if($this->Session->read('Auth.User')) {
+                    if($this->request->session()->read('Auth.User')) {
+                        echo $this->Html->link('<i class="fa fa-user-circle"></i> '.$this->request->session()->read('Auth.User.email'),
+                            array('controller' => 'users', 'action' => 'profile', 'prefix' => false,) , array('escape' => false));                    
+                    } else {
+                        echo $this->Html->link('<i class="fa fa-smile-o"></i> Login',
+                            array('controller' => 'users', 'action' =>  'login', 'prefix' => false) , array('escape' => false));
+                    }
+                ?>
+            </li>
             <li>
-              <?= $this->Html->link('<i class="fa fa-sign-out" aria-hidden="true"></i> Logout', ['controller' => 'users', 'action' => 'logout', 'prefix' => false], array('escape' => false)); ?>
+              <?= $this->Html->link('<i class="fa fa-sign-out" aria-hidden="true"></i> Logout', ['controller' => 'Users', 'action' => 'logout', 'prefix' => false], array('escape' => false)); ?>
             </li>
           </ul>
           <form class="navbar-form navbar-right">
@@ -104,10 +122,11 @@ $cakeDescription = 'MCAZ PV Admin';
         </div>
       </div>
 
-      <footer>
-        <p><i class="fa fa-copyright" aria-hidden="true"></i> <?= date('Y') ?> MCAZ, PV.</p>
-      </footer>
-
     </div>
+    <footer class="footer">
+        <div class="container">
+            <p><i class="fa fa-copyright" aria-hidden="true"></i> <?= date('Y') ?> MCAZ, PV.</p>
+        </div>
+    </footer>
   </body>
 </html>

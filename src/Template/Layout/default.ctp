@@ -85,17 +85,17 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
           <?php     }       ?>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <!-- <li><a href="/"><i class="fa fa-home"></i> Home</a></li> -->
         <li class="<?php echo $this->fetch('Login') ?>">
                 <?php
                     if($this->request->session()->read('Auth.User')) {
-                        echo $this->Html->link('<i class="fa fa-home"></i> Home', array('controller' => 'users', 'action' => 'home') , 
+                        echo $this->Html->link('<i class="fa fa-home"></i> Home', array('controller' => 'Users', 'action' => 'home') , 
                           array('escape' => false));                    
                     } else {
                         echo $this->Html->link('<i class="fa fa-home"></i> Home',
-                            array('controller' => 'pages', 'action' =>  'home', 'admin' => false) , array('escape' => false));
+                            array('controller' => 'Pages', 'action' =>  'home', 'admin' => false) , array('escape' => false));
                     }
                 ?>
         </li>
@@ -112,7 +112,7 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
                         echo $this->Html->link('<i class="fa fa-user-circle"></i> '.$this->request->session()->read('Auth.User.email'),
                             array('controller' => 'users', 'action' => 'profile', 'admin' => false,) , array('escape' => false));                    
                     } else {
-                        echo $this->Html->link('<i class="fa fa-sign-in"></i> Login',
+                        echo $this->Html->link('<i class="fa fa-smile-o"></i> Login',
                             array('controller' => 'users', 'action' =>  'login', 'admin' => false) , array('escape' => false));
                     }
                 ?>
@@ -133,7 +133,7 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
                 </li>
             <?php } ?>
           </ul>
-    </div><!-- /.navbar-collapse -->
+        </div><!-- /.navbar-collapse -->
 
         
       </div>
@@ -151,10 +151,11 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
             <p><a class="btn btn-primary btn-lg" href="/users/home" role="button"><i class="fa fa-file" aria-hidden="true"></i>
  My Reports &raquo;</a></p>
             <p>
-              <?php echo $this->Html->link(
-                    '<i class="fa fa-dashboard" aria-hidden="true"></i> My Reports &raquo;',
-                    ['controller' => 'Users', 'action' => 'home', 'prefix' => $prefix], ['escape' => false, 'class' => 'btn btn-primary btn-lg']
-                  );  
+              <?php 
+              //echo $this->Html->link(
+              //      '<i class="fa fa-dashboard" aria-hidden="true"></i> My Reports &raquo;',
+              //      ['controller' => 'Users', 'action' => 'home', 'prefix' => $prefix], ['escape' => false, 'class' => 'btn btn-primary btn-lg']
+              //    );  
               ?>
             </p>
         <?php    } else { ?>
@@ -178,11 +179,12 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
 
       <hr>
 
-      <footer>
-        <p><i class="fa fa-copyright" aria-hidden="true"></i> <?= date('Y') ?> MCAZ, PV.</p>
-      </footer>
     </div> <!-- /container -->
-
+    <footer class="footer">
+        <div class="container">
+            <p><i class="fa fa-copyright" aria-hidden="true"></i> <?= date('Y') ?> MCAZ, PV.</p>
+        </div>
+    </footer>
     
   </body>
 

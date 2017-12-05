@@ -1,0 +1,29 @@
+using System.Net;
+
+public static HttpResponseMessage Run(HttpRequestMessage req, out object msgDocument, TraceWriter log)
+{
+    string name = req.GetQueryNameValuePairs()
+        .FirstOrDefault(q => string.Compare(q.Key, "name", true) == 0)
+        .Value;
+
+    string task = req.GetQueryNameValuePairs()
+        .FirstOrDefault(q => string.Compare(q.Key, "task", true) == 0)
+        .Value;
+
+    string duedate = req.GetQueryNameValuePairs()
+        .FirstOrDefault(q => string.Compare(q.Key, "duedate", true) == 0)
+        .Value;
+
+    msgDocument = new {
+        name = name,
+        duedate = duedate.ToString(),
+        task = task
+    };
+
+    if (name != "" && task != "") {
+        return req.CreateResponse(HttpStatusCode.OK);
+    }
+    else {
+        return req.CreateResponse(HttpStatusCode.BadRequest);
+    }
+}

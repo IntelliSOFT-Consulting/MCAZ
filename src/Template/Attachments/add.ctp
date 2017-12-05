@@ -11,20 +11,26 @@
     </ul>
 </nav>
 <div class="attachments form large-9 medium-8 columns content">
-    <?= $this->Form->create($attachment) ?>
+    <?= $this->Form->create($attachment, ['type' => 'file']) ?>
     <fieldset>
         <legend><?= __('Add Attachment') ?></legend>
         <?php
-            echo $this->Form->control('foreign_key');
-            echo $this->Form->control('file');
-            echo $this->Form->control('dir');
-            echo $this->Form->control('size');
-            echo $this->Form->control('type');
-            echo $this->Form->control('model');
+            // echo $this->Form->control('foreign_key');
+            echo $this->Form->control('file', ['type' => 'file']);
+            // echo $this->Form->control('dir');
+            // echo $this->Form->control('size');
+            // echo $this->Form->control('type');
+            // echo $this->Form->control('model');
             echo $this->Form->control('group');
-            echo $this->Form->control('description');
+            // echo $this->Form->control('description');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
+    <a class="btn btn-default" id="save-file" href="#" role="button">Link</a>
 </div>
+<script type="text/javascript">
+    $(function() {
+        
+    };
+</script>

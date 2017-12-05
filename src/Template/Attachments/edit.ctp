@@ -17,12 +17,12 @@
     </ul>
 </nav>
 <div class="attachments form large-9 medium-8 columns content">
-    <?= $this->Form->create($attachment) ?>
+    <?= $this->Form->create($attachment, ['type' => 'file']) ?>
     <fieldset>
         <legend><?= __('Edit Attachment') ?></legend>
         <?php
             echo $this->Form->control('foreign_key');
-            echo $this->Form->control('file');
+            echo $this->Form->control('file', ['type' => 'file']);
             echo $this->Form->control('dir');
             echo $this->Form->control('size');
             echo $this->Form->control('type');

@@ -1,20 +1,28 @@
 <?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\User $user
- */
-?>
-<?php
     $this->assign('Login', 'active');
 ?>
-<!-- <div class="row">
-  <div class="col-md-12">
-    <div class="row">
-      <div class="col-md-4">.col-md-4</div>
-      <div class="col-md-8">.col-md-8</div>
-    </div>
-  </div>
-</div> -->
+<?php $this->start('sidebar'); ?>
+  <ul class="nav nav-sidebar">
+    <li><?= $this->Html->link('Overview', ['controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix], array('escape' => false)); ?></li>
+    <li>
+      <?= $this->Html->link('ADRS', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
+    </li>
+    <li>
+      <?= $this->Html->link('AEFIS', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
+    </li>
+    <li>
+      <?= $this->Html->link('SAEFIS', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
+    </li>
+    <li>
+      <?= $this->Html->link('SAES', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
+    </li>
+    <li class="active">
+      <?= $this->Html->link('USERS', ['controller' => 'Users', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
+    </li>
+  </ul>
+<?php $this->end(); ?>
+
+<h1 class="page-header">PROFILE</h1>
 
 <div class="row">
   <div class="col-md-12">
@@ -29,7 +37,7 @@
      <dt scope="row"><?= __('Email') ?></dt>
         <dd><?= h($user->email) ?></dd>
         <dt scope="row"><?= __('Group') ?></dt>
-        <dd><?= $user->has('group') ? $this->Html->link($user->group->name, ['controller' => 'Groups', 'action' => 'view', $user->group->id]) : '' ?></dd>
+        <dd><?= $user->has('group') ? $this->Html->link($user->group->name, ['controller' => 'Groups', 'action' => 'index', 'prefix' => $prefix]) : '' ?></dd>
         <dt scope="row"><?= __('Phone No') ?></dt>
             <dd><?= h($user->phone_no) ?></dd>
     </dl>

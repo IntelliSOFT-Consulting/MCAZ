@@ -11,7 +11,7 @@
       <?= $this->Html->link('SAEFIS', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
     </li>
     <li>
-      <?= $this->Html->link('SAES', ['controller' => 'Saes', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
+      <?= $this->Html->link('SAES', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
     </li>
   </ul>
 <?php $this->end(); ?>
