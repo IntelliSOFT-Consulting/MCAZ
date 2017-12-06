@@ -142,6 +142,7 @@ class AdrsController extends AppController
                     ->where(['id' => $adr->id])
                     ->execute();
                 //
+                $this->set(compact('adr'));
                 $this->set('_serialize', ['adr']);
             } else {
                 $this->response->body('Failure');

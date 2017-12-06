@@ -139,6 +139,7 @@ class AefisController extends AppController
                     ->where(['id' => $aefi->id])
                     ->execute();
                 //
+                $this->set(compact('aefi'));
                 $this->set('_serialize', ['aefi']);
             } else {
                 $this->response->body('Failure');

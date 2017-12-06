@@ -144,6 +144,7 @@ class SadrsController extends AppController
                     ->where(['id' => $sadr->id])
                     ->execute();
                 //
+                $this->set(compact('sadr'));
                 $this->set('_serialize', ['sadr']);
             } else {
                 $this->response->body('Failure');
