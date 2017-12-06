@@ -110,17 +110,17 @@ class SaefisTable extends Table
             ->scalar('reporter_name')
             ->allowEmpty('reporter_name');
 
-        $validator
-            ->date('report_date')
-            ->allowEmpty('report_date');
+        // $validator
+        //     ->date('report_date')
+        //     ->allowEmpty('report_date');
 
-        $validator
-            ->date('start_date')
-            ->allowEmpty('start_date');
+        // $validator
+        //     ->date('start_date')
+        //     ->allowEmpty('start_date');
 
-        $validator
-            ->date('complete_date')
-            ->allowEmpty('complete_date');
+        // $validator
+        //     ->date('complete_date')
+        //     ->allowEmpty('complete_date');
 
         $validator
             ->scalar('telephone')
@@ -142,9 +142,9 @@ class SaefisTable extends Table
             ->scalar('gender')
             ->allowEmpty('gender');
 
-        $validator
-            ->date('hospitalization_date')
-            ->allowEmpty('hospitalization_date');
+        // $validator
+        //     ->date('hospitalization_date')
+        //     ->allowEmpty('hospitalization_date');
 
         $validator
             ->scalar('status_on_date')
@@ -262,9 +262,9 @@ class SaefisTable extends Table
             ->scalar('delivery_procedure_specify')
             ->allowEmpty('delivery_procedure_specify');
 
-        $validator
-            ->boolean('source_examination')
-            ->allowEmpty('source_examination');
+        // $validator
+        //     ->boolean('source_examination')
+        //     ->allowEmpty('source_examination');
 
         $validator
             ->boolean('source_documents')
@@ -302,9 +302,9 @@ class SaefisTable extends Table
             ->scalar('person_designation')
             ->allowEmpty('person_designation');
 
-        $validator
-            ->dateTime('person_date')
-            ->allowEmpty('person_date');
+        // $validator
+        //     ->dateTime('person_date')
+        //     ->allowEmpty('person_date');
 
         $validator
             ->scalar('when_vaccinated')

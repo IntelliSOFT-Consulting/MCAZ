@@ -137,10 +137,22 @@ class SadrsController extends AppController
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
 
             if ($this->Sadrs->save($sadr, ['validate' => false])) {
-
-                //return $this->redirect(['action' => 'edit', $this->Util->generateXOR($sadr->id)]);
-                $this->set(compact('sadr'));
+                //update field
+                $query = $this->Sadrs->query();
+                $query->update()
+                    ->set(['reference_number' => 'ADR'.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy')])
+                    ->where(['id' => $sadr->id])
+                    ->execute();
+                //
                 $this->set('_serialize', ['sadr']);
+            } else {
+                $this->response->body('Failure');
+                $this->response->statusCode(403);
+                $this->set([
+                    'errors' => $sadr->errors(), 
+                    'message' => 'Validation errors', 
+                    '_serialize' => ['errors', 'message']]);
+                return;
             }
         }
 

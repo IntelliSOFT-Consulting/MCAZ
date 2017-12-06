@@ -135,19 +135,24 @@ class AdrsController extends AppController
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
 
             if ($this->Adrs->save($adr, ['validate' => false])) {
-
-                //return $this->redirect(['action' => 'edit', $this->Util->generateXOR($adr->id)]);
-                $adr->id = $this->Util->generateXOR($adr->id);
+                //update field
+                $query = $this->Adrs->query();
+                $query->update()
+                    ->set(['reference_number' => 'SAE'.$adr->id.'/'.$adr->created->i18nFormat('yyyy')])
+                    ->where(['id' => $adr->id])
+                    ->execute();
+                //
                 $this->set('_serialize', ['adr']);
+            } else {
+                $this->response->body('Failure');
+                $this->response->statusCode(403);
+                $this->set([
+                    'errors' => $adr->errors(), 
+                    'message' => 'Validation errors', 
+                    '_serialize' => ['errors', 'message']]);
+                return;
             }
         }
-        $users = $this->Adrs->Users->find('list', ['limit' => 200]);
-        $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
-        $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
-        $routes = $this->Adrs->AdrListOfDrugs->Routes->find('list');
-        $frequencies = $this->Adrs->AdrListOfDrugs->Frequencies->find('list');
-        $this->set(compact('adr', 'users', 'designations', 'doses', 'routes', 'frequencies'));
-        $this->set('_serialize', ['adr']);
     }
 
     /**

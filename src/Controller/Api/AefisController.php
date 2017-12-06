@@ -126,25 +126,31 @@ class AefisController extends AppController
 
     public function add()
     {
-        $adr = $this->Aefis->newEntity();
+        $aefi = $this->Aefis->newEntity();
         if ($this->request->is('post')) {
             $this->_attachments();
-            $adr = $this->Aefis->patchEntity($adr, $this->request->getData());
+            $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
 
-            if ($this->Aefis->save($adr, ['validate' => false])) {
-
-                //return $this->redirect(['action' => 'edit', $this->Util->generateXOR($adr->id)]);
-                $adr->id = $this->Util->generateXOR($adr->id);
-                $this->set('_serialize', ['adr']);
+            if ($this->Aefis->save($aefi, ['validate' => false])) {
+                //update field
+                $query = $this->Aefis->query();
+                $query->update()
+                    ->set(['reference_number' => 'SAE'.$aefi->id.'/'.$aefi->created->i18nFormat('yyyy')])
+                    ->where(['id' => $aefi->id])
+                    ->execute();
+                //
+                $this->set('_serialize', ['aefi']);
+            } else {
+                $this->response->body('Failure');
+                $this->response->statusCode(403);
+                $this->set([
+                    'errors' => $aefi->errors(), 
+                    'message' => 'Validation errors', 
+                    '_serialize' => ['errors', 'message']]);
+                return;
             }
         }
-        $users = $this->Aefis->Users->find('list', ['limit' => 200]);
-        $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
-        $doses = $this->Aefis->AdrListOfDrugs->Doses->find('list');
-        $routes = $this->Aefis->AdrListOfDrugs->Routes->find('list');
-        $frequencies = $this->Aefis->AdrListOfDrugs->Frequencies->find('list');
-        $this->set(compact('adr', 'users', 'designations', 'doses', 'routes', 'frequencies'));
-        $this->set('_serialize', ['adr']);
+        
     }
 
     /**

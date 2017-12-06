@@ -106,7 +106,6 @@ class SaefisController extends AppController
         if ($this->request->is('post')) {
            $this->_attachments();
            $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
-            $saefi->user_id = $this->Auth->user('id');
             if ($this->Saefis->save($saefi, ['validate' => false])) {
                 //update field
                 $query = $this->Saefis->query();
@@ -115,14 +114,17 @@ class SaefisController extends AppController
                     ->where(['id' => $saefi->id])
                     ->execute();
                 //
-                $this->Flash->success(__('The saefi has been saved.'));
+                $this->set('_serialize', ['saefi']);                
+            } else {
+                $this->response->body('Failure');
+                $this->response->statusCode(403);
+                $this->set([
+                    'errors' => $saefi->errors(), 
+                    'message' => 'Validation errors', 
+                    '_serialize' => ['errors', 'message']]);
+                return;
             }
-            $this->Flash->error(__('The saefi could not be saved. Please, try again.'));
         }
-        $users = $this->Saefis->Users->find('list', ['limit' => 200]);
-        $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
-        $this->set(compact('saefi', 'users', 'designations'));
-        $this->set('_serialize', ['saefi']);
     }
 
     /**

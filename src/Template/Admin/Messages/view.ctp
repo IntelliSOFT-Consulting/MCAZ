@@ -55,7 +55,7 @@
     </table>
     <div class="row">
         <h4><?= __('Content') ?></h4>
-        <?= $this->Text->autoParagraph(h($message->content)); ?>
+        <?= $this->Text->autoParagraph($message->content, ['escape' => false]); ?>
     </div>
     <div class="row">
         <h4><?= __('Description') ?></h4>
