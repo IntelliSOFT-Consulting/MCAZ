@@ -26,11 +26,10 @@
         </p>
         <div>
           <?php //echo $this->Paginator->options(['defaultModel' => 'Sadrs']); ?>
-        <table class="table table-bordered table-condensed">
+        <table class="table table-striped table-condensed">
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id', 'Reference #', ['model' => 'Sadrs']) ?></th>                
-                    <th><?= $this->Paginator->sort('created', 'Created Date', ['model' => 'Sadrs']) ?></th>
                     <th>pdf</th>
                 </tr>
             </thead>
@@ -46,13 +45,12 @@
                       }
                       
                      ?></td>
-                    <td><?= h($sadr->created->i18nFormat('dd-MM-yyyy')) ?></td>
                     <td><?= $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i>', ['controller' => 'Sadrs', 'action' => 'view', '_ext' => 'pdf', $sadr->id], ['escape' => false])
                      ?></td>
                 </tr>
                 <?php endforeach; ?>
                 <tr>
-                    <td colspan="3">
+                    <td colspan="2">
                         <hr>
                         <nav aria-label="Page navigation">
                             <ul class="pagination">
@@ -62,7 +60,7 @@
                                 <?= $this->Paginator->next(__('next') . ' >', ['model' => 'Sadrs']) ?>
                                 <?= $this->Paginator->last(__('last') . ' >>', ['model' => 'Sadrs']) ?>
                             </ul>
-                            <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></small></h6>
+                            <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total'), 'model' => 'Sadrs']) ?></small></h6>
                         </nav>
                     </td>
                 </tr>
@@ -70,7 +68,63 @@
         </table>
         
         </div>
-      
+        <h2>SAE</h2>
+        <p>SERIOUS ADVERSE EVENT REPORTING FORM. 
+          <?php
+              if($this->request->session()->read('Auth.User')) {
+          ?>
+          <a class="btn btn-info" href="/adrs/add" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a>
+          <?php                  
+              } else {
+          ?>
+          <a class="btn btn-info" href="/adrs/add" role="button">Report &raquo;</a>
+          <?php
+              }
+          ?>
+        </p>
+        <div>
+        <table class="table table-sriped table-condensed">
+            <thead>
+                <tr>
+                    <th><?= $this->Paginator->sort('id', 'Reference #', ['model' => 'Adrs']) ?></th>                
+                    <th>pdf</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($adrs as $adr): ?>
+                <tr>
+                     <td><?php 
+                      if($adr->submitted == 2) {
+                        echo $this->Html->link($adr->reference_number.'&nbsp; &nbsp; <i class="text-success fa fa-check-square-o" aria-hidden="true"></i>
+', ['controller' => 'Adrs', 'action' => 'view', $adr->id], ['escape' => false]);
+                      } else {
+                        echo $this->Html->link(h('ADR '.$adr->created->i18nFormat('dd-MM-yyyy HH:mm:ss')), ['controller' => 'Adrs', 'action' => 'edit', $adr->id]);
+                      }
+                      
+                     ?></td>
+                    <td><?= $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i>', ['controller' => 'Adrs', 'action' => 'view', '_ext' => 'pdf', $adr->id], ['escape' => false])
+                     ?></td>
+                </tr>
+                <?php endforeach; ?>
+                <tr>
+                    <td colspan="2">
+                        <hr>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                <?= $this->Paginator->first('<< ' . __('first'), ['model' => 'Adrs']) ?>
+                                <?= $this->Paginator->prev('< ' . __('previous'), ['model' => 'Adrs']) ?>
+                                <?= $this->Paginator->numbers(['model' => 'Adrs']) ?>
+                                <?= $this->Paginator->next(__('next') . ' >', ['model' => 'Adrs']) ?>
+                                <?= $this->Paginator->last(__('last') . ' >>', ['model' => 'Adrs']) ?>
+                            </ul>
+                            <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total'), 'model' => 'Adrs']) ?></small></h6>
+                        </nav>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        </div>
     </div>
     <div class="col-md-4">
         <h2>AEFI</h2>
@@ -88,11 +142,10 @@
           ?>
         </p>
         <div>
-        <table class="table table-bordered table-condensed">
+        <table class="table table-sriped table-condensed">
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id', 'Reference #', ['model' => 'Aefis']) ?></th>                
-                    <th><?= $this->Paginator->sort('created', 'Created Date', ['model' => 'Aefis']) ?></th>
                     <th>pdf</th>
                 </tr>
             </thead>
@@ -108,7 +161,6 @@
                     }
                     
                    ?></td>
-                  <td><?= h($aefi->created->i18nFormat('dd-MM-yyyy')) ?></td>
                   <td><?= $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i>', ['controller' => 'Aefis', 'action' => 'view', '_ext' => 'pdf', $aefi->id], ['escape' => false])
                      ?></td>
                 </tr>
@@ -124,7 +176,7 @@
                                 <?= $this->Paginator->next(__('next') . ' >', ['model' => 'Aefis']) ?>
                                 <?= $this->Paginator->last(__('last') . ' >>', ['model' => 'Aefis']) ?>
                             </ul>
-                            <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></small></h6>
+                            <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total'), 'model' => 'Aefis']) ?></small></h6>
                         </nav>
                     </td>
                 </tr>
@@ -149,11 +201,10 @@
           ?>
         </p>
         <div>
-        <table class="table table-bordered table-condensed">
+        <table class="table table-sriped table-condensed">
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id', 'Reference #', ['model' => 'Saefis']) ?></th>                
-                    <th><?= $this->Paginator->sort('created', 'Created Date', ['model' => 'Aefis']) ?></th>
                     <th>pdf</th>
                 </tr>
             </thead>
@@ -169,7 +220,6 @@
                     }
                     
                    ?></td>
-                  <td><?= h($saefi->created->i18nFormat('dd-MM-yyyy')) ?></td>
                   <td><?= $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i>', ['controller' => 'Saefis', 'action' => 'view', '_ext' => 'pdf', $saefi->id], ['escape' => false])
                      ?></td>
                 </tr>
@@ -185,7 +235,7 @@
                                 <?= $this->Paginator->next(__('next') . ' >', ['model' => 'Saefis']) ?>
                                 <?= $this->Paginator->last(__('last') . ' >>', ['model' => 'Saefis']) ?>
                             </ul>
-                            <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></small></h6>
+                            <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total'), 'model' => 'Saefis']) ?></small></h6>
                         </nav>
                     </td>
                 </tr>
@@ -195,67 +245,32 @@
         </div>
 
     </div>
+
     <!-- SAE -->
     <div class="col-md-4">
-        <h2>SAE</h2>
-        <p>SERIOUS ADVERSE EVENT REPORTING FORM. 
-          <?php
-              if($this->request->session()->read('Auth.User')) {
-          ?>
-          <a class="btn btn-info" href="/adrs/add" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a>
-          <?php                  
-              } else {
-          ?>
-          <a class="btn btn-info" href="/adrs/add" role="button">Report &raquo;</a>
-          <?php
-              }
-          ?>
-        </p>
+      <h2><?= $this->Paginator->sort('id', '<i class="fa fa-exclamation-circle" aria-hidden="true"></i> Notifications', ['model' => 'Notifications', 'escape'=> false]) ?></h2>  
+      <hr>
         <div>
-        <table class="table table-bordered table-condensed">
-            <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('id', 'Reference #', ['model' => 'Adrs']) ?></th>                
-                    <th><?= $this->Paginator->sort('created', 'Created Date', ['model' => 'Adrs']) ?></th>
-                    <th>pdf</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($adrs as $adr): ?>
-                <tr>
-                     <td><?php 
-                      if($adr->submitted == 2) {
-                        echo $this->Html->link($adr->reference_number.'&nbsp; &nbsp; <i class="text-success fa fa-check-square-o" aria-hidden="true"></i>
-', ['controller' => 'Adrs', 'action' => 'view', $adr->id], ['escape' => false]);
-                      } else {
-                        echo $this->Html->link(h('ADR '.$adr->created->i18nFormat('dd-MM-yyyy HH:mm:ss')), ['controller' => 'Adrs', 'action' => 'edit', $adr->id]);
-                      }
-                      
-                     ?></td>
-                    <td><?= h($adr->created->i18nFormat('dd-MM-yyyy')) ?></td>
-                    <td><?= $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i>', ['controller' => 'Adrs', 'action' => 'view', '_ext' => 'pdf', $adr->id], ['escape' => false])
-                     ?></td>
-                </tr>
+              <?php foreach ($notifications as $notification): ?>
+                <div class="alert alert-info alert-dismissible fade in" role="alert"> 
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> 
+                  <?= $notification->system_message; ?>
+                </div>
                 <?php endforeach; ?>
-                <tr>
-                    <td colspan="2">
-                        <hr>
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination">
-                                <?= $this->Paginator->first('<< ' . __('first'), ['model' => 'Adrs']) ?>
-                                <?= $this->Paginator->prev('< ' . __('previous'), ['model' => 'Adrs']) ?>
-                                <?= $this->Paginator->numbers(['model' => 'Adrs']) ?>
-                                <?= $this->Paginator->next(__('next') . ' >', ['model' => 'Adrs']) ?>
-                                <?= $this->Paginator->last(__('last') . ' >>', ['model' => 'Adrs']) ?>
-                            </ul>
-                            <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></small></h6>
-                        </nav>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+
+                  <hr>
+                  <nav aria-label="Page navigation">
+                      <ul class="pagination">
+                          <?= $this->Paginator->first('<< ' . __('first'), ['model' => 'Notifications']) ?>
+                          <?= $this->Paginator->prev('< ' . __('previous'), ['model' => 'Notifications']) ?>
+                          <?= $this->Paginator->numbers(['model' => 'Notifications']) ?>
+                          <?= $this->Paginator->next(__('next') . ' >', ['model' => 'Notifications']) ?>
+                          <?= $this->Paginator->last(__('last') . ' >>', ['model' => 'Notifications']) ?>
+                      </ul>
+                      <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total'), 'model' => 'Notifications']) ?></small></h6>
+                  </nav>
+
         
-        </div>
-      
+        </div>      
     </div>
 </div>

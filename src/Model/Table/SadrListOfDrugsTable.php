@@ -51,7 +51,8 @@ class SadrListOfDrugsTable extends Table
             'foreignKey' => 'sadr_followup_id'
         ]);
         $this->belongsTo('Doses', [
-            'foreignKey' => 'dose_id'
+            'foreignKey' => 'dose_id',
+            'propertyName' => 'DoseUsed'
         ]);
         $this->belongsTo('Routes', [
             'foreignKey' => 'route_id'

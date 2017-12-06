@@ -21,7 +21,8 @@ class UsersController extends AppController
             'Sadrs' => ['scope' => 'sadr'],
             'Adrs' => ['scope' => 'adr'],
             'Aefis' => ['scope' => 'aefi'],
-            'Saefis' => ['scope' => 'saefi']
+            'Saefis' => ['scope' => 'saefi'],
+            'Notifications' => ['scope' => 'notification'],
         ];
 
     public function initialize() {
@@ -209,6 +210,7 @@ class UsersController extends AppController
         $this->loadModel('Adrs');
         $this->loadModel('Aefis');
         $this->loadModel('Saefis');
+        $this->loadModel('Notifications');
         $user = $this->Users->get($this->Auth->user('id'), [
             'contain' => []
         ]);
@@ -229,9 +231,10 @@ class UsersController extends AppController
                                     'fields' => ['Aefis.id', 'Aefis.created', 'Aefis.reference_number']]);
         $saefis = $this->paginate($this->Saefis->findByUserId($this->Auth->user('id')), ['scope' => 'saefi', 'order' => ['Saefis.id' => 'desc'],
                                     'fields' => ['Saefis.id', 'Saefis.created', 'Saefis.reference_number']]);
+        $notifications = $this->paginate($this->Notifications->findByUserId($this->Auth->user('id')), ['scope' => 'notification', 'order' => ['Notification.id' => 'desc'],]);
 
         $this->set(compact('sadrs', 'adrs', 'aefis', 'saeifs'));
-        $this->set(compact('saefis'));
+        $this->set(compact('saefis', 'notifications'));
         // $this->set('_serialize', ['sadrs', 'adrs', 'aefis']);
     }
 

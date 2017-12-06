@@ -189,6 +189,17 @@ class SadrsController extends AppController
               //submit to mcaz button
               if ($this->Sadrs->save($sadr, ['validate' => false])) {
                 $this->Flash->success(__('Report '.$sadr->reference_number.' has been successfully submitted to MCAZ for review.'));
+                //send email and notification
+                $this->loadModel('Queue.QueuedJobs');    
+                $data = [
+                    'email_address' => $sadr->reporter_email, 'user_id' => $this->Auth->user('id'),
+                    'type' => 'applicant_submit_sadr_email', 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
+                    'vars' =>  $sadr->toArray()
+                ];
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = 'applicant_submit_sadr_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                //
                 return $this->redirect(['action' => 'view', $sadr->id]);
               } else {
                 $this->Flash->error(__('Report '.$sadr->reference_number.' could not be saved. Kindly correct the errors and try again.'));

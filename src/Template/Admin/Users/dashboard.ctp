@@ -72,6 +72,11 @@
             echo $this->Html->link('<i class="fa fa-home" aria-hidden="true"></i> Home page', ['controller' => 'Users', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
           ?>
         </li>
+        <li class="list-group-item">
+          <?php
+            echo $this->Html->link('<i class="fa fa-address-card-o" aria-hidden="true"></i> Message Templates', ['controller' => 'Messages', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+          ?>
+        </li>
       </ul>
     </div>
   </div>
