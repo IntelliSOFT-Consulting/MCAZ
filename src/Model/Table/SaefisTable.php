@@ -150,17 +150,17 @@ class SaefisTable extends Table
             ->scalar('status_on_date')
             ->allowEmpty('status_on_date');
 
-        $validator
-            ->dateTime('died_date')
-            ->allowEmpty('died_date');
+        // $validator
+        //     ->dateTime('died_date')
+        //     ->allowEmpty('died_date');
 
         $validator
             ->scalar('autopsy_done')
             ->allowEmpty('autopsy_done');
 
-        $validator
-            ->date('autopsy_done_date')
-            ->allowEmpty('autopsy_done_date');
+        // $validator
+        //     ->date('autopsy_done_date')
+        //     ->allowEmpty('autopsy_done_date');
 
         $validator
             ->scalar('autopsy_planned')

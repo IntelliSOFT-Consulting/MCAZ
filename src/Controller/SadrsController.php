@@ -95,6 +95,26 @@ class SadrsController extends AppController
         // $this->set('_serialize', ['sadr']);
     }
 
+    public function e2b($id = null)
+    {
+        $sadr = $this->Sadrs->get($id, [
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
+        ]);        
+        
+
+        $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
+        $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
+        $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
+        $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
+        $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list');
+        $this->set('_serialize', false);
+        $this->set(compact('sadr', 'doses', 'routes'));
+        // $this->set('_serialize', ['sadr','provinces']);
+        // $this->set('sadr', $sadr);
+        // $this->set('_serialize', ['sadr']);
+        $this->response->download('export.xml');
+    }
+
     /**
      * Add method
      *

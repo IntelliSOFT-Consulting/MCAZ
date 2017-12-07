@@ -36,13 +36,13 @@
             <?php foreach ($sadrs as $sadr): ?>
             <tr>
                 <td><?= $this->Number->format($sadr->id) ?></td>
-                <td><?= h($sadr->reference_number) ?></td>
+                <td><?= $this->Html->link($sadr->reference_number, ['action' => 'view', $sadr->id, 'prefix' => $prefix], array('escape' => false)); ?></td>
                 <td><?= h($sadr->name_of_institution) ?></td>
                 <td><?= h($sadr->reporter_name) ?></td>
                 <td><?= h($sadr->reporter_email) ?></td>
                 <td><?= h($sadr->reporter_phone) ?></td>
                 <td><?= h($sadr->created) ?></td>
-                <td><?= $this->Html->link('View', ['action' => 'view', $sadr->id, 'prefix' => $prefix], array('escape' => false)); ?></td>
+                <td><?= $this->Html->link('E2B', ['action' => 'e2b', $sadr->id, 'prefix' => false], array('escape' => false)); ?></td>
             </tr>
             <?php endforeach; ?>
         </tbody>
