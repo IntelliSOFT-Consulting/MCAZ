@@ -6,6 +6,24 @@
 // debug($sadr);
 // debug($this->request->data);
 ?>
+<script type="text/javascript">
+$(document).ready(function(){
+    <?php if($sadr->severity == 'No'){ ?> 
+      $("#choice-severity").hide();
+    <?php } ?>
+    
+});
+</script>
+<script language="javascript"> 
+function getChoice(sel){
+    var type = sel.value;
+      if(type=="Yes"){
+          $("#choice-severity").show('slow');
+      }else{
+          $("#choice-severity").hide();
+      }
+}
+</script>
 <div class="sadr_form">
   <div class="row">
     <div class="col-md-12">
@@ -40,23 +58,25 @@
                    
                   echo $this->Form->control('date_of_birth', array(
                     'type' => 'date', 'escape' => false,
-                    'label' => 'Date of Birth <span class="sterix fa fa-asterisk" aria-hidden="true"></span>',
+                    'label' => 'Date of Birth',
                     'templates' => ['dateWidget' => '<div class="col-sm-6">{{day}}-{{month}}-{{year}}</div>',
                                     'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',],
                     'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
                   ));
-              
-                  echo $this->Form->control('age_group', ['type' => 'select',                      
-                       'options' => [
-                              'neonate' => 'neonate',
-                              'infant' => 'infant',
-                              'child' => 'child',
-                              'adolescent' => 'adolescent',
-                              'adult' =>'adult',
-                              'elderly'=>'elderly',
-                              ]
-                       , 'empty' => true]
-                                                );
+                  echo $this->Form->control('age',['label' => 'OR AGE','type'=>'number']);
+                  /*
+                  if($sadr->age > 60){
+                      $age_group='elderly';
+                  }elseif($sadr->age > 17 && $sadr->age < 61){
+                      $age_group='adult';
+                  }elseif($sadr->age > 12 && $sadr->age < 18){
+                      $age_group='adolescent';
+                  }elseif($sadr->age > 2 && $sadr->age < 13){
+                      $age_group='child';
+                  }elseif($sadr->age < 3){
+                      $age_group='infant';
+                  }
+                  echo $this->Form->control('age_group',['value'=>$age_group]);*/
               ?>            
             </div>
             <div class="col-md-6">
@@ -65,7 +85,7 @@
                   echo $this->Form->control('ip_no', ['label' => 'VCT/OI/TB Number']);
                   echo $this->Form->input('province_id', ['options' => $provinces, 'empty' => true]);
                   echo $this->Form->control('weight', ['label' => 'Weight (KGs)']);
-                  echo $this->Form->control('height', ['label' => 'Height (meters)']);
+                  echo $this->Form->control('height', ['label' => 'Height (cm)']);
                   echo $this->Form->control('gender', ['type' => 'radio', 
                      'label' => '<b>Gender <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
                      'templates' => 'radio_form',
@@ -136,24 +156,27 @@
               //        ],
               //       'options' => ['Yes' => 'Yes', 'No' => 'No']]); 
                 $this->Form->control('severity', ['type' => 'radio', 
-                    'label' => '<b>Serious <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
+                    'onchange'=>'getChoice(this)','label' => '<b>Serious <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
                     //'label' => '<b>Serious: <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
                     'templates' => 'radio_form',
                     'options' => ['Yes' => 'Yes', 'No' => 'No']]);
               ?>            
             </div>
-            <div class="col-md-5"><?= $this->Form->control('severity_reason', ['type' => 'select', 
+
+            <div class="col-md-5" id="choice-severity"><?= $this->Form->control('severity_reason', ['type' => 'select', 
                     'label' => 'Reason for Seriousness',
                     //'label' => '<b>Serious: <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
                     'templates' => 'radio_form', 'empty' => true,
                     'options' => ['Death' => 'Death', 'Life-threatening' => 'Life-threatening', 'Hospitalizaion/Prolonged' => 'Hospitalizaion/Prolonged', 'Disabling' => 'Disabling', 
                                       'Congenital-anomaly' => 'Congenital-anomaly', 
-                                              'Other Medically Important Reason' => 'Other Medically Important Reason']]); ?></div>
+                                              'Other Medically Important Reason' => 'Other Medically Important Reason']]); ?>
+                                                
+              </div>
               <div class="col-md-4"></div>
           </div>
 
           <div class="row">
-            <div class="col-md-6"><?= $this->Form->control('medical_history', ['label' => 'Relevant Medical History']); ?></div>
+            <div class="col-md-6"><?= $this->Form->control('medical_history', ['label' => 'Relevant Medical History, including Allergies']); ?></div>
             <div class="col-md-6"><?= $this->Form->control('past_drug_therapy', ['label' => 'Relevant Past Drug Therapy']); ?></div>
           </div>
 
@@ -167,7 +190,7 @@
           </div>
           
           <div class="row">
-            <div class="col-md-12"><?php echo $this->element('multi/list_of_drugs');?></div>
+            <div class="col-md-12"><?php echo $this->element('multi/sadr_list_of_drugs');?></div>
           </div>        
 
           <div class="row">
@@ -268,3 +291,4 @@
     </div>
   </div>
 </div>
+

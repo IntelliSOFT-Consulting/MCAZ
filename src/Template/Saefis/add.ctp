@@ -27,7 +27,7 @@
         <div class="col-md-6">
           <?php
             //echo $this->Form->control('reporter_name', ['label' => 'Reporter name']);
-            echo $this->Form->control('reporter_email', ['label' => 'Reporter email']);
+            echo $this->Form->control('reporter_email', ['label' => 'Reporter email','value'=>$this->request->session()->read('Auth.User.email')]);
           ?>
         </div><!--/span-->
         <div class="col-md-6">
