@@ -1,19 +1,5 @@
 <?php $this->start('sidebar'); ?>
-  <ul class="nav nav-sidebar">
-    <li><?= $this->Html->link('Overview', ['controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix], array('escape' => false)); ?></li>
-    <li class="active">
-      <?= $this->Html->link('ADRS', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-    <li>
-      <?= $this->Html->link('AEFIS', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-    <li>
-      <?= $this->Html->link('SAEFIS', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-    <li>
-      <?= $this->Html->link('SAES', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-  </ul>
+  <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
 <h1 class="page-header">ADRS</h1>
@@ -29,7 +15,7 @@
                 <th scope="col"><?= $this->Paginator->sort('reporter_email') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('reporter_phone') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col"></th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -42,7 +28,13 @@
                 <td><?= h($sadr->reporter_email) ?></td>
                 <td><?= h($sadr->reporter_phone) ?></td>
                 <td><?= h($sadr->created) ?></td>
-                <td><?= $this->Html->link('E2B', ['action' => 'e2b', $sadr->id, 'prefix' => false], array('escape' => false)); ?></td>
+                <td><span class="label label-primary"><?= 
+                   ($sadr->submitted == 2) ?  $this->Html->link('E2B', ['action' => 'e2b', $sadr->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']) : ''; ?></span><br>
+                   <span class="label label-info">                     
+                     <?= $this->Html->link('<i class="fa fa-eye" aria-hidden="true"></i>', ['action' => 'view', $sadr->id, 'prefix' => false], ['escape' => false, 'style' => 'color: white;'])
+                     ?>
+                    </span>
+                </td>
             </tr>
             <?php endforeach; ?>
         </tbody>

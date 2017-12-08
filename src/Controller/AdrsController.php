@@ -95,6 +95,22 @@ class AdrsController extends AppController
         $this->set('_serialize', ['adr']);
     }
 
+    public function e2b($id = null)
+    {
+        $adr = $this->Adrs->get($id, [
+            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments']
+        ]);        
+        
+
+        $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
+        $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
+        $routes = $this->Adrs->AdrListOfDrugs->Routes->find('list');
+        $frequencies = $this->Adrs->AdrListOfDrugs->Frequencies->find('list');
+        $this->set(compact('adr', 'designations', 'doses', 'routes', 'frequencies'));
+        $this->set('_serialize', false);
+        $this->response->download(($adr->submitted==2) ? str_replace('/', '_', $adr->reference_number).'.xml' : 'SAEFI_'.$adr->created->i18nFormat('dd-MM-yyyy_HHmmss').'.xml');
+    }
+
     /**
      * Add method
      *
@@ -104,10 +120,10 @@ class AdrsController extends AppController
     {
         $adr = $this->Adrs->newEntity();
         if ($this->request->is('post')) {
-            $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
+          $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
+          $adr->user_id = $this->Auth->user('id');
             if ($this->Adrs->save($adr, ['validate' => false])) {
                 //update field
-		$adr->user_id = $this->Auth->user('id');
                 $query = $this->Adrs->query();
                 $query->update()
                     ->set(['reference_number' => 'SAE'.$adr->id.'/'.$adr->created->i18nFormat('yyyy')])

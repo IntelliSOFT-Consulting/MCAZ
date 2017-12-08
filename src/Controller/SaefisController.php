@@ -60,6 +60,19 @@ class SaefisController extends AppController
         $this->set('_serialize', ['saefi', 'designations']);
     }
 
+    public function e2b($id = null)
+    {
+        $saefi = $this->Saefis->get($id, [
+            'contain' => ['SaefiListOfVaccines',  'Attachments', 'Reports']
+        ]);        
+        
+
+        $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
+        $this->set(compact('saefi', 'designations'));
+        $this->set('_serialize', false);
+        $this->response->download(($saefi->submitted==2) ? str_replace('/', '_', $saefi->reference_number).'.xml' : 'SAEFI_'.$saefi->created->i18nFormat('dd-MM-yyyy_HHmmss').'.xml');
+    }
+
     /**
      * Add method
      *

@@ -86,6 +86,20 @@ class AefisController extends AppController
         $this->set('_serialize', ['aefi', 'designations', 'provinces']);
     }
 
+    public function e2b($id = null)
+    {
+        $aefi = $this->Aefis->get($id, [
+            'contain' => ['AefiListOfVaccines', 'AefiListOfDiluents', 'Attachments']
+        ]);        
+        
+
+        $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
+        $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
+        $this->set(compact('aefi', 'designations', 'provinces'));
+        $this->set('_serialize', false);
+        $this->response->download(($aefi->submitted==2) ? str_replace('/', '_', $aefi->reference_number).'.xml' : 'AEFI_'.$aefi->created->i18nFormat('dd-MM-yyyy_HHmmss').'.xml');
+    }
+
     /**
      * Add method
      *

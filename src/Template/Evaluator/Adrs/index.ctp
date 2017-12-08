@@ -1,19 +1,5 @@
 <?php $this->start('sidebar'); ?>
-  <ul class="nav nav-sidebar">
-    <li><?= $this->Html->link('Overview', ['controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix], array('escape' => false)); ?></li>
-    <li>
-      <?= $this->Html->link('ADRS', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-    <li>
-      <?= $this->Html->link('AEFIS', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-    <li>
-      <?= $this->Html->link('SAEFIS', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-    <li class="active">
-      <?= $this->Html->link('SAES', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-  </ul>
+  <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
 <h1 class="page-header">ADRS</h1>
@@ -42,7 +28,14 @@
                 <td><?= h($adr->reporter_email) ?></td>
                 <td><?= h($adr->reporter_phone) ?></td>
                 <td><?= h($adr->created) ?></td>
-                <td><?= $this->Html->link('View', ['action' => 'view', $adr->id, 'prefix' => $prefix], array('escape' => false)); ?></td>
+                <td>
+                    <span class="label label-primary"><?= 
+                   ($adr->submitted == 2) ?  $this->Html->link('E2B', ['action' => 'e2b', $adr->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']) : ''; ?></span><br>
+                   <span class="label label-info">                     
+                     <?= $this->Html->link('<i class="fa fa-eye" aria-hidden="true"></i>', ['action' => 'view', $adr->id, 'prefix' => false], ['escape' => false, 'style' => 'color: white;'])
+                     ?>
+                    </span>
+                </td>
             </tr>
             <?php endforeach; ?>
         </tbody>

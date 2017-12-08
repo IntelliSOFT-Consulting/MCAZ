@@ -104,15 +104,12 @@ class SadrsController extends AppController
 
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
-        $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
-        $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
-        $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list');
+        $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list', ['limit' => 200]);
+        $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list', ['limit' => 200]);
+        $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list', ['limit' => 200]);
         $this->set('_serialize', false);
         $this->set(compact('sadr', 'doses', 'routes'));
-        // $this->set('_serialize', ['sadr','provinces']);
-        // $this->set('sadr', $sadr);
-        // $this->set('_serialize', ['sadr']);
-        $this->response->download('export.xml');
+        $this->response->download(($sadr->submitted==2) ? str_replace('/', '_', $sadr->reference_number).'.xml' : 'ADR_'.$sadr->created->i18nFormat('dd-MM-yyyy_HHmmss').'.xml');
     }
 
     /**
