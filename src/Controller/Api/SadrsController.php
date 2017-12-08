@@ -105,7 +105,7 @@ class SadrsController extends AppController
                 //decode it
                 $data = base64_decode($file[1]);
 
-                $filename =  (isset($this->request->data['attachments'][$i]['filename'])) ? $this->request->data['attachments'][$i]['filename'] :  uniqid().'.' . $fileExt;
+                $filename =  (isset($this->request->data['attachments'][$i]['filename'])) ? uniqid().'-'. $this->request->data['attachments'][$i]['filename'] :  uniqid().'.' . $fileExt;
                 $file_dir = WWW_ROOT . DS. 'files' .DS. 'Attachments' .DS. 'file' .DS. $filename;
                 //file create
                 file_put_contents($file_dir, $data);
@@ -144,6 +144,9 @@ class SadrsController extends AppController
                     ->where(['id' => $sadr->id])
                     ->execute();
                 //
+                $sadr = $this->Sadrs->get($sadr->id, [
+                    'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
+                ]);
                 $this->set(compact('sadr'));
                 $this->set('_serialize', ['sadr']);
             } else {
@@ -176,7 +179,7 @@ class SadrsController extends AppController
     {
        
         $sadr = $this->Sadrs->get($id, [
-            'contain' => ['Users', 'SadrListOfDrugs', 'SadrOtherDrugs']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             // $this->request->data['id'] = $this->Util->reverseXOR($this->request->data['id']);

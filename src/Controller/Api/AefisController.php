@@ -104,7 +104,7 @@ class AefisController extends AppController
                 //decode it
                 $data = base64_decode($file[1]);
 
-                $filename =  (isset($this->request->data['attachments'][$i]['filename'])) ? $this->request->data['attachments'][$i]['filename'] :  uniqid().'.' . $fileExt;
+                $filename =  (isset($this->request->data['attachments'][$i]['filename'])) ? uniqid().'-'.$this->request->data['attachments'][$i]['filename'] :  uniqid().'.' . $fileExt;
                 $file_dir = WWW_ROOT . DS. 'files' .DS. 'Attachments' .DS. 'file' .DS. $filename;
                 //file create
                 file_put_contents($file_dir, $data);
@@ -139,6 +139,9 @@ class AefisController extends AppController
                     ->where(['id' => $aefi->id])
                     ->execute();
                 //
+                $aefi = $this->Aefis->get($aefi->id, [
+                    'contain' => ['AefiListOfVaccines', 'AefiListOfDiluents', 'Attachments']
+                ]);
                 $this->set(compact('aefi'));
                 $this->set('_serialize', ['aefi']);
             } else {

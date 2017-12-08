@@ -80,7 +80,7 @@ class SaefisController extends AppController
                 //decode it
                 $data = base64_decode($file[1]);
 
-                $filename =  (isset($this->request->data['attachments'][$i]['filename'])) ? $this->request->data['attachments'][$i]['filename'] :  uniqid().'.' . $fileExt;
+                $filename =  (isset($this->request->data['attachments'][$i]['filename'])) ? uniqid().'-'.$this->request->data['attachments'][$i]['filename'] :  uniqid().'.' . $fileExt;
                 $file_dir = WWW_ROOT . DS. 'files' .DS. 'Attachments' .DS. 'file' .DS. $filename;
                 //file create
                 file_put_contents($file_dir, $data);
@@ -114,6 +114,9 @@ class SaefisController extends AppController
                     ->where(['id' => $saefi->id])
                     ->execute();
                 //
+                $saefi = $this->Saefis->get($saefi->id, [
+                    'contain' => ['SaefiListOfVaccines', 'Attachments']
+                ]);
                 $this->set(compact('saefi'));
                 $this->set('_serialize', ['saefi']);                
             } else {
