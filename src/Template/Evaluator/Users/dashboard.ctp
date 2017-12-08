@@ -8,7 +8,7 @@
 
   <div class="table-responsive">
     <div class="col-xs-6 col-sm-3">
-       <h2>ADR</h2>
+       <h2>ADR <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Sadrs']) ?></small></h2>
         <div>
         <table class="table table-striped table-condensed">
             <thead>
@@ -44,7 +44,7 @@
                                 <?= $this->Paginator->next(' >', ['model' => 'Sadrs']) ?>
                                 <?= $this->Paginator->last(' >>', ['model' => 'Sadrs']) ?>
                             </ul>
-                            <h6><small><?= $this->Paginator->counter(['format' => __('{{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></small></h6>
+                            <h6><small><?= $this->Paginator->counter(['format' => __('{{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total'), 'model' => 'Sadrs']) ?></small></h6>
                         </nav>
                     </td>
                 </tr>
@@ -54,7 +54,7 @@
         </div>
     </div>
     <div class="col-xs-6 col-sm-3 placeholder">
-      <h2>AEFI</h2>
+      <h2>AEFI <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Aefis']) ?></small></h2>
         <div>
         <table class="table table-striped table-condensed">
             <thead>
@@ -90,7 +90,7 @@
                                 <?= $this->Paginator->next(' >', ['model' => 'Aefis']) ?>
                                 <?= $this->Paginator->last(' >>', ['model' => 'Aefis']) ?>
                             </ul>
-                            <h6><small><?= $this->Paginator->counter(['format' => __('{{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></small></h6>
+                            <h6><small><?= $this->Paginator->counter(['format' => __('{{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total'), 'model' => 'Aefis']) ?></small></h6>
                         </nav>
                     </td>
                 </tr>
@@ -101,7 +101,7 @@
     </div>
     <div class="col-xs-6 col-sm-3 placeholder">
       <!-- SAEFIS -->
-        <h2>SAEFI</h2>
+        <h2>SAEFI <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Saefis']) ?></small></h2>
         <div>
         <table class="table table-striped table-condensed">
             <thead>
@@ -137,7 +137,7 @@
                                 <?= $this->Paginator->next(' >', ['model' => 'Saefis']) ?>
                                 <?= $this->Paginator->last(' >>', ['model' => 'Saefis']) ?>
                             </ul>
-                            <h6><small><?= $this->Paginator->counter(['format' => __('{{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></small></h6>
+                            <h6><small><?= $this->Paginator->counter(['format' => __('{{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total'), 'model' => 'Saefis']) ?></small></h6>
                         </nav>
                     </td>
                 </tr>
@@ -147,7 +147,7 @@
         </div>
     </div>
     <div class="col-xs-6 col-sm-3 placeholder">
-       <h2>SAE</h2>
+       <h2>SAE <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Adrs']) ?></small></h2>
         <div>
         <table class="table table-striped table-condensed">
             <thead>
@@ -183,7 +183,7 @@
                                 <?= $this->Paginator->next(' >', ['model' => 'Adrs']) ?>
                                 <?= $this->Paginator->last(' >>', ['model' => 'Adrs']) ?>
                             </ul>
-                            <h6><small><?= $this->Paginator->counter(['format' => __('{{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></small></h6>
+                            <h6><small><?= $this->Paginator->counter(['format' => __('{{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total'), 'model' => 'Adrs']) ?></small></h6>
                         </nav>
                     </td>
                 </tr>

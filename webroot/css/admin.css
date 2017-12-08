@@ -1,6 +1,23 @@
 .navbar-evaluator {
 	background-color: #092104;
 }
+a:hover, .nav-evaluator > .active > a:focus {
+    color: #fff;
+    background-color: #3b9926;
+}
+.nav-evaluator > .active > a, .nav-evaluator > .active > a:hover, .nav-evaluator > .active > a:focus {
+    color: #fff;
+    background-color: #3b9926;
+}
+
 .navbar-admin {
 	background-color: #2F1F50;
+}
+a:hover, .nav-admin > .active > a:focus {
+    color: #fff;
+    background-color: #6a5596;
+}
+.nav-admin > .active > a, .nav-admin > .active > a:hover, .nav-admin > .active > a:focus {
+    color: #fff;
+    background-color: #6a5596;
 }
