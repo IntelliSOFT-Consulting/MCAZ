@@ -44,6 +44,7 @@ $cakeDescription = 'MCAZ PV';
 
     <!-- jquery UI -->
     <?= $this->Html->css('jquery-ui.min') ?>
+    <?= $this->Html->css('admin') ?>
     <?= $this->Html->script('jquery/jquery') ?>
     <?= $this->Html->script('jquery/jquery-ui.min') ?>
     <?= $this->Html->script('jquery/jquery.datetimepicker.full.min') ?>
@@ -64,7 +65,7 @@ $cakeDescription = 'MCAZ PV';
 
   <body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-<?= $prefix ?> navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
