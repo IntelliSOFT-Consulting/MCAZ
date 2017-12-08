@@ -40,7 +40,7 @@
                     ['type' => 'textarea', 'label' => ['text' => 'Clinic/Hospital Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]]);                                
                   echo $this->Form->control('institution_code', ['type' => 'textarea', 'label' => 'Clinic/Hospital Number']);
 
-                  echo $this->Form->input('designation_id', ['type' => 'textarea', 'empty' => true]);
+                  echo $this->Form->input('designation_name', ['type' => 'textarea', 'empty' => true]);
 
                   echo $this->Form->control('reporter_phone', ['type' => 'textarea', 'label' => 'Reporter Phone ', 'escape' => false]);
               ?>

@@ -155,4 +155,30 @@ class SadrsTable extends Table
 
         return $rules;
     }
+
+    /*
+    public function beforeSave($event,$entity,$options) {
+
+
+        if(!empty($entity->Sadr['age'])){
+
+            $age_group = $entity->Sadr['age'];
+            if($age_group > 60){
+                  $age_group='elderly';
+              }elseif($age_group > 17 && $age_group < 61){
+                  $age_group='adult';
+              }elseif($age_group > 12 && $age_group < 18){
+                  $age_group='adolescent';
+              }elseif($age_group > 2 && $age_group < 13){
+                  $age_group='child';
+              }elseif($age_group < 3){
+                  $age_group='infant';
+              }
+  
+            $entity->Sadr['age_group'] = $age_group;
+        }
+
+        return true;
+    }
+    */
 }

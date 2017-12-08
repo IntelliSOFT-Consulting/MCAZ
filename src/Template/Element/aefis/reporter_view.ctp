@@ -64,7 +64,7 @@
             <div class="col-xs-6">
               <?php
                   echo $this->Form->control('reporter_name', ['type' => 'textarea', 'label' => 'Reporter\'s name']);
-                  echo $this->Form->input('designation_id', ['type' => 'textarea', 'empty' => true]);
+                  echo $this->Form->input('designation_name', ['type' => 'textarea', 'empty' => true]);
                   echo $this->Form->control('reporter_department', ['type' => 'textarea', 'label' => 'Department']);
                   echo $this->Form->control('reporter_address', ['type' => 'textarea', 'label' => 'Address']);
                   echo $this->Form->control('reporter_district', ['type' => 'textarea', 'label' => 'District']);
