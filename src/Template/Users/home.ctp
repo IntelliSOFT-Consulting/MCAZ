@@ -69,7 +69,9 @@
         
         </div>
         <h2>SAE</h2>
-        <p>SERIOUS ADVERSE EVENT REPORTING FORM. 
+          <p>Serious Adverse Event Reporting Form.</p>
+          <p><i>**The SAE form is to be completed for SAEs from Clinical Trials</i></p>
+          <p>
           <?php
               if($this->request->session()->read('Auth.User')) {
           ?>

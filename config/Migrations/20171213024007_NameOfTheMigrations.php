@@ -8,30 +8,6 @@ class NameOfTheMigrations extends AbstractMigration
     {
 
         $this->table('sadrs')
-            ->addColumn('assigned_to', 'integer', [
-                'after' => 'user_id',
-                'default' => null,
-                'length' => 11,
-                'null' => true,
-            ])
-            ->addColumn('assigned_by', 'integer', [
-                'after' => 'assigned_to',
-                'default' => null,
-                'length' => 11,
-                'null' => true,
-            ])
-            ->addColumn('assigned_date', 'datetime', [
-                'after' => 'assigned_by',
-                'default' => null,
-                'length' => null,
-                'null' => true,
-            ])
-            ->addColumn('province_id', 'integer', [
-                'after' => 'assigned_date',
-                'default' => null,
-                'length' => 11,
-                'null' => true,
-            ])
             ->addColumn('submitted_date', 'datetime', [
                 'after' => 'submitted',
                 'default' => null,

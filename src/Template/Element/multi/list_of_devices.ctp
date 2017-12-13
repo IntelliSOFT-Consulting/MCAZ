@@ -148,7 +148,7 @@
     <div class="row">
       <div class="col-xs-12"><?php 
         echo $this->Form->control('patient_other_drug', ['type' => 'radio', 
-               'label' => 'Was the patient taking any other drug at the time of onset of the AE? ', 'escape' => false,
+               'label' => '<b>9.Was the patient taking any other drug at the time of onset of the AE? </b>', 'escape' => false,
                'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
                  'options' => ['Yes' => 'Yes', 'No' => 'No']]);
       ?></div>
@@ -156,11 +156,11 @@
     <hr>
         
     <div class="row">
-      <div class="col-xs-12"><h4>If yes, then list all concomitant medication being taken at least one month before the onset of the SAE and describe the relationship to the SAE: 
-        <button <?= ($globalEd) ? 'disabled=""' : '' ?> type="button" class="btn btn-success" id="addAdrConcomitant">
+      <div class="col-xs-12"><b>10.If yes, then list all concomitant medication being taken at least one month before the onset of the SAE and describe the relationship to the SAE: 
+        <button <?= ($globalEd) ? 'disabled=""' : '' ?> type="button" class="btn btn-primary" id="addAdrConcomitant">
                            Add <i class="fa fa-plus"></i>
                         </button>
-                      </h4></div>
+                      </b></div>
     </div>
 
     <div class="row">
