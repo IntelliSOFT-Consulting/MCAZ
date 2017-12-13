@@ -80,6 +80,9 @@ class UsersTable extends Table
         $this->hasMany('Saefis', [
             'foreignKey' => 'user_id'
         ]);
+        $this->hasMany('Reviews', [
+            'foreignKey' => 'user_id'
+        ]);
     }
 
 

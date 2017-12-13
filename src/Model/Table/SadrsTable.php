@@ -65,6 +65,18 @@ class SadrsTable extends Table
             'dependent' => true,
             'conditions' => array('Attachments.model' => 'Sadrs', 'Attachments.category' => 'attachments'),
         ]);
+        $this->hasMany('Reviews', [
+            'className' => 'Reviews',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Reviews.model' => 'Sadrs'),
+        ]);
+        $this->hasMany('RequestReporters', [
+            'className' => 'Notifications',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('RequestReporters.model' => 'Sadrs', 'RequestReporters.type' => 'request_reporter_info'),
+        ]);
         // $this->hasMany('Feedbacks', [
         //     'foreignKey' => 'sadr_id'
         // ]);

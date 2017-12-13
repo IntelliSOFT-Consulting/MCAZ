@@ -26,4 +26,7 @@ Assign</button>
         	}
      	?>
     </div>
+    <div class="col-xs-12">
+      <p>If reporter assigned... can request for more information below</p>
+    </div>
   </div>
