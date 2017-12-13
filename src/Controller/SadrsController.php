@@ -73,7 +73,7 @@ class SadrsController extends AppController
 
         if(strpos($this->request->url, 'pdf')) {
             // $this->viewBuilder()->setLayout('pdf/default');
-            $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
+            $this->viewBuilder()->helpers(['Form' => ['templates' => 'view_form',]]);
             $this->viewBuilder()->options([
                 'pdfConfig' => [
                     'orientation' => 'portrait',
@@ -204,6 +204,8 @@ class SadrsController extends AppController
               }
             } elseif ($sadr->submitted == 2) {
               //submit to mcaz button
+              $sadr->submitted_date = date("Y-m-d H:i:s");
+              $sadr->status = 'Submitted';
               if ($this->Sadrs->save($sadr, ['validate' => false])) {
                 $this->Flash->success(__('Report '.$sadr->reference_number.' has been successfully submitted to MCAZ for review.'));
                 //send email and notification
@@ -213,9 +215,20 @@ class SadrsController extends AppController
                     'type' => 'applicant_submit_sadr_email', 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
                     'vars' =>  $sadr->toArray()
                 ];
+                //notify applicant
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_submit_sadr_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
+                //notify managers
+                $managers = $this->Sadrs->Users->find('all')->where(['Users.group_id' => 2]);
+                foreach ($managers as $manager) {
+                  $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
+                    'vars' =>  $sadr->toArray()];
+                  $data['type'] = 'manager_submit_sadr_email';
+                  $this->QueuedJobs->createJob('GenericEmail', $data);
+                  $data['type'] = 'manager_submit_sadr_notification';
+                  $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
                 //
                 return $this->redirect(['action' => 'view', $sadr->id]);
               } else {

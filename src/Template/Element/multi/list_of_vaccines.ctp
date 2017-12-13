@@ -7,14 +7,14 @@
   $this->Html->script('multi/list_of_vaccines', ['block' => true]);
 ?>
     <div class="row">
-      <div class="col-md-12">
-        <h3 class="text-center">Vaccines <button type="button" class="btn btn-primary btn-sm" id="addAefiVaccine">
+      <div class="col-xs-12">
+        <h3 class="text-center">Vaccines <button <?= ($globalEd) ? 'disabled=""' : '' ?> type="button" class="btn btn-primary btn-sm" id="addAefiVaccine">
                           Add <i class="fa fa-plus"></i>
                         </button></h3>
       </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <table id="listOfVaccinesTable"  class="table table-bordered table-condensed">
                 <thead>
                   <tr>
@@ -35,16 +35,16 @@
                   <tr>
                     <td><?= $i+1; ?></td>
                     <td><?php
-                             echo $this->Form->input('aefi_list_of_vaccines.'.$i.'.id')  ;
+                             echo $this->Form->input('aefi_list_of_vaccines.'.$i.'.id', ['templates' => 'app_form'])  ;
                              echo $this->Form->control('aefi_list_of_vaccines.'.$i.'.vaccine_name', ['label' => false,
-                                  'templates' => 'table_form']);
+                                  'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>
                     <td>
                         <?php
                             echo $this->Form->control('aefi_list_of_vaccines.'.$i.'.vaccination_date', ['label' => false,
                                 'type' => 'text',
-                                'templates' => [
+                                'templates' => ($globalEd) ? 'view_form_table' : [
               'input' => '<input class="form-control datetime-field" type="{{type}}" name="{{name}}"{{attrs}}/>',
               'formGroup' => ' {{label}}{{input}} ',
           ]]);
@@ -52,24 +52,24 @@
                     </td>
                     <td>
                         <?php
-                            echo $this->Form->control('aefi_list_of_vaccines.'.$i.'.dosage', ['label' => false, 'templates' => 'table_form']);
+                            echo $this->Form->control('aefi_list_of_vaccines.'.$i.'.dosage', ['label' => false, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>
                     <td><?php echo $this->Form->control('aefi_list_of_vaccines.'.$i.'.batch_number', ['label' => false, 
-                           'type' => 'text', 'templates' => 'table_form']); ?>
+                           'type' => 'text', 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']); ?>
                     </td>
                     <td>
                         <?php
                             echo $this->Form->control('aefi_list_of_vaccines.'.$i.'.expiry_date', [
                                 'type' => 'text',
                                 'label' => false, 
-                                'templates' => 'dates_form'
+                                'templates' => ($globalEd) ? 'view_form_table' : 'dates_form'
                                 ]);
                         ?>
                     </td>
                     
                     <td>
-                        <button  type="button" class="btn btn-default btn-sm remove-vaccine"  value="<?php if (isset($aefi['aefi_list_of_vaccines'][$i]['id'])) { echo $aefi['aefi_list_of_vaccines'][$i]['id']; } ?>" >
+                        <button <?= ($globalEd) ? 'disabled=""' : '' ?>  type="button" class="btn btn-default btn-sm remove-vaccine"  value="<?php if (isset($aefi['aefi_list_of_vaccines'][$i]['id'])) { echo $aefi['aefi_list_of_vaccines'][$i]['id']; } ?>" >
                           <i class="fa fa-minus"></i>
                         </button>
                     </td>
@@ -83,14 +83,14 @@
     </div><!--/row-->
     <hr>
     <div class="row">
-      <div class="col-md-12">
-        <h3 class="text-center">Diluents <button type="button" class="btn btn-success btn-sm" id="addAefiDiluent">
+      <div class="col-xs-12">
+        <h3 class="text-center">Diluents <button <?= ($globalEd) ? 'disabled=""' : '' ?>  type="button" class="btn btn-success btn-sm" id="addAefiDiluent">
                           Add <i class="fa fa-plus"></i>
                         </button></h3>
       </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <table id="listOfDiluentsTable"  class="table table-bordered">
                 <thead>
                   <tr>
@@ -109,32 +109,32 @@
                   <tr>
                     <td><?= $i+1; ?></td>
                     <td><?php
-                             echo $this->Form->input('aefi_list_of_diluents.'.$i.'.id')  ;
+                             echo $this->Form->input('aefi_list_of_diluents.'.$i.'.id', ['templates' => 'app_form'])  ;
                              echo $this->Form->control('aefi_list_of_diluents.'.$i.'.diluent_name', ['label' => false,
-                                  'templates' => 'table_form']);
+                                  'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>
                     <td>
                         <?php
                             echo $this->Form->control('aefi_list_of_diluents.'.$i.'.diluent_date', ['label' => false, 
                                 'type' => 'text',
-                                'templates' => 'table_form']);
+                                'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>
                     <td><?php echo $this->Form->control('aefi_list_of_diluents.'.$i.'.batch_number', ['label' => false, 
-                           'type' => 'text', 'templates' => 'table_form']); ?>
+                           'type' => 'text', 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']); ?>
                     </td>
                     <td>
                         <?php
                             echo $this->Form->control('aefi_list_of_diluents.'.$i.'.expiry_date', [
                                 'type' => 'text',
                                 'label' => false, 
-                                'templates' => 'dates_form'
+                                'templates' => ($globalEd) ? 'view_form_table' : 'dates_form'
                                 ]);
                         ?>
                     </td>
                     <td>
-                        <button  type="button" class="btn btn-default btn-sm remove-diluent"  value="<?php if (isset($aefi['aefi_list_of_diluents'][$i]['id'])) { echo $aefi['aefi_list_of_diluents'][$i]['id']; } ?>" >
+                        <button <?= ($globalEd) ? 'disabled=""' : '' ?>  type="button" class="btn btn-default btn-sm remove-diluent"  value="<?php if (isset($aefi['aefi_list_of_diluents'][$i]['id'])) { echo $aefi['aefi_list_of_diluents'][$i]['id']; } ?>" >
                           <i class="fa fa-minus"></i>
                         </button>
                     </td>

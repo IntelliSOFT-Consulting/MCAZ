@@ -166,9 +166,9 @@ class SaefisTable extends Table
             ->scalar('autopsy_planned')
             ->allowEmpty('autopsy_planned');
 
-        $validator
-            ->dateTime('autopsy_planned_date')
-            ->allowEmpty('autopsy_planned_date');
+        // $validator
+        //     ->dateTime('autopsy_planned_date')
+        //     ->allowEmpty('autopsy_planned_date');
 
         $validator
             ->scalar('past_history')

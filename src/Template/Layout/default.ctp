@@ -47,6 +47,7 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
     <?= $this->Html->script('jquery/jquery.datetimepicker.full.min') ?>
 
     <?= $this->Html->css('bootstrap/jumbotron') ?>
+    <?= $this->Html->css('shared_styles') ?>
 
 
     <?= $this->Html->script('bootstrap/bootstrap.min'); ?>

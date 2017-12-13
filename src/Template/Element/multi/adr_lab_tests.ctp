@@ -7,15 +7,15 @@
     $this->Html->script('multi/adr_lab_tests', ['block' => true]);
 ?>
     <div class="row">
-      <div class="col-md-12">
-        <h4>Add Lab test: <button type="button" class="btn btn-primary btn-sm" id="addLabTest">
+      <div class="col-xs-12">
+        <h4>Add Lab test: <button <?= ($globalEd) ? 'disabled=""' : '' ?> type="button" class="btn btn-primary btn-sm" id="addLabTest">
                           Add <i class="fa fa-plus"></i>
                         </button></h4>
       </div>
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <table id="adrLabTestsTable"  class="table table-bordered">
                 <thead>
                   <tr>
@@ -41,27 +41,27 @@
                   <tr>
                     <td><?= $i+1; ?></td>
                     <td><?php
-                             echo $this->Form->input('adr_lab_tests.'.$i.'.id')  ;
+                             echo $this->Form->input('adr_lab_tests.'.$i.'.id', ['templates' => 'app_form'])  ;
                              echo $this->Form->control('adr_lab_tests.'.$i.'.lab_test', ['label' => false,
-                                  'templates' => 'table_form']);
+                                  'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>
                     <td>
                         <?php
-                            echo $this->Form->control('adr_lab_tests.'.$i.'.abnormal_result', ['label' => false, 'templates' => 'table_form']);
+                            echo $this->Form->control('adr_lab_tests.'.$i.'.abnormal_result', ['label' => false, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>                    
                     <td>
                         <?php
-                            echo $this->Form->control('adr_lab_tests.'.$i.'.site_normal_range', ['label' => false, 'templates' => 'table_form']);
+                            echo $this->Form->control('adr_lab_tests.'.$i.'.site_normal_range', ['label' => false, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>                 
                     <td><?php
-                            echo $this->Form->control('adr_lab_tests.'.$i.'.collection_date', ['label' => false, 'type' => 'text','templates' => 'dates_form']);
+                            echo $this->Form->control('adr_lab_tests.'.$i.'.collection_date', ['label' => false, 'type' => 'text','templates' => ($globalEd) ? 'view_form_table' : 'dates_form']);
                         ?>
                     </td>
                     <td><?php
-                            echo $this->Form->control('adr_lab_tests.'.$i.'.lab_value', ['label' => false, 'templates' => 'table_form']);
+                            echo $this->Form->control('adr_lab_tests.'.$i.'.lab_value', ['label' => false, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>
                     <td>
@@ -69,12 +69,12 @@
                             echo $this->Form->control('adr_lab_tests.'.$i.'.lab_value_date', [
                                 'type' => 'text',
                                 'label' => false, 
-                                'templates' => 'dates_form'
+                                'templates' => ($globalEd) ? 'view_form_table' : 'dates_form'
                                 ]);
                         ?>
                     </td>
                     <td>
-                        <button  type="button" class="btn btn-default btn-sm remove-lab-test"  value="<?php if (isset($adr['adr_lab_tests'][$i]['id'])) { echo $adr['adr_lab_tests'][$i]['id']; } ?>" >
+                        <button <?= ($globalEd) ? 'disabled=""' : '' ?> type="button" class="btn btn-default btn-sm remove-lab-test"  value="<?php if (isset($adr['adr_lab_tests'][$i]['id'])) { echo $adr['adr_lab_tests'][$i]['id']; } ?>" >
                           <i class="fa fa-minus"></i>
                         </button>
                     </td>

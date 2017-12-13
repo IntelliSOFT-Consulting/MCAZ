@@ -8,7 +8,7 @@
 ?>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <table id="listofdrugsform"  class="table table-bordered table-condensed">
                 <thead>
                   <tr>
@@ -165,7 +165,7 @@
     <hr>
 
     <div class="row">
-      <div class="col-md-12"><h4 class="text-center">Concomitant (Other) drugs taken, including herbal medicines & Dates/period taken: 
+      <div class="col-xs-12"><h4 class="text-center">Concomitant (Other) drugs taken, including herbal medicines & Dates/period taken: 
         <button type="button" class="btn btn-success" id="addConcomitantDrug">
                            Add <i class="fa fa-plus"></i>
                         </button>
@@ -173,7 +173,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <table id="tableotherdrugs"  class="table table-bordered">
                 <thead>
                   <tr>

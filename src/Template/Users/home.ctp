@@ -248,29 +248,7 @@
 
     <!-- SAE -->
     <div class="col-md-4">
-      <h2><?= $this->Paginator->sort('id', '<i class="fa fa-exclamation-circle" aria-hidden="true"></i> Notifications', ['model' => 'Notifications', 'escape'=> false]) ?></h2>  
-      <hr>
-        <div>
-              <?php foreach ($notifications as $notification): ?>
-                <div class="alert alert-info alert-dismissible fade in" role="alert"> 
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> 
-                  <?= $notification->system_message; ?>
-                </div>
-                <?php endforeach; ?>
-
-                  <hr>
-                  <nav aria-label="Page navigation">
-                      <ul class="pagination">
-                          <?= $this->Paginator->first('<< ' . __('first'), ['model' => 'Notifications']) ?>
-                          <?= $this->Paginator->prev('< ' . __('previous'), ['model' => 'Notifications']) ?>
-                          <?= $this->Paginator->numbers(['model' => 'Notifications']) ?>
-                          <?= $this->Paginator->next(__('next') . ' >', ['model' => 'Notifications']) ?>
-                          <?= $this->Paginator->last(__('last') . ' >>', ['model' => 'Notifications']) ?>
-                      </ul>
-                      <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total'), 'model' => 'Notifications']) ?></small></h6>
-                  </nav>
-
-        
-        </div>      
+      <?= $this->Html->script('jquery/jquery.shorten', ['block' => true]); ?>
+      <?= $this->cell('Notification'); ?>  
     </div>
 </div>

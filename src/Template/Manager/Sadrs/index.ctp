@@ -1,19 +1,5 @@
 <?php $this->start('sidebar'); ?>
-  <ul class="nav nav-sidebar">
-    <li><?= $this->Html->link('Overview', ['controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix], array('escape' => false)); ?></li>
-    <li class="active">
-      <?= $this->Html->link('ADRS', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-    <li>
-      <?= $this->Html->link('AEFIS', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-    <li>
-      <?= $this->Html->link('SAEFIS', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-    <li>
-      <?= $this->Html->link('SAES', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-  </ul>
+  <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
 <h1 class="page-header">ADRS</h1>
@@ -25,24 +11,24 @@
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name_of_institution') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('reporter_name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('reporter_email') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('reporter_phone') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col"></th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($sadrs as $sadr): ?>
             <tr>
                 <td><?= $this->Number->format($sadr->id) ?></td>
-                <td><?= h($sadr->reference_number) ?></td>
+                <td><?= $this->Html->link($sadr->reference_number, ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false]); ?></td>
                 <td><?= h($sadr->name_of_institution) ?></td>
-                <td><?= h($sadr->reporter_name) ?></td>
-                <td><?= h($sadr->reporter_email) ?></td>
-                <td><?= h($sadr->reporter_phone) ?></td>
                 <td><?= h($sadr->created) ?></td>
-                <td><?= $this->Html->link('View', ['action' => 'view', $sadr->id, 'prefix' => $prefix], array('escape' => false)); ?></td>
+                <td><span class="label label-primary"><?= 
+                   ($sadr->submitted == 2) ?  $this->Html->link('E2B', ['action' => 'e2b', $sadr->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']) : ''; ?></span>
+                   <span class="label label-primary">                     
+                     <?= $this->Html->link('<i class="fa fa-eye" aria-hidden="true"></i>', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'style' => 'color: white;'])
+                     ?>
+                    </span>
+                </td>
             </tr>
             <?php endforeach; ?>
         </tbody>

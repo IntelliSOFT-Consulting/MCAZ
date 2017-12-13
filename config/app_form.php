@@ -13,6 +13,7 @@ return [
     'checkboxFormGroup' => '{{label}}',
     // Wrapper container for checkboxes.
     'checkboxWrapper' => '<div class="checkbox">{{label}}</div>',
+    'dateWidget' => '<div class="col-sm-6">{{day}}-{{month}}-{{year}}</div>',
     'formStart' => '<form  class="form-horizontal" {{attrs}}>',
     'formGroup' => '<div class="form-group"> {{label}}{{input}} </div>',
     'label' => '<div class="col-sm-4 control-label"><label {{attrs}}>{{text}}</label></div>',

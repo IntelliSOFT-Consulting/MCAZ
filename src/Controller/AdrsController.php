@@ -74,7 +74,7 @@ class AdrsController extends AppController
 
         // $this->viewBuilder()->setLayout('pdf/default');
         if(strpos($this->request->url, 'pdf')) {
-            $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
+            $this->viewBuilder()->helpers(['Form' => ['templates' => 'view_form',]]);
             $this->viewBuilder()->options([
                 'pdfConfig' => [
                     'orientation' => 'portrait',

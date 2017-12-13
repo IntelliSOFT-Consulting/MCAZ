@@ -4,11 +4,11 @@
  * @var \App\Model\Entity\Sadr $sadr
  */
     // $this->Html->script('multi/list_of_drugs', array('inline' => false));
-    $this->Html->script('multi/sadr_list_of_drugs', ['block' => true]);
+    $this->Html->script('multi/list_of_drugs', ['block' => true]);
 ?>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <table id="listofdrugsform"  class="table table-bordered table-condensed">
                 <thead>
                   <tr>
@@ -27,43 +27,43 @@
                   <tr>
                     <td>1</td>
                     <td><?php
-                             echo $this->Form->input('sadr_list_of_drugs.0.id')  ;
+                             echo $this->Form->input('sadr_list_of_drugs.0.id', ['templates' => 'app_form'])  ;
                              echo $this->Form->control('sadr_list_of_drugs.0.drug_name', ['label' => false,
-                                  'templates' => 'table_form']);
+                                  'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>
                     <td>
                         <?php
-                            echo $this->Form->control('sadr_list_of_drugs.0.brand_name', ['label' => false, 'templates' => 'table_form']);
+                            echo $this->Form->control('sadr_list_of_drugs.0.brand_name', ['label' => false, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>
                     <td>
                         <?php
-                            echo $this->Form->control('sadr_list_of_drugs.0.batch_number', ['label' => false, 'templates' => 'table_form']);
+                            echo $this->Form->control('sadr_list_of_drugs.0.batch_number', ['label' => false, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>
                     <td><?php echo $this->Form->control('sadr_list_of_drugs.0.dose', ['label' => false, 
-                           'type' => 'text', 'templates' => 'table_form']); ?></td>
+                           'type' => 'text', 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']); ?></td>
                     <td>
                         <?php
-                            echo $this->Form->control('sadr_list_of_drugs.0.dose_id', ['label' => false, 'options' => $doses, 'templates' => 'table_form', 'empty' => true]);
+                            echo $this->Form->control('sadr_list_of_drugs.0.dose_id', ['label' => false, 'options' => $doses, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form', 'empty' => true]);
                         ?>
                     </td>
                     <td><?php
-                            echo $this->Form->control('sadr_list_of_drugs.0.route_id', ['label' => false, 'options' => $routes, 'templates' => 'table_form', 'empty' => true]);
+                            echo $this->Form->control('sadr_list_of_drugs.0.route_id', ['label' => false, 'options' => $routes, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form', 'empty' => true]);
                         ?>
                     </td>
                     <td><?php
-                            echo $this->Form->control('sadr_list_of_drugs.0.frequency_id', ['label' => false, 'options' => $frequencies, 'templates' => 'table_form', 'empty' => true]);
+                            echo $this->Form->control('sadr_list_of_drugs.0.frequency_id', ['label' => false, 'options' => $frequencies, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form', 'empty' => true]);
                         ?>
                     </td>
-                    <td><?= $this->Form->control('sadr_list_of_drugs.0.indication', ['label' => false, 'templates' => 'table_form']); ?></td>
+                    <td><?= $this->Form->control('sadr_list_of_drugs.0.indication', ['label' => false, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']); ?></td>
                     <td>
                         <?php
                             echo $this->Form->control('sadr_list_of_drugs.0.start_date', [
                                 'type' => 'text',
                                 'label' => false, //'monthNames' => false,
-                                'templates' => 'table_form'
+                                'templates' => ($globalEd) ? 'view_form_table' : 'table_form'
                                 //'templates' => [
                                     //'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',
                                 //    'dateWidget' => '{{day}}{{month}}{{year}}',]
@@ -74,16 +74,16 @@
                         <?php
                             echo $this->Form->control('sadr_list_of_drugs.0.stop_date', ['label' => false, 
                                 'type' => 'text',
-                                'templates' => 'table_form']);
+                                'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>
                     <td>
                         <?php
-                            echo $this->Form->checkbox('sadr_list_of_drugs.0.suspected_drug', ['label' => false, 'templates' => 'table_form'])
+                            echo $this->Form->control('sadr_list_of_drugs.0.suspected_drug', ['label' => false, 'type' => 'checkbox', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'table_form'])
                         ?>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-primary btn-sm" id="addListOfDrug">
+                        <button <?= ($globalEd) ? 'disabled=""' : '' ?> type="button" class="btn btn-primary btn-sm" id="addListOfDrug">
                           Add <i class="fa fa-plus"></i>
                         </button>
                     </td>
@@ -99,59 +99,59 @@
                   <tr>
                     <td><?= $i+1; ?></td>
                     <td><?php
-                             echo $this->Form->input('sadr_list_of_drugs.'.$i.'.id')  ;
+                             echo $this->Form->input('sadr_list_of_drugs.'.$i.'.id', ['templates' => 'app_form'])  ;
                              echo $this->Form->control('sadr_list_of_drugs.'.$i.'.drug_name', ['label' => false,
-                                  'templates' => 'table_form']);
+                                  'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>
                     <td>
                         <?php
-                            echo $this->Form->control('sadr_list_of_drugs.'.$i.'.brand_name', ['label' => false, 'templates' => 'table_form']);
+                            echo $this->Form->control('sadr_list_of_drugs.'.$i.'.brand_name', ['label' => false, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>
                     <td>
                         <?php
-                            echo $this->Form->control('sadr_list_of_drugs.'.$i.'.batch_number', ['label' => false, 'templates' => 'table_form']);
+                            echo $this->Form->control('sadr_list_of_drugs.'.$i.'.batch_number', ['label' => false, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>
                     <td><?php echo $this->Form->control('sadr_list_of_drugs.'.$i.'.dose', ['label' => false, 
-                           'type' => 'text', 'templates' => 'table_form']); ?></td>
+                           'type' => 'text', 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']); ?></td>
                     <td>
                         <?php
-                            echo $this->Form->control('sadr_list_of_drugs.'.$i.'.dose_id', ['label' => false, 'options' => $doses, 'templates' => 'table_form', 'empty' => true]);
+                            echo $this->Form->control('sadr_list_of_drugs.'.$i.'.dose_id', ['label' => false, 'options' => $doses, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form', 'empty' => true]);
                         ?>
                     </td>
                     <td><?php
-                            echo $this->Form->control('sadr_list_of_drugs.'.$i.'.route_id', ['label' => false, 'options' => $routes, 'templates' => 'table_form', 'empty' => true]);
+                            echo $this->Form->control('sadr_list_of_drugs.'.$i.'.route_id', ['label' => false, 'options' => $routes, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form', 'empty' => true]);
                         ?>
                     </td>
                     <td><?php
-                            echo $this->Form->control('sadr_list_of_drugs.'.$i.'.frequency_id', ['label' => false, 'options' => $frequencies, 'templates' => 'table_form', 'empty' => true]);
+                            echo $this->Form->control('sadr_list_of_drugs.'.$i.'.frequency_id', ['label' => false, 'options' => $frequencies, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form', 'empty' => true]);
                         ?>
                     </td>
-                    <td><?= $this->Form->control('sadr_list_of_drugs.'.$i.'.indication', ['label' => false, 'templates' => 'table_form']); ?></td>
+                    <td><?= $this->Form->control('sadr_list_of_drugs.'.$i.'.indication', ['label' => false, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']); ?></td>
                     <td>
                       <?php
                           echo $this->Form->control('sadr_list_of_drugs.'.$i.'.start_date', [
                             'label' => false, 'type' => 'text',
-                            'templates' => 'dates_form'
+                            'templates' => ($globalEd) ? 'view_form_table' : 'table_form'
                             ]);
                         ?>
                     </td>
                     <td>
                         <?php
                             echo $this->Form->control('sadr_list_of_drugs.'.$i.'.stop_date', ['label' => false, 'type' => 'text',
-                            'templates' => 'dates_form'
+                            'templates' => ($globalEd) ? 'view_form_table' : 'table_form'
                             ]);
                         ?>
                     </td>
                     <td>
                         <?php
-                            echo $this->Form->checkbox('sadr_list_of_drugs.'.$i.'.suspected_drug', ['label' => false, 'templates' => 'table_form'])
+                            echo $this->Form->control('sadr_list_of_drugs.'.$i.'.suspected_drug', ['label' => false, 'type' => 'checkbox', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'table_form'])
                         ?>
                     </td>
                     <td>
-                        <button  type="button" class="btn btn-default btn-sm remove-row"  value="<?php if (isset($sadr['sadr_list_of_drugs'][$i]['id'])) { echo $sadr['sadr_list_of_drugs'][$i]['id']; } ?>" >
+                        <button <?= ($globalEd) ? 'disabled=""' : '' ?> type="button" class="btn btn-default btn-sm remove-row"  value="<?php if (isset($sadr['sadr_list_of_drugs'][$i]['id'])) { echo $sadr['sadr_list_of_drugs'][$i]['id']; } ?>" >
                           <i class="fa fa-minus"></i>
                         </button>
                     </td>

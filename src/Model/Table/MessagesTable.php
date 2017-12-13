@@ -55,7 +55,9 @@ class MessagesTable extends Table
 
         $validator
             ->scalar('name')
-            ->allowEmpty('name');
+            ->notEmpty('name')
+            ->add('name', 'unique', ['rule' => 'validateUnique', 'provider' => 'table', 
+                'message' => 'Username already taken!!']);;
 
         $validator
             ->scalar('content')

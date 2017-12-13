@@ -19,7 +19,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <h4>Do you have files that you would like to attach? click on the button to add them: <button type="button" class="btn btn-primary btn-sm" id="addAttachment">
+            <h4>Do you have files that you would like to attach? click on the button to add them: <button <?= ($globalEd) ? 'disabled=""' : '' ?> type="button" class="btn btn-primary btn-sm" id="addAttachment">
                           Add <i class="fa fa-plus"></i>
                         </button></h4>
         </div>
@@ -51,11 +51,11 @@
                     </td>
                     <td>
                         <?php
-                            echo $this->Form->control('attachments.'.$i.'.description', ['label' => false, 'templates' => 'table_form']);
+                            echo $this->Form->control('attachments.'.$i.'.description', ['label' => false, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>                    
                     <td>
-                        <button  type="button" class="btn btn-default btn-sm remove-attachment"  value="<?php if (isset($att[$i]['id'])) { echo $att[$i]['id']; } ?>" >
+                        <button <?= ($globalEd) ? 'disabled=""' : '' ?> type="button" class="btn btn-default btn-sm remove-attachment"  value="<?php if (isset($att[$i]['id'])) { echo $att[$i]['id']; } ?>" >
                           <i class="fa fa-minus"></i>
                         </button>
                     </td>

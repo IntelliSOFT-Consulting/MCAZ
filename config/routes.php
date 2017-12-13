@@ -51,6 +51,9 @@ Router::prefix('api', function ($routes) {
     $routes->resources('Aefis');
     $routes->resources('Adrs');
     $routes->resources('Saefis');
+    $routes->resources('Users');
+    // Router::connect('/api/users/register', ['controller' => 'Users', 'action' => 'add', 'prefix' => 'api']);
+    $routes->fallbacks('InflectedRoute');
 });
 
 Router::prefix('admin', function ($routes) {

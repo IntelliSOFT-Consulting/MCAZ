@@ -56,33 +56,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#22315b', end
    font-size: 48px;
 }
 
-.sadr_form {
-  background-color: #71C7A0;
-  border: 2px solid #3E58A7;
-  border-radius: 4px;
-  padding: 4px;
-}
 
-.aefi_form {
-  background-color: #FF92C9;
-  border: 2px solid #3E58A7;
-  border-radius: 4px;
-  padding: 4px;
-}
-
-.adr_form {
-  background-color: #7f7fff;
-  border: 2px solid #3E58A7;
-  border-radius: 4px;
-  padding: 4px;
-}
-
-.saefi_form {
-  background-color: #FF92C9;
-  border: 2px solid #3E58A7;
-  border-radius: 4px;
-  padding: 4px;
-}
 
 h1.has-warning, h2.has-warning, h3.has-warning, h4.has-warning, h5.has-warning, p.has-warning {
     color: #aa6708; 
@@ -103,3 +77,4 @@ h1.has-error, h2.has-error, h3.has-error, h4.has-error, h5.has-error, p.has-erro
     color: #FFFFFF;
     margin-bottom: 0;
 }
+

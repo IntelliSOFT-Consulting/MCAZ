@@ -1,0 +1,40 @@
+.sadr_form {
+  background-color: #71C7A0;
+  border: 2px solid #3E58A7;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.aefi_form {
+  background-color: #FF92C9;
+  border: 2px solid #3E58A7;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.adr_form {
+  background-color: #7f7fff;
+  border: 2px solid #3E58A7;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.saefi_form {
+  background-color: #FF92C9;
+  border: 2px solid #3E58A7;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+select.view_select {
+        /*for firefox*/
+        -moz-appearance: none;
+        /*for chrome*/
+        -webkit-appearance:none;
+        border: none;
+      }
+
+/*for IE10*/
+select.view_select::-ms-expand {
+    display: none;
+}

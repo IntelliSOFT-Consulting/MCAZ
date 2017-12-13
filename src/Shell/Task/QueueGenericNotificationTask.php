@@ -35,13 +35,15 @@ class QueueGenericNotificationTask extends QueueTask {
      * @return bool Success
      */
     public function run(array $data, $jobId) {
-        Log::write('debug', 'Notification to ::: '.$data['email_address']);
+        //Log::write('debug', 'Notification to ::: '.$data['email_address']);
         // Log::write('debug', $data['vars']['user']);
         $message = $this->Messages->findByName($data['type'])->first();
         $notification = $this->Notifications->newEntity();
         $notification = $this->Notifications->patchEntity($notification, $data);
         $notification->system_message = Text::insert($message['content'], $data['vars']);
-
+        if($notification->type == 'message') {
+            $notification->user_message = $data['user_message'];
+        }
         if ($this->Notifications->save($notification)) {
             Log::write('debug', 'Notification ::: '.$notification);
             return true;

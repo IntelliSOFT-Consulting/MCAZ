@@ -5,7 +5,7 @@
  */
 ?>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <table id="buildyourform"  class="table table-bordered">
                 <thead>
                   <tr>
@@ -245,11 +245,11 @@
     <hr>
 
     <div class="row">
-      <div class="col-md-12"><h4 class="text-center">Concomitant (Other) drugs taken, including herbal medicines & Dates/period taken:</h4></div>
+      <div class="col-xs-12"><h4 class="text-center">Concomitant (Other) drugs taken, including herbal medicines & Dates/period taken:</h4></div>
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <table id="tableotherdrugs"  class="table table-bordered">
                 <thead>
                   <tr>

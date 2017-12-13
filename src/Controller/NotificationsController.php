@@ -12,6 +12,16 @@ use App\Controller\AppController;
  */
 class NotificationsController extends AppController
 {
+    public function initialize()
+    {
+        parent::initialize();
+        
+        // $this->loadComponent('RequestHandler', [
+        //     'inputTypeMap' => [
+        //         'json' => ['json_decode', true]
+        //     ]
+        // ]);
+    }
 
     /**
      * Index method
@@ -103,14 +113,29 @@ class NotificationsController extends AppController
      */
     public function delete($id = null)
     {
+        //TODO: Use session AUTH to ensure the user is assigned notification before soft delete
         $this->request->allowMethod(['post', 'delete']);
-        $notification = $this->Notifications->get($id);
-        if ($this->Notifications->delete($notification)) {
-            $this->Flash->success(__('The notification has been deleted.'));
-        } else {
-            $this->Flash->error(__('The notification could not be deleted. Please, try again.'));
-        }
+        // $this->set([
+        //             'message' => $this->request->data['id'], 
+        //             '_serialize' => ['message']]);
+        //         return;
 
-        return $this->redirect(['action' => 'index']);
+        if($this->request->is('json')) {
+            $notification = $this->Notifications->get($this->request->data['id']);
+            if ($this->Notifications->delete($notification)) {
+                $this->set([
+                        'message' => 'Notification successfully deleted', 
+                        '_serialize' => ['message']]);
+                return;
+            } else {
+                $this->response->body('Failure');
+                $this->response->statusCode(403);
+                $this->set([
+                    'message' => 'Unable to delete!!', 
+                    '_serialize' => ['message']]);
+                return;
+            }
+
+        }
     }
 }

@@ -257,3 +257,5 @@ Configure::load('app_queue');
 // Configure::write('AclManager.ignoreActions', array('isAuthorized','login','logout'));
 
 Plugin::load('SoftDelete');
+
+Plugin::load('ADmad/JwtAuth');

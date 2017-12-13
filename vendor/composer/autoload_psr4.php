@@ -34,6 +34,7 @@ return array(
     'JsonSchema\\' => array($vendorDir . '/justinrainbow/json-schema/src/JsonSchema'),
     'Josegonzalez\\Upload\\Test\\Fixture\\' => array($vendorDir . '/josegonzalez/cakephp-upload/tests/Fixture'),
     'Josegonzalez\\Upload\\' => array($vendorDir . '/josegonzalez/cakephp-upload/src'),
+    'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
     'DebugKit\\Test\\Fixture\\' => array($vendorDir . '/cakephp/debug_kit/tests/Fixture'),
     'DebugKit\\' => array($vendorDir . '/cakephp/debug_kit/src'),
     'Crud\\' => array($vendorDir . '/friendsofcake/crud/src'),
@@ -55,4 +56,5 @@ return array(
     'App\\' => array($baseDir . '/src'),
     'Acl\\' => array($vendorDir . '/cakephp/acl/src'),
     'AclManager\\' => array($vendorDir . '/ivanamat/cakephp3-aclmanager/src'),
+    'ADmad\\JwtAuth\\' => array($vendorDir . '/admad/cakephp-jwt-auth/src'),
 );

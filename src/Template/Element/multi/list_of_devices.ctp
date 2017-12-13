@@ -8,7 +8,7 @@
 ?>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <table id="listOfDevicesTable"  class="table table-bordered table-condensed">
                 <thead>
                   <tr>
@@ -24,27 +24,27 @@
                   <tr>
                     <td>1</td>
                     <td><?php
-                             echo $this->Form->input('adr_list_of_drugs.0.id')  ;
+                             echo $this->Form->input('adr_list_of_drugs.0.id', ['templates' => 'app_form'])  ;
                              echo $this->Form->control('adr_list_of_drugs.0.drug_name', ['label' => false,
-                                  'templates' => 'table_form']);
+                                  'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>
                     <td>
                         <?php
-                            echo $this->Form->control('adr_list_of_drugs.0.dosage', ['label' => false, 'templates' => 'table_form']);
+                            echo $this->Form->control('adr_list_of_drugs.0.dosage', ['label' => false, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>                    
                     <td>
                         <?php
-                            echo $this->Form->control('adr_list_of_drugs.0.dose_id', ['label' => false, 'options' => $doses, 'templates' => 'table_form', 'empty' => true]);
+                            echo $this->Form->control('adr_list_of_drugs.0.dose_id', ['label' => false, 'options' => $doses, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form', 'empty' => true]);
                         ?>
                     </td>                 
                     <td><?php
-                            echo $this->Form->control('adr_list_of_drugs.0.route_id', ['label' => false, 'options' => $routes, 'templates' => 'table_form', 'empty' => true]);
+                            echo $this->Form->control('adr_list_of_drugs.0.route_id', ['label' => false, 'options' => $routes, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form', 'empty' => true]);
                         ?>
                     </td>
                     <td><?php
-                            echo $this->Form->control('adr_list_of_drugs.0.frequency_id', ['label' => false, 'options' => $frequencies, 'templates' => 'table_form', 'empty' => true]);
+                    echo $this->Form->control('adr_list_of_drugs.0.frequency_id', ['label' => false, 'options' => $frequencies, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form', 'empty' => true]);
                         ?>
                     </td>
                     <td>
@@ -52,7 +52,7 @@
                             echo $this->Form->control('adr_list_of_drugs.0.start_date', [
                                 'type' => 'text',
                                 'label' => false, 
-                                'templates' => 'dates_form'
+                                'templates' => ($globalEd) ? 'view_form_table' : 'dates_form'
                                 ]);
                         ?>
                     </td>
@@ -60,17 +60,17 @@
                         <?php
                             echo $this->Form->control('adr_list_of_drugs.0.taking_drug', ['type' => 'radio', 
                    'label' => false,
-                   'templates' => 'table_form',
+                   'templates' => ($globalEd) ? 'view_form_radio' : 'table_form',
                    'options' => ['Yes' => 'Yes', 'No' => 'No']]);
                         ?>
                     </td>
                     <td>
                         <?php
-                            echo $this->Form->control('adr_list_of_drugs.0.relationship_to_sae', ['label' => false, 'type' => 'select', 'options' => ['Definitely related' => 'Definitely related', 'Probably related' => 'Probably related', 'Possibly related' => 'Possibly related', 'Not related' => 'Not related', 'Pending' => 'Pending'], 'templates' => 'table_form' ,'empty' => true]);
+                            echo $this->Form->control('adr_list_of_drugs.0.relationship_to_sae', ['label' => false, 'type' => 'select', 'options' => ['Definitely related' => 'Definitely related', 'Probably related' => 'Probably related', 'Possibly related' => 'Possibly related', 'Not related' => 'Not related', 'Pending' => 'Pending'], 'templates' => ($globalEd) ? 'view_form_table' : 'table_form' ,'empty' => true]);
                         ?>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-primary btn-sm" id="addListOfDevice">
+                        <button <?= ($globalEd) ? 'disabled=""' : '' ?> type="button" class="btn btn-primary btn-sm" id="addListOfDevice">
                           Add <i class="fa fa-plus"></i>
                         </button>
                     </td>
@@ -86,27 +86,27 @@
                   <tr>
                     <td><?= $i+1; ?></td>
                     <td><?php
-                             echo $this->Form->input('adr_list_of_drugs.'.$i.'.id')  ;
+                             echo $this->Form->input('adr_list_of_drugs.'.$i.'.id', ['templates' => 'app_form'])  ;
                              echo $this->Form->control('adr_list_of_drugs.'.$i.'.drug_name', ['label' => false,
-                                  'templates' => 'table_form']);
+                                  'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>
                     <td>
                         <?php
-                            echo $this->Form->control('adr_list_of_drugs.'.$i.'.dosage', ['label' => false, 'templates' => 'table_form']);
+                            echo $this->Form->control('adr_list_of_drugs.'.$i.'.dosage', ['label' => false, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>                    
                     <td>
                         <?php
-                            echo $this->Form->control('adr_list_of_drugs.'.$i.'.dose_id', ['label' => false, 'options' => $doses, 'templates' => 'table_form', 'empty' => true]);
+                            echo $this->Form->control('adr_list_of_drugs.'.$i.'.dose_id', ['label' => false, 'options' => $doses, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form', 'empty' => true]);
                         ?>
                     </td>                 
                     <td><?php
-                            echo $this->Form->control('adr_list_of_drugs.'.$i.'.route_id', ['label' => false, 'options' => $routes, 'templates' => 'table_form', 'empty' => true]);
+                            echo $this->Form->control('adr_list_of_drugs.'.$i.'.route_id', ['label' => false, 'options' => $routes, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form', 'empty' => true]);
                         ?>
                     </td>
                     <td><?php
-                            echo $this->Form->control('adr_list_of_drugs.'.$i.'.frequency_id', ['label' => false, 'options' => $frequencies, 'templates' => 'table_form', 'empty' => true]);
+                            echo $this->Form->control('adr_list_of_drugs.'.$i.'.frequency_id', ['label' => false, 'options' => $frequencies, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form', 'empty' => true]);
                         ?>
                     </td>
                     <td>
@@ -114,7 +114,7 @@
                             echo $this->Form->control('adr_list_of_drugs.'.$i.'.start_date', [
                                 'type' => 'text',
                                 'label' => false, 
-                                'templates' => 'dates_form'
+                                'templates' => ($globalEd) ? 'view_form_table' : 'dates_form'
                                 ]);
                         ?>
                     </td>
@@ -122,17 +122,17 @@
                         <?php
                             echo $this->Form->control('adr_list_of_drugs.'.$i.'.taking_drug', ['type' => 'radio', 
                    'label' => false,
-                   'templates' => 'table_form',
+                   'templates' => ($globalEd) ? 'view_form_radio' : 'table_form',
                    'options' => ['Yes' => 'Yes', 'No' => 'No']]);
                         ?>
                     </td>
                     <td>
                         <?php
-                            echo $this->Form->control('adr_list_of_drugs.'.$i.'.relationship_to_sae', ['label' => false, 'type' => 'select', 'options' => ['Definitely related' => 'Definitely related', 'Probably related' => 'Probably related', 'Possibly related' => 'Possibly related', 'Not related' => 'Not related', 'Pending' => 'Pending'], 'templates' => 'table_form' ,'empty' => true]);
+                            echo $this->Form->control('adr_list_of_drugs.'.$i.'.relationship_to_sae', ['label' => false, 'type' => 'select', 'options' => ['Definitely related' => 'Definitely related', 'Probably related' => 'Probably related', 'Possibly related' => 'Possibly related', 'Not related' => 'Not related', 'Pending' => 'Pending'], 'templates' => ($globalEd) ? 'view_form_table' : 'table_form' ,'empty' => true]);
                         ?>
                     </td>
                     <td>
-                        <button  type="button" class="btn btn-default btn-sm remove-device"  value="<?php if (isset($adr['adr_list_of_drugs'][$i]['id'])) { echo $adr['adr_list_of_drugs'][$i]['id']; } ?>" >
+                        <button <?= ($globalEd) ? 'disabled=""' : '' ?> type="button" class="btn btn-default btn-sm remove-device"  value="<?php if (isset($adr['adr_list_of_drugs'][$i]['id'])) { echo $adr['adr_list_of_drugs'][$i]['id']; } ?>" >
                           <i class="fa fa-minus"></i>
                         </button>
                     </td>
@@ -146,25 +146,25 @@
     <hr>
 
     <div class="row">
-      <div class="col-md-12"><?php 
+      <div class="col-xs-12"><?php 
         echo $this->Form->control('patient_other_drug', ['type' => 'radio', 
                'label' => 'Was the patient taking any other drug at the time of onset of the AE? ', 'escape' => false,
-               'templates' => 'radio_form',
+               'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
                  'options' => ['Yes' => 'Yes', 'No' => 'No']]);
       ?></div>
     </div>  
     <hr>
         
     <div class="row">
-      <div class="col-md-12"><h4>If yes, then list all concomitant medication being taken at least one month before the onset of the SAE and describe the relationship to the SAE: 
-        <button type="button" class="btn btn-success" id="addAdrConcomitant">
+      <div class="col-xs-12"><h4>If yes, then list all concomitant medication being taken at least one month before the onset of the SAE and describe the relationship to the SAE: 
+        <button <?= ($globalEd) ? 'disabled=""' : '' ?> type="button" class="btn btn-success" id="addAdrConcomitant">
                            Add <i class="fa fa-plus"></i>
                         </button>
                       </h4></div>
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <table id="listOfConcomitantTable"  class="table table-bordered">
                 <thead>
                   <tr>
@@ -184,30 +184,30 @@
                   <tr>
                     <td><?= $i+1; ?></td>
                     <td><?php
-                             echo $this->Form->input('adr_other_drugs.'.$i.'.id')  ;
+                             echo $this->Form->input('adr_other_drugs.'.$i.'.id', ['templates' => 'app_form'])  ;
                              echo $this->Form->control('adr_other_drugs.'.$i.'.drug_name', ['label' => false,
-                                  'templates' => 'table_form']);
+                                  'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
                         ?>
                     </td>                    
                     <td>
                         <?php
                             echo $this->Form->control('adr_other_drugs.'.$i.'.start_date', ['label' => false, 'type' => 'text',
-                            'templates' => 'dates_form'                            ]);
+                            'templates' => ($globalEd) ? 'view_form_table' : 'dates_form'                            ]);
                         ?>
                     </td>
                     <td>
                         <?php
                             echo $this->Form->control('adr_other_drugs.'.$i.'.stop_date', ['label' => false, 'type' => 'text',
-                            'templates' => 'dates_form'
+                            'templates' => ($globalEd) ? 'view_form_table' : 'dates_form'
                             ]);
                         ?>
                     </td>
                     <td>
                         <?php
-                            echo $this->Form->control('adr_other_drugs.'.$i.'.relationship_to_sae', ['label' => false, 'type' => 'select', 'options' => ['Definitely related' => 'Definitely related', 'Probably related' => 'Probably related', 'Possibly related' => 'Possibly related', 'Not related' => 'Not related', 'Pending' => 'Pending'], 'templates' => 'table_form' ,'empty' => true]);
+                            echo $this->Form->control('adr_other_drugs.'.$i.'.relationship_to_sae', ['label' => false, 'type' => 'select', 'options' => ['Definitely related' => 'Definitely related', 'Probably related' => 'Probably related', 'Possibly related' => 'Possibly related', 'Not related' => 'Not related', 'Pending' => 'Pending'], 'templates' => ($globalEd) ? 'view_form_table' : 'table_form' ,'empty' => true]);
                         ?>
                     </td>
-                    <td><button type="button" class="btn btn-default remove-concomitant" value="<?php if (isset($adr['adr_other_drugs'][$i]['id'])) { echo $adr['adr_other_drugs'][$i]['id']; } ?>">
+                    <td><button <?= ($globalEd) ? 'disabled=""' : '' ?> type="button" class="btn btn-default remove-concomitant" value="<?php if (isset($adr['adr_other_drugs'][$i]['id'])) { echo $adr['adr_other_drugs'][$i]['id']; } ?>">
                            <i class="fa fa-minus"></i>
                         </button>
                     </td>

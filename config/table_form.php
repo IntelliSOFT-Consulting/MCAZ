@@ -19,5 +19,6 @@ return [
     'checkboxWrapper' => '{{label}}',
     'checkbox' => '<input type="checkbox" name="{{name}}" value="{{value}}"{{attrs}}>',
     'dateWidget' => '{{day}}{{month}}{{year}}',
-    //'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',
+    //'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',    
+    'inputContainer' => '<div class="input {{required}}">{{content}}</div>',
 ];

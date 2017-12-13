@@ -156,6 +156,12 @@ class SadrsTable extends Table
         return $rules;
     }
 
+    public function findStatus(Query $query, array $options)
+    {
+        $status = $options['status'];
+        return $query->where(['status' => $status]);
+    }
+
     /*
     public function beforeSave($event,$entity,$options) {
 

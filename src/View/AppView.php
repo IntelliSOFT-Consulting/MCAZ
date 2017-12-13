@@ -39,9 +39,10 @@ class AppView extends View
       // In a View class
       // if (strpos($this->request->url, 'pdf')) {
       if ($this->request->getParam('action') === 'view') {
-          $this->loadHelper('Form', ['templates' => 'pdf_form',]);
+          $this->loadHelper('Form', ['templates' => 'view_form',]);
       } else {
           $this->loadHelper('Form', ['templates' => 'app_form',]);
+          $this->loadHelper('EdForm', ['templates' => 'app_form',]);
       }
         
       // } else {

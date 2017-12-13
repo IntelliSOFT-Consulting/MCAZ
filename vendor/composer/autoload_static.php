@@ -70,6 +70,10 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
             'Josegonzalez\\Upload\\Test\\Fixture\\' => 33,
             'Josegonzalez\\Upload\\' => 20,
         ),
+        'F' => 
+        array (
+            'Firebase\\JWT\\' => 13,
+        ),
         'D' => 
         array (
             'DebugKit\\Test\\Fixture\\' => 22,
@@ -102,6 +106,7 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
             'App\\' => 4,
             'Acl\\' => 4,
             'AclManager\\' => 11,
+            'ADmad\\JwtAuth\\' => 14,
         ),
     );
 
@@ -218,6 +223,10 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         array (
             0 => __DIR__ . '/..' . '/josegonzalez/cakephp-upload/src',
         ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+        ),
         'DebugKit\\Test\\Fixture\\' => 
         array (
             0 => __DIR__ . '/..' . '/cakephp/debug_kit/tests/Fixture',
@@ -301,6 +310,10 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         'AclManager\\' => 
         array (
             0 => __DIR__ . '/..' . '/ivanamat/cakephp3-aclmanager/src',
+        ),
+        'ADmad\\JwtAuth\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/admad/cakephp-jwt-auth/src',
         ),
     );
 

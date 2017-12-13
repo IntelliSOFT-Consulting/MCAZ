@@ -1,10 +1,11 @@
 $(function() {
-    $('#autopsy-done-date').datetimepicker({
-        minDate:"-100Y", maxDate:"+5Y",
+    $('#autopsy-done-date, #died-date').datetimepicker({
+        //minDate:"-100Y", 
+        maxDate:"0",
         format: 'd-m-Y H:i'
       });
 
-    $('#report-date, #start-date, #complete-date, #hospitalization_date-date').datepicker({
+    $('#report-date, #start-date, #complete-date, #hospitalization-date').datepicker({
         minDate:"-100Y", maxDate:"-0D", 
         dateFormat:'dd-mm-yy', 
         showButtonPanel:true, 

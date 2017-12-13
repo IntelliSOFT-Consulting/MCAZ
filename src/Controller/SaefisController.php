@@ -43,11 +43,11 @@ class SaefisController extends AppController
     public function view($id = null)
     {
         $saefi = $this->Saefis->get($id, [
-            'contain' => ['SaefiListOfVaccines', 'Attachments']
+            'contain' => ['SaefiListOfVaccines', 'Attachments', 'Reports']
         ]);
 
         if(strpos($this->request->url, 'pdf')) {
-            $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
+            $this->viewBuilder()->helpers(['Form' => ['templates' => 'view_form',]]);
             $this->viewBuilder()->options([
                 'pdfConfig' => [
                     'orientation' => 'portrait',
@@ -111,7 +111,7 @@ class SaefisController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    protected function _fileUploads(Entity $saefi) {
+    protected function _fileUploads($saefi) {
         // attachments
         if (!empty($this->request->data['attachments'][0]['file'])) {
           for ($i = 0; $i <= count($saefi->attachments)-1; $i++) { 
@@ -143,6 +143,9 @@ class SaefisController extends AppController
             $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
             $saefi = $this->_fileUploads($saefi);
             
+             // debug((string)$saefi);
+             // debug($this->request->data);
+
             if ($saefi->submitted == 1) {
               //save changes button
               if ($this->Saefis->save($saefi, ['validate' => false])) {
