@@ -97,11 +97,12 @@ $globalEd = $this->fetch('globalEd');
           </div>
 
           <div class="row">
-            <div class="col-xs-3">
+            <div class="col-xs-2">
               <h4>Adverse Event(s) <span class="sterix fa fa-asterisk" aria-hidden="true"></span>:</h4>
               <?php
                   // echo $this->Form->control('adverse_events', ['label' => 'Adverse event(s):', 'type' => 'select', 'multiple' => true, 'options' => ['Severe local reaction' => 'Severe local reaction', 'Seizures' => 'Seizures', 'Abscess' => 'Abscess']]);
-                  echo $this->Form->control('ae_severe_local_reaction', ['type' => 'checkbox', 'label' => 'Severe local reaction', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'checkbox_form']);
+                  
+                  echo $this->Form->control('ae_fever', ['type' => 'checkbox', 'label' => 'Fever≥38°C', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'checkbox_form']);
                   echo $this->Form->control('ae_seizures', ['type' => 'checkbox', 'label' => 'Seizures', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'checkbox_form']);
                   echo $this->Form->control('ae_afebrile', ['type' => 'checkbox', 'label' => 'afebrile', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'checkbox_form']);
                   echo $this->Form->control('ae_febrile', ['type' => 'checkbox', 'label' => 'febrile', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'checkbox_form']);
@@ -112,15 +113,16 @@ $globalEd = $this->fetch('globalEd');
                                   
               ?>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-3">
               <br><br>
               <?php
-                  echo $this->Form->control('ae_anaphylaxis', ['type' => 'checkbox', 'label' => 'Anaphylaxis', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'checkbox_form']);
-                  echo $this->Form->control('ae_fever', ['type' => 'checkbox', 'label' => 'Fever≥38°C', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'checkbox_form']);
-                  echo $this->Form->control('ae_3days', ['type' => 'checkbox', 'label' => '>3 days', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'checkbox_form']);
+                  
+                  echo $this->Form->control('ae_severe_local_reaction', ['type' => 'checkbox', 'label' => 'Severe local reaction', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'checkbox_form']);
+                  echo $this->Form->control('ae_3days', ['type' => 'checkbox', 'label' => '>3 days', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'checkbox_form']);                  
+                  echo $this->Form->control('ae_beyond_joint', ['type' => 'checkbox', 'label' => 'beyond nearest joint', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'checkbox_form']);
                   echo $this->Form->control('ae_toxic_shock', ['type' => 'checkbox', 'label' => 'Toxic shock syndrome', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'checkbox_form']);
                   echo $this->Form->control('ae_thrombocytopenia', ['type' => 'checkbox', 'label' => 'Thrombocytopenia', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'checkbox_form']);
-                  echo $this->Form->control('ae_beyond_joint', ['type' => 'checkbox', 'label' => 'beyond nearest joint', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'checkbox_form']);
+                  echo $this->Form->control('ae_anaphylaxis', ['type' => 'checkbox', 'label' => 'Anaphylaxis', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'checkbox_form']);
                  
                   
               ?>

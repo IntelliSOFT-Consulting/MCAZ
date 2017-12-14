@@ -32,7 +32,7 @@
                     <th> # </th>
                     <th> FILE </th>
                     <th> DESCRIPTION OF CONTENTS</th>
-                    <th>  </th>
+                    <th> Edit </th>
                   </tr>
                 </thead>
                 <tbody>                  

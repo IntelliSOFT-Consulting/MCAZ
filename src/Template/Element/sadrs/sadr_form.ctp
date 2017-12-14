@@ -85,8 +85,7 @@ function getChoice(sel){
               ?>            
             </div>
             <div class="col-xs-6">
-              <?php
-                  echo $this->Form->control('institution_code', ['label' => 'Clinic/Hospital Number']);
+              <?phpecho $this->Form->control('institution_code', ['label' => 'Clinic/Hospital Number']);
                   echo $this->Form->control('ip_no', ['label' => 'VCT/OI/TB Number']);
                   echo $this->Form->input('province_id', ['options' => $provinces, 'empty' => true]);
                   echo $this->Form->control('weight', ['label' => 'Weight (KGs)']);
@@ -258,13 +257,15 @@ function getChoice(sel){
               <?php
                 echo $this->Form->control('reporter_name', ['label' => 'Reporter name']);
                 echo $this->Form->control('reporter_email', ['label' => 'Reporter email']);
+
+                echo $this->Form->control('institution_name', ['label' => 'Institution Name']);
               ?>
             </div><!--/span-->
             <div class="col-xs-6">
               <?php
-                echo $this->Form->control('reporter_phone', ['label' => 'Reporter phone']);
                 echo $this->Form->input('designation_id', ['options' => $designations, 'empty' => true]);
-
+                echo $this->Form->control('reporter_phone', ['label' => 'Reporter phone']);
+                echo $this->Form->control('institution_address', ['label' => 'Institution Address']);
               ?>
             </div><!--/span-->
           </div><!--/row-->

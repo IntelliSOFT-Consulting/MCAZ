@@ -81,6 +81,8 @@ function getChoice(sel){
             </div>
             <div class="col-md-6">
               <?php
+                  echo $this->Form->control('institution_name', ['label' => 'Institution Name']);
+                  echo $this->Form->control('institution_address', ['label' => 'Institution Address']);
                   echo $this->Form->control('institution_code', ['label' => 'Clinic/Hospital Number']);
                   echo $this->Form->control('ip_no', ['label' => 'VCT/OI/TB Number']);
                   echo $this->Form->input('province_id', ['options' => $provinces, 'empty' => true]);
