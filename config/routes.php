@@ -47,11 +47,16 @@ Router::extensions(['pdf']);
 Router::extensions(['json', 'xml']);
 Router::prefix('api', function ($routes) {
     $routes->extensions(['json', 'xml']);
-    $routes->resources('Sadrs');
-    $routes->resources('Aefis');
-    $routes->resources('Adrs');
-    $routes->resources('Saefis');
-    $routes->resources('Users');
+    $routes->resources('Sadrs', [
+            'connectOptions' => [
+                //'id' => '[a-zA-Z0-9\-]{2,30}'
+                'id' => '[a-zA-Z0-9+/]+={0,2}$'
+            ]
+        ]);
+    $routes->resources('Aefis', ['connectOptions' => ['id' => '[a-zA-Z0-9+/]+={0,2}$']]);
+    $routes->resources('Adrs', ['connectOptions' => ['id' => '[a-zA-Z0-9+/]+={0,2}$']]);
+    $routes->resources('Saefis', ['connectOptions' => ['id' => '[a-zA-Z0-9+/]+={0,2}$']]);
+    $routes->resources('Users', ['connectOptions' => ['id' => '[a-zA-Z0-9+/]+={0,2}$']]);
     // Router::connect('/api/users/register', ['controller' => 'Users', 'action' => 'add', 'prefix' => 'api']);
     $routes->fallbacks('InflectedRoute');
 });
