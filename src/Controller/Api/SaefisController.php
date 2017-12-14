@@ -32,7 +32,7 @@ class SaefisController extends AppController
         $this->paginate = [
             'contain' => ['SaefiListOfVaccines', 'Designations', 'Attachments', 'Reports']
         ];
-        $saefis = $this->paginate($this->Saefis);
+        $saefis = $this->paginate($this->Saefis->find('all')->where(['user_id' => $this->request->session()->read('Auth.User.id')]));
 
         $this->set(compact('saefis'));
         $this->set('_serialize', ['saefis']);
@@ -47,14 +47,32 @@ class SaefisController extends AppController
      */
     public function view($id = null)
     {
-        $saefi = $this->Saefis->get($id, [
-            'contain' => ['SaefiListOfVaccines', 'Attachments', 'Reports']
-        ]);
+        $id = base64_decode($id);
+        $saefi = $this->Saefis->find('all', [
+            'contain' => ['SaefiListOfVaccines',  'Attachments', 'Reports']
+        ])->where(['reference_number' => $id])->first();
 
-        
-        $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
-        $this->set(compact('saefi', 'designations'));
-        $this->set('_serialize', ['saefi', 'designations']);
+        if (!empty($saefi)) {
+            if ($saefi->user_id == $this->Auth->user('id')) {
+                $this->set('saefi', $saefi);
+                $this->set('_serialize', ['saefi']);
+                return;
+            } else {
+                $this->response->body('Failure');
+                $this->response->statusCode(401);
+                $this->set([
+                    'message' => 'You don\'t have permissions to access report '.$id, 
+                    '_serialize' => ['message']]);
+                return;
+            } 
+        } else {
+            $this->response->body('Failed to get Report');
+            $this->response->statusCode(404);
+            $this->set([
+                'message' => 'Report '.$id.' does not exist', 
+                '_serialize' => ['message']]);
+            return;
+        }
     }
 
     /**

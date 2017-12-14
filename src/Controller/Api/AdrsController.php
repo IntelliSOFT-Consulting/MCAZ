@@ -56,9 +56,9 @@ class AdrsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users', 'Designations']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
         ];
-        $adrs = $this->paginate($this->Adrs);
+        $adrs = $this->paginate($this->Adrs->find('all')->where(['user_id' => $this->Auth->user('id')]));
 
         $this->set(compact('adrs'));
         $this->set('_serialize', ['adrs']);
@@ -73,15 +73,33 @@ class AdrsController extends AppController
      */
     public function view($id = null)
     {
-        //Reverse id
-        $id = $this->Util->reverseXOR($id);
-        //
-        $adr = $this->Adrs->get($id, [
-            'contain' => ['Users', 'AdrListOfDrugs', 'AdrOtherDrugs']
-        ]);
 
-        $this->set('adr', $adr);
-        $this->set('_serialize', ['adr']);
+        $id = base64_decode($id);
+        $adr = $this->Adrs->find('all', [
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
+        ])->where(['reference_number' => $id])->first();
+
+        if (!empty($adr)) {
+            if ($adr->user_id == $this->Auth->user('id')) {
+                $this->set('adr', $adr);
+                $this->set('_serialize', ['adr']);
+                return;
+            } else {
+                $this->response->body('Failure');
+                $this->response->statusCode(401);
+                $this->set([
+                    'message' => 'You don\'t have permissions to access report '.$id, 
+                    '_serialize' => ['message']]);
+                return;
+            } 
+        } else {
+            $this->response->body('Failed to get Report');
+            $this->response->statusCode(404);
+            $this->set([
+                'message' => 'Report '.$id.' does not exist', 
+                '_serialize' => ['message']]);
+            return;
+        }
     }
 
     /**

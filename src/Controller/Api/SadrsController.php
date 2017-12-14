@@ -57,9 +57,9 @@ class SadrsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users', 'Designations']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
         ];
-        $sadrs = $this->paginate($this->Sadrs);
+        $sadrs = $this->paginate($this->Sadrs->find('all')->where(['user_id' => $this->Auth->user('id')]));
 
         $this->set(compact('sadrs'));
         $this->set('_serialize', ['sadrs']);
@@ -73,14 +73,38 @@ class SadrsController extends AppController
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
-    {
-       
-        $sadr = $this->Sadrs->get($id, [
-            'contain' => ['Users', 'SadrListOfDrugs', 'SadrOtherDrugs']
-        ]);
+    {           
+        $id = base64_decode($id);
+        $sadr = $this->Sadrs->find('all', [
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
+        ])->where(['reference_number' => $id])->first();
 
-        $this->set('sadr', $sadr);
-        $this->set('_serialize', ['sadr']);
+        // $this->set('sadr', $sadr);
+        //         $this->set('_serialize', ['sadr']);
+        //         return;
+
+        if (!empty($sadr)) {
+            if ($sadr->user_id == $this->Auth->user('id')) {
+                $this->set('sadr', $sadr);
+                $this->set('_serialize', ['sadr']);
+                return;
+            } else {
+                $this->response->body('Failure');
+                $this->response->statusCode(401);
+                $this->set([
+                    'message' => 'You don\'t have permissions to access report '.$id, 
+                    '_serialize' => ['message']]);
+                return;
+            } 
+        } else {
+            $this->response->body('Failed to get Report');
+            $this->response->statusCode(404);
+            $this->set([
+                'message' => 'Report '.$id.' does not exist', 
+                '_serialize' => ['message']]);
+            return;
+        }
+        
     }
 
     /**

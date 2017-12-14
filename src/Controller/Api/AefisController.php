@@ -56,9 +56,9 @@ class AefisController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users', 'Designations']
+            'contain' => ['AefiListOfVaccines', 'AefiListOfDiluents', 'Attachments']
         ];
-        $aefis = $this->paginate($this->Aefis);
+        $aefis = $this->paginate($this->Aefis->find('all')->where(['user_id' => $this->Auth->user('id')]));
 
         $this->set(compact('aefis'));
         $this->set('_serialize', ['aefis']);
@@ -73,12 +73,32 @@ class AefisController extends AppController
      */
     public function view($id = null)
     {
-        $adr = $this->Aefis->get($id, [
+        $id = base64_decode($id);
+        $aefi = $this->Aefis->find('all', [
             'contain' => ['AefiListOfVaccines', 'AefiListOfDiluents', 'Attachments']
-        ]);
+        ])->where(['reference_number' => $id])->first();
 
-        $this->set('adr', $adr);
-        $this->set('_serialize', ['adr']);
+        if (!empty($aefi)) {
+            if ($aefi->user_id == $this->Auth->user('id')) {
+                $this->set('aefi', $aefi);
+                $this->set('_serialize', ['aefi']);
+                return;
+            } else {
+                $this->response->body('Failure');
+                $this->response->statusCode(401);
+                $this->set([
+                    'message' => 'You don\'t have permissions to access report '.$id, 
+                    '_serialize' => ['message']]);
+                return;
+            } 
+        } else {
+            $this->response->body('Failed to get Report');
+            $this->response->statusCode(404);
+            $this->set([
+                'message' => 'Report '.$id.' does not exist', 
+                '_serialize' => ['message']]);
+            return;
+        }
     }
 
     /**
@@ -170,39 +190,39 @@ class AefisController extends AppController
         $id = $this->Util->reverseXOR($id);
         //
 
-        $adr = $this->Aefis->get($id, [
+        $aefi = $this->Aefis->get($id, [
             'contain' => ['Users', 'AdrListOfDrugs', 'AdrOtherDrugs']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $this->request->data['id'] = $this->Util->reverseXOR($this->request->data['id']);
-            $adr = $this->Aefis->patchEntity($adr, $this->request->getData());
-            //debug((string)$adr);
+            $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
+            //debug((string)$aefi);
             //debug($this->request->data);
-            if ($this->Aefis->save($adr, ['associated' => ['AdrListOfDrugs', 'AdrOtherDrugs']])) {
+            if ($this->Aefis->save($aefi, ['associated' => ['AdrListOfDrugs', 'AdrOtherDrugs']])) {
 
-                //return $this->redirect(['action' => 'edit', $this->Util->generateXOR($adr->id)]);
+                //return $this->redirect(['action' => 'edit', $this->Util->generateXOR($aefi->id)]);
                 //generate id
-                $adr->id = $this->Util->generateXOR($adr->id);
+                $aefi->id = $this->Util->generateXOR($aefi->id);
                 //
-                $this->set('_serialize', ['adr']);
+                $this->set('_serialize', ['aefi']);
             }
         }
 
         //format dates
-        if (!empty($adr->date_of_birth)) {
-            if(empty($adr->date_of_birth)) $adr->date_of_birth = '--';
-            $a = explode('-', $adr->date_of_birth);
-            $adr->date_of_birth = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
+        if (!empty($aefi->date_of_birth)) {
+            if(empty($aefi->date_of_birth)) $aefi->date_of_birth = '--';
+            $a = explode('-', $aefi->date_of_birth);
+            $aefi->date_of_birth = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
         }
-        if (!empty($adr->date_of_onset_of_reaction)) {
-            if(empty($adr->date_of_onset_of_reaction)) $adr->date_of_onset_of_reaction = '--';
-            $a = explode('-', $adr->date_of_onset_of_reaction);
-            $adr->date_of_onset_of_reaction = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
+        if (!empty($aefi->date_of_onset_of_reaction)) {
+            if(empty($aefi->date_of_onset_of_reaction)) $aefi->date_of_onset_of_reaction = '--';
+            $a = explode('-', $aefi->date_of_onset_of_reaction);
+            $aefi->date_of_onset_of_reaction = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
         }
-        if (!empty($adr->date_of_end_of_reaction)) {
-            if(empty($adr->date_of_end_of_reaction)) $adr->date_of_end_of_reaction = '--';
-            $a = explode('-', $adr->date_of_end_of_reaction);
-            $adr->date_of_end_of_reaction = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
+        if (!empty($aefi->date_of_end_of_reaction)) {
+            if(empty($aefi->date_of_end_of_reaction)) $aefi->date_of_end_of_reaction = '--';
+            $a = explode('-', $aefi->date_of_end_of_reaction);
+            $aefi->date_of_end_of_reaction = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
         }
 
         $users = $this->Aefis->Users->find('list', ['limit' => 200]);
@@ -210,8 +230,8 @@ class AefisController extends AppController
         $doses = $this->Aefis->AdrListOfDrugs->Doses->find('list');
         $routes = $this->Aefis->AdrListOfDrugs->Routes->find('list');
         $frequencies = $this->Aefis->AdrListOfDrugs->Frequencies->find('list');
-        $this->set(compact('adr', 'users', 'designations', 'doses', 'routes', 'frequencies'));
-        $this->set('_serialize', ['adr']);
+        $this->set(compact('aefi', 'users', 'designations', 'doses', 'routes', 'frequencies'));
+        $this->set('_serialize', ['aefi']);
     }
 
     /**
@@ -228,11 +248,11 @@ class AefisController extends AppController
         //
 
         $this->request->allowMethod(['post', 'delete']);
-        $adr = $this->Aefis->get($id);
-        if ($this->Aefis->delete($adr)) {
-            $this->Flash->success(__('The adr has been deleted.'));
+        $aefi = $this->Aefis->get($id);
+        if ($this->Aefis->delete($aefi)) {
+            $this->Flash->success(__('The aefi has been deleted.'));
         } else {
-            $this->Flash->error(__('The adr could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The aefi could not be deleted. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);
