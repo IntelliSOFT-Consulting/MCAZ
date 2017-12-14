@@ -9,8 +9,17 @@ $(function() {
     //Hapa Kazi tu    
     reloadVaccines();
     function reloadVaccines(){
-      console.log('reload stuff called!!');
-      var dates2 = $('.date-pick-field').datepicker({
+      //console.log('reload stuff called!!');
+      var dates2 = $('.date-pick-expire').datepicker({
+        minDate:"-100Y", maxDate:"+5Y", 
+        dateFormat:'dd-mm-yy', 
+        showButtonPanel:true, 
+        changeMonth:true, 
+        changeYear:true, 
+        showAnim:'show'
+      });
+
+      var dates4 = $('.date-pick-field').datepicker({
         minDate:"-100Y", maxDate:"-0D", 
         dateFormat:'dd-mm-yy', 
         showButtonPanel:true, 
@@ -21,7 +30,7 @@ $(function() {
 
       var dates3 = 0;     //TODO:search for date time fields and use
       $('.datetime-field').datetimepicker({
-        format: 'd-m-Y H:i'
+        format: 'd-m-Y'
       });
 
     }
@@ -54,15 +63,16 @@ $(function() {
             <td><input class="form-control" name="aefi_list_of_vaccines[{i}][id]" id="aefi-list-of-vaccines-{i}-id" type="hidden"> \
                 <input class="form-control" name="aefi_list_of_vaccines[{i}][vaccine_name]" id="aefi-list-of-vaccines-{i}-vaccine-name" type="text">  </td>\
             <td>\
-                <input class="form-control datetime-field" name="aefi_list_of_vaccines[{i}][vaccination_date]" id="aefi-list-of-vaccines-{i}-vaccination-date" type="text"> </td>\
+                <div class="col-xs-6"> <input class="form-control date-pick-field" name="aefi_list_of_vaccines[{i}][vaccination_date]" id="aefi-list-of-vaccines-{i}-vaccination-date" type="text"></div>\
+                <div class="col-xs-6"> <input class="form-control " name="aefi_list_of_vaccines[{i}][vaccination_time]" id="aefi-list-of-vaccines-{i}-vaccination-time" placeholder="14:00" type="text" ></div> </td>\
             <td>\
                 <input class="form-control" name="aefi_list_of_vaccines[{i}][dosage]" id="aefi-list-of-vaccines-{i}-dosage" type="text">  </td>\
             <td>\
                 <input class="form-control" name="aefi_list_of_vaccines[{i}][batch_number]" maxlength="255" id="aefi-list-of-vaccines-{i}-batch-number" type="text"> </td>\
             <td>\
-              <input class="form-control date-pick-field" name="aefi_list_of_vaccines[{i}][expiry_date]" id="aefi-list-of-vaccines-{i}-expiry-date" type="text">   </td>\
+              <input class="form-control date-pick-expire" name="aefi_list_of_vaccines[{i}][expiry_date]" id="aefi-list-of-vaccines-{i}-expiry-date" type="text">   </td>\
             <td>\
-                <button type="button" class="btn btn-default btn-sm remove-vaccine"><i class="fa fa-minus"></i></button>\
+                <button type="button" class="btn btn-default btn-sm remove-vaccine"><i class="fa fa-minus"></i> Remove</button>\
             </td>\
           </tr>\
         ';
@@ -120,13 +130,14 @@ $(function() {
             <td><input class="form-control" name="aefi_list_of_diluents[{i}][id]" id="aefi-list-of-diluents-{i}-id" type="hidden"> \
                 <input class="form-control" name="aefi_list_of_diluents[{i}][diluent_name]" id="aefi-list-of-diluents--{i}-diluent-name" type="text">  </td>\
             <td>\
-                <input class="form-control datetime-field" name="aefi_list_of_diluents[{i}][diluent_date]" id="aefi-list-of-diluents-{i}-diluent-date" type="text"> </td>\
+                <div class="col-xs-6"> <input class="form-control date-pick-field" name="aefi_list_of_diluents[{i}][diluent_date]" id="aefi-list-of-diluents-{i}-diluent-date" type="text"> </div>\
+                <div class="col-xs-6"> <input class="form-control " name="aefi_list_of_diluents[{i}][diluent_time]" id="aefi-list-of-diluents-{i}-diluent-time" type="text" placeholder="14:00"> </div></td>\
             <td>\
                 <input class="form-control" name="aefi_list_of_diluents[{i}][batch_number]" id="aefi-list-of-diluents-{i}-batch-number" type="text">  </td>\
             <td>\
-              <input class="form-control date-pick-field" name="aefi_list_of_diluents[{i}][expiry_date]" id="aefi-list-of-diluents-{i}-expiry-date" type="text">   </td>\
+              <input class="form-control date-pick-expire" name="aefi_list_of_diluents[{i}][expiry_date]" id="aefi-list-of-diluents-{i}-expiry-date" type="text">   </td>\
             <td>\
-                <button type="button" class="btn btn-default btn-sm remove-diluent"><i class="fa fa-minus"></i></button>\
+                <button type="button" class="btn btn-default btn-sm remove-diluent"><i class="fa fa-minus"></i> Remove</button>\
             </td>\
           </tr>\
         ';
