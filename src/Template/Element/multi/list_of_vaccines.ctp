@@ -19,7 +19,7 @@
                 <thead>
                   <tr>
                     <th colspan="2" > Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
-                    <th> <h5>Date and Time of Vaccination <span class="sterix fa fa-asterisk" aria-hidden="true"></span><br><small id="helpBlock" class="has-warning">Format dd-mm-yyyy hh24:minute</small></h5></th>
+                    <th> <h5>Date and Time of Vaccination <span class="sterix fa fa-asterisk" aria-hidden="true"></span><br><small id="helpBlock" class="has-warning">Format dd-mm-yyyy hh24:min</small></h5></th>
                     <th> Dose (1st, 2nd...)</th>
                     <th> Batch/Lot number <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
                     <th colspan="2"> Expiry date </th>
@@ -41,6 +41,7 @@
                         ?>
                     </td>
                     <td>
+                      <div class="col-xs-6">
                         <?php
                             echo $this->Form->control('aefi_list_of_vaccines.'.$i.'.vaccination_date', ['label' => false,
                                 'type' => 'text',
@@ -49,6 +50,18 @@
               'formGroup' => ' {{label}}{{input}} ',
           ]]);
                         ?>
+                      </div>
+                      <div class="col-xs-6">
+                        <?php
+                            echo $this->Form->control('aefi_list_of_vaccines.'.$i.'.vaccination_time', ['label' => false,
+                                'type' => 'text',
+                                'templates' => ($globalEd) ? 'view_form_table' : [
+              'input' => '<input class="form-control " type="{{type}}" name="{{name}}"{{attrs}}/>',
+              'formGroup' => ' {{label}}{{input}} ',
+          ]]);
+                        ?>
+                      </div>
+                        
                     </td>
                     <td>
                         <?php
@@ -96,7 +109,7 @@
                   <tr>
                     <th colspan="2" > Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
                     <th> Date and Time of reconstitution </th>
-                    <th> Batch/Lot number </th>
+                    <th> Batch/Lot number <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
                     <th colspan="2"> Expiry date </th>
                   </tr>
                 </thead>

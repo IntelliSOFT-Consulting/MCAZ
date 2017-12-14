@@ -29,7 +29,7 @@ $(function() {
             <td>\
                 <input class="form-control" name="saefi_list_of_vaccines[{i}][vaccination_doses]" id="aefi-list-of-vaccines-{i}-vaccination-doses" type="number"> </td>\
             <td>\
-                <button type="button" class="btn btn-default btn-sm remove-vaccination"><i class="fa fa-minus"></i></button>\
+                <button type="button" class="btn btn-default btn-sm remove-vaccination"><i class="fa fa-minus"></i> Remove</button>\
             </td>\
           </tr>\
         ';

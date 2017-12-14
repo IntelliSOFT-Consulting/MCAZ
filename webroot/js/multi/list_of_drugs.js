@@ -81,7 +81,7 @@ $(function() {
               <input class="form-control" name="sadr_list_of_drugs[{i}][suspected_drug]" type="hidden">\
               <input name="sadr_list_of_drugs[{i}][suspected_drug]" type="checkbox">                    </td>\
             <td>\
-                <button type="button" class="btn btn-default btn-sm remove-row"><i class="fa fa-minus"></i></button>\
+                <button type="button" class="btn btn-default btn-sm remove-row"><i class="fa fa-minus"></i> Remove</button>\
             </td>\
           </tr>\
         ';
@@ -164,7 +164,7 @@ $(function() {
                <input class="form-control" name="sadr_other_drugs[{i}][suspected_drug]" type="hidden">\
                <input name="sadr_other_drugs[0][suspected_drug]" value="1" templates="table_form" type="checkbox">  </td>\
             <td><button type="button" class="btn btn-default remove-cd-row">\
-                   <i class="fa fa-minus"></i>\
+                   <i class="fa fa-minus"></i> Remove\
             </td>\
           </tr>\
         ';

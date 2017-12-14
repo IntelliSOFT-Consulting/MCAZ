@@ -21,6 +21,7 @@ $(function() {
 
       var dates3 = 0;     //TODO:search for date time fields and use
       $('.datetime-field').datetimepicker({
+        minDate:"-100Y", maxDate:"+5Y", 
         format: 'd-m-Y H:i'
       });
 
@@ -71,7 +72,7 @@ $(function() {
             <td>\
              <select class="form-control" name="adr_list_of_drugs[{i}][relationship_to_sae]" id="adr-list-of-drugs-{i}-relationship-to-sae"></select> \
             <td>\
-                <button type="button" class="btn btn-default btn-sm remove-device"><i class="fa fa-minus"></i></button>\
+                <button type="button" class="btn btn-default btn-sm remove-device"><i class="fa fa-minus"></i> Remove</button>\
             </td>\
           </tr>\        ';
 
@@ -135,7 +136,7 @@ $(function() {
             <td>\
              <select class="form-control" name="adr_other_drugs[{i}][relationship_to_sae]" id="adr-other-drugs-{i}-relationship-to-sae"></select> \
             <td>\
-                <button type="button" class="btn btn-default btn-sm remove-concomitant"><i class="fa fa-minus"></i></button>\
+                <button type="button" class="btn btn-default btn-sm remove-concomitant"><i class="fa fa-minus"></i> Remove</button>\
             </td>\
           </tr>\
         ';
