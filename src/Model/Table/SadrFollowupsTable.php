@@ -41,7 +41,7 @@ class SadrFollowupsTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('sadr_followups');
+        $this->setTable('sadrs');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
@@ -50,26 +50,35 @@ class SadrFollowupsTable extends Table
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
         ]);
-        $this->belongsTo('Counties', [
-            'foreignKey' => 'county_id'
-        ]);
-        $this->belongsTo('Sadrs', [
-            'foreignKey' => 'sadr_id'
-        ]);
         $this->belongsTo('Designations', [
             'foreignKey' => 'designation_id'
         ]);
+        $this->belongsTo('Provinces', [
+            'foreignKey' => 'province_id'
+        ]);
         $this->hasMany('Attachments', [
-            'foreignKey' => 'sadr_followup_id'
+            'className' => 'Attachments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Attachments.model' => 'Sadrs', 'Attachments.category' => 'attachments'),
         ]);
-        $this->hasMany('Feedbacks', [
-            'foreignKey' => 'sadr_followup_id'
+        $this->hasMany('Reviews', [
+            'className' => 'Reviews',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Reviews.model' => 'Sadrs'),
         ]);
-        $this->hasMany('Messages', [
-            'foreignKey' => 'sadr_followup_id'
+        $this->hasMany('RequestReporters', [
+            'className' => 'Notifications',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('RequestReporters.model' => 'Sadrs', 'RequestReporters.type' => 'request_reporter_info'),
         ]);
         $this->hasMany('SadrListOfDrugs', [
-            'foreignKey' => 'sadr_followup_id'
+            'foreignKey' => 'sadr_id'
+        ]);
+        $this->hasMany('SadrOtherDrugs', [
+            'foreignKey' => 'sadr_id'
         ]);
     }
 
@@ -81,10 +90,7 @@ class SadrFollowupsTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
-        $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
-
+        
         $validator
             ->scalar('description_of_reaction')
             ->allowEmpty('description_of_reaction');
@@ -130,8 +136,8 @@ class SadrFollowupsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['user_id'], 'Users'));
-        $rules->add($rules->existsIn(['county_id'], 'Counties'));
-        $rules->add($rules->existsIn(['sadr_id'], 'Sadrs'));
+        // $rules->add($rules->existsIn(['county_id'], 'Counties'));
+        // $rules->add($rules->existsIn(['sadr_id'], 'Sadrs'));
         $rules->add($rules->existsIn(['designation_id'], 'Designations'));
 
         return $rules;

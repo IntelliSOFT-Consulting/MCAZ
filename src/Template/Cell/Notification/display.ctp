@@ -14,6 +14,7 @@
                       <ul class="pagination">
                           <?= $this->Paginator->first('<< ' . __('first'), ['model' => 'Notifications']) ?>
                           <?= $this->Paginator->prev('< ' . __('previous'), ['model' => 'Notifications']) ?>
+                          <?= $this->Paginator->numbers(['model' => 'Notifications']) ?>
                           <?= $this->Paginator->next(__('next') . ' >', ['model' => 'Notifications']) ?>
                           <?= $this->Paginator->last(__('last') . ' >>', ['model' => 'Notifications']) ?>
                       </ul>

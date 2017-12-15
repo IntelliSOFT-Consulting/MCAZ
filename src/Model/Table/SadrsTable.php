@@ -83,9 +83,11 @@ class SadrsTable extends Table
         // $this->hasMany('Messages', [
         //     'foreignKey' => 'sadr_id'
         // ]);
-        // $this->hasMany('SadrFollowups', [
-        //     'foreignKey' => 'sadr_id'
-        // ]);
+        $this->hasMany('SadrFollowups', [
+            'foreignKey' => 'sadr_id',
+            'dependent' => true,
+            'conditions' => array('SadrFollowups.report_type' => 'FollowUp'),
+        ]);
         $this->hasMany('SadrListOfDrugs', [
             'foreignKey' => 'sadr_id'
         ]);

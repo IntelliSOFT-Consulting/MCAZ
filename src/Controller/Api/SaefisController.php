@@ -32,7 +32,7 @@ class SaefisController extends AppController
         $this->paginate = [
             'contain' => ['SaefiListOfVaccines', 'Designations', 'Attachments', 'Reports']
         ];
-        $saefis = $this->paginate($this->Saefis->find('all')->where(['user_id' => $this->request->session()->read('Auth.User.id')]));
+        $saefis = $this->paginate($this->Saefis->find('all')->where(['user_id' => $this->Auth->user('id')]));
 
         $this->set(compact('saefis'));
         $this->set('_serialize', ['saefis']);

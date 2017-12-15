@@ -6,27 +6,32 @@
     // $this->Html->script('multi/list_of_drugs', array('inline' => false));
     $this->Html->script('multi/attachments', ['block' => true]);
 
-    if (!empty($sadr['attachments'])) {
+    if(isset($followup_form)) {
+      $att = (isset($followup['attachments'])) ? $followup['attachments'] : '';
+    } else {
+      if (!empty($sadr['attachments'])) {
         $att = $sadr['attachments'];
-    } elseif (!empty($aefi['attachments'])) {
-        $att = $aefi['attachments'];
-    } elseif (!empty($adr['attachments'])) {
-        $att = $adr['attachments'];
-    } elseif (!empty($saefi['attachments'])) {
-        $att = $saefi['attachments'];
+      } elseif (!empty($aefi['attachments'])) {
+          $att = $aefi['attachments'];
+      } elseif (!empty($adr['attachments'])) {
+          $att = $adr['attachments'];
+      } elseif (!empty($saefi['attachments'])) {
+          $att = $saefi['attachments'];
+      }
     }
+    
 ?>
 
     <div class="row">
         <div class="col-md-12">
-            <h4>Do you have files that you would like to attach? click on the button to add them: <button <?= ($globalEd) ? 'disabled=""' : '' ?> type="button" class="btn btn-primary btn-sm" id="addAttachment">
+            <h4>Do you have files that you would like to attach? click on the button to add them: <button <?= ($editable) ? '' : 'disabled=""' ?> type="button" class="btn btn-primary btn-sm" id="<?= ($editable) ? 'addAttachment' : 'disabledBtn'  ?>">
                           Add <i class="fa fa-plus"></i>
                         </button></h4>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <table id="attachmentsTable"  class="table table-bordered table-condensed">
+            <table id="<?= ($editable) ? 'attachmentsTable' : 'disabledlist'  ?>"  class="table table-bordered table-condensed">
                 <thead>
                   <tr>
                     <th> # </th>
@@ -51,11 +56,11 @@
                     </td>
                     <td>
                         <?php
-                            echo $this->Form->control('attachments.'.$i.'.description', ['label' => false, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
+                            echo $this->Form->control('attachments.'.$i.'.description', ['label' => false, 'templates' => ($editable) ? 'table_form' : 'view_form_table' ]);
                         ?>
                     </td>                    
                     <td>
-                        <button <?= ($globalEd) ? 'disabled=""' : '' ?> type="button" class="btn btn-default btn-sm remove-attachment"  value="<?php if (isset($att[$i]['id'])) { echo $att[$i]['id']; } ?>" >
+                        <button <?= ($editable) ? '' : 'disabled=""' ?> type="button" class="btn btn-default btn-sm remove-attachment"  value="<?php if (isset($att[$i]['id'])) { echo $att[$i]['id']; } ?>" >
                           <i class="fa fa-minus"></i>
                         </button>
                     </td>

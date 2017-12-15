@@ -45,28 +45,6 @@ class SadrFollowup extends Entity
      * @var array
      */
     protected $_accessible = [
-        'user_id' => true,
-        'county_id' => true,
-        'sadr_id' => true,
-        'designation_id' => true,
-        'description_of_reaction' => true,
-        'outcome' => true,
-        'reporter_email' => true,
-        'reporter_phone' => true,
-        'submitted' => true,
-        'emails' => true,
-        'active' => true,
-        'device' => true,
-        'notified' => true,
-        'created' => true,
-        'modified' => true,
-        'user' => true,
-        'county' => true,
-        'sadr' => true,
-        'designation' => true,
-        'attachments' => true,
-        'feedbacks' => true,
-        'messages' => true,
-        'sadr_list_of_drugs' => true
+        '*' => true,
     ];
 }

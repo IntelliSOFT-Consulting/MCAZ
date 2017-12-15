@@ -1,7 +1,7 @@
 <?php
-  //echo $this->element('sadrs/sadr_form', ['globalEd' => false]);
+  //echo $this->element('sadrs/sadr_form', ['editable' => false]);
   $this->extend('/Element/sadrs/sadr_form');
-  $this->assign('globalEd', false);
+  $this->assign('editable', true);
   $this->assign('baseClass', 'sadr_form');
 ?>
 
@@ -30,3 +30,4 @@
   </div>
 </div>
 <?php $this->end(); ?>
+

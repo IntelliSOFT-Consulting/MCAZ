@@ -15,9 +15,10 @@ bin/cake acl grant Groups.3 controllers/Saefis/view
 bin/cake acl grant Groups.3 controllers/Adrs/add
 bin/cake acl grant Groups.3 controllers/Adrs/edit
 bin/cake acl grant Groups.3 controllers/Adrs/view
-bin/cake acl grant Groups.3 controllers/SAdrs/add
-bin/cake acl grant Groups.3 controllers/SAdrs/edit
-bin/cake acl grant Groups.3 controllers/SAdrs/view
+bin/cake acl grant Groups.3 controllers/Sadrs/add
+bin/cake acl grant Groups.3 controllers/Sadrs/edit
+bin/cake acl grant Groups.3 controllers/Sadrs/view
+bin/cake acl grant Groups.3 controllers/Sadrs/followup
 bin/cake acl grant Groups.3 controllers/AefiListOfVaccines/delete
 bin/cake acl grant Groups.3 controllers/SaefiListOfVaccines/delete
 bin/cake acl grant Groups.3 controllers/AefiListOfDiluents/delete

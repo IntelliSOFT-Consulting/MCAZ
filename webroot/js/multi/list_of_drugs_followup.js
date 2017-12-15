@@ -1,7 +1,7 @@
 $(function() {
     $(document).on('click', '.remove-row', remove_row);
     $(document).on('click', '.remove-cd-row', remove_cd_row);
-    $(document).on('click', '#addListOfDrug', reloadStuff);
+    $(document).on('click', '#addListOfDrugFollowup', reloadStuff);
     $(document).on('click', '#addConcomitantDrug', reloadStuff);
 
     //console.log("well and truely started");
@@ -40,22 +40,17 @@ $(function() {
     }
 
     // incremental development
-    $("#addListOfDrug").click(function() {
-        //var intId = parseInt($("#listofdrugsform tr:last").find('td:first').text())
-        if ($("#listofdrugsform tbody tr").length > 0) {
-          var intId = parseInt($("#listofdrugsform tr:last").find('td:first').text())
-        } else {
-          var intId = 0;
-        }
-        //var intId = $("#listofdrugsform tr").length - 1;
-        if ($('#listofdrugsform tr').length < 15) {            
+    $("#addListOfDrugFollowup").click(function() {
+        var intId = parseInt($("#listofdrugsformfollowup tr:last").find('td:first').text())
+        //var intId = $("#listofdrugsformfollowup tr").length - 1;
+        if ($('#listofdrugsformfollowup tr').length < 15) {            
             trVar = $.parseHTML(constructLODTr(intId));
             var $options = $("#sadr-list-of-drugs-0-dose-id > option").clone();
             $(trVar).find('[name*="dose_id"]').append($("#sadr-list-of-drugs-0-dose-id > option").clone()).val('');
             $(trVar).find('[name*="route_id"]').append($("#sadr-list-of-drugs-0-route-id > option").clone()).val('');
             $(trVar).find('[name*="frequency_id"]').append($("#sadr-list-of-drugs-0-frequency-id > option").clone()).val('');
 
-            $("#listofdrugsform tbody").append(trVar);
+            $("#listofdrugsformfollowup tbody").append(trVar);
         } else {
             alert("Sorry, can't add more than "+intId+" Drugs at a time!");
         }
