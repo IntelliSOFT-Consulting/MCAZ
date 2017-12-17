@@ -26,8 +26,8 @@ class SadrsController extends AppController
             'contain' => ['Users', 'Designations', 'Reviews']
         ];
         // $sadrs = $this->paginate($this->Sadrs,['finder' => ['status' => $id]]);
-        if($this->request->getQuery('status')) {$sadrs = $this->paginate($this->Sadrs->find('all')->where(['status' => $this->request->getQuery('status')])); }
-        else {$sadrs = $this->paginate($this->Sadrs->find('all')->where(['Submitted' => 2]));}
+        if($this->request->getQuery('status')) {$sadrs = $this->paginate($this->Sadrs->find('all')->where(['status' => $this->request->getQuery('status')]), ['order' => ['Sadrs.id' => 'desc']]); }
+        else {$sadrs = $this->paginate($this->Sadrs->find('all'), ['order' => ['Sadrs.id' => 'desc']]);}
         // debug($this->request->data);
         // debug($id);
 
@@ -45,7 +45,8 @@ class SadrsController extends AppController
     public function view($id = null)
     {
         $sadr = $this->Sadrs->get($id, [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'Reviews', 'RequestReporters']
+            'contain' => //['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'Reviews', 'RequestReporters']
+                         ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'RequestReporters', 'RequestEvaluators', 'Committees', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments']
         ]);
 
         if(strpos($this->request->url, 'pdf')) {
@@ -150,12 +151,13 @@ class SadrsController extends AppController
     }
 
     public function causality() {
-        $sadr = $this->Sadrs->get($this->request->getData('sadr_id'), []);
+        $sadr = $this->Sadrs->get($this->request->getData('sadr_pr_id'), []);
         if (isset($sadr->id) && $this->request->is('post')) {
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
             $sadr->status = 'Evaluated';
             $sadr->reviews[0]->user_id = $this->Auth->user('id');
             $sadr->reviews[0]->model = 'Sadrs';
+            $sadr->reviews[0]->category = 'causality';
             //Notification should be sent to manager and assigned_to evaluator if exists
             if ($this->Sadrs->save($sadr)) {
                 //Send email and message (if present!!!) to evaluator
@@ -167,6 +169,7 @@ class SadrsController extends AppController
                       'type' => 'manager_review_assigned_email', 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
                         'vars' =>  $sadr->toArray()
                     ];
+                    $data['vars']['name'] = $evaluator->name;
                     $data['vars']['assigned_by_name'] = $this->Auth->user('name');
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);
@@ -194,8 +197,14 @@ class SadrsController extends AppController
         }
     }
 
-    public function requestReporter() {
+    /*public function requestReporter() {
         $sadr = $this->Sadrs->get($this->request->getData('sadr_id'), []);
+        debug((string)$sadr);
+        debug($this->request->data);
+    }*/
+
+    public function requestReporter() {
+        $sadr = $this->Sadrs->get($this->request->getData('sadr_pk_id'), []);
         if (isset($sadr->id) && $this->request->is('post')) {
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
             $sadr->status = 'RequestReporter';
@@ -204,13 +213,12 @@ class SadrsController extends AppController
             $sadr->request_reporters[0]->type = 'request_reporter_info';
             $sadr->request_reporters[0]->model = 'Sadrs';
             $sadr->request_reporters[0]->foreign_key = $sadr->id;
-            //$sadr->request_reporters[0]->system_message = 'Request for information for SADR'.$sadr->reference_number;
             //Notification should be sent to reporter and assigned_to evaluator if exists
             if ($this->Sadrs->save($sadr)) {
                 //Send email and message (if present!!!) to reporter
                 $this->loadModel('Queue.QueuedJobs');    
                 if(!empty($sadr->user_id)) {
-                    $reporter = $this->Sadrs->Users->get($sadr->assigned_to);
+                    $reporter = $this->Sadrs->Users->get($sadr->user_id);
                     $data = [
                       'email_address' => $reporter->email, 'user_id' => $reporter->id,
                       'type' => 'manager_request_reporter_email', 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
@@ -221,7 +229,10 @@ class SadrsController extends AppController
                     $this->QueuedJobs->createJob('GenericEmail', $data);
                     $data['type'] = 'manager_request_reporter_message';
                     $this->QueuedJobs->createJob('GenericNotification', $data);                
-                } 
+                } else {
+                    $this->Flash->error(__('Unable to locate reporter.')); 
+                    return $this->redirect($this->referer());
+                }
 
                 //notify assigned evaluator      
                 if(!empty($sadr->assigned_to)) {
@@ -240,6 +251,131 @@ class SadrsController extends AppController
                 //end 
                 
                $this->Flash->success('Request successfully sent to reporter for SADR '.$sadr->reference_number);
+
+                return $this->redirect($this->referer());
+            } else {
+                $this->Flash->error(__('Unable to send request to reporter. Please, try again.')); 
+                return $this->redirect($this->referer());
+            }
+        } else {
+               $this->Flash->error(__('Unknown SADR Report. Please correct.')); 
+               return $this->redirect($this->referer());
+        }
+    }
+
+    // public function requestEvaluator() {
+    //     $sadr = $this->Sadrs->get($this->request->getData('sadr_id'), []);
+    //     debug((string)$sadr);
+    //     debug($this->request->data);
+    // }
+
+    public function requestEvaluator() {
+        $sadr = $this->Sadrs->get($this->request->getData('sadr_pk_id'), []);
+        if (isset($sadr->id) && $this->request->is('post')) {
+            $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
+        //     debug((string)$sadr);
+        // debug($this->request->data);
+        // return;
+            $sadr->status = 'RequestEvaluator';
+            $sadr->request_evaluators[0]->user_id = $sadr->assigned_to;
+            $sadr->request_evaluators[0]->sender_id = $this->Auth->user('id');  //TODO: Can have view to see all messages where I requested for info
+            $sadr->request_evaluators[0]->type = 'request_evaluator_info';
+            $sadr->request_evaluators[0]->model = 'Sadrs';
+            $sadr->request_evaluators[0]->foreign_key = $sadr->id;
+
+            //Notification should be sent to assigned_to evaluator if exists
+            if ($this->Sadrs->save($sadr)) {
+                //Send email and message (if present!!!) to evaluator
+                $this->loadModel('Queue.QueuedJobs');    
+                if(!empty($sadr->assigned_to)) {
+                    $evaluator = $this->Sadrs->Users->get($sadr->assigned_to);
+                    $data = [
+                      'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                      'type' => 'manager_request_evaluator_email', 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
+                        'vars' =>  $sadr->toArray()
+                    ];
+                    $data['vars']['name'] = $evaluator->name;
+                    $data['vars']['user_message'] = $sadr->request_evaluators[0]->user_message;
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_request_evaluator_message';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);                
+                } else {
+                    $this->Flash->error(__('Unable to locate evaluator.')); 
+                    return $this->redirect($this->referer());
+                }
+
+                //end 
+                
+               $this->Flash->success('Request successfully sent to evaluator for SADR '.$sadr->reference_number);
+
+                return $this->redirect($this->referer());
+            } else {
+                $this->Flash->error(__('Unable to send request to evaluator. Please, try again.')); 
+                return $this->redirect($this->referer());
+            }
+        } else {
+               $this->Flash->error(__('Unknown SADR Report. Please correct.')); 
+               return $this->redirect($this->referer());
+        }
+    }
+
+
+    public function committeeReview() {
+        // $sadr = $this->Sadrs->get($this->request->getData('sadr_pr_id'), []);
+        // debug((string)$sadr);
+        // debug($this->request->data);
+        // $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
+        // debug((string)$sadr);
+        $sadr = $this->Sadrs->get($this->request->getData('sadr_pr_id'), []);
+        if (isset($sadr->id) && $this->request->is('post')) {
+            $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
+            $sadr->status = (!empty($this->request->data['status'])) ? $this->request->data['status'] : 'Committee';
+            $sadr->committees[0]->user_id = $this->Auth->user('id');
+            $sadr->committees[0]->model = 'Sadrs';
+            $sadr->committees[0]->category = 'committee';
+            //Notification should be sent to manager and assigned_to evaluator if exists
+            if ($this->Sadrs->save($sadr)) {
+                //Send email and message (if present!!!) to evaluator
+                $this->loadModel('Queue.QueuedJobs');    
+                if(!empty($sadr->assigned_to)) {
+                    $evaluator = $this->Sadrs->Users->get($sadr->assigned_to);
+                    $data = [
+                      'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                      'type' => 'manager_committee_assigned_email', 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
+                        'vars' =>  $sadr->toArray()
+                    ];
+                    $data['vars']['name'] = $evaluator->name;
+                    $data['vars']['assigned_by_name'] = $this->Auth->user('name');
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_committee_assigned_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);                
+                } 
+
+                //notify manager                
+                $data = ['user_id' => $this->Auth->user('id'), 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
+                    'vars' =>  $sadr->toArray()];
+                $data['type'] = 'manager_committee_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+
+                //reporter visible notification and email sent when approved
+                if(!empty($sadr->committees[0]->literature_review) && $sadr->status == 'Approved') {
+                    $reporter = $this->Sadrs->Users->get($sadr->user_id);
+                    $data = [
+                      'email_address' => $sadr->reporter_email, 'user_id' => $sadr->user_id,
+                      'type' => 'reporter_committee_comments_email', 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
+                        'vars' =>  $sadr->toArray()
+                    ];
+                    $data['vars']['literature_review'] = $sadr->committees[0]->literature_review;
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'reporter_committee_comments_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);     
+                }
+                //end 
+                
+               $this->Flash->success('Committee Review successfully done for SADR '.$sadr->reference_number);
 
                 return $this->redirect($this->referer());
             } else {

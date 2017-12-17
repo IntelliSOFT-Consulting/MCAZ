@@ -68,7 +68,7 @@ class AefisController extends AppController
     public function view($id = null)
     {
         $aefi = $this->Aefis->get($id, [
-            'contain' => ['AefiListOfVaccines', 'AefiListOfDiluents', 'Attachments']
+            'contain' => ['AefiListOfVaccines', 'AefiListOfDiluents', 'Attachments', 'AefiFollowups', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments']
         ]);
 
         if(strpos($this->request->url, 'pdf')) {
@@ -143,7 +143,7 @@ class AefisController extends AppController
     {
 
         $aefi = $this->Aefis->get($id, [
-            'contain' => ['AefiListOfVaccines', 'AefiListOfDiluents', 'Attachments']
+            'contain' => ['AefiListOfVaccines', 'Attachments']
         ]);
         if ($aefi->submitted == 2) {
             $this->Flash->success(__('Report '.$aefi->reference_number.' already submitted.'));
@@ -168,9 +168,33 @@ class AefisController extends AppController
               }
             } elseif ($aefi->submitted == 2) {
               //submit to mcaz button
+              $aefi->submitted_date = date("Y-m-d H:i:s");
+              $aefi->status = 'Submitted';
               if ($this->Aefis->save($aefi, ['validate' => false])) {
                 $this->Flash->success(__('Report '.$aefi->reference_number.' has been successfully submitted to MCAZ for review.'));
                 return $this->redirect(['action' => 'view', $aefi->id]);
+;
+                //send email and notification
+                $this->loadModel('Queue.QueuedJobs');    
+                $data = [
+                    'email_address' => $aefi->reporter_email, 'user_id' => $this->Auth->user('id'),
+                    'type' => 'applicant_submit_aefi_email', 'model' => 'Aefis', 'foreign_key' => $aefi->id,
+                    'vars' =>  $aefi->toArray()
+                ];
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = 'applicant_submit_aefi_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                //notify managers
+                $managers = $this->Aefis->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
+                foreach ($managers as $manager) {
+                    $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Aefis', 'foreign_key' => $aefi->id,
+                      'vars' =>  $aefi->toArray()];
+                    $data['type'] = 'manager_submit_aefi_email';
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_submit_aefi_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
               } else {
                 $this->Flash->error(__('Report '.$aefi->reference_number.' could not be saved. Kindly correct the errors and try again.'));
               }
@@ -202,6 +226,107 @@ class AefisController extends AppController
         $this->set(compact('aefi', 'designations', 'provinces'));
         $this->set('_serialize', ['aefi']);
 
+    }
+
+    public function followup($id = null, $fid = null)
+    {
+        //Controller for creating follow up report.. should be able to support both new and edit
+        $this->loadModel('AefiFollowups');
+        $aefi = $this->Aefis->get($id, [
+            'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiFollowups', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments']
+        ]);
+        if($fid) {
+            $followup = $this->AefiFollowups->get($fid, [
+              'contain' => ['AefiListOfVaccines', 'Attachments']
+            ]);
+        } else {
+            //get latest unsubmitted follow up and load that
+            $check = $this->AefiFollowups->find('all')->where(['aefi_id' => $aefi->id, 'submitted IS NOT' => 2])->first();
+            $followup = (!empty($check)) ? $check : $this->AefiFollowups->newEntity() ;
+        }
+        if ($aefi->submitted <> 2) {
+            $this->Flash->success(__('Report '.$aefi->reference_number.' not submitted. Followups only possible for submitted reports'));
+            return $this->redirect(['action' => 'view', $aefi->id]);
+        }
+        if(!empty($aefi) && $aefi->user_id == $this->Auth->user('id')) {
+            if ($this->request->is(['patch', 'post', 'put'])) {          
+
+
+                $followup = $this->AefiFollowups->patchEntity($followup, $this->request->getData());
+                $followup->report_type = 'FollowUp';
+                $followup->aefi_id = $aefi->id;
+                //Attachments
+                if (!empty($followup->attachments)) {
+                    for ($i = 0; $i <= count($followup->attachments)-1; $i++) { 
+                      $followup->attachments[$i]->model = 'Aefis';
+                      $followup->attachments[$i]->category = 'attachments';
+                    }
+                }
+                // debug((string)$aefi);
+                // debug($this->request->data);
+                if ($followup->submitted == 1) {
+                    //save changes button
+                    if ($this->AefiFollowups->save($followup, ['validate' => false])) {
+                        $this->Flash->success(__('The changes to the follow up report for '.$aefi->reference_number.' have been saved.'));
+                        // return $this->redirect(['action' => 'edit', $aefi->id]);
+                    } else {
+                        $this->Flash->error(__('Follow up could not be saved. Kindly correct the errors and try again.'));
+                    }
+                } elseif ($followup->submitted == 2) {
+                    //submit to mcaz button
+                    $followup->submitted_date = date("Y-m-d H:i:s");
+                    
+                    //TODO: validate linked data here since validate will be false
+                    if ($this->AefiFollowups->save($followup, ['validate' => false])) {
+                        $this->Flash->success(__('Follow up for report '.$aefi->reference_number.' has been successfully submitted to MCAZ for review.'));
+
+                        //update Initial SADR report status
+                        $aefi->status = 'FollowUp';
+                        $this->Aefis->save($aefi, ['validate' => false]);
+
+                        //send email and notification
+                        $this->loadModel('Queue.QueuedJobs');    
+                        $data = [
+                              'email_address' => $aefi->reporter_email, 'user_id' => $this->Auth->user('id'),
+                              'type' => 'applicant_submit_aefi_followup_email', 'model' => 'Aefis', 'foreign_key' => $aefi->id,
+                              'vars' =>  $aefi->toArray()
+                        ];
+                        //notify applicant
+                        $this->QueuedJobs->createJob('GenericEmail', $data);
+                        $data['type'] = 'applicant_submit_aefi_followup_notification';
+                        $data['vars']['created'] = $followup->created;
+                        $this->QueuedJobs->createJob('GenericNotification', $data);
+                        //notify managers
+                        $managers = $this->Aefis->Users->find('all')->where(['group_id IN' => [2, 4]]);
+                        foreach ($managers as $manager) {
+                            $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Aefis', 'foreign_key' => $aefi->id,
+                                     'vars' =>  $aefi->toArray()];
+                            $data['type'] = 'manager_submit_aefi_followup_email';
+                            $this->QueuedJobs->createJob('GenericEmail', $data);
+                            $data['type'] = 'manager_submit_aefi_followup_notification';
+                            $this->QueuedJobs->createJob('GenericNotification', $data);
+                        }
+                        //
+                        return $this->redirect(['action' => 'view', $aefi->id]);
+                    } else {
+                        $this->Flash->error(__('Foloow up for report '.$aefi->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                    }
+                } elseif ($followup->submitted == -1) {
+                    //cancel button              
+                    $this->Flash->success(__('Cancel form successful. You may submit follow up for report '.$aefi->reference_number.' later'));
+                    return $this->redirect(['controller' => 'Users','action' => 'home']);
+                } 
+          }
+        } else {
+          $this->Flash->error(__('Report does not exist.'));
+          return $this->redirect(['action' => 'index']);
+        }
+
+
+        $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
+        $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
+        $this->set(compact('aefi', 'designations', 'provinces', 'followup'));
+        $this->set('_serialize', ['aefi']);
     }
 
     /**

@@ -155,6 +155,7 @@
                 <?php foreach ($aefis as $aefi): ?>
                 <tr>                    
                    <td><?php 
+                   // pr($aefi);
                     if($aefi->submitted == 2) {
                       echo $this->Html->link($aefi->reference_number.'&nbsp; &nbsp; <i class="text-success fa fa-check-square-o" aria-hidden="true"></i>
 ', ['controller' => 'Aefis', 'action' => 'view', $aefi->id], ['escape' => false]);

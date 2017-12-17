@@ -9,6 +9,7 @@ bin/cake acl grant Groups.4 controllers
 bin/cake acl grant Groups.3 controllers/Aefis/add
 bin/cake acl grant Groups.3 controllers/Aefis/edit
 bin/cake acl grant Groups.3 controllers/Aefis/view
+bin/cake acl grant Groups.3 controllers/Aefis/followup
 bin/cake acl grant Groups.3 controllers/Saefis/add
 bin/cake acl grant Groups.3 controllers/Saefis/edit
 bin/cake acl grant Groups.3 controllers/Saefis/view

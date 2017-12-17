@@ -118,17 +118,17 @@ should be submitted as follow up report</td></tr>
     <div class="col-xs-12">
       <hr>
           <?php echo $this->Form->create($sadr, ['url' => ['action' => 'causality']]);
-                $i = count($sadr['reviews']);
+                // $i = count($sadr['reviews']);
            ?>
             <div class="row">
               <div class="col-xs-12"><h5 class="text-center">Causality Assessment</h5></div>
               <div class="col-xs-12">
 	          	<?php
-                    echo $this->Form->control('sadr_id', ['type' => 'hidden', 'value' => $sadr->id, 'escape' => false, 'templates' => 'table_form']);
-	                  echo $this->Form->control('reviews.'.$i.'.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
-                    echo $this->Form->control('reviews.'.$i.'.literature_review', ['escape' => false, 'templates' => 'app_form']);
-                    echo $this->Form->control('reviews.'.$i.'.comments', ['escape' => false, 'templates' => 'app_form']);
-                    echo $this->Form->control('reviews.'.$i.'.references_text', ['escape' => false, 'templates' => 'app_form']);
+                    echo $this->Form->control('sadr_pr_id', ['type' => 'hidden', 'value' => $sadr->id, 'escape' => false, 'templates' => 'table_form']);
+	                  echo $this->Form->control('reviews.100.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
+                    echo $this->Form->control('reviews.100.literature_review', ['escape' => false, 'templates' => 'app_form']);
+                    echo $this->Form->control('reviews.100.comments', ['escape' => false, 'templates' => 'app_form']);
+                    echo $this->Form->control('reviews.100.references_text', ['escape' => false, 'templates' => 'app_form']);
 	            ?>
          	    </div>          
             </div>

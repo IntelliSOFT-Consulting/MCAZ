@@ -30,7 +30,8 @@ $(function() {
 
       var dates3 = 0;     //TODO:search for date time fields and use
       $('.datetime-field').datetimepicker({
-        format: 'd-m-Y'
+        //format: 'd-m-Y'
+        format: 'd-m-Y H:i'
       });
 
     }
@@ -57,20 +58,28 @@ $(function() {
 
     function constructLOVTr(intId) {
         var intId2 = intId + 1;
+        // <div class="col-xs-6"> <input class="form-control date-pick-field" name="aefi_list_of_vaccines[{i}][vaccination_date]" id="aefi-list-of-vaccines-{i}-vaccination-date" type="text"></div>\
+                // <div class="col-xs-6"> <input class="form-control " name="aefi_list_of_vaccines[{i}][vaccination_time]" id="aefi-list-of-vaccines-{i}-vaccination-time" placeholder="14:00" type="text" ></div> </td>\
+            
         var trWrapper = '\
           <tr>\
             <td>{i2}</td>\
             <td><input class="form-control" name="aefi_list_of_vaccines[{i}][id]" id="aefi-list-of-vaccines-{i}-id" type="hidden"> \
                 <input class="form-control" name="aefi_list_of_vaccines[{i}][vaccine_name]" id="aefi-list-of-vaccines-{i}-vaccine-name" type="text">  </td>\
             <td>\
-                <div class="col-xs-6"> <input class="form-control date-pick-field" name="aefi_list_of_vaccines[{i}][vaccination_date]" id="aefi-list-of-vaccines-{i}-vaccination-date" type="text"></div>\
-                <div class="col-xs-6"> <input class="form-control " name="aefi_list_of_vaccines[{i}][vaccination_time]" id="aefi-list-of-vaccines-{i}-vaccination-time" placeholder="14:00" type="text" ></div> </td>\
+                <input class="form-control datetime-field" name="aefi_list_of_vaccines[{i}][vaccination_date]" id="aefi-list-of-vaccines-{i}-vaccination-date" type="text"></div>\
             <td>\
                 <input class="form-control" name="aefi_list_of_vaccines[{i}][dosage]" id="aefi-list-of-vaccines-{i}-dosage" type="text">  </td>\
             <td>\
                 <input class="form-control" name="aefi_list_of_vaccines[{i}][batch_number]" maxlength="255" id="aefi-list-of-vaccines-{i}-batch-number" type="text"> </td>\
             <td>\
               <input class="form-control date-pick-expire" name="aefi_list_of_vaccines[{i}][expiry_date]" id="aefi-list-of-vaccines-{i}-expiry-date" type="text">   </td>\
+            <td>\
+              <input class="form-control" name="aefi_list_of_vaccines[{i}][diluent_batch_number]" id="aefi-list-of-vaccines-{i}-diluent-batch-number" type="text">   </td>\
+            <td>\
+              <input class="form-control date-pick-field" name="aefi_list_of_vaccines[{i}][diluent_expiry_date]" id="aefi-list-of-vaccines-{i}-diluent-expiry-date" type="text">   </td>\
+            <td>\
+              <input class="form-control datetime-field" name="aefi_list_of_vaccines[{i}][diluent_date]" id="aefi-list-of-vaccines-{i}-diluent-date" type="text">   </td>\
             <td>\
                 <button type="button" class="btn btn-default btn-sm remove-vaccine"><i class="fa fa-minus"></i> Remove</button>\
             </td>\

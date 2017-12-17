@@ -6,24 +6,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
-/**
- * Aefis Model
- *
- * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
- * @property \App\Model\Table\DesignationsTable|\Cake\ORM\Association\BelongsTo $Designations
- * @property |\Cake\ORM\Association\HasMany $AefiListOfVaccines
- *
- * @method \App\Model\Entity\Aefi get($primaryKey, $options = [])
- * @method \App\Model\Entity\Aefi newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Aefi[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Aefi|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Aefi patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Aefi[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Aefi findOrCreate($search, callable $callback = null, $options = [])
- *
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
- */
-class AefisTable extends Table
+class AefiFollowupsTable extends Table
 {
 
     /**
@@ -64,11 +47,6 @@ class AefisTable extends Table
             'dependent' => true,
             'conditions' => array('Attachments.model' => 'Aefis', 'Attachments.category' => 'attachments'),
         ]);
-        $this->hasMany('AefiFollowups', [
-            'foreignKey' => 'aefi_id',
-            'dependent' => true,
-            'conditions' => array('AefiFollowups.report_type' => 'FollowUp'),
-        ]);
     }
 
     /**
@@ -79,6 +57,7 @@ class AefisTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
+        
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
@@ -98,16 +77,6 @@ class AefisTable extends Table
         $validator
             ->scalar('gender')
             ->notEmpty('gender');
-
-        // $validator
-        //     ->scalar('date_of_birth')
-        //     ->notEmpty('date_of_birth')
-        //     ->add('date_of_birth', [
-        //             'length' => [
-        //                 'rule' => ['minLength', 3],
-        //                 'message' => 'Please select at least year of birth.',
-        //             ]
-        //         ]);
 
         $validator
             ->scalar('reporter_name')

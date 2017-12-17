@@ -225,7 +225,7 @@ class SadrsController extends AppController
                 $data['type'] = 'applicant_submit_sadr_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
                 //notify managers
-                $managers = $this->Sadrs->Users->find('all')->where(['Users.group_id' => 2]);
+                $managers = $this->Sadrs->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
                 foreach ($managers as $manager) {
                   $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
                     'vars' =>  $sadr->toArray()];
