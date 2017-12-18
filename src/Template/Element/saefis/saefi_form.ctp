@@ -5,7 +5,7 @@
  */
 // pr($aefi);
 $this->Html->script('saefi_edit', ['block' => true]);
-$globalEd = $this->fetch('globalEd');
+$editable = $this->fetch('editable');
 ?>
 <?php 
     echo $this->fetch('actions');
@@ -37,10 +37,10 @@ $globalEd = $this->fetch('globalEd');
             <div class="col-xs-10">
               <?php
                   echo $this->Form->control('basic_details', ['label' => 'Basic Details',  
-                    'templates' => ($globalEd) ? 'view_form_text' : [ 
+                    'templates' => ($editable) ? [ 
                       'label' => '<label {{attrs}}>{{text}}</label>',
                       'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
-                      'textarea' => '<textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea>',]]);
+                      'textarea' => '<textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea>',] : 'view_form_text']);
               ?>
             </div>
             <div class="col-xs-1"></div>
@@ -67,17 +67,17 @@ $globalEd = $this->fetch('globalEd');
               <?php                  
                   echo $this->Form->control('place_vaccination', ['type' => 'radio', 
                      'label' => 'Treatment provided', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Govt. health facility' => 'Govt. health facility', 'Private health facility' => 'Private health facility', 'Other' => 'Other']]);
                   echo $this->Form->control('place_vaccination_other', ['label' => 'Other, (specify)']);
                   echo $this->Form->control('site_type', ['type' => 'radio', 
                      'label' => 'Type of site', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Fixed' => 'Fixed', 'Mobile' => 'Mobile', 'Outreach' => 'Outreach' , 'Other' => 'Other']]);
                   echo $this->Form->control('site_type_other', ['label' => 'Other, (specify)']);
                   echo $this->Form->control('vaccination_in', ['type' => 'radio', 
                      'label' => 'Vaccination in', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Campaign' => 'Campaign', 'Routine' => 'Routine', 'Other' => 'Other']]);
                   echo $this->Form->control('vaccination_in_other', ['label' => 'Other, (specify)']);
               ?>
@@ -85,17 +85,17 @@ $globalEd = $this->fetch('globalEd');
             <div class="col-xs-3">
                 <?php
                   echo $this->Form->control('report_date', ['label' => 'Date AEFI reported', 'type' => 'text',                   
-                    'templates' => ($globalEd) ? 'view_form_text' : [    
+                    'templates' => ($editable) ? [    
                       'label' => '<label {{attrs}}>{{text}}</label>',
-                      'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>']]);
+                      'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>'] : 'view_form_text']);
                   echo $this->Form->control('start_date', ['label' => 'Date investigation started', 'type' => 'text',                   
-                    'templates' => ($globalEd) ? 'view_form_text' : [    
+                    'templates' => ($editable) ? [    
                       'label' => '<label {{attrs}}>{{text}}</label>',
-                      'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>']]);
+                      'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>'] : 'view_form_text']);
                   echo $this->Form->control('complete_date', ['label' => 'Date investigation completed', 'type' => 'text',                   
-                    'templates' => ($globalEd) ? 'view_form_text' : [    
+                    'templates' => ($editable) ? [    
                       'label' => '<label {{attrs}}>{{text}}</label>',
-                      'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>']]);
+                      'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>'] : 'view_form_text']);
               ?>
             </div>
           </div>
@@ -107,7 +107,7 @@ $globalEd = $this->fetch('globalEd');
             <div class="col-xs-6"> 
                 <?= $this->Form->control('gender', ['type' => 'radio', 
                      'label' => 'Gender <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Male' => 'Male', 'Female' => 'Female']]);
                 ?>
             </div> 
@@ -119,18 +119,18 @@ $globalEd = $this->fetch('globalEd');
                   echo $this->Form->control('hospitalization_date', ['label' => 'Date of hospitalization', 'type' => 'text']);    
                   echo $this->Form->control('status_on_date', ['type' => 'radio', 
                      'label' => 'Status on the date of investigation', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Died' => 'Died', 'Disabled' => 'Disabled', 'Recovering' => 'Recovering', 'Recovered completely' => 'Recovered completely', 'Unknown' => 'Unknown']]);
                   echo $this->Form->control('died_date', ['label' => 'If died, date and time of death ', 'type' => 'text']);
                   echo $this->Form->control('autopsy_done', ['type' => 'radio', 
                      'label' => 'Autopsy done?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
                   echo $this->Form->control('autopsy_done_date', ['label' => 'If yes, date:', 'type' => 'text']); 
 
                   echo $this->Form->control('autopsy_planned', ['type' => 'radio', 
                      'label' => 'Autopsy Planned?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
                   echo $this->Form->control('autopsy_planned_date', ['label' => 'If yes, date:', 'type' => 'text']); 
               ?>
@@ -168,13 +168,13 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('past_history', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'table_form',
+                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
                               </td>
                               <td>
                                   <?= $this->Form->control('past_history_remarks', ['label' => false,  
-                    'templates' => ($globalEd) ? 'view_form_text' : [ 
-                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]); ?>
+                    'templates' => ($editable) ? [ 
+                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']); ?>
                               </td>
                           </tr>
                           <tr>
@@ -182,13 +182,13 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('adverse_event', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'table_form',
+                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
                               </td>
                               <td>
                                   <?= $this->Form->control('adverse_event_remarks', ['label' => false,  
-                    'templates' => ($globalEd) ? 'view_form_text' : [ 
-                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]); ?>
+                    'templates' => ($editable) ? [ 
+                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']); ?>
                               </td>
                           </tr>
                           <tr>
@@ -196,13 +196,13 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('allergy_history', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'table_form',
+                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
                               </td>
                               <td>
                                   <?= $this->Form->control('allergy_history_remarks', ['label' => false,  
-                    'templates' => ($globalEd) ? 'view_form_text' : [ 
-                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]); ?>
+                    'templates' => ($editable) ? [ 
+                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']); ?>
                               </td>
                           </tr>
                           <tr>
@@ -210,13 +210,13 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('existing_illness', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'table_form',
+                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
                               </td>
                               <td>
                                   <?= $this->Form->control('existing_illness_remarks', ['label' => false,  
-                    'templates' => ($globalEd) ? 'view_form_text' : [ 
-                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]); ?>
+                    'templates' => ($editable) ? [ 
+                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']); ?>
                               </td>
                           </tr>
                           <tr>
@@ -224,13 +224,13 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('hospitalization_history', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'table_form',
+                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
                               </td>
                               <td>
                                   <?= $this->Form->control('hospitalization_history_remarks', ['label' => false,  
-                    'templates' => ($globalEd) ? 'view_form_text' : [ 
-                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]); ?>
+                    'templates' => ($editable) ? [ 
+                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']); ?>
                               </td>
                           </tr>
                           <tr>
@@ -239,13 +239,13 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('medication_vaccination', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'table_form',
+                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
                               </td>
                               <td>
                                   <?= $this->Form->control('medication_vaccination_remarks', ['label' => false,  
-                    'templates' => ($globalEd) ? 'view_form_text' : [ 
-                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]); ?>
+                    'templates' => ($editable) ? [ 
+                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']); ?>
                               </td>
                           </tr>
                           <tr>
@@ -254,13 +254,13 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('faith_healers', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'table_form',
+                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
                               </td>
                               <td>
                                   <?= $this->Form->control('faith_healers_remarks', ['label' => false,  
-                    'templates' => ($globalEd) ? 'view_form_text' : [ 
-                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]); ?>
+                    'templates' => ($editable) ? [ 
+                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']); ?>
                               </td>
                           </tr>
                           <tr>
@@ -268,13 +268,13 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('family_history', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'table_form',
+                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
                               </td>
                               <td>
                                   <?= $this->Form->control('family_history_remarks', ['label' => false,  
-                    'templates' => ($globalEd) ? 'view_form_text' : [ 
-                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]); ?>
+                    'templates' => ($editable) ? [ 
+                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']); ?>
                               </td>
                           </tr>
                       </tbody>
@@ -289,7 +289,7 @@ $globalEd = $this->fetch('globalEd');
                   <div class="col-xs-8">
                       <?= $this->Form->control('pregnant', ['type' => 'radio', 
                          'label' => 'Currently pregnant?', 
-                         'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                         'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                          'options' => ['Yes' => 'Yes', 'No' => 'No']]); ?>
                   </div>
                   <div class="col-xs-4">
@@ -303,7 +303,7 @@ $globalEd = $this->fetch('globalEd');
                   <div class="col-xs-12">
                       <?= $this->Form->control('breastfeeding', ['type' => 'radio', 
                          'label' => 'Currently breastfeeding?', 
-                         'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                         'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                          'options' => ['Yes' => 'Yes', 'No' => 'No',]]); ?>
                   </div>
               </div>
@@ -317,7 +317,7 @@ $globalEd = $this->fetch('globalEd');
                   <div class="col-xs-8">
                       <?= $this->Form->control('infant', ['type' => 'radio', 
                          'label' => 'The birth was:', 
-                         'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                         'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                          'options' => ['full-term' => 'full-term', 'pre-term' => 'pre-term', 'post-term' => 'post-term']]); ?>
                   </div>
                   <div class="col-xs-4">
@@ -335,7 +335,7 @@ $globalEd = $this->fetch('globalEd');
             <div class="col-xs-8">
                       <?= $this->Form->control('delivery_procedure', ['type' => 'radio', 
                          'label' => 'Delivery procedure was:', 
-                         'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                         'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                          'options' => ['Normal' => 'Normal', 'Caesarean' => 'Caesarean', 'Assisted (forceps, vacuum etc.)' => 'Assisted (forceps, vacuum etc.)', 'with complication' => 'with complication']]); ?>
                   
             </div>
@@ -351,8 +351,8 @@ $globalEd = $this->fetch('globalEd');
               <div class="col-xs-6">
                 
                   <?php
-                    echo $this->Form->control('source_examination', ['type' => 'checkbox', 'label' => 'Examination by the investigator', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'checkbox_form']);
-                    echo $this->Form->control('source_verbal', ['type' => 'checkbox', 'label' => 'Verbal autopsy', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'checkbox_form']);
+                    echo $this->Form->control('source_examination', ['type' => 'checkbox', 'label' => 'Examination by the investigator', 'templates' => ($editable) ? 'view_form_checkbox' : 'checkbox_form']);
+                    echo $this->Form->control('source_verbal', ['type' => 'checkbox', 'label' => 'Verbal autopsy', 'templates' => ($editable) ? 'view_form_checkbox' : 'checkbox_form']);
                     echo $this->Form->control('verbal_source', [
                          'label' => 'If verbal autopsy, please mention the source',]);
                     
@@ -360,8 +360,8 @@ $globalEd = $this->fetch('globalEd');
               </div>
               <div class="col-xs-6">
                   <?php
-                    echo $this->Form->control('source_documents', ['type' => 'checkbox', 'label' => 'Documents', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'checkbox_form']);
-                    echo $this->Form->control('source_other', ['type' => 'checkbox', 'label' => 'Other', 'templates' => ($globalEd) ? 'view_form_checkbox' : 'checkbox_form']);
+                    echo $this->Form->control('source_documents', ['type' => 'checkbox', 'label' => 'Documents', 'templates' => ($editable) ? 'view_form_checkbox' : 'checkbox_form']);
+                    echo $this->Form->control('source_other', ['type' => 'checkbox', 'label' => 'Other', 'templates' => ($editable) ? 'view_form_checkbox' : 'checkbox_form']);
                     echo $this->Form->control('source_other_specify', [
                          'label' => 'If other, specify',]);
                   ?>
@@ -419,7 +419,7 @@ $globalEd = $this->fetch('globalEd');
             </h4>
           <!-- <p>Attachments!!</p> -->
           <div class="row">
-            <div class="col-xs-12"><?php echo $this->element('multi/attachments', ['globalEd' => $globalEd]);?></div>
+            <div class="col-xs-12"><?php echo $this->element('multi/attachments', ['editable' => $editable]);?></div>
           </div>
 
           <div class="row">
@@ -429,19 +429,19 @@ $globalEd = $this->fetch('globalEd');
 
         <h4>Section D              Details of vaccines provided at the site linked to AEFI on the corresponding day 
         </h4>
-        <div class="col-xs-12"><?php echo $this->element('multi/saefi_list_of_vaccines', ['globalEd' => $globalEd]);?></div>
+        <div class="col-xs-12"><?php echo $this->element('multi/saefi_list_of_vaccines', ['editable' => $editable]);?></div>
 
         <div class="row">
             <div class="col-xs-12">
                 <p>a) When was the patient vaccinated:</p>
                 <?= $this->Form->control('when_vaccinated', ['type' => 'radio', 
                          'label' => false, 
-                         'templates' => ($globalEd) ? 'view_form_radio' : 'table_form',
+                         'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
                          'options' => ['Within the first vaccinations of the session' => 'Within the first vaccinations of the session', 'Within the last vaccinations of the session' => 'Within the last vaccinations of the session']]); ?>
                 <p>In case of multidose vials, was the vaccine given</p>
                 <?= $this->Form->control('when_vaccinated', ['type' => 'radio', 
                          'label' => false, 
-                         'templates' => ($globalEd) ? 'view_form_radio' : 'table_form',
+                         'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
                          'options' => ['within the first few doses of the vial administered' => 'within the first few doses of the vial administered', 'within the last doses of the vial administered' => 'within the last doses of the vial administered', 'Unknown' => 'Unknown']]); ?>
                 <?php echo $this->Form->control('when_vaccinated_specify', ['label' => 'Specify:']);?>
             </div>
@@ -456,13 +456,13 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('prescribing_error', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'table_form',
+                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]); ?>
                               </td>
                               <td>
                                   <?= $this->Form->control('prescribing_error_specify', ['label' => false,  
-                    'templates' => ($globalEd) ? 'view_form_text' : [ 
-                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]); ?>
+                    'templates' => ($editable) ? [ 
+                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']); ?>
                               </td>
                           </tr>
                           <tr>
@@ -470,13 +470,13 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('vaccine_unsterile', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'table_form',
+                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
                               </td>
                               <td>
                                   <?= $this->Form->control('vaccine_unsterile_specify', ['label' => false,  
-                    'templates' => ($globalEd) ? 'view_form_text' : [ 
-                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]); ?>
+                    'templates' => ($editable) ? [ 
+                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']); ?>
                               </td>
                           </tr>
                           <tr>
@@ -484,13 +484,13 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('vaccine_condition', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'table_form',
+                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
                               </td>
                               <td>
                                   <?= $this->Form->control('vaccine_condition_specify', ['label' => false,  
-                    'templates' => ($globalEd) ? 'view_form_text' : [ 
-                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]); ?>
+                    'templates' => ($editable) ? [ 
+                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']); ?>
                               </td>
                           </tr>
                           <tr>
@@ -498,13 +498,13 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('vaccine_reconstitution', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'table_form',
+                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
                               </td>
                               <td>
                                   <?= $this->Form->control('vaccine_reconstitution_specify', ['label' => false,  
-                    'templates' => ($globalEd) ? 'view_form_text' : [ 
-                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]); ?>
+                    'templates' => ($editable) ? [ 
+                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']); ?>
                               </td>
                           </tr>
                           <tr>
@@ -512,13 +512,13 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('vaccine_handling', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'table_form',
+                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
                               </td>
                               <td>
                                   <?= $this->Form->control('vaccine_handling_specify', ['label' => false,  
-                    'templates' => ($globalEd) ? 'view_form_text' : [ 
-                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]); ?>
+                    'templates' => ($editable) ? [ 
+                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']); ?>
                               </td>
                           </tr>
                           <tr>
@@ -526,13 +526,13 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('vaccine_administered', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'table_form',
+                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
                               </td>
                               <td>
                                   <?= $this->Form->control('vaccine_administered_specify', ['label' => false,  
-                    'templates' => ($globalEd) ? 'view_form_text' : [ 
-                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]); ?>
+                    'templates' => ($editable) ? [ 
+                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']); ?>
                               </td>
                           </tr>
                           <tr>
@@ -540,7 +540,7 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('vaccinated_vial', [
                      'label' => false, 
-                     'templates' => ($globalEd) ? 'view_form_text' : 'table_form']); ?>
+                     'templates' => ($editable) ? 'table_form': 'view_form_text' ]); ?>
                               </td>
                               <td>
                                   
@@ -551,7 +551,7 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('vaccinated_session', [
                      'label' => false, 
-                     'templates' => ($globalEd) ? 'view_form_text' : 'table_form']); ?>
+                     'templates' => ($editable) ? 'table_form': 'view_form_text' ]); ?>
                               </td>
                               <td>
                                   
@@ -562,12 +562,12 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('vaccinated_locations', [
                      'label' => false, 
-                     'templates' => ($globalEd) ? 'view_form_text' : 'table_form']); ?>
+                     'templates' => ($editable) ? 'table_form': 'view_form_text' ]); ?>
                               </td>
                               <td>
                                   <?= $this->Form->control('vaccinated_locations_specify', ['label' => false,  
-                    'templates' => ($globalEd) ? 'view_form_text' : [ 
-                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]); ?>
+                    'templates' => ($editable) ? [ 
+                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']); ?>
                               </td>
                           </tr>
                           <tr>
@@ -575,7 +575,7 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('vaccinated_cluster', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'table_form',
+                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
                               </td>
                               <td>
@@ -587,7 +587,7 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('vaccinated_cluster_number', [
                      'label' => false,
-                     'templates' => ($globalEd) ? 'view_form_text' : 'table_form']); ?>
+                     'templates' => ($editable) ? 'table_form': 'view_form_text' ]); ?>
                               </td>
                               <td>
                                  
@@ -598,7 +598,7 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('vaccinated_cluster_vial', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'table_form',
+                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
                               </td>
                               <td>
@@ -610,7 +610,7 @@ $globalEd = $this->fetch('globalEd');
                               <td>
                                   <?= $this->Form->control('vaccinated_cluster_vial_number', [
                      'label' => false, 
-                     'templates' => ($globalEd) ? 'view_form_text' : 'table_form']); ?>
+                     'templates' => ($editable) ? 'table_form': 'view_form_text' ]); ?>
                               </td>
                               <td>
                                  
@@ -630,18 +630,18 @@ $globalEd = $this->fetch('globalEd');
             <div class="col-xs-6">
                       <?= $this->Form->control('syringes_used', ['type' => 'radio', 
                          'label' => 'Are AD syringes used for immunization?', 
-                         'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                         'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                          'options' => ['Yes' => 'Yes', 'No' => 'No']]); ?>
                   
             </div>
             <div class="col-xs-6">
                 <?= $this->Form->control('syringes_used_specify', ['type' => 'radio', 
                     'label' => 'If no, specify the type of syringes used:', 
-                         'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                         'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                          'options' => ['Glass' => 'Glass', 'Disposable' => 'Disposable', 'Recycled disposable' => 'Recycled disposable', 'Other' => 'Other']]); ?>
                 <?= $this->Form->control('syringes_used_other', ['label' => 'If other, specify',  
-                    'templates' => ($globalEd) ? 'view_form_text' : [ 
-                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]); ?>
+                    'templates' => ($editable) ? [ 
+                      'textarea' => '<div class="col-sm-11"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']); ?>
             </div>
           </div>
 
@@ -658,23 +658,23 @@ $globalEd = $this->fetch('globalEd');
               <?php
                   echo $this->Form->control('reconstitution_multiple', ['type' => 'radio', 
                      'label' => 'Same reconstitution syringe used for multiple vials of same vaccine?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
                   echo $this->Form->control('reconstitution_different', ['type' => 'radio', 
                      'label' => 'Same reconstitution syringe used for reconstituting different vaccines?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
                   echo $this->Form->control('reconstitution_vial', ['type' => 'radio', 
                      'label' => 'Separate reconstitution syringe for each vaccine vial?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
                   echo $this->Form->control('reconstitution_syringe', ['type' => 'radio', 
                      'label' => 'Separate reconstitution syringe for each vaccination?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
                   echo $this->Form->control('reconstitution_vaccines', ['type' => 'radio', 
                      'label' => 'Are the vaccines and diluents used the same as those recommended by the manufacturer?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
                   echo $this->Form->control('reconstitution_observations', ['label' => 'Specific key findings/additional observations and comments:']);
               ?>
@@ -689,32 +689,32 @@ $globalEd = $this->fetch('globalEd');
               <?php
                   echo $this->Form->control('cold_temperature', ['type' => 'radio', 
                      'label' => 'Is the temperature of the vaccine storage refrigerator monitored?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
                   echo $this->Form->control('cold_temperature_deviation', ['type' => 'radio', 
                      'label' => 'If “yes”, was there any deviation outside of 2-8° C after the vaccine was placed inside?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
                   echo $this->Form->control('cold_temperature_specify', ['label' => 'If “yes”, provide details of monitoring separately.']);
                   echo $this->Form->control('procedure_followed', ['type' => 'radio', 
                      'label' => 'Was the correct procedure for storing vaccines, diluents and syringes followed?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
                   echo $this->Form->control('other_items', ['type' => 'radio', 
                      'label' => 'Was any other item (other than EPI vaccines and diluents) in the refrigerator or freezer?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
                   echo $this->Form->control('partial_vaccines', ['type' => 'radio', 
                      'label' => 'Were any partially used reconstituted vaccines in the refrigerator?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
                   echo $this->Form->control('unusable_vaccines', ['type' => 'radio', 
                      'label' => 'Were any unusable vaccines (expired, no label, VVM at stages 3 or 4, frozen) in the refrigerator?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
                   echo $this->Form->control('unusable_diluents', ['type' => 'radio', 
                      'label' => 'Were any unusable diluents (expired, manufacturer not matched, cracked, dirty ampoule) in the store?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
 
                   echo $this->Form->control('additional_observations', ['label' => 'Specific key findings/additional observations and comments:']);
@@ -723,15 +723,15 @@ $globalEd = $this->fetch('globalEd');
               <?php 
                   echo $this->Form->control('cold_transportation', ['type' => 'radio', 
                      'label' => 'Was cold chain properly maintained during transportation?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
                   echo $this->Form->control('vaccine_carrier', ['type' => 'radio', 
                      'label' => 'Was the vaccine carrier sent to the site on the same day as vaccination?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
                   echo $this->Form->control('coolant_packs', ['type' => 'radio', 
                      'label' => 'Were conditioned coolant-packs used?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
 
                   echo $this->Form->control('transport_findings', ['label' => 'Specific key findings/additional observations and comments:']);
@@ -745,7 +745,7 @@ $globalEd = $this->fetch('globalEd');
                 <?php
                   echo $this->Form->control('similar_events', ['type' => 'radio', 
                      'label' => 'Were any similar events reported within a time period similar to when the adverse event occurred and in the same locality?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
 
                   echo $this->Form->control('similar_events_describe', ['label' => 'If yes, describe:']);

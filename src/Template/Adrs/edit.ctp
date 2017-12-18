@@ -1,6 +1,6 @@
 <?php
   $this->extend('/Element/adrs/adr_form');
-  $this->assign('globalEd', false);
+  $this->assign('editable', true);
   $this->assign('baseClass', 'adr_form');
 ?>
 

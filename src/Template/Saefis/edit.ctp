@@ -1,6 +1,6 @@
 <?php
   $this->extend('/Element/saefis/saefi_form');
-  $this->assign('globalEd', false);
+  $this->assign('editable', true);
   $this->assign('baseClass', 'saefi_form');
 ?>
 

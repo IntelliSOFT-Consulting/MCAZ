@@ -8,7 +8,7 @@
 ?>
     <div class="row">
       <div class="col-xs-12">
-        <h4>Add Lab test: <button <?= ($globalEd) ? 'disabled=""' : '' ?> type="button" class="btn btn-primary btn-sm" id="addLabTest">
+        <h4>Add Lab test: <button <?= ($editable) ? '' : 'disabled=""' ?> type="button" class="btn btn-primary btn-sm" id="<?= ($editable) ? 'addLabTest' : 'disabledAdd'  ?>">
                           Add <i class="fa fa-plus"></i>
                         </button></h4>
       </div>
@@ -43,25 +43,25 @@
                     <td><?php
                              echo $this->Form->input('adr_lab_tests.'.$i.'.id', ['templates' => 'app_form'])  ;
                              echo $this->Form->control('adr_lab_tests.'.$i.'.lab_test', ['label' => false,
-                                  'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
+                                  'templates' => ($editable) ? 'table_form': 'view_form_table' ]);
                         ?>
                     </td>
                     <td>
                         <?php
-                            echo $this->Form->control('adr_lab_tests.'.$i.'.abnormal_result', ['label' => false, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
+                            echo $this->Form->control('adr_lab_tests.'.$i.'.abnormal_result', ['label' => false, 'templates' => ($editable) ? 'table_form': 'view_form_table' ]);
                         ?>
                     </td>                    
                     <td>
                         <?php
-                            echo $this->Form->control('adr_lab_tests.'.$i.'.site_normal_range', ['label' => false, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
+                            echo $this->Form->control('adr_lab_tests.'.$i.'.site_normal_range', ['label' => false, 'templates' => ($editable) ? 'table_form': 'view_form_table' ]);
                         ?>
                     </td>                 
                     <td><?php
-                            echo $this->Form->control('adr_lab_tests.'.$i.'.collection_date', ['label' => false, 'type' => 'text','templates' => ($globalEd) ? 'view_form_table' : 'dates_form']);
+                            echo $this->Form->control('adr_lab_tests.'.$i.'.collection_date', ['label' => false, 'type' => 'text','templates' => ($editable) ? 'dates_form' : 'view_form_table']);
                         ?>
                     </td>
                     <td><?php
-                            echo $this->Form->control('adr_lab_tests.'.$i.'.lab_value', ['label' => false, 'templates' => ($globalEd) ? 'view_form_table' : 'table_form']);
+                            echo $this->Form->control('adr_lab_tests.'.$i.'.lab_value', ['label' => false, 'templates' => ($editable) ? 'table_form': 'view_form_table' ]);
                         ?>
                     </td>
                     <td>
@@ -69,12 +69,12 @@
                             echo $this->Form->control('adr_lab_tests.'.$i.'.lab_value_date', [
                                 'type' => 'text',
                                 'label' => false, 
-                                'templates' => ($globalEd) ? 'view_form_table' : 'dates_form'
+                                'templates' => ($editable) ? 'dates_form' : 'view_form_table'
                                 ]);
                         ?>
                     </td>
                     <td>
-                        <button <?= ($globalEd) ? 'disabled=""' : '' ?> type="button" class="btn btn-default btn-sm remove-lab-test"  value="<?php if (isset($adr['adr_lab_tests'][$i]['id'])) { echo $adr['adr_lab_tests'][$i]['id']; } ?>" >
+                        <button <?= ($editable) ? '' : 'disabled=""' ?> type="button" class="btn btn-default btn-sm remove-lab-test"  value="<?php if (isset($adr['adr_lab_tests'][$i]['id'])) { echo $adr['adr_lab_tests'][$i]['id']; } ?>" >
                           <i class="fa fa-minus"></i>
                         </button>
                     </td>
