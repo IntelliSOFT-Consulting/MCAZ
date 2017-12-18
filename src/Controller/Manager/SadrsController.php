@@ -26,8 +26,8 @@ class SadrsController extends AppController
             'contain' => ['Users', 'Designations', 'Reviews']
         ];
         // $sadrs = $this->paginate($this->Sadrs,['finder' => ['status' => $id]]);
-        if($this->request->getQuery('status')) {$sadrs = $this->paginate($this->Sadrs->find('all')->where(['status' => $this->request->getQuery('status')]), ['order' => ['Sadrs.id' => 'desc']]); }
-        else {$sadrs = $this->paginate($this->Sadrs->find('all'), ['order' => ['Sadrs.id' => 'desc']]);}
+        if($this->request->getQuery('status')) {$sadrs = $this->paginate($this->Sadrs->find('all')->where(['status' => $this->request->getQuery('status'), 'ifnull(report_type,-1) !=' => 'FollowUp']), ['order' => ['Sadrs.id' => 'desc']]); }
+        else {$sadrs = $this->paginate($this->Sadrs->find('all')->where(['ifnull(report_type,-1) !=' => 'FollowUp']), ['order' => ['Sadrs.id' => 'desc']]);}
         // debug($this->request->data);
         // debug($id);
 
@@ -75,7 +75,7 @@ class SadrsController extends AppController
     }
 
     public function assignEvaluator() {
-        $sadr = $this->Sadrs->get($this->request->getData('sadr_id'), []);
+        $sadr = $this->Sadrs->get($this->request->getData('sadr_pr_id'), []);
         if (isset($sadr->id) && $this->request->is('post')) {
             $sadr->assigned_by = $this->Auth->user('id');
             $sadr->assigned_to = $this->request->getData('evaluator');
@@ -270,7 +270,7 @@ class SadrsController extends AppController
     // }
 
     public function requestEvaluator() {
-        $sadr = $this->Sadrs->get($this->request->getData('sadr_pk_id'), []);
+        $sadr = $this->Sadrs->get($this->request->getData('sadr_pr_id'), []);
         if (isset($sadr->id) && $this->request->is('post')) {
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
         //     debug((string)$sadr);

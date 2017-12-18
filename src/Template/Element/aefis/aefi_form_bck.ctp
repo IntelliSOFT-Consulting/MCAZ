@@ -46,7 +46,7 @@ $editable = $this->fetch('editable');
 
                   echo $this->Form->control('patient_telephone', ['label' => 'Patient\'s phone number', 'escape' => false]);
                   echo $this->Form->control('gender', ['type' => 'radio', 
-                     'label' => 'Gender <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
+                     'label' => '<b>Gender <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Male' => 'Male', 'Female' => 'Female']]);
 
@@ -58,16 +58,13 @@ $editable = $this->fetch('editable');
                     'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
                   ));
               
-                  echo $this->Form->control('age_at_onset_years', ['label' => 'OR Age at onset:', 'escape' => false, 'placeholder' => 'years...']);
-                  echo $this->Form->control('age_at_onset_months', ['label' => '', 'escape' => false, 'placeholder' => 'months...']);
-                  echo $this->Form->control('age_at_onset_days', ['label' => '', 'escape' => false, 'placeholder' => 'days...']);
-                  // echo $this->Form->control('age_at_onset', ['type' => 'radio', 
-                  //    'label' => 'OR Age at onset:', 'escape' => false,
-                  //    'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
-                  //    'options' => ['Years' => 'Years', 'Months'=>'Months','Days' => 'Days']]);
+                  // echo $this->Form->control('age_at_onset', ['label' => 'OR Age at onset:', 'escape' => false]);
+                  echo $this->Form->control('age_at_onset', ['type' => 'radio', 
+                     'label' => '<b>OR Age at onset:', 'escape' => false,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
+                     'options' => ['Years' => 'Years', 'Months'=>'Months','Days' => 'Days']]);
 
-                  // echo $this->Form->control('age_at_onset_specify', ['label' => '', 'escape' => false]);
-
+                  echo $this->Form->control('age_at_onset_specify', ['label' => '', 'escape' => false]);
                   
               ?>            
             </div>
@@ -158,7 +155,7 @@ $editable = $this->fetch('editable');
                       'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>'] : 'view_form_text']);
             // ($editable) ? 'radio_form' : 'view_form_radio'
                    echo $this->Form->control('patient_hospitalization', ['type' => 'radio', 
-                     'label' => 'Was patient hospitalized?  ', 'escape' => false,
+                     'label' => '<b>Was patient hospitalized?  ', 'escape' => false,
                      'templates' => ($editable) ? [    
                       'label' => '<label {{attrs}}>{{text}}</label>',
                       'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>'] : 'view_form_radio',
@@ -184,7 +181,7 @@ $editable = $this->fetch('editable');
                       'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="7" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',] : 'view_form_text']);
 
                   echo $this->Form->control('treatment_provided', ['type' => 'radio', 
-                     'label' => 'Treatment provided', 'escape' => false,
+                     'label' => '<b>Treatment provided', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
               ?>
@@ -194,12 +191,12 @@ $editable = $this->fetch('editable');
             <div class="col-xs-12">
               <?php
                   echo $this->Form->control('serious', ['type' => 'radio', 
-                     'label' => 'Serious? <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
+                     'label' => '<b>Serious? <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
 
                   echo $this->Form->control('serious_yes', ['type' => 'radio', 
-                     'label' => 'If yes,', 'escape' => false,
+                     'label' => '<b>If yes,', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Death' => 'Death', 'Life threatening' => 'Life threatening', 'Disability' => 'Disability', 'Hospitalization' => 'Hospitalization', 'Congenital anomaly' => 'Congenital anomaly']]);
               ?>
@@ -216,7 +213,7 @@ $editable = $this->fetch('editable');
                      'options' => ['Recovering' => 'Recovering', 'Recovered' => 'Recovered', 'Recovered with sequelae' => 'Recovered with sequelae', 'Not Recovered' => 'Not Recovered', 'Died'=>'Died','Unknown' => 'Unknown']]);
                   echo $this->Form->control('died_date', ['label' => 'If died, date of death', 'type' => 'text']);
                   echo $this->Form->control('autopsy', ['type' => 'radio',  
-                     'label' => 'Autopsy done', 'escape' => false,
+                     'label' => '<b>Autopsy done', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
               ?>
@@ -247,7 +244,7 @@ $editable = $this->fetch('editable');
             <div class="col-xs-6">
               <?php
                   echo $this->Form->control('investigation_needed', ['type' => 'radio',  
-                     'label' => 'Investigation needed', 'escape' => false,
+                     'label' => '<b>Investigation needed', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
                   echo $this->Form->control('investigation_date', ['label' => 'If yes, date investigation planned', 'type' => 'text']);
@@ -287,9 +284,7 @@ $editable = $this->fetch('editable');
           ?>
     </div>
   </div>
-
+  <?php 
+    echo $this->fetch('other_tabs');
+  ?>
 </div>
-
-<?php 
-  echo $this->fetch('other_tabs');
-?>

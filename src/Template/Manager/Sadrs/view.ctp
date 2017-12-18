@@ -9,7 +9,7 @@
 
 <?php
   $this->extend('/Element/sadrs/sadr_form');
-  $this->assign('globalEd', true);
+  //$this->assign('globalEd', true);
   $this->assign('baseClass', 'sadr_form');
   $this->Html->script('jquery/assign_evaluator', ['block' => true]);
 ?>

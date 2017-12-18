@@ -40,7 +40,12 @@ class SideBarCell extends Cell
                                                         ])
                                                  ->where(['submitted' => 2])
                                                  ->group('status');
-        $this->set(['prefix'=> $prefix, 'sadr_stats' => $sadr_stats]);
+        $aefi_stats = $this->Aefis->find('all')->select([ 'status',
+                                                          'count' => $this->Aefis->find('all')->func()->count('*')
+                                                        ])
+                                                 ->where(['submitted' => 2])
+                                                 ->group('status');
+        $this->set(['prefix'=> $prefix, 'sadr_stats' => $sadr_stats, 'aefi_stats' => $aefi_stats]);
     }
 
 }
