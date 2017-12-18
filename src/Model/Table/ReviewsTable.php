@@ -39,10 +39,14 @@ class ReviewsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'file' => [],
+        ]);
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
         ]);
+
     }
 
     /**

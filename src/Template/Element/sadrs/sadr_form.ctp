@@ -5,7 +5,7 @@
  */
 // debug($sadr);
 // debug($this->request->data);
-  $globalEd = $this->fetch('globalEd');
+  $editable = $this->fetch('editable');
 ?>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -32,7 +32,6 @@ function getChoice(sel){
 <div class="<?= $this->fetch('baseClass');?>">
   <div class="row">
     <div class="col-xs-12">
-
       <h3 class="text-center"><span class="text-center"><?= $this->Html->image("mcaz_3.png", ['fullBase' => true, 'style' => 'width: 70%;']); ?></span> <br>
       Spontenous Adverse Drug Reaction (ADR) Report Form</h3> 
       <div class="row">
@@ -64,8 +63,8 @@ function getChoice(sel){
                   echo $this->Form->control('date_of_birth', array(
                     'type' => 'date', 'escape' => false,
                     'label' => 'Date of Birth',
-                    'templates' => ($globalEd) ? [] : ['dateWidget' => '<div class="col-xs-6">{{day}}-{{month}}-{{year}}</div>',
-                                   'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',],
+                    'templates' => ($editable) ? ['dateWidget' => '<div class="col-xs-6">{{day}}-{{month}}-{{year}}</div>',
+                                   'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',] : [],
                     'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
                   ));
                   echo $this->Form->control('age',['label' => 'OR AGE','type'=>'number']);
@@ -94,7 +93,7 @@ function getChoice(sel){
                   //TODO: Change styles for view select, radio and checkbox to become silent
                   echo $this->Form->control('gender', ['type' => 'radio', 
                      'label' => '<b>Gender <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
                      'options' => ['Male' => 'Male', 'Female' => 'Female', 'Unknown' => 'Unknown']]);
               ?>
             </div>
@@ -111,8 +110,8 @@ function getChoice(sel){
                   echo $this->Form->control('date_of_onset_of_reaction', array(
                     'type' => 'date', 'escape' => false,
                     'label' => 'Date of onset of Reaction <span class="sterix fa fa-asterisk" aria-hidden="true"></span>',
-                    'templates' => ($globalEd) ? [] : ['dateWidget' => '<div class="col-xs-6">{{day}}-{{month}}-{{year}}</div>',
-                                   'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',],
+                    'templates' => ($editable) ? ['dateWidget' => '<div class="col-xs-6">{{day}}-{{month}}-{{year}}</div>',
+                                   'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',] : [],
                     'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
                   ));
               ?>
@@ -123,8 +122,8 @@ function getChoice(sel){
                   echo $this->Form->control('date_of_end_of_reaction', array(
                     'type' => 'date',
                     'label' => 'Date of end of Reaction <br> <i>(if it ended)</i>', 'escape' => false,
-                    'templates' => ($globalEd) ? [] : ['dateWidget' => '<div class="col-xs-6">{{day}}-{{month}}-{{year}}</div>',
-                                   'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',],
+                    'templates' => ($editable) ? ['dateWidget' => '<div class="col-xs-6">{{day}}-{{month}}-{{year}}</div>',
+                                   'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',] : [],
                     'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
                   ));
               ?>
@@ -164,7 +163,7 @@ function getChoice(sel){
               echo  $this->Form->control('severity', ['type' => 'radio', 
                     'onchange'=>'getChoice(this)','label' => '<b>Serious <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
                     //'label' => '<b>Serious: <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
-                    'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                    'templates' => ($editable) ?  'radio_form' : 'view_form_radio',
                     'options' => ['Yes' => 'Yes', 'No' => 'No']]);
               ?>            
             </div>
@@ -196,7 +195,8 @@ function getChoice(sel){
           </div>
           
           <div class="row">
-            <div class="col-xs-12"><?php echo $this->element('multi/sadr_list_of_drugs', ['globalEd' => $globalEd]);?></div>
+            <div class="col-xs-12"><?php echo $this->element('multi/sadr_list_of_drugs', ['editable' => $editable]);?></div>
+                    <?= $this->fetch('list_of_drugs'); ?>
           </div>        
 
           <div class="row">
@@ -244,7 +244,7 @@ function getChoice(sel){
 
           <!-- <p>Attachments!!</p> -->
           <div class="row">
-            <div class="col-xs-12"><?php echo $this->element('multi/attachments', ['globalEd' => $globalEd]);?></div>
+            <div class="col-xs-12"><?php echo $this->element('multi/attachments', ['editable' => $editable]);?></div>
           </div>
 
           
@@ -279,8 +279,16 @@ function getChoice(sel){
 
       <?= $this->Form->end() ?>
     </div>
+    <div class="col-xs-12">
+      <?php 
+            // $this->start('submit_buttons'); 
+              echo $this->fetch('followups');
+            // $this->end(); 
+          ?>
+    </div>
   </div>
 
 <?php 
     echo $this->fetch('other_tabs');
 ?>
+</div>

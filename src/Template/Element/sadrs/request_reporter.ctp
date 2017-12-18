@@ -15,15 +15,15 @@
     <div class="col-xs-12">
       <hr>
           <?php echo $this->Form->create($sadr, ['url' => ['action' => 'request-reporter']]);
-                $i = count($sadr['request_reporters']);
+                // $i = count($sadr['request_reporters']);
            ?>
             <div class="row">
               <div class="col-xs-12"><h5 class="text-center">Send request to reporter for more information</h5></div>
               <div class="col-xs-12">
 	          	<?php
-                    echo $this->Form->control('sadr_id', ['type' => 'hidden', 'value' => $sadr->id, 'escape' => false, 'templates' => 'table_form']);
-	                  echo $this->Form->control('request_reporters.'.$i.'.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
-                    echo $this->Form->control('request_reporters.'.$i.'.user_message', ['escape' => false, 'templates' => 'app_form']);
+                    echo $this->Form->control('sadr_pk_id', ['type' => 'hidden', 'value' => $sadr->id, 'escape' => false, 'templates' => 'table_form']);
+	                  echo $this->Form->control('request_reporters.100.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
+                    echo $this->Form->control('request_reporters.100.user_message', ['escape' => false, 'templates' => 'app_form']);
 	            ?>
          	    </div>          
             </div>

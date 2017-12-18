@@ -174,6 +174,8 @@ class UsersController extends AppController
         $this->set('_serialize', ['user']);
     }
 
+    //TODO: Add forgot password functionality
+    
     public function activate($id = null) {
         if($id) {
             $user = $this->Users->findByActivationKey($id)->first();
@@ -226,11 +228,11 @@ class UsersController extends AppController
         $sadrs = $this->paginate($this->Sadrs->findByUserId($this->Auth->user('id')), ['scope' => 'sadr', 'order' => ['Sadrs.id' => 'desc'],
                                     'fields' => ['Sadrs.id', 'Sadrs.created', 'Sadrs.reference_number', 'Sadrs.submitted']]);
         $adrs = $this->paginate($this->Adrs->findByUserId($this->Auth->user('id')), ['scope' => 'adr', 'order' => ['Adrs.id' => 'desc'],
-                                    'fields' => ['Adrs.id', 'Adrs.created', 'Adrs.reference_number']]);
+                                    'fields' => ['Adrs.id', 'Adrs.created', 'Adrs.reference_number', 'Adrs.submitted']]);
         $aefis = $this->paginate($this->Aefis->findByUserId($this->Auth->user('id')), ['scope' => 'aefi', 'order' => ['Aefis.id' => 'desc'],
-                                    'fields' => ['Aefis.id', 'Aefis.created', 'Aefis.reference_number']]);
+                                    'fields' => ['Aefis.id', 'Aefis.created', 'Aefis.reference_number', 'Aefis.submitted']]);
         $saefis = $this->paginate($this->Saefis->findByUserId($this->Auth->user('id')), ['scope' => 'saefi', 'order' => ['Saefis.id' => 'desc'],
-                                    'fields' => ['Saefis.id', 'Saefis.created', 'Saefis.reference_number']]);
+                                    'fields' => ['Saefis.id', 'Saefis.created', 'Saefis.reference_number', 'Saefis.submitted']]);
         $notifications = $this->paginate($this->Notifications->findByUserId($this->Auth->user('id')), ['scope' => 'notification', 'order' => ['Notification.id' => 'desc'],]);
 
         $this->set(compact('sadrs', 'adrs', 'aefis', 'saeifs'));

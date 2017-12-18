@@ -1,7 +1,7 @@
 <?php
   //echo $this->element('sadrs/sadr_form', ['globalEd' => false]);
   $this->extend('/Element/aefis/aefi_form');
-  $this->assign('globalEd', false);
+  $this->assign('editable', true);
   $this->assign('baseClass', 'aefi_form');
 ?>
 

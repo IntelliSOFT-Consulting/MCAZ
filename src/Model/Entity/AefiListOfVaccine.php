@@ -32,15 +32,6 @@ class AefiListOfVaccine extends Entity
      * @var array
      */
     protected $_accessible = [
-        'aefi_id' => true,
-        'vaccine_name' => true,
-        'vaccination_date' => true,
-        'dosage' => true,
-        'batch_number' => true,
-        'expiry_date' => true,
-        'created' => true,
-        'modified' => true,
-        'aefi' => true,
-        'dose' => true
+        '*' => true,
     ];
 }

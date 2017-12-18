@@ -41,7 +41,12 @@ $(function() {
 
     // incremental development
     $("#addListOfDrug").click(function() {
-        var intId = parseInt($("#listofdrugsform tr:last").find('td:first').text())
+        //var intId = parseInt($("#listofdrugsform tr:last").find('td:first').text())
+        if ($("#listofdrugsform tbody tr").length > 0) {
+          var intId = parseInt($("#listofdrugsform tr:last").find('td:first').text())
+        } else {
+          var intId = 0;
+        }
         //var intId = $("#listofdrugsform tr").length - 1;
         if ($('#listofdrugsform tr').length < 15) {            
             trVar = $.parseHTML(constructLODTr(intId));

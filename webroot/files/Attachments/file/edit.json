@@ -1,0 +1,132 @@
+{
+  "sadr": {
+    "id": 21540975,
+    "user_id": 1,
+    "designation_id": 2,
+    "report_type": null,
+    "name_of_institution": "Kenyatta National Hospital",
+    "institution_code": "001",
+    "patient_name": "A.O",
+    "ip_no": "258",
+    "date_of_birth": {
+      "day": "05",
+      "month": "02",
+      "year": "1995"
+    },
+    "age_group": "infant",
+    "gender": "Male",
+    "weight": "75",
+    "height": "2.1",
+    "date_of_onset_of_reaction": {
+      "day": "15",
+      "month": "12",
+      "year": "2004"
+    },
+    "date_of_end_of_reaction": {
+      "day": "04",
+      "month": "02",
+      "year": "2010"
+    },
+    "duration_type": "Hours",
+    "duration": "3",
+    "description_of_reaction": "Sick",
+    "severity": "Yes",
+    "severity_reason": "Life-threatening",
+    "medical_history": "has been sickly",
+    "past_drug_therapy": "dawa",
+    "outcome": "Not yet recovered",
+    "lab_test_results": "black stool",
+    "reporter_name": "Edward",
+    "reporter_email": "fmutunga@safaricom.co.ke",
+    "reporter_phone": "0729932475",
+    "submitted": 0,
+    "emails": 0,
+    "active": true,
+    "device": 0,
+    "notified": 0,
+    "created": "2017-11-06T06:59:23+00:00",
+    "modified": "2017-11-07T01:08:03+00:00",
+    "sadr_other_drugs": [
+      {
+        "id": 1,
+        "sadr_id": 3,
+        "drug_name": "Miti ni dawa",
+        "start_date": "2017-01-06T00:00:00+00:00",
+        "stop_date": "2017-02-06T00:00:00+00:00",
+        "suspected_drug": "0",
+        "created": "2017-11-06T11:22:31+00:00",
+        "modified": "2017-11-06T21:36:51+00:00"
+      },
+      {
+        "id": 2,
+        "sadr_id": 3,
+        "drug_name": "Dawa ni miti",
+        "start_date": "2017-03-06T00:00:00+00:00",
+        "stop_date": "2012-07-06T00:00:00+00:00",
+        "suspected_drug": "1",
+        "created": "2017-11-06T11:22:31+00:00",
+        "modified": "2017-11-06T21:37:22+00:00"
+      }
+    ],
+    "sadr_list_of_drugs": [
+      {
+        "id": 1,
+        "sadr_id": 3,
+        "sadr_followup_id": null,
+        "dose_id": 3,
+        "route_id": 3,
+        "frequency_id": 2,
+        "drug_name": "Panadol",
+        "brand_name": "dawa",
+        "batch_number": "22",
+        "dose": "2",
+        "start_date": "2017-11-06T00:00:00+00:00",
+        "stop_date": "2017-11-06T00:00:00+00:00",
+        "indication": "sss",
+        "suspected_drug": "1",
+        "created": "2017-11-06T11:06:44+00:00",
+        "modified": "2017-11-06T11:24:24+00:00"
+      },
+      {
+        "id": 2,
+        "sadr_id": 3,
+        "sadr_followup_id": null,
+        "dose_id": 4,
+        "route_id": 5,
+        "frequency_id": 5,
+        "drug_name": "dish 22",
+        "brand_name": "washer",
+        "batch_number": "okumu",
+        "dose": "33",
+        "start_date": "2017-09-17T00:00:00+00:00",
+        "stop_date": "2017-06-10T00:00:00+00:00",
+        "indication": "sicklll",
+        "suspected_drug": "1",
+        "created": "2017-11-06T11:22:31+00:00",
+        "modified": "2017-11-06T11:24:10+00:00"
+      }
+    ],
+    "user": {
+      "id": 1,
+      "designation_id": null,
+      "county_id": null,
+      "username": "admin",
+      "confirm_password": "admin",
+      "name": "",
+      "email": "admin@mcaz.org",
+      "group_id": 1,
+      "name_of_institution": "",
+      "institution_address": "",
+      "institution_code": "",
+      "institution_contact": "",
+      "ward": "",
+      "phone_no": "",
+      "forgot_password": 0,
+      "initial_email": 0,
+      "is_active": true,
+      "is_admin": false,
+      "created": "2017-10-31T19:30:54+00:00",
+      "modified": "2017-10-31T19:30:54+00:00"
+    }
+  }
+}

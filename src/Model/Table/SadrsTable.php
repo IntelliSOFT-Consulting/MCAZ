@@ -69,7 +69,13 @@ class SadrsTable extends Table
             'className' => 'Reviews',
             'foreignKey' => 'foreign_key',
             'dependent' => true,
-            'conditions' => array('Reviews.model' => 'Sadrs'),
+            'conditions' => array('Reviews.model' => 'Sadrs', 'Reviews.type' => 'causality'),
+        ]);
+        $this->hasMany('Committees', [
+            'className' => 'Reviews',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Committees.model' => 'Sadrs', 'Committees.category' => 'committee'),
         ]);
         $this->hasMany('RequestReporters', [
             'className' => 'Notifications',
@@ -77,15 +83,23 @@ class SadrsTable extends Table
             'dependent' => true,
             'conditions' => array('RequestReporters.model' => 'Sadrs', 'RequestReporters.type' => 'request_reporter_info'),
         ]);
+        $this->hasMany('RequestEvaluators', [
+            'className' => 'Notifications',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('RequestEvaluators.model' => 'Sadrs', 'RequestEvaluators.type' => 'request_evaluator_info'),
+        ]);
         // $this->hasMany('Feedbacks', [
         //     'foreignKey' => 'sadr_id'
         // ]);
         // $this->hasMany('Messages', [
         //     'foreignKey' => 'sadr_id'
         // ]);
-        // $this->hasMany('SadrFollowups', [
-        //     'foreignKey' => 'sadr_id'
-        // ]);
+        $this->hasMany('SadrFollowups', [
+            'foreignKey' => 'sadr_id',
+            'dependent' => true,
+            'conditions' => array('SadrFollowups.report_type' => 'FollowUp'),
+        ]);
         $this->hasMany('SadrListOfDrugs', [
             'foreignKey' => 'sadr_id'
         ]);

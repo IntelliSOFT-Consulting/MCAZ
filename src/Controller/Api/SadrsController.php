@@ -246,6 +246,89 @@ class SadrsController extends AppController
         $this->set('_serialize', ['sadr']);
     }
 
+    //TODO: Add notifications to all API Calls
+    public function followup($id = null)
+    {
+        $this->loadModel('SadrFollowups');
+        $id = base64_decode($id);
+        $sadr = $this->Sadrs->find('all', [
+            'contain' => []
+        ])->where(['reference_number' => $id])->first();
+
+        $followup = $this->SadrFollowups->newEntity() ;
+
+        if(!empty($sadr) && $sadr->user_id == $this->Auth->user('id')) {
+            if ($this->request->is(['patch', 'post', 'put'])) { 
+                $followup = $this->SadrFollowups->patchEntity($followup, $this->request->getData());
+                $followup->report_type = 'FollowUp';
+                $followup->submitted_date = date("Y-m-d H:i:s");
+                $followup->submitted = 2;
+                $followup->sadr_id = $sadr->id;
+                //Attachments
+                $this->_attachments();
+                if (!empty($followup->attachments)) {
+                    for ($i = 0; $i <= count($followup->attachments)-1; $i++) { 
+                      $followup->attachments[$i]->model = 'SadrFollowups';
+                      $followup->attachments[$i]->category = 'attachments';
+                    }
+                }
+                //submit to mcaz button
+                $followup->submitted_date = date("Y-m-d H:i:s");
+                
+                //TODO: validate linked data here since validate will be false
+                if ($this->SadrFollowups->save($followup, ['validate' => false])) {
+                    
+                    //update Initial SADR report status
+                    $sadr->status = 'FollowUp';
+                    $this->Sadrs->save($sadr, ['validate' => false]);
+
+                    //send email and notification
+                    $this->loadModel('Queue.QueuedJobs');    
+                    $data = [
+                          'email_address' => $sadr->reporter_email, 'user_id' => $this->Auth->user('id'),
+                          'type' => 'applicant_submit_sadr_followup_email', 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
+                          'vars' =>  $sadr->toArray()
+                    ];
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'applicant_submit_sadr_followup_notification';
+                    $data['vars']['created'] = $followup->created;
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                    //notify managers
+                    $managers = $this->Sadrs->Users->find('all')->where(['group_id IN' => [2, 4]]);
+                    foreach ($managers as $manager) {
+                        $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
+                                 'vars' =>  $sadr->toArray()];
+                        $data['type'] = 'manager_submit_sadr_followup_email';
+                        $this->QueuedJobs->createJob('GenericEmail', $data);
+                        $data['type'] = 'manager_submit_sadr_followup_notification';
+                        $this->QueuedJobs->createJob('GenericNotification', $data);
+                    }
+                    //
+                     $this->set(compact('followup'));
+                     $this->set('_serialize', ['followup']);
+                } else {
+                    $this->response->body('Failure');
+                $this->response->statusCode(401);
+                $this->set([
+                    'message' => 'Unable to save followup', 
+                    '_serialize' => ['message']]);
+                return;
+                }
+           
+          }
+        } else {
+          $this->response->body('Failure');
+                $this->response->statusCode(403);
+                $this->set([
+                    'message' => 'Report does not exist', 
+                    '_serialize' => ['message']]);
+                return;
+        }
+
+    }
+
+    //TODO: Enable softdelete for all controllers and remove delete action from most
     /**
      * Delete method
      *

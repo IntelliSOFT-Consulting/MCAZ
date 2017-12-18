@@ -28,7 +28,24 @@ class SideBarCell extends Cell
         if($this->request->session()->read('Auth.User.group_id') == 1) {$prefix = 'admin';} 
         if ($this->request->session()->read('Auth.User.group_id') == 2) { $prefix = 'manager'; }
         if ($this->request->session()->read('Auth.User.group_id') == 4) { $prefix = 'evaluator'; }
-        $this->set(['prefix'=> $prefix]);
+        
+
+        $this->loadModel('Sadrs');
+        $this->loadModel('Adrs');
+        $this->loadModel('Aefis');
+        $this->loadModel('Saefis');
+
+        $sadr_stats = $this->Sadrs->find('all')->select([ 'status',
+                                                          'count' => $this->Sadrs->find('all')->func()->count('*')
+                                                        ])
+                                                 ->where(['submitted' => 2])
+                                                 ->group('status');
+        $aefi_stats = $this->Aefis->find('all')->select([ 'status',
+                                                          'count' => $this->Aefis->find('all')->func()->count('*')
+                                                        ])
+                                                 ->where(['submitted' => 2])
+                                                 ->group('status');
+        $this->set(['prefix'=> $prefix, 'sadr_stats' => $sadr_stats, 'aefi_stats' => $aefi_stats]);
     }
 
 }

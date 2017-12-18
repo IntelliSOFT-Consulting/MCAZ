@@ -9,7 +9,7 @@
 
 <?php
   $this->extend('/Element/sadrs/sadr_form');
-  $this->assign('globalEd', true);
+  //$this->assign('globalEd', true);
   $this->assign('baseClass', 'sadr_form');
   $this->Html->script('jquery/assign_evaluator', ['block' => true]);
 ?>
@@ -18,6 +18,7 @@
     <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#report" aria-controls="report" role="tab" data-toggle="tab"><?= $sadr->reference_number ?></a></li>
+    <?php if($sadr->submitted == 2) { ?>
     <li role="presentation"><a href="#assign" aria-controls="assign" role="tab" data-toggle="tab">
         <?php 
             if(empty($sadr->assigned_to)) {
@@ -29,6 +30,8 @@
     </a></li>
     <li role="presentation"><a href="#causality" aria-controls="causality" role="tab" data-toggle="tab">Causality Assessment</a></li>
     <li role="presentation"><a href="#request_reporter" aria-controls="request_reporter" role="tab" data-toggle="tab">Request for Reporter for info</a></li>
+    <li role="presentation"><a href="#committee_review" aria-controls="committee_review" role="tab" data-toggle="tab">Committee Review</a></li>
+    <?php } ?>
   </ul>
 
   <!-- Tab panes -->
@@ -48,6 +51,13 @@
 
 <?php $this->end(); ?>
 
+
+<?php $this->start('followups');  ?>
+    <hr>
+    <h2 class="text-center"><u>Follow Ups Section</u></h2>
+   <?= $this->element('sadrs/view_followups') ?>
+<?php $this->end() ?>
+
 <?php $this->start('other_tabs'); ?>
     </div> <!-- Firstly, close the first tab!! IMPORTANT -->
 </div>
@@ -59,6 +69,9 @@
     </div>
     <div role="tabpanel" class="tab-pane" id="request_reporter">
         <?= $this->element('sadrs/request_reporter') ?>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="committee_review">
+        <?= $this->element('sadrs/committee_review') ?>
     </div>
   </div>
 
@@ -133,3 +146,4 @@ Close</button>
   </div>
 </div>
 <?php $this->end(); ?>
+

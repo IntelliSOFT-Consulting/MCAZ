@@ -31,14 +31,6 @@ class Review extends Entity
      * @var array
      */
     protected $_accessible = [
-        'user_id' => true,
-        'foreign_key' => true,
-        'model' => true,
-        'comments' => true,
-        'literature_review' => true,
-        'references_text' => true,
-        'created' => true,
-        'modified' => true,
-        'user' => true
+        '*' => true,
     ];
 }

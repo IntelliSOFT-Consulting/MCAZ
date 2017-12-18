@@ -68,8 +68,13 @@ class SadrsController extends AppController
     public function view($id = null)
     {
         $sadr = $this->Sadrs->get($id, [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments']
         ]);
+
+        if($sadr->submitted !== 2) {
+            $this->Flash->warning(__('Kindly submit Report '.$sadr->reference_number.' before viewing.'));
+            return $this->redirect(['action' => 'edit', $sadr->id]);
+        }
 
         if(strpos($this->request->url, 'pdf')) {
             // $this->viewBuilder()->setLayout('pdf/default');
@@ -220,7 +225,7 @@ class SadrsController extends AppController
                 $data['type'] = 'applicant_submit_sadr_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
                 //notify managers
-                $managers = $this->Sadrs->Users->find('all')->where(['Users.group_id' => 2]);
+                $managers = $this->Sadrs->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
                 foreach ($managers as $manager) {
                   $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
                     'vars' =>  $sadr->toArray()];
@@ -258,6 +263,111 @@ class SadrsController extends AppController
         $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
         $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list');
         $this->set(compact('sadr', 'designations', 'provinces', 'doses', 'routes', 'frequencies'));
+        $this->set('_serialize', ['sadr', 'provinces']);
+    }
+
+    public function followup($id = null, $fid = null)
+    {
+        //Controller for creating follow up report.. should be able to support both new and edit
+        $this->loadModel('SadrFollowups');
+        $sadr = $this->Sadrs->get($id, [
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments']
+        ]);
+        if($fid) {
+            $followup = $this->SadrFollowups->get($fid, [
+              'contain' => ['SadrListOfDrugs', 'Attachments']
+            ]);
+        } else {
+            //get latest unsubmitted follow up and load that
+            $check = $this->SadrFollowups->find('all')->where(['sadr_id' => $sadr->id, 'submitted IS NOT' => 2])->first();
+            $followup = (!empty($check)) ? $check : $this->SadrFollowups->newEntity() ;
+        }
+        if ($sadr->submitted <> 2) {
+            $this->Flash->success(__('Report '.$sadr->reference_number.' not submitted. Followups only possible for submitted reports'));
+            return $this->redirect(['action' => 'view', $sadr->id]);
+        }
+        if(!empty($sadr) && $sadr->user_id == $this->Auth->user('id')) {
+            if ($this->request->is(['patch', 'post', 'put'])) {          
+
+
+                $followup = $this->SadrFollowups->patchEntity($followup, $this->request->getData());
+                $followup->report_type = 'FollowUp';
+                $followup->sadr_id = $sadr->id;
+                //Attachments
+                if (!empty($followup->attachments)) {
+                    for ($i = 0; $i <= count($followup->attachments)-1; $i++) { 
+                      $followup->attachments[$i]->model = 'Sadrs';
+                      $followup->attachments[$i]->category = 'attachments';
+                    }
+                }
+                // debug((string)$sadr);
+                // debug($this->request->data);
+                if ($followup->submitted == 1) {
+                    //save changes button
+                    if ($this->SadrFollowups->save($followup, ['validate' => false])) {
+                        $this->Flash->success(__('The changes to the follow up report for '.$sadr->reference_number.' have been saved.'));
+                        // return $this->redirect(['action' => 'edit', $sadr->id]);
+                    } else {
+                        $this->Flash->error(__('Follow up could not be saved. Kindly correct the errors and try again.'));
+                    }
+                } elseif ($followup->submitted == 2) {
+                    //submit to mcaz button
+                    $followup->submitted_date = date("Y-m-d H:i:s");
+                    
+                    //TODO: validate linked data here since validate will be false
+                    if ($this->SadrFollowups->save($followup, ['validate' => false])) {
+                        $this->Flash->success(__('Follow up for report '.$sadr->reference_number.' has been successfully submitted to MCAZ for review.'));
+
+                        //update Initial SADR report status
+                        $sadr->status = 'FollowUp';
+                        $this->Sadrs->save($sadr, ['validate' => false]);
+
+                        //send email and notification
+                        $this->loadModel('Queue.QueuedJobs');    
+                        $data = [
+                              'email_address' => $sadr->reporter_email, 'user_id' => $this->Auth->user('id'),
+                              'type' => 'applicant_submit_sadr_followup_email', 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
+                              'vars' =>  $sadr->toArray()
+                        ];
+                        //notify applicant
+                        $this->QueuedJobs->createJob('GenericEmail', $data);
+                        $data['type'] = 'applicant_submit_sadr_followup_notification';
+                        $data['vars']['created'] = $followup->created;
+                        $this->QueuedJobs->createJob('GenericNotification', $data);
+                        //notify managers
+                        $managers = $this->Sadrs->Users->find('all')->where(['group_id IN' => [2, 4]]);
+                        foreach ($managers as $manager) {
+                            $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
+                                     'vars' =>  $sadr->toArray()];
+                            $data['type'] = 'manager_submit_sadr_followup_email';
+                            $this->QueuedJobs->createJob('GenericEmail', $data);
+                            $data['type'] = 'manager_submit_sadr_followup_notification';
+                            $this->QueuedJobs->createJob('GenericNotification', $data);
+                        }
+                        //
+                        return $this->redirect(['action' => 'view', $sadr->id]);
+                    } else {
+                        $this->Flash->error(__('Foloow up for report '.$sadr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                    }
+                } elseif ($followup->submitted == -1) {
+                    //cancel button              
+                    $this->Flash->success(__('Cancel form successful. You may submit follow up for report '.$sadr->reference_number.' later'));
+                    return $this->redirect(['controller' => 'Users','action' => 'home']);
+                } 
+          }
+        } else {
+          $this->Flash->error(__('Report does not exist.'));
+          return $this->redirect(['action' => 'index']);
+        }
+
+        $sadr = $this->format_dates($sadr);
+
+        $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
+        $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
+        $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
+        $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
+        $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list');
+        $this->set(compact('sadr', 'designations', 'provinces', 'doses', 'routes', 'frequencies', 'followup'));
         $this->set('_serialize', ['sadr', 'provinces']);
     }
 

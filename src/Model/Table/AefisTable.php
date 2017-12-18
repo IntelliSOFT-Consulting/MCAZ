@@ -64,6 +64,37 @@ class AefisTable extends Table
             'dependent' => true,
             'conditions' => array('Attachments.model' => 'Aefis', 'Attachments.category' => 'attachments'),
         ]);
+
+        $this->hasMany('Reviews', [
+            'className' => 'Reviews',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Reviews.model' => 'Aefis', 'Reviews.type' => 'causality'),
+        ]);
+        $this->hasMany('Committees', [
+            'className' => 'Reviews',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Committees.model' => 'Aefis', 'Committees.category' => 'committee'),
+        ]);
+        $this->hasMany('RequestReporters', [
+            'className' => 'Notifications',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('RequestReporters.model' => 'Aefis', 'RequestReporters.type' => 'request_reporter_info'),
+        ]);
+        $this->hasMany('RequestEvaluators', [
+            'className' => 'Notifications',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('RequestEvaluators.model' => 'Aefis', 'RequestEvaluators.type' => 'request_evaluator_info'),
+        ]);
+
+        $this->hasMany('AefiFollowups', [
+            'foreignKey' => 'aefi_id',
+            'dependent' => true,
+            'conditions' => array('AefiFollowups.report_type' => 'FollowUp'),
+        ]);
     }
 
     /**
