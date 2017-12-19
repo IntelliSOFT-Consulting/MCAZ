@@ -261,7 +261,8 @@ function getDate(sel){
           </div>
           
           <div class="row">
-            <div class="col-xs-12"><?php echo $this->element('multi/sadr_list_of_drugs', ['editable' => $editable]);?></div>
+            <div class="col-xs-12"><?php echo $this->element('multi/sadr_list_of_drugs', [
+              'editable' => $editable]);?></div>
                     <?= $this->fetch('list_of_drugs'); ?>
           </div>        
 

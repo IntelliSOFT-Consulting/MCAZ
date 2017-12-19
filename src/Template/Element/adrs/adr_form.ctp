@@ -262,8 +262,8 @@ $editable = $this->fetch('editable');
             </div>
             <div class="col-xs-3"><?php 
               echo $this->Form->control('report_to_sponsor', ['type' => 'radio', 
-                     'label' => '<b>(c)Sponsor', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'label' => '(c)Sponsor', 'escape' => false,
+                     'templates' => ($editable) ? 'view_form_radio' : 'radio_form',
 
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
               echo $this->Form->control('report_to_sponsor_date', ['label' => 'Date', 'escape' => false, 'type' => 'text', 'templates' => ($editable) ? ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',] : 'view_form']);

@@ -72,7 +72,7 @@
                                 'Probably related' => 'Probably related', 
                                 'Probably not related' => 'Probably not related',
                                 'Possibly related' => 'Possibly related', 
-                                'Not related' => 'Not related', 'Pending' => 'Pending'], 'templates' => ($editable) ? 'view_form_table' : 'table_form' ,'empty' => true]);
+                                'Not related' => 'Not related', 'Pending' => 'Pending'], 'templates' => ($editable) ? 'table_form' : 'view_form_table' ,'empty' => true]);
 
                         ?>
                     </td>
@@ -135,7 +135,11 @@
                     </td>
                     <td>
                         <?php
-                            echo $this->Form->control('adr_list_of_drugs.'.$i.'.relationship_to_sae', ['label' => false, 'type' => 'select', 'options' => ['Definitely related' => 'Definitely related', 'Probably related' => 'Probably related', 'Possibly related' => 'Possibly related', 'Not related' => 'Not related', 'Pending' => 'Pending'], 'templates' => ($editable) ? 'table_form': 'view_form_table'  ,'empty' => true]);
+                            echo $this->Form->control('adr_list_of_drugs.'.$i.'.relationship_to_sae', ['label' => false, 
+                              'type' => 'select', 'options' => [
+                                'Definitely related' => 'Definitely related', 
+                                'Probably related' => 'Probably related', 
+                                'Possibly related' => 'Possibly related', 'Not related' => 'Not related', 'Pending' => 'Pending'], 'templates' => ($editable) ? 'table_form': 'view_form_table'  ,'empty' => true]);
                         ?>
                     </td>
                     <td>
