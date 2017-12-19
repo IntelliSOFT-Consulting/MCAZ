@@ -29,7 +29,7 @@
                    <span class="label label-primary"><?php
                    echo ($saefi->submitted == 2) ?  $this->Html->link('E2B', ['action' => 'e2b', $saefi->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']) : ''; ?></span>
                    <span class="label label-primary">                     
-                     <?= $this->Html->link('View', ['action' => 'view', $saefi->id, 'prefix' => false], ['escape' => false, 'style' => 'color: white;'])
+                     <?= $this->Html->link('View', ['action' => 'view', $saefi->id, 'prefix' => $prefix], ['escape' => false, 'style' => 'color: white;'])
                      ?>
                     </span>
                 </td>
