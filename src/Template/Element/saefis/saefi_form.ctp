@@ -85,17 +85,17 @@ function getChoice(sel){
             <div class="col-xs-8">
               <?php                  
                   echo $this->Form->control('place_vaccination', ['type' => 'radio', 
-                     'label' => 'Treatment provided', 'escape' => false,
+                     'label' => '<b>Treatment provided</b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Govt. health facility' => 'Govt. health facility', 'Private health facility' => 'Private health facility', 'Other' => 'Other']]);
                   echo $this->Form->control('place_vaccination_other', ['label' => 'Other, (specify)']);
                   echo $this->Form->control('site_type', ['type' => 'radio', 
-                     'label' => 'Type of site', 'escape' => false,
+                     'label' => '<b>Type of site</b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Fixed' => 'Fixed', 'Mobile' => 'Mobile', 'Outreach' => 'Outreach' , 'Other' => 'Other']]);
                   echo $this->Form->control('site_type_other', ['label' => 'Other, (specify)']);
                   echo $this->Form->control('vaccination_in', ['type' => 'radio', 
-                     'label' => 'Vaccination in', 'escape' => false,
+                     'label' => '<b>Vaccination in</b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Campaign' => 'Campaign', 'Routine' => 'Routine', 'Other' => 'Other']]);
                   echo $this->Form->control('vaccination_in_other', ['label' => 'Other, (specify)']);
@@ -125,7 +125,7 @@ function getChoice(sel){
             </div> 
             <div class="col-xs-6"> 
                 <?= $this->Form->control('gender', ['type' => 'radio', 
-                     'label' => 'Gender <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
+                     'label' => '<b>Gender</b> <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Male' => 'Male', 'Female' => 'Female']]);
                 ?>
@@ -137,18 +137,18 @@ function getChoice(sel){
               <?php              
                   echo $this->Form->control('hospitalization_date', ['label' => 'Date of hospitalization', 'type' => 'text']);    
                   echo $this->Form->control('status_on_date', ['type' => 'radio', 
-                     'label' => 'Status on the date of investigation', 'escape' => false,
+                     'label' => '<b>Status on the date of investigation</b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Died' => 'Died', 'Disabled' => 'Disabled', 'Recovering' => 'Recovering', 'Recovered completely' => 'Recovered completely', 'Unknown' => 'Unknown']]);
                   echo $this->Form->control('died_date', ['label' => 'If died, date and time of death ', 'type' => 'text']);
                   echo $this->Form->control('autopsy_done', ['type' => 'radio', 
-                     'label' => 'Autopsy done?', 'escape' => false,
+                     'label' => '<b>Autopsy done?</b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
                   echo $this->Form->control('autopsy_done_date', ['label' => 'If yes, date:', 'type' => 'text']); 
 
                   echo $this->Form->control('autopsy_planned', ['type' => 'radio', 
-                     'label' => 'Autopsy Planned?', 'escape' => false,
+                     'label' => '<b>Autopsy Planned?</b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
                   echo $this->Form->control('autopsy_planned_date', ['label' => 'If yes, date:', 'type' => 'text']); 
@@ -158,7 +158,7 @@ function getChoice(sel){
                 <br><br><br>
                 <?php
                 if (!empty($saefi['reports'])) {
-                    echo '<p>File attachment: </p>';
+                    echo '<p><b>File attachment:</b></p>';
                     echo $this->Html->link($saefi['reports'][0]->file, substr($saefi['reports'][0]->dir, 8) . '/' . $saefi['reports'][0]->file, ['fullBase' => true]);
                 } else {
                   echo $this->Form->control('reports.0.file', ['type' => 'file','label' => 'Attach report (if available)', 'templates' => 'table_form']);
@@ -189,7 +189,7 @@ function getChoice(sel){
                                   <?= $this->Form->control('past_history', ['type' => 'radio', 
                      'label' => false, 
 
-                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
                                 </div>                                  
                               </td>
@@ -206,7 +206,7 @@ function getChoice(sel){
                                   <?= $this->Form->control('adverse_event', ['type' => 'radio', 
                      'label' => false, 
 
-                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio'  ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
                                 </div>
                                   
@@ -223,7 +223,7 @@ function getChoice(sel){
                                 <div class="col-xs-12">
                                   <?= $this->Form->control('allergy_history', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio'  ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
                                 </div>
                                   
@@ -240,7 +240,7 @@ function getChoice(sel){
                                 <div class="col-xs-12">
                                   <?= $this->Form->control('existing_illness', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio'  ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
                                 </div>
                                   
@@ -257,7 +257,7 @@ function getChoice(sel){
                                 <div class="col-xs-12">
                                   <?= $this->Form->control('hospitalization_history', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio'  ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
                                 </div>
                                   
@@ -275,7 +275,7 @@ function getChoice(sel){
                                 <div class="col-xs-12">
                                   <?= $this->Form->control('medication_vaccination', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio'  ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
                                 </div>
                                   
@@ -293,7 +293,7 @@ function getChoice(sel){
                                 <div class="col-xs-12">
                                   <?= $this->Form->control('faith_healers', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio'  ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
                                 </div>
                                   
@@ -310,7 +310,7 @@ function getChoice(sel){
                                 <div class="col-xs-12">
                                   <?= $this->Form->control('family_history', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio'  ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
                                 </div>
                                   
@@ -360,11 +360,12 @@ function getChoice(sel){
 
           <div class="row">
             <div class="col-xs-8">
-                <p>For Infants:</p>
+                <p><b>For Infants:</b></p>
                 <div class="row">
                   <div class="col-xs-8">
                       <?= $this->Form->control('infant', ['type' => 'radio', 
-                         'label' => 'The birth was:', 
+                         'label' => '<b>The birth was:</b>', 
+                         'escape' => false,
                          'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                          'options' => ['full-term' => 'full-term', 'pre-term' => 'pre-term', 'post-term' => 'post-term']]); ?>
                   </div>
@@ -382,7 +383,8 @@ function getChoice(sel){
           <div class="row">
             <div class="col-xs-8">
                       <?= $this->Form->control('delivery_procedure', ['type' => 'radio', 
-                         'label' => 'Delivery procedure was:', 
+                         'label' => '<b>Delivery procedure was:</b>', 
+                         'escape' => false,
                          'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                          'options' => ['Normal' => 'Normal', 'Caesarean' => 'Caesarean', 'Assisted (forceps, vacuum etc.)' => 'Assisted (forceps, vacuum etc.)', 'with complication' => 'with complication']]); ?>
                   
@@ -394,7 +396,7 @@ function getChoice(sel){
           </div>
 
           <h4>Section C Details of first examination** of serious AEFI case</h4>
-          <p>Source of information (tick all that apply)</p>
+          <p><b>Source of information (tick all that apply)</b></p>
           <div class="row">
               <div class="col-xs-6">
                 
@@ -481,7 +483,7 @@ function getChoice(sel){
 
         <div class="row">
             <div class="col-xs-12">
-                <p>a) When was the patient vaccinated: <b style="color: green;">(select answer below and respond to ALL questions)</b></p>
+                <p><b>a) When was the patient vaccinated:</b> <b style="color: green;">(select answer below and respond to ALL questions)</b></p>
                 <div class="col-xs-12">
                   <?= $this->Form->control('when_vaccinated', ['type' => 'radio', 
                          'label' => false, 
@@ -493,8 +495,9 @@ function getChoice(sel){
                          ]]); ?>
                 </div>
                 <br/>
-
-                <p>In case of multidose vials, was the vaccine given</p>
+                <br/>
+                <br/>
+                <p><b>In case of multidose vials, was the vaccine given</b></p>
                 <div class="col-xs-12">
                 <?= $this->Form->control('when_vaccinated', ['type' => 'radio', 
                          'label' => false, 
@@ -513,14 +516,23 @@ function getChoice(sel){
         <div class="row">
               <div class="col-xs-12">
                   <table class="table table-bordered table-condensed">
+                      <thead>
+                        <tr>
+                          <th style="width: 55%;" class="text-center"></th>
+                          <th class="text-center"> Response</th>
+                          <th class="text-center">Remarks</th>
+                        </tr>
+                      </thead>
                       <tbody>
                           <tr>
                               <td><label>b) Was there an error in prescribing or non-adherence to recommendations for use of this vaccine?</label></td>
                               <td>
+                                <div class="col-xs-12">
                                   <?= $this->Form->control('prescribing_error', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio',
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]); ?>
+                     </div>
                               </td>
                               <td>
                                   <?= $this->Form->control('prescribing_error_specify', ['label' => false,  
@@ -531,10 +543,12 @@ function getChoice(sel){
                           <tr>
                               <td><label>c) Based on your investigation, do you feel that the vaccine (ingredients) administered could have been unsterile?</label></td>
                               <td>
+                                <div class="col-xs-12">
                                   <?= $this->Form->control('vaccine_unsterile', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
+                     </div>
                               </td>
                               <td>
                                   <?= $this->Form->control('vaccine_unsterile_specify', ['label' => false,  
@@ -545,10 +559,12 @@ function getChoice(sel){
                           <tr>
                               <td><label>d) Based on your investigation, do you feel that the vaccine's physical condition (e.g. colour, turbidity, foreign substances etc.) was abnormal at the time of administration?</label></td>
                               <td>
+                                <div class="col-xs-12">
                                   <?= $this->Form->control('vaccine_condition', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
+                     </div>
                               </td>
                               <td>
                                   <?= $this->Form->control('vaccine_condition_specify', ['label' => false,  
@@ -559,10 +575,12 @@ function getChoice(sel){
                           <tr>
                               <td><label>e) Based on your investigation, do you feel that there was an error in vaccine reconstitution/preparation by the vaccinator (e.g. wrong product, wrong diluent, improper mixing, improper syringe filling etc.)?</label></td>
                               <td>
+                                <div class="col-xs-12">
                                   <?= $this->Form->control('vaccine_reconstitution', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
+                     </div>
                               </td>
                               <td>
                                   <?= $this->Form->control('vaccine_reconstitution_specify', ['label' => false,  
@@ -573,10 +591,12 @@ function getChoice(sel){
                           <tr>
                               <td><label>f) Based on your investigation, do you feel that there was an error in vaccine handling (e.g. cold chain failure during transport, storage and/or immunization session etc.)?</label></td>
                               <td>
+                                <div class="col-xs-12">
                                   <?= $this->Form->control('vaccine_handling', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
+                     </div>
                               </td>
                               <td>
                                   <?= $this->Form->control('vaccine_handling_specify', ['label' => false,  
@@ -587,10 +607,12 @@ function getChoice(sel){
                           <tr>
                               <td><label>g) Based on your investigation, do you feel that the vaccine was administered incorrectly (e.g. wrong dose, site or route of administration, wrong needle size, not following good injection practice etc.)?</label></td>
                               <td>
+                                <div class="col-xs-12">
                                   <?= $this->Form->control('vaccine_administered', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
+                     </div>
                               </td>
                               <td>
                                   <?= $this->Form->control('vaccine_administered_specify', ['label' => false,  
@@ -636,10 +658,12 @@ function getChoice(sel){
                           <tr>
                               <td><label>k) Is this case a part of a cluster?</label></td>
                               <td>
+                                <div class="col-xs-12">
                                   <?= $this->Form->control('vaccinated_cluster', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
+                     </div>
                               </td>
                               <td>
                                  
@@ -659,10 +683,12 @@ function getChoice(sel){
                           <tr>
                               <td><label>a. Did all the cases in the cluster receive vaccine from the same vial?</label></td>
                               <td>
+                                <div class="col-xs-12">
                                   <?= $this->Form->control('vaccinated_cluster_vial', ['type' => 'radio', 
                      'label' => false, 
-                     'templates' => ($editable) ? 'table_form': 'view_form_radio' ,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
+                                </div>
                               </td>
                               <td>
                                  
@@ -719,7 +745,7 @@ function getChoice(sel){
           </div>
 
           <p><strong>Reconstitution: (complete only if applicable, NA if not applicable)</strong></p>
-          <p>Reconstitution procedure :</p>
+          <p><b>Reconstitution procedure :</b></p>
           <div class="row">
             <div class="col-xs-12">
               <?php
@@ -727,23 +753,42 @@ function getChoice(sel){
                      'label' => 'Same reconstitution syringe used for multiple vials of same vaccine?', 'escape' => false,
                      'templates' => ($editable) ? 'view_form_radio' : 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'N/A'=>'N/A']]);
+              ?>
+              </div>
+              <div class="col-xs-12">
+                <?php
                   echo $this->Form->control('reconstitution_different', ['type' => 'radio', 
                      'label' => 'Same reconstitution syringe used for reconstituting different vaccines?', 'escape' => false,
                      'templates' => ($editable) ? 'view_form_radio' : 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'N/A'=>'N/A']]);
+              ?>
+              </div>
+              <div class="col-xs-12">
+                <?php
                   echo $this->Form->control('reconstitution_vial', ['type' => 'radio', 
                      'label' => 'Separate reconstitution syringe for each vaccine vial?', 'escape' => false,
                      'templates' => ($editable) ? 'view_form_radio' : 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'N/A'=>'N/A']]);
+              ?>
+              </div>
+              <div class="col-xs-12">
+                <?php
                   echo $this->Form->control('reconstitution_syringe', ['type' => 'radio', 
                      'label' => 'Separate reconstitution syringe for each vaccination?', 'escape' => false,
                      'templates' => ($editable) ? 'view_form_radio' : 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'N/A'=>'N/A']]);
+              ?>
+              </div>
+              <div class="col-xs-12">
+                <?php
                   echo $this->Form->control('reconstitution_vaccines', ['type' => 'radio', 
                      'label' => 'Are the vaccines and diluents used the same as those recommended by the manufacturer?', 'escape' => false,
                      'templates' => ($editable) ? 'view_form_radio' : 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'N/A'=>'N/A']]);
-
+              ?>
+              </div>
+              <div class="col-xs-12">
+                <?php
                   echo $this->Form->control('reconstitution_observations', ['label' => 'Specific key findings/additional observations and comments:']);
               ?>
             </div>
