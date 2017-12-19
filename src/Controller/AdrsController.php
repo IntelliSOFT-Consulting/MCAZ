@@ -142,6 +142,8 @@ class AdrsController extends AppController
         $this->set('_serialize', ['adr']);
     }
 
+
+
     /**
      * Edit method
      *
@@ -197,9 +199,37 @@ class AdrsController extends AppController
               }
             } elseif ($adr->submitted == 2) {
               //submit to mcaz button
+              $adr->submitted_date = date("Y-m-d H:i:s");
+              $adr->status = 'Submitted';
+              
               if ($this->Adrs->save($adr, ['validate' => false])) {
                 $this->Flash->success(__('Report '.$adr->reference_number.' has been successfully submitted to MCAZ for review.'));
                 return $this->redirect(['action' => 'view', $adr->id]);
+
+
+                //send email and notification
+                $this->loadModel('Queue.QueuedJobs');    
+                $data = [
+                    'email_address' => $adr->reporter_email, 'user_id' => $this->Auth->user('id'),
+                    'type' => 'applicant_submit_adr_email', 'model' => 'Adrs', 'foreign_key' => $adr->id,
+                    'vars' =>  $adr->toArray()
+                ];
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = 'applicant_submit_adr_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                //notify managers
+                $managers = $this->Adrs->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
+                foreach ($managers as $manager) {
+                    $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Adrs', 'foreign_key' => $adr->id,
+                      'vars' =>  $adr->toArray()];
+                    $data['type'] = 'manager_submit_adr_email';
+                    $data['vars']['name'] = $manager->name;
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_submit_adr_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+
               } else {
                 $this->Flash->error(__('Report '.$adr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
               }

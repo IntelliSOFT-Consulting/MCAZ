@@ -24,8 +24,8 @@
 
         <h3><?= $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> SAES', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?> <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Adrs']) ?></small></h3>
         <ul class="list-unstyled">
-          <?php foreach ($sadrs as $sadr): ?>
-          <li><?= $this->Html->link($sadr->reference_number, ['controller' => 'Adrs', 'action' => 'view', $sadr->id]);?> </li>
+          <?php foreach ($adrs as $adr): ?>
+          <li><?= $this->Html->link($adr->reference_number, ['controller' => 'Adrs', 'action' => 'view', $adr->id]);?> </li>
           <?php endforeach; ?>
         </ul
         <nav aria-label="Page navigation">
@@ -59,7 +59,7 @@
         <h3><?= $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> SAEFI', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?> <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Saefis']) ?></small></h3>
         <ul class="list-unstyled">
           <?php foreach ($saefis as $saefi): ?>
-          <li><?= $this->Html->link($saefi->reference_number, ['controller' => 'Saefis', 'action' => 'view', $sadr->id]);?> </li>
+          <li><?= $this->Html->link($saefi->reference_number, ['controller' => 'Saefis', 'action' => 'view', $saefi->id]);?> </li>
           <?php endforeach; ?>
         </ul
         <nav aria-label="Page navigation">

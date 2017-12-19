@@ -1,8 +1,8 @@
   <div class="row">
     <div class="col-xs-12">
       <?php
-      if(!empty($sadr['committees'])) {
-        foreach ($sadr['committees'] as $committee) {
+      if(!empty($adr['committees'])) {
+        foreach ($adr['committees'] as $committee) {
           echo "<p class='text-center'><u> Uploaded by : ".$users->toArray()[$committee['user_id']]." on ".$committee['created']."</u></p>";
           echo "<h4 class='text-center'>Internal MCAZ Comments</h4><p class='text-center'>".$committee['comments']."</p>";
           echo "<h4 class='text-center'>Reporter Visible Comments</h4><p class='text-center'>".$committee['literature_review']."</p>";
@@ -19,13 +19,13 @@
 
     <div class="col-xs-12">
       <hr>
-          <?php echo $this->Form->create($sadr, ['type' => 'file', 'url' => ['action' => 'committee-review']]);
+          <?php echo $this->Form->create($adr, ['type' => 'file', 'url' => ['action' => 'committee-review']]);
            ?>
             <div class="row">
               <div class="col-xs-12"><h5 class="text-center">Committee Report</h5></div>
               <div class="col-xs-12">
 	          	<?php
-                    echo $this->Form->control('sadr_pr_id', ['type' => 'hidden', 'value' => $sadr->id, 'escape' => false, 'templates' => 'table_form']);
+                    echo $this->Form->control('adr_pr_id', ['type' => 'hidden', 'value' => $adr->id, 'escape' => false, 'templates' => 'table_form']);
 	                  echo $this->Form->control('committees.100.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
                     echo $this->Form->control('committees.100.comments', ['escape' => false, 'templates' => 'app_form', 'label' => 'Internal MCAZ Comments']);
                     echo $this->Form->control('committees.100.literature_review', ['escape' => false, 'templates' => 'app_form', 'label' => 'Reporter Visible Comments']);

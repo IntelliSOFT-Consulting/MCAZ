@@ -12,7 +12,7 @@
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name_of_vaccination_center') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -24,7 +24,7 @@
                       echo ($aefi->submitted == 2) ? $this->Html->link($aefi->reference_number, ['action' => 'view', $aefi->id, 'prefix' => $prefix, 'status' => $aefi->status], ['escape' => false]) : $aefi->created ; ?></td>
                 <td><?= h($aefi->name_of_vaccination_center) ?></td>
                 <td><?= h($aefi->status) ?></td>
-                <td><?= h($aefi->created) ?></td>
+                <td><?= h($aefi->modified) ?></td>
                 <td>
 <span class="label label-primary"><?php
                    echo ($aefi->submitted == 2) ?  $this->Html->link('E2B', ['action' => 'e2b', $aefi->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']) : ''; ?></span>

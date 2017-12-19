@@ -66,6 +66,32 @@ class AdrsTable extends Table
             'dependent' => true,
             'conditions' => array('Attachments.model' => 'Adrs', 'Attachments.category' => 'attachments'),
         ]);
+
+        
+        $this->hasMany('Reviews', [
+            'className' => 'Reviews',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Reviews.model' => 'Adrs', 'Reviews.category' => 'causality'),
+        ]);
+        $this->hasMany('Committees', [
+            'className' => 'Reviews',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Committees.model' => 'Adrs', 'Committees.category' => 'committee'),
+        ]);
+        $this->hasMany('RequestReporters', [
+            'className' => 'Notifications',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('RequestReporters.model' => 'Adrs', 'RequestReporters.type' => 'request_reporter_info'),
+        ]);
+        $this->hasMany('RequestEvaluators', [
+            'className' => 'Notifications',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('RequestEvaluators.model' => 'Adrs', 'RequestEvaluators.type' => 'request_evaluator_info'),
+        ]);
     }
 
     /**

@@ -2,7 +2,7 @@
   <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
-<h1 class="page-header">ADRS</h1>
+<h1 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> SAES</h1>
 
 <div class="table-responsive">
     <table class="table table-striped">
@@ -10,23 +10,24 @@
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('name_of_institution') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col"></th>
+                <th scope="col"><?= $this->Paginator->sort('status') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($adrs as $adr): ?>
             <tr>
                 <td><?= $this->Number->format($adr->id) ?></td>
-                <td><?= h($adr->reference_number) ?></td>
-                <td><?= h($adr->name_of_institution) ?></td>
-                <td><?= h($adr->created) ?></td>
+                <td><?php
+                      echo ($adr->submitted == 2) ? $this->Html->link($adr->reference_number, ['action' => 'view', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false]) : $adr->created ; ?></td>
+                <td><?= h($adr->status) ?></td>
+                <td><?= h($adr->modified) ?></td>
                 <td>
-                    <span class="label label-primary"><?= 
-                   ($adr->submitted == 2) ?  $this->Html->link('E2B', ['action' => 'e2b', $adr->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']) : ''; ?></span><br>
-                   <span class="label label-info">                     
-                     <?= $this->Html->link('<i class="fa fa-eye" aria-hidden="true"></i>', ['action' => 'view', $adr->id, 'prefix' => false], ['escape' => false, 'style' => 'color: white;'])
+                   <span class="label label-primary"><?php
+                   echo ($adr->submitted == 2) ?  $this->Html->link('E2B', ['action' => 'e2b', $adr->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']) : ''; ?></span>
+                   <span class="label label-primary">                     
+                     <?= $this->Html->link('View', ['action' => 'view', $adr->id, 'prefix' => false], ['escape' => false, 'style' => 'color: white;'])
                      ?>
                     </span>
                 </td>

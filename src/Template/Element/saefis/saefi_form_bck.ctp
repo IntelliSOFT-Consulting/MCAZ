@@ -12,7 +12,6 @@ $editable = $this->fetch('editable');
 ?>
 
 <div class="<?= $this->fetch('baseClass');?>">
-
   <div class="row">
     <div class="col-xs-12">
       <h3 class="text-center"> 
@@ -24,7 +23,6 @@ $editable = $this->fetch('editable');
       </div>
     </div>
   </div>
-
 
   <hr>
   <div class="row">
@@ -353,8 +351,8 @@ $editable = $this->fetch('editable');
               <div class="col-xs-6">
                 
                   <?php
-                    echo $this->Form->control('source_examination', ['type' => 'checkbox', 'label' => 'Examination by the investigator', 'templates' => ($editable) ? 'checkbox_form' : 'view_form_checkbox']);
-                    echo $this->Form->control('source_verbal', ['type' => 'checkbox', 'label' => 'Verbal autopsy', 'templates' => ($editable) ? 'checkbox_form' : 'view_form_checkbox']);
+                    echo $this->Form->control('source_examination', ['type' => 'checkbox', 'label' => 'Examination by the investigator', 'templates' => ($editable) ? 'view_form_checkbox' : 'checkbox_form']);
+                    echo $this->Form->control('source_verbal', ['type' => 'checkbox', 'label' => 'Verbal autopsy', 'templates' => ($editable) ? 'view_form_checkbox' : 'checkbox_form']);
                     echo $this->Form->control('verbal_source', [
                          'label' => 'If verbal autopsy, please mention the source',]);
                     
@@ -362,8 +360,8 @@ $editable = $this->fetch('editable');
               </div>
               <div class="col-xs-6">
                   <?php
-                    echo $this->Form->control('source_documents', ['type' => 'checkbox', 'label' => 'Documents', 'templates' => ($editable) ? 'checkbox_form' : 'view_form_checkbox']);
-                    echo $this->Form->control('source_other', ['type' => 'checkbox', 'label' => 'Other', 'templates' => ($editable) ? 'checkbox_form' : 'view_form_checkbox']);
+                    echo $this->Form->control('source_documents', ['type' => 'checkbox', 'label' => 'Documents', 'templates' => ($editable) ? 'view_form_checkbox' : 'checkbox_form']);
+                    echo $this->Form->control('source_other', ['type' => 'checkbox', 'label' => 'Other', 'templates' => ($editable) ? 'view_form_checkbox' : 'checkbox_form']);
                     echo $this->Form->control('source_other_specify', [
                          'label' => 'If other, specify',]);
                   ?>
@@ -775,9 +773,4 @@ $editable = $this->fetch('editable');
       <?= $this->Form->end() ?>
     </div>
   </div>
-  
 </div>
-
-<?php 
-  echo $this->fetch('other_tabs');
-?>

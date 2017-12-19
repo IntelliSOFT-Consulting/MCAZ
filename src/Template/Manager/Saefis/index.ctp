@@ -2,7 +2,7 @@
   <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
-<h1 class="page-header">SAEFIS</h1>
+<h1 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> SAEFIS</h1>
 
 <div class="table-responsive">
     <table class="table table-striped">
@@ -10,11 +10,9 @@
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('name_of_institution') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('reporter_name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('reporter_email') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('reporter_phone') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('basic_details') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('status') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -22,15 +20,16 @@
             <?php foreach ($saefis as $saefi): ?>
             <tr>
                 <td><?= $this->Number->format($saefi->id) ?></td>
-                <td><?= h($saefi->reference_number) ?></td>
-                <td><?= h($saefi->name_of_institution) ?></td>
-                <td><?= h($saefi->reporter_name) ?></td>
-                <td><?= h($saefi->reporter_email) ?></td>
-                <td><?= h($saefi->reporter_phone) ?></td>
-                <td><?= h($saefi->created) ?></td>
+                <td><?php
+                      echo ($saefi->submitted == 2) ? $this->Html->link($saefi->reference_number, ['action' => 'view', $saefi->id, 'prefix' => $prefix, 'status' => $saefi->status], ['escape' => false]) : $saefi->created ; ?></td>
+                <td><?= h($saefi->basic_details) ?></td>
+                <td><?= h($saefi->status) ?></td>
+                <td><?= h($saefi->modified) ?></td>
                 <td>
-                   <span class="label label-info">                     
-                     <?= $this->Html->link('<i class="fa fa-eye" aria-hidden="true"></i>', ['action' => 'view', $saefi->id, 'prefix' => false], ['escape' => false, 'style' => 'color: white;'])
+                   <span class="label label-primary"><?php
+                   echo ($saefi->submitted == 2) ?  $this->Html->link('E2B', ['action' => 'e2b', $saefi->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']) : ''; ?></span>
+                   <span class="label label-primary">                     
+                     <?= $this->Html->link('View', ['action' => 'view', $saefi->id, 'prefix' => false], ['escape' => false, 'style' => 'color: white;'])
                      ?>
                     </span>
                 </td>

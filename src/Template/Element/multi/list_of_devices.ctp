@@ -24,7 +24,7 @@
                   <tr>
                     <td>1</td>
                     <td><?php
-                             echo $this->Form->input('adr_list_of_drugs.0.id', ['templates' => 'app_form'])  ;
+                             echo $this->Form->input('adr_list_of_drugs.0.id', ['templates' => ($editable) ?  'app_form' : ['input' => '']])  ;
                              echo $this->Form->control('adr_list_of_drugs.0.drug_name', ['label' => false,
                                   'templates' => ($editable) ? 'table_form': 'view_form_table' ]);
                         ?>
@@ -86,7 +86,7 @@
                   <tr>
                     <td><?= $i+1; ?></td>
                     <td><?php
-                             echo $this->Form->input('adr_list_of_drugs.'.$i.'.id', ['templates' => 'app_form'])  ;
+                             echo $this->Form->input('adr_list_of_drugs.'.$i.'.id', ['templates' => ($editable) ?  'app_form' : ['input' => '']])  ;
                              echo $this->Form->control('adr_list_of_drugs.'.$i.'.drug_name', ['label' => false,
                                   'templates' => ($editable) ? 'table_form': 'view_form_table' ]);
                         ?>
