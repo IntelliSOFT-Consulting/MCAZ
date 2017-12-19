@@ -64,6 +64,33 @@ class SaefisTable extends Table
             'dependent' => true,
             'conditions' => array('Reports.model' => 'Saefis', 'Reports.category' => 'reports'),
         ]);
+
+
+        $this->hasMany('Reviews', [
+            'className' => 'Reviews',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Reviews.model' => 'Saefis', 'Reviews.category' => 'causality'),
+        ]);
+        $this->hasMany('Committees', [
+            'className' => 'Reviews',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Committees.model' => 'Saefis', 'Committees.category' => 'committee'),
+        ]);
+        $this->hasMany('RequestReporters', [
+            'className' => 'Notifications',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('RequestReporters.model' => 'Saefis', 'RequestReporters.type' => 'request_reporter_info'),
+        ]);
+        $this->hasMany('RequestEvaluators', [
+            'className' => 'Notifications',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('RequestEvaluators.model' => 'Saefis', 'RequestEvaluators.type' => 'request_evaluator_info'),
+        ]);
+
     }
 
     /**

@@ -69,7 +69,7 @@ class SadrsTable extends Table
             'className' => 'Reviews',
             'foreignKey' => 'foreign_key',
             'dependent' => true,
-            'conditions' => array('Reviews.model' => 'Sadrs', 'Reviews.type' => 'causality'),
+            'conditions' => array('Reviews.model' => 'Sadrs', 'Reviews.category' => 'causality'),
         ]);
         $this->hasMany('Committees', [
             'className' => 'Reviews',

@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\Adr $adr
  */
 $this->Html->script('adr_edit', ['block' => true]);
-$globalEd = $this->fetch('globalEd');
+$editable = $this->fetch('editable');
 ?>
 <?php 
     echo $this->fetch('actions');
@@ -23,6 +23,7 @@ $globalEd = $this->fetch('globalEd');
 
   <div class="row">
     <div class="col-xs-12">
+
       <?= $this->Form->create($adr, ['type' => 'file']) ?>
           <div class="row">
             <div class="col-xs-12"><h5 class="text-center">MCAZ Reference Number: <strong><?= $adr->reference_number ?></strong></h5></div>          
@@ -82,20 +83,20 @@ $globalEd = $this->fetch('globalEd');
 
                   echo $this->Form->control('report_type', ['type' => 'radio', 
                      'label' => '<b>Type of Report <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                        'options' => ['Initial' => 'Initial', 'Follow-up' => 'Follow-up', 'Resolution' => 'Resolution']]);
 
                   echo $this->Form->control('date_of_birth', array(
                     'type' => 'date',
                     'label' => 'Date of Birth',
-                    'templates' => ($globalEd) ? [] : ['dateWidget' => '<div class="col-sm-6">{{day}}-{{month}}-{{year}}</div>',
-                                    'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',],
+                    'templates' => ($editable) ? ['dateWidget' => '<div class="col-sm-6">{{day}}-{{month}}-{{year}}</div>',
+                                    'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',] : [],
                     'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
                   ));
 
                   echo $this->Form->control('gender', ['type' => 'radio', 
                      'label' => '<b>Gender <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                        'options' => ['Male' => 'Male', 'Female' => 'Female']]);
 
                   echo $this->Form->control('study_week', 
@@ -108,7 +109,7 @@ $globalEd = $this->fetch('globalEd');
               ?>
             </div>
           </div>
-          <br/><br/>
+         <br/><br/>
           <div class="row">
             <div class="col-xs-12"><h4 class="text-center">Section B</h4></div>
           </div>
@@ -117,7 +118,7 @@ $globalEd = $this->fetch('globalEd');
               <?php
                   echo $this->Form->control('adverse_event_type', ['type' => 'radio', 
                      'label' => '<b>1. What type of adverse event is this?</b>', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                        'options' => ['AE' => 'AE', 'SAE' => 'SAE', 'Death' => 'Death']]);
 
                   // echo $this->Form->control('sae_type', 
@@ -137,20 +138,21 @@ $globalEd = $this->fetch('globalEd');
                     'label' => '<b>2b) Toxicity Grade</b>', 
                     'escape'=> false,
                     'options' => ['Grade 1' => 'Grade 1', 'Grade 2' => 'Grade 2', 'Grade 3' => 'Grade 3', 'Grade 4' => 'Grade 4', 'Grade 5' => 'Grade 5'],
-                    'templates' => ($globalEd) ? 'view_form_radio' : [
+                    'templates' => ($editable) ? [
       'nestingLabel' => '<div class="col-sm-offset-4 radio">{{hidden}}<label  {{attrs}}>{{input}}{{text}}</label></div>',
-                    ]
+                    ] : 'view_form_radio'
                   ]);
               ?>
             </div>
           </div>
+
 
           <div class="row">
             <div class="col-xs-11 col-xs-offset-1">
               <?php
                   echo $this->Form->control('previous_events', ['type' => 'radio', 
                      'label' => '<b>3a) Any previous Adverse Events report on this participant?</b>', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                        'options' => ['Yes' => 'Yes', 'No' => 'No']]);
 
               ?>            
@@ -170,48 +172,50 @@ $globalEd = $this->fetch('globalEd');
             </div>
           </div>
 
+
           <div class="row">
             <div class="col-xs-12">
               <?php
                   echo $this->Form->control('location_event', ['type' => 'radio', 
-                     'label' => '<b>4) Location of the current Adverse Event', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'label' => '4) Location of the current Adverse Event', 'escape' => false,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                        'options' => ['Home' => 'Home', 'Clinic/Hospital' => 'Clinic/Hospital', 'Work' => 'Work', 'Study site' => 'Study site', 'Other, specify' => 'Other, specify']]);
 
                   echo $this->Form->control('location_event_specify', ['label' => 'If Other, specify', 'escape' => false,
-                'templates' => ($globalEd) ? 'view_form_text' : [ 
+                'templates' => ($editable) ? [ 
                       'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
                       'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
-                      'textarea' => '<div class="col-sm-offset-1 col-sm-6"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);
+                      'textarea' => '<div class="col-sm-offset-1 col-sm-6"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',] : 'view_form_text']);
               ?>
             </div>
           </div>
-
+ 
           <div class="row">
             <div class="col-xs-8">
               <?php
                   echo $this->Form->control('research_involves', ['type' => 'radio', 
                      'label' => '<b>5) Research involves</b>', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                        'options' => ['Drug' => 'Drug', 'Device' => 'Device', 'Procedure' => 'Procedure', 'Vaccine' => 'Vaccine', 'Other, specify' => 'Other, specify']]);
                        ?>
             </div>
             <div class="col-xs-12">
                 <?php 
-                  echo $this->Form->control('research_involves_specify', ['label' => 'if other, specify', 'escape' => false, 'templates' => ($globalEd) ? 'view_form_text' : [ 
+                  echo $this->Form->control('research_involves_specify', ['label' => 'if other, specify', 'escape' => false, 'templates' => ($editable) ? [ 
                       'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
                       'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
-                      'textarea' => '<div class="col-sm-offset-1 col-sm-6"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);
+                      'textarea' => '<div class="col-sm-offset-1 col-sm-6"><textarea class="form-control" rows="1" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',] : 'view_form_text']);
               ?>
             </div>
           </div>
+
           <div class="row">
             <div class="col-xs-12">
               <?php
-                  echo $this->Form->control('name_of_drug', ['label' => '6) Name of Drug, Device or Procedure', 'escape' => false, 'templates' => ($globalEd) ? 'view_form_text' : [ 
+                  echo $this->Form->control('name_of_drug', ['label' => '6) Name of Drug, Device or Procedure', 'escape' => false, 'templates' => ($editable) ? [ 
                       'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
                       'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
-                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="4" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);
+                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="4" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',] : 'view_form_text']);
               ?>
             </div>
           </div>
@@ -220,7 +224,7 @@ $globalEd = $this->fetch('globalEd');
             <div class="col-xs-12"><?php 
               echo $this->Form->control('drug_investigational', ['type' => 'radio', 
                      'label' => '<b>7) Is the drug/device investigational</b>', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                        'options' => ['Yes' => 'Yes', 'No' => 'No']]);
             ?></div>
           </div>    
@@ -231,7 +235,7 @@ $globalEd = $this->fetch('globalEd');
           </div>
 
           <div class="row">
-            <div class="col-xs-12"><?php echo $this->element('multi/list_of_devices', ['globalEd' => $globalEd]);?></div>
+            <div class="col-xs-12"><?php echo $this->element('multi/list_of_devices', ['editable' => $editable]);?></div>
           </div>
 
           <div class="row">
@@ -240,36 +244,37 @@ $globalEd = $this->fetch('globalEd');
             </div>            
             <div class="col-xs-3"><?php 
               echo $this->Form->control('report_to_mcaz', ['type' => 'radio', 
-                     'label' => '<b>(a)MCAZ</b>', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'label' => '(a)MCAZ', 'escape' => false,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
 
-              echo $this->Form->control('report_to_mcaz_date', ['label' => 'Date', 'escape' => false, 'type' => 'text', 'templates' => ($globalEd) ? 'view_form' : ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',]]);
+              echo $this->Form->control('report_to_mcaz_date', ['label' => 'Date', 'escape' => false, 'type' => 'text', 'templates' => ($editable) ? ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',] : 'view_form']);
               ?>
             </div>
             <div class="col-xs-3"><?php 
               echo $this->Form->control('report_to_mrcz', ['type' => 'radio', 
-                     'label' => '<b>(b)MRCZ', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'label' => '(b)MRCZ', 'escape' => false,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
 
-              echo $this->Form->control('report_to_mrcz_date', ['label' => 'Date', 'escape' => false, 'type' => 'text', 'templates' => ($globalEd) ? 'view_form' :  ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',]]);
+              echo $this->Form->control('report_to_mrcz_date', ['label' => 'Date', 'escape' => false, 'type' => 'text', 'templates' => ($editable) ? ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',] : 'view_form']);
               ?>
             </div>
             <div class="col-xs-3"><?php 
               echo $this->Form->control('report_to_sponsor', ['type' => 'radio', 
                      'label' => '<b>(c)Sponsor', 'escape' => false,
                      'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
-              echo $this->Form->control('report_to_sponsor_date', ['label' => 'Date', 'escape' => false, 'type' => 'text', 'templates' => ($globalEd) ? 'view_form' : ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',]]);
+              echo $this->Form->control('report_to_sponsor_date', ['label' => 'Date', 'escape' => false, 'type' => 'text', 'templates' => ($editable) ? ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',] : 'view_form']);
               ?>
             </div>
             <div class="col-xs-3"><?php 
               echo $this->Form->control('report_to_irb', ['type' => 'radio', 
-                     'label' => '<b>(d) IRB', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'label' => '(d) IRB', 'escape' => false,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
-              echo $this->Form->control('report_to_irb_date', ['label' => 'Date', 'escape' => false, 'type' => 'text', 'templates' => ($globalEd) ? 'view_form' : ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',]]);
+              echo $this->Form->control('report_to_irb_date', ['label' => 'Date', 'escape' => false, 'type' => 'text', 'templates' => ($editable) ? ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',] : 'view_form']);
               ?>
             </div>
           </div> 
@@ -281,58 +286,58 @@ $globalEd = $this->fetch('globalEd');
           <div class="row">
             <div class="col-xs-12"><?php 
               echo $this->Form->control('medical_history', ['label' => 'Summary of relevant past medical history of participant', 'escape' => false,
-                'templates' => ($globalEd) ? 'view_form_text' : [ 
+                'templates' => ($editable) ? [ 
                       'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
-                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]);
+                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']);
               ?></div>
           </div>
 
           <div class="row">
             <div class="col-xs-12"><?php 
-              echo $this->Form->control('diagnosis', ['label' => '(a) Diagnosis', 'escape' => false, 'templates' => ($globalEd) ? 'view_form_text' : [ 
+              echo $this->Form->control('diagnosis', ['label' => '(a) Diagnosis', 'escape' => false, 'templates' => ($editable) ? [ 
                       'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
-                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]);
-              echo $this->Form->control('immediate_cause', ['label' => '(b) Immediate Cause', 'escape' => false, 'templates' => ($globalEd) ? 'view_form_text' : [ 
+                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']);
+              echo $this->Form->control('immediate_cause', ['label' => '(b) Immediate Cause', 'escape' => false, 'templates' => ($editable) ? [ 
                       'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
-                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]);
+                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']);
               ?>
             </div>
             <div class="col-xs-12">
                 <?php             
               echo $this->Form->control('symptoms', ['label' => '(c) Symptoms', 'escape' => false, 
-            'templates' => ($globalEd) ? 'view_form_text' : [ 'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
-                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>']]);   
+            'templates' => ($editable) ? [ 'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
+                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']);   
 
               echo $this->Form->control('investigations', ['label' => '(d) Investigations-Laboratory and any other significant investigations conducted', 'escape' => false, 
-            'templates' => ($globalEd) ? 'view_form_text' : [ 
+            'templates' => ($editable) ? [ 
                       'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
-                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);
+                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',] : 'view_form_text']);
               ?>
             </div>
           </div>
 
           <div class="row">
-            <div class="col-xs-12"><?php echo $this->element('multi/adr_lab_tests', ['globalEd' => $globalEd]);?></div>
+            <div class="col-xs-12"><?php echo $this->element('multi/adr_lab_tests', ['editable' => $editable]);?></div>
           </div>
 
           <div class="row">
             <div class="col-xs-12"><?php 
               echo $this->Form->control('results', ['label' => '(e) Results', 'escape' => false, 
-            'templates' => ($globalEd) ? 'view_form_text' : [ 
+            'templates' => ($editable) ? [ 
                       'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
-                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);
+                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',] : 'view_form_text']);
               echo $this->Form->control('management', ['label' => '(f) Management (Include management of study treatment, continued, temporarily held, reduced dose, permanent discontinuation, off Product)', 'escape' => false, 
-            'templates' => ($globalEd) ? 'view_form_text' : [ 
+            'templates' => ($editable) ? [ 
                       'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
-                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);
+                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',] : 'view_form_text']);
               ?>
             </div>
             <div class="col-xs-12">
                 <?php             
               echo $this->Form->control('outcome', ['label' => '(g) Outcome', 'escape' => false, 
-            'templates' =>($globalEd) ? 'view_form_text' : [ 
+            'templates' =>($editable) ? [ 
                       'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
-                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',]]);             
+                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',] : 'view_form_text']);             
 
               ?>
             </div>
@@ -343,15 +348,15 @@ $globalEd = $this->fetch('globalEd');
           <div class="row">
             <div class="col-xs-6"><?php 
               echo $this->Form->control('d1_consent_form', ['type' => 'radio', 
-                     'label' => '<b>D1.  Was this Adverse Event originally addressed in the protocol and consent form?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'label' => 'D1.  Was this Adverse Event originally addressed in the protocol and consent form?', 'escape' => false,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'N/A' => 'N/A']]);
               ?>
             </div>
             <div class="col-xs-6"><?php 
               echo $this->Form->control('d2_brochure', ['type' => 'radio', 
-                     'label' => '<b>D2. Was this Adverse Event originally addressed in Investigators Brochure?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'label' => 'D2. Was this Adverse Event originally addressed in Investigators Brochure?', 'escape' => false,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'N/A' => 'N/A']]);
               ?>
             </div>
@@ -359,15 +364,15 @@ $globalEd = $this->fetch('globalEd');
           <div class="row">
             <div class="col-xs-6"><?php 
               echo $this->Form->control('d3_changes_sae', ['type' => 'radio', 
-                     'label' => '<b>D3. Are changes required to the protocol as a result of this SAE? ', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'label' => 'D3. Are changes required to the protocol as a result of this SAE? ', 'escape' => false,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'N/A' => 'N/A']]);
               ?>
             </div>
             <div class="col-xs-6"><?php 
               echo $this->Form->control('d4_consent_sae', ['type' => 'radio', 
-                     'label' => '<b>D4. Are changes required to the consent form as a result of this SAE?', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'label' => 'D4. Are changes required to the consent form as a result of this SAE?', 'escape' => false,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'N/A' => 'N/A']]);
               ?>
             </div>
@@ -375,7 +380,7 @@ $globalEd = $this->fetch('globalEd');
 
           <!-- <p>Attachments!!</p> -->
           <div class="row">
-            <div class="col-xs-12"><?php echo $this->element('multi/attachments', ['globalEd' => $globalEd]);?></div>
+            <div class="col-xs-12"><?php echo $this->element('multi/attachments', ['editable' => $editable]);?></div>
           </div>
           
           <p>If changes are <b>required</b>, please attach a copy of the revised protocol/consent form with changes highlighted with a bright coloured  highlighter. </p>
@@ -393,8 +398,8 @@ $globalEd = $this->fetch('globalEd');
           <div class="row">
             <div class="col-xs-12"><?php 
               echo $this->Form->control('assess_risk', ['type' => 'radio', 
-                     'label' => '<b>From the data obtained or from currently available information, do you see any need to reassess the risks and benefits to the subjects in this research.', 'escape' => false,
-                     'templates' => ($globalEd) ? 'view_form_radio' : 'radio_form',
+                     'label' => 'From the data obtained or from currently available information, do you see any need to reassess the risks and benefits to the subjects in this research.', 'escape' => false,
+                     'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
               ?>
             </div>
@@ -404,7 +409,12 @@ $globalEd = $this->fetch('globalEd');
               echo $this->fetch('submit_buttons');
           ?>   
 
+
       <?= $this->Form->end() ?>
     </div>
   </div>
 </div>
+
+<?php 
+  echo $this->fetch('other_tabs');
+?>

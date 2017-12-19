@@ -69,7 +69,7 @@ class AefisTable extends Table
             'className' => 'Reviews',
             'foreignKey' => 'foreign_key',
             'dependent' => true,
-            'conditions' => array('Reviews.model' => 'Aefis', 'Reviews.type' => 'causality'),
+            'conditions' => array('Reviews.model' => 'Aefis', 'Reviews.category' => 'causality'),
         ]);
         $this->hasMany('Committees', [
             'className' => 'Reviews',

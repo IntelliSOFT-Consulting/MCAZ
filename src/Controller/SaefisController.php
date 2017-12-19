@@ -156,9 +156,35 @@ class SaefisController extends AppController
               }
             } elseif ($saefi->submitted == 2) {
               //submit to mcaz button
+              $saefi->submitted_date = date("Y-m-d H:i:s");
+              $saefi->status = 'Submitted';
               if ($this->Saefis->save($saefi, ['validate' => false])) {
                 $this->Flash->success(__('Report '.$saefi->reference_number.' has been successfully submitted to MCAZ for review.'));
                 return $this->redirect(['action' => 'view', $saefi->id]);
+
+
+                //send email and notification
+                $this->loadModel('Queue.QueuedJobs');    
+                $data = [
+                    'email_address' => $saefi->reporter_email, 'user_id' => $this->Auth->user('id'),
+                    'type' => 'applicant_submit_saefi_email', 'model' => 'Aefis', 'foreign_key' => $saefi->id,
+                    'vars' =>  $saefi->toArray()
+                ];
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = 'applicant_submit_saefi_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                //notify managers
+                $managers = $this->Aefis->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
+                foreach ($managers as $manager) {
+                    $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Aefis', 'foreign_key' => $saefi->id,
+                      'vars' =>  $saefi->toArray()];
+                    $data['type'] = 'manager_submit_saefi_email';
+                    $data['vars']['name'] = $manager->name;
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_submit_saefi_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
               } else {
                 $this->Flash->error(__('Report '.$saefi->reference_number.' could not be saved. Kindly correct the errors and try again.'));
               }

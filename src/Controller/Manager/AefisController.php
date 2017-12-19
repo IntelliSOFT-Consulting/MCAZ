@@ -113,7 +113,9 @@ class AefisController extends AppController
                     'type' => 'manager_assign_evaluator_email', 'model' => 'Aefis', 'foreign_key' => $aefi->id,
                     'vars' =>  $aefi->toArray()
                 ];
-                $data['vars']['assigned_by_name'] = $this->Auth->user('name');
+                $data['vars']['assigned_by_name'] = $this->Auth->user('name');                
+                $data['vars']['user_message'] = $this->request->getData('user_message');
+                $data['vars']['name'] = $evaluator->name;
                 //notify applicant
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'manager_assign_evaluator_notification';

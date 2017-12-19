@@ -41,7 +41,7 @@
                         echo $this->Html->link($sadr->reference_number.'&nbsp; &nbsp; <i class="text-success fa fa-check-square-o" aria-hidden="true"></i>
 ', ['controller' => 'Sadrs', 'action' => 'view', $sadr->id], ['escape' => false]);
                       } else {
-                        echo $this->Html->link(h('ADR '.$sadr->created->i18nFormat('dd-MM-yyyy HH:mm:ss')), ['controller' => 'Sadrs', 'action' => 'edit', $sadr->id]);
+                        echo $this->Html->link(h($sadr->created->i18nFormat('dd-MM-yyyy HH:mm:ss')), ['controller' => 'Sadrs', 'action' => 'edit', $sadr->id]);
                       }
                       
                      ?></td>
@@ -100,7 +100,7 @@
                         echo $this->Html->link($adr->reference_number.'&nbsp; &nbsp; <i class="text-success fa fa-check-square-o" aria-hidden="true"></i>
 ', ['controller' => 'Adrs', 'action' => 'view', $adr->id], ['escape' => false]);
                       } else {
-                        echo $this->Html->link(h('ADR '.$adr->created->i18nFormat('dd-MM-yyyy HH:mm:ss')), ['controller' => 'Adrs', 'action' => 'edit', $adr->id]);
+                        echo $this->Html->link(h($adr->created->i18nFormat('dd-MM-yyyy HH:mm:ss')), ['controller' => 'Adrs', 'action' => 'edit', $adr->id]);
                       }
                       
                      ?></td>
@@ -160,7 +160,7 @@
                       echo $this->Html->link($aefi->reference_number.'&nbsp; &nbsp; <i class="text-success fa fa-check-square-o" aria-hidden="true"></i>
 ', ['controller' => 'Aefis', 'action' => 'view', $aefi->id], ['escape' => false]);
                     } else {
-                      echo $this->Html->link(h('AEFI '.$aefi->created->i18nFormat('dd-MM-yyyy HH:mm:ss')), ['controller' => 'Aefis', 'action' => 'edit', $aefi->id]);
+                      echo $this->Html->link(h($aefi->created->i18nFormat('dd-MM-yyyy HH:mm:ss')), ['controller' => 'Aefis', 'action' => 'edit', $aefi->id]);
                     }
                     
                    ?></td>
@@ -219,7 +219,7 @@
                       echo $this->Html->link($saefi->reference_number.'&nbsp; &nbsp; <i class="text-success fa fa-check-square-o" aria-hidden="true"></i>
 ', ['controller' => 'Saefis', 'action' => 'view', $saefi->id], ['escape' => false]);
                     } else {
-                      echo $this->Html->link(h('SAEFI '.$saefi->created->i18nFormat('dd-MM-yyyy HH:mm:ss')), ['controller' => 'Saefis', 'action' => 'edit', $saefi->id]);
+                      echo $this->Html->link(h($saefi->created->i18nFormat('dd-MM-yyyy HH:mm:ss')), ['controller' => 'Saefis', 'action' => 'edit', $saefi->id]);
                     }
                     
                    ?></td>
