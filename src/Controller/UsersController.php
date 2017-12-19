@@ -112,17 +112,8 @@ class UsersController extends AppController
                     'errors' => $user->errors(), 
                     'message' => 'Validation errors', 
                     '_serialize' => ['errors', 'message']]);
-                return;
+                //return;
             }
-
-            // if($user->errors()) {
-            //     $this->response->statusCode(500);
-            //     $this->set([
-            //         // 'errors' => $user->errors(), 
-            //         'code' => 500, 'message' => 'yntax error, unexpected \u0027$user\u0027 (T_VARIABLE)', 'success' => false,
-            //         '_serialize' => ['code', 'message']]);
-            //     return;
-            // }
 
             $user->group_id = 3;
             // $user->activation_key = (new DefaultPasswordHasher)->hash($user->email);            
