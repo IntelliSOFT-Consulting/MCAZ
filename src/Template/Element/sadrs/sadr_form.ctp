@@ -24,6 +24,65 @@ function getChoice(sel){
           $("#choice-severity").hide();
       }
 }
+
+
+function getAge(dateString,type) {
+    if(type==1){
+      var today = new Date();
+      var birthDate = new Date(dateString);
+      var age = today.getFullYear() - birthDate.getFullYear();
+      var m = today.getMonth() - birthDate.getMonth();
+      if(m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+      }
+    }else if (type==2) {
+      var age = dateString;
+      var m = 2 ;
+    }
+    
+    if( age < 1 && (m == 1 || m == 0)){
+      age = 'neonatal';
+    }else if(age >=0 && age <= 4){
+      age ='infant';
+    }else if(age > 4 && age <= 11){
+      age ='child';
+    }else if(age > 11 && age <= 16){
+      age ='adolescent';
+    }else if(age > 16 && age <= 69){
+      age ='adult';
+    }else if(age > 69){
+      age ='elderly';
+    }
+
+    $('#age_group').val(age);
+
+    return age;
+}
+
+function getDate(sel){
+  var get_day = document.getElementById('date_of_birth[day]');
+  var day = get_day.options[get_day.selectedIndex].value;
+  var get_month = document.getElementById("date_of_birth[month]");
+  var month = get_month.options[get_month.selectedIndex].value;
+  var get_year = document.getElementById("date_of_birth[year]");
+  var year = get_year.options[get_year.selectedIndex].value;
+
+  var get_age = document.getElementById("age");
+  var age = get_age.value;
+
+  if(sel==1){
+    date = year+'/'+month+'/'+day;
+  }else{
+    date = age;
+  }
+
+  console.log(getAge(date,sel));
+  return date;
+
+}
+
+
+
 </script>
 <?php 
     echo $this->fetch('actions');
@@ -64,10 +123,15 @@ function getChoice(sel){
                     'type' => 'date', 'escape' => false,
                     'label' => 'Date of Birth',
                     'templates' => ($editable) ? ['dateWidget' => '<div class="col-xs-6">{{day}}-{{month}}-{{year}}</div>',
-                                   'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',] : [],
-                    'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
+                                   'select' => '<select onchange="getDate(1);" id="{{name}}" name="{{name}}"{{attrs}}>{{content}}</select>',] : [],
+                    'minYear' => date('Y') - 100, 
+                    'maxYear' => date('Y'), 'empty' => true,
                   ));
-                  echo $this->Form->control('age',['label' => 'OR AGE','type'=>'number']);
+                  echo $this->Form->control('age',[
+                    'label' => 'OR AGE',
+                    'id' => 'age',
+                    'type'=>'number',
+                    'onchange' => 'getDate(2);']);
                   /*
                   if($sadr->age > 60){
                       $age_group='elderly';
@@ -79,8 +143,10 @@ function getChoice(sel){
                       $age_group='child';
                   }elseif($sadr->age < 3){
                       $age_group='infant';
-                  }
-                  echo $this->Form->control('age_group',['value'=>$age_group]);*/
+                  }*/
+                  echo $this->Form->control('age_group',[
+                    'id' => 'age_group',
+                    'type' => 'hidden']);
               ?>            
             </div>
             <div class="col-xs-6">

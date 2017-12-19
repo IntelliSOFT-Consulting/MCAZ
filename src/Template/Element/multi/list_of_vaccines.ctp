@@ -22,13 +22,13 @@
                     <th colspan="4">Diluent</th>
                   </tr>
                   <tr>
-                    <th colspan="2" > Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
-                    <th> <h5>Date and Time of Vaccination <span class="sterix fa fa-asterisk" aria-hidden="true"></span><br><small id="helpBlock" class="has-warning">Format dd-mm-yyyy hh24:min</small></h5></th>
-                    <th> Dose (1st, 2nd...)</th>
+                    <th colspan="2" style="width: 20%"> Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
+                    <th colspan="2" style="width: 20%"> <h5>Date and Time of Vaccination <span class="sterix fa fa-asterisk" aria-hidden="true"></span><br><small id="helpBlock" class="has-warning">Format dd-mm-yyyy hh24:min</small></h5></th>
+                    <th style="width: 5%"> Dose (1st, 2nd...)</th>
                     <th style="width: 5%"> Batch/Lot number <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
                     <th> Expiry date </th>
                     <th style="width: 5%"> Batch/ Lot Number </th>
-                    <th> Expiry date </th>
+                    <th > Expiry date </th>
                     <th> Time of reconstitution  </th>
                   </tr>
                 </thead>
@@ -53,7 +53,6 @@
                         ?>
                     </td>
                     <td>
-                      <!-- <div class="col-xs-6"> -->
                         <?php
                             echo $this->Form->control('aefi_list_of_vaccines.'.$i.'.vaccination_date', ['label' => false,
                                 'type' => 'text',
@@ -62,18 +61,17 @@
               'formGroup' => ' {{label}}{{input}} ',
           ] : 'view_form_table']);
                         ?>
-                      <!-- </div> -->
-                      <!-- <div class="col-xs-6"> -->
+                    </td> 
+                    <td>
                         <?php
-          //                   echo $this->Form->control('aefi_list_of_vaccines.'.$i.'.vaccination_time', ['label' => false,
-          //                       'type' => 'text',
-          //                       'templates' => ($editable) ? [
-          //     'input' => '<input class="form-control " type="{{type}}" name="{{name}}"{{attrs}}/>',
-          //     'formGroup' => ' {{label}}{{input}} ',
-          // ] : 'view_form_table']);
+                             echo $this->Form->control('aefi_list_of_vaccines.'.$i.'.vaccination_time', ['label' => false,
+                                'placeholder' => '14:00',
+                                 'type' => 'text',
+                                 'templates' => ($editable) ? [
+               'input' => '<input class="form-control " type="{{type}}" name="{{name}}"{{attrs}}/>',
+               'formGroup' => ' {{label}}{{input}} ',
+           ] : 'view_form_table']);
                         ?>
-                      <!-- </div> -->
-                        
                     </td>
                     <td>
                         <?php
