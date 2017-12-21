@@ -151,7 +151,7 @@ class AdrsController extends AppController
         if ($this->request->is('post')) {
             $this->_attachments();
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
-
+            $adr->user_id = $this->Auth->user('id');
             if ($this->Adrs->save($adr, ['validate' => false])) {
                 //update field
                 $query = $this->Adrs->query();

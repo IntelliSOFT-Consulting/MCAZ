@@ -124,6 +124,8 @@ class SaefisController extends AppController
         if ($this->request->is('post')) {
            $this->_attachments();
            $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
+           $saefi->user_id = $this->Auth->user('id');
+
             if ($this->Saefis->save($saefi, ['validate' => false])) {
                 //update field
                 $query = $this->Saefis->query();
