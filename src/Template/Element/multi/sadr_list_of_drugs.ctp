@@ -24,71 +24,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td><?php
-                             echo $this->Form->input('sadr_list_of_drugs.0.id')  ;
-                             echo $this->Form->control('sadr_list_of_drugs.0.drug_name', ['label' => false,
-                                  'templates' => 'table_form']);
-                        ?>
-                    </td>
-                    <td>
-                        <?php
-                            echo $this->Form->control('sadr_list_of_drugs.0.brand_name', ['label' => false, 'templates' => 'table_form']);
-                        ?>
-                    </td>
-                    <td>
-                        <?php
-                            echo $this->Form->control('sadr_list_of_drugs.0.batch_number', ['label' => false, 'templates' => 'table_form']);
-                        ?>
-                    </td>
-                    <td><?php echo $this->Form->control('sadr_list_of_drugs.0.dose', ['label' => false, 
-                           'type' => 'text', 'templates' => 'table_form']); ?></td>
-                    <td>
-                        <?php
-                            echo $this->Form->control('sadr_list_of_drugs.0.dose_id', ['label' => false, 'options' => $doses, 'templates' => 'table_form', 'empty' => true]);
-                        ?>
-                    </td>
-                    <td><?php
-                            echo $this->Form->control('sadr_list_of_drugs.0.route_id', ['label' => false, 'options' => $routes, 'templates' => 'table_form', 'empty' => true]);
-                        ?>
-                    </td>
-                    <td><?php
-                            echo $this->Form->control('sadr_list_of_drugs.0.frequency_id', ['label' => false, 'options' => $frequencies, 'templates' => 'table_form', 'empty' => true]);
-                        ?>
-                    </td>
-                    <td><?= $this->Form->control('sadr_list_of_drugs.0.indication', ['label' => false, 'templates' => 'table_form']); ?></td>
-                    <td>
-                        <?php
-                            echo $this->Form->control('sadr_list_of_drugs.0.start_date', [
-                                'type' => 'text',
-                                'label' => false, //'monthNames' => false,
-                                'templates' => 'table_form'
-                                //'templates' => [
-                                    //'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',
-                                //    'dateWidget' => '{{day}}{{month}}{{year}}',]
-                                ]);
-                        ?>
-                    </td>
-                    <td>
-                        <?php
-                            echo $this->Form->control('sadr_list_of_drugs.0.stop_date', ['label' => false, 
-                                'type' => 'text',
-                                'templates' => 'table_form']);
-                        ?>
-                    </td>
-                    <td>
-                        <?php
-                            echo $this->Form->checkbox('sadr_list_of_drugs.0.suspected_drug', ['label' => false, 'templates' => 'table_form'])
-                        ?>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-primary btn-sm" id="addListOfDrug">
-                          Add <i class="fa fa-plus"></i>
-                        </button>
-                    </td>
-                  </tr>
-              
+
               <?php 
                 //Dynamic fields
                 if (!empty($sadr['sadr_list_of_drugs'])) {
@@ -164,3 +100,8 @@
     </div><!--/row-->
     
 
+<?php
+    echo $this->Form->control('doses_holder', ['label' => false, 'type' => 'select', 'options' =>  $doses, 'style' => 'visibility: hidden;', 'empty' => true, 'templates' => 'table_form']); 
+    echo $this->Form->control('routes_holder', ['label' => false, 'type' => 'select', 'options' =>  $routes, 'style' => 'visibility: hidden;', 'empty' => true, 'templates' => 'table_form']); 
+    echo $this->Form->control('frequencies_holder', ['label' => false, 'type' => 'select', 'options' =>  $frequencies, 'style' => 'visibility: hidden;', 'empty' => true, 'templates' => 'table_form']); 
+?>

@@ -50,12 +50,15 @@ $(function() {
         //var intId = $("#listofdrugsform tr").length - 1;
         if ($('#listofdrugsform tr').length < 15) {            
             trVar = $.parseHTML(constructLODTr(intId));
-            var $options = $("#sadr-list-of-drugs-0-dose-id > option").clone();
-            $(trVar).find('[name*="dose_id"]').append($("#sadr-list-of-drugs-0-dose-id > option").clone()).val('');
-            $(trVar).find('[name*="route_id"]').append($("#sadr-list-of-drugs-0-route-id > option").clone()).val('');
-            $(trVar).find('[name*="frequency_id"]').append($("#sadr-list-of-drugs-0-frequency-id > option").clone()).val('');
+            
+            $(trVar).find('[name*="dose_id"]').append($("#doses-holder> option").clone()).val('');
+            $(trVar).find('[name*="route_id"]').append($("#routes-holder > option").clone()).val('');
+            $(trVar).find('[name*="frequency_id"]').append($("#frequencies-holder > option").clone()).val('');
 
             $("#listofdrugsform tbody").append(trVar);
+
+            
+
         } else {
             alert("Sorry, can't add more than "+intId+" Drugs at a time!");
         }

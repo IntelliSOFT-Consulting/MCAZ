@@ -159,7 +159,7 @@ class SadrsController extends AppController
         if ($this->request->is('post')) {
             $this->_attachments();
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
-
+            $sadr->user_id = $this->Auth->user('id');
             if ($this->Sadrs->save($sadr, ['validate' => false])) {
                 //update field
                 $query = $this->Sadrs->query();
