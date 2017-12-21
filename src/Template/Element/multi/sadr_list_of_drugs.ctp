@@ -109,6 +109,6 @@
 
 <?php
     echo $this->Form->control('doses_holder', ['label' => false, 'type' => 'select', 'options' =>  $doses, 'style' => 'visibility: hidden;', 'empty' => true, 'templates' => 'table_form']); 
-    echo $this->Form->control('routes_holder', ['label' => false, 'type' => 'select', 'options' =>  $doses, 'style' => 'visibility: hidden;', 'empty' => true, 'templates' => 'table_form']); 
-    echo $this->Form->control('frequencies_holder', ['label' => false, 'type' => 'select', 'options' =>  $doses, 'style' => 'visibility: hidden;', 'empty' => true, 'templates' => 'table_form']); 
+    echo $this->Form->control('routes_holder', ['label' => false, 'type' => 'select', 'options' =>  $routes, 'style' => 'visibility: hidden;', 'empty' => true, 'templates' => 'table_form']); 
+    echo $this->Form->control('frequencies_holder', ['label' => false, 'type' => 'select', 'options' =>  $frequencies, 'style' => 'visibility: hidden;', 'empty' => true, 'templates' => 'table_form']); 
 ?>
