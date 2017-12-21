@@ -46,7 +46,7 @@ $editable = $this->fetch('editable');
 
                   echo $this->Form->control('patient_telephone', ['label' => 'Patient\'s phone number', 'escape' => false]);
                   echo $this->Form->control('gender', ['type' => 'radio', 
-                     'label' => 'Gender <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
+                     'label' => '<b>Gender</b> <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Male' => 'Male', 'Female' => 'Female']]);
 

@@ -158,7 +158,7 @@ function getDate(sel){
                   echo $this->Form->control('height', ['label' => 'Height (cm)']);
                   //TODO: Change styles for view select, radio and checkbox to become silent
                   echo $this->Form->control('gender', ['type' => 'radio', 
-                     'label' => '<b>Gender <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
+                     'label' => '<b>Gender</b> <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
                      'options' => ['Male' => 'Male', 'Female' => 'Female', 'Unknown' => 'Unknown']]);
               ?>
@@ -187,7 +187,7 @@ function getDate(sel){
                   //$this->Form->control('date_of_end_of_reaction', ['label' => 'Date of Onset:']); 
                   echo $this->Form->control('date_of_end_of_reaction', array(
                     'type' => 'date',
-                    'label' => 'Date of end of Reaction <br> <i>(if it ended)</i>', 'escape' => false,
+                    'label' => 'Date of end of Reaction </br> <i>(if it ended)</i>', 'escape' => false,
                     'templates' => ($editable) ? ['dateWidget' => '<div class="col-xs-6">{{day}}-{{month}}-{{year}}</div>',
                                    'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',] : [],
                     'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
@@ -217,21 +217,21 @@ function getDate(sel){
           </div>
 
           <div class="row">
-            <div class="col-xs-3"><?php 
-              // $this->Form->control('severity', ['type' => 'radio', //'label' => 'Serious:',
-              //     'label' => '<b>Serious: <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
-              //        'templates' => [
-              //          'radio' => '<input type="radio" class="radio-inline" name="{{name}}" value="{{value}}"{{attrs}}>', 
-              //          'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
-              //          'nestingLabel' => '{{hidden}}<label class="radio-inline" {{attrs}}>{{input}}{{text}}</label>',
-              //        ],
-              //       'options' => ['Yes' => 'Yes', 'No' => 'No']]); 
-              echo  $this->Form->control('severity', ['type' => 'radio', 
-                    'onchange'=>'getChoice(this)','label' => '<b>Serious <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
-                    //'label' => '<b>Serious: <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
+            <div class="col-xs-4">
+              <div class="col-xs-4">
+                <b>Serious</b> <span class="sterix fa fa-asterisk" aria-hidden="true"></span>
+              </div>
+              <div class="col-xs-8">
+              <?php 
+              echo  $this->Form->control('severity', [
+                    'type' => 'radio', 
+                    'onchange'=>'getChoice(this)',
+                    'label' => false, 
+                    'escape' => false,
                     'templates' => ($editable) ?  'radio_form' : 'view_form_radio',
                     'options' => ['Yes' => 'Yes', 'No' => 'No']]);
-              ?>            
+              ?>      
+              </div>      
             </div>
 
             <div class="col-xs-5" id="choice-severity"><?= $this->Form->control('severity_reason', ['type' => 'select', 
@@ -243,17 +243,21 @@ function getDate(sel){
                                               'Other Medically Important Reason' => 'Other Medically Important Reason']]); ?>
                                                 
               </div>
-              <div class="col-xs-4"></div>
+              <div class="col-xs-3"></div>
           </div>
 
           <div class="row">
-            <div class="col-xs-6"><?= $this->Form->control('medical_history', ['label' => 'Relevant Medical History, including Allergies']); ?></div>
-            <div class="col-xs-6"><?= $this->Form->control('past_drug_therapy', ['label' => 'Relevant Past Drug Therapy']); ?></div>
+            <div class="col-xs-12"><?= $this->Form->control('medical_history', ['label' => 'Relevant Medical History, including Allergies']); ?>
+              
+            </div>
+            <div class="col-xs-12"><?= $this->Form->control('past_drug_therapy', ['label' => 'Relevant Past Drug Therapy']); ?>
+              
+            </div>
           </div>
 
           <div class="row">
-            <div class="col-xs-8"><?= $this->Form->control('lab_test_results', ['label' => 'Laboratory test Results']); ?></div>
-            <div class="col-xs-4"></div>
+            <div class="col-xs-12"><?= $this->Form->control('lab_test_results', ['label' => 'Laboratory test Results']); ?>              
+            </div>
           </div>
 
           <div class="row">
@@ -261,8 +265,10 @@ function getDate(sel){
           </div>
           
           <div class="row">
-            <div class="col-xs-12"><?php echo $this->element('multi/sadr_list_of_drugs', [
-              'editable' => $editable]);?></div>
+            <div class="col-xs-12">
+              <?php echo $this->element('multi/sadr_list_of_drugs', [
+              'editable' => $editable]);?>
+              </div>
                     <?= $this->fetch('list_of_drugs'); ?>
           </div>        
 

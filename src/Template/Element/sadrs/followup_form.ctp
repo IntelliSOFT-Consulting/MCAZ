@@ -38,7 +38,7 @@
     <div class="row">
         <div class="col-xs-3"><?php 
             echo  $this->Form->control('severity', ['type' => 'radio', 
-            'onchange'=>'getChoice(this)','label' => '<b>Serious <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
+            'onchange'=>'getChoice(this)','label' => '<b>Serious</b> <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
             //'label' => '<b>Serious: <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
             'templates' => 'radio_form',
             'options' => ['Yes' => 'Yes', 'No' => 'No']]);
