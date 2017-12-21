@@ -27,7 +27,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                               
+                    
               <?php 
                 //Dynamic fields                
                 if (isset($followup_form)) {
@@ -107,3 +107,8 @@
         </div><!--/span-->
     </div><!--/row-->
 
+<?php
+    echo $this->Form->control('doses_holder', ['label' => false, 'type' => 'select', 'options' =>  $doses, 'style' => 'visibility: hidden;', 'empty' => true, 'templates' => 'table_form']); 
+    echo $this->Form->control('routes_holder', ['label' => false, 'type' => 'select', 'options' =>  $doses, 'style' => 'visibility: hidden;', 'empty' => true, 'templates' => 'table_form']); 
+    echo $this->Form->control('frequencies_holder', ['label' => false, 'type' => 'select', 'options' =>  $doses, 'style' => 'visibility: hidden;', 'empty' => true, 'templates' => 'table_form']); 
+?>
