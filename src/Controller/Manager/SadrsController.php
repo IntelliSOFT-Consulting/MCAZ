@@ -111,12 +111,12 @@ class SadrsController extends AppController
                 $this->QueuedJobs->createJob('GenericNotification', $data);
                 //end 
                 
-               $this->Flash->success('Evaluator '.$evaluator->name.' assigned SADR '.$sadr->reference_number);
+               $this->Flash->success('Evaluator '.$evaluator->name.' assigned ADR '.$sadr->reference_number);
 
 
                 if($this->request->is('json')) {
                     $this->set([
-                        'message' => 'Evaluator '.$evaluator->name.' assigned SADR '.$sadr->reference_number, 
+                        'message' => 'Evaluator '.$evaluator->name.' assigned ADR '.$sadr->reference_number, 
                         '_serialize' => ['message']]);
                     return;
                 }
@@ -141,12 +141,12 @@ class SadrsController extends AppController
               $this->response->body('Failure');
               $this->response->statusCode(403);
               $this->set([
-                'errors' => 'Unable to locate SADR', 
+                'errors' => 'Unable to locate ADR', 
                 'message' => 'Validation errors', 
                   '_serialize' => ['errors', 'message']]);
               return;
             } else {
-                $this->Flash->error(__('Unknown SADR Report. Please correct.')); 
+                $this->Flash->error(__('Unknown ADR Report. Please correct.')); 
                 return $this->redirect($this->referer());
             }
         }
@@ -260,7 +260,7 @@ class SadrsController extends AppController
                 return $this->redirect($this->referer());
             }
         } else {
-               $this->Flash->error(__('Unknown SADR Report. Please correct.')); 
+               $this->Flash->error(__('Unknown ADR Report. Please correct.')); 
                return $this->redirect($this->referer());
         }
     }
@@ -309,7 +309,7 @@ class SadrsController extends AppController
 
                 //end 
                 
-               $this->Flash->success('Request successfully sent to evaluator for SADR '.$sadr->reference_number);
+               $this->Flash->success('Request successfully sent to evaluator for ADR '.$sadr->reference_number);
 
                 return $this->redirect($this->referer());
             } else {
@@ -317,7 +317,7 @@ class SadrsController extends AppController
                 return $this->redirect($this->referer());
             }
         } else {
-               $this->Flash->error(__('Unknown SADR Report. Please correct.')); 
+               $this->Flash->error(__('Unknown ADR Report. Please correct.')); 
                return $this->redirect($this->referer());
         }
     }
@@ -377,7 +377,7 @@ class SadrsController extends AppController
                 }
                 //end 
                 
-               $this->Flash->success('Committee Review successfully done for SADR '.$sadr->reference_number);
+               $this->Flash->success('Committee Review successfully done for ADR '.$sadr->reference_number);
 
                 return $this->redirect($this->referer());
             } else {
@@ -385,7 +385,7 @@ class SadrsController extends AppController
                 return $this->redirect($this->referer());
             }
         } else {
-               $this->Flash->error(__('Unknown SADR Report. Please correct.')); 
+               $this->Flash->error(__('Unknown ADR Report. Please correct.')); 
                return $this->redirect($this->referer());
         }
     }
@@ -414,7 +414,7 @@ class SadrsController extends AppController
 
                 return $this->redirect(['action' => 'edit', $sadr->id]);
             }
-            $this->Flash->error(__('The sadr could not be saved. Kindly correct the errors below and retry.'));
+            $this->Flash->error(__('The ADR could not be saved. Kindly correct the errors below and retry.'));
         }
         $users = $this->Sadrs->Users->find('list', ['limit' => 200]);
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
@@ -527,9 +527,9 @@ class SadrsController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $sadr = $this->Sadrs->get($id);
         if ($this->Sadrs->delete($sadr)) {
-            $this->Flash->success(__('The sadr has been deleted.'));
+            $this->Flash->success(__('The ADR has been deleted.'));
         } else {
-            $this->Flash->error(__('The sadr could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The ADR could not be deleted. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);

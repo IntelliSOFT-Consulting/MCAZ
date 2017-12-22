@@ -1,17 +1,20 @@
+
 .navbar-evaluator {
-	background-color: #154e0a;
+	background-color:  #2F1F50;
 }
+
 a:hover, .nav-evaluator > .active > a:focus {
-    color: #fff;
-    background-color: #3b9926;
+    color: #2F1F50;
+    background-color: #6a5596;
 }
+
 .nav-evaluator > .active > a, .nav-evaluator > .active > a:hover, .nav-evaluator > .active > a:focus {
     color: #fff;
-    background-color: #3b9926;
+    background-color: #6a5596;
 }
 
 .navbar-manager  {
-    background-color: #8c00ff;
+    background-color: #2F1F50;
 }
 .navbar-manager .navbar-brand {
     color: #fff;
@@ -19,17 +22,19 @@ a:hover, .nav-evaluator > .active > a:focus {
 .navbar-inverse .navbar-nav > li > a {
     color: #fff;
 }
+
 a:hover, .nav-manager > .active > a:focus {
     color: #fff;
-    background-color: #ff8c00;
+    background-color:  #6a5596;
 }
+
 .nav-manager > .active > a, .nav-manager > .active > a:hover, .nav-manager > .active > a:focus {
     color: #fff;
-    background-color: #af4dff;
+    background-color: #6a5596;
 }
 .van-manager > .active > a, .van-manager > .active > a:hover, .van-manager > .active > a:focus {
     color: #fff;
-    background-color: #d099fc;
+    background-color: #6a5596;
 }
 
 .navbar-admin {

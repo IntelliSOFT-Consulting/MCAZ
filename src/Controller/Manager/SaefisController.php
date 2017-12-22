@@ -89,7 +89,7 @@ class SaefisController extends AppController
 
                 return $this->redirect(['action' => 'edit', $saefi->id]);
             }
-            $this->Flash->error(__('The saefi could not be saved. Please, try again.'));
+            $this->Flash->error(__('The AEFI Investigation Report could not be saved. Please, try again.'));
         }
         $users = $this->Saefis->Users->find('list', ['limit' => 200]);
         $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
@@ -143,7 +143,7 @@ class SaefisController extends AppController
                 return $this->redirect($this->referer());
             }
         } else {
-                $this->Flash->error(__('Unknown AEFI Report. Please correct.')); 
+                $this->Flash->error(__('Unknown AEFI Investigation Report. Please correct.')); 
                 return $this->redirect($this->referer());
         }
     }
@@ -185,7 +185,7 @@ class SaefisController extends AppController
 
                 //end 
                 
-               $this->Flash->success('Request successfully sent to evaluator for Saefi '.$saefi->reference_number);
+               $this->Flash->success('Request successfully sent to evaluator for AEFI Investigation Report '.$saefi->reference_number);
 
                 return $this->redirect($this->referer());
             } else {
@@ -193,7 +193,7 @@ class SaefisController extends AppController
                 return $this->redirect($this->referer());
             }
         } else {
-               $this->Flash->error(__('Unknown Saefi Report. Please correct.')); 
+               $this->Flash->error(__('Unknown AEFI Investigation Report. Please correct.')); 
                return $this->redirect($this->referer());
         }
     }
@@ -232,7 +232,7 @@ class SaefisController extends AppController
                 $this->QueuedJobs->createJob('GenericNotification', $data);
                 //end 
                 
-               $this->Flash->success('Review successfully done for SADR '.$saefi->reference_number);
+               $this->Flash->success('Review successfully done for AEFI Investigation Report '.$saefi->reference_number);
 
                 return $this->redirect($this->referer());
             } else {
@@ -240,7 +240,7 @@ class SaefisController extends AppController
                 return $this->redirect($this->referer());
             }
         } else {
-               $this->Flash->error(__('Unknown SADR Report. Please correct.')); 
+               $this->Flash->error(__('Unknown AEFI Investigation Report Report. Please correct.')); 
                return $this->redirect($this->referer());
         }
     }
@@ -293,7 +293,7 @@ class SaefisController extends AppController
                 //manager does not get a notificatoin
                 //end 
                 
-               $this->Flash->success('Request successfully sent to reporter for Saefi '.$saefi->reference_number);
+               $this->Flash->success('Request successfully sent to reporter for AEFI Investigation Report '.$saefi->reference_number);
 
                 return $this->redirect($this->referer());
             } else {
@@ -301,7 +301,7 @@ class SaefisController extends AppController
                 return $this->redirect($this->referer());
             }
         } else {
-               $this->Flash->error(__('Unknown Saefi Report. Please correct.')); 
+               $this->Flash->error(__('Unknown AEFI Investigation Report. Please correct.')); 
                return $this->redirect($this->referer());
         }
     }
@@ -355,7 +355,7 @@ class SaefisController extends AppController
                 }
                 //end 
                 
-               $this->Flash->success('Committee Review successfully done for Saefi '.$saefi->reference_number);
+               $this->Flash->success('Committee Review successfully done for AEFI Investigation Report '.$saefi->reference_number);
 
                 return $this->redirect($this->referer());
             } else {
@@ -363,7 +363,7 @@ class SaefisController extends AppController
                 return $this->redirect($this->referer());
             }
         } else {
-               $this->Flash->error(__('Unknown Saefi Report. Please correct.')); 
+               $this->Flash->error(__('Unknown AEFI Investigation Report. Please correct.')); 
                return $this->redirect($this->referer());
         }
     }
@@ -451,9 +451,9 @@ class SaefisController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $saefi = $this->Saefis->get($id);
         if ($this->Saefis->delete($saefi)) {
-            $this->Flash->success(__('The saefi has been deleted.'));
+            $this->Flash->success(__('The AEFI Investigation Report has been deleted.'));
         } else {
-            $this->Flash->error(__('The saefi could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The AEFI Investigation Report could not be deleted. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);

@@ -6,7 +6,11 @@
     // $this->Html->script('multi/list_of_drugs', array('inline' => false));
     $this->Html->script('multi/list_of_drugs', ['block' => true]);
 ?>
-
+    <td>
+        <button type="button" class="btn btn-primary btn-sm" id="addListOfDrug">
+          Add <i class="fa fa-plus"></i>
+        </button>
+    </td>
     <div class="row">
         <div class="col-xs-12">
             <table id="listofdrugsform"  class="table table-bordered table-condensed">

@@ -32,7 +32,13 @@
                     echo $this->Form->control('status', ['type' => 'radio', 
                                'label' => '<b>Committee Decision</b>', 'escape' => false,
                                'templates' => 'radio_form',
-                               'options' => ['Approved' => 'Approved', 'Rejected' => 'Rejected', 'RequestReporter' => 'Request info(Reporter)', 'RequestEvaluator' => 'Request info (Evaluator)', '' => 'N/A']]);
+                               'options' => [
+                                  'Certain' => 'Certain', 
+                                  'Probable' => 'Probable', 
+                                  'Possible' => 'Possible', 
+                                  'Unlikely' => 'Unlikely',
+                                  'Conditional/Unclassified' => 'Conditional/Unclassified',
+                                  'Unassessable/Unclassifiable' => 'Unassessable/Unclassifiable']]);
                     echo $this->Form->control('committees.100.file', ['type' => 'file','label' => 'Attach report (if available)', 'escape' => false, 'templates' => 'app_form']);
 	            ?>
          	    </div>          

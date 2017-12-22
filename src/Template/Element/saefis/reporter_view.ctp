@@ -3,7 +3,7 @@
     <div class="col-xs-12">
       <h3 class="text-center"> 
       <span class="text-center"><?= $this->Html->image("mcaz_3.png", ['fullBase' => true, 'style' => 'width: 70%;']); ?></span> <br>
-      Serious Adverse Event After Immunization (AEFI) Investigation Form
+      Adverse Event After Immunization (AEFI) Investigation Form
       </h3>  
       <div class="row">
         <div class="col-xs-12"><h5 class="text-center has-error">(Only for Serious Adverse Events Following Immunization <i class="fa fa-minus" aria-hidden="true"></i> Death / Disability / Hospitalization / Cluster)</h5></div>
