@@ -115,14 +115,15 @@ $editable = $this->fetch('editable');
 
                   echo $this->Form->control('ae_beyond_joint', ['type' => 'checkbox', 'label' => 'beyond nearest joint', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
 
-                  echo $this->Form->control('ae_encephalopathy', ['type' => 'checkbox', 'label' => 'Encephalopathy', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);           
+                             
                                   
               ?>
             </div>
             <div class="col-xs-3">
               <br><br>
-              <?php                  
-                   echo $this->Form->control('ae_abscess', ['type' => 'checkbox', 'label' => 'Abscess', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
+              <?php    
+                  echo $this->Form->control('ae_encephalopathy', ['type' => 'checkbox', 'label' => 'Encephalopathy', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
+                  echo $this->Form->control('ae_abscess', ['type' => 'checkbox', 'label' => 'Abscess', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
                   echo $this->Form->control('ae_sepsis', ['type' => 'checkbox', 'label' => 'Sepsis', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
                   echo $this->Form->control('ae_anaphylaxis', ['type' => 'checkbox', 'label' => 'Anaphylaxis', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
                   echo $this->Form->control('ae_fever', ['type' => 'checkbox', 'label' => 'Fever≥38°C', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
@@ -250,7 +251,7 @@ $editable = $this->fetch('editable');
             <div class="col-xs-6">
               <?php
                   echo $this->Form->control('investigation_needed', ['type' => 'radio',  
-                     'label' => 'Investigation needed', 'escape' => false,
+                     'label' => '<b>Investigation needed</b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
                   echo $this->Form->control('investigation_date', ['label' => 'If yes, date investigation planned', 'type' => 'text']);

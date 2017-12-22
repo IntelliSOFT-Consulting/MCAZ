@@ -61,7 +61,7 @@ class SaefisController extends AppController
         $users = $this->Saefis->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         
 
-        $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Saefis->Designations->find('list',array('order'=>'Designations.name ASC'));
         $this->set(compact('saefi', 'designations', 'evaluators', 'users'));
         $this->set('_serialize', ['saefi', 'designations']);
     }
@@ -92,7 +92,7 @@ class SaefisController extends AppController
             $this->Flash->error(__('The AEFI Investigation Report could not be saved. Please, try again.'));
         }
         $users = $this->Saefis->Users->find('list', ['limit' => 200]);
-        $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Saefis->Designations->find('list',array('order'=>'Designations.name ASC'));
         $this->set(compact('saefi', 'users', 'designations'));
         $this->set('_serialize', ['saefi']);
     }
@@ -434,7 +434,7 @@ class SaefisController extends AppController
 
         }
 
-        $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Saefis->Designations->find('list',array('order'=>'Designations.name ASC'));
         $this->set(compact('saefi', 'designations'));
         $this->set('_serialize', ['saefi']);
     }
