@@ -152,15 +152,17 @@ class SadrsController extends AppController
         $umc = $http->post(Configure::read('vigi_post_url'), 
             (string)$payload,
             ['headers' => Configure::read('vigi_headers')]);  
-        // $this->set([
-        //             'umc' => $umc,
-        //             '_serialize' => ['umc']]); 
-        //Log::write('debug', 'Response :: '.$umc.' End response');              
+
         if ($umc->isOK()) {
             $messageid = $umc->json;
-            Log::write('error', $messageid['MessageId']); 
-            $sadr->messageid = $messageid['MessageId'];
-            $this->Sadrs->save($sadr, ['validate' => false]);
+            // Log::write('error', $messageid['MessageId']); 
+
+            $query = $this->Sadrs->query();
+            $query->update()
+                    ->set(['messageid' => $messageid['MessageId']])
+                    ->where(['id' => $sadr->id])
+                    ->execute();
+
             $this->set([
                     'umc' => $umc->json, 
                     'status' => 'Successfull integration with vigibase', 
