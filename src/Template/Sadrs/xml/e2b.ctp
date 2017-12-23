@@ -26,12 +26,12 @@
                     echo 1;
                 } else { echo 2;}
             ?></serious>
-        <seriousnessdeath><?= ($sadr['severity_reason'] == 'Death') ? 1 : 0; ?></seriousnessdeath>
-        <seriousnesslifethreatening><?= ($sadr['severity_reason'] == 'Life-threatening') ? 1 : 0; ?></seriousnesslifethreatening>
-        <seriousnesshospitalization><?= ($sadr['severity_reason'] == 'Hospitalizaion/Prolonged') ? 1 : 0; ?></seriousnesshospitalization>
-        <seriousnessdisabling><?= ($sadr['severity_reason'] == 'Disabling') ? 1 : 0; ?></seriousnessdisabling>
-        <seriousnesscongenitalanomali><?= ($sadr['severity_reason'] == 'Congenital-anomaly') ? 1 : 0; ?></seriousnesscongenitalanomali>
-        <seriousnessother><?= ($sadr['severity_reason'] == 'Other Medically Important Reason') ? 1 : 0; ?></seriousnessother>
+        <seriousnessdeath><?= ($sadr['severity_reason'] == 'Death') ? 1 : 2; ?></seriousnessdeath>
+        <seriousnesslifethreatening><?= ($sadr['severity_reason'] == 'Life-threatening') ? 1 : 2; ?></seriousnesslifethreatening>
+        <seriousnesshospitalization><?= ($sadr['severity_reason'] == 'Hospitalizaion/Prolonged') ? 1 : 2; ?></seriousnesshospitalization>
+        <seriousnessdisabling><?= ($sadr['severity_reason'] == 'Disabling') ? 1 : 2; ?></seriousnessdisabling>
+        <seriousnesscongenitalanomali><?= ($sadr['severity_reason'] == 'Congenital-anomaly') ? 1 : 2; ?></seriousnesscongenitalanomali>
+        <seriousnessother><?= ($sadr['severity_reason'] == 'Other Medically Important Reason') ? 1 : 2; ?></seriousnessother>
         <receivedateformat>102</receivedateformat>
         <receivedate><?php echo date('Ymd', strtotime($sadr['created'])); ?></receivedate>
         <receiptdateformat>102</receiptdateformat>
@@ -45,7 +45,7 @@
         ?></additionaldocument>
         <documentlist><?php
             foreach ($sadr['attachments'] as $attachment):
-                echo $attachment['description'].', ';
+                echo $attachment['description'].'; ';
             endforeach;
         ?></documentlist>
         <fulfillexpeditecriteria><?php
@@ -195,7 +195,7 @@
             <reaction>
                 <primarysourcereaction><?php echo $sadr['description_of_reaction']; ?></primarysourcereaction>
                 <reactionmeddraversionllt>WHO-ART</reactionmeddraversionllt>
-                <reactionmeddrallt/>
+                <reactionmeddrallt><?php echo $sadr['description_of_reaction']; ?></reactionmeddrallt>
                 <reactionmeddraversionpt/>
                 <reactionmeddrapt/>
                 <termhighlighted/>

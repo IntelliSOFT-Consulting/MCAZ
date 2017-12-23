@@ -2,6 +2,8 @@
   <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
+<?=     $this->Html->script('jquery/vigibase', ['block' => true]); ?>
+
 <h1 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> ADRS</h1>
 
 <div class="table-responsive">
@@ -34,6 +36,10 @@
                      <?= $this->Html->link('View', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'style' => 'color: white;'])
                      ?>
                     </span>
+                    <?php if($sadr->submitted == 2) {                                        
+                          echo  $this->Html->link('<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']); 
+                            }
+                    ?>
                 </td>
             </tr>
             <?php endforeach; ?>
