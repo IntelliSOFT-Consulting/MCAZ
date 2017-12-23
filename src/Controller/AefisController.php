@@ -80,7 +80,7 @@ class AefisController extends AppController
                 ]
             ]);
         }
-        $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Aefis->Designations->find('list',array('order'=>'Designations.name ASC'));
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
         $this->set(compact('aefi', 'designations', 'provinces'));
         $this->set('_serialize', ['aefi', 'designations', 'provinces']);
@@ -93,7 +93,7 @@ class AefisController extends AppController
         ]);        
         
 
-        $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Aefis->Designations->find('list',array('order'=>'Designations.name ASC'));
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
         $this->set(compact('aefi', 'designations', 'provinces'));
         $this->set('_serialize', false);
@@ -126,7 +126,7 @@ class AefisController extends AppController
             $this->Flash->error(__('The aefi could not be saved. Please, try again.'));
         }
         $users = $this->Aefis->Users->find('list', ['limit' => 200]);
-        $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Aefis->Designations->find('list',array('order'=>'Designations.name ASC'));
         $this->set(compact('aefi', 'users', 'designations'));
         $this->set('_serialize', ['aefi']);
 
@@ -222,7 +222,7 @@ class AefisController extends AppController
             $aefi->date_of_birth = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
         }
 
-        $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Aefis->Designations->find('list',array('order'=>'Designations.name ASC'));
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
         $this->set(compact('aefi', 'designations', 'provinces'));
         $this->set('_serialize', ['aefi']);
@@ -324,7 +324,7 @@ class AefisController extends AppController
         }
 
 
-        $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Aefis->Designations->find('list',array('order'=>'Designations.name ASC'));
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
         $this->set(compact('aefi', 'designations', 'provinces', 'followup'));
         $this->set('_serialize', ['aefi']);

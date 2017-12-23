@@ -46,7 +46,7 @@ $editable = $this->fetch('editable');
 
                   echo $this->Form->control('patient_telephone', ['label' => 'Patient\'s phone number', 'escape' => false]);
                   echo $this->Form->control('gender', ['type' => 'radio', 
-                     'label' => 'Gender <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
+                     'label' => '<b>Gender</b> <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Male' => 'Male', 'Female' => 'Female']]);
 
@@ -100,32 +100,36 @@ $editable = $this->fetch('editable');
           </div>
 
           <div class="row">
-            <div class="col-xs-3">
+            <div class="col-xs-2">
               <h4>Adverse Event(s) <span class="sterix fa fa-asterisk" aria-hidden="true"></span>:</h4>
               <?php
                   // echo $this->Form->control('adverse_events', ['label' => 'Adverse event(s):', 'type' => 'select', 'multiple' => true, 'options' => ['Severe local reaction' => 'Severe local reaction', 'Seizures' => 'Seizures', 'Abscess' => 'Abscess']]);
-                  echo $this->Form->control('ae_severe_local_reaction', ['type' => 'checkbox', 'label' => 'Severe local reaction', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
-                  echo $this->Form->control('ae_seizures', ['type' => 'checkbox', 'label' => 'Seizures', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
+
+                  //echo $this->Form->control('ae_seizures', ['type' => 'checkbox', 'label' => 'Seizures', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
+                  echo '<label>Seizures</label>';
                   echo $this->Form->control('ae_afebrile', ['type' => 'checkbox', 'label' => 'afebrile', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
                   echo $this->Form->control('ae_febrile', ['type' => 'checkbox', 'label' => 'febrile', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
-                  echo $this->Form->control('ae_abscess', ['type' => 'checkbox', 'label' => 'Abscess', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
-                  echo $this->Form->control('ae_sepsis', ['type' => 'checkbox', 'label' => 'Sepsis', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
-                  echo $this->Form->control('ae_encephalopathy', ['type' => 'checkbox', 'label' => 'Encephalopathy', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
-                  
+                  echo '<label>Severe local reaction</label>';
+
+                  echo $this->Form->control('ae_3days', ['type' => 'checkbox', 'label' => '>3 days', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
+
+                  echo $this->Form->control('ae_beyond_joint', ['type' => 'checkbox', 'label' => 'beyond nearest joint', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
+
+                             
                                   
               ?>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-3">
               <br><br>
-              <?php
+              <?php    
+                  echo $this->Form->control('ae_encephalopathy', ['type' => 'checkbox', 'label' => 'Encephalopathy', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
+                  echo $this->Form->control('ae_abscess', ['type' => 'checkbox', 'label' => 'Abscess', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
+                  echo $this->Form->control('ae_sepsis', ['type' => 'checkbox', 'label' => 'Sepsis', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
                   echo $this->Form->control('ae_anaphylaxis', ['type' => 'checkbox', 'label' => 'Anaphylaxis', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
                   echo $this->Form->control('ae_fever', ['type' => 'checkbox', 'label' => 'Fever≥38°C', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
-                  echo $this->Form->control('ae_3days', ['type' => 'checkbox', 'label' => '>3 days', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
                   echo $this->Form->control('ae_toxic_shock', ['type' => 'checkbox', 'label' => 'Toxic shock syndrome', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
                   echo $this->Form->control('ae_thrombocytopenia', ['type' => 'checkbox', 'label' => 'Thrombocytopenia', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
-                  echo $this->Form->control('ae_beyond_joint', ['type' => 'checkbox', 'label' => 'beyond nearest joint', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
-                 
-                  
+               
               ?>
             </div>
             <div class="col-xs-3">
@@ -158,7 +162,7 @@ $editable = $this->fetch('editable');
                       'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>'] : 'view_form_text']);
             // ($editable) ? 'radio_form' : 'view_form_radio'
                    echo $this->Form->control('patient_hospitalization', ['type' => 'radio', 
-                     'label' => 'Was patient hospitalized?  ', 'escape' => false,
+                     'label' => '<b>Was patient hospitalized?</b> ', 'escape' => false,
                      'templates' => ($editable) ? [    
                       'label' => '<label {{attrs}}>{{text}}</label>',
                       'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>'] : 'view_form_radio',
@@ -184,7 +188,7 @@ $editable = $this->fetch('editable');
                       'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="7" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',] : 'view_form_text']);
 
                   echo $this->Form->control('treatment_provided', ['type' => 'radio', 
-                     'label' => 'Treatment provided', 'escape' => false,
+                     'label' => '<b>Treatment provided</b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
               ?>
@@ -194,12 +198,12 @@ $editable = $this->fetch('editable');
             <div class="col-xs-12">
               <?php
                   echo $this->Form->control('serious', ['type' => 'radio', 
-                     'label' => 'Serious? <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
+                     'label' => '<b>Serious? </b><span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
 
                   echo $this->Form->control('serious_yes', ['type' => 'radio', 
-                     'label' => 'If yes,', 'escape' => false,
+                     'label' => '<b>If yes,</b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Death' => 'Death', 'Life threatening' => 'Life threatening', 'Disability' => 'Disability', 'Hospitalization' => 'Hospitalization', 'Congenital anomaly' => 'Congenital anomaly']]);
               ?>
@@ -216,7 +220,7 @@ $editable = $this->fetch('editable');
                      'options' => ['Recovering' => 'Recovering', 'Recovered' => 'Recovered', 'Recovered with sequelae' => 'Recovered with sequelae', 'Not Recovered' => 'Not Recovered', 'Died'=>'Died','Unknown' => 'Unknown']]);
                   echo $this->Form->control('died_date', ['label' => 'If died, date of death', 'type' => 'text']);
                   echo $this->Form->control('autopsy', ['type' => 'radio',  
-                     'label' => 'Autopsy done', 'escape' => false,
+                     'label' => '<b>Autopsy done</b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
               ?>
@@ -237,7 +241,7 @@ $editable = $this->fetch('editable');
             <div class="col-xs-12"><?php echo $this->element('multi/attachments', ['editable' => $editable]);?></div>
           </div>
           
-          <p>First decision making level to complete (District level):</p>
+          <p><b>First decision making level to complete (District level):</b></p>
           <div class="row">
             <div class="col-xs-6">
               <?php
@@ -247,7 +251,7 @@ $editable = $this->fetch('editable');
             <div class="col-xs-6">
               <?php
                   echo $this->Form->control('investigation_needed', ['type' => 'radio',  
-                     'label' => 'Investigation needed', 'escape' => false,
+                     'label' => '<b>Investigation needed</b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
                   echo $this->Form->control('investigation_date', ['label' => 'If yes, date investigation planned', 'type' => 'text']);
@@ -255,7 +259,7 @@ $editable = $this->fetch('editable');
             </div>
           </div>
 
-          <p>National level top complete:</p>
+          <p><b>National level top complete:</b></p>
           <div class="row">
             <div class="col-xs-12">
               <?php
@@ -264,7 +268,7 @@ $editable = $this->fetch('editable');
             </div>
           </div>
 
-          <p>Comments:</p>
+          <p><b>Comments:</b></p>
           <div class="row">
             <div class="col-xs-12">
               <?php

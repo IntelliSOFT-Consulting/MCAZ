@@ -26,7 +26,7 @@
                     <th> Collection date</th>
                     <th> Lab value previous or subsequent to this event </th>
                     <th> Collection date </th>
-                    <th></th>
+                    <th> Edit </th>
                   </tr>
                 </thead>
                 <tbody>                 

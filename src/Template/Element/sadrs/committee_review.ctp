@@ -1,3 +1,4 @@
+
   <div class="row">
     <div class="col-xs-12">
       <?php
@@ -29,10 +30,18 @@
 	                  echo $this->Form->control('committees.100.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
                     echo $this->Form->control('committees.100.comments', ['escape' => false, 'templates' => 'app_form', 'label' => 'Internal MCAZ Comments']);
                     echo $this->Form->control('committees.100.literature_review', ['escape' => false, 'templates' => 'app_form', 'label' => 'Reporter Visible Comments']);
+
                     echo $this->Form->control('status', ['type' => 'radio', 
                                'label' => '<b>Committee Decision</b>', 'escape' => false,
                                'templates' => 'radio_form',
-                               'options' => ['Approved' => 'Approved', 'Rejected' => 'Rejected', 'RequestReporter' => 'Request info(Reporter)', 'RequestEvaluator' => 'Request info (Evaluator)', '' => 'N/A']]);
+                               'options' => [
+                                  'Certain' => 'Certain', 
+                                  'Probable' => 'Probable', 
+                                  'Possible' => 'Possible', 
+                                  'Unlikely' => 'Unlikely',
+                                  'Conditional/Unclassified' => 'Conditional/Unclassified',
+                                  'Unassessable/Unclassifiable' => 'Unassessable/Unclassifiable']]);
+
                     echo $this->Form->control('committees.100.file', ['type' => 'file','label' => 'Attach report (if available)', 'escape' => false, 'templates' => 'app_form']);
 	            ?>
          	    </div>          

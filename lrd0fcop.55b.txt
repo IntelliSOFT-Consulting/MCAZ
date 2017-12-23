@@ -1,0 +1,19 @@
+﻿Merge changes
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Date:      Tue Dec 19 17:26:04 2017 +0300
+#
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 8 and 1 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# Changes to be committed:
+#	modified:   src/Template/Element/adrs/adr_form.ctp
+#	modified:   src/Template/Element/multi/list_of_devices.ctp
+#	modified:   src/Template/Element/sadrs/sadr_form.ctp
+#	new file:   webroot/img/html/img2html
+#
+

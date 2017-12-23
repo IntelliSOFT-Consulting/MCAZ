@@ -67,7 +67,9 @@ $(function() {
             <td><input class="form-control" name="aefi_list_of_vaccines[{i}][id]" id="aefi-list-of-vaccines-{i}-id" type="hidden"> \
                 <input class="form-control" name="aefi_list_of_vaccines[{i}][vaccine_name]" id="aefi-list-of-vaccines-{i}-vaccine-name" type="text">  </td>\
             <td>\
-                <input class="form-control datetime-field" name="aefi_list_of_vaccines[{i}][vaccination_date]" id="aefi-list-of-vaccines-{i}-vaccination-date" type="text"></div>\
+                <input class="form-control date-pick-field" placeholder="01-01-2017" name="aefi_list_of_vaccines[{i}][vaccination_date]" id="aefi-list-of-vaccines-{i}-vaccination-date" type="text"></td>\
+            <td>\
+                <input class="form-control" placeholder="14:00" name="aefi_list_of_vaccines[{i}][vaccination_time]" id="aefi-list-of-vaccines-{i}-vaccination-time" type="text">\
             <td>\
                 <input class="form-control" name="aefi_list_of_vaccines[{i}][dosage]" id="aefi-list-of-vaccines-{i}-dosage" type="text">  </td>\
             <td>\

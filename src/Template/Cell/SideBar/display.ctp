@@ -23,8 +23,8 @@
      $Approved = isset($stats['Approved']) ? $stats['Approved'] : 0 ;
      $Rejected = isset($stats['Rejected']) ? $stats['Rejected'] : 0 ;
      $Duplicated = isset($stats['Duplicated']) ? $stats['Duplicated'] : 0 ;
-     $aSubmitted = $aefi_stat['Submitted'] ?? 0;
-     $aUnSubmitted = $aefi_stat['UnSubmitted'] ?? 0;
+     $aSubmitted = $aefi_stat['Submitted'] ?? 0 ;
+     $aUnSubmitted = $aefi_stat['UnSubmitted'] ?? 0 ;
      $aAssigned = $aefi_stat['Assigned'] ?? 0;
      $aEvaluated = $aefi_stat['Evaluated'] ?? 0;
      $aCommittee = $aefi_stat['Committee'] ?? 0;

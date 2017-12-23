@@ -84,7 +84,7 @@ class AdrsController extends AppController
         }
         
         
-        $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Adrs->Designations->find('list',array('order'=>'Designations.name ASC'));
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
         $routes = $this->Adrs->AdrListOfDrugs->Routes->find('list');
         $frequencies = $this->Adrs->AdrListOfDrugs->Frequencies->find('list');
@@ -102,7 +102,7 @@ class AdrsController extends AppController
         ]);        
         
 
-        $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Adrs->Designations->find('list',array('order'=>'Designations.name ASC'));
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
         $routes = $this->Adrs->AdrListOfDrugs->Routes->find('list');
         $frequencies = $this->Adrs->AdrListOfDrugs->Frequencies->find('list');
@@ -137,7 +137,7 @@ class AdrsController extends AppController
             $this->Flash->error(__('The adr could not be saved. Please, try again.'));
         }
         $users = $this->Adrs->Users->find('list', ['limit' => 200]);
-        $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Adrs->Designations->find('list',array('order'=>'Designations.name ASC'));
         $this->set(compact('adr', 'users', 'designations'));
         $this->set('_serialize', ['adr']);
     }
@@ -251,7 +251,7 @@ class AdrsController extends AppController
         $adr = $this->format_dates($adr);
 
         $users = $this->Adrs->Users->find('list', ['limit' => 200]);
-        $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Adrs->Designations->find('list',array('order'=>'Designations.name ASC'));
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
         $routes = $this->Adrs->AdrListOfDrugs->Routes->find('list');
         $frequencies = $this->Adrs->AdrListOfDrugs->Frequencies->find('list');

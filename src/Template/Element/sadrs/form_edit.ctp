@@ -81,13 +81,15 @@ function getChoice(sel){
             </div>
             <div class="col-md-6">
               <?php
+                  echo $this->Form->control('institution_name', ['label' => 'Institution Name']);
+                  echo $this->Form->control('institution_address', ['label' => 'Institution Address']);
                   echo $this->Form->control('institution_code', ['label' => 'Clinic/Hospital Number']);
                   echo $this->Form->control('ip_no', ['label' => 'VCT/OI/TB Number']);
                   echo $this->Form->input('province_id', ['options' => $provinces, 'empty' => true]);
                   echo $this->Form->control('weight', ['label' => 'Weight (KGs)']);
                   echo $this->Form->control('height', ['label' => 'Height (cm)']);
                   echo $this->Form->control('gender', ['type' => 'radio', 
-                     'label' => '<b>Gender <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
+                     'label' => '<b>Gender </b><span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
                      'templates' => 'radio_form',
                        'options' => ['Male' => 'Male', 'Female' => 'Female', 'Unknown' => 'Unknown']]);
               ?>
@@ -116,7 +118,7 @@ function getChoice(sel){
                   //$this->Form->control('date_of_end_of_reaction', ['label' => 'Date of Onset:']); 
                   echo $this->Form->control('date_of_end_of_reaction', array(
                     'type' => 'date',
-                    'label' => 'Date of end of Reaction <br> <i>(if it ended)</i>', 'escape' => false,
+                    'label' => 'Date of end of Reaction <br/> <i>(if it ended)</i>', 'escape' => false,
                     'templates' => ['dateWidget' => '<div class="col-sm-6">{{day}}-{{month}}-{{year}}</div>',
                                     'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',],
                     'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
@@ -156,9 +158,9 @@ function getChoice(sel){
               //        ],
               //       'options' => ['Yes' => 'Yes', 'No' => 'No']]); 
                 $this->Form->control('severity', ['type' => 'radio', 
-                    'onchange'=>'getChoice(this)','label' => '<b>Serious <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
+                    'onchange'=>'getChoice(this)','label' => '<b>Serious</b> <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
                     //'label' => '<b>Serious: <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
-                    'templates' => 'radio_form',
+                    'templates' => ($editable) ?  'radio_form' : 'view_form_radio',
                     'options' => ['Yes' => 'Yes', 'No' => 'No']]);
               ?>            
             </div>

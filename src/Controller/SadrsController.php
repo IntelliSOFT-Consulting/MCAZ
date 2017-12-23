@@ -93,7 +93,7 @@ class SadrsController extends AppController
         
         
         $users = $this->Sadrs->Users->find('list', ['limit' => 200]);
-        $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Sadrs->Designations->find('list', array('order'=>'Designations.name ASC'));
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
         $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
@@ -111,7 +111,7 @@ class SadrsController extends AppController
         ]);        
         
 
-        $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Sadrs->Designations->find('list', array('order'=>'Designations.name ASC'));
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list', ['limit' => 200]);
         $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list', ['limit' => 200]);
@@ -206,7 +206,7 @@ class SadrsController extends AppController
             $this->Flash->error(__('The sadr could not be saved. Kindly correct the errors below and retry.'));
         }
         $users = $this->Sadrs->Users->find('list', ['limit' => 200]);
-        $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Sadrs->Designations->find('list', array('order'=>'Designations.name ASC'));
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
         $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
         $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list');
@@ -319,7 +319,7 @@ class SadrsController extends AppController
         
         $sadr = $this->format_dates($sadr);
 
-        $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Sadrs->Designations->find('list', array('order'=>'Designations.name ASC'));
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
         $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
@@ -424,7 +424,7 @@ class SadrsController extends AppController
 
         $sadr = $this->format_dates($sadr);
 
-        $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Sadrs->Designations->find('list', array('order'=>'Designations.name ASC'));
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
         $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
