@@ -4,6 +4,9 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use App\Model\Entity;
+use Cake\Http\Client;
+use Cake\Core\Configure;
+use Cake\Log\Log;
 
 /**
  * Sadrs Controller
@@ -17,6 +20,7 @@ class SadrsController extends AppController
     public function initialize() {
        parent::initialize();
        // $this->Auth->allow(['view']);       
+       $this->loadComponent('VigibaseApi');
     }
 
     /**
@@ -117,6 +121,66 @@ class SadrsController extends AppController
         $this->response->download(($sadr->submitted==2) ? str_replace('/', '_', $sadr->reference_number).'.xml' : 'ADR_'.$sadr->created->i18nFormat('dd-MM-yyyy_HHmmss').'.xml');
     }
 
+    public function vigibase($id = null)
+    {
+        $sadr = $this->Sadrs->get($id, [
+            'contain' => ['SadrListOfDrugs', 'Attachments']
+        ]);                   
+
+        $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
+        $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
+        $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list', ['limit' => 200]);
+        $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list', ['limit' => 200]);
+        $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list', ['limit' => 200]);
+
+        $http = new Client();
+
+        // Simple get
+        /*$umc = $http->get('https://api.who-umc.org/demo/vigibase/icsrs/messagestatus/555180', [], [
+            'headers' => ['umc-client-key' => 'a6321b34-1cd6-46e5-af28-5e6edf49bedc',
+                          'Authorization' => 'Basic NDUwRUVFN0QtQTQ1Qi00MDNELUE5RTktRjExMENDQ0UzMzdBIA==']]); */ 
+        // Simple get
+        // $umc = $http->get(Configure::read('vigi_get_url'), [], [
+        //     'headers' => Configure::read('vigi_headers')]);  
+        // Post
+
+        // $sadr->messageid = 555283;
+        // $this->Sadrs->save($sadr, ['validate' => false]);
+
+        $payload = $this->VigibaseApi->sadr_e2b($sadr, $doses, $routes);
+        Log::write('debug', 'Payload :: '.$payload);
+        $umc = $http->post(Configure::read('vigi_post_url'), 
+            (string)$payload,
+            ['headers' => Configure::read('vigi_headers')]);  
+
+        if ($umc->isOK()) {
+            $messageid = $umc->json;
+            // Log::write('error', $messageid['MessageId']); 
+
+            $query = $this->Sadrs->query();
+            $query->update()
+                    ->set(['messageid' => $messageid['MessageId']])
+                    ->where(['id' => $sadr->id])
+                    ->execute();
+
+            $this->set([
+                    'umc' => $umc->json, 
+                    'status' => 'Successfull integration with vigibase', 
+                    '_serialize' => ['umc', 'status']]);
+        } else {
+            $this->response->body('Failure');
+            $this->response->statusCode($umc->getStatusCode());
+            $this->set([
+                'umc' => $umc->json, 
+                'status' => 'Failed', 
+                '_serialize' => ['umc', 'status']]);
+            return;
+        }
+        
+        // $this->set(compact('sadr', 'result'));
+        // $this->set('_serialize', ['umc']);
+    }
+
     /**
      * Add method
      *
@@ -197,8 +261,8 @@ class SadrsController extends AppController
                     $sadr->attachments[$i]->category = 'attachments';
                   }
                 }
-            // debug((string)$sadr);
-            // debug($this->request->data);
+            debug((string)$sadr);
+            debug($this->request->data);
             if ($sadr->submitted == 1) {
               //save changes button
               if ($this->Sadrs->save($sadr, ['validate' => false])) {
@@ -347,7 +411,7 @@ class SadrsController extends AppController
                         //
                         return $this->redirect(['action' => 'view', $sadr->id]);
                     } else {
-                        $this->Flash->error(__('Foloow up for report '.$sadr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                        $this->Flash->error(__('Follow up for report '.$sadr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
                     }
                 } elseif ($followup->submitted == -1) {
                     //cancel button              
@@ -392,3 +456,4 @@ class SadrsController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 }
+?>
