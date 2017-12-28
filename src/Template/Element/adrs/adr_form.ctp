@@ -177,7 +177,7 @@ $editable = $this->fetch('editable');
             <div class="col-xs-12">
               <?php
                   echo $this->Form->control('location_event', ['type' => 'radio', 
-                     'label' => '4) Location of the current Adverse Event', 'escape' => false,
+                     'label' => '<b>4) Location of the current Adverse Event</b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                        'options' => ['Home' => 'Home', 'Clinic/Hospital' => 'Clinic/Hospital', 'Work' => 'Work', 'Study site' => 'Study site', 'Other, specify' => 'Other, specify']]);
 
@@ -242,7 +242,7 @@ $editable = $this->fetch('editable');
             <div class="col-xs-12">
               <p><b>11.Has the Adverse Event been reported to:</b></p>
             </div>            
-            <div class="col-xs-3"><?php 
+            <div class="col-xs-6"><?php 
               echo $this->Form->control('report_to_mcaz', ['type' => 'radio', 
                      'label' => '(a)MCAZ', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
@@ -251,7 +251,7 @@ $editable = $this->fetch('editable');
               echo $this->Form->control('report_to_mcaz_date', ['label' => 'Date', 'escape' => false, 'type' => 'text', 'templates' => ($editable) ? ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',] : 'view_form']);
               ?>
             </div>
-            <div class="col-xs-3"><?php 
+            <div class="col-xs-6"><?php 
               echo $this->Form->control('report_to_mrcz', ['type' => 'radio', 
                      'label' => '(b)MRCZ', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
@@ -260,16 +260,16 @@ $editable = $this->fetch('editable');
               echo $this->Form->control('report_to_mrcz_date', ['label' => 'Date', 'escape' => false, 'type' => 'text', 'templates' => ($editable) ? ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',] : 'view_form']);
               ?>
             </div>
-            <div class="col-xs-3"><?php 
+            <div class="col-xs-6"><?php 
               echo $this->Form->control('report_to_sponsor', ['type' => 'radio', 
                      'label' => '(c)Sponsor', 'escape' => false,
-                     'templates' => ($editable) ? 'view_form_radio' : 'radio_form',
-
+                     'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
+
               echo $this->Form->control('report_to_sponsor_date', ['label' => 'Date', 'escape' => false, 'type' => 'text', 'templates' => ($editable) ? ['input' => '<div class="col-sm-6"><input class="form-control date-pick-field" type="{{type}}" name="{{name}}"{{attrs}}/></div>',] : 'view_form']);
               ?>
             </div>
-            <div class="col-xs-3"><?php 
+            <div class="col-xs-6"><?php 
               echo $this->Form->control('report_to_irb', ['type' => 'radio', 
                      'label' => '(d) IRB', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,

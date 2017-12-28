@@ -79,7 +79,7 @@ $(function() {
             <td>\
               <input class="form-control" name="aefi_list_of_vaccines[{i}][diluent_batch_number]" id="aefi-list-of-vaccines-{i}-diluent-batch-number" type="text">   </td>\
             <td>\
-              <input class="form-control date-pick-field" name="aefi_list_of_vaccines[{i}][diluent_expiry_date]" id="aefi-list-of-vaccines-{i}-diluent-expiry-date" type="text">   </td>\
+              <input class="form-control date-pick-expire" name="aefi_list_of_vaccines[{i}][diluent_expiry_date]" id="aefi-list-of-vaccines-{i}-diluent-expiry-date" type="text">   </td>\
             <td>\
               <input class="form-control datetime-field" name="aefi_list_of_vaccines[{i}][diluent_date]" id="aefi-list-of-vaccines-{i}-diluent-date" type="text">   </td>\
             <td>\
