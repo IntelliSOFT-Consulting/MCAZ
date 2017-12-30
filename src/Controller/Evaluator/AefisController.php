@@ -24,7 +24,9 @@ class AefisController extends AppController
         $this->paginate = [
             'contain' => ['Users', 'Designations']
         ];
-        $aefis = $this->paginate($this->Aefis);
+
+        if($this->request->getQuery('status')) {$aefis = $this->paginate($this->Aefis->find('all')->where(['status' => $this->request->getQuery('status'), 'ifnull(report_type,-1) !=' => 'FollowUp']), ['order' => ['Aefis.id' => 'desc']]); }
+        else {$aefis = $this->paginate($this->Aefis->find('all')->where(['ifnull(report_type,-1) !=' => 'FollowUp']), ['order' => ['Aefis.id' => 'desc']]);}
 
         $this->set(compact('aefis'));
         $this->set('_serialize', ['aefis']);
@@ -40,7 +42,7 @@ class AefisController extends AppController
     public function view($id = null)
     {
         $aefi = $this->Aefis->get($id, [
-            'contain' => ['AefiListOfVaccines', 'AefiListOfDiluents', 'Attachments']
+            'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 'Committees', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments']
         ]);
 
         if(strpos($this->request->url, 'pdf')) {
@@ -52,9 +54,13 @@ class AefisController extends AppController
                 ]
             ]);
         }
+
+        $evaluators = $this->Aefis->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
+        $users = $this->Aefis->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
-        $this->set(compact('aefi', 'designations', 'provinces'));
+        $this->set(compact('aefi', 'designations', 'provinces', 'evaluators', 'users'));
         $this->set('_serialize', ['aefi', 'designations', 'provinces']);
     }
 
@@ -89,6 +95,230 @@ class AefisController extends AppController
         $this->set('_serialize', ['aefi']);
 
     }
+
+
+    public function assignEvaluator() {
+        $aefi = $this->Aefis->get($this->request->getData('aefi_pr_id'), []);
+        if (isset($aefi->id) && $this->request->is('post')) {
+            $aefi->assigned_by = $this->Auth->user('id');
+            $aefi->assigned_to = $this->request->getData('evaluator');
+            $aefi->assigned_date = date("Y-m-d H:i:s");
+            $aefi->status = 'Assigned';
+            $evaluator = $this->Aefis->Users->get($this->request->getData('evaluator'));
+            if ($this->Aefis->save($aefi)) {
+                //Send email and message (if present!!!) to evaluator
+                $this->loadModel('Queue.QueuedJobs');    
+                $data = [
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'manager_assign_evaluator_email', 'model' => 'Aefis', 'foreign_key' => $aefi->id,
+                    'vars' =>  $aefi->toArray()
+                ];
+                $data['vars']['assigned_by_name'] = $this->Auth->user('name');                
+                $data['vars']['user_message'] = $this->request->getData('user_message');
+                $data['vars']['name'] = $evaluator->name;
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = 'manager_assign_evaluator_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                if ($this->request->getData('user_message')) {
+                  $data['type'] = 'manager_assign_evaluator_message';
+                  $data['user_message'] = $this->request->getData('user_message');
+                  $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+                
+                //notify manager                
+                $data = ['user_id' => $aefi->assigned_by, 'model' => 'Aefis', 'foreign_key' => $aefi->id,
+                    'vars' =>  $aefi->toArray()];
+                $data['vars']['assigned_to_name'] = $evaluator->name;
+                $data['type'] = 'manager_assign_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                //end 
+                
+               $this->Flash->success('Evaluator '.$evaluator->name.' assigned AEFI '.$aefi->reference_number);
+
+                return $this->redirect($this->referer());
+            } else {
+                $this->Flash->error(__('Unable to assign evaluator. Please, try again.')); 
+                return $this->redirect($this->referer());
+            }
+        } else {
+                $this->Flash->error(__('Unknown AEFI Report. Please correct.')); 
+                return $this->redirect($this->referer());
+        }
+    }
+
+
+    public function requestEvaluator() {
+        $aefi = $this->Aefis->get($this->request->getData('aefi_pr_id'), []);
+        if (isset($aefi->id) && $this->request->is('post')) {
+            $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
+
+            $aefi->status = 'RequestEvaluator';
+            $aefi->request_evaluators[0]->user_id = $aefi->assigned_to;
+            $aefi->request_evaluators[0]->sender_id = $this->Auth->user('id');  //TODO: Can have view to see all messages where I requested for info
+            $aefi->request_evaluators[0]->type = 'request_evaluator_info';
+            $aefi->request_evaluators[0]->model = 'Aefis';
+            $aefi->request_evaluators[0]->foreign_key = $aefi->id;
+
+            //Notification should be sent to assigned_to evaluator if exists
+            if ($this->Aefis->save($aefi)) {
+                //Send email and message (if present!!!) to evaluator
+                $this->loadModel('Queue.QueuedJobs');    
+                if(!empty($aefi->assigned_to)) {
+                    $evaluator = $this->Aefis->Users->get($aefi->assigned_to);
+                    $data = [
+                      'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                      'type' => 'manager_request_evaluator_email', 'model' => 'Aefis', 'foreign_key' => $aefi->id,
+                        'vars' =>  $aefi->toArray()
+                    ];
+                    $data['vars']['name'] = $evaluator->name;
+                    $data['vars']['user_message'] = $aefi->request_evaluators[0]->user_message;
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_request_evaluator_message';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);                
+                } else {
+                    $this->Flash->error(__('Unable to locate evaluator.')); 
+                    return $this->redirect($this->referer());
+                }
+
+                //end 
+                
+               $this->Flash->success('Request successfully sent to evaluator for Aefi '.$aefi->reference_number);
+
+                return $this->redirect($this->referer());
+            } else {
+                $this->Flash->error(__('Unable to send request to evaluator. Please, try again.')); 
+                return $this->redirect($this->referer());
+            }
+        } else {
+               $this->Flash->error(__('Unknown Aefi Report. Please correct.')); 
+               return $this->redirect($this->referer());
+        }
+    }
+
+    public function requestReporter() {
+        $aefi = $this->Aefis->get($this->request->getData('aefi_pk_id'), []);
+        if (isset($aefi->id) && $this->request->is('post')) {
+            $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
+            $aefi->status = 'RequestReporter';
+            $aefi->request_reporters[0]->user_id = $aefi->user_id;
+            $aefi->request_reporters[0]->sender_id = $this->Auth->user('id');  //TODO: Can have view to see all messages where I requested for info
+            $aefi->request_reporters[0]->type = 'request_reporter_info';
+            $aefi->request_reporters[0]->model = 'Aefis';
+            $aefi->request_reporters[0]->foreign_key = $aefi->id;
+            //Notification should be sent to reporter and assigned_to evaluator if exists
+            if ($this->Aefis->save($aefi)) {
+                //Send email and message (if present!!!) to reporter
+                $this->loadModel('Queue.QueuedJobs');    
+                if(!empty($aefi->user_id)) {
+                    $reporter = $this->Aefis->Users->get($aefi->user_id);
+                    $data = [
+                      'email_address' => $reporter->email, 'user_id' => $reporter->id,
+                      'type' => 'manager_request_reporter_email', 'model' => 'Aefis', 'foreign_key' => $aefi->id,
+                        'vars' =>  $aefi->toArray()
+                    ];
+                    $data['vars']['user_message'] = $aefi->request_reporters[0]->user_message;
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_request_reporter_message';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);                
+                } else {
+                    $this->Flash->error(__('Unable to locate reporter.')); 
+                    return $this->redirect($this->referer());
+                }
+
+                //notify assigned evaluator      
+                if(!empty($aefi->assigned_to)) {
+                    $evaluator = $this->Aefis->Users->get($aefi->assigned_to);
+                    $data = [
+                      'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                      'type' => 'manager_request_reporter_evaluator_notification', 'model' => 'Aefis', 'foreign_key' => $aefi->id,
+                        'vars' =>  $aefi->toArray()
+                    ];
+                    $data['vars']['assigned_by_name'] = $this->Auth->user('name');
+                    $data['vars']['user_message'] = $aefi->request_reporters[0]->user_message;
+                    //notify evaluator
+                    $this->QueuedJobs->createJob('GenericNotification', $data);                
+                }          
+                //manager does not get a notificatoin
+                //end 
+                
+               $this->Flash->success('Request successfully sent to reporter for Aefi '.$aefi->reference_number);
+
+                return $this->redirect($this->referer());
+            } else {
+                $this->Flash->error(__('Unable to send request to reporter. Please, try again.')); 
+                return $this->redirect($this->referer());
+            }
+        } else {
+               $this->Flash->error(__('Unknown Aefi Report. Please correct.')); 
+               return $this->redirect($this->referer());
+        }
+    }
+
+    public function committeeReview() {
+        $aefi = $this->Aefis->get($this->request->getData('aefi_pr_id'), []);
+        if (isset($aefi->id) && $this->request->is('post')) {
+            $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
+            $aefi->status = (!empty($this->request->data['status'])) ? $this->request->data['status'] : 'Committee';
+            $aefi->committees[0]->user_id = $this->Auth->user('id');
+            $aefi->committees[0]->model = 'Aefis';
+            $aefi->committees[0]->category = 'committee';
+            //Notification should be sent to manager and assigned_to evaluator if exists
+            if ($this->Aefis->save($aefi)) {
+                //Send email and message (if present!!!) to evaluator
+                $this->loadModel('Queue.QueuedJobs');    
+                if(!empty($aefi->assigned_to)) {
+                    $evaluator = $this->Aefis->Users->get($aefi->assigned_to);
+                    $data = [
+                      'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                      'type' => 'manager_committee_assigned_email', 'model' => 'Aefis', 'foreign_key' => $aefi->id,
+                        'vars' =>  $aefi->toArray()
+                    ];
+                    $data['vars']['name'] = $evaluator->name;
+                    $data['vars']['assigned_by_name'] = $this->Auth->user('name');
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_committee_assigned_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);                
+                } 
+
+                //notify manager                
+                $data = ['user_id' => $this->Auth->user('id'), 'model' => 'Aefis', 'foreign_key' => $aefi->id,
+                    'vars' =>  $aefi->toArray()];
+                $data['type'] = 'manager_committee_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+
+                //reporter visible notification and email sent when approved
+                if(!empty($aefi->committees[0]->literature_review) && $aefi->status == 'Approved') {
+                    $reporter = $this->Aefis->Users->get($aefi->user_id);
+                    $data = [
+                      'email_address' => $aefi->reporter_email, 'user_id' => $aefi->user_id,
+                      'type' => 'reporter_committee_comments_email', 'model' => 'Aefis', 'foreign_key' => $aefi->id,
+                        'vars' =>  $aefi->toArray()
+                    ];
+                    $data['vars']['literature_review'] = $aefi->committees[0]->literature_review;
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'reporter_committee_comments_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);     
+                }
+                //end 
+                
+               $this->Flash->success('Committee Review successfully done for Aefi '.$aefi->reference_number);
+
+                return $this->redirect($this->referer());
+            } else {
+                $this->Flash->error(__('Unable to review report. Please, try again.')); 
+                return $this->redirect($this->referer());
+            }
+        } else {
+               $this->Flash->error(__('Unknown Aefi Report. Please correct.')); 
+               return $this->redirect($this->referer());
+        }
+    }
+
 
     /**
      * Edit method

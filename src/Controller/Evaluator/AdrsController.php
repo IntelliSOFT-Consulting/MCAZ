@@ -40,7 +40,7 @@ class AdrsController extends AppController
     public function view($id = null)
     {
         $adr = $this->Adrs->get($id, [
-            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments']
+            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews']
         ]);
 
         // $this->viewBuilder()->setLayout('pdf/default');
@@ -54,17 +54,291 @@ class AdrsController extends AppController
             ]);
         }
         
+        $evaluators = $this->Adrs->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
+        $users = $this->Adrs->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
         $routes = $this->Adrs->AdrListOfDrugs->Routes->find('list');
         $frequencies = $this->Adrs->AdrListOfDrugs->Frequencies->find('list');
-        $this->set(compact('adr', 'designations', 'doses', 'routes', 'frequencies'));
+        $this->set(compact('adr', 'designations', 'doses', 'routes', 'frequencies', 'evaluators', 'users'));
         $this->set('_serialize', ['adr']);
 
         $this->set('adr', $adr);
         $this->set('_serialize', ['adr']);
     }
+
+
+    public function assignEvaluator() {
+        $adr = $this->Adrs->get($this->request->getData('adr_pr_id'), []);
+        if (isset($adr->id) && $this->request->is('post')) {
+            $adr->assigned_by = $this->Auth->user('id');
+            $adr->assigned_to = $this->request->getData('evaluator');
+            $adr->assigned_date = date("Y-m-d H:i:s");
+            $adr->status = 'Assigned';
+            $evaluator = $this->Adrs->Users->get($this->request->getData('evaluator'));
+            if ($this->Adrs->save($adr)) {
+                //Send email and message (if present!!!) to evaluator
+                $this->loadModel('Queue.QueuedJobs');    
+                $data = [
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'manager_assign_evaluator_email', 'model' => 'Adrs', 'foreign_key' => $adr->id,
+                    'vars' =>  $adr->toArray()
+                ];
+                $data['vars']['assigned_by_name'] = $this->Auth->user('name');
+                $data['vars']['user_message'] = $this->request->getData('user_message');
+                $data['vars']['name'] = $evaluator->name;
+                //notify evaluator
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = 'manager_assign_evaluator_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                if ($this->request->getData('user_message')) {
+                  $data['type'] = 'manager_assign_evaluator_message';
+                  $data['user_message'] = $this->request->getData('user_message');
+                  $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+                
+                //notify manager                
+                $data = ['user_id' => $adr->assigned_by, 'model' => 'Adrs', 'foreign_key' => $adr->id,
+                    'vars' =>  $adr->toArray()];
+                $data['vars']['assigned_to_name'] = $evaluator->name;
+                $data['type'] = 'manager_assign_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                //end 
+                
+               $this->Flash->success('Evaluator '.$evaluator->name.' assigned AEFI '.$adr->reference_number);
+
+                return $this->redirect($this->referer());
+            } else {
+                $this->Flash->error(__('Unable to assign evaluator. Please, try again.')); 
+                return $this->redirect($this->referer());
+            }
+        } else {
+                $this->Flash->error(__('Unknown AEFI Report. Please correct.')); 
+                return $this->redirect($this->referer());
+        }
+    }
+
+
+    public function requestEvaluator() {
+        $adr = $this->Adrs->get($this->request->getData('adr_pr_id'), []);
+        if (isset($adr->id) && $this->request->is('post')) {
+            $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
+
+            $adr->status = 'RequestEvaluator';
+            $adr->request_evaluators[0]->user_id = $adr->assigned_to;
+            $adr->request_evaluators[0]->sender_id = $this->Auth->user('id');  //TODO: Can have view to see all messages where I requested for info
+            $adr->request_evaluators[0]->type = 'request_evaluator_info';
+            $adr->request_evaluators[0]->model = 'Adrs';
+            $adr->request_evaluators[0]->foreign_key = $adr->id;
+
+            //Notification should be sent to assigned_to evaluator if exists
+            if ($this->Adrs->save($adr)) {
+                //Send email and message (if present!!!) to evaluator
+                $this->loadModel('Queue.QueuedJobs');    
+                if(!empty($adr->assigned_to)) {
+                    $evaluator = $this->Adrs->Users->get($adr->assigned_to);
+                    $data = [
+                      'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                      'type' => 'manager_request_evaluator_email', 'model' => 'Adrs', 'foreign_key' => $adr->id,
+                        'vars' =>  $adr->toArray()
+                    ];
+                    $data['vars']['name'] = $evaluator->name;
+                    $data['vars']['user_message'] = $adr->request_evaluators[0]->user_message;
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_request_evaluator_message';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);                
+                } else {
+                    $this->Flash->error(__('Unable to locate evaluator.')); 
+                    return $this->redirect($this->referer());
+                }
+
+                //end 
+                
+               $this->Flash->success('Request successfully sent to evaluator for Adr '.$adr->reference_number);
+
+                return $this->redirect($this->referer());
+            } else {
+                $this->Flash->error(__('Unable to send request to evaluator. Please, try again.')); 
+                return $this->redirect($this->referer());
+            }
+        } else {
+               $this->Flash->error(__('Unknown Adr Report. Please correct.')); 
+               return $this->redirect($this->referer());
+        }
+    }
+
+    public function causality() {
+        $adr = $this->Adrs->get($this->request->getData('adr_pr_id'), []);
+        if (isset($adr->id) && $this->request->is('post')) {
+            $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
+            $adr->status = 'Evaluated';
+            $adr->reviews[0]->user_id = $this->Auth->user('id');
+            $adr->reviews[0]->model = 'Adrs';
+            $adr->reviews[0]->category = 'causality';
+            //Notification should be sent to manager and assigned_to evaluator if exists
+            if ($this->Adrs->save($adr)) {
+                //Send email and message (if present!!!) to evaluator
+                $this->loadModel('Queue.QueuedJobs');    
+                if(!empty($adr->assigned_to)) {
+                    $evaluator = $this->Adrs->Users->get($adr->assigned_to);
+                    $data = [
+                      'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                      'type' => 'manager_review_assigned_email', 'model' => 'Adrs', 'foreign_key' => $adr->id,
+                        'vars' =>  $adr->toArray()
+                    ];
+                    $data['vars']['name'] = $evaluator->name;
+                    $data['vars']['assigned_by_name'] = $this->Auth->user('name');
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_review_assigned_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);                
+                } 
+
+                //notify manager                
+                $data = ['user_id' => $this->Auth->user('id'), 'model' => 'Adrs', 'foreign_key' => $adr->id,
+                    'vars' =>  $adr->toArray()];
+                $data['type'] = 'manager_review_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                //end 
+                
+               $this->Flash->success('Review successfully done for SADR '.$adr->reference_number);
+
+                return $this->redirect($this->referer());
+            } else {
+                $this->Flash->error(__('Unable to review report. Please, try again.')); 
+                return $this->redirect($this->referer());
+            }
+        } else {
+               $this->Flash->error(__('Unknown SADR Report. Please correct.')); 
+               return $this->redirect($this->referer());
+        }
+    }
+
+
+    public function requestReporter() {
+        $adr = $this->Adrs->get($this->request->getData('adr_pk_id'), []);
+        if (isset($adr->id) && $this->request->is('post')) {
+            $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
+            $adr->status = 'RequestReporter';
+            $adr->request_reporters[0]->user_id = $adr->user_id;
+            $adr->request_reporters[0]->sender_id = $this->Auth->user('id');  //TODO: Can have view to see all messages where I requested for info
+            $adr->request_reporters[0]->type = 'request_reporter_info';
+            $adr->request_reporters[0]->model = 'Adrs';
+            $adr->request_reporters[0]->foreign_key = $adr->id;
+            //Notification should be sent to reporter and assigned_to evaluator if exists
+            if ($this->Adrs->save($adr)) {
+                //Send email and message (if present!!!) to reporter
+                $this->loadModel('Queue.QueuedJobs');    
+                if(!empty($adr->user_id)) {
+                    $reporter = $this->Adrs->Users->get($adr->user_id);
+                    $data = [
+                      'email_address' => $reporter->email, 'user_id' => $reporter->id,
+                      'type' => 'manager_request_reporter_email', 'model' => 'Adrs', 'foreign_key' => $adr->id,
+                        'vars' =>  $adr->toArray()
+                    ];
+                    $data['vars']['user_message'] = $adr->request_reporters[0]->user_message;
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_request_reporter_message';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);                
+                } else {
+                    $this->Flash->error(__('Unable to locate reporter.')); 
+                    return $this->redirect($this->referer());
+                }
+
+                //notify assigned evaluator      
+                if(!empty($adr->assigned_to)) {
+                    $evaluator = $this->Adrs->Users->get($adr->assigned_to);
+                    $data = [
+                      'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                      'type' => 'manager_request_reporter_evaluator_notification', 'model' => 'Adrs', 'foreign_key' => $adr->id,
+                        'vars' =>  $adr->toArray()
+                    ];
+                    $data['vars']['assigned_by_name'] = $this->Auth->user('name');
+                    $data['vars']['user_message'] = $adr->request_reporters[0]->user_message;
+                    //notify evaluator
+                    $this->QueuedJobs->createJob('GenericNotification', $data);                
+                }          
+                //manager does not get a notificatoin
+                //end 
+                
+               $this->Flash->success('Request successfully sent to reporter for Adr '.$adr->reference_number);
+
+                return $this->redirect($this->referer());
+            } else {
+                $this->Flash->error(__('Unable to send request to reporter. Please, try again.')); 
+                return $this->redirect($this->referer());
+            }
+        } else {
+               $this->Flash->error(__('Unknown Adr Report. Please correct.')); 
+               return $this->redirect($this->referer());
+        }
+    }
+
+    public function committeeReview() {
+        $adr = $this->Adrs->get($this->request->getData('adr_pr_id'), []);
+        if (isset($adr->id) && $this->request->is('post')) {
+            $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
+            $adr->status = (!empty($this->request->data['status'])) ? $this->request->data['status'] : 'Committee';
+            $adr->committees[0]->user_id = $this->Auth->user('id');
+            $adr->committees[0]->model = 'Adrs';
+            $adr->committees[0]->category = 'committee';
+            //Notification should be sent to manager and assigned_to evaluator if exists
+            if ($this->Adrs->save($adr)) {
+                //Send email and message (if present!!!) to evaluator
+                $this->loadModel('Queue.QueuedJobs');    
+                if(!empty($adr->assigned_to)) {
+                    $evaluator = $this->Adrs->Users->get($adr->assigned_to);
+                    $data = [
+                      'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                      'type' => 'manager_committee_assigned_email', 'model' => 'Adrs', 'foreign_key' => $adr->id,
+                        'vars' =>  $adr->toArray()
+                    ];
+                    $data['vars']['name'] = $evaluator->name;
+                    $data['vars']['assigned_by_name'] = $this->Auth->user('name');
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_committee_assigned_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);                
+                } 
+
+                //notify manager                
+                $data = ['user_id' => $this->Auth->user('id'), 'model' => 'Adrs', 'foreign_key' => $adr->id,
+                    'vars' =>  $adr->toArray()];
+                $data['type'] = 'manager_committee_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+
+                //reporter visible notification and email sent when approved
+                if(!empty($adr->committees[0]->literature_review) && $adr->status == 'Approved') {
+                    $reporter = $this->Adrs->Users->get($adr->user_id);
+                    $data = [
+                      'email_address' => $adr->reporter_email, 'user_id' => $adr->user_id,
+                      'type' => 'reporter_committee_comments_email', 'model' => 'Adrs', 'foreign_key' => $adr->id,
+                        'vars' =>  $adr->toArray()
+                    ];
+                    $data['vars']['literature_review'] = $adr->committees[0]->literature_review;
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'reporter_committee_comments_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);     
+                }
+                //end 
+                
+               $this->Flash->success('Committee Review successfully done for Adr '.$adr->reference_number);
+
+                return $this->redirect($this->referer());
+            } else {
+                $this->Flash->error(__('Unable to review report. Please, try again.')); 
+                return $this->redirect($this->referer());
+            }
+        } else {
+               $this->Flash->error(__('Unknown Adr Report. Please correct.')); 
+               return $this->redirect($this->referer());
+        }
+    }
+
 
     /**
      * Add method
@@ -78,7 +352,7 @@ class AdrsController extends AppController
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
             if ($this->Adrs->save($adr, ['validate' => false])) {
                 //update field
-		    $adr->user_id = $this->Auth->user('id');
+		$adr->user_id = $this->Auth->user('id');
                 $query = $this->Adrs->query();
                 $query->update()
                     ->set(['reference_number' => 'SAE'.$adr->id.'/'.$adr->created->i18nFormat('yyyy')])
