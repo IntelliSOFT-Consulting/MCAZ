@@ -487,7 +487,7 @@ function getChoice(sel){
                 <div class="col-xs-12">
                   <?= $this->Form->control('when_vaccinated', ['type' => 'radio', 
                          'label' => false, 
-                         'templates' => ($editable) ? 'view_form_radio' : 'radio_form',
+                         'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
                          'options' => [
                           'Within the first vaccinations of the session' => 'Within the first vaccinations of the session', 
                          'Within the last vaccinations of the session' => 'Within the last vaccinations of the session',
@@ -501,7 +501,7 @@ function getChoice(sel){
                 <div class="col-xs-12">
                 <?= $this->Form->control('when_vaccinated', ['type' => 'radio', 
                          'label' => false, 
-                         'templates' => ($editable) ? 'view_form_radio' : 'radio_form',
+                         'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
                          'options' => ['within the first few doses of the vial administered' => 'within the first few doses of the vial administered', 'within the last doses of the vial administered' => 'within the last doses of the vial administered', 'Unknown' => 'Unknown']]); 
                          ?>
                 </div>
@@ -720,7 +720,7 @@ function getChoice(sel){
                       <?= $this->Form->control('syringes_used', ['type' => 'radio', 
                          'label' => '<b>Are AD syringes used for immunization?</b>', 
                          'escape' => false,
-                         'templates' => ($editable) ? 'view_form_radio' : 'radio_form',
+                         'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
                          'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown'=>'Unknown']]); ?>
 
                   
@@ -729,7 +729,7 @@ function getChoice(sel){
                 <?= $this->Form->control('syringes_used_specify', ['type' => 'radio', 
                     'label' => '<b> If no, specify the type of syringes used:</b>',
                     'escape' => false, 
-                         'templates' => ($editable) ? 'view_form_radio' : 'radio_form',
+                         'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
 
                          'options' => ['Glass' => 'Glass', 'Disposable' => 'Disposable', 'Recycled disposable' => 'Recycled disposable', 'Other' => 'Other']]); ?>
                 <?= $this->Form->control('syringes_used_other', ['label' => 'If other, specify',  
@@ -751,7 +751,7 @@ function getChoice(sel){
               <?php
                   echo $this->Form->control('reconstitution_multiple', ['type' => 'radio', 
                      'label' => 'Same reconstitution syringe used for multiple vials of same vaccine?', 'escape' => false,
-                     'templates' => ($editable) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'N/A'=>'N/A']]);
               ?>
               </div>
@@ -759,7 +759,7 @@ function getChoice(sel){
                 <?php
                   echo $this->Form->control('reconstitution_different', ['type' => 'radio', 
                      'label' => 'Same reconstitution syringe used for reconstituting different vaccines?', 'escape' => false,
-                     'templates' => ($editable) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'N/A'=>'N/A']]);
               ?>
               </div>
@@ -767,7 +767,7 @@ function getChoice(sel){
                 <?php
                   echo $this->Form->control('reconstitution_vial', ['type' => 'radio', 
                      'label' => 'Separate reconstitution syringe for each vaccine vial?', 'escape' => false,
-                     'templates' => ($editable) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'N/A'=>'N/A']]);
               ?>
               </div>
@@ -775,7 +775,7 @@ function getChoice(sel){
                 <?php
                   echo $this->Form->control('reconstitution_syringe', ['type' => 'radio', 
                      'label' => 'Separate reconstitution syringe for each vaccination?', 'escape' => false,
-                     'templates' => ($editable) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'N/A'=>'N/A']]);
               ?>
               </div>
@@ -783,7 +783,7 @@ function getChoice(sel){
                 <?php
                   echo $this->Form->control('reconstitution_vaccines', ['type' => 'radio', 
                      'label' => 'Are the vaccines and diluents used the same as those recommended by the manufacturer?', 'escape' => false,
-                     'templates' => ($editable) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'N/A'=>'N/A']]);
               ?>
               </div>
@@ -804,52 +804,98 @@ function getChoice(sel){
                      'label' => 'Is the temperature of the vaccine storage refrigerator monitored?', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
+                  ?>
+              </div>
+              <div class="col-xs-12">
+              <?php
                   echo $this->Form->control('cold_temperature_deviation', ['type' => 'radio', 
                      'label' => 'If “yes”, was there any deviation outside of 2-8° C after the vaccine was placed inside?', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
+                  ?>
+              </div>
+              <div class="col-xs-12">
+              <?php
                   echo $this->Form->control('cold_temperature_specify', ['label' => 'If “yes”, provide details of monitoring separately.']);
+                  ?>
+              </div>
+              <div class="col-xs-12">
+              <?php
                   echo $this->Form->control('procedure_followed', ['type' => 'radio', 
                      'label' => 'Was the correct procedure for storing vaccines, diluents and syringes followed?', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
+                  ?>
+              </div>
+              <div class="col-xs-12">
+              <?php
                   echo $this->Form->control('other_items', ['type' => 'radio', 
                      'label' => 'Was any other item (other than EPI vaccines and diluents) in the refrigerator or freezer?', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
+                  ?>
+              </div>
+              <div class="col-xs-12">
+              <?php
                   echo $this->Form->control('partial_vaccines', ['type' => 'radio', 
                      'label' => 'Were any partially used reconstituted vaccines in the refrigerator?', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
+                  ?>
+              </div>
+              <div class="col-xs-12">
+              <?php
                   echo $this->Form->control('unusable_vaccines', ['type' => 'radio', 
                      'label' => 'Were any unusable vaccines (expired, no label, VVM at stages 3 or 4, frozen) in the refrigerator?', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
+                  ?>
+              </div>
+              <div class="col-xs-12">
+              <?php
                   echo $this->Form->control('unusable_diluents', ['type' => 'radio', 
                      'label' => 'Were any unusable diluents (expired, manufacturer not matched, cracked, dirty ampoule) in the store?', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
+                  ?>
+              </div>
+              <div class="col-xs-12">
+              <?php
 
                   echo $this->Form->control('additional_observations', ['label' => 'Specific key findings/additional observations and comments:']);
               ?>
+              </div>
               <p><strong>Vaccine transportation from the refrigerator to the vaccination centre:</strong></p>
-              <?php 
+              <div class="col-xs-12">
+                <?php 
                   echo $this->Form->control('cold_transportation', ['type' => 'radio', 
                      'label' => 'Was cold chain properly maintained during transportation?', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
+              ?>
+              </div>
+              <div class="col-xs-12">
+                <?php 
                   echo $this->Form->control('vaccine_carrier', ['type' => 'radio', 
                      'label' => 'Was the vaccine carrier sent to the site on the same day as vaccination?', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
+              ?>
+              </div>
+              <div class="col-xs-12">
+                <?php 
                   echo $this->Form->control('coolant_packs', ['type' => 'radio', 
                      'label' => 'Were conditioned coolant-packs used?', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
-
+              ?>
+              </div>
+              <div class="col-xs-12">
+                <?php 
                   echo $this->Form->control('transport_findings', ['label' => 'Specific key findings/additional observations and comments:']);
               ?>
-            </div>
+              </div>
+            
           </div>
 
         <h4>Section G       Community investigation (Please visit locality and interview parents/others)</h4>
@@ -858,7 +904,7 @@ function getChoice(sel){
                 <?php
                   echo $this->Form->control('similar_events', ['type' => 'radio', 
                      'label' => '<b> Were any similar events reported within a time period similar to when the adverse event occurred and in the same locality?</b>', 'escape' => false,
-                     'templates' => ($editable) ? 'view_form_radio' : 'radio_form',
+                     'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
 
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
 

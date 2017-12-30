@@ -25,13 +25,14 @@
         <h4>Adverse Event(s) <span class="sterix fa fa-asterisk" aria-hidden="true"></span>:</h4>
         <?php
             // echo $this->Form->control('adverse_events', ['label' => 'Adverse event(s):', 'type' => 'select', 'multiple' => true, 'options' => ['Severe local reaction' => 'Severe local reaction', 'Seizures' => 'Seizures', 'Abscess' => 'Abscess']]);
-            echo $this->Form->control('ae_severe_local_reaction', ['type' => 'checkbox', 'label' => 'Severe local reaction', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
-            echo $this->Form->control('ae_seizures', ['type' => 'checkbox', 'label' => 'Seizures', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
+            echo '<label>Seizures</label>';
             echo $this->Form->control('ae_afebrile', ['type' => 'checkbox', 'label' => 'afebrile', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
             echo $this->Form->control('ae_febrile', ['type' => 'checkbox', 'label' => 'febrile', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
-            echo $this->Form->control('ae_abscess', ['type' => 'checkbox', 'label' => 'Abscess', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
-            echo $this->Form->control('ae_sepsis', ['type' => 'checkbox', 'label' => 'Sepsis', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
-            echo $this->Form->control('ae_encephalopathy', ['type' => 'checkbox', 'label' => 'Encephalopathy', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
+            echo '<label>Severe local reaction</label>';
+
+            echo $this->Form->control('ae_3days', ['type' => 'checkbox', 'label' => '>3 days', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
+
+            echo $this->Form->control('ae_beyond_joint', ['type' => 'checkbox', 'label' => 'beyond nearest joint', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
             
                             
         ?>
@@ -39,12 +40,13 @@
       <div class="col-xs-2">
         <br><br>
         <?php
+           echo $this->Form->control('ae_encephalopathy', ['type' => 'checkbox', 'label' => 'Encephalopathy', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
+            echo $this->Form->control('ae_abscess', ['type' => 'checkbox', 'label' => 'Abscess', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
+            echo $this->Form->control('ae_sepsis', ['type' => 'checkbox', 'label' => 'Sepsis', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
             echo $this->Form->control('ae_anaphylaxis', ['type' => 'checkbox', 'label' => 'Anaphylaxis', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
             echo $this->Form->control('ae_fever', ['type' => 'checkbox', 'label' => 'Fever≥38°C', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
-            echo $this->Form->control('ae_3days', ['type' => 'checkbox', 'label' => '>3 days', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
             echo $this->Form->control('ae_toxic_shock', ['type' => 'checkbox', 'label' => 'Toxic shock syndrome', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
             echo $this->Form->control('ae_thrombocytopenia', ['type' => 'checkbox', 'label' => 'Thrombocytopenia', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
-            echo $this->Form->control('ae_beyond_joint', ['type' => 'checkbox', 'label' => 'beyond nearest joint', 'templates' => ($editable) ? 'checkbox_form': 'view_form_checkbox' ]);
            
             
         ?>

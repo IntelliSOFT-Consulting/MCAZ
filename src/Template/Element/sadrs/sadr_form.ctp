@@ -114,8 +114,9 @@ function getDate(sel){
           <div class="row">
             <div class="col-xs-6">
               <?php
-                  echo $this->Form->control('evaluator', 
+                  echo $this->Form->control('name_of_institution', 
                     ['label' => ['text' => 'Clinic/Hospital Name ', 'escape' => false]]);
+                  
                   echo $this->Form->control('patient_name', ['label' => 'Patient Initials <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
                   //echo $this->Form->control('date_of_birth');
                    

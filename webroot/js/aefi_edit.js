@@ -1,6 +1,5 @@
 $(function() {
     $('#aefi-date').datetimepicker({
-        minDate:"-100Y", maxDate:"+5Y",
         format: 'd-m-Y H:i'
       });
 

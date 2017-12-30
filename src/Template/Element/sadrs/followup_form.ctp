@@ -3,6 +3,24 @@
     $followup = $this->fetch('var_followup');
 ?>
 <?= $this->Form->create($followup, ['type' => 'file', 'url' => ['action' => 'followup', $sadr->id, $followup->id]]) ?>
+<script type="text/javascript">
+$(document).ready(function(){
+    <?php if($sadr->severity == 'No'){ ?> 
+      $("#followup-severity").hide();
+    <?php } ?>
+    
+});
+</script>
+<script language="javascript"> 
+function getFollowUpChoice(sel){
+    var type = sel.value;
+      if(type=="Yes"){
+          $("#followup-severity").show('slow');
+      }else{
+          $("#followup-severity").hide();
+      }
+}
+</script>
     <hr>
     <h2 class="text-center"><u>Follow Ups Section</u></h2>
     <div class="row">
@@ -38,14 +56,15 @@
     <div class="row">
         <div class="col-xs-3"><?php 
             echo  $this->Form->control('severity', ['type' => 'radio', 
-            'onchange'=>'getChoice(this)','label' => '<b>Serious</b> <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
-            //'label' => '<b>Serious: <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
+            'onchange'=>'getFollowUpChoice(this)',
+            'label' => '<b>Serious</b> <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 
+            'escape' => false,
             'templates' => 'radio_form',
             'options' => ['Yes' => 'Yes', 'No' => 'No']]);
             ?>            
         </div>
 
-        <div class="col-xs-5" id="choice-severity"><?= $this->Form->control('severity_reason', [//'type' => 'select', 
+        <div class="col-xs-5" id="followup-severity"><?= $this->Form->control('severity_reason', [//'type' => 'select', 
             'label' => 'Reason for Seriousness',
             //'label' => '<b>Serious: <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
             'templates' => 'app_form', 'empty' => true,
@@ -58,13 +77,12 @@
     </div>
 
     <div class="row">
-        <div class="col-xs-6"><?= $this->Form->control('medical_history', ['label' => 'Relevant Medical History, including Allergies','type' => 'textarea', 'templates' => 'app_form']); ?></div>
-        <div class="col-xs-6"><?= $this->Form->control('past_drug_therapy', ['label' => 'Relevant Past Drug Therapy','type' => 'textarea', 'templates' => 'app_form']); ?></div>
+        <div class="col-xs-12"><?= $this->Form->control('medical_history', ['label' => 'Relevant Medical History, including Allergies','type' => 'textarea', 'templates' => 'app_form']); ?></div>
+        <div class="col-xs-12"><?= $this->Form->control('past_drug_therapy', ['label' => 'Relevant Past Drug Therapy','type' => 'textarea', 'templates' => 'app_form']); ?></div>
     </div>
 
     <div class="row">
-        <div class="col-xs-8"><?= $this->Form->control('lab_test_results', ['label' => 'Laboratory test Results', 'type' => 'textarea', 'templates' => 'app_form']); ?></div>
-        <div class="col-xs-4"></div>
+        <div class="col-xs-12"><?= $this->Form->control('lab_test_results', ['label' => 'Laboratory test Results', 'type' => 'textarea', 'templates' => 'app_form']); ?></div>
     </div>
     <h4 class="text-center">Add Medications</h4>
     <div class="row">

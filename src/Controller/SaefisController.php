@@ -55,7 +55,7 @@ class SaefisController extends AppController
                 ]
             ]);
         }
-        $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Saefis->Designations->find('list',array('order'=>'Designations.name ASC'));
         $this->set(compact('saefi', 'designations'));
         $this->set('_serialize', ['saefi', 'designations']);
     }
@@ -67,7 +67,7 @@ class SaefisController extends AppController
         ]);        
         
 
-        $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Saefis->Designations->find('list',array('order'=>'Designations.name ASC'));
         $this->set(compact('saefi', 'designations'));
         $this->set('_serialize', false);
         $this->response->download(($saefi->submitted==2) ? str_replace('/', '_', $saefi->reference_number).'.xml' : 'SAEFI_'.$saefi->created->i18nFormat('dd-MM-yyyy_HHmmss').'.xml');
@@ -99,7 +99,7 @@ class SaefisController extends AppController
             $this->Flash->error(__('The saefi could not be saved. Please, try again.'));
         }
         $users = $this->Saefis->Users->find('list', ['limit' => 200]);
-        $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Saefis->Designations->find('list',array('order'=>'Designations.name ASC'));
         $this->set(compact('saefi', 'users', 'designations'));
         $this->set('_serialize', ['saefi']);
     }
@@ -204,7 +204,7 @@ class SaefisController extends AppController
 
         }
 
-        $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Saefis->Designations->find('list',array('order'=>'Designations.name ASC'));
         $this->set(compact('saefi', 'designations'));
         $this->set('_serialize', ['saefi']);
     }
