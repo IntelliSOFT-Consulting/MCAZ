@@ -13,6 +13,25 @@ use App\Controller\AppController;
 class WhoDrugsController extends AppController
 {
 
+    public function initialize() {
+       parent::initialize();
+       $this->Auth->allow(['index', 'drugName']);       
+    }
+    
+    public function drugName($query = null) {
+        $drugs = $this->WhoDrugs->find('all', ['fields' => ['drug_name']])->distinct()
+                ->where(['drug_name LIKE' => '%'.$this->request->getQuery('term').'%'])
+                //->distinct(['drug_name'])
+                ->limit(10); 
+        
+        $codes = array();
+        foreach ($drugs as $key => $value) {
+            $codes[] = array('value' => $value['drug_name'], 'label' => $value['drug_name']);
+        }
+        $this->set('codes', $codes);
+        $this->set('_serialize', 'codes');
+    }
+
     /**
      * Index method
      *

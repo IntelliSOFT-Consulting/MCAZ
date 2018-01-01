@@ -96,13 +96,22 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
                           array('escape' => false));                    
                     } else {
                         echo $this->Html->link('<i class="fa fa-home"></i> Home',
-                            array('controller' => 'Pages', 'action' =>  'home', 'admin' => false) , array('escape' => false));
+                            array('controller' => 'Pages', 'action' =>  'home', 'prefix' => false) , array('escape' => false));
                     }
                 ?>
         </li>
-        <li><a href="#"><i class="fa fa-bullhorn"></i> News</a></li>
-        <li><a href="#"><i class="fa fa-question-circle"></i> FAQs</a></li>
-        <li><a href="#"><i class="fa fa-envelope-o"></i> Contact us</a></li>
+        <li>
+            <?= $this->Html->link('<i class="fa fa-bullhorn"></i> News', 
+                ['controller' => 'Pages', 'action' =>  'news', 'prefix' => false] , ['escape' => false]); ?>
+        </li>
+        <li>
+            <?= $this->Html->link('<i class="fa fa-question-circle"></i> FAQs', 
+                ['controller' => 'Pages', 'action' =>  'faqs', 'prefix' => false] , ['escape' => false]); ?>
+        </li>
+        <li>
+            <?= $this->Html->link('<i class="fa fa-envelope-o"></i> Contact us', 
+                ['controller' => 'Pages', 'action' =>  'contactus', 'prefix' => false] , ['escape' => false]); ?>
+        </li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">

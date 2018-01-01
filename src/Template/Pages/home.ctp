@@ -36,62 +36,9 @@
       </div>
     </div>
   <?php    } else { ?>
-      <div class="row">
-        <div class="col-md-4">
-          <h2>ADR</h2>
-          <p>Adverse drug reaction. </p>
-          <?php
-              if($this->request->session()->read('Auth.User')) {
-          ?>
-          <p><a class="btn btn-primary" href="/sadrs/add" role="button">Report!</a></p>
-          <?php                  
-              } else {
-          ?>
-          <!-- <p><a class="btn btn-primary" href="/sadrs/add" role="button">Report &raquo;</a></p> -->
-          <P><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registrationModal">Report &raquo;</button></P>
-          <?php
-              }
-          ?>
-        </div>
-        <div class="col-md-4">
-          <h2>AEFI</h2>
-          <p>Adverse Event Following Immunization. </p>
-          <?php
-              if($this->request->session()->read('Auth.User')) {
-          ?>
 
-          <p><a class="btn btn-success" href="/aefis/add" role="button">Report!</a></p>
-          <?php                  
-              } else {
-          ?>
-          <!-- <p><a class="btn btn-success" href="/aefis/add" role="button">Report &raquo;</a></p> -->
-          <p><button type="button" class="btn btn-success" data-toggle="modal" data-target="#registrationModal">Report &raquo;</button></p>
-          <p class="has-error"><label>If Serious AEFI...</label></p>
-          <p><button type="button" class="btn btn-success" data-toggle="modal" data-target="#registrationModal">Report &raquo;</button></p>
-          <?php
-              }
-          ?>
-          
-       </div>
-        <div class="col-md-4">
-          <h2>SAE</h2>
-          <p>Serious Adverse Event Reporting Form.</p>
-          <p><i>**The SAE form is to be completed for SAEs from Clinical Trials</i></p>
-          <?php
-              if($this->request->session()->read('Auth.User')) {
-          ?>
-          <p><a class="btn btn-info" href="/adrs/add" role="button">Report!</a></p>
-          <?php                  
-              } else {
-          ?>
-          <!-- <p><a class="btn btn-info" href="/adrs/add" role="button">View details &raquo;</a></p> -->
-          <P><button type="button" class="btn btn-info" data-toggle="modal" data-target="#registrationModal">Report &raquo;</button></P>
-          <?php
-              }
-          ?>
-        </div>
-      </div>
-
+  <?= $this->cell('Site::home') ?>
+      
       <div>
 
 </div>

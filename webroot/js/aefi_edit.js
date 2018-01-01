@@ -21,4 +21,27 @@ $(function() {
         showAnim:'show'
       });
 
+    var cache2 = {},    lastXhr;
+    $( "#reporter-institution" ).autocomplete({
+        source: function( request, response ) {
+            var term = request.term;
+            if ( term in cache2 ) {
+                response( cache2[ term ] );
+                return;
+            }
+
+            lastXhr = $.getJSON( "/facilities/facility-name.json", request, function( data, status, xhr ) {
+                cache2[ term ] = data;
+                if ( xhr === lastXhr ) {
+                    response( data );
+                }
+            });
+        },
+        select: function( event, ui ) {
+            $( "#reporter-district" ).val( ui.item.dist );
+            $( "#reporter-institution" ).val( ui.item.label );
+            return false;
+        }
+    });
+
 });

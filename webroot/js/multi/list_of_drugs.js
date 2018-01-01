@@ -37,6 +37,25 @@ $(function() {
         changeYear:true, 
         showAnim:'show'
       });
+
+      var cache3 = {}, lastXhr3;
+      $( ".autoComblete" ).autocomplete({
+        source: function( request, response ) {
+          var term = request.term;
+          if ( term in cache3 ) {
+            response( cache3[ term ] );
+            return;
+          }
+
+          lastXhr3 = $.getJSON( "/who-drugs/drug-name.json", request, function( data, status, xhr ) {
+            cache3[ term ] = data;
+            if ( xhr === lastXhr3 ) {
+              response( data );
+            }
+          });
+        }
+      });
+      
     }
 
     // incremental development
@@ -70,9 +89,9 @@ $(function() {
           <tr>\
             <td>{i2}</td>\
             <td><input class="form-control" name="sadr_list_of_drugs[{i}][id]" id="sadr-list-of-drugs-{i}-id" type="hidden"> \
-                <input class="form-control" name="sadr_list_of_drugs[{i}][drug_name]" id="sadr-list-of-drugs-{i}-drug-name" type="text">  </td>\
+                <input class="form-control autoComblete" name="sadr_list_of_drugs[{i}][drug_name]" id="sadr-list-of-drugs-{i}-drug-name" type="text">  </td>\
             <td>\
-                <input class="form-control" name="sadr_list_of_drugs[{i}][brand_name]" id="sadr-list-of-drugs-{i}-brand-name" type="text"> </td>\
+                <input class="form-control autoComblete" name="sadr_list_of_drugs[{i}][brand_name]" id="sadr-list-of-drugs-{i}-brand-name" type="text"> </td>\
             <td>\
                 <input class="form-control" name="sadr_list_of_drugs[{i}][batch_number]" maxlength="255" id="sadr-list-of-drugs-{i}-batch-number" type="text"> </td>\
             <td><input class="form-control" name="sadr_list_of_drugs[{i}][dose]" id="sadr-list-of-drugs-{i}-dose" type="text"> </td>\

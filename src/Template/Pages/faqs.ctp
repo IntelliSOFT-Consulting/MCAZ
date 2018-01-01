@@ -1,0 +1,1 @@
+<?= $this->cell('Site::faqs'); ?>

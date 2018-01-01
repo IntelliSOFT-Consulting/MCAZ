@@ -3,6 +3,7 @@
 <?php $this->end(); ?>
 
 <?=     $this->Html->script('jquery/vigibase', ['block' => true]); ?>
+<?=     $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
 
 <h1 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> ADRS</h1>
 
@@ -14,8 +15,9 @@
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name_of_institution') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col">Actions</th>
+                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -26,7 +28,15 @@
                       echo ($sadr->submitted == 2) ? $this->Html->link($sadr->reference_number, ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false]) : $sadr->created ; ?></td>
                 <td><?= h($sadr->name_of_institution) ?></td>
                 <td><?= h($sadr->status) ?></td>
-                <td><?= h($sadr->created) ?></td>
+                <td><?= h($sadr->modified) ?></td>                
+                <td>
+                    <?php if($sadr->submitted == 2 && empty($sadr->messageid)) {                                        
+                           echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']); 
+                          } elseif (!empty($sadr->messageid)) {
+                            echo $sadr->messageid;
+                          }
+                    ?>
+                </td>
                 <td>
                     <?php if($sadr->submitted == 2) {                                        
                           echo  $this->Html->link('<span class="label label-primary"> E2B</span>', ['action' => 'e2b', $sadr->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']); 
@@ -35,11 +45,7 @@
                    <span class="label label-primary">                     
                      <?= $this->Html->link('View', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'style' => 'color: white;'])
                      ?>
-                    </span>
-                    <?php if($sadr->submitted == 2) {                                        
-                          echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']); 
-                            }
-                    ?>
+                    </span>                    
                 </td>
             </tr>
             <?php endforeach; ?>

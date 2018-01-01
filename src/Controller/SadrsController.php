@@ -261,8 +261,8 @@ class SadrsController extends AppController
                     $sadr->attachments[$i]->category = 'attachments';
                   }
                 }
-            debug((string)$sadr);
-            debug($this->request->data);
+            // debug((string)$sadr);
+            // debug($this->request->data);
             if ($sadr->submitted == 1) {
               //save changes button
               if ($this->Sadrs->save($sadr, ['validate' => false])) {

@@ -54,12 +54,17 @@
       <ul class="list-group">
         <li class="list-group-item">
           <?php
-            echo $this->Html->link('<i class="fa fa-html5" aria-hidden="true"></i> &nbsp; Front end Pages', ['controller' => 'Users', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+            echo $this->Html->link('<i class="fa fa-code" aria-hidden="true"></i> &nbsp; Front end Pages', ['controller' => 'Sites', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
           ?>
         </li>
         <li class="list-group-item">
           <?php
             echo $this->Html->link('<i class="fa fa-file-code-o" aria-hidden="true"></i> &nbsp; Message Templates', ['controller' => 'Messages', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+          ?>
+        </li>
+        <li class="list-group-item">
+          <?php
+            echo $this->Html->link('<i class="fa fa-file-code-o" aria-hidden="true"></i> &nbsp; Facilities', ['controller' => 'Facilities', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
           ?>
         </li>
       </ul>

@@ -57,6 +57,7 @@ Router::prefix('api', function ($routes) {
     $routes->resources('Adrs', ['connectOptions' => ['id' => '[a-zA-Z0-9+/]+={0,2}$']]);
     $routes->resources('Saefis', ['connectOptions' => ['id' => '[a-zA-Z0-9+/]+={0,2}$']]);
     $routes->resources('Users', ['connectOptions' => ['id' => '[a-zA-Z0-9+/]+={0,2}$']]);
+    $routes->resources('Sites', ['connectOptions' => ['id' => '[a-zA-Z0-9+/]+={0,2}$']]);
     // Router::connect('/api/users/register', ['controller' => 'Users', 'action' => 'add', 'prefix' => 'api']);
     $routes->fallbacks('InflectedRoute');
 });

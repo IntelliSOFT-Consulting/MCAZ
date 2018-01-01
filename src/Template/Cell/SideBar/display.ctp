@@ -140,5 +140,10 @@
             echo $this->Html->link('<i class="fa fa-file-code-o" aria-hidden="true"></i> &nbsp; Message Templates', ['controller' => 'Messages', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
           ?>
     </li>
+    <li class="<?=  ($this->request->params['controller'] == 'Sites') ? 'active' : ''; ?>">
+          <?php
+            echo $this->Html->link('<i class="fa fa-code" aria-hidden="true"></i> &nbsp; Front end Pages', ['controller' => 'Sites', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+          ?>
+    </li>
     <?php }; ?>
   </ul>

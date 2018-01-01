@@ -4,28 +4,39 @@ $(function() {
     //TODO: refresh page on successful cancel modal button.
 
     $(".vigibase").click(function(event) {
-        event.preventDefault();
-      // var frm = $('#frmAssignEvaluator');
-      console.log('we are not sure what is happening but we will get back to you soon enough');
-      console.log($(this).attr("href"));
-      url = $(this).attr("href");
+      event.preventDefault();
+      if(confirm("Are you sure you want to send to VigiBase?")) {          
+          // var frm = $('#frmAssignEvaluator');
+          url = $(this).attr("href");
+          em = $(this);
+          $.blockUI({ css: { 
+              border: 'none', 
+              padding: '15px', 
+              backgroundColor: '#000', 
+              '-webkit-border-radius': '10px', 
+              '-moz-border-radius': '10px', 
+              opacity: .5, 
+              color: '#fff' 
+          } }); 
 
-      $.ajax({
-            async:true,
-            type: 'GET',
-            url: url,
-            success: function (data) {
-                // $('#registrationModal').modal('hide')
-                console.log("success :)");
-                console.log(data);
-            },
-            error: function (data) {
-                //TODO: Remember to remove console.logs during deploy
-                console.log('An error occurred.');
-                console.log(data);
-            },
-        });
+          $.ajax({
+              async:true,
+              type: 'GET',
+              url: url,
+              success: function (data) {
+                  // $('#registrationModal').modal('hide')
+                  console.log(data, $(this).closest("td"));
+                  em.closest("td").empty().html(data.umc.MessageId);
+                  $.unblockUI();
+              },
+              error: function (data) {
+                  //TODO: Remember to remove console.logs during deploy
+                  console.log('An error occurred.');
+                  console.log(data);
+                  $.unblockUI();
+              },
+          });
+      }
     });
     
-
 });

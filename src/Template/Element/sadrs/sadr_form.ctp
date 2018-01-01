@@ -5,6 +5,7 @@
  */
 // debug($sadr);
 // debug($this->request->data);
+  $this->Html->script('sadr_edit', ['block' => true]);
   $editable = $this->fetch('editable');
 ?>
 <script type="text/javascript">
