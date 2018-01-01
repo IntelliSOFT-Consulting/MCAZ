@@ -54,7 +54,7 @@
 <?php $this->start('other_tabs'); ?>
     </div> <!-- Firstly, close the first tab!! IMPORTANT -->
 <!-- </div> -->
-    <div role="tabpanel" class="tab-pane" id="assign">
+    <div role="tabpanel" class="tab-pane" id="assign">      
         <?php echo $this->element('aefis/assign_evaluator') ?>
     </div>
     <div role="tabpanel" class="tab-pane" id="causality">

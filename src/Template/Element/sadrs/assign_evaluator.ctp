@@ -1,7 +1,8 @@
   <div class="row">
     <div class="col-xs-12">
       <?php 
-        if(empty($sadr->assigned_to)) { ?>
+        if(empty($sadr->assigned_to)) {
+         if($prefix == 'manager') { ?>
           <?php echo $this->Form->create($sadr, ['url' => ['action' => 'assign-evaluator']]) ?>
             <div class="row">
               <div class="col-xs-12"><h5 class="text-center">Assign report to evaluator for review</h5></div>
@@ -21,13 +22,13 @@ Assign</button>
               </div>
          <?php echo $this->Form->end() ?>
          <?php     
-        	} else {
+        	} } else {
             echo "<br><br><h4 class='text-center'>Assigned to: ".$evaluators->toArray()[$sadr->assigned_to]." on ".$sadr->assigned_date."</h4>";
         	}
      	?>
     </div>
     
-    <div class="col-xs-12">
+    <div class="row">
       <div class="col-xs-12">
       <?php
         if(!empty($sadr['request_evaluators'])) {
@@ -40,7 +41,7 @@ Assign</button>
         }
         ?>
       </div>
-      <?php if(!empty($sadr->assigned_to)) { ?>
+      <?php if(!empty($sadr->assigned_to)  && $prefix == 'manager') { ?>
       <hr>
           <?php echo $this->Form->create($sadr, ['url' => ['action' => 'request-evaluator']]);
                 //$i = count($sadr['request_evaluators']);

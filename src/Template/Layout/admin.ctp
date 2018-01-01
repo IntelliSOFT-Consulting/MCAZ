@@ -114,7 +114,7 @@ $cakeDescription = 'MCAZ PV';
       </div>
     </nav>
 
-    <div class="container-fluid">
+    <div class="container-fluid  nav-<?= $prefix ?>">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <?php echo $this->fetch('sidebar'); ?>

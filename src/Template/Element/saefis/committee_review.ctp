@@ -19,7 +19,9 @@
 
     <div class="col-xs-12">
       <hr>
-          <?php echo $this->Form->create($saefi, ['type' => 'file', 'url' => ['action' => 'committee-review']]);
+          <?php  
+          if($prefix == 'manager') {
+          echo $this->Form->create($saefi, ['type' => 'file', 'url' => ['action' => 'committee-review']]);
            ?>
             <div class="row">
               <div class="col-xs-12"><h5 class="text-center">Committee Report</h5></div>
@@ -48,6 +50,7 @@
                   <button type="submit" class="btn btn-primary active" id="registerUser"><i class="fa fa-plus" aria-hidden="true"></i> Review</button>
                 </div> 
               </div>
-         <?php echo $this->Form->end() ?>
+         <?php echo $this->Form->end();
+         } ?>
     </div>
   </div>

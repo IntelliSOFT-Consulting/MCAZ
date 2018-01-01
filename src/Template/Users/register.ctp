@@ -59,9 +59,11 @@
         </div><!--/span-->
     </div><!--/row-->
      <hr>
-     <div class="row">
-        <?= $this->Form->button(__('Submit')) ?>
-     </div>
+      <div class="form-group"> 
+        <div class="col-sm-offset-2 col-sm-10"> 
+          <button type="submit" class="btn btn-primary active" id="login"><i class="fa fa-edit" aria-hidden="true"></i> Register</button>
+        </div> 
+    </div>
      <?= $this->Form->end() ?>
     </div>
 </div>

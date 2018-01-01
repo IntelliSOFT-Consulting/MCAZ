@@ -1,7 +1,9 @@
   <div class="row">
     <div class="col-xs-12">
       <?php 
-        if(empty($aefi->assigned_to)) { ?>
+        if(empty($aefi->assigned_to)) {
+          if($prefix == 'manager') {
+         ?>
           <?php echo $this->Form->create($aefi, ['url' => ['action' => 'assign-evaluator']]) ?>
             <div class="row">
               <div class="col-xs-12"><h5 class="text-center">Assign report to evaluator for review</h5></div>
@@ -21,7 +23,7 @@ Assign</button>
               </div>
          <?php echo $this->Form->end() ?>
          <?php     
-        	} else {
+          }	} else {
             echo "<br><br><h4 class='text-center'>Assigned to: ".$evaluators->toArray()[$aefi->assigned_to]." on ".$aefi->assigned_date."</h4>";
         	}
      	?>
@@ -41,7 +43,7 @@ Assign</button>
         ?>
       </div>
       <hr>
-      <?php if(!empty($aefi->assigned_to)) { 
+      <?php if(!empty($aefi->assigned_to) && $prefix == 'manager') { 
         ?>
           <?php echo $this->Form->create($aefi, ['url' => ['action' => 'request-evaluator']]);
                 //$i = count($aefi['request_evaluators']);
