@@ -56,7 +56,7 @@ class AdrsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
+            'contain' => ['AdrListOfDrugs', 'AdrOtherDrugs', 'AdrLabTests', 'Attachments']
         ];
         $adrs = $this->paginate($this->Adrs->find('all')->where(['user_id' => $this->Auth->user('id')]));
 
@@ -76,7 +76,7 @@ class AdrsController extends AppController
 
         $id = base64_decode($id);
         $adr = $this->Adrs->find('all', [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
+            'contain' => ['AdrListOfDrugs', 'AdrOtherDrugs', 'AdrLabTests', 'Attachments']
         ])->where(['reference_number' => $id])->first();
 
         if (!empty($adr)) {
