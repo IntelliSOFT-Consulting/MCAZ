@@ -22,7 +22,7 @@ class AdrsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users', 'Designations']
+            'contain' => ['AdrListOfDrugs', 'AdrOtherDrugs', 'AdrLabTests', 'Attachments']
         ];
         $adrs = $this->paginate($this->Adrs);
 

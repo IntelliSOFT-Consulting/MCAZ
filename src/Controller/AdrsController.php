@@ -122,6 +122,10 @@ class AdrsController extends AppController
         if ($this->request->is('post')) {
           $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
           $adr->user_id = $this->Auth->user('id');
+          $adr->designation_id = $this->Auth->user('designation_id');
+          $adr->institution_code = $this->Auth->user('name_of_institution');
+          $adr->reporter_phone = $this->Auth->user('phone_no');
+          $adr->reporter_name = $this->Auth->user('name');
             if ($this->Adrs->save($adr, ['validate' => false])) {
                 //update field
                 $query = $this->Adrs->query();

@@ -69,8 +69,8 @@
           <div class="col-sm-12">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
-              <li role="presentation" class="active"><a href="#register" aria-controls="register" role="tab" data-toggle="tab">Register</a></li>
-              <li role="presentation"><a href="#login" aria-controls="login" role="tab" data-toggle="tab">Login</a></li>
+              <li role="presentation" class="active"><a href="#login" aria-controls="login" role="tab" data-toggle="tab">Login</a></li>
+              <li role="presentation"><a href="#register" aria-controls="register" role="tab" data-toggle="tab">Register</a></li>
             </ul>
           </div>
         </div>
@@ -79,8 +79,34 @@
         <div class="row">            
 
             <!-- Tab panes -->
-            <div class="tab-content">
-              <div role="tabpanel" class="tab-pane active" id="register">
+            <div class="tab-content">              
+              <div role="tabpanel" class="tab-pane active" id="login">
+                <div class="col-sm-12">
+                  <form class="form-horizontal" method="post" accept-charset="utf-8" action="/users/login">                
+                    <div class="form-group">
+                        <div class="col-sm-4"><label for="username" class="control-label">Username/Email:</label></div>
+                        <div class="col-sm-7">
+                          <input class="form-control" name="username" id="username" type="text">
+                          <span class="help-block" id="help-username"></span>
+                        </div>
+                    </div>        
+                    <div class="form-group"> 
+                      <div class="col-sm-4"><label for="password" class="control-label">Password:</label></div>
+                      <div class="col-sm-7">
+                        <input class="form-control" name="password" id="password" type="password">
+                        <span class="help-block" id="help-passworda"></span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-8"> 
+                          <button class="btn btn-primary active" type="submit"><i class="fa fa-sign-in" aria-hidden="true"></i>
+ Login</button>
+                      </div>
+                    </div>    
+                  </form>
+                </div>
+              </div>
+              <div role="tabpanel" class="tab-pane" id="register">
                 <div class="col-sm-12">
                   <form class="form-horizontal" id="partialRegistration">
                     <div class="form-group" id="fg-email">
@@ -110,32 +136,6 @@ Register</button>
 Register</button>
                       </div> 
                     </div>
-                  </form>
-                </div>
-              </div>
-              <div role="tabpanel" class="tab-pane" id="login">
-                <div class="col-sm-12">
-                  <form class="form-horizontal" method="post" accept-charset="utf-8" action="/users/login">                
-                    <div class="form-group">
-                        <div class="col-sm-4"><label for="username" class="control-label">Username/Email:</label></div>
-                        <div class="col-sm-7">
-                          <input class="form-control" name="username" id="username" type="text">
-                          <span class="help-block" id="help-username"></span>
-                        </div>
-                    </div>        
-                    <div class="form-group"> 
-                      <div class="col-sm-4"><label for="password" class="control-label">Password:</label></div>
-                      <div class="col-sm-7">
-                        <input class="form-control" name="password" id="password" type="password">
-                        <span class="help-block" id="help-passworda"></span>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-4 col-sm-8"> 
-                          <button class="btn btn-primary active" type="submit"><i class="fa fa-sign-in" aria-hidden="true"></i>
- Login</button>
-                      </div>
-                    </div>    
                   </form>
                 </div>
               </div>

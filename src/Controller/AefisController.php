@@ -111,6 +111,13 @@ class AefisController extends AppController
         if ($this->request->is('post')) {
             $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
             $aefi->user_id = $this->Auth->user('id');
+            $aefi->designation_id = $this->Auth->user('designation_id');
+            $aefi->reporter_institution = $this->Auth->user('name_of_institution');
+            $aefi->institution_name = $this->Auth->user('name_of_institution');
+            $aefi->reporter_address = $this->Auth->user('institution_address');
+            $aefi->reporter_phone = $this->Auth->user('phone_no');
+            $aefi->reporter_name = $this->Auth->user('name');
+
             if ($this->Aefis->save($aefi, ['validate' => false])) {
                 //update field
                 $query = $this->Aefis->query();

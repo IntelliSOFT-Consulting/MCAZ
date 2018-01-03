@@ -1,19 +1,5 @@
 <?php $this->start('sidebar'); ?>
-  <ul class="nav nav-sidebar">
-    <li class="active"><?= $this->Html->link('Overview', ['controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix], array('escape' => false)); ?></li>
-    <li>
-      <?= $this->Html->link('ADRS', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-    <li>
-      <?= $this->Html->link('AEFIS', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-    <li>
-      <?= $this->Html->link('SAEFIS', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-    <li>
-      <?= $this->Html->link('SAES', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-  </ul>
+    <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
 
@@ -24,7 +10,6 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('Edit Message'), ['action' => 'edit', $message->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Message'), ['action' => 'delete', $message->id], ['confirm' => __('Are you sure you want to delete # {0}?', $message->id)]) ?> </li>
         <li><?= $this->Html->link(__('List Messages'), ['action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Message'), ['action' => 'add']) ?> </li>
     </ul>

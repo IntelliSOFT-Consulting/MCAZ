@@ -68,7 +68,7 @@ class QueueTestEmailTask extends QueueTask {
 	 * @return bool Success
 	 */
 	public function run(array $data, $jobId) {
-		$this->Email = new Email();
+		/*$this->Email = new Email();
 		$this->Email
 			->template('test_email')
 			->emailFormat('html')
@@ -79,7 +79,7 @@ class QueueTestEmailTask extends QueueTask {
 		    $this->Email->viewVars($data['vars']);
 		}
 
-		return (bool)$this->Email->send();
+		return (bool)$this->Email->send();*/
 	}
 
 }

@@ -22,7 +22,7 @@ class AefisController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users', 'Designations']
+            'contain' => ['AefiListOfVaccines', 'AefiListOfDiluents', 'Attachments', 'AefiFollowups', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments']
         ];
         $aefis = $this->paginate($this->Aefis);
 

@@ -25,7 +25,7 @@ class SaefisController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users', 'Designations']
+            'contain' => ['SaefiListOfVaccines',  'Attachments', 'Reports']
         ];
         $saefis = $this->paginate($this->Saefis);
 

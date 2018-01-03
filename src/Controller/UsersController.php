@@ -6,6 +6,7 @@ use Cake\Validation\Validation;
 use Cake\Event\Event;
 use Cake\Log\Log;
 use Cake\Auth\DefaultPasswordHasher;
+use Cake\View\Helper\HtmlHelper; 
 
 /**
  * Users Controller
@@ -34,19 +35,8 @@ class UsersController extends AppController
     public function beforeFilter(Event $event) {
         parent::beforeFilter($event);
         // $this->Auth->allow();
-        $this->Auth->allow(['register', 'login', 'logout', 'activate']);
+        $this->Auth->allow(['register', 'login', 'logout', 'activate', 'forgotPassword', 'resetPassword']);
     }
-
-    // public function login() {
-    //     if ($this->request->is('post')) {
-    //         $user = $this->Auth->identify();
-    //         if ($user) {
-    //             $this->Auth->setUser($user);
-    //             return $this->redirect($this->Auth->redirectUrl());
-    //         }
-    //         $this->Flash->error(__('Your username or password was incorrect.'));
-    //     }
-    // }
 
     public function dashboard() {
         if ($this->request->session()->read('Auth.User.group_id') == 1) {
@@ -60,7 +50,11 @@ class UsersController extends AppController
 
     //Login with username or password
     public function login()
-    {
+    {   
+        if ($this->Auth->user()) {
+            return $this->redirect($this->Auth->redirectUrl()); 
+        }
+
         if ($this->request->is('post')) {
 
             if (Validation::email($this->request->data['username'])) {
@@ -78,6 +72,15 @@ class UsersController extends AppController
 
             if ($user) {
                 $this->Auth->setUser($user);
+
+                if($user['is_active'] == 0) {
+                $this->Flash->error('Your account is not activated! If you have just registered, please click the activation link sent to your email. Remember to check you spam folder too!');
+                    $this->redirect($this->Auth->logout());
+                } elseif ($user['deactivated'] == 1) {
+                    $this->Flash->error('Your account has been deactivated! Please contact MCAZ.');
+                    $this->redirect($this->Auth->logout());
+                }
+
                 if(strlen($this->Auth->redirectUrl()) > 12) {
                     return $this->redirect($this->Auth->redirectUrl());           
                 } else {
@@ -104,7 +107,10 @@ class UsersController extends AppController
     }
 
     public function register() {
-        //newa
+        if ($this->Auth->user()) {
+            return $this->redirect($this->Auth->redirectUrl()); 
+        }
+        
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
@@ -116,11 +122,9 @@ class UsersController extends AppController
                     'errors' => $user->errors(), 
                     'message' => 'Validation errors', 
                     '_serialize' => ['errors', 'message']]);
-                //return;
             }
 
             $user->group_id = 3;
-            // $user->activation_key = (new DefaultPasswordHasher)->hash($user->email);            
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('Registration successful.'));
 
@@ -132,14 +136,21 @@ class UsersController extends AppController
                     ->execute();
 
                 //Send registration confirm email
-                $this->loadModel('Queue.QueuedJobs');                
+                $this->loadModel('Queue.QueuedJobs'); 
                 $data = [
-                    'vars' => [
-                        'user' => $user->toArray()
-                    ]
-                ];
-                $this->QueuedJobs->createJob('RegisterEmail', $data);
-                //end
+                    'email_address' => $user->email, 'user_id' => $user->id, 'type' => 'registration_email', 'model' => 'Users', 
+                    'foreign_key' => $user->id, 'vars' =>  $user->toArray()                
+                ]; 
+                $html = new HtmlHelper(new \Cake\View\View());
+                $data['vars']['name'] = (isset($user->name)) ? $user->name : 'Sir/Madam' ;
+                $data['vars']['pv_site'] = $html->link('MCAZ PV website', ['controller' => 'Pages', 'action' => 'home', '_full' => true]);
+                $data['vars']['activation_link'] = $html->link('ACTIVATE', ['controller' => 'Users', 'action' => 'activate', $user->activation_key, 
+                                          '_full' => true]);
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                //Send registration notification
+                $data['type'] = 'registration_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                //
 
                 $this->Flash->success(__('You have successfully registered. Please click on the link sent to your email address to
                     activate your account. Check your spam folder if you
@@ -162,9 +173,7 @@ class UsersController extends AppController
                 // $user->message =            
             }
         }
-        $designations = $this->Users->Designations->find('list', ['limit' => 200]);
-        //$counties = $this->Users->Counties->find('list', ['limit' => 200]);
-        //$groups = $this->Users->Groups->find('list', ['limit' => 200]);
+        $designations = $this->Users->Designations->find('list', ['limit' => 200, 'order' => ['name' => 'ASC']]);
         $this->set(compact('user', 'designations'));
         $this->set('_serialize', ['user']);
     }
@@ -198,6 +207,69 @@ class UsersController extends AppController
             }
         } else {
             $this->Flash->error(__('Invalid activation token.'));
+            $this->redirect('/');
+        }
+    }
+
+
+    public function forgotPassword() {
+        if ($this->Auth->user()) {
+            $this->Flash->success('You are logged in!');
+            $this->redirect('/', null, false);
+        }
+        if ($this->request->is('post')) {
+            $user = $this->Users->findByEmail($this->request->getData('email'))->first();
+            if ($user) {
+                $query = $this->Users->query();
+                $query->update()
+                    ->set(['forgot_password' => 1])
+                    ->where(['id' => $user->id])
+                    ->execute();
+
+                //Send registration confirm email
+                $this->loadModel('Queue.QueuedJobs'); 
+                $data = [
+                    'email_address' => $user->email, 'user_id' => $user->id, 'type' => 'forgot_password_email', 'model' => 'Users', 
+                    'foreign_key' => $user->id, 'vars' =>  $user->toArray()                
+                ]; 
+                $html = new HtmlHelper(new \Cake\View\View());
+                $data['vars']['name'] = (isset($user->name)) ? $user->name : 'Sir/Madam' ;
+                $data['vars']['new_password'] = date('smiYhd', strtotime($user->created));
+                $data['vars']['pv_site'] = $html->link('MCAZ PV website', ['controller' => 'Pages', 'action' => 'home', '_full' => true]);
+                $data['vars']['reset_password_link'] = $html->link('Reset Password', ['controller' => 'Users', 'action' => 'resetPassword', $user->activation_key, 
+                                          '_full' => true]);
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                
+                $this->Flash->success(__('A new password has been sent to the requested email address.'));
+                $this->redirect('/');
+            } else {
+                $this->Flash->error(__('Could not verify your email address.'));
+            }
+        }
+    }
+
+
+    public function resetPassword($id = null) {
+        //confirm user id hash for authenticity
+        $check = $this->Users->find('all')->where(['activation_key' => $id, 'is_active' => 1])->first();
+        if (!$check) {
+            $this->Flash->error(__('Could not verify the user. Kindly contact MCAZ.'));
+            $this->redirect('/');
+        } else {
+            if ($check->forgot_password != 1) {
+                $this->Flash->error(__('The password has not been reset.'));
+                $this->redirect('/');
+            }
+            $user = $this->Users->patchEntity($check, $this->request->getData());
+            $user->password = date('smiYhd', strtotime($check->created));
+            $user->confirm_password = date('smiYhd', strtotime($check->created));
+            $user->forgot_password = 0;
+
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__('The password has been reset. You may login using your new password.'));
+                return $this->redirect(['action' => 'login']);
+            }
+            $this->Flash->error(__('The password could not be reset. Kindly contact MCAZ.'));
             $this->redirect('/');
         }
     }
@@ -263,6 +335,18 @@ class UsersController extends AppController
         $user = $this->Users->get($id, [
             'contain' => []
         ]);
+
+        //Send registration confirm email
+        $this->loadModel('Queue.QueuedJobs'); 
+        $data = [
+            'email_address' => $user->email, 'user_id' => $user->id, 'type' => 'registration_email', 'model' => 'Users', 
+            'foreign_key' => $user->id, 'vars' =>  $user->toArray()                
+        ]; 
+        $html = new HtmlHelper(new \Cake\View\View());
+        $data['vars']['pv_site'] = $html->link('MCAZ PV website', ['controller' => 'Pages', 'action' => 'home', '_full' => true]);
+        $data['vars']['activation_link'] = $html->link('ACTIVATE', ['controller' => 'Users', 'action' => 'activate', $user->activation_key, 
+                                  '_full' => true]);
+        $this->QueuedJobs->createJob('GenericEmail', $data);
 
         //
                 // $this->loadModel('Queue.QueuedJobs');
@@ -345,13 +429,17 @@ class UsersController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
+            if (empty($this->request->data['password'])) {
+                unset($this->request->data['password']);
+                unset($this->request->data['confirm_password']);
+            }
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
+                $this->Flash->success(__('The details have been updated.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'profile']);
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            $this->Flash->error(__('The details could not be saved. Please, try again.'));
         }
         $designations = $this->Users->Designations->find('list', ['limit' => 200]);
         //$counties = $this->Users->Counties->find('list', ['limit' => 200]);

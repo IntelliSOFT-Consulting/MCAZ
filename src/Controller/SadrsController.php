@@ -192,6 +192,13 @@ class SadrsController extends AppController
         if ($this->request->is('post')) {
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
             $sadr->user_id = $this->Auth->user('id');
+            $sadr->designation_id = $this->Auth->user('designation_id');
+            $sadr->name_of_institution = $this->Auth->user('name_of_institution');
+            $sadr->institution_name = $this->Auth->user('name_of_institution');
+            $sadr->institution_code = $this->Auth->user('institution_code');
+            $sadr->institution_address = $this->Auth->user('institution_address');
+            $sadr->reporter_phone = $this->Auth->user('phone_no');
+            $sadr->reporter_name = $this->Auth->user('name');
             if ($this->Sadrs->save($sadr, ['validate' => false])) {
                 //update field
                 $query = $this->Sadrs->query();
@@ -207,12 +214,8 @@ class SadrsController extends AppController
             }
             $this->Flash->error(__('The sadr could not be saved. Kindly correct the errors below and retry.'));
         }
-        $users = $this->Sadrs->Users->find('list', ['limit' => 200]);
-        $designations = $this->Sadrs->Designations->find('list', array('order'=>'Designations.name ASC'));
-        $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
-        $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
-        $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list');
-        $this->set(compact('sadr', 'users', 'designations', 'doses', 'routes', 'frequencies'));
+        
+        $this->set(compact('sadr'));
         $this->set('_serialize', ['sadr']);
     }
 

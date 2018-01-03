@@ -2,45 +2,43 @@
     $this->assign('Login', 'active');
 ?>
 <?php $this->start('sidebar'); ?>
-  <ul class="nav nav-sidebar">
-    <li><?= $this->Html->link('Overview', ['controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix], array('escape' => false)); ?></li>
-    <li>
-      <?= $this->Html->link('ADRS', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-    <li>
-      <?= $this->Html->link('AEFIS', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-    <li>
-      <?= $this->Html->link('SAEFIS', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-    <li>
-      <?= $this->Html->link('SAES', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-    <li class="active">
-      <?= $this->Html->link('USERS', ['controller' => 'Users', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-  </ul>
+  <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
 <h1 class="page-header">PROFILE</h1>
 
+
 <div class="row">
-  <div class="col-md-12">
-    <h3><?= h($user->name) ?></h3>
+  <div class="col-md-6">
+    <dl class="dl-horizontal">
+      <dt>Name</dt>
+      <dd><?= h($user->name) ?></dd>
+     <dt scope="row"><?= __('Email') ?></dt>
+        <dd><?= h($user->email) ?></dd>
+     <dt scope="row"><?= __('Username') ?></dt>
+        <dd><?= h($user->username) ?></dd>
+     <dt scope="row"><?= __('Phone No') ?></dt>
+        <dd><?= h($user->phone_no) ?></dd>
+        <dt scope="row"><?= __('Group') ?></dt>
+        <dd><?= $user->group->name ?></dd>
+    </dl>
+  </div>
+  <div class="col-md-6">
     <dl class="dl-horizontal">
       <dt>Designation</dt>
       <dd><?= $user->has('designation') ? $this->Html->link($user->designation->name, ['controller' => 'Designations', 'action' => 'view', $user->designation->id]) : '' ?></dd>
-      <dt scope="row"><?= __('Username') ?></dt>
-      <dd><?= h($user->username) ?></dd>
-      <dt scope="row"><?= __('Name') ?></dt>
-        <dd><?= h($user->name) ?></dd>
-     <dt scope="row"><?= __('Email') ?></dt>
-        <dd><?= h($user->email) ?></dd>
-        <dt scope="row"><?= __('Group') ?></dt>
-        <dd><?= $user->has('group') ? $this->Html->link($user->group->name, ['controller' => 'Groups', 'action' => 'index', 'prefix' => $prefix]) : '' ?></dd>
-        <dt scope="row"><?= __('Phone No') ?></dt>
-            <dd><?= h($user->phone_no) ?></dd>
+      <dt scope="row"><?= __('name_of_institution') ?></dt>
+      <dd><?= h($user->name_of_institution) ?></dd>
+      <dt scope="row"><?= __('Institution Address') ?></dt>
+        <dd><?= h($user->institution_address) ?></dd>
+     <dt scope="row"><?= __('Institution Code') ?></dt>
+        <dd><?= h($user->institution_code) ?></dd>
     </dl>
   </div>
 </div>
 
+<div class="row">
+  <div class="col-md-offset-1 col-md-11">
+    <?= $this->Html->link('<i class="fa fa-edit" aria-hidden="true"></i> Edit', ['controller' => 'Users', 'action' => 'edit', $user->id], array('escape' => false, 'class' => 'btn btn-info')); ?> &nbsp;
+  </div>
+</div>

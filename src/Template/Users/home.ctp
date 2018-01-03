@@ -85,7 +85,7 @@
           ?>
         </p>
         <div>
-        <table class="table table-sriped table-condensed">
+        <table class="table table-striped table-condensed">
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id', 'Reference #', ['model' => 'Adrs']) ?></th>                
@@ -144,7 +144,7 @@
           ?>
         </p>
         <div>
-        <table class="table table-sriped table-condensed">
+        <table class="table table-striped table-condensed">
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id', 'Reference #', ['model' => 'Aefis']) ?></th>                
@@ -204,7 +204,7 @@
           ?>
         </p>
         <div>
-        <table class="table table-sriped table-condensed">
+        <table class="table table-striped table-condensed">
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id', 'Reference #', ['model' => 'Saefis']) ?></th>                

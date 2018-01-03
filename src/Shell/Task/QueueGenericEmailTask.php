@@ -10,6 +10,7 @@ use Cake\Mailer\Email;
 use Queue\Shell\Task\QueueTask;
 use Cake\Log\Log;
 use Cake\Utility\Text;
+use Cake\Filesystem\File;
 
 /**
  * Send registration emails.
@@ -50,6 +51,9 @@ class QueueGenericEmailTask extends QueueTask {
         // if (!empty($data['vars'])) {
         //     $this->Email->viewVars($data['vars']);
         // }
+
+        $file = new File(WWW_ROOT. 'img' . DS . 'html' . DS . 'mcaz_logo3.html');
+        $data['vars']['mcaz_logo'] = $file->read();
 
         return (bool)$this->Email->send(Text::insert($message['content'], $data['vars']));
     }
