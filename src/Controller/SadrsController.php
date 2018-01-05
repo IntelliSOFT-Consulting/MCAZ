@@ -199,14 +199,7 @@ class SadrsController extends AppController
             $sadr->institution_address = $this->Auth->user('institution_address');
             $sadr->reporter_phone = $this->Auth->user('phone_no');
             $sadr->reporter_name = $this->Auth->user('name');
-            if ($this->Sadrs->save($sadr, ['validate' => false])) {
-                //update field
-                $query = $this->Sadrs->query();
-                $query->update()
-                    ->set(['reference_number' => 'ADR'.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy')])
-                    ->where(['id' => $sadr->id])
-                    ->execute();
-                //
+            if ($this->Sadrs->save($sadr, ['validate' => false])) {                
 
                 $this->Flash->success(__('The changes to the ADR have been saved.'));
 
@@ -279,6 +272,14 @@ class SadrsController extends AppController
               $sadr->submitted_date = date("Y-m-d H:i:s");
               $sadr->status = 'Submitted';
               if ($this->Sadrs->save($sadr, ['validate' => false])) {
+                //update field
+                $query = $this->Sadrs->query();
+                $query->update()
+                    ->set(['reference_number' => 'ADR'.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy')])
+                    ->where(['id' => $sadr->id])
+                    ->execute();
+                //
+                
                 $this->Flash->success(__('Report '.$sadr->reference_number.' has been successfully submitted to MCAZ for review.'));
                 //send email and notification
                 $this->loadModel('Queue.QueuedJobs');    

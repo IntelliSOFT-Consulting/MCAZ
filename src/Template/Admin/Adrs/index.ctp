@@ -5,7 +5,7 @@
 <h1 class="page-header">ADRS</h1>
 
 <div class="table-responsive">
-    <table class="table table-striped">
+    <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>

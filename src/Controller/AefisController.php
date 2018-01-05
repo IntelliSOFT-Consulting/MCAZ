@@ -119,13 +119,7 @@ class AefisController extends AppController
             $aefi->reporter_name = $this->Auth->user('name');
 
             if ($this->Aefis->save($aefi, ['validate' => false])) {
-                //update field
-                $query = $this->Aefis->query();
-                $query->update()
-                    ->set(['reference_number' => 'AEFI'.$aefi->id.'/'.$aefi->created->i18nFormat('yyyy')])
-                    ->where(['id' => $aefi->id])
-                    ->execute();
-                //
+                
                 $this->Flash->success(__('The aefi has been saved.'));
 
                 return $this->redirect(['action' => 'edit', $aefi->id]);
@@ -178,6 +172,13 @@ class AefisController extends AppController
               $aefi->submitted_date = date("Y-m-d H:i:s");
               $aefi->status = 'Submitted';
               if ($this->Aefis->save($aefi, ['validate' => false])) {
+                //update field
+                $query = $this->Aefis->query();
+                $query->update()
+                    ->set(['reference_number' => 'AEFI'.$aefi->id.'/'.$aefi->created->i18nFormat('yyyy')])
+                    ->where(['id' => $aefi->id])
+                    ->execute();
+                //
                 $this->Flash->success(__('Report '.$aefi->reference_number.' has been successfully submitted to MCAZ for review.'));
                 return $this->redirect(['action' => 'view', $aefi->id]);
 ;

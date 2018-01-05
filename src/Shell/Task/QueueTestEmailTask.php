@@ -80,6 +80,25 @@ class QueueTestEmailTask extends QueueTask {
 		}
 
 		return (bool)$this->Email->send();*/
+		
+		Log::write('debug', 'Mail to ::: '.$data['email_address']);
+        // Log::write('debug', $data['vars']['user']);
+        $message = $this->Messages->findByName($data['type'])->first();
+        //$this->out(print_r($message, true));
+
+        $this->Email = new Email();
+        $this->Email
+            ->emailFormat('html')
+            ->to($data['email_address'])
+            ->subject(Text::insert($message['subject'], $data['vars']));
+            // ->message(Text::insert('Are we to honestly believe that content is not showing :reference_number', $data['vars']));
+            // ->message(Text::insert($message['content'], $data['vars']));
+        // ...
+        // if (!empty($data['vars'])) {
+        //     $this->Email->viewVars($data['vars']);
+        // }
+
+        return (bool)$this->Email->send(Text::insert($message['content'], $data['vars']));
 	}
 
 }

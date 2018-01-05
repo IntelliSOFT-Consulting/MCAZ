@@ -58,6 +58,35 @@ class NotificationCell extends Cell
 
         // Paginate the model
         $notifications = $paginator->paginate(
+            $this->Notifications->find('all', [
+                //'order' => ['Notifications.created' => 'DESC'], //affects fron end sort
+                'contain' => ['Messages']])
+            ->where(['user_id' => $this->request->session()->read('Auth.User.id')]),
+            $this->request->getQueryParams(),
+            [
+                // Use a parameterized custom finder.
+                // 'finder' => ['favorites' => [$user]],
+                'limit' => 5,
+                'order' => ['Notifications.created' => 'DESC'],
+                // Use scoped query string parameters.
+                'scope' => 'notifications',
+            ]
+        );
+
+        $paging = $paginator->getPagingParams() + (array)$this->request->getParam('paging');
+        $this->request = $this->request->withParam('paging', $paging);
+
+        $this->set(compact('notifications', 'prefix'));
+    }
+
+    public function style($name = null)
+    {
+        $this->loadModel('Messages');
+
+        $query = $this->Messages->find('all')->where(['name' => $name])->first();
+
+        // Paginate the model
+        $notifications = $paginator->paginate(
             $this->Notifications->find('all')->where(['user_id' => $this->request->session()->read('Auth.User.id')]),
             $this->request->getQueryParams(),
             [

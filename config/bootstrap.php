@@ -260,3 +260,6 @@ Configure::load('app_queue');
 Plugin::load('SoftDelete');
 
 Plugin::load('ADmad/JwtAuth');
+
+Plugin::load('Search');
+Plugin::load('CsvView');

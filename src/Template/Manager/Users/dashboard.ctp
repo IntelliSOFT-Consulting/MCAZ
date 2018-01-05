@@ -11,7 +11,7 @@
           <?php foreach ($sadrs as $sadr): ?>
           <li><?= $this->Html->link($sadr->reference_number, ['controller' => 'Sadrs', 'action' => 'view', $sadr->id]);?> </li>
           <?php endforeach; ?>
-        </ul
+        </ul>
         <nav aria-label="Page navigation">
             <ul class="pagination pagination-sm">
                 <?= $this->Paginator->first('<< ', ['model' => 'Sadrs']) ?>
@@ -27,7 +27,7 @@
           <?php foreach ($adrs as $adr): ?>
           <li><?= $this->Html->link($adr->reference_number, ['controller' => 'Adrs', 'action' => 'view', $adr->id]);?> </li>
           <?php endforeach; ?>
-        </ul
+        </ul>
         <nav aria-label="Page navigation">
             <ul class="pagination pagination-sm">
                 <?= $this->Paginator->first('<< ', ['model' => 'Adrs']) ?>
@@ -45,7 +45,7 @@
           <?php foreach ($aefis as $aefi): ?>
           <li><?= $this->Html->link($aefi->reference_number, ['controller' => 'Aefis', 'action' => 'view', $aefi->id], ['escape' => false]);?> </li>
           <?php endforeach; ?>
-        </ul
+        </ul>
         <nav aria-label="Page navigation">
             <ul class="pagination pagination-sm">
                 <?= $this->Paginator->first('<< ', ['model' => 'Aefis']) ?>
@@ -61,7 +61,7 @@
           <?php foreach ($saefis as $saefi): ?>
           <li><?= $this->Html->link($saefi->reference_number, ['controller' => 'Saefis', 'action' => 'view', $saefi->id]);?> </li>
           <?php endforeach; ?>
-        </ul
+        </ul>
         <nav aria-label="Page navigation">
             <ul class="pagination pagination-sm">
                 <?= $this->Paginator->first('<< ', ['model' => 'Saefis']) ?>

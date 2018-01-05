@@ -4,6 +4,7 @@ namespace App\Controller\Manager;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use App\Model\Entity;
+use Cake\Utility\Hash;
 
 /**
  * Sadrs Controller
@@ -14,7 +15,19 @@ use App\Model\Entity;
  */
 class SadrsController extends AppController
 {
-    
+
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->loadComponent('Search.Prg', [
+            // This is default config. You can modify "actions" as needed to make
+            // the PRG component work only for specified methods.
+            'actions' => ['index']
+        ]);
+        // $this->loadComponent('RequestHandler', ['viewClassMap' => ['csv' => 'CsvView.Csv']]);
+    }
+
     /**
      * Index method
      *
@@ -23,16 +36,42 @@ class SadrsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users', 'Designations', 'Reviews']
+            // 'contain' => ['Users', 'Designations', 'Reviews']
+            'contain' => ['SadrListOfDrugs']
+            // 'contain' => []
         ];
-        // $sadrs = $this->paginate($this->Sadrs,['finder' => ['status' => $id]]);
+        /*// $sadrs = $this->paginate($this->Sadrs,['finder' => ['status' => $id]]);
         if($this->request->getQuery('status')) {$sadrs = $this->paginate($this->Sadrs->find('all')->where(['status' => $this->request->getQuery('status'), 'ifnull(report_type,-1) !=' => 'FollowUp']), ['order' => ['Sadrs.id' => 'desc']]); }
-        else {$sadrs = $this->paginate($this->Sadrs->find('all')->where(['ifnull(report_type,-1) !=' => 'FollowUp']), ['order' => ['Sadrs.id' => 'desc']]);}
-        // debug($this->request->data);
-        // debug($id);
+        else {$sadrs = $this->paginate($this->Sadrs->find('all')->where(['ifnull(report_type,-1) !=' => 'FollowUp']), ['order' => ['Sadrs.id' => 'desc']]);}*/
+        
+        $query = $this->Sadrs
+            // Use the plugins 'search' custom finder and pass in the
+            // processed query params
+            ->find('search', ['search' => $this->request->query])
+            // You can add extra things to the query if you need to
+            ->where([['ifnull(report_type,-1) !=' => 'FollowUp']]);
 
-        $this->set(compact('sadrs'));
-        $this->set('_serialize', ['sadrs']);
+        $this->set('sadrs', $this->paginate($query));
+
+        // $this->set(compact('sadrs'));
+        // $this->set('_serialize', ['sadrs']);
+
+        if ($this->request->params['_ext'] === 'csv') {
+            $_serialize = 'query';
+            $_header = ['ID', 'reference_number', 'Created', 'name'];
+            $_extract = [
+                'id',
+                'reference_number',
+                'created',
+                // 'sadr_list_of_drugs.0.drug_name'
+                function ($row) {
+                    $results = Hash::extract($row['sadr_list_of_drugs'], '{n}.drug_name');
+                    return implode('|', $results) ;
+                }
+            ];
+
+            $this->set(compact('query', '_serialize', '_header', '_extract'));
+        }
     }
 
     /**

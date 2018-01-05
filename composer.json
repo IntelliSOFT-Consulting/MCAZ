@@ -19,7 +19,9 @@
         "dereuromark/cakephp-queue": "^3.5",
         "ivanamat/cakephp3-aclmanager": "^1.2",
         "pgbi/cakephp3-soft-delete": "~1.0",
-        "admad/cakephp-jwt-auth": "^2.2"
+        "admad/cakephp-jwt-auth": "^2.2",
+        "friendsofcake/search": "^4.2",
+        "friendsofcake/cakephp-csvview": "~3.0"
     },
     "require-dev": {
         "psy/psysh": "@stable",

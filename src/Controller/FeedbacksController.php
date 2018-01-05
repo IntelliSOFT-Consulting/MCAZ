@@ -12,6 +12,10 @@ use App\Controller\AppController;
  */
 class FeedbacksController extends AppController
 {
+    public function initialize() {
+       parent::initialize();
+       $this->Auth->allow('add');       
+    }
 
     /**
      * Index method
@@ -57,9 +61,9 @@ class FeedbacksController extends AppController
         if ($this->request->is('post')) {
             $feedback = $this->Feedbacks->patchEntity($feedback, $this->request->getData());
             if ($this->Feedbacks->save($feedback)) {
-                $this->Flash->success(__('The feedback has been saved.'));
+                $this->Flash->success(__('The feedback has been sent to MCAZ. Thank you..'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect('/');
             }
             $this->Flash->error(__('The feedback could not be saved. Please, try again.'));
         }

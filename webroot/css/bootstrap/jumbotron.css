@@ -78,3 +78,10 @@ h1.has-error, h2.has-error, h3.has-error, h4.has-error, h5.has-error, p.has-erro
     margin-bottom: 0;
 }
 
+.custom-navbar {
+  margin-bottom: 10px;
+  min-height: 40px;
+}
+.custom-navbar-brand {
+  /*font-size: 14px;*/
+}

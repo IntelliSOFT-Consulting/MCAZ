@@ -6,16 +6,20 @@ bin/cake acl grant Groups.2 controllers
 bin/cake acl grant Groups.2 controllers/Manager/Sadrs
 #end Managers
 bin/cake acl grant Groups.4 controllers
+bin/cake acl grant Groups.3 controllers/Aefis/index
 bin/cake acl grant Groups.3 controllers/Aefis/add
 bin/cake acl grant Groups.3 controllers/Aefis/edit
 bin/cake acl grant Groups.3 controllers/Aefis/view
 bin/cake acl grant Groups.3 controllers/Aefis/followup
+bin/cake acl grant Groups.3 controllers/Saefis/index
 bin/cake acl grant Groups.3 controllers/Saefis/add
 bin/cake acl grant Groups.3 controllers/Saefis/edit
 bin/cake acl grant Groups.3 controllers/Saefis/view
+bin/cake acl grant Groups.3 controllers/Adrs/index
 bin/cake acl grant Groups.3 controllers/Adrs/add
 bin/cake acl grant Groups.3 controllers/Adrs/edit
 bin/cake acl grant Groups.3 controllers/Adrs/view
+bin/cake acl grant Groups.3 controllers/Sadrs/index
 bin/cake acl grant Groups.3 controllers/Sadrs/add
 bin/cake acl grant Groups.3 controllers/Sadrs/edit
 bin/cake acl grant Groups.3 controllers/Sadrs/view

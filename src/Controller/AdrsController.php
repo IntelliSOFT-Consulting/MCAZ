@@ -127,13 +127,6 @@ class AdrsController extends AppController
           $adr->reporter_phone = $this->Auth->user('phone_no');
           $adr->reporter_name = $this->Auth->user('name');
             if ($this->Adrs->save($adr, ['validate' => false])) {
-                //update field
-                $query = $this->Adrs->query();
-                $query->update()
-                    ->set(['reference_number' => 'SAE'.$adr->id.'/'.$adr->created->i18nFormat('yyyy')])
-                    ->where(['id' => $adr->id])
-                    ->execute();
-                //
                 $this->Flash->success(__('The adr has been saved.'));
 
                 return $this->redirect(['action' => 'edit', $adr->id]);
@@ -207,6 +200,14 @@ class AdrsController extends AppController
               $adr->status = 'Submitted';
               
               if ($this->Adrs->save($adr, ['validate' => false])) {
+                
+                //update field
+                $query = $this->Adrs->query();
+                $query->update()
+                    ->set(['reference_number' => 'SAE'.$adr->id.'/'.$adr->created->i18nFormat('yyyy')])
+                    ->where(['id' => $adr->id])
+                    ->execute();
+                //
                 $this->Flash->success(__('Report '.$adr->reference_number.' has been successfully submitted to MCAZ for review.'));
                 return $this->redirect(['action' => 'view', $adr->id]);
 

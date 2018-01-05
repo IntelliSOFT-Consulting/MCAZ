@@ -88,13 +88,7 @@ class SaefisController extends AppController
             $saefi->mobile = $this->Auth->user('phone_no');
             $saefi->reporter_name = $this->Auth->user('name');
             if ($this->Saefis->save($saefi, ['validate' => false])) {
-                //update field
-                $query = $this->Saefis->query();
-                $query->update()
-                    ->set(['reference_number' => 'SAEFI'.$saefi->id.'/'.$saefi->created->i18nFormat('yyyy')])
-                    ->where(['id' => $saefi->id])
-                    ->execute();
-                //
+               
                 $this->Flash->success(__('The saefi has been saved.'));
 
                 return $this->redirect(['action' => 'edit', $saefi->id]);
@@ -162,6 +156,13 @@ class SaefisController extends AppController
               $saefi->submitted_date = date("Y-m-d H:i:s");
               $saefi->status = 'Submitted';
               if ($this->Saefis->save($saefi, ['validate' => false])) {
+                //update field
+                $query = $this->Saefis->query();
+                $query->update()
+                    ->set(['reference_number' => 'SAEFI'.$saefi->id.'/'.$saefi->created->i18nFormat('yyyy')])
+                    ->where(['id' => $saefi->id])
+                    ->execute();
+                //
                 $this->Flash->success(__('Report '.$saefi->reference_number.' has been successfully submitted to MCAZ for review.'));
                 return $this->redirect(['action' => 'view', $saefi->id]);
 

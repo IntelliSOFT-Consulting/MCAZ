@@ -48,6 +48,8 @@ class SadrsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');        
+        // Add search behaviour to your table
+        $this->addBehavior('Search.Search');
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
@@ -106,6 +108,20 @@ class SadrsTable extends Table
         $this->hasMany('SadrOtherDrugs', [
             'foreignKey' => 'sadr_id'
         ]);
+    }
+
+    /**
+    * @return \Search\Manager
+    */
+    public function searchManager()
+    {
+        $searchManager = $this->behaviors()->Search->searchManager();
+        $searchManager
+            ->value('status')
+            ->like('reference_number')
+            ->like('name_of_institution');
+
+        return $searchManager;
     }
 
     /**

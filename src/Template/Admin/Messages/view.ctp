@@ -6,14 +6,11 @@
 
 <h1 class="page-header">Messages</h1>
 
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Message'), ['action' => 'edit', $message->id]) ?> </li>
-        <li><?= $this->Html->link(__('List Messages'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Message'), ['action' => 'add']) ?> </li>
-    </ul>
-</nav>
+
+<?= $this->Html->link('<i class="fa fa-file-code-o" aria-hidden="true"></i> Add Message Template', ['controller' => 'messages', 'action' => 'add', 'prefix' => 'admin'], array('escape' => false, 'class' => 'btn btn-info')); ?> &nbsp;
+<?= $this->Html->link('List Message Templates', ['controller' => 'messages', 'action' => 'index', 'prefix' => 'admin'], array('escape' => false, 'class' => 'btn btn-success')); ?> &nbsp;
+<hr>
+
 <div class="messages view large-9 medium-8 columns content">
     <h3><?= h($message->id) ?></h3>
     <table class="vertical-table">
