@@ -216,8 +216,8 @@ class UsersTable extends Table
         \ArrayObject $options)
     {
         $hasher = new DefaultPasswordHasher;
-        $entity->password = $hasher->hash($entity->password);
-        $entity->confirm_password = $hasher->hash($entity->confirm_password);
+        if(!empty($entity->password)) $entity->password = $hasher->hash($entity->password);
+        if(!empty($entity->confirm_password)) $entity->confirm_password = $hasher->hash($entity->confirm_password);
         return true;
     }  
 }

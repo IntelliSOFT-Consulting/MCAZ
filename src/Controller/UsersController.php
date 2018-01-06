@@ -387,6 +387,26 @@ class UsersController extends AppController
             'contain' => ['Designations', 'Groups']
         ]);
 
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            /*$old_password = (new DefaultPasswordHasher)->hash($this->request->getData('old_password'));
+            debug($old_password);
+            debug($user->password);
+            debug($this->request->getData('old_password'));
+            debug($this->request->getData('password'));*/
+            if ((new DefaultPasswordHasher)->check($this->request->getData('old_password'), $user->password)) {
+                $user = $this->Users->patchEntity($user, $this->request->getData());
+                // debug($user);
+                if ($this->Users->save($user)) {
+                    $this->Flash->success(__('Your password has been updated.'));
+                    return $this->redirect(['action' => 'profile']);
+                }
+                $this->Flash->error(__('The details could not be saved. Please, try again.'));
+            } else {
+                $this->Flash->error(__('Your old password does not match.'));
+            }            
+            
+        }
+
         $this->set('user', $user);
         $this->set('_serialize', ['user']);
 
@@ -426,17 +446,20 @@ class UsersController extends AppController
     public function edit($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => []
+            'contain' => [],
+            'fields' => ['id' , 'designation_id' , 'username' , 'name' , 'email' , 'name_of_institution' ,
+                                'institution_address' , 'institution_code' , 'institution_contact' , 'phone_no', 'group_id' ]
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            if (empty($this->request->data['password'])) {
-                unset($this->request->data['password']);
-                unset($this->request->data['confirm_password']);
-            }
-            $user = $this->Users->patchEntity($user, $this->request->getData());
+            // debug($this->request->getData())
+            $user = $this->Users->patchEntity($user, $this->request->getData(), [
+                'fieldList' => ['id' , 'designation_id' , 'username' , 'name' , 'email' , 'name_of_institution' ,
+                                'institution_address' , 'institution_code' , 'institution_contact' , 'phone_no' ]
+            ]);
+            // debug($this->request->getData());
+            // debug($user);
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The details have been updated.'));
-
                 return $this->redirect(['action' => 'profile']);
             }
             $this->Flash->error(__('The details could not be saved. Please, try again.'));

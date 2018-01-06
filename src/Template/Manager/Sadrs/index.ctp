@@ -6,10 +6,25 @@
 <?=     $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
 
 <?php //pr($sadrs) ?>
-<h1 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> ADRS</h1>
+<h3 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> ADRS
+    :: <small><i class="fa fa-search-plus" aria-hidden="true"></i> Search, 
+              <i class="fa fa-filter" aria-hidden="true"></i>Filter or  
+              <i class="fa fa-download" aria-hidden="true"></i>  Download Reports</small>
+</h3>
 
 <?= $this->element('sadrs/search') ?>
 
+<div class="paginator">
+    <ul class="pagination pagination-sm">
+        <?= $this->Paginator->first('<< ' . __('first')) ?>
+        <?= $this->Paginator->prev('< ' . __('previous')) ?>
+        <?= $this->Paginator->numbers() ?>
+        <?= $this->Paginator->next(__('next') . ' >') ?>
+        <?= $this->Paginator->last(__('last') . ' >>') ?>
+    </ul>
+</div>
+<p><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of <b>{{count}}</b> total')]) ?></small></p>
+    
 <div class="table-responsive">
     <table class="table table-striped table-bordered">
         <thead>
@@ -54,14 +69,4 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-    </div>
 </div>

@@ -133,5 +133,16 @@ $cakeDescription = 'MCAZ PV';
             <p><i class="fa fa-copyright" aria-hidden="true"></i> <?= date('Y') ?> MCAZ, PV.</p>
         </div>
     </footer>
+
+    <script>
+    $(function() {
+        $('.mapop').popover();
+
+        $('.tiptip').tooltip();
+
+      });
+
+    </script>
+
   </body>
 </html>

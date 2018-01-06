@@ -59,3 +59,7 @@
     color: #fff;
     background-color: #4080bf;
 }
+
+.accordion-toggle {
+    cursor: pointer;
+}

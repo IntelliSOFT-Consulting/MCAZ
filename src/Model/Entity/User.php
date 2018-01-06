@@ -50,7 +50,8 @@ class User extends Entity
      */
     protected $_accessible = [
         '*' => true,
-        'password' => true,
+        // 'password' => false,
+        // 'confirm_password' => false,
     ];
 
     /**
@@ -59,7 +60,8 @@ class User extends Entity
      * @var array
      */
     protected $_hidden = [
-        'password'
+        'password',
+        'confirm_password'
     ];
 
     public function parentNode()

@@ -200,6 +200,16 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
         </div>
     </footer>
     
+    <script>
+    $(function() {
+        $('.mapop').popover();
+
+        $('.tiptip').tooltip();
+
+      });
+
+    </script>
+
   </body>
 
 </html>

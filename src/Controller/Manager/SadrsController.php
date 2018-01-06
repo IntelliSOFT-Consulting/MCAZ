@@ -37,7 +37,7 @@ class SadrsController extends AppController
     {
         $this->paginate = [
             // 'contain' => ['Users', 'Designations', 'Reviews']
-            'contain' => ['SadrListOfDrugs']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'RequestReporters', 'RequestEvaluators', 'Committees', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments']
             // 'contain' => []
         ];
         /*// $sadrs = $this->paginate($this->Sadrs,['finder' => ['status' => $id]]);
@@ -47,27 +47,50 @@ class SadrsController extends AppController
         $query = $this->Sadrs
             // Use the plugins 'search' custom finder and pass in the
             // processed query params
-            ->find('search', ['search' => $this->request->query])
+            ->find('search', ['search' => $this->request->query]);
             // You can add extra things to the query if you need to
-            ->where([['ifnull(report_type,-1) !=' => 'FollowUp']]);
-
+            //->where([['ifnull(report_type,-1) !=' => 'FollowUp']]);
+        $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
+        $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
+        $this->set(compact('provinces', 'designations'));
         $this->set('sadrs', $this->paginate($query));
 
         // $this->set(compact('sadrs'));
         // $this->set('_serialize', ['sadrs']);
-
+        $_provinces = $provinces->toArray();
+        $_designations = $designations->toArray();
         if ($this->request->params['_ext'] === 'csv') {
             $_serialize = 'query';
-            $_header = ['ID', 'reference_number', 'Created', 'name'];
-            $_extract = [
-                'id',
-                'reference_number',
-                'created',
-                // 'sadr_list_of_drugs.0.drug_name'
-                function ($row) {
-                    $results = Hash::extract($row['sadr_list_of_drugs'], '{n}.drug_name');
-                    return implode('|', $results) ;
-                }
+            $_header = ['id', 'user_id', 'sadr_id', 'messageid', 'assigned_to', 'assigned_by', 'assigned_date', 'Province', 'reference_number', 'Designation', 'report_type', 'name_of_institution', 'institution_code', 'institution_name', 'institution_address', 'patient_name', 'ip_no', 'date_of_birth', 'age_group', 'gender', 'weight', 'height', 'date_of_onset_of_reaction', 'date_of_end_of_reaction', 'duration_type', 'duration', 'description_of_reaction', 'severity', 'severity_reason', 'medical_history', 'past_drug_therapy', 'outcome', 'lab_test_results', 'reporter_name', 'reporter_email', 'reporter_phone', 'submitted', 'submitted_date', 'action_taken', 'relatedness', 'status', 'emails', 'active', 'device', 'notified', 'created', 'modified', 
+                'sadr_list_of_drugs.drug_name', 'sadr_list_of_drugs.brand_name', 'sadr_list_of_drugs.dose',  'sadr_list_of_drugs.dose_id', 'sadr_list_of_drugs.route_id', 'sadr_list_of_drugs.frequency_id', 
+                'sadr_followups', 
+                'committees.comments', 'committees.literature_review', 'committees.references_text', 
+                'request_evaluators.system_message', 'request_evaluators.user_message', 
+                'request_reporters.system_message', 'request_reporters.user_message', 
+                'reviews.system_message', 'reviews.user_message', 
+                'attachments.file'];
+            $_extract = ['id', 'user_id', 'sadr_id', 'messageid', 'assigned_to', 'assigned_by', 'assigned_date', 
+                function ($row) use ($_provinces) { return $_provinces[$row['province_id']] ?? ''; }, //provinces
+                'reference_number', 
+                function ($row) use($_designations) { return $_designations[$row['designation_id']] ?? '' ; }, //designation_id 
+                'report_type', 'name_of_institution', 'institution_code', 'institution_name', 'institution_address', 'patient_name', 'ip_no', 'date_of_birth', 'age_group', 'gender', 'weight', 'height', 'date_of_onset_of_reaction', 'date_of_end_of_reaction', 'duration_type', 'duration', 'description_of_reaction', 'severity', 'severity_reason', 'medical_history', 'past_drug_therapy', 'outcome', 'lab_test_results', 'reporter_name', 'reporter_email', 'reporter_phone', 'submitted', 'submitted_date', 'action_taken', 'relatedness', 'status', 'emails', 'active', 'device', 'notified', 'created', 'modified', 
+                function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.drug_name')); }, // 'drug_name', 
+                function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.brand_name')); }, //'.brand_name', 
+                function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.dose')); }, //'.dose',  
+                function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.dose_id')); }, //'sadr_list_of_drugs.dose_id', 
+                function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.route_id')); },//'.route_id', 
+                function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.frequency_id')); }, //'.frequency_id', 
+                function ($row) { return implode('|', Hash::extract($row['sadr_followups'], '{n}.id')); }, //'sadr_followups', 
+                function ($row) { return implode('|', Hash::extract($row['committees'], '{n}.comments')); }, //'committees.comments', 
+                function ($row) { return implode('|', Hash::extract($row['committees'], '{n}.literature_review')); }, //'.literature_review', 
+                function ($row) { return implode('|', Hash::extract($row['committees'], '{n}.references_text')); }, //'.references_text', 
+                function ($row) { return implode('|', Hash::extract($row['request_evaluators'], '{n}.system_message')); }, //'.system_message', 
+                function ($row) { return implode('|', Hash::extract($row['request_evaluators'], '{n}.user_message')); }, // '.user_message', 
+                function ($row) { return implode('|', Hash::extract($row['request_reporters'], '{n}.system_message')); }, //'.system_message', 
+                function ($row) { return implode('|', Hash::extract($row['request_reporters'], '{n}.system_message')); }, //'.user_message', 
+                function ($row) { return implode('|', Hash::extract($row['reviews'], '{n}.system_message')); }, //'reviews.system_message', 
+                function ($row) { return implode('|', Hash::extract($row['reviews'], '{n}.user_message')); }, //'reviews.user_message', 
+                function ($row) { return implode('|', Hash::extract($row['attachments'], '{n}.file')); }, //'attachments.file'
             ];
 
             $this->set(compact('query', '_serialize', '_header', '_extract'));

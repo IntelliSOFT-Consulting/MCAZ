@@ -10,11 +10,13 @@
 <div class="row">
     <div class="col-md-4">
       <div style="min-height: 320px">
-        <h3><?= $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> ADRS', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?> <small class="badge" style="background-color: #71C7A0;"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Sadrs']) ?></small></h3>
+        <h3><?= $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> ADRS', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?> <small class="badge" style="background-color: #71C7A0;"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Sadrs']) ?></small>          
+        </h3>
         <hr>
         <p>Adverse drug reaction. 
-          <a class="btn btn-primary" href="/sadrs/add" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a>
+          <small><a class="btn btn-primary tiptip" data-original-title="Report ADR" href="/sadrs/add" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a></small>
         </p>
+ 
         <ul class="list-unstyled">
           <?php 
             $i = 1;
@@ -43,7 +45,7 @@
 
         <h3><?= $this->Html->link('<i class="fa fa-file-o" aria-hidden="true"></i> SAES', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?> <small class="badge" style="background-color: #7f7fff;"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Adrs']) ?></small></h3>
         <hr>
-          <p>Serious Adverse Event Reporting Form. <a class="btn btn-info" href="/adrs/add" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a></p>          
+          <p>Serious Adverse Event Reporting Form. <a class="btn btn-info tiptip" href="/adrs/add"  data-original-title="Report SAE" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a></p>          
         <ul class="list-unstyled">
           <?php 
             $i = 1;
@@ -74,7 +76,7 @@
         <h3><?= $this->Html->link('<i class="fa fa-file-text-o" aria-hidden="true"></i> AEFI', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?> <small class="badge"  style="background-color: #ff92c9;"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Aefis']) ?></small></h3>
         <hr>
         <p>Adverse Event Following Immunization. 
-          <a class="btn btn-success" href="/aefis/add" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a></p>
+          <a class="btn btn-success tiptip" href="/aefis/add"  data-original-title="Report AEFI" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a></p>
         <ul class="list-unstyled">
           <?php  
             $i = 1;
@@ -103,7 +105,7 @@
         <h3><?= $this->Html->link('<i class="fa fa-file-text" aria-hidden="true"></i> AEFI Investigation', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?> <small class="badge" style="background-color: #ff92c9;"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Saefis']) ?></small></h3>
         <hr>
         <p class="has-error">Serious Adverse Event Following Immunization. 
-          <a class="btn btn-warning active" href="/saefis/add" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a></p>
+          <a class="btn btn-warning active tiptip"  data-original-title="Report SAEFI" href="/saefis/add" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a></p>
         <ul class="list-unstyled">
           <?php  
             $i = 1;

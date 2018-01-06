@@ -10,7 +10,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <?= $this->Html->link('<i class="fa fa-backward" aria-hidden="true"></i> Back', ['controller' => 'Users', 'action' => 'profile', $user->id], array('escape' => false, 'class' => 'btn btn-info')); ?> &nbsp;
+        <?= $this->Html->link('<i class="fa fa-backward" aria-hidden="true"></i> Back to profile', ['controller' => 'Users', 'action' => 'profile', $user->id], array('escape' => false, 'class' => 'btn btn-info')); ?> &nbsp;
 
         <div class="page-header">
             <div class="styled_title"><h1>Update Details </h1></div>
@@ -41,14 +41,14 @@
                 echo $this->Form->control('name', ['label' => 'Name', 'escape' => false]);
                 echo $this->Form->control('email', ['label' => 'Email', 'escape' => false]);
                 echo $this->Form->control('username');
-                echo $this->Form->control('password', ['label' => 'Password', 'escape' => false, 'value' => '', 'required' => false]);
-                echo $this->Form->control('confirm_password', ['type' => 'password', 'label' => 'Confirm Password', 'escape' => false, 'value' => '', 'required' => false]);   
+                echo $this->Form->control('phone_no');
+                //echo $this->Form->control('password', ['label' => 'Password', 'escape' => false, 'value' => '', 'required' => false]);
+                //echo $this->Form->control('confirm_password', ['type' => 'password', 'label' => 'Confirm Password', 'escape' => false, 'value' => '', 'required' => false]);   
                 //echo $this->Form->control('name_of_institution');
                 ?>
         </div><!--/span-->
         <div class="col-md-6">
             <?php
-                echo $this->Form->control('phone_no');
                 echo $this->Form->control('name_of_institution');
                 echo $this->Form->control('institution_address');
                 echo $this->Form->control('institution_code');
