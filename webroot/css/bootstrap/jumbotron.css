@@ -85,3 +85,12 @@ h1.has-error, h2.has-error, h3.has-error, h4.has-error, h5.has-error, p.has-erro
 .custom-navbar-brand {
   /*font-size: 14px;*/
 }
+
+.btn-zangu > .active > a:focus, .btn-zangu a:hover {
+    color: #fff;
+    background-color: #8f7cb6;
+}
+.btn-zangu > .active > a, .btn-zangu > .active > a:hover, .btn-zangu > .active > a:focus {
+    color: #fff;
+    background-color: #6a5596;
+}

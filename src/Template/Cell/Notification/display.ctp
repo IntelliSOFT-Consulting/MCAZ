@@ -1,6 +1,6 @@
 
-<h3>
-  <?= $this->Html->link('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> Notifications', ['controller' => 'Notifications', 'action' => 'index'], ['escape' => false]) ?>
+<h3 class="btn-zangu">
+  <?= $this->Html->link('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> Notifications', ['controller' => 'Notifications', 'action' => 'index'], ['escape' => false, 'class' => 'btn-zangu']) ?>
    
   <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Notifications']) ?></small>
   <?= $this->Paginator->sort('id', '<i class="fa fa-sort-alpha-desc" aria-hidden="true"></i> ', ['model' => 'Notifications', 'escape'=> false]) ?> </h3>  

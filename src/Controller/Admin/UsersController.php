@@ -28,6 +28,7 @@ class UsersController extends AppController
        parent::initialize();
        $this->loadComponent('Paginator');
        // $this->Auth->allow('logout', 'activate', 'view');       
+       $this->loadComponent('Search.Prg', ['actions' => ['index']]);
     }
 
     public function beforeFilter(Event $event) {
@@ -60,12 +61,30 @@ class UsersController extends AppController
         $this->paginate = [
             'contain' => ['Designations', 'Groups']
         ];
-        $users = $this->paginate($this->Users);
 
-        $this->set(compact('users'));
-        $this->set('_serialize', ['users']);
+        $query = $this->Users
+            ->find('search', ['search' => $this->request->query]);
+
+        $groups = $this->Users->Groups->find('list', ['limit' => 200]);
+        $designations = $this->Users->Designations->find('list', ['limit' => 200]);
+        $this->set(compact('groups', 'designations'));
+        $this->set('users', $this->paginate($query));
+
+        $_groups = $groups->toArray();
+        $_designations = $designations->toArray();
+        if ($this->request->params['_ext'] === 'csv') {
+            $_serialize = 'query';
+            $_header = ['id', 'name', 'username', 'email', 'Group', 'Phone Number', 'name_of_institution', 
+                        'institution_address', 'institution_code', 'Designation'];
+            $_extract = ['id', 'name', 'username', 'email', 
+                    function ($row) use ($_groups) { return $_groups[$row['group_id']] ?? ''; }, //'Group', 
+                        'phone_no', 'name_of_institution', 'institution_address', 'institution_code',
+                    function ($row) use($_designations) { return $_designations[$row['designation_id']] ?? '' ; }, //designation_id 
+            ];
+
+            $this->set(compact('query', '_serialize', '_header', '_extract'));
+        }
     }
-
     /**
      * View method
      *

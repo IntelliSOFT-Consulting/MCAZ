@@ -14,7 +14,7 @@
 <div class="well">
     <div class="row">
       <div class="col-md-10">
-        <h5 class="text-center"><small><em>Use wildcard <span class="sterix fa fa-asterisk" aria-hidden="true"></span> to match any character e.g. adr4* to match adr4/2017, adr49/2018 etc.</em></small></h5>
+        <h5 class="text-center"><small><em>Use wildcard <span class="sterix fa fa-asterisk" aria-hidden="true"></span> to match any character e.g. saefi4* to match saefi4/2017, saefi49/2018 etc.</em></small></h5>
 
         <table class="table">
             <tbody>
@@ -42,24 +42,18 @@
                 <tr>  
                     <td>                        
                         <?php
-                            echo $this->Form->control('description_of_reaction', 
-                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Description of Reaction*']);
-                        ?>
-                    </td>          
-                    <td>
-                        <?php
-                            echo $this->Form->control('name_of_institution', 
-                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Institution*']);
+                            echo $this->Form->control('basic_details', 
+                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Basic details*']);
                         ?>
                     </td>
-                    <td>
+                    <td colspan="2">
                         <?php
-                            echo $this->Form->control('severity', 
-                                ['type' => 'radio', 'label' => 'Serious?', 'templates' => 'radio_form', 
-                                 'options' => ['Yes' => 'Yes', 'No' => 'No']]);
+                            echo $this->Form->control('status_on_date', 
+                                ['type' => 'radio', 'label' => 'Status on date of investigation?', 'templates' => 'radio_form', 
+                                 'options' => ['Died' => 'Died', 'Disabled' => 'Disabled', 'Recovering' => 'Recovering', 'Recovered completely' => 'Recovered completely', 'Unknown' => 'Unknown']]);
                         ?>
 
-                <a onclick="$('input[name=severity]').removeAttr('checked');" class="tiptip"  data-original-title="clear!!">
+                <a onclick="$('input[name=status_on_date]').removeAttr('checked');" class="tiptip"  data-original-title="clear!!">
                          <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                     </td>
                 </tr>                
@@ -74,81 +68,47 @@
         </table>
         <div class="collapse" id="collapseExample">
         <table class="table">
-            <tbody>           
-                <tr>                    
-                    <td colspan="2"> 
-                        <?php
-                            echo $this->Form->control('severity_reason', 
-                                ['type' => 'select', 'label' => false, 'templates' => 'clear_form', 'empty' => true,
-                                  'options' => ['Death' => 'Death', 'Life-threatening' => 'Life-threatening', 'Hospitalizaion/Prolonged' => 'Hospitalizaion/Prolonged', 'Disabling' => 'Disabling', 'Congenital-anomaly' => 'Congenital-anomaly',  'Other Medically Important Reason' => 'Other Medically Important Reason']]);
-                        ?>
-                        <a onclick="$('#severity-reason').val('');" class="tiptip"  data-original-title="clear!!">
-                         <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
-                         <br>
-                         <small class="text-warning">Reason for seriousness</small>
-                    </td>
-                    <td> 
-                        <?php
-                            echo $this->Form->control('outcome', 
-                                ['type' => 'select', 'label' => false, 'templates' => 'clear_form', 'empty' => true,
-                                  'options' => ['Recovered' => 'Recovered', 
-                                                'Recovering' => 'Recovering', 
-                                                'Not yet recovered' => 'Not yet recovered', 
-                                                'Fatal' => 'Fatal', 
-                                                'Unknown' => 'Unknown']]);
-                        ?>
-                        <a onclick="$('#outcome').val('');" class="tiptip"  data-original-title="clear!!">
-                         <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
-                         <br>
-                         <small class="text-warning">Outcome</small>
-                    </td>
-                </tr>
-                <tr>                    
-                    <td> 
-                        <?php
-                            echo $this->Form->control('action_taken', 
-                                ['type' => 'select', 'label' => false, 'templates' => 'clear_form', 'empty' => true,
-                                  'options' => ['Drug withdrawn' => 'Drug withdrawn',
-                                            'Dose increased' => 'Dose increased',
-                                            'Unknown' => 'Unknown',
-                                            'Dose reduced' => 'Dose reduced',
-                                            'Dose not changed' => 'Dose not changed',
-                                            'Not applicable' => 'Not applicable',
-                                            'Medical treatment of ADR' => 'Medical treatment of ADR']]);
-                        ?>
-                        <a onclick="$('#action-taken').val('');" class="tiptip"  data-original-title="clear!!">
-                         <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
-                         <br>
-                         <small class="text-warning">Action taken</small>
-                    </td>
-                    <td colspan="2"> 
-                        <?php
-                            echo $this->Form->control('relatedness', 
-                                ['type' => 'select', 'label' => false, 'templates' => 'clear_form', 'empty' => true,
-                                  'options' => ['Certain' => 'Certain',
-                                    'Probable / Likely' => 'Probable / Likely',
-                                    'Possible' => 'Possible',
-                                    'Unlikely' => 'Unlikely',
-                                    'Conditional / Unclassified' => 'Conditional / Unclassified',
-                                    'Unassessable / Unclassifiable,' => 'Unassessable / Unclassifiable,',]]);
-                        ?>
-                        <a onclick="$('#severity-reason').val('');" class="tiptip"  data-original-title="clear!!">
-                         <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
-                         <br>
-                         <small class="text-warning">Relatedness to ADR</small>
-                    </td>
-                </tr>
-                <tr>                    
+            <tbody> 
+                <tr>
                     <td>
                         <?php
-                            echo $this->Form->control('province_id', 
-                                ['label' => false, 'templates' => 'clear_form', 'options' => $provinces, 
-                                 'empty' => true]);
-                        ?>                        
-                        <a onclick="$('#province-id').val('');" class="tiptip"  data-original-title="clear!!">
+                            echo $this->Form->control('pregnant', 
+                                ['type' => 'radio', 'label' => 'Pregnant?', 'templates' => 'radio_form', 
+                                 'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]);
+                        ?>
+
+                <a onclick="$('input[name=pregnant]').removeAttr('checked');" class="tiptip"  data-original-title="clear!!">
                          <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
-                         <br>
-                         <small class="text-warning">Province</small>
+                    </td>
+                    <td colspan="2">
+                        <?php
+                            echo $this->Form->control('infant', 
+                                ['type' => 'radio', 'label' => 'Birth was..', 'templates' => 'radio_form', 
+                                 'options' => ['full-term' => 'full-term', 'pre-term' => 'pre-term', 'post-term' => 'post-term']]);
+                        ?>
+
+                <a onclick="$('input[name=infant]').removeAttr('checked');" class="tiptip"  data-original-title="clear!!">
+                         <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
+                    </td>                    
+                </tr>
+                <tr>                    
+                    <td colspan="3">
+                        <?php
+                            echo $this->Form->control('delivery_procedure', 
+                                ['type' => 'radio', 'label' => 'Delivery was..', 'templates' => 'radio_form', 
+                                 'options' => ['Normal' => 'Normal', 'Caesarean' => 'Caesarean', 'Assisted (forceps, vacuum etc.)' => 'Assisted (forceps, vacuum etc.)', 'with complication' => 'with complication']]);
+                        ?>
+
+                    <a onclick="$('input[name=delivery_procedure]').removeAttr('checked');" class="tiptip"  data-original-title="clear!!">
+                         <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
+                    </td>
+                </tr>                
+                <tr>
+                    <td>
+                        <?php
+                            echo $this->Form->control('mobile', 
+                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Mobile*']);
+                        ?>
                     </td>
                     <td>
                         <?php
@@ -167,7 +127,7 @@
                     <td colspan="2">
                         <?php
                             echo $this->Form->control('designation_id', 
-                                ['label' => false, 'templates' => 'clear_form', 'options' => $designations, 'placeholder' => '*Province*',
+                                ['label' => false, 'templates' => 'clear_form', 'options' => $designations, 
                                  'empty' => true]);
                         ?>                        
                         <a onclick="$('#designation-id').val('');" class="tiptip"  data-original-title="clear!!">
@@ -178,10 +138,10 @@
                     <td>
                         <?php
                             echo $this->Form->control('patient_name', 
-                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Patient Initials*']);
+                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Patient name*']);
                         ?>
                     </td>
-                </tr>                
+                </tr>       
             </tbody>
         </table>
         </div>

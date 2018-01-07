@@ -6,11 +6,11 @@
 <?=     $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
 
 <?php //pr($sadrs) ?>
-<h3 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> ADRS
-    :: <small><i class="fa fa-search-plus" aria-hidden="true"></i> Search, 
+<h1 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> ADRS
+    :: <small style="font-size: small;"><i class="fa fa-search-plus" aria-hidden="true"></i> Search, 
               <i class="fa fa-filter" aria-hidden="true"></i>Filter or  
               <i class="fa fa-download" aria-hidden="true"></i>  Download Reports</small>
-</h3>
+</h1>
 
 <?= $this->element('sadrs/search') ?>
 
@@ -43,7 +43,7 @@
             <tr>
                 <td><?= $this->Number->format($sadr->id) ?></td>
                 <td><?php
-                      echo ($sadr->submitted == 2) ? $this->Html->link($sadr->reference_number, ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false]) : $sadr->created ; ?></td>
+                      echo ($sadr->submitted == 2) ? $this->Html->link($sadr->reference_number, ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) : $sadr->created ; ?></td>
                 <td><?= h($sadr->name_of_institution) ?></td>
                 <td><?= h($sadr->status) ?></td>
                 <td><?= h($sadr->modified) ?></td>                
@@ -63,7 +63,20 @@
                    <span class="label label-primary">                     
                      <?= $this->Html->link('View', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'style' => 'color: white;'])
                      ?>
-                    </span>                    
+                    </span>  &nbsp;
+                   <span class="label label-primary">                     
+                     <?= $this->Html->link('PDF', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status, '_ext' => 'pdf'], ['escape' => false, 'style' => 'color: white;'])
+                     ?>
+                    </span>  <br>
+                    <?php if($sadr->submitted == 2 && $sadr->status != 'Archived') {                                        
+                          echo  $this->Form->postLink('<span class="label label-default"> Archive</span>', ['action' => 'archive', $sadr->id, 'prefix' => $prefix], ['escape' => false, 'class' => 'label-link', 'confirm' => __('Are you sure you want to archive report {0}?', $sadr->reference_number)]); 
+                            }
+                    ?>
+                    <?php if($sadr->submitted == 0) { ?>
+                    <span class="label label-danger">                     
+                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $sadr->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sadr->id), 'class' => 'label-link']) ?>
+                    </span> 
+                    <?php } ?>               
                 </td>
             </tr>
             <?php endforeach; ?>

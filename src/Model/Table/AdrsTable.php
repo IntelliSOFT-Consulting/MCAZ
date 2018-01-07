@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use SoftDelete\Model\Table\SoftDeleteTrait;
 
 /**
  * Adrs Model
@@ -27,6 +28,7 @@ use Cake\Validation\Validator;
  */
 class AdrsTable extends Table
 {
+    use SoftDeleteTrait;
 
     /**
      * Initialize method
@@ -43,6 +45,7 @@ class AdrsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Search.Search');
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
@@ -92,6 +95,34 @@ class AdrsTable extends Table
             'dependent' => true,
             'conditions' => array('RequestEvaluators.model' => 'Adrs', 'RequestEvaluators.type' => 'request_evaluator_info'),
         ]);
+    }
+
+    /**
+    * @return \Search\Manager
+    */
+    public function searchManager()
+    {
+        $searchManager = $this->behaviors()->Search->searchManager();
+        $searchManager
+            ->value('status')
+            ->like('reference_number')
+            ->compare('created_start', ['operator' => '>=', 'field' => ['created']])
+            ->compare('created_end', ['operator' => '<=', 'field' => ['created']])
+            ->like('mrcz_protocol_number') 
+            ->like('mcaz_protocol_number')
+            ->like('name_of_institution')
+            ->like('study_title')
+            ->value('report_type')
+            ->value('adverse_event_type')
+            ->value('sae_type')
+            ->value('research_involves')
+            ->like('reporter_name')
+            ->like('outcome')
+            ->like('reporter_email')
+            ->value('designation_id')
+            ->like('participant_number');
+
+        return $searchManager;
     }
 
     /**

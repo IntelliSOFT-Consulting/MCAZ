@@ -13,6 +13,12 @@
 <?= $this->Form->create(null, ['valueSources' => 'query', 'templates' => 'clear_form']) ?>
 <div class="well">
     <div class="row">
+
+    <p class="btn-zangu"><a class="btn btn-default" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                      <i class="fa fa-search" aria-hidden="true"></i> Search
+                    </a></p>
+
+    <div class="collapse" id="collapseExample">
       <div class="col-md-10">
         <h5 class="text-center"><small><em>Use wildcard <span class="sterix fa fa-asterisk" aria-hidden="true"></span> to match any character e.g. adr4* to match adr4/2017, adr49/2018 etc.</em></small></h5>
 
@@ -48,8 +54,8 @@
                     </td>          
                     <td>
                         <?php
-                            echo $this->Form->control('name_of_institution', 
-                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Institution*']);
+                            echo $this->Form->control('patient_name', 
+                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Patient Initials*']);
                         ?>
                     </td>
                     <td>
@@ -62,17 +68,9 @@
                 <a onclick="$('input[name=severity]').removeAttr('checked');" class="tiptip"  data-original-title="clear!!">
                          <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                     </td>
-                </tr>                
-                <tr>
-                    <td colspan="3">
-                    <a class="btn" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                      View more
-                    </a>
-                    </td>
-                </tr>     
+                </tr>  
             </tbody>
         </table>
-        <div class="collapse" id="collapseExample">
         <table class="table">
             <tbody>           
                 <tr>                    
@@ -137,54 +135,9 @@
                          <br>
                          <small class="text-warning">Relatedness to ADR</small>
                     </td>
-                </tr>
-                <tr>                    
-                    <td>
-                        <?php
-                            echo $this->Form->control('province_id', 
-                                ['label' => false, 'templates' => 'clear_form', 'options' => $provinces, 
-                                 'empty' => true]);
-                        ?>                        
-                        <a onclick="$('#province-id').val('');" class="tiptip"  data-original-title="clear!!">
-                         <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
-                         <br>
-                         <small class="text-warning">Province</small>
-                    </td>
-                    <td>
-                        <?php
-                            echo $this->Form->control('reporter_name', 
-                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Reporter\'s name*']);
-                        ?>
-                    </td>
-                    <td>                        
-                        <?php
-                            echo $this->Form->control('reporter_email', 
-                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Reporter\'s email*']);
-                        ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <?php
-                            echo $this->Form->control('designation_id', 
-                                ['label' => false, 'templates' => 'clear_form', 'options' => $designations, 'placeholder' => '*Province*',
-                                 'empty' => true]);
-                        ?>                        
-                        <a onclick="$('#designation-id').val('');" class="tiptip"  data-original-title="clear!!">
-                         <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
-                         <br>
-                         <small class="text-warning">Designations</small>
-                     </td>
-                    <td>
-                        <?php
-                            echo $this->Form->control('patient_name', 
-                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Patient Initials*']);
-                        ?>
-                    </td>
-                </tr>                
+                </tr>             
             </tbody>
-        </table>
-        </div>
+        </table>        
     </div>
     <div class="col-md-2">
         <br>
@@ -209,6 +162,7 @@
             <li><?= $this->Paginator->sort('modified') ?></li>
           </ul>
         </div>
+    </div>
     </div>
     </div>
 </div>

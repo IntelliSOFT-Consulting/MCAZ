@@ -180,12 +180,12 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
       <div class="row">   
         <?php 
           // Later come here to incldue the dashboard menu
-            if($this->request->session()->read('Auth.User')) {
+            /*if($this->request->session()->read('Auth.User')) {
                 if($this->request->session()->read('Auth.User.group_id') == '1') echo $this->element('menus/admin_menu') ;
                 if($this->request->session()->read('Auth.User.group_id') == '2') echo $this->element('menus/manager_menu');
                 if($this->request->session()->read('Auth.User.group_id') == '3') echo $this->element('menus/reporter_menu');
                 if($this->request->session()->read('Auth.User.group_id') == '4') echo $this->element('menus/applicant_menu');
-            }
+            }*/
         ?>
         <?= $this->Flash->render() ?>
         <?= $this->fetch('content') ?>

@@ -583,6 +583,22 @@ class SadrsController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
+    public function archive($id = null)
+    {
+
+        $this->request->allowMethod(['post', 'delete']);
+        $sadr = $this->Sadrs->get($id);
+        //update field
+        $query = $this->Sadrs->query();
+        $query->update()
+            ->set(['status' => 'Archived'])
+            ->where(['id' => $sadr->id])
+            ->execute();
+        $this->Flash->success(__('The ADR has been archived.'));
+        //
+
+        return $this->redirect(['action' => 'index']);
+    }
     public function delete($id = null)
     {
 

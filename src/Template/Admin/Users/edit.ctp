@@ -21,7 +21,7 @@
                 echo $this->Form->control('username');
                 echo $this->Form->control('password', ['label' => 'Password', 'escape' => false, 'value' => '', 'required' => false]);
                 echo $this->Form->control('confirm_password', ['type' => 'password', 'label' => 'Confirm Password', 'escape' => false, 'value' => '', 'required' => false]);   
-                //echo $this->Form->control('name_of_institution');
+                echo $this->Form->control('group_id');
                 ?>
         </div><!--/span-->
         <div class="col-md-6">

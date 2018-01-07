@@ -9,6 +9,7 @@ $editable = $this->fetch('editable');
 ?>
 <?php 
     echo $this->fetch('actions');
+    // pr($aefi)
 ?>
 
 <div class="<?= $this->fetch('baseClass');?>">

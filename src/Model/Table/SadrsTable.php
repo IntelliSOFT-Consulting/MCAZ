@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use SoftDelete\Model\Table\SoftDeleteTrait;
 
 /**
  * Sadrs Model
@@ -32,7 +33,8 @@ use Cake\Validation\Validator;
  */
 class SadrsTable extends Table
 {
-
+    use SoftDeleteTrait;
+    
     /**
      * Initialize method
      *
@@ -48,7 +50,6 @@ class SadrsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');        
-        // Add search behaviour to your table
         $this->addBehavior('Search.Search');
 
         $this->belongsTo('Users', [

@@ -5,10 +5,17 @@
 <?=     $this->Html->script('jquery/vigibase', ['block' => true]); ?>
 <?=     $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
 
-<h1 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> ADRS</h1>
+<?php //pr($sadrs) ?>
+<h1 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> ADRS
+    :: <small style="font-size: small;"><i class="fa fa-search-plus" aria-hidden="true"></i> Search, 
+              <i class="fa fa-filter" aria-hidden="true"></i>Filter or  
+              <i class="fa fa-download" aria-hidden="true"></i>  Download Reports</small>
+</h1>
 
+<?= $this->element('sadrs/search_mini') ?>
+    
 <div class="table-responsive">
-    <table class="table table-striped">
+    <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
@@ -25,7 +32,10 @@
             <tr>
                 <td><?= $this->Number->format($sadr->id) ?></td>
                 <td><?php
-                      echo ($sadr->submitted == 2) ? $this->Html->link($sadr->reference_number, ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false]) : $sadr->created ; ?></td>
+                      echo ($sadr->submitted == 2) ? 
+                        $this->Html->link($sadr->reference_number, ['action' => 'view', $sadr->id, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) : 
+                        $this->Html->link($sadr->created, ['action' => 'edit', $sadr->id, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?>
+                </td>
                 <td><?= h($sadr->name_of_institution) ?></td>
                 <td><?= h($sadr->status) ?></td>
                 <td><?= h($sadr->modified) ?></td>                
@@ -38,27 +48,34 @@
                     ?>
                 </td>
                 <td>
-                    <?php if($sadr->submitted == 2) {                                        
-                          echo  $this->Html->link('<span class="label label-primary"> E2B</span>', ['action' => 'e2b', $sadr->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']); 
-                            }
-                    ?>
                    <span class="label label-primary">                     
-                     <?= $this->Html->link('View', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'style' => 'color: white;'])
+                     <?= $this->Html->link('View', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'label-link'])
                      ?>
-                    </span>                    
+                    </span> &nbsp;
+                   <span class="label label-primary">                    
+                     <?= $this->Html->link('PDF', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status, '_ext' => 'pdf'], ['escape' => false, 'class' => 'label-link'])
+                     ?>
+                    </span>  &nbsp;
+                    <?php if($sadr->submitted == 0) { ?>
+                    <span class="label label-danger">                     
+                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $sadr->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sadr->id), 'class' => 'label-link']) ?>
+                    </span> 
+                    <?php } ?>
                 </td>
             </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-    </div>
+
+<div class="paginator">
+    <ul class="pagination pagination-sm">
+        <?= $this->Paginator->first('<< ' . __('first')) ?>
+        <?= $this->Paginator->prev('< ' . __('previous')) ?>
+        <?= $this->Paginator->numbers() ?>
+        <?= $this->Paginator->next(__('next') . ' >') ?>
+        <?= $this->Paginator->last(__('last') . ' >>') ?>
+    </ul>
+</div>
+<p><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of <b>{{count}}</b> total')]) ?></small></p>
+
 </div>
