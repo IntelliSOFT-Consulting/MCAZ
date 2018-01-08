@@ -39,7 +39,7 @@ $editable = $this->fetch('editable');
             </div>      
             <div class="col-xs-6">
               <?php
-                echo $this->Form->control('institution_code', ['label' => 'Instituion']);
+                echo $this->Form->control('name_of_institution', ['label' => 'Institution']);
               ?>
             </div>      
            

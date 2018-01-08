@@ -7,6 +7,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\Auth\DefaultPasswordHasher;
+use SoftDelete\Model\Table\SoftDeleteTrait;
 
 /**
  * Users Model
@@ -31,6 +32,7 @@ use Cake\Auth\DefaultPasswordHasher;
  */
 class UsersTable extends Table
 {
+    use SoftDeleteTrait;
 
     /**
      * Initialize method
@@ -51,6 +53,7 @@ class UsersTable extends Table
 
         $this->addBehavior('Timestamp');
         $this->addBehavior('Acl.Acl', ['type' => 'requester']);
+        $this->addBehavior('Search.Search');
 
         $this->belongsTo('Designations', [
             'foreignKey' => 'designation_id'
@@ -85,6 +88,21 @@ class UsersTable extends Table
         ]);
     }
 
+    /**
+    * @return \Search\Manager
+    */
+    public function searchManager()
+    {
+        $searchManager = $this->behaviors()->Search->searchManager();
+        $searchManager
+            ->value('group_id')
+            ->value('designation_id')
+            ->like('name', ['field' => ['name', 'username', 'email', 'phone_no']])
+            ->compare('created_start', ['operator' => '>=', 'field' => ['created']])
+            ->compare('created_end', ['operator' => '<=', 'field' => ['created']]);
+
+        return $searchManager;
+    }
 
     /**
      * Default validation rules.
@@ -216,8 +234,8 @@ class UsersTable extends Table
         \ArrayObject $options)
     {
         $hasher = new DefaultPasswordHasher;
-        $entity->password = $hasher->hash($entity->password);
-        $entity->confirm_password = $hasher->hash($entity->confirm_password);
+        if(!empty($entity->password)) $entity->password = $hasher->hash($entity->password);
+        if(!empty($entity->confirm_password)) $entity->confirm_password = $hasher->hash($entity->confirm_password);
         return true;
     }  
 }

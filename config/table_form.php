@@ -21,4 +21,5 @@ return [
     'dateWidget' => '{{day}}{{month}}{{year}}',
     //'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',    
     'inputContainer' => '<div class="input {{required}}">{{content}}</div>',
+    'submitContainer' => '{{content}}',
 ];

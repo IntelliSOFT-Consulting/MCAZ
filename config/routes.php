@@ -44,7 +44,7 @@ use Cake\Routing\Route\DashedRoute;
 Router::defaultRouteClass(DashedRoute::class);
 //added
 Router::extensions(['pdf']);
-Router::extensions(['json', 'xml']);
+Router::extensions(['json', 'xml', 'csv']);
 Router::prefix('api', function ($routes) {
     $routes->extensions(['json', 'xml']);
     $routes->resources('Sadrs', [

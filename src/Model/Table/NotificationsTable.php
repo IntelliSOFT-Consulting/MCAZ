@@ -44,6 +44,11 @@ class NotificationsTable extends Table
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
         ]);
+
+        $this->belongsTo('Messages', [
+            'foreignKey' => 'type',
+            'bindingKey' => 'name'
+        ]);
     }
 
     /**

@@ -13,6 +13,12 @@
         <legend><?= __('Please enter your username/email and password') ?></legend>
         <?= $this->Form->control('username', ['label' => 'Username/Email']) ?>
         <?= $this->Form->control('password') ?>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-8"> 
+                          <?= $this->Html->link('forgot password?', ['controller' => 'Users', 'action' => 'forgotPassword']) ?>
+                      </div>
+                    </div> 
     </fieldset>
 
     <div class="form-group"> 

@@ -3,6 +3,8 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+use Cake\Utility\Hash;
+use Cake\View\Helper\HtmlHelper; 
 
 /**
  * Aefis Controller
@@ -15,7 +17,8 @@ class AefisController extends AppController
 {
     public function initialize() {
        parent::initialize();
-       //$this->Auth->allow(['add', 'edit']);       
+       //$this->Auth->allow(['add', 'edit']);     
+       $this->loadComponent('Search.Prg', ['actions' => ['index']]);  
     }
 
     /**
@@ -50,12 +53,65 @@ class AefisController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users', 'Designations']
+            'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 'Committees', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments']
         ];
-        $aefis = $this->paginate($this->Aefis);
 
-        $this->set(compact('aefis'));
-        $this->set('_serialize', ['aefis']);
+
+        $query = $this->Aefis
+            ->find('search', ['search' => $this->request->query])
+            ->where([['user_id' => $this->Auth->user('id')]]);
+        $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
+        $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
+        $this->set(compact('provinces', 'designations'));
+        $this->set('aefis', $this->paginate($query));
+
+        $_provinces = $provinces->toArray();
+        $_designations = $designations->toArray();
+        if ($this->request->params['_ext'] === 'csv') {
+            $_serialize = 'query';
+            $_header = ['id',    'user_id',    'aefi_id',    'province_id',    'reference_number',    'assigned_to',    'assigned_by',    'assigned_date',    'patient_name',    'patient_surname',    'patient_next_of_kin',    'patient_address',    'patient_telephone',    'report_type',    'gender',    'date_of_birth',    'age_at_onset',    'age_at_onset_years',    'age_at_onset_months',    'age_at_onset_days',    'age_at_onset_specify',    'reporter_name',    'designation_id',    'reporter_department',    'reporter_address',    'reporter_institution',    'reporter_district',    'reporter_province',    'reporter_phone',    'reporter_email',    'name_of_vaccination_center',    'adverse_events',    'ae_severe_local_reaction',    'ae_seizures',    'ae_abscess',    'ae_sepsis',    'ae_encephalopathy',    'ae_toxic_shock',    'ae_thrombocytopenia',    'ae_anaphylaxis',    'ae_fever',    'ae_3days',    'ae_febrile',    'ae_beyond_joint',    'ae_afebrile',    'ae_other',    'adverse_events_specify',    'aefi_date',
+                'notification_date', 'description_of_reaction',    'treatment_provided',    'serious',    'serious_yes',    'outcome',    'died_date', 
+                 'autopsy',    'past_medical_history',    'district_receive_date',  'investigation_needed',    'investigation_date', 'national_receive_date', 
+                'comments',    'submitted',    'submitted_date',  'status',    'created',  'modified',
+                'aefi_list_of_vaccines.vaccine_name', 'aefi_list_of_vaccines.vaccination_date', 'aefi_list_of_vaccines.vaccination_time',  'aefi_list_of_vaccines.dosage', 'aefi_list_of_vaccines.batch_number', 'aefi_list_of_vaccines.expiry_date', 
+                'aefi_followups', 
+                'committees.comments', 'committees.literature_review', 'committees.references_text', 
+                'request_evaluators.system_message', 'request_evaluators.user_message', 
+                'request_reporters.system_message', 'request_reporters.user_message', 
+                // 'reviews.system_message', 'reviews.user_message', 
+                'attachments.file'];
+            $_extract = ['id',    'user_id',    'aefi_id',    
+                function ($row) use ($_provinces) { return $_provinces[$row['province_id']] ?? ''; }, //provinces    
+                'reference_number',    'assigned_to',    'assigned_by',    'assigned_date',    'patient_name',    'patient_surname',    'patient_next_of_kin',    'patient_address',    'patient_telephone',    'report_type',    'gender',    'date_of_birth',    'age_at_onset',    'age_at_onset_years',    'age_at_onset_months',    'age_at_onset_days',    'age_at_onset_specify',    'reporter_name',    
+                function ($row) use($_designations) { return $_designations[$row['designation_id']] ?? '' ; }, //designation_id     
+               'reporter_department',    'reporter_address',    'reporter_institution',    'reporter_district',    'reporter_province',    'reporter_phone',    'reporter_email',    'name_of_vaccination_center',    'adverse_events',    'ae_severe_local_reaction',    'ae_seizures',    'ae_abscess',    'ae_sepsis',    'ae_encephalopathy',    'ae_toxic_shock',    'ae_thrombocytopenia',    'ae_anaphylaxis',    'ae_fever',    'ae_3days',    'ae_febrile',    'ae_beyond_joint',    'ae_afebrile',    'ae_other',    'adverse_events_specify',    'aefi_date',
+                'notification_date', 'description_of_reaction',    'treatment_provided',    'serious',    'serious_yes',    'outcome',    'died_date', 
+                 'autopsy',    'past_medical_history',    'district_receive_date',  'investigation_needed',    'investigation_date', 'national_receive_date', 
+                'comments',    'submitted',    'submitted_date',  'status',    'created',  'modified',
+                function ($row) { return implode('|', Hash::extract($row['aefi_list_of_vaccines'], '{n}.vaccine_name')); }, //'.vaccine_name', 
+                function ($row) { return implode('|', Hash::extract($row['aefi_list_of_vaccines'], '{n}.vaccination_date')); }, //'.vaccination_date', 
+                function ($row) { return implode('|', Hash::extract($row['aefi_list_of_vaccines'], '{n}.vaccination_time')); }, //'.vaccination_time',  
+                function ($row) { return implode('|', Hash::extract($row['aefi_list_of_vaccines'], '{n}.dosage')); }, //'.dosage', 
+                function ($row) { return implode('|', Hash::extract($row['aefi_list_of_vaccines'], '{n}.batch_number')); }, //'.batch_number', 
+                function ($row) { return implode('|', Hash::extract($row['aefi_list_of_vaccines'], '{n}.expiry_date')); }, //'.expiry_date', 
+                function ($row) { return implode('|', Hash::extract($row['aefi_followups'], '{n}.id')); }, //'aefi_followups',
+                function ($row) { return implode('|', Hash::extract($row['committees'], '{n}.comments')); }, //'committees.comments', 
+                function ($row) { return implode('|', Hash::extract($row['committees'], '{n}.literature_review')); }, //'.literature_review', 
+                function ($row) { return implode('|', Hash::extract($row['committees'], '{n}.references_text')); }, //'.references_text', 
+                function ($row) { return implode('|', Hash::extract($row['request_evaluators'], '{n}.system_message')); }, //'.system_message', 
+                function ($row) { return implode('|', Hash::extract($row['request_evaluators'], '{n}.user_message')); }, // '.user_message', 
+                function ($row) { return implode('|', Hash::extract($row['request_reporters'], '{n}.system_message')); }, //'.system_message', 
+                function ($row) { return implode('|', Hash::extract($row['request_reporters'], '{n}.system_message')); }, //'.user_message', 
+                // function ($row) { return implode('|', Hash::extract($row['reviews'], '{n}.system_message')); }, //'reviews.system_message', 
+                // function ($row) { return implode('|', Hash::extract($row['reviews'], '{n}.user_message')); }, //'reviews.user_message', 
+                function ($row) { return implode('|', Hash::extract($row['attachments'], '{n}.file')); }, //'attachments.file'
+            ];
+
+            $this->set(compact('query', '_serialize', '_header', '_extract'));
+        }
+
+        // $this->set(compact('aefis'));
+        // $this->set('_serialize', ['aefis']);
     }
 
     /**
@@ -119,13 +175,7 @@ class AefisController extends AppController
             $aefi->reporter_name = $this->Auth->user('name');
 
             if ($this->Aefis->save($aefi, ['validate' => false])) {
-                //update field
-                $query = $this->Aefis->query();
-                $query->update()
-                    ->set(['reference_number' => 'AEFI'.$aefi->id.'/'.$aefi->created->i18nFormat('yyyy')])
-                    ->where(['id' => $aefi->id])
-                    ->execute();
-                //
+                
                 $this->Flash->success(__('The aefi has been saved.'));
 
                 return $this->redirect(['action' => 'edit', $aefi->id]);
@@ -178,6 +228,13 @@ class AefisController extends AppController
               $aefi->submitted_date = date("Y-m-d H:i:s");
               $aefi->status = 'Submitted';
               if ($this->Aefis->save($aefi, ['validate' => false])) {
+                //update field
+                $query = $this->Aefis->query();
+                $query->update()
+                    ->set(['reference_number' => 'AEFI'.$aefi->id.'/'.$aefi->created->i18nFormat('yyyy')])
+                    ->where(['id' => $aefi->id])
+                    ->execute();
+                //
                 $this->Flash->success(__('Report '.$aefi->reference_number.' has been successfully submitted to MCAZ for review.'));
                 return $this->redirect(['action' => 'view', $aefi->id]);
 ;
@@ -187,7 +244,9 @@ class AefisController extends AppController
                     'email_address' => $aefi->reporter_email, 'user_id' => $this->Auth->user('id'),
                     'type' => 'applicant_submit_aefi_email', 'model' => 'Aefis', 'foreign_key' => $aefi->id,
                     'vars' =>  $aefi->toArray()
-                ];
+                ];                
+                $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'Aefis', 'action' => 'view', $aefi->id, '_ext' => 'pdf',  
+                                          '_full' => true]);
                 //notify applicant
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_submit_aefi_notification';
@@ -348,11 +407,15 @@ class AefisController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $aefi = $this->Aefis->get($id);
-        if ($this->Aefis->delete($aefi)) {
-            $this->Flash->success(__('The aefi has been deleted.'));
+        if ($aefi->user_id == $this->Auth->user('id') && $aefi->submitted == 0) {
+            if ($this->Aefis->delete($aefi)) {
+                $this->Flash->success(__('The aefi has been deleted.'));
+            } else {
+                $this->Flash->error(__('The aefi could not be deleted. Please, try again.'));
+            }
         } else {
-            $this->Flash->error(__('The aefi could not be deleted. Please, try again.'));
-        }
+            $this->Flash->error(__('You do not have permission to delete the report'));
+        } 
 
         return $this->redirect(['action' => 'index']);
     }

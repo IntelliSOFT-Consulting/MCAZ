@@ -1,9 +1,7 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Site $site
- */
-?>
+<?php $this->start('sidebar'); ?>
+  <?= $this->cell('SideBar'); ?>
+<?php $this->end(); ?>
+
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>

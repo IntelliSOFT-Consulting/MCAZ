@@ -4,12 +4,11 @@
 
 <h1 class="page-header">Messages</h1>
 
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Message'), ['action' => 'add']) ?></li>
-    </ul>
-</nav>
+<?= $this->Html->link('<i class="fa fa-file-code-o" aria-hidden="true"></i> Add Message Template', ['controller' => 'messages', 'action' => 'add', 'prefix' => 'admin'], array('escape' => false, 'class' => 'btn btn-info')); ?>
+<hr>
+<?php
+    $colors = ['info' => 'light-blue', 'warning' => 'orange', 'success' => 'green', 'danger' => 'red'];
+?> 
 <div class="table-responsive">
     <table class="table table-striped table-condensed">
         <thead>
@@ -18,8 +17,8 @@
                 <th scope="col"><?= $this->Paginator->sort('name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('subject') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('type') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('style') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('priority') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -30,11 +29,12 @@
                 <td><?= h($message->name) ?></td>
                 <td><?= h($message->subject) ?></td>
                 <td><?= h($message->type) ?></td>
-                <td><?= h($message->created) ?></td>
-                <td><?= h($message->modified) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $message->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $message->id]) ?>
+                <td><span class="label label-<?= $message->style ?>"><?php echo (isset($message->style)) ? $colors[$message->style] : '' ; ?></span></td>
+                <td><?= h($message->priority) ?></td>
+                 <td>
+                    <?= $this->Html->link('<span class="label label-primary">View</span>', ['action' => 'view', $message->id, 'prefix' => $prefix], array('escape' => false));  ?>
+                    <?= $this->Html->link('<span class="label label-success">Edit</span>', ['action' => 'edit', $message->id, 'prefix' => $prefix], array('escape' => false));  ?>       
+
                 </td>
             </tr>
             <?php endforeach; ?>

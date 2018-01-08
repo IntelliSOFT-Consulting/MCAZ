@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use SoftDelete\Model\Table\SoftDeleteTrait;
 
 /**
  * Aefis Model
@@ -25,6 +26,7 @@ use Cake\Validation\Validator;
  */
 class AefisTable extends Table
 {
+    use SoftDeleteTrait;
 
     /**
      * Initialize method
@@ -41,6 +43,7 @@ class AefisTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Search.Search');
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
@@ -95,6 +98,46 @@ class AefisTable extends Table
             'dependent' => true,
             'conditions' => array('AefiFollowups.report_type' => 'FollowUp'),
         ]);
+    }
+
+    /**
+    * @return \Search\Manager
+    */
+    public function searchManager()
+    {
+        $searchManager = $this->behaviors()->Search->searchManager();
+        $searchManager
+            ->value('status')
+            ->like('reference_number')
+            ->like('name_of_vaccination_center')
+            ->compare('created_start', ['operator' => '>=', 'field' => ['created']])
+            ->compare('created_end', ['operator' => '<=', 'field' => ['created']])
+            ->like('reporter_institution')
+            ->boolean('ae_severe_local_reaction')
+            ->boolean('ae_seizures')
+            ->boolean('ae_abscess')
+            ->boolean('ae_sepsis')
+            ->boolean('ae_encephalopathy')
+            ->boolean('ae_toxic_shock')
+            ->boolean('ae_thrombocytopenia')
+            ->boolean('ae_anaphylaxis')
+            ->boolean('ae_fever')
+            ->boolean('ae_3days')
+            ->boolean('ae_febrile')
+            ->boolean('ae_beyond_joint')
+            ->boolean('ae_afebrile')
+            ->like('description_of_reaction')
+            ->value('investigation_needed')
+            ->value('serious')
+            ->value('outcome')
+            ->value('serious_yes')
+            ->value('province_id')
+            ->like('reporter_name')
+            ->like('reporter_email')
+            ->value('designation_id')
+            ->like('patient_name', ['field' => ['patient_name', 'patient_surname']]);
+
+        return $searchManager;
     }
 
     /**

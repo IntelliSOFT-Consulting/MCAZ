@@ -1,11 +1,23 @@
 
-<h3><?= $this->Paginator->sort('id', '<i class="fa fa-exclamation-circle" aria-hidden="true"></i> Notifications', ['model' => 'Notifications', 'escape'=> false]) ?> <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Notifications']) ?></small></h3>  
+<h3 class="btn-zangu">
+  <?= $this->Html->link('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> Notifications', ['controller' => 'Notifications', 'action' => 'index'], ['escape' => false, 'class' => 'btn-zangu']) ?>
+   
+  <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Notifications']) ?></small>
+  <?= $this->Paginator->sort('id', '<i class="fa fa-sort-alpha-desc" aria-hidden="true"></i> ', ['model' => 'Notifications', 'escape'=> false]) ?> </h3>  
       <hr>
         <div>
               <?php foreach ($notifications as $notification): ?>
-                <div class="alert alert-info alert-dismissible fade in" title="<?= $notification->id ?>" role="alert"> 
+                <div class="alert alert-<?php 
+                    if($notification->has('message')) {
+                      if(!empty($notification->message->style)) {
+                        echo $notification->message->style;
+                      } else {
+                        echo 'info';
+                      }
+                    } else { echo 'info'; }
+                   ?> alert-dismissible fade in" title="<?= $notification->id ?>" role="alert"> 
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> 
-                 <div class="article"> <?= $notification->system_message; ?> </div>
+                 <div class="article"> <?= (!empty($notification->system_message)) ? $notification->system_message : $notification->user_message ; ?> </div>
                 </div>
                 <?php endforeach; ?>
 

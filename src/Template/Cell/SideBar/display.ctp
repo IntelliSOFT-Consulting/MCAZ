@@ -162,5 +162,10 @@
             echo $this->Html->link('<i class="fa fa-code" aria-hidden="true"></i> &nbsp; Front end Pages', ['controller' => 'Sites', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
           ?>
     </li>
+    <li class="<?=  ($this->request->params['controller'] == 'Facilities') ? 'active' : ''; ?>">
+          <?php
+            echo $this->Html->link('<i class="fa fa-hospital-o" aria-hidden="true"></i> &nbsp; Facilities', ['controller' => 'Facilities', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+          ?>
+    </li>
     <?php }; ?>
   </ul>

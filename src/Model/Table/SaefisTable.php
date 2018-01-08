@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use SoftDelete\Model\Table\SoftDeleteTrait;
 
 /**
  * Saefis Model
@@ -25,6 +26,7 @@ use Cake\Validation\Validator;
  */
 class SaefisTable extends Table
 {
+    use SoftDeleteTrait;
 
     /**
      * Initialize method
@@ -41,6 +43,7 @@ class SaefisTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Search.Search');
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
@@ -91,6 +94,33 @@ class SaefisTable extends Table
             'conditions' => array('RequestEvaluators.model' => 'Saefis', 'RequestEvaluators.type' => 'request_evaluator_info'),
         ]);
 
+    }
+
+    /**
+    * @return \Search\Manager
+    */
+    public function searchManager()
+    {
+        $searchManager = $this->behaviors()->Search->searchManager();
+        $searchManager
+            ->value('status')
+            ->like('reference_number')
+            ->compare('created_start', ['operator' => '>=', 'field' => ['created']])
+            ->compare('created_end', ['operator' => '<=', 'field' => ['created']])
+            ->compare('report_date_start', ['operator' => '>=', 'field' => ['report_date']])
+            ->compare('report_date_end', ['operator' => '<=', 'field' => ['report_date']])
+            ->like('basic_details')
+            ->value('status_on_date')
+            ->value('pregnant')
+            ->value('infant')
+            ->value('delivery_procedure')
+            ->like('reporter_name')
+            ->like('mobile')
+            ->like('reporter_email')
+            ->value('designation_id')
+            ->like('patient_name');
+
+        return $searchManager;
     }
 
     /**

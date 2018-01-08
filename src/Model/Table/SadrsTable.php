@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use SoftDelete\Model\Table\SoftDeleteTrait;
 
 /**
  * Sadrs Model
@@ -32,7 +33,8 @@ use Cake\Validation\Validator;
  */
 class SadrsTable extends Table
 {
-
+    use SoftDeleteTrait;
+    
     /**
      * Initialize method
      *
@@ -48,6 +50,7 @@ class SadrsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');        
+        $this->addBehavior('Search.Search');
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
@@ -106,6 +109,33 @@ class SadrsTable extends Table
         $this->hasMany('SadrOtherDrugs', [
             'foreignKey' => 'sadr_id'
         ]);
+    }
+
+    /**
+    * @return \Search\Manager
+    */
+    public function searchManager()
+    {
+        $searchManager = $this->behaviors()->Search->searchManager();
+        $searchManager
+            ->value('status')
+            ->like('reference_number')
+            ->like('name_of_institution')
+            ->compare('created_start', ['operator' => '>=', 'field' => ['created']])
+            ->compare('created_end', ['operator' => '<=', 'field' => ['created']])
+            ->like('description_of_reaction')
+            ->value('severity_reason')
+            ->value('severity')
+            ->value('outcome')
+            ->value('action_taken')
+            ->value('relatedness')
+            ->value('province_id')
+            ->like('reporter_name')
+            ->like('reporter_email')
+            ->value('designation_id')
+            ->like('patient_name');
+
+        return $searchManager;
     }
 
     /**

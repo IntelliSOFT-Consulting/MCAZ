@@ -1,19 +1,5 @@
 <?php $this->start('sidebar'); ?>
-  <ul class="nav nav-sidebar">
-    <li class="active"><?= $this->Html->link('Overview', ['controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix], array('escape' => false)); ?></li>
-    <li>
-      <?= $this->Html->link('ADRS', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-    <li>
-      <?= $this->Html->link('AEFIS', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-    <li>
-      <?= $this->Html->link('SAEFIS', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-    <li>
-      <?= $this->Html->link('SAES', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-    </li>
-  </ul>
+    <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
 
@@ -101,6 +87,11 @@
                         <div class="col-sm-offset-4 col-sm-8"> 
                           <button class="btn btn-primary active" type="submit"><i class="fa fa-sign-in" aria-hidden="true"></i>
  Login</button>
+                      </div>
+                    </div>   
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-8"> 
+                          <?= $this->Html->link('forgot password?', ['controller' => 'Users', 'action' => 'forgotPassword']) ?>
                       </div>
                     </div>    
                   </form>

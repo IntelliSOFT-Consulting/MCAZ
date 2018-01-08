@@ -7,6 +7,8 @@ use App\Model\Entity;
 use Cake\Http\Client;
 use Cake\Core\Configure;
 use Cake\Log\Log;
+use Cake\Utility\Hash;
+use Cake\View\Helper\HtmlHelper; 
 
 /**
  * Sadrs Controller
@@ -21,6 +23,7 @@ class SadrsController extends AppController
        parent::initialize();
        // $this->Auth->allow(['view']);       
        $this->loadComponent('VigibaseApi');
+       $this->loadComponent('Search.Prg', ['actions' => ['index']]);
     }
 
     /**
@@ -51,15 +54,69 @@ class SadrsController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
+
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users', 'Designations']
+            // 'contain' => ['Users', 'Designations', 'Reviews']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'RequestReporters', 'RequestEvaluators', 'Committees', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments']
+            // 'contain' => []
         ];
-        $sadrs = $this->paginate($this->Sadrs);
+        /*// $sadrs = $this->paginate($this->Sadrs,['finder' => ['status' => $id]]);
+        if($this->request->getQuery('status')) {$sadrs = $this->paginate($this->Sadrs->find('all')->where(['status' => $this->request->getQuery('status'), 'ifnull(report_type,-1) !=' => 'FollowUp']), ['order' => ['Sadrs.id' => 'desc']]); }
+        else {$sadrs = $this->paginate($this->Sadrs->find('all')->where(['ifnull(report_type,-1) !=' => 'FollowUp']), ['order' => ['Sadrs.id' => 'desc']]);}*/
+        
+        $query = $this->Sadrs
+            // Use the plugins 'search' custom finder and pass in the
+            // processed query params
+            ->find('search', ['search' => $this->request->query])
+            // You can add extra things to the query if you need to
+            ->where([['user_id' => $this->Auth->user('id')]]);
+        $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
+        $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
+        $this->set(compact('provinces', 'designations'));
+        $this->set('sadrs', $this->paginate($query));
 
-        $this->set(compact('sadrs'));
-        $this->set('_serialize', ['sadrs']);
+        // $this->set(compact('sadrs'));
+        // $this->set('_serialize', ['sadrs']);
+        $_provinces = $provinces->toArray();
+        $_designations = $designations->toArray();
+        if ($this->request->params['_ext'] === 'csv') {
+            $_serialize = 'query';
+            $_header = ['id', 'user_id', 'sadr_id', 'messageid', 'assigned_to', 'assigned_by', 'assigned_date', 'Province', 'reference_number', 'Designation', 'report_type', 'name_of_institution', 'institution_code', 'institution_name', 'institution_address', 'patient_name', 'ip_no', 'date_of_birth', 'age_group', 'gender', 'weight', 'height', 'date_of_onset_of_reaction', 'date_of_end_of_reaction', 'duration_type', 'duration', 'description_of_reaction', 'severity', 'severity_reason', 'medical_history', 'past_drug_therapy', 'outcome', 'lab_test_results', 'reporter_name', 'reporter_email', 'reporter_phone', 'submitted', 'submitted_date', 'action_taken', 'relatedness', 'status', 'emails', 'active', 'device', 'notified', 'created', 'modified', 
+                'sadr_list_of_drugs.drug_name', 'sadr_list_of_drugs.brand_name', 'sadr_list_of_drugs.dose',  'sadr_list_of_drugs.dose_id', 'sadr_list_of_drugs.route_id', 'sadr_list_of_drugs.frequency_id', 
+                'sadr_followups', 
+                'committees.comments', 'committees.literature_review', 'committees.references_text', 
+                'request_evaluators.system_message', 'request_evaluators.user_message', 
+                'request_reporters.system_message', 'request_reporters.user_message', 
+                'reviews.system_message', 'reviews.user_message', 
+                'attachments.file'];
+            $_extract = ['id', 'user_id', 'sadr_id', 'messageid', 'assigned_to', 'assigned_by', 'assigned_date', 
+                function ($row) use ($_provinces) { return $_provinces[$row['province_id']] ?? ''; }, //provinces
+                'reference_number', 
+                function ($row) use($_designations) { return $_designations[$row['designation_id']] ?? '' ; }, //designation_id 
+                'report_type', 'name_of_institution', 'institution_code', 'institution_name', 'institution_address', 'patient_name', 'ip_no', 'date_of_birth', 'age_group', 'gender', 'weight', 'height', 'date_of_onset_of_reaction', 'date_of_end_of_reaction', 'duration_type', 'duration', 'description_of_reaction', 'severity', 'severity_reason', 'medical_history', 'past_drug_therapy', 'outcome', 'lab_test_results', 'reporter_name', 'reporter_email', 'reporter_phone', 'submitted', 'submitted_date', 'action_taken', 'relatedness', 'status', 'emails', 'active', 'device', 'notified', 'created', 'modified', 
+                function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.drug_name')); }, // 'drug_name', 
+                function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.brand_name')); }, //'.brand_name', 
+                function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.dose')); }, //'.dose',  
+                function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.dose_id')); }, //'sadr_list_of_drugs.dose_id', 
+                function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.route_id')); },//'.route_id', 
+                function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.frequency_id')); }, //'.frequency_id', 
+                function ($row) { return implode('|', Hash::extract($row['sadr_followups'], '{n}.id')); }, //'sadr_followups', 
+                function ($row) { return implode('|', Hash::extract($row['committees'], '{n}.comments')); }, //'committees.comments', 
+                function ($row) { return implode('|', Hash::extract($row['committees'], '{n}.literature_review')); }, //'.literature_review', 
+                function ($row) { return implode('|', Hash::extract($row['committees'], '{n}.references_text')); }, //'.references_text', 
+                function ($row) { return implode('|', Hash::extract($row['request_evaluators'], '{n}.system_message')); }, //'.system_message', 
+                function ($row) { return implode('|', Hash::extract($row['request_evaluators'], '{n}.user_message')); }, // '.user_message', 
+                function ($row) { return implode('|', Hash::extract($row['request_reporters'], '{n}.system_message')); }, //'.system_message', 
+                function ($row) { return implode('|', Hash::extract($row['request_reporters'], '{n}.system_message')); }, //'.user_message', 
+                function ($row) { return implode('|', Hash::extract($row['reviews'], '{n}.system_message')); }, //'reviews.system_message', 
+                function ($row) { return implode('|', Hash::extract($row['reviews'], '{n}.user_message')); }, //'reviews.user_message', 
+                function ($row) { return implode('|', Hash::extract($row['attachments'], '{n}.file')); }, //'attachments.file'
+            ];
+
+            $this->set(compact('query', '_serialize', '_header', '_extract'));
+        }
     }
 
     /**
@@ -199,14 +256,7 @@ class SadrsController extends AppController
             $sadr->institution_address = $this->Auth->user('institution_address');
             $sadr->reporter_phone = $this->Auth->user('phone_no');
             $sadr->reporter_name = $this->Auth->user('name');
-            if ($this->Sadrs->save($sadr, ['validate' => false])) {
-                //update field
-                $query = $this->Sadrs->query();
-                $query->update()
-                    ->set(['reference_number' => 'ADR'.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy')])
-                    ->where(['id' => $sadr->id])
-                    ->execute();
-                //
+            if ($this->Sadrs->save($sadr, ['validate' => false])) {                
 
                 $this->Flash->success(__('The changes to the ADR have been saved.'));
 
@@ -279,6 +329,14 @@ class SadrsController extends AppController
               $sadr->submitted_date = date("Y-m-d H:i:s");
               $sadr->status = 'Submitted';
               if ($this->Sadrs->save($sadr, ['validate' => false])) {
+                //update field
+                $query = $this->Sadrs->query();
+                $query->update()
+                    ->set(['reference_number' => 'ADR'.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy')])
+                    ->where(['id' => $sadr->id])
+                    ->execute();
+                //
+                
                 $this->Flash->success(__('Report '.$sadr->reference_number.' has been successfully submitted to MCAZ for review.'));
                 //send email and notification
                 $this->loadModel('Queue.QueuedJobs');    
@@ -286,7 +344,9 @@ class SadrsController extends AppController
                     'email_address' => $sadr->reporter_email, 'user_id' => $this->Auth->user('id'),
                     'type' => 'applicant_submit_sadr_email', 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
                     'vars' =>  $sadr->toArray()
-                ];
+                ];                
+                $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'Sadrs', 'action' => 'view', $sadr->id, '_ext' => 'pdf',  
+                                          '_full' => true]);
                 //notify applicant
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_submit_sadr_notification';
@@ -450,11 +510,15 @@ class SadrsController extends AppController
 
         $this->request->allowMethod(['post', 'delete']);
         $sadr = $this->Sadrs->get($id);
-        if ($this->Sadrs->delete($sadr)) {
-            $this->Flash->success(__('The sadr has been deleted.'));
+        if ($sadr->user_id == $this->Auth->user('id') && $sadr->submitted == 0) {
+            if ($this->Sadrs->delete($sadr)) {
+                $this->Flash->success(__('The sadr has been deleted.'));
+            } else {
+                $this->Flash->error(__('The sadr could not be deleted. Please, try again.'));
+            }
         } else {
-            $this->Flash->error(__('The sadr could not be deleted. Please, try again.'));
-        }
+            $this->Flash->error(__('You do not have permission to delete the report'));
+        }        
 
         return $this->redirect(['action' => 'index']);
     }
