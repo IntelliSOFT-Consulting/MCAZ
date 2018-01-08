@@ -344,7 +344,8 @@ class SadrsController extends AppController
                     'email_address' => $sadr->reporter_email, 'user_id' => $this->Auth->user('id'),
                     'type' => 'applicant_submit_sadr_email', 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
                     'vars' =>  $sadr->toArray()
-                ];                
+                ]; 
+                $html = new HtmlHelper(new \Cake\View\View());
                 $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'Sadrs', 'action' => 'view', $sadr->id, '_ext' => 'pdf',  
                                           '_full' => true]);
                 //notify applicant

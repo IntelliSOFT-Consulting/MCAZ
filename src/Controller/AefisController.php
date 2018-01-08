@@ -245,6 +245,7 @@ class AefisController extends AppController
                     'type' => 'applicant_submit_aefi_email', 'model' => 'Aefis', 'foreign_key' => $aefi->id,
                     'vars' =>  $aefi->toArray()
                 ];                
+                $html = new HtmlHelper(new \Cake\View\View());
                 $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'Aefis', 'action' => 'view', $aefi->id, '_ext' => 'pdf',  
                                           '_full' => true]);
                 //notify applicant

@@ -2,76 +2,179 @@
   <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
-
+<div class="row">
 <h1 class="page-header">Dashboard</h1>
+    <div class="col-sm-6">
+      <h6><em><small>Showing only unprocessed reports</small></em></h6>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="row">
+            <!-- begin -->
+            <div class="col-xs-6 col-sm-6">
+                <h3><?= $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> ADRS', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Sadrs']) ?></small></h3>
+                <ul class="list-unstyled">
+                  <?php foreach ($sadrs as $sadr): ?>
+                  <li><?= $this->Html->link($sadr->reference_number, ['controller' => 'Sadrs', 'action' => 'view', $sadr->id]);?> </li>
+                  <?php endforeach; ?>
+                </ul>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination pagination-sm">
+                        <?= $this->Paginator->first('<< ', ['model' => 'Sadrs']) ?>
+                        <?= $this->Paginator->prev('< ' , ['model' => 'Sadrs']) ?>
+                        <?= $this->Paginator->next(' >', ['model' => 'Sadrs']) ?>
+                        <?= $this->Paginator->last(' >>', ['model' => 'Sadrs']) ?>
+                    </ul>
+                </nav>        
 
-    <div class="col-xs-6 col-sm-3">
-        <h3><?= $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> ADRS', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Sadrs']) ?></small></h3>
-        <ul class="list-unstyled">
-          <?php foreach ($sadrs as $sadr): ?>
-          <li><?= $this->Html->link($sadr->reference_number, ['controller' => 'Sadrs', 'action' => 'view', $sadr->id]);?> </li>
-          <?php endforeach; ?>
-        </ul>
-        <nav aria-label="Page navigation">
-            <ul class="pagination pagination-sm">
-                <?= $this->Paginator->first('<< ', ['model' => 'Sadrs']) ?>
-                <?= $this->Paginator->prev('< ' , ['model' => 'Sadrs']) ?>
-                <?= $this->Paginator->next(' >', ['model' => 'Sadrs']) ?>
-                <?= $this->Paginator->last(' >>', ['model' => 'Sadrs']) ?>
-            </ul>
-        </nav>        
+
+                <h3><?= $this->Html->link('<i class="fa fa-file-o" aria-hidden="true"></i> SAES', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Adrs']) ?></small></h3>
+                <ul class="list-unstyled">
+                  <?php foreach ($adrs as $adr): ?>
+                  <li><?= $this->Html->link($adr->reference_number, ['controller' => 'Adrs', 'action' => 'view', $adr->id]);?> </li>
+                  <?php endforeach; ?>
+                </ul>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination pagination-sm">
+                        <?= $this->Paginator->first('<< ', ['model' => 'Adrs']) ?>
+                        <?= $this->Paginator->prev('< ' , ['model' => 'Adrs']) ?>
+                        <?= $this->Paginator->next(' >', ['model' => 'Adrs']) ?>
+                        <?= $this->Paginator->last(' >>', ['model' => 'Adrs']) ?>
+                    </ul>
+                </nav>  
+                
+            </div>
+            <div class="col-xs-6 col-sm-6 placeholder">
+
+                <h3><?= $this->Html->link('<i class="fa fa-file-text-o" aria-hidden="true"></i> AEFI', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Aefis']) ?></small></h3>
+                <ul class="list-unstyled">
+                  <?php foreach ($aefis as $aefi): ?>
+                  <li><?= $this->Html->link($aefi->reference_number, ['controller' => 'Aefis', 'action' => 'view', $aefi->id], ['escape' => false]);?> </li>
+                  <?php endforeach; ?>
+                </ul>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination pagination-sm">
+                        <?= $this->Paginator->first('<< ', ['model' => 'Aefis']) ?>
+                        <?= $this->Paginator->prev('< ' , ['model' => 'Aefis']) ?>
+                        <?= $this->Paginator->next(' >', ['model' => 'Aefis']) ?>
+                        <?= $this->Paginator->last(' >>', ['model' => 'Aefis']) ?>
+                    </ul>
+                </nav>   
+
+                 
+                <h3><?= $this->Html->link('<i class="fa fa-file-text" aria-hidden="true"></i> SAEFI', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Saefis']) ?></small></h3>
+                <ul class="list-unstyled">
+                  <?php foreach ($saefis as $saefi): ?>
+                  <li><?= $this->Html->link($saefi->reference_number, ['controller' => 'Saefis', 'action' => 'view', $saefi->id]);?> </li>
+                  <?php endforeach; ?>
+                </ul>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination pagination-sm">
+                        <?= $this->Paginator->first('<< ', ['model' => 'Saefis']) ?>
+                        <?= $this->Paginator->prev('< ' , ['model' => 'Saefis']) ?>
+                        <?= $this->Paginator->next(' >', ['model' => 'Saefis']) ?>
+                        <?= $this->Paginator->last(' >>', ['model' => 'Saefis']) ?>
+                    </ul>
+                </nav> 
+                 
+            </div>
+            <!-- end -->
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <h2 class="page-header">
+                <img alt="" src="/img/report.ico" style="width: 25px;">&nbsp;
+                <?= $this->Html->link('Reports', ['controller' => 'Reports', 'action' => 'index', 'prefix' => false], array('escape' => false, 'class' => 'btn-zangu')); ?></h2>
+                <div class="row">
+            <!-- begin-reports -->
+                  <div class="col-xs-6 col-sm-6">
+                      <h3><?= $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> ADRS', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Sadrs']) ?></small></h3>
+                      <ul class="list-group">
+                        <li class="list-group-item">
+                          <?php
+                            echo $this->Html->link('<i class="fa fa-code" aria-hidden="true"></i> &nbsp; Front end Pages', ['controller' => 'Sites', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+                          ?>
+                        </li>
+                        <li class="list-group-item">
+                          <?php
+                            echo $this->Html->link('<i class="fa fa-file-code-o" aria-hidden="true"></i> &nbsp; Message Templates', ['controller' => 'Messages', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+                          ?>
+                        </li>
+                        <li class="list-group-item">
+                          <?php
+                            echo $this->Html->link('<i class="fa fa-hospital-o" aria-hidden="true"></i> &nbsp; Facilities', ['controller' => 'Facilities', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+                          ?>
+                        </li>
+                      </ul>
 
 
-        <h3><?= $this->Html->link('<i class="fa fa-file-o" aria-hidden="true"></i> SAES', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Adrs']) ?></small></h3>
-        <ul class="list-unstyled">
-          <?php foreach ($adrs as $adr): ?>
-          <li><?= $this->Html->link($adr->reference_number, ['controller' => 'Adrs', 'action' => 'view', $adr->id]);?> </li>
-          <?php endforeach; ?>
-        </ul>
-        <nav aria-label="Page navigation">
-            <ul class="pagination pagination-sm">
-                <?= $this->Paginator->first('<< ', ['model' => 'Adrs']) ?>
-                <?= $this->Paginator->prev('< ' , ['model' => 'Adrs']) ?>
-                <?= $this->Paginator->next(' >', ['model' => 'Adrs']) ?>
-                <?= $this->Paginator->last(' >>', ['model' => 'Adrs']) ?>
-            </ul>
-        </nav>  
-        
-    </div>
-    <div class="col-xs-6 col-sm-3 placeholder">
+                      <h3><?= $this->Html->link('<i class="fa fa-file-o" aria-hidden="true"></i> SAES', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Adrs']) ?></small></h3>
+                      <ul class="list-group">
+                        <li class="list-group-item">
+                          <?php
+                            echo $this->Html->link('<i class="fa fa-code" aria-hidden="true"></i> &nbsp; Front end Pages', ['controller' => 'Sites', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+                          ?>
+                        </li>
+                        <li class="list-group-item">
+                          <?php
+                            echo $this->Html->link('<i class="fa fa-file-code-o" aria-hidden="true"></i> &nbsp; Message Templates', ['controller' => 'Messages', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+                          ?>
+                        </li>
+                        <li class="list-group-item">
+                          <?php
+                            echo $this->Html->link('<i class="fa fa-hospital-o" aria-hidden="true"></i> &nbsp; Facilities', ['controller' => 'Facilities', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+                          ?>
+                        </li>
+                      </ul>
+                      
+                  </div>
+                  <div class="col-xs-6 col-sm-6 placeholder">
 
-        <h3><?= $this->Html->link('<i class="fa fa-file-text-o" aria-hidden="true"></i> AEFI', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Aefis']) ?></small></h3>
-        <ul class="list-unstyled">
-          <?php foreach ($aefis as $aefi): ?>
-          <li><?= $this->Html->link($aefi->reference_number, ['controller' => 'Aefis', 'action' => 'view', $aefi->id], ['escape' => false]);?> </li>
-          <?php endforeach; ?>
-        </ul>
-        <nav aria-label="Page navigation">
-            <ul class="pagination pagination-sm">
-                <?= $this->Paginator->first('<< ', ['model' => 'Aefis']) ?>
-                <?= $this->Paginator->prev('< ' , ['model' => 'Aefis']) ?>
-                <?= $this->Paginator->next(' >', ['model' => 'Aefis']) ?>
-                <?= $this->Paginator->last(' >>', ['model' => 'Aefis']) ?>
-            </ul>
-        </nav>   
+                      <h3><?= $this->Html->link('<i class="fa fa-file-text-o" aria-hidden="true"></i> AEFI', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Aefis']) ?></small></h3>
+                      <ul class="list-group">
+                        <li class="list-group-item">
+                          <?php
+                            echo $this->Html->link('<i class="fa fa-code" aria-hidden="true"></i> &nbsp; Front end Pages', ['controller' => 'Sites', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+                          ?>
+                        </li>
+                        <li class="list-group-item">
+                          <?php
+                            echo $this->Html->link('<i class="fa fa-file-code-o" aria-hidden="true"></i> &nbsp; Message Templates', ['controller' => 'Messages', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+                          ?>
+                        </li>
+                        <li class="list-group-item">
+                          <?php
+                            echo $this->Html->link('<i class="fa fa-hospital-o" aria-hidden="true"></i> &nbsp; Facilities', ['controller' => 'Facilities', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+                          ?>
+                        </li>
+                      </ul>
 
-         
-        <h3><?= $this->Html->link('<i class="fa fa-file-text" aria-hidden="true"></i> SAEFI', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Saefis']) ?></small></h3>
-        <ul class="list-unstyled">
-          <?php foreach ($saefis as $saefi): ?>
-          <li><?= $this->Html->link($saefi->reference_number, ['controller' => 'Saefis', 'action' => 'view', $saefi->id]);?> </li>
-          <?php endforeach; ?>
-        </ul>
-        <nav aria-label="Page navigation">
-            <ul class="pagination pagination-sm">
-                <?= $this->Paginator->first('<< ', ['model' => 'Saefis']) ?>
-                <?= $this->Paginator->prev('< ' , ['model' => 'Saefis']) ?>
-                <?= $this->Paginator->next(' >', ['model' => 'Saefis']) ?>
-                <?= $this->Paginator->last(' >>', ['model' => 'Saefis']) ?>
-            </ul>
-        </nav> 
-
-         
+                       
+                      <h3><?= $this->Html->link('<i class="fa fa-file-text" aria-hidden="true"></i> SAEFI', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Saefis']) ?></small></h3>
+                      <ul class="list-group">
+                        <li class="list-group-item">
+                          <?php
+                            echo $this->Html->link('<i class="fa fa-code" aria-hidden="true"></i> &nbsp; Front end Pages', ['controller' => 'Sites', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+                          ?>
+                        </li>
+                        <li class="list-group-item">
+                          <?php
+                            echo $this->Html->link('<i class="fa fa-file-code-o" aria-hidden="true"></i> &nbsp; Message Templates', ['controller' => 'Messages', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+                          ?>
+                        </li>
+                        <li class="list-group-item">
+                          <?php
+                            echo $this->Html->link('<i class="fa fa-hospital-o" aria-hidden="true"></i> &nbsp; Facilities', ['controller' => 'Facilities', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+                          ?>
+                        </li>
+                      </ul>
+                       
+                  </div>
+            <!-- end-reports -->
+                </div>
+            </div>
+          </div>          
+        </div>
+      </div>
     </div>
 
     <div class="col-xs-6 col-sm-6 placeholder">
@@ -80,5 +183,13 @@
     </div>
     
 
+</div>
 
-
+<div class="row">
+  <div class="col-xs-6 col-sm-6">
+    
+  </div>
+  <div class="col-xs-6 col-sm-6">
+    
+  </div>
+</div>

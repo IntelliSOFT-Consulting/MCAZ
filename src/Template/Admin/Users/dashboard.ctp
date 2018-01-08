@@ -7,7 +7,8 @@
 
   <div>
     <div class="col-xs-6 col-sm-4">
-      <h2><i class="fa fa-book" aria-hidden="true"></i> <a href="#"> Reports</a></h2>
+      <h2><img alt="" src="/img/report.ico" style="width: 25px;">&nbsp;
+        <i class="fa fa-book" aria-hidden="true"></i> <a href="#"> Reports</a></h2>
       <p>View submitted reports</p>
       <ul class="list-group">
         <li class="list-group-item">
@@ -33,7 +34,8 @@
       </ul>
     </div>
     <div class="col-xs-6 col-sm-4 placeholder">
-      <h2><i class="fa fa-user-circle-o" aria-hidden="true"></i> <a href="#"> Users</a></h2>
+      <h2><img alt="" src="/img/user_group.ico" style="width: 25px;">&nbsp; 
+        <i class="fa fa-user-circle-o" aria-hidden="true"></i> <a href="#"> Users</a></h2>
       <p>Manage users</p>
       <ul class="list-group">
         <li class="list-group-item">
@@ -47,9 +49,11 @@
           ?>
         </li>
       </ul>
+      <h2><img alt="" src="/img/comments.ico" style="width: 25px;">&nbsp; 
+        <i class="fa fa-user-circle-o" aria-hidden="true"></i> <a href="#"> User Feedback</a> <small>(From contact us)</small></h2>
     </div>
     <div class="col-xs-6 col-sm-4 placeholder">
-      <h2><i class="fa fa-briefcase" aria-hidden="true"></i> <a href="#"> Content</a></h2>
+      <h2><img alt="" src="/img/box_content.ico" style="width: 25px;">&nbsp;<i class="fa fa-briefcase" aria-hidden="true"></i> <a href="#"> Content</a></h2>
       <p>Change frontend text and content.</p>
       <ul class="list-group">
         <li class="list-group-item">

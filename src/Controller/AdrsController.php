@@ -275,6 +275,7 @@ class AdrsController extends AppController
                     'type' => 'applicant_submit_adr_email', 'model' => 'Adrs', 'foreign_key' => $adr->id,
                     'vars' =>  $adr->toArray()
                 ];
+                $html = new HtmlHelper(new \Cake\View\View());
                 $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'Adrs', 'action' => 'view', $adr->id, '_ext' => 'pdf',  
                                           '_full' => true]);
                 //notify applicant

@@ -212,6 +212,7 @@ class SaefisController extends AppController
                     'type' => 'applicant_submit_saefi_email', 'model' => 'Saefis', 'foreign_key' => $saefi->id,
                     'vars' =>  $saefi->toArray()
                 ];
+                $html = new HtmlHelper(new \Cake\View\View());
                 $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'Saefis', 'action' => 'view', $saefi->id, '_ext' => 'pdf',  
                                           '_full' => true]);
                 //notify applicant
