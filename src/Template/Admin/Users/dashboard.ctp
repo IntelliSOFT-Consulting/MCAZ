@@ -7,68 +7,69 @@
 
   <div>
     <div class="col-xs-6 col-sm-4">
-      <h2><img alt="" src="/img/report.ico" style="width: 25px;">&nbsp;
-        <i class="fa fa-book" aria-hidden="true"></i> <a href="#"> Reports</a></h2>
+      <h2><img alt="" src="/img/preferences_composer.png" style="width: 35px;">&nbsp;
+        <!-- <i class="fa fa-book" aria-hidden="true"></i> --> <a href="#" class="btn-zangu"> Forms</a></h2>
       <p>View submitted reports</p>
       <ul class="list-group">
         <li class="list-group-item">
           <?php
-            echo $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> &nbsp; ADRS', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+            echo $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> &nbsp; ADRS', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
           ?>
         </li>
         <li class="list-group-item">
           <?php
-            echo $this->Html->link('<i class="fa fa-file-text-o" aria-hidden="true"></i> &nbsp; AEFIS', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+            echo $this->Html->link('<i class="fa fa-file-text-o" aria-hidden="true"></i> &nbsp; AEFIS', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
           ?>
         </li>
         <li class="list-group-item">
           <?php
-            echo $this->Html->link('<i class="fa fa-file-text" aria-hidden="true"></i> &nbsp; SAEFIS', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+            echo $this->Html->link('<i class="fa fa-file-text" aria-hidden="true"></i> &nbsp; SAEFIS', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
           ?>
         </li>
         <li class="list-group-item">
           <?php
-            echo $this->Html->link('<i class="fa fa-file-o" aria-hidden="true"></i> &nbsp; SAES', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+            echo $this->Html->link('<i class="fa fa-file-o" aria-hidden="true"></i> &nbsp; SAES', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
           ?>
         </li>
       </ul>
     </div>
     <div class="col-xs-6 col-sm-4 placeholder">
-      <h2><img alt="" src="/img/user_group.ico" style="width: 25px;">&nbsp; 
-        <i class="fa fa-user-circle-o" aria-hidden="true"></i> <a href="#"> Users</a></h2>
+      <h2><img alt="" src="/img/user_group.ico" style="width: 35px;">&nbsp; 
+        <!-- <i class="fa fa-user-circle-o" aria-hidden="true"></i> --> <a href="#" class="btn-zangu"> Users</a></h2>
       <p>Manage users</p>
       <ul class="list-group">
         <li class="list-group-item">
           <?php
-            echo $this->Html->link('<i class="fa fa-user" aria-hidden="true"></i> &nbsp; Users', ['controller' => 'Users', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+            echo $this->Html->link('<i class="fa fa-user" aria-hidden="true"></i> &nbsp; Users', ['controller' => 'Users', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
           ?>
         </li>
         <li class="list-group-item">
           <?php
-            echo $this->Html->link('<i class="fa fa-users" aria-hidden="true"></i> &nbsp; Groups', ['controller' => 'Groups', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+            echo $this->Html->link('<i class="fa fa-users" aria-hidden="true"></i> &nbsp; Groups', ['controller' => 'Groups', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
           ?>
         </li>
       </ul>
-      <h2><img alt="" src="/img/comments.ico" style="width: 25px;">&nbsp; 
-        <i class="fa fa-user-circle-o" aria-hidden="true"></i> <a href="#"> User Feedback</a> <small>(From contact us)</small></h2>
+      <h2><img alt="" src="/img/comments.ico" style="width: 35px;">&nbsp; 
+        <!-- <i class="fa fa-user-circle-o" aria-hidden="true"></i> --> <a href="#" class="btn-zangu"> User Feedback</a> </h2>
     </div>
     <div class="col-xs-6 col-sm-4 placeholder">
-      <h2><img alt="" src="/img/box_content.ico" style="width: 25px;">&nbsp;<i class="fa fa-briefcase" aria-hidden="true"></i> <a href="#"> Content</a></h2>
+      <h2><img alt="" src="/img/box_content.ico" style="width: 35px;">&nbsp;<!-- <i class="fa fa-briefcase" aria-hidden="true"></i>  -->
+        <a href="#" class="btn-zangu"> Content</a></h2>
       <p>Change frontend text and content.</p>
       <ul class="list-group">
         <li class="list-group-item">
           <?php
-            echo $this->Html->link('<i class="fa fa-code" aria-hidden="true"></i> &nbsp; Front end Pages', ['controller' => 'Sites', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+            echo $this->Html->link('<i class="fa fa-code" aria-hidden="true"></i> &nbsp; Front end Pages', ['controller' => 'Sites', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
           ?>
         </li>
         <li class="list-group-item">
           <?php
-            echo $this->Html->link('<i class="fa fa-file-code-o" aria-hidden="true"></i> &nbsp; Message Templates', ['controller' => 'Messages', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+            echo $this->Html->link('<i class="fa fa-file-code-o" aria-hidden="true"></i> &nbsp; Message Templates', ['controller' => 'Messages', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
           ?>
         </li>
         <li class="list-group-item">
           <?php
-            echo $this->Html->link('<i class="fa fa-hospital-o" aria-hidden="true"></i> &nbsp; Facilities', ['controller' => 'Facilities', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+            echo $this->Html->link('<i class="fa fa-hospital-o" aria-hidden="true"></i> &nbsp; Facilities', ['controller' => 'Facilities', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
           ?>
         </li>
       </ul>
