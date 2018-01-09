@@ -302,7 +302,7 @@ class SadrsController extends AppController
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
         ]);
         if ($sadr->submitted == 2) {
-            $this->Flash->success(__('Report '.$sadr->reference_number.' already submitted.'));
+            $this->Flash->success(__('Report '.$aefi->reference_number.' already submitted.'));
             return $this->redirect(['action' => 'view', $sadr->id]);
         }
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -319,24 +319,17 @@ class SadrsController extends AppController
             if ($sadr->submitted == 1) {
               //save changes button
               if ($this->Sadrs->save($sadr, ['validate' => false])) {
-                $this->Flash->success(__('The changes to the Report '.$sadr->reference_number.' have been saved.'));
+                $this->Flash->success(__('The changes to the Report  have been saved.'));
                 return $this->redirect(['action' => 'edit', $sadr->id]);
               } else {
-                $this->Flash->error(__('Report '.$sadr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report  could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($sadr->submitted == 2) {
               //submit to mcaz button
               $sadr->submitted_date = date("Y-m-d H:i:s");
               $sadr->status = 'Submitted';
+              $sadr->reference_number = 'ADR'.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy');
               if ($this->Sadrs->save($sadr, ['validate' => false])) {
-                //update field
-                $query = $this->Sadrs->query();
-                $query->update()
-                    ->set(['reference_number' => 'ADR'.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy')])
-                    ->where(['id' => $sadr->id])
-                    ->execute();
-                //
-                
                 $this->Flash->success(__('Report '.$sadr->reference_number.' has been successfully submitted to MCAZ for review.'));
                 //send email and notification
                 $this->loadModel('Queue.QueuedJobs');    
@@ -365,19 +358,19 @@ class SadrsController extends AppController
                 //
                 return $this->redirect(['action' => 'view', $sadr->id]);
               } else {
-                $this->Flash->error(__('Report '.$sadr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($sadr->submitted == -1) {
                //cancel button              
-                $this->Flash->success(__('Cancel form successful. You may continue editing report '.$sadr->reference_number.' later'));
+                $this->Flash->success(__('Cancel form successful. You may continue editing the report later'));
                 return $this->redirect(['controller' => 'Users','action' => 'home']);
 
            } else {
               if ($this->Sadrs->save($sadr, ['validate' => false])) {
-                $this->Flash->success(__('The changes to the Report '.$sadr->reference_number.' have been saved.'));
+                $this->Flash->success(__('The changes to the Report have been saved.'));
                 return $this->redirect(['action' => 'edit', $sadr->id]);
               } else {
-                $this->Flash->error(__('Report '.$sadr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
            }
 

@@ -122,9 +122,11 @@ class SaefisController extends AppController
     {
         $saefi = $this->Saefis->newEntity();
         if ($this->request->is('post')) {
-           $this->_attachments();
-           $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
-           $saefi->user_id = $this->Auth->user('id');
+            $this->_attachments();
+            $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
+            $saefi->user_id = $this->Auth->user('id');
+            $saefi->submitted_date = date("Y-m-d H:i:s");
+            $saefi->status = 'Submitted';
 
             if ($this->Saefis->save($saefi, ['validate' => false])) {
                 //update field

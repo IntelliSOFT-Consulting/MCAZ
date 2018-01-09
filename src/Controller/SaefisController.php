@@ -184,26 +184,18 @@ class SaefisController extends AppController
             if ($saefi->submitted == 1) {
               //save changes button
               if ($this->Saefis->save($saefi, ['validate' => false])) {
-                $this->Flash->success(__('The changes to the Report '.$saefi->reference_number.' have been saved.'));
+                $this->Flash->success(__('The changes to the Report have been saved.'));
                 return $this->redirect(['action' => 'edit', $saefi->id]);
               } else {
-                $this->Flash->error(__('Report '.$saefi->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($saefi->submitted == 2) {
               //submit to mcaz button
               $saefi->submitted_date = date("Y-m-d H:i:s");
               $saefi->status = 'Submitted';
+              $saefi->reference_number = 'SAEFI'.$saefi->id.'/'.$saefi->created->i18nFormat('yyyy');
               if ($this->Saefis->save($saefi, ['validate' => false])) {
-                //update field
-                $query = $this->Saefis->query();
-                $query->update()
-                    ->set(['reference_number' => 'SAEFI'.$saefi->id.'/'.$saefi->created->i18nFormat('yyyy')])
-                    ->where(['id' => $saefi->id])
-                    ->execute();
-                //
-                $this->Flash->success(__('Report '.$saefi->reference_number.' has been successfully submitted to MCAZ for review.'));
-                return $this->redirect(['action' => 'view', $saefi->id]);
-
+                $this->Flash->success(__('Report '.$saefi->reference_number.' has been successfully submitted to MCAZ for review.'));                
 
                 //send email and notification
                 $this->loadModel('Queue.QueuedJobs');    
@@ -230,20 +222,21 @@ class SaefisController extends AppController
                     $data['type'] = 'manager_submit_saefi_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
+                return $this->redirect(['action' => 'view', $saefi->id]);
               } else {
-                $this->Flash->error(__('Report '.$saefi->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($saefi->submitted == -1) {
                //cancel button              
-                $this->Flash->success(__('Cancel form successful. You may continue editing report '.$saefi->reference_number.' later'));
+                $this->Flash->success(__('Cancel form successful. You may continue editing report later'));
                 return $this->redirect(['controller' => 'Users','action' => 'home']);
 
            } else {
               if ($this->Saefis->save($saefi, ['validate' => false])) {
-                $this->Flash->success(__('The changes to the Report '.$saefi->reference_number.' have been saved.'));
+                $this->Flash->success(__('The changes to the Report have been saved.'));
                 return $this->redirect(['action' => 'edit', $saefi->id]);
               } else {
-                $this->Flash->error(__('Report '.$saefi->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
            }
 
