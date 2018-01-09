@@ -1,9 +1,11 @@
-
 .navbar-evaluator {
     background-color:  #003300;
 }
 
-
+.nav-evaluator > li > a:focus, .nav-evaluator > li > a:hover {
+    text-decoration: none;
+    background-color: #248f24;
+}
 .nav-evaluator > .active > a:focus, .nav-evaluator a:hover {
     color: #fff;
     background-color: #248f24;
@@ -17,6 +19,7 @@
     background-color: #248f24;
 }
 
+
 .navbar-manager  {
     background-color: #2F1F50;
 }
@@ -27,10 +30,10 @@
     color: #fff;
 }
 
-/*a:hover, .nav-manager > .active > a:focus {
-    color: #fff;
-    background-color:  #8f7cb6;
-}*/
+.nav-manager > li > a:focus, .nav-manager > li > a:hover {
+    text-decoration: none;
+    background-color: #8f7cb6;
+}
 .nav-manager > .active > a:focus, .nav-manager a:hover {
     color: #fff;
     background-color: #8f7cb6;
@@ -46,6 +49,10 @@
 
 .navbar-admin {
     background-color: #132639;
+}
+.nav-admin > li > a:focus, .nav-admin > li > a:hover {
+    text-decoration: none;
+    background-color: #4080bf;
 }
 .nav-admin > .active > a:focus, .nav-admin a:hover {
     color: #fff;

@@ -89,11 +89,11 @@ class FeedbacksTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->isUnique(['email']));
-        $rules->add($rules->existsIn(['user_id'], 'Users'));
-        $rules->add($rules->existsIn(['sadr_id'], 'Sadrs'));
-        $rules->add($rules->existsIn(['sadr_followup_id'], 'SadrFollowups'));
-        $rules->add($rules->existsIn(['pqmp_id'], 'Pqmps'));
+        // $rules->add($rules->isUnique(['email']));
+        // $rules->add($rules->existsIn(['user_id'], 'Users'));
+        // $rules->add($rules->existsIn(['sadr_id'], 'Sadrs'));
+        // $rules->add($rules->existsIn(['sadr_followup_id'], 'SadrFollowups'));
+        // $rules->add($rules->existsIn(['pqmp_id'], 'Pqmps'));
 
         return $rules;
     }

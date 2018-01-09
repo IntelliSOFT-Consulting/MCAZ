@@ -66,12 +66,13 @@ class FeedbacksController extends AppController
                 return $this->redirect('/');
             }
             $this->Flash->error(__('The feedback could not be saved. Please, try again.'));
+            return $this->redirect('/');
         }
-        $users = $this->Feedbacks->Users->find('list', ['limit' => 200]);
-        $sadrs = $this->Feedbacks->Sadrs->find('list', ['limit' => 200]);
-        $sadrFollowups = $this->Feedbacks->SadrFollowups->find('list', ['limit' => 200]);
-        $pqmps = $this->Feedbacks->Pqmps->find('list', ['limit' => 200]);
-        $this->set(compact('feedback', 'users', 'sadrs', 'sadrFollowups', 'pqmps'));
+        // $users = $this->Feedbacks->Users->find('list', ['limit' => 200]);
+        // $sadrs = $this->Feedbacks->Sadrs->find('list', ['limit' => 200]);
+        // $sadrFollowups = $this->Feedbacks->SadrFollowups->find('list', ['limit' => 200]);
+        // $pqmps = $this->Feedbacks->Pqmps->find('list', ['limit' => 200]);
+        $this->set(compact('feedback'));
         $this->set('_serialize', ['feedback']);
     }
 
