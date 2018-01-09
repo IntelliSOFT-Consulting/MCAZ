@@ -21,7 +21,8 @@ class UsersController extends AppController
             'Sadrs' => ['scope' => 'sadr'],
             'Adrs' => ['scope' => 'adr'],
             'Aefis' => ['scope' => 'aefi'],
-            'Saefis' => ['scope' => 'saefi']
+            'Saefis' => ['scope' => 'saefi'],
+            'Feedbacks' => ['scope' => 'feedback']
         ];
 
     public function initialize() {
@@ -47,8 +48,10 @@ class UsersController extends AppController
             'limit' => 5,
         ];
 
+        $this->loadModel('Feedbacks');
+        $feedbacks = $this->paginate($this->Feedbacks->find('all'), ['scope' => 'feedback', 'order' => ['Feedbacks.id' => 'desc']]);
 
-        $this->set(compact('user'));
+        $this->set(compact('user', 'feedbacks'));
     }
 
     /**

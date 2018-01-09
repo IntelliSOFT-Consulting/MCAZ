@@ -50,7 +50,27 @@
         </li>
       </ul>
       <h2><img alt="" src="/img/comments.ico" style="width: 35px;">&nbsp; 
-        <!-- <i class="fa fa-user-circle-o" aria-hidden="true"></i> --> <a href="#" class="btn-zangu"> User Feedback</a> </h2>
+        <!-- <i class="fa fa-user-circle-o" aria-hidden="true"></i> <a href="#" class="btn-zangu"> User Feedback</a>  -->
+        <?php
+            echo $this->Html->link('User Feedback', ['controller' => 'Feedbacks', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu'));             
+          ?>
+          </h2>
+          <div style="margin-left: 15px">
+            <dl>
+              <?php $i=1; foreach ($feedbacks as $feedback): ?>
+              <dt><?= $i++.' '.$feedback->subject ?> <small class="muted"><?= $feedback->created ?></small></dt>
+              <dd><?= $feedback->feedback ?> </dd>
+              <?php endforeach; ?>
+            </dl>          
+            <nav aria-label="Page navigation">
+                <ul class="pagination pagination-sm">
+                    <?= $this->Paginator->first('<< ', ['model' => 'Feedbacks']) ?>
+                    <?= $this->Paginator->prev('< ' , ['model' => 'Feedbacks']) ?>
+                    <?= $this->Paginator->next(' >', ['model' => 'Feedbacks']) ?>
+                    <?= $this->Paginator->last(' >>', ['model' => 'Feedbacks']) ?>
+                </ul>
+            </nav>  
+          </div>
     </div>
     <div class="col-xs-6 col-sm-4 placeholder">
       <h2><img alt="" src="/img/box_content.ico" style="width: 35px;">&nbsp;<!-- <i class="fa fa-briefcase" aria-hidden="true"></i>  -->

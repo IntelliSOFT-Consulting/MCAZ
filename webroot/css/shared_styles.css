@@ -89,3 +89,6 @@ a.label-link {
 .badge-adr {
   background-color: #7f7fff;
 } 
+.muted {
+    color: #999999;
+}
