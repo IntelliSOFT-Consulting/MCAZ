@@ -38,7 +38,8 @@ class AefisController extends AppController
 
 
         $query = $this->Aefis
-            ->find('search', ['search' => $this->request->query]);
+            ->find('search', ['search' => $this->request->query])
+            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not']);
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
         $this->set(compact('provinces', 'designations'));
@@ -103,7 +104,7 @@ class AefisController extends AppController
     public function view($id = null)
     {
         $aefi = $this->Aefis->get($id, [
-            'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 'Committees', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments']
+            'contain' => ['AefiListOfVaccines', 'Attachments', 'Reviews', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 'Committees', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments']
         ]);
 
         if(strpos($this->request->url, 'pdf')) {
@@ -208,6 +209,52 @@ class AefisController extends AppController
         }
     }
 
+    public function causality() {
+        $aefi = $this->Aefis->get($this->request->getData('aefi_pr_id'), []);
+        if (isset($aefi->id) && $this->request->is('post')) {
+            $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
+            $aefi->status = 'Evaluated';
+            $aefi->reviews[0]->user_id = $this->Auth->user('id');
+            $aefi->reviews[0]->model = 'Aefis';
+            $aefi->reviews[0]->category = 'causality';
+            //Notification should be sent to manager and assigned_to evaluator if exists
+            if ($this->Aefis->save($aefi)) {
+                //Send email and message (if present!!!) to evaluator
+                $this->loadModel('Queue.QueuedJobs');    
+                if(!empty($aefi->assigned_to)) {
+                    $evaluator = $this->Aefis->Users->get($aefi->assigned_to);
+                    $data = [
+                      'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                      'type' => 'manager_review_assigned_email', 'model' => 'Aefis', 'foreign_key' => $aefi->id,
+                        'vars' =>  $aefi->toArray()
+                    ];
+                    $data['vars']['name'] = $evaluator->name;
+                    $data['vars']['assigned_by_name'] = $this->Auth->user('name');
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_review_assigned_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);                
+                } 
+
+                //notify manager                
+                $data = ['user_id' => $this->Auth->user('id'), 'model' => 'Aefis', 'foreign_key' => $aefi->id,
+                    'vars' =>  $aefi->toArray()];
+                $data['type'] = 'manager_review_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                //end 
+                
+               $this->Flash->success('Review successfully done for AEFI '.$aefi->reference_number);
+
+                return $this->redirect($this->referer());
+            } else {
+                $this->Flash->error(__('Unable to review report. Please, try again.')); 
+                return $this->redirect($this->referer());
+            }
+        } else {
+               $this->Flash->error(__('Unknown AEFI Report. Please correct.')); 
+               return $this->redirect($this->referer());
+        }
+    }
 
     public function requestEvaluator() {
         $aefi = $this->Aefis->get($this->request->getData('aefi_pr_id'), []);

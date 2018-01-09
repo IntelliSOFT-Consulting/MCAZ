@@ -34,7 +34,8 @@ class AdrsController extends AppController
             'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews']
         ];
         $query = $this->Adrs
-            ->find('search', ['search' => $this->request->query]);
+            ->find('search', ['search' => $this->request->query])
+            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not']);
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
         $this->set(compact('designations'));
         $this->set('adrs', $this->paginate($query));

@@ -3,7 +3,7 @@
 <?php $this->end(); ?>
 
 <div class="row">
-<h1 class="page-header">Dashboard</h1>
+<h1 class="page-header"> Dashboard</h1>
     <div class="col-sm-6">
       <h6><em><small>Showing only unprocessed reports</small></em></h6>
       <div class="row">
@@ -272,3 +272,4 @@
                   </div>
             <!-- end-reports -->
                 </div>
+                */

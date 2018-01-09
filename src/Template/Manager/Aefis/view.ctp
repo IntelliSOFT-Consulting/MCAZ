@@ -58,7 +58,7 @@
         <?php echo $this->element('aefis/assign_evaluator') ?>
     </div>
     <div role="tabpanel" class="tab-pane" id="causality">
-        <?php // $this->element('aefis/causality') ?>
+        <?php echo $this->element('aefis/causality') ?>
     </div>
     <div role="tabpanel" class="tab-pane" id="request_reporter">
         <?php  echo $this->element('aefis/request_reporter') ?>

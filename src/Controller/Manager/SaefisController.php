@@ -32,7 +32,8 @@ class SaefisController extends AppController
             'contain' => ['SaefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews']
         ];
         $query = $this->Saefis
-            ->find('search', ['search' => $this->request->query]);
+            ->find('search', ['search' => $this->request->query])
+            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not']);
         $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
         $this->set(compact('designations'));
         $this->set('saefis', $this->paginate($query));

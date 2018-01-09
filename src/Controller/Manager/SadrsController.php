@@ -47,7 +47,8 @@ class SadrsController extends AppController
         $query = $this->Sadrs
             // Use the plugins 'search' custom finder and pass in the
             // processed query params
-            ->find('search', ['search' => $this->request->query]);
+            ->find('search', ['search' => $this->request->query])
+            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not']);
             // You can add extra things to the query if you need to
             //->where([['ifnull(report_type,-1) !=' => 'FollowUp']]);
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
