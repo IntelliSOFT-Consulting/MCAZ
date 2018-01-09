@@ -57,6 +57,7 @@ class FeedbacksController extends AppController
      */
     public function add()
     {
+        $this->Feedbacks->addBehavior('Captcha.Captcha');
         $feedback = $this->Feedbacks->newEntity();
         if ($this->request->is('post')) {
             $feedback = $this->Feedbacks->patchEntity($feedback, $this->request->getData());
@@ -66,7 +67,7 @@ class FeedbacksController extends AppController
                 return $this->redirect('/');
             }
             $this->Flash->error(__('The feedback could not be saved. Please, try again.'));
-            return $this->redirect('/');
+            //return $this->redirect('/');
         }
         // $users = $this->Feedbacks->Users->find('list', ['limit' => 200]);
         // $sadrs = $this->Feedbacks->Sadrs->find('list', ['limit' => 200]);

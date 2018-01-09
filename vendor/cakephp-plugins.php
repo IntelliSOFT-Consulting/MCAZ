@@ -8,6 +8,7 @@ return [
         'Bake' => $baseDir . '/vendor/cakephp/bake/',
         'BootstrapUI' => $baseDir . '/vendor/friendsofcake/bootstrap-ui/',
         'CakePdf' => $baseDir . '/vendor/friendsofcake/cakepdf/',
+        'Captcha' => $baseDir . '/vendor/dereuromark/cakephp-captcha/',
         'Crud' => $baseDir . '/vendor/friendsofcake/crud/',
         'CsvView' => $baseDir . '/vendor/friendsofcake/cakephp-csvview/',
         'DebugKit' => $baseDir . '/vendor/cakephp/debug_kit/',

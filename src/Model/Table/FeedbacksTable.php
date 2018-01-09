@@ -66,16 +66,24 @@ class FeedbacksTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
-
-        $validator
             ->email('email')
-            ->allowEmpty('email');
+            ->requirePresence('email', 'create')
+            ->notEmpty('email')
+            ->add('email',[
+                'minLength' => [
+                    'rule' => ['minLength', 6],
+                    'message' => 'Minimum email length is 6.'
+                ]]);
 
         $validator
             ->scalar('feedback')
-            ->allowEmpty('feedback');
+            ->requirePresence('feedback', 'create')
+            ->notEmpty('feedback')
+            ->add('feedback',[
+                'minLength' => [
+                    'rule' => ['minLength', 6],
+                    'message' => 'Please enter a message.'
+                ]]);
 
         return $validator;
     }

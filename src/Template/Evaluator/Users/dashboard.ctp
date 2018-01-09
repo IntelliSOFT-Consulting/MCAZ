@@ -4,7 +4,7 @@
 
 <div class="row">
 <h1 class="page-header"> Dashboard</h1>
-    <div class="col-sm-6">
+    <div class="col-sm-7">
       <h6><em><small>Showing only unprocessed reports</small></em></h6>
       <div class="row">
         <div class="col-sm-12">
@@ -177,7 +177,7 @@
       </div>
     </div>
 
-    <div class="col-xs-6 col-sm-6 placeholder">
+    <div class="col-xs-6 col-sm-5 placeholder">
       <?= $this->Html->script('jquery/jquery.shorten', ['block' => true]); ?>
       <?= $this->cell('Notification'); ?>
     </div>

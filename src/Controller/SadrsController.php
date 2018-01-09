@@ -502,7 +502,7 @@ class SadrsController extends AppController
     public function delete($id = null)
     {
 
-        $this->request->allowMethod(['post', 'delete']);
+        $this->request->allowMethod(['post', 'delete', 'get']);
         $sadr = $this->Sadrs->get($id);
         if ($sadr->user_id == $this->Auth->user('id') && $sadr->submitted == 0) {
             if ($this->Sadrs->delete($sadr)) {

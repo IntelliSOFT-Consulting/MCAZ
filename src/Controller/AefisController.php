@@ -400,7 +400,7 @@ class AefisController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->request->allowMethod(['post', 'delete', 'get']);
         $aefi = $this->Aefis->get($id);
         if ($aefi->user_id == $this->Auth->user('id') && $aefi->submitted == 0) {
             if ($this->Aefis->delete($aefi)) {

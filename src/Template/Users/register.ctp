@@ -1,10 +1,5 @@
 <?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\User $user
- */
-?>
-<?php
+    $this->loadHelper('Captcha.Captcha');
     $this->assign('Register', 'active');
 ?>
 
@@ -13,23 +8,6 @@
         <div class="page-header">
             <div class="styled_title"><h1>Register </h1></div>
         </div>
-        <?= $this->Flash->render() ?>
-    <?php
-
-        // echo $this->Form->create('User', array(
-        //     'class' => 'form-horizontal',
-        //      'inputDefaults' => array(
-        //         'div' => array('class' => 'form-group'),
-        //         'label' => array('class' => 'control-label'),
-        //         'between' => '<div class="controls">',
-        //         'after' => '</div>',
-        //         'class' => '',
-        //         'format' => array('before', 'label', 'between', 'input', 'after','error'),
-        //         'error' => array('attributes' => array('class' => 'controls help-block')),
-        //      ),
-        // ));
-    ?>
-
     <?= $this->Form->create($user) ?>
 
     <div class="row">
@@ -41,7 +19,7 @@
                 echo $this->Form->control('username');
                 echo $this->Form->control('password', ['label' => 'Password <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
                 echo $this->Form->control('confirm_password', ['type' => 'password', 'label' => 'Confirm Password <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);   
-                //echo $this->Form->control('name_of_institution');
+                echo $this->Captcha->render(['placeholder' => __('Please solve the riddle')]);
                 ?>
         </div><!--/span-->
         <div class="col-md-6">

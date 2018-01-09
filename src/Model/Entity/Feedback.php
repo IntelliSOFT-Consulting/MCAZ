@@ -34,17 +34,6 @@ class Feedback extends Entity
      * @var array
      */
     protected $_accessible = [
-        'email' => true,
-        'user_id' => true,
-        'sadr_id' => true,
-        'sadr_followup_id' => true,
-        'pqmp_id' => true,
-        'feedback' => true,
-        'created' => true,
-        'modified' => true,
-        'user' => true,
-        'sadr' => true,
-        'sadr_followup' => true,
-        'pqmp' => true
+        '*' => true,
     ];
 }

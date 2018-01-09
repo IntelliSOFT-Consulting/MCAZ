@@ -263,3 +263,5 @@ Plugin::load('ADmad/JwtAuth');
 
 Plugin::load('Search');
 Plugin::load('CsvView');
+
+Plugin::load('Captcha', ['routes' => true, 'bootstrap' => true]);
