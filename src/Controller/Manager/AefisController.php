@@ -129,6 +129,14 @@ class AefisController extends AppController
      */
     public function view($id = null)
     {
+        //ensure only one 
+        $this->loadModel('OriginalAefis');
+        $orig_aefi = $this->OriginalAefis->get($id, ['contain' => ['Aefis']]);
+        if ($orig_aefi->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_aefi['aefi']['id']]);
+        }
+        
         $aefi = $this->Aefis->get($id, [
             'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 
                           'Committees', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments', 
@@ -462,10 +470,11 @@ class AefisController extends AppController
      */
     public function clean($id = null) {
         //ensure only one 
-        $orig_aefi = $this->Aefis->get($id, []);
-        if ($orig_aefi->copied === 'new copy') {
+        $this->loadModel('OriginalAefis');
+        $orig_aefi = $this->OriginalAefis->get($id, ['contain' => ['Aefis']]);
+        if ($orig_aefi->copied === 'old copy') {
             $this->Flash->success(__('An editable copy of the report is already available.'));
-            return $this->redirect(['action' => 'edit', $id]);
+            return $this->redirect(['action' => 'edit', $orig_aefi['aefi']['id']]);
         }
         $aefi = $this->Aefis->duplicateEntity($id);
         $aefi->aefi_id = $id;        
@@ -485,7 +494,15 @@ class AefisController extends AppController
     }
 
     public function edit($id = null)
-    {
+    {   
+        //ensure only one 
+        $this->loadModel('OriginalAefis');
+        $orig_aefi = $this->OriginalAefis->get($id, ['contain' => ['Aefis']]);
+        if ($orig_aefi->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_aefi['aefi']['id']]);
+        }
+
         $aefi = $this->Aefis->get($id, [
             'contain' => ['AefiListOfVaccines', 'Attachments']
         ]);

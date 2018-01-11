@@ -133,6 +133,14 @@ class SadrsController extends AppController
      */
     public function view($id = null)
     {
+        //ensure only one 
+        $this->loadModel('OriginalSadrs');
+        $orig_sadr = $this->OriginalSadrs->get($id, ['contain' => ['Sadrs']]);
+        if ($orig_sadr->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_sadr['sadr']['id']]);
+        }
+        
         $sadr = $this->Sadrs->get($id, [
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'RequestReporters', 'RequestEvaluators', 'Committees', 
                           'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
@@ -546,10 +554,11 @@ class SadrsController extends AppController
 
     public function clean($id = null) {
         //ensure only one 
-        $orig_sadr = $this->Sadrs->get($id, []);
-        if ($orig_sadr->copied === 'new copy') {
+        $this->loadModel('OriginalSadrs');
+        $orig_sadr = $this->OriginalSadrs->get($id, ['contain' => ['Sadrs']]);
+        if ($orig_sadr->copied === 'old copy') {
             $this->Flash->success(__('An editable copy of the report is already available.'));
-            return $this->redirect(['action' => 'edit', $id]);
+            return $this->redirect(['action' => 'edit', $orig_sadr['sadr']['id']]);
         }
         $sadr = $this->Sadrs->duplicateEntity($id);
         $sadr->sadr_id = $id;        
@@ -570,6 +579,13 @@ class SadrsController extends AppController
 
     public function edit($id = null)
     {
+        //ensure only one 
+        $this->loadModel('OriginalSadrs');
+        $orig_sadr = $this->OriginalSadrs->get($id, ['contain' => ['Sadrs']]);
+        if ($orig_sadr->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_sadr['sadr']['id']]);
+        }
         $sadr = $this->Sadrs->get($id, [
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
         ]);

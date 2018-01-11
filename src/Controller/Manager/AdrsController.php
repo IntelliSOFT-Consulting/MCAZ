@@ -151,6 +151,14 @@ class AdrsController extends AppController
      */
     public function view($id = null)
     {
+        //ensure only one 
+        $this->loadModel('OriginalAdrs');
+        $orig_adr = $this->OriginalAdrs->get($id, ['contain' => ['Adrs']]);
+        if ($orig_adr->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_adr['adr']['id']]);
+        }
+
         $adr = $this->Adrs->get($id, [
             'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 
                           'Committees', 'Reviews', 
@@ -514,10 +522,12 @@ class AdrsController extends AppController
 
     public function clean($id = null) {
         //ensure only one 
-        $orig_adr = $this->Adrs->get($id, []);
-        if ($orig_adr->copied === 'new copy') {
+        // $orig_adr = $this->Adrs->get($id, []);
+        $this->loadModel('OriginalAdrs');
+        $orig_adr = $this->OriginalAdrs->get($id, ['contain' => ['Adrs']]);
+        if ($orig_adr->copied === 'old copy') {
             $this->Flash->success(__('An editable copy of the report is already available.'));
-            return $this->redirect(['action' => 'edit', $id]);
+            return $this->redirect(['action' => 'edit', $orig_adr['adr']['id']]);
         }
         $adr = $this->Adrs->duplicateEntity($id);
         $adr->adr_id = $id;        
@@ -538,6 +548,14 @@ class AdrsController extends AppController
 
     public function edit($id = null)
     {
+        //ensure only one 
+        $this->loadModel('OriginalAdrs');
+        $orig_adr = $this->OriginalAdrs->get($id, ['contain' => ['Adrs']]);
+        if ($orig_adr->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_adr['adr']['id']]);
+        }
+
         $adr = $this->Adrs->get($id, [
             'contain' => ['AdrListOfDrugs', 'AdrOtherDrugs', 'AdrLabTests', 'Attachments']
         ]);

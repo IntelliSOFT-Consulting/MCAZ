@@ -438,10 +438,11 @@ class SaefisController extends AppController
      */    
     public function clean($id = null) {
         //ensure only one 
-        $orig_saefi = $this->Saefis->get($id, []);
-        if ($orig_saefi->copied === 'new copy') {
+        $this->loadModel('OriginalSaefis');
+        $orig_saefi = $this->OriginalSaefis->get($id, ['contain' => ['Saefis']]);
+        if ($orig_saefi->copied === 'old copy') {
             $this->Flash->success(__('An editable copy of the report is already available.'));
-            return $this->redirect(['action' => 'edit', $id]);
+            return $this->redirect(['action' => 'edit', $orig_saefi['Saefi']['id']]);
         }
         $saefi = $this->Saefis->duplicateEntity($id);
         $saefi->saefi_id = $id;        
