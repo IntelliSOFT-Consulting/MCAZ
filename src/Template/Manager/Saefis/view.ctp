@@ -26,10 +26,10 @@
     <li role="presentation"><a href="#causality" aria-controls="causality" role="tab" data-toggle="tab">Causality Assessment</a></li>
     <li role="presentation"><a href="#request_reporter" aria-controls="request_reporter" role="tab" data-toggle="tab">Request info</a></li>
     <li role="presentation"><a href="#committee_review" aria-controls="committee_review" role="tab" data-toggle="tab">Committee Review</a></li>
+    <?php } ?>
         <?php if($saefi->copied === 'new copy') { ?>
     <li role="presentation"><a href="#original" aria-controls="original" role="tab" data-toggle="tab">Original Report</a></li>
         <?php } ?>
-    <?php } ?>
   </ul>
 
   <!-- Tab panes -->

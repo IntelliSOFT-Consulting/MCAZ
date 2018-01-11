@@ -13,7 +13,7 @@
      }
      // pr($stats);
      $Submitted = isset($stats['Submitted']) ? $stats['Submitted'] : 0 ;
-     $UnSubmitted = isset($stats['']) ? $stats[''] : 0 ;
+     $UnSubmitted = isset($stats['UnSubmitted']) ? $stats['UnSubmitted'] : 0 ;
      $Assigned = isset($stats['Assigned']) ? $stats['Assigned'] : 0 ;
      $Evaluated = isset($stats['Evaluated']) ? $stats['Evaluated'] : 0 ;
      $Committee = isset($stats['Committee']) ? $stats['Committee'] : 0 ;
@@ -77,6 +77,7 @@
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'FollowUp') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> FollowUp <small class="badge badge-sadr pull-right">'. $FollowUp .'</small>', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'FollowUp'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Duplicates') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Duplicated <small class="badge badge-sadr pull-right">'. $Duplicated .'</small>', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Duplicated'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'UnSubmitted') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Unsubmitted <small class="badge badge-sadr pull-right">'. $UnSubmitted .'</small>', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'UnSubmitted'], array('escape' => false)); ?> </li>
+            <li class="<?=  ($this->request->params['controller'] == 'Sadrs' && $this->request->params['action'] == 'restore') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-plus" aria-hidden="true"></i> Restore deleted <small class="badge badge-sadr pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i></small>', ['controller' => 'Sadrs', 'action' => 'restore', 'prefix' => $prefix], array('escape' => false)); ?> </li>
           </ul>
         <?php } ?>
         <!-- Admin User -->
@@ -111,6 +112,7 @@
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'FollowUp') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> FollowUp <small class="badge badge-aefi pull-right">'. $aFollowUp .'</small>', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix, 'status' => 'FollowUp'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Duplicates') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Duplicated <small class="badge badge-aefi pull-right">'. $aDuplicated .'</small>', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Duplicated'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'UnSubmitted') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Unsubmitted <small class="badge badge-aefi pull-right">'. $aUnSubmitted .'</small>', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix, 'status' => 'UnSubmitted'], array('escape' => false)); ?> </li>
+            <li class="<?=  ($this->request->params['controller'] == 'Aefis' && $this->request->params['action'] == 'restore') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-plus" aria-hidden="true"></i> Restore deleted <small class="badge badge-aefi pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i></small>', ['controller' => 'Aefis', 'action' => 'restore', 'prefix' => $prefix], array('escape' => false)); ?> </li>
           </ul>
         <?php } ?>
     </li>
@@ -128,6 +130,7 @@
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Rejected') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Rejected <small class="badge badge-saefi pull-right">'. $saRejected .'</small>', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Rejected'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Duplicates') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Duplicated <small class="badge badge-saefi pull-right">'. $saDuplicated .'</small>', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Duplicated'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'UnSubmitted') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Unsubmitted <small class="badge badge-saefi pull-right">'. $saUnSubmitted .'</small>', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix, 'status' => 'UnSubmitted'], array('escape' => false)); ?> </li>
+            <li class="<?=  ($this->request->params['controller'] == 'Saefis' && $this->request->params['action'] == 'restore') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-plus" aria-hidden="true"></i> Restore deleted <small class="badge badge-saefi pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i></small>', ['controller' => 'Saefis', 'action' => 'restore', 'prefix' => $prefix], array('escape' => false)); ?> </li>
           </ul>
         <?php } ?>
     </li>
@@ -145,6 +148,7 @@
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Rejected') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Rejected <small class="badge badge-adr pull-right">'. $rRejected .'</small>', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Rejected'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Duplicates') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Duplicated <small class="badge badge-adr pull-right">'. $rDuplicated .'</small>', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Duplicated'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'UnSubmitted') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Unsubmitted <small class="badge badge-adr pull-right">'. $rUnSubmitted .'</small>', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'UnSubmitted'], array('escape' => false)); ?> </li>
+            <li class="<?=  ($this->request->params['controller'] == 'Adrs' && $this->request->params['action'] == 'restore') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-plus" aria-hidden="true"></i> Restore deleted <small class="badge badge-adr pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i></small>', ['controller' => 'Adrs', 'action' => 'restore', 'prefix' => $prefix], array('escape' => false)); ?> </li>
           </ul>
         <?php } ?>
     </li>

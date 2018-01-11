@@ -19,7 +19,7 @@ class AdrsController extends AppController
        parent::initialize();
        //$this->Auth->allow(['add', 'edit']);   
        $this->loadComponent('Search.Prg', [
-            'actions' => ['index']
+            'actions' => ['index', 'restore']
         ]);    
     }
 
@@ -116,6 +116,31 @@ class AdrsController extends AppController
             $this->set(compact('query', '_serialize', '_header', '_extract'));
         }
     }
+    public function restore() {
+        $this->paginate = [
+            'contain' => []
+        ];
+        
+        $query = $this->Adrs
+            ->find('search', ['search' => $this->request->query, 'withDeleted'])
+            ->where(['deleted IS NOT' =>  null]);
+        $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
+        $this->set(compact('designations'));
+        $this->set('adrs', $this->paginate($query));
+    }
+    public function restoreDeleted($id = null)
+    {
+
+        $this->request->allowMethod(['post', 'delete', 'get']);
+        $adr = $this->Adrs->get($id, ['withDeleted']);
+        if ($this->Adrs->restore($adr)) {
+            $this->Flash->success(__('The SAE has been restored.'));
+        } else {
+            $this->Flash->error(__('The SAE could not be restored. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'restore']);
+    }
 
     /**
      * View method
@@ -129,7 +154,7 @@ class AdrsController extends AppController
         $adr = $this->Adrs->get($id, [
             'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 
                           'Committees', 'Reviews', 
-                          'OriginalAdrs', 'OriginalAdrs.AdrListOfDrugs', 'OriginalAdrs.AdrOtherDrugs', 'OriginalAdrs.Attachments']
+                          'OriginalAdrs', 'OriginalAdrs.AdrListOfDrugs', 'OriginalAdrs.AdrOtherDrugs', 'OriginalAdrs.Attachments'], 'withDeleted'
         ]);
 
         // $this->viewBuilder()->setLayout('pdf/default');

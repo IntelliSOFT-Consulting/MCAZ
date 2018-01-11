@@ -1,14 +1,6 @@
 <?php
     $this->Html->script('jquery/sadr_search', ['block' => true]);
 ?>
-<?php 
-    $arr1 = explode('?', $this->request->getRequestTarget());
-    if(count($arr1) > 1) {
-        $url = implode('.csv?', explode('?', $this->request->getRequestTarget()));
-    } else {
-        $url = implode('.csv?', explode('?', $this->request->getRequestTarget())).'.csv';
-    }
-?>
 
 <?= $this->Form->create(null, ['valueSources' => 'query', 'templates' => 'clear_form']) ?>
 <div class="well">
@@ -183,10 +175,7 @@
         <?php
             echo $this->Html->link('<i class="fa fa-close" aria-hidden="true"></i> Reset', ['action' => 'index'], ['class' => 'btn btn-default btn-sm', 'escape' => false]);
         ?>
-        <!-- <button type="submit" class="btn btn-success btn-sm" id="search" style="margin-top: 4px;"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Csv</button> -->
-        <a class="btn btn-success btn-sm" href="<?= $url ?>" style="margin-top: 4px;">
-            <i class="fa fa-file-excel-o" aria-hidden="true"></i> Csv
-        </a>
+
         <div class="dropdown"  style="margin-top: 14px;">
           <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             Sort by

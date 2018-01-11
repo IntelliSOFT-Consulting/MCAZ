@@ -23,7 +23,7 @@ class SadrsController extends AppController
         $this->loadComponent('Search.Prg', [
             // This is default config. You can modify "actions" as needed to make
             // the PRG component work only for specified methods.
-            'actions' => ['index']
+            'actions' => ['index', 'restore']
         ]);
         // $this->loadComponent('RequestHandler', ['viewClassMap' => ['csv' => 'CsvView.Csv']]);
     }
@@ -97,7 +97,33 @@ class SadrsController extends AppController
             $this->set(compact('query', '_serialize', '_header', '_extract'));
         }
     }
+    public function restore() {
+        $this->paginate = [
+            'contain' => []
+        ];
+        
+        $query = $this->Sadrs
+            ->find('search', ['search' => $this->request->query, 'withDeleted'])
+            ->where(['deleted IS NOT' =>  null]);
+            
+        $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
+        $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
+        $this->set(compact('provinces', 'designations'));
+        $this->set('sadrs', $this->paginate($query));
+    }
+    public function restoreDeleted($id = null)
+    {
 
+        $this->request->allowMethod(['post', 'delete', 'get']);
+        $sadr = $this->Sadrs->get($id, ['withDeleted']);
+        if ($this->Sadrs->restore($sadr)) {
+            $this->Flash->success(__('The ADR has been restored.'));
+        } else {
+            $this->Flash->error(__('The ADR could not be restored. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'restore']);
+    }
     /**
      * View method
      *
@@ -111,7 +137,7 @@ class SadrsController extends AppController
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'RequestReporters', 'RequestEvaluators', 'Committees', 
                           'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
                           'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments',
-                          ]
+                          ], 'withDeleted'
         ]);
 
         if(strpos($this->request->url, 'pdf')) {

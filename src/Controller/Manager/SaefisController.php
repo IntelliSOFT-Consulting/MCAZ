@@ -18,7 +18,7 @@ class SaefisController extends AppController
        parent::initialize();
        //$this->Auth->allow(['add', 'edit']);   
        $this->loadComponent('Search.Prg', [
-            'actions' => ['index']
+            'actions' => ['index', 'restore']
         ]);    
     }
     /**
@@ -71,6 +71,30 @@ class SaefisController extends AppController
             $this->set(compact('query', '_serialize', '_header', '_extract'));
         }
     }
+    public function restore() {
+        $this->paginate = [
+            'contain' => []
+        ];
+        
+        $query = $this->Saefis
+            ->find('search', ['search' => $this->request->query, 'withDeleted'])
+            ->where(['deleted IS NOT' =>  null]);
+            
+        $this->set('saefis', $this->paginate($query));
+    }
+    public function restoreDeleted($id = null)
+    {
+
+        $this->request->allowMethod(['post', 'delete', 'get']);
+        $saefi = $this->Saefis->get($id, ['withDeleted']);
+        if ($this->Saefis->restore($saefi)) {
+            $this->Flash->success(__('The SAEFI has been restored.'));
+        } else {
+            $this->Flash->error(__('The SAEFI could not be restored. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'restore']);
+    }
 
     /**
      * View method
@@ -84,7 +108,8 @@ class SaefisController extends AppController
         $saefi = $this->Saefis->get($id, [
             'contain' => ['SaefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'AefiCausalities',
                           'Reports',
-                          'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports']
+                          'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports'], 
+                          'withDeleted'
         ]);
 
         if(strpos($this->request->url, 'pdf')) {

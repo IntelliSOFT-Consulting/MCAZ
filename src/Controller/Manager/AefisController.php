@@ -20,7 +20,7 @@ class AefisController extends AppController
         parent::initialize();
 
         $this->loadComponent('Search.Prg', [
-            'actions' => ['index']
+            'actions' => ['index', 'restore']
         ]);
         // $this->loadComponent('RequestHandler', ['viewClassMap' => ['csv' => 'CsvView.Csv']]);
     }
@@ -93,6 +93,32 @@ class AefisController extends AppController
         // $this->set(compact('aefis'));
         // $this->set('_serialize', ['aefis']);
     }
+    public function restore() {
+        $this->paginate = [
+            'contain' => []
+        ];
+        
+        $query = $this->Aefis
+            ->find('search', ['search' => $this->request->query, 'withDeleted'])
+            ->where(['deleted IS NOT' =>  null]);
+        $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
+        $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
+        $this->set(compact('provinces', 'designations'));
+        $this->set('aefis', $this->paginate($query));
+    }
+    public function restoreDeleted($id = null)
+    {
+
+        $this->request->allowMethod(['post', 'delete', 'get']);
+        $aefi = $this->Aefis->get($id, ['withDeleted']);
+        if ($this->Aefis->restore($aefi)) {
+            $this->Flash->success(__('The AEFI has been restored.'));
+        } else {
+            $this->Flash->error(__('The AEFI could not be restored. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'restore']);
+    }
 
     /**
      * View method
@@ -106,7 +132,7 @@ class AefisController extends AppController
         $aefi = $this->Aefis->get($id, [
             'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 
                           'Committees', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments', 
-                          'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments']
+                          'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments'], 'withDeleted'
         ]);
 
         if(strpos($this->request->url, 'pdf')) {

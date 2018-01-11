@@ -1,20 +1,12 @@
 <?php
     $this->Html->script('jquery/sadr_search', ['block' => true]);
 ?>
-<?php 
-    $arr1 = explode('?', $this->request->getRequestTarget());
-    if(count($arr1) > 1) {
-        $url = implode('.csv?', explode('?', $this->request->getRequestTarget()));
-    } else {
-        $url = implode('.csv?', explode('?', $this->request->getRequestTarget())).'.csv';
-    }
-?>
 
 <?= $this->Form->create(null, ['valueSources' => 'query', 'templates' => 'clear_form']) ?>
 <div class="well">
     <div class="row">
       <div class="col-md-10">
-        <h5 class="text-center"><small><em>Use wildcard <span class="sterix fa fa-asterisk" aria-hidden="true"></span> to match any character e.g. aefi4* to match aefi4/2017, aefi49/2018 etc.</em></small></h5>
+        <h5 class="text-center"><small><em>Use wildcard <span class="sterix fa fa-asterisk" aria-hidden="true"></span> to match any character e.g. adr4* to match adr4/2017, adr49/2018 etc.</em></small></h5>
 
         <table class="table">
             <tbody>
@@ -48,18 +40,18 @@
                     </td>          
                     <td>
                         <?php
-                            echo $this->Form->control('name_of_vaccination_center', 
-                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Vaccination Center*']);
+                            echo $this->Form->control('name_of_institution', 
+                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Institution*']);
                         ?>
                     </td>
                     <td>
                         <?php
-                            echo $this->Form->control('serious', 
+                            echo $this->Form->control('severity', 
                                 ['type' => 'radio', 'label' => 'Serious?', 'templates' => 'radio_form', 
                                  'options' => ['Yes' => 'Yes', 'No' => 'No']]);
                         ?>
 
-                <a onclick="$('input[name=serious]').removeAttr('checked');" class="tiptip"  data-original-title="clear!!">
+                <a onclick="$('input[name=severity]').removeAttr('checked');" class="tiptip"  data-original-title="clear!!">
                          <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                     </td>
                 </tr>                
@@ -75,37 +67,17 @@
         <div class="collapse" id="collapseExample">
         <table class="table">
             <tbody>           
-                <tr>
-                    <td colspan="3"> 
-                        <?php
-                      echo $this->Form->control('ae_afebrile', ['type' => 'checkbox', 'label' => 'afebrile', 'templates' => 'clear_form_checkbox', 'hiddenField' => false ]);
-                      echo $this->Form->control('ae_febrile', ['type' => 'checkbox', 'label' => 'febrile', 'templates' => 'clear_form_checkbox', 'hiddenField' => false ]);
-                      echo $this->Form->control('ae_3days', ['type' => 'checkbox', 'label' => '>3 days', 'templates' => 'clear_form_checkbox', 'hiddenField' => false ]);
-
-                      echo $this->Form->control('ae_beyond_joint', ['type' => 'checkbox', 'label' => 'beyond nearest joint', 'templates' => 'clear_form_checkbox', 'hiddenField' => false ]);
-
-                      echo $this->Form->control('ae_encephalopathy', ['type' => 'checkbox', 'label' => 'Encephalopathy', 'templates' => 'clear_form_checkbox', 'hiddenField' => false ]);
-                      echo $this->Form->control('ae_abscess', ['type' => 'checkbox', 'label' => 'Abscess', 'templates' => 'clear_form_checkbox', 'hiddenField' => false ]);
-                      echo $this->Form->control('ae_sepsis', ['type' => 'checkbox', 'label' => 'Sepsis', 'templates' => 'clear_form_checkbox', 'hiddenField' => false ]);
-                      echo $this->Form->control('ae_anaphylaxis', ['type' => 'checkbox', 'label' => 'Anaphylaxis', 'templates' => 'clear_form_checkbox', 'hiddenField' => false ]);
-                      // echo "<br>";
-                      echo $this->Form->control('ae_fever', ['type' => 'checkbox', 'label' => 'Fever≥38°C', 'templates' => 'clear_form_checkbox', 'hiddenField' => false ]);
-                      echo $this->Form->control('ae_toxic_shock', ['type' => 'checkbox', 'label' => 'Toxic shock syndrome', 'templates' => 'clear_form_checkbox', 'hiddenField' => false ]);
-                      echo $this->Form->control('ae_thrombocytopenia', ['type' => 'checkbox', 'label' => 'Thrombocytopenia', 'templates' => 'clear_form_checkbox', 'hiddenField' => false ]);
-               
-              ?>
-                    </td>
-                </tr>
                 <tr>                    
-                    <td colspan="2">
+                    <td colspan="2"> 
                         <?php
-                            echo $this->Form->control('investigation_needed', 
-                                ['type' => 'radio', 'label' => 'investigation needed?', 'templates' => 'radio_form', 'placeholder' => '*Patient Initials*',
-                                 'options' => ['Yes' => 'Yes', 'No' => 'No']]);
+                            echo $this->Form->control('severity_reason', 
+                                ['type' => 'select', 'label' => false, 'templates' => 'clear_form', 'empty' => true,
+                                  'options' => ['Death' => 'Death', 'Life-threatening' => 'Life-threatening', 'Hospitalizaion/Prolonged' => 'Hospitalizaion/Prolonged', 'Disabling' => 'Disabling', 'Congenital-anomaly' => 'Congenital-anomaly',  'Other Medically Important Reason' => 'Other Medically Important Reason']]);
                         ?>
-
-                        <a onclick="$('input[name=investigation_needed]').removeAttr('checked');" class="tiptip"  data-original-title="clear!!">
+                        <a onclick="$('#severity-reason').val('');" class="tiptip"  data-original-title="clear!!">
                          <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
+                         <br>
+                         <small class="text-warning">Reason for seriousness</small>
                     </td>
                     <td> 
                         <?php
@@ -124,17 +96,41 @@
                     </td>
                 </tr>
                 <tr>                    
-                    <td>
+                    <td> 
                         <?php
-                            echo $this->Form->control('serious_yes', 
-                                ['label' => false, 'templates' => 'clear_form', 'options' => ['Death' => 'Death', 'Life threatening' => 'Life threatening', 'Disability' => 'Disability', 'Hospitalization' => 'Hospitalization', 'Congenital anomaly' => 'Congenital anomaly'],
-                                 'empty' => true]);
-                        ?>                        
-                        <a onclick="$('select[name=serious_yes]').val('');" class="tiptip"  data-original-title="clear!!">
+                            echo $this->Form->control('action_taken', 
+                                ['type' => 'select', 'label' => false, 'templates' => 'clear_form', 'empty' => true,
+                                  'options' => ['Drug withdrawn' => 'Drug withdrawn',
+                                            'Dose increased' => 'Dose increased',
+                                            'Unknown' => 'Unknown',
+                                            'Dose reduced' => 'Dose reduced',
+                                            'Dose not changed' => 'Dose not changed',
+                                            'Not applicable' => 'Not applicable',
+                                            'Medical treatment of ADR' => 'Medical treatment of ADR']]);
+                        ?>
+                        <a onclick="$('#action-taken').val('');" class="tiptip"  data-original-title="clear!!">
                          <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                          <br>
-                         <small class="text-warning">Serious</small>
+                         <small class="text-warning">Action taken</small>
                     </td>
+                    <td colspan="2"> 
+                        <?php
+                            echo $this->Form->control('relatedness', 
+                                ['type' => 'select', 'label' => false, 'templates' => 'clear_form', 'empty' => true,
+                                  'options' => ['Certain' => 'Certain',
+                                    'Probable / Likely' => 'Probable / Likely',
+                                    'Possible' => 'Possible',
+                                    'Unlikely' => 'Unlikely',
+                                    'Conditional / Unclassified' => 'Conditional / Unclassified',
+                                    'Unassessable / Unclassifiable,' => 'Unassessable / Unclassifiable,',]]);
+                        ?>
+                        <a onclick="$('#severity-reason').val('');" class="tiptip"  data-original-title="clear!!">
+                         <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
+                         <br>
+                         <small class="text-warning">Relatedness to ADR</small>
+                    </td>
+                </tr>
+                <tr>                    
                     <td>
                         <?php
                             echo $this->Form->control('province_id', 
@@ -146,10 +142,16 @@
                          <br>
                          <small class="text-warning">Province</small>
                     </td>
-                    <td>                        
+                    <td>
                         <?php
                             echo $this->Form->control('reporter_name', 
                                 ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Reporter\'s name*']);
+                        ?>
+                    </td>
+                    <td>                        
+                        <?php
+                            echo $this->Form->control('reporter_email', 
+                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Reporter\'s email*']);
                         ?>
                     </td>
                 </tr>
@@ -157,7 +159,7 @@
                     <td colspan="2">
                         <?php
                             echo $this->Form->control('designation_id', 
-                                ['label' => false, 'templates' => 'clear_form', 'options' => $designations, 
+                                ['label' => false, 'templates' => 'clear_form', 'options' => $designations, 'placeholder' => '*Province*',
                                  'empty' => true]);
                         ?>                        
                         <a onclick="$('#designation-id').val('');" class="tiptip"  data-original-title="clear!!">
@@ -168,10 +170,10 @@
                     <td>
                         <?php
                             echo $this->Form->control('patient_name', 
-                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Patient name*']);
+                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Patient Initials*']);
                         ?>
                     </td>
-                </tr>       
+                </tr>                
             </tbody>
         </table>
         </div>
@@ -183,10 +185,7 @@
         <?php
             echo $this->Html->link('<i class="fa fa-close" aria-hidden="true"></i> Reset', ['action' => 'index'], ['class' => 'btn btn-default btn-sm', 'escape' => false]);
         ?>
-        <!-- <button type="submit" class="btn btn-success btn-sm" id="search" style="margin-top: 4px;"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Csv</button> -->
-        <a class="btn btn-success btn-sm" href="<?= $url ?>" style="margin-top: 4px;">
-            <i class="fa fa-file-excel-o" aria-hidden="true"></i> Csv
-        </a>
+        
         <div class="dropdown"  style="margin-top: 14px;">
           <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             Sort by
