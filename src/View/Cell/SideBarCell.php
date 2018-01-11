@@ -38,18 +38,22 @@ class SideBarCell extends Cell
         $sadr_stats = $this->Sadrs->find('all')->select([ 'status',
                                                           'count' => $this->Sadrs->find('all')->func()->count('*')
                                                         ])
+                                                 ->where(['IFNULL(copied, "N") !=' => 'old copy'])
                                                  ->group('status');
         $aefi_stats = $this->Aefis->find('all')->select([ 'status',
                                                           'count' => $this->Aefis->find('all')->func()->count('*')
                                                         ])
+                                                 ->where(['IFNULL(copied, "N") !=' => 'old copy'])
                                                  ->group('status');
         $saefi_stats = $this->Saefis->find('all')->select([ 'status',
                                                           'count' => $this->Saefis->find('all')->func()->count('*')
                                                         ])
+                                                 ->where(['IFNULL(copied, "N") !=' => 'old copy'])
                                                  ->group('status');
         $adr_stats = $this->Adrs->find('all')->select([ 'status',
                                                           'count' => $this->Adrs->find('all')->func()->count('*')
                                                         ])
+                                                 ->where(['IFNULL(copied, "N") !=' => 'old copy'])
                                                  ->group('status');
         $this->set(['prefix'=> $prefix, 'sadr_stats' => $sadr_stats, 'aefi_stats' => $aefi_stats, 'saefi_stats' => $saefi_stats, 'adr_stats' => $adr_stats]);
     }
