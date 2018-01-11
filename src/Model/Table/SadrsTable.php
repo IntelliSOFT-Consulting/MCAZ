@@ -51,6 +51,14 @@ class SadrsTable extends Table
 
         $this->addBehavior('Timestamp');        
         $this->addBehavior('Search.Search');
+        $this->addBehavior('Duplicatable.Duplicatable', [
+            'contain' => ['SadrListOfDrugs',  'Attachments'],
+            'remove' => ['created', 'modified', 'sadr_list_of_drugs.created',  'attachments.created',
+                          'sadr_list_of_drugs.modified',  'attachments.modified'],
+            'set' => [
+                'copied' => 'new copy'
+            ]
+        ]);
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
@@ -61,6 +69,11 @@ class SadrsTable extends Table
         ]);
         $this->belongsTo('Provinces', [
             'foreignKey' => 'province_id'
+        ]);
+        $this->belongsTo('OriginalSadrs', [
+            'foreignKey' => 'sadr_id',
+            'dependent' => true,
+            'conditions' => array('OriginalSadrs.copied' => 'old copy')
         ]);
         $this->hasMany('Attachments', [
             'className' => 'Attachments',

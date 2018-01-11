@@ -265,3 +265,4 @@ Plugin::load('Search');
 Plugin::load('CsvView');
 
 Plugin::load('Captcha', ['routes' => true, 'bootstrap' => true]);
+Plugin::load('Duplicatable');

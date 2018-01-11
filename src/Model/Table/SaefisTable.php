@@ -44,6 +44,16 @@ class SaefisTable extends Table
 
         $this->addBehavior('Timestamp');
         $this->addBehavior('Search.Search');
+        // add Duplicatable behavior
+        $this->addBehavior('Duplicatable.Duplicatable', [
+            'contain' => ['SaefiListOfVaccines',  'Attachments', 'Reports'],
+            'remove' => ['created', 'modified', 'saefi_list_of_vaccines.created',  'attachments.created', 'reports.created',
+                          'saefi_list_of_vaccines.modified',  'attachments.modified', 'reports.modified'],
+            // mark invoice as copied
+            'set' => [
+                'copied' => 'new copy'
+            ]
+        ]);
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
@@ -51,7 +61,15 @@ class SaefisTable extends Table
         $this->belongsTo('Designations', [
             'foreignKey' => 'designation_id'
         ]);
+        $this->belongsTo('OriginalSaefis', [
+            'foreignKey' => 'saefi_id',
+            'dependent' => true,
+            'conditions' => array('OriginalSaefis.copied' => 'old copy')
+        ]);
         $this->hasMany('SaefiListOfVaccines', [
+            'foreignKey' => 'saefi_id'
+        ]);
+        $this->hasOne('AefiCausalities', [
             'foreignKey' => 'saefi_id'
         ]);
 

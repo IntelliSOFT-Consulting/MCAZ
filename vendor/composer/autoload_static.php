@@ -78,6 +78,7 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         ),
         'D' => 
         array (
+            'Duplicatable\\' => 13,
             'DebugKit\\Test\\Fixture\\' => 22,
             'DebugKit\\' => 9,
         ),
@@ -235,6 +236,10 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         'Firebase\\JWT\\' => 
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+        ),
+        'Duplicatable\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/riesenia/cakephp-duplicatable/src',
         ),
         'DebugKit\\Test\\Fixture\\' => 
         array (

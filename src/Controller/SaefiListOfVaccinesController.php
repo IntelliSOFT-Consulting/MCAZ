@@ -104,7 +104,7 @@ class SaefiListOfVaccinesController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $saefiListOfVaccine = $this->SaefiListOfVaccines->get($id);
+        $saefiListOfVaccine = $this->SaefiListOfVaccines->get($this->request->data['id']);
         if ($this->SaefiListOfVaccines->delete($saefiListOfVaccine)) {
             $this->Flash->success(__('The saefi list of vaccine has been deleted.'));
         } else {

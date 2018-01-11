@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "fdf7e5e5922ed6a888fb9244bebc1de5",
+    "content-hash": "31b95f08fdbec0365e83832786ce1f85",
     "packages": [
         {
             "name": "admad/cakephp-jwt-auth",
@@ -1486,6 +1486,53 @@
                 "psr-3"
             ],
             "time": "2016-10-10T12:19:37+00:00"
+        },
+        {
+            "name": "riesenia/cakephp-duplicatable",
+            "version": "v3.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/riesenia/cakephp-duplicatable.git",
+                "reference": "64833ad9e87f7a3a95e9d9846f73c5c4073ea1c6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/riesenia/cakephp-duplicatable/zipball/64833ad9e87f7a3a95e9d9846f73c5c4073ea1c6",
+                "reference": "64833ad9e87f7a3a95e9d9846f73c5c4073ea1c6",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/orm": "~3.0",
+                "php": ">=5.4.16"
+            },
+            "require-dev": {
+                "cakephp/cakephp": "~3.0",
+                "phpunit/phpunit": "<6.0"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Duplicatable\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tomas Saghy",
+                    "email": "segy@riesenia.com"
+                }
+            ],
+            "description": "CakePHP ORM plugin for duplicating entities (including related entities)",
+            "keywords": [
+                "cakephp",
+                "copy",
+                "duplicate",
+                "orm"
+            ],
+            "time": "2017-12-29T11:37:35+00:00"
         },
         {
             "name": "robmorgan/phinx",

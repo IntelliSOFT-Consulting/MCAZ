@@ -22,7 +22,8 @@
         "admad/cakephp-jwt-auth": "^2.2",
         "friendsofcake/search": "^4.2",
         "friendsofcake/cakephp-csvview": "~3.0",
-        "dereuromark/cakephp-captcha": "^0.1.0"
+        "dereuromark/cakephp-captcha": "^0.1.0",
+        "riesenia/cakephp-duplicatable": "^3.0"
     },
     "require-dev": {
         "psy/psysh": "@stable",

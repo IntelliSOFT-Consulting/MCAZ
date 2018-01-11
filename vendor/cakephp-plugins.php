@@ -12,6 +12,7 @@ return [
         'Crud' => $baseDir . '/vendor/friendsofcake/crud/',
         'CsvView' => $baseDir . '/vendor/friendsofcake/cakephp-csvview/',
         'DebugKit' => $baseDir . '/vendor/cakephp/debug_kit/',
+        'Duplicatable' => $baseDir . '/vendor/riesenia/cakephp-duplicatable/',
         'Josegonzalez/Upload' => $baseDir . '/vendor/josegonzalez/cakephp-upload/',
         'Migrations' => $baseDir . '/vendor/cakephp/migrations/',
         'Queue' => $baseDir . '/vendor/dereuromark/cakephp-queue/',

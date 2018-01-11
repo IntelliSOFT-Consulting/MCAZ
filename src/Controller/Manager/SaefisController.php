@@ -33,7 +33,7 @@ class SaefisController extends AppController
         ];
         $query = $this->Saefis
             ->find('search', ['search' => $this->request->query])
-            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not']);
+            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
         $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
         $this->set(compact('designations'));
         $this->set('saefis', $this->paginate($query));
@@ -82,7 +82,9 @@ class SaefisController extends AppController
     public function view($id = null)
     {
         $saefi = $this->Saefis->get($id, [
-            'contain' => ['SaefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews']
+            'contain' => ['SaefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'AefiCausalities',
+                          'Reports',
+                          'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports']
         ]);
 
         if(strpos($this->request->url, 'pdf')) {
@@ -108,8 +110,7 @@ class SaefisController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add() {
         $saefi = $this->Saefis->newEntity();
         if ($this->request->is('post')) {
             $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
@@ -133,7 +134,6 @@ class SaefisController extends AppController
         $this->set(compact('saefi', 'users', 'designations'));
         $this->set('_serialize', ['saefi']);
     }
-
 
     public function assignEvaluator() {
         $saefi = $this->Saefis->get($this->request->getData('saefi_pr_id'), []);
@@ -236,13 +236,11 @@ class SaefisController extends AppController
     }
 
     public function causality() {
+        debug($this->request->getData());
         $saefi = $this->Saefis->get($this->request->getData('saefi_pr_id'), []);
         if (isset($saefi->id) && $this->request->is('post')) {
             $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
             $saefi->status = 'Evaluated';
-            $saefi->reviews[0]->user_id = $this->Auth->user('id');
-            $saefi->reviews[0]->model = 'Saefis';
-            $saefi->reviews[0]->category = 'causality';
             //Notification should be sent to manager and assigned_to evaluator if exists
             if ($this->Saefis->save($saefi)) {
                 //Send email and message (if present!!!) to evaluator
@@ -406,23 +404,43 @@ class SaefisController extends AppController
     }
 
 
-
     /**
      * Edit method
      *
      * @param string|null $id Saefi id.
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
+     */    
+    public function clean($id = null) {
+        //ensure only one 
+        $orig_saefi = $this->Saefis->get($id, []);
+        if ($orig_saefi->copied === 'new copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $id]);
+        }
+        $saefi = $this->Saefis->duplicateEntity($id);
+        $saefi->saefi_id = $id;        
+        $saefi->user_id = $this->Auth->user('id'); //the report is reassigned to the evaluator... the reporter should only have original report
+
+        if ($this->Saefis->save($saefi, ['validate' => false])) {            
+            $query = $this->Saefis->query();
+            $query->update()
+                ->set(['copied' => 'old copy'])
+                ->where(['id' => $orig_saefi->id])
+                ->execute();
+            $this->Flash->success(__('The SAEFI has been successfully copied. make changes and submit.'));
+            return $this->redirect(['action' => 'edit', $saefi->id]);
+        }
+        $this->Flash->error(__('The AEFI Investigation Report could not be copied. Please, try again.'));
+        return $this->redirect($this->referer());        
+    }
+
     public function edit($id = null)
     {
         $saefi = $this->Saefis->get($id, [
             'contain' => ['SaefiListOfVaccines',  'Attachments', 'Reports']
         ]);
-        if ($saefi->submitted == 2) {
-            $this->Flash->success(__('Report '.$saefi->reference_number.' already submitted.'));
-            return $this->redirect(['action' => 'view', $saefi->id]);
-        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
             if (!empty($saefi->attachments)) {
@@ -441,6 +459,7 @@ class SaefisController extends AppController
             
             if ($saefi->submitted == 1) {
               //save changes button
+              $saefi->submitted = 2;
               if ($this->Saefis->save($saefi, ['validate' => false])) {
                 $this->Flash->success(__('The changes to the Report '.$saefi->reference_number.' have been saved.'));
                 return $this->redirect(['action' => 'edit', $saefi->id]);
@@ -450,7 +469,7 @@ class SaefisController extends AppController
             } elseif ($saefi->submitted == 2) {
               //submit to mcaz button
               if ($this->Saefis->save($saefi, ['validate' => false])) {
-                $this->Flash->success(__('Report '.$saefi->reference_number.' has been successfully submitted to MCAZ for review.'));
+                $this->Flash->success(__('Report '.$saefi->reference_number.' has been successfully saved and is ready for review.'));
                 return $this->redirect(['action' => 'view', $saefi->id]);
               } else {
                 $this->Flash->error(__('Report '.$saefi->reference_number.' could not be saved. Kindly correct the errors and try again.'));
@@ -458,7 +477,7 @@ class SaefisController extends AppController
             } elseif ($saefi->submitted == -1) {
                //cancel button              
                 $this->Flash->success(__('Cancel form successful. You may continue editing report '.$saefi->reference_number.' later'));
-                return $this->redirect(['controller' => 'Users','action' => 'home']);
+                return $this->redirect(['action' => 'index']);
 
            } else {
               if ($this->Saefis->save($saefi, ['validate' => false])) {

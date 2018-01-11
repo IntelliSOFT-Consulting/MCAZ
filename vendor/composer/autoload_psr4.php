@@ -36,6 +36,7 @@ return array(
     'Josegonzalez\\Upload\\Test\\Fixture\\' => array($vendorDir . '/josegonzalez/cakephp-upload/tests/Fixture'),
     'Josegonzalez\\Upload\\' => array($vendorDir . '/josegonzalez/cakephp-upload/src'),
     'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
+    'Duplicatable\\' => array($vendorDir . '/riesenia/cakephp-duplicatable/src'),
     'DebugKit\\Test\\Fixture\\' => array($vendorDir . '/cakephp/debug_kit/tests/Fixture'),
     'DebugKit\\' => array($vendorDir . '/cakephp/debug_kit/src'),
     'CsvView\\' => array($vendorDir . '/friendsofcake/cakephp-csvview/src'),
