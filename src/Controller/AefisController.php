@@ -153,6 +153,13 @@ class AefisController extends AppController
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
         $this->set(compact('aefi', 'designations', 'provinces'));
         $this->set('_serialize', false);
+
+        $query = $this->Aefis->query();
+        $query->update()
+                    ->set(['status' => 'E2B'])
+                    ->where(['id' => $aefi->id])
+                    ->execute();
+
         $this->response->download(($aefi->submitted==2) ? str_replace('/', '_', $aefi->reference_number).'.xml' : 'AEFI_'.$aefi->created->i18nFormat('dd-MM-yyyy_HHmmss').'.xml');
     }
 

@@ -81,7 +81,7 @@ class SitesController extends AppController
             if ($this->Sites->save($site)) {
                 $this->Flash->success(__('The site has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $site->id]);
             }
             $this->Flash->error(__('The site could not be saved. Please, try again.'));
         }

@@ -175,6 +175,12 @@ class SadrsController extends AppController
         $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list', ['limit' => 200]);
         $this->set('_serialize', false);
         $this->set(compact('sadr', 'doses', 'routes'));
+        $query = $this->Sadrs->query();
+        $query->update()
+                    ->set(['status' => 'E2B'])
+                    ->where(['id' => $sadr->id])
+                    ->execute();
+
         $this->response->download(($sadr->submitted==2) ? str_replace('/', '_', $sadr->reference_number).'.xml' : 'ADR_'.$sadr->created->i18nFormat('dd-MM-yyyy_HHmmss').'.xml');
     }
 
@@ -205,7 +211,7 @@ class SadrsController extends AppController
         // $this->Sadrs->save($sadr, ['validate' => false]);
 
         $payload = $this->VigibaseApi->sadr_e2b($sadr, $doses, $routes);
-        Log::write('debug', 'Payload :: '.$payload);
+        //Log::write('debug', 'Payload :: '.$payload);
         $umc = $http->post(Configure::read('vigi_post_url'), 
             (string)$payload,
             ['headers' => Configure::read('vigi_headers')]);  
@@ -216,7 +222,7 @@ class SadrsController extends AppController
 
             $query = $this->Sadrs->query();
             $query->update()
-                    ->set(['messageid' => $messageid['MessageId']])
+                    ->set(['messageid' => $messageid['MessageId'], 'status' => 'VigiBase'])
                     ->where(['id' => $sadr->id])
                     ->execute();
 

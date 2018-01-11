@@ -48,6 +48,11 @@
             echo $this->Html->link('<i class="fa fa-users" aria-hidden="true"></i> &nbsp; Groups', ['controller' => 'Groups', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
           ?>
         </li>
+        <li class="list-group-item">
+          <?php
+            echo $this->Html->link('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> &nbsp; Notifications', ['controller' => 'Notifications', 'action' => 'index'], array('escape' => false, 'class' => 'btn-zangu')); 
+          ?>
+        </li>
       </ul>
       <h2><img alt="" src="/img/comments.ico" style="width: 35px;">&nbsp; 
         <!-- <i class="fa fa-user-circle-o" aria-hidden="true"></i> <a href="#" class="btn-zangu"> User Feedback</a>  -->

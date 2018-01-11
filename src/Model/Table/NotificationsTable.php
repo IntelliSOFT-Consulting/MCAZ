@@ -40,6 +40,7 @@ class NotificationsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Search.Search');
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
@@ -49,6 +50,20 @@ class NotificationsTable extends Table
             'foreignKey' => 'type',
             'bindingKey' => 'name'
         ]);
+    }
+
+    /**
+    * @return \Search\Manager
+    */
+    public function searchManager()
+    {
+        $searchManager = $this->behaviors()->Search->searchManager();
+        $searchManager
+            ->like('message', ['field' => ['system_message', 'user_message', 'title']])
+            ->compare('created_start', ['operator' => '>=', 'field' => ['created']])
+            ->compare('created_end', ['operator' => '<=', 'field' => ['created']]);
+
+        return $searchManager;
     }
 
     /**

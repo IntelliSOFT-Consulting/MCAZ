@@ -1,8 +1,6 @@
 <?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Site $site
- */
+    $this->Html->script('jquery.grideditor.min', ['block' => true]);
+    $this->Html->css('grideditor', ['block' => true]);
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">

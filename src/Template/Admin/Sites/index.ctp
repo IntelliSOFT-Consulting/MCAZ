@@ -2,27 +2,25 @@
   <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
-<h1>Front end Pages</h1>
+<h1 class="page-header">Front End Pages</h1>
 
 <div class="table-responsive">
-    <table class="table table-striped">
+    <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('description') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
-                <th scope="col" class="actions"></th>
+                <th scope="col"><?= $this->Paginator->sort('content') ?></th>
+                <th scope="col" class="actions">Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($sites as $site): ?>
             <tr>
-                <td><?= h($site->description) ?></td>
-                <td><?= h($site->created) ?></td>
-                <td><?= h($site->modified) ?></td>
+                <td><b><?= h($site->description) ?></b></td>
+                <td><?php echo $site->content;//  $this->Text->truncate($site->content, 255, ['html' => true]) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $site->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $site->id]) ?>
+                    <?= $this->Html->link('<span class="label label-primary">View</span>', ['action' => 'view', $site->id, 'prefix' => $prefix], array('escape' => false));  ?>
+                    <?= $this->Html->link('<span class="label label-success">Edit</span>', ['action' => 'edit', $site->id, 'prefix' => $prefix], array('escape' => false));  ?>    
                 </td>
             </tr>
             <?php endforeach; ?>

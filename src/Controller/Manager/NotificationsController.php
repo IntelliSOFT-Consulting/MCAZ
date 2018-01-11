@@ -1,7 +1,8 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Manager;
 
 use App\Controller\AppController;
+use Cake\Utility\Hash;
 
 /**
  * Notifications Controller
@@ -64,34 +65,6 @@ class NotificationsController extends AppController
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null)
-    {
-        //TODO: Use session AUTH to ensure the user is assigned notification before soft delete
-        $this->request->allowMethod(['post', 'delete']);
-        // $this->set([
-        //             'message' => $this->request->data['id'], 
-        //             '_serialize' => ['message']]);
-        //         return;
-
-        if($this->request->is('json')) {
-            $notification = $this->Notifications->get($this->request->data['id']);
-            if ($this->Notifications->delete($notification)) {
-                $this->set([
-                        'message' => 'Notification successfully deleted', 
-                        '_serialize' => ['message']]);
-                return;
-            } else {
-                $this->response->body('Failure');
-                $this->response->statusCode(403);
-                $this->set([
-                    'message' => 'Unable to delete!!', 
-                    '_serialize' => ['message']]);
-                return;
-            }
-
-        }
-    }
-
-    public function adelete($id = null)
     {
         $this->request->allowMethod(['post', 'delete', 'get']);
         $notification = $this->Notifications->get($id);

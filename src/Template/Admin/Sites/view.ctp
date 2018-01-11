@@ -2,35 +2,14 @@
   <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Site'), ['action' => 'edit', $site->id]) ?> </li>
-        <li><?= $this->Html->link(__('List Sites'), ['action' => 'index']) ?> </li>
-    </ul>
-</nav>
-<div class="sites view large-9 medium-8 columns content">
-    <h3><?= h($site->id) ?></h3>
-    <table class="vertical-table">
-        <tr>
-            <th scope="row"><?= __('Description') ?></th>
-            <td><?= h($site->description) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($site->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Created') ?></th>
-            <td><?= h($site->created) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Modified') ?></th>
-            <td><?= h($site->modified) ?></td>
-        </tr>
-    </table>
-    <div class="row">
-        <h4><?= __('Content') ?></h4>
-        <?= $this->Text->autoParagraph(h($site->content)); ?>
+<?= $this->Html->link('<i class="fa fa-file-code-o" aria-hidden="true"></i> Edit content', ['action' => 'edit', $site->id], array('escape' => false, 'class' => 'btn btn-info')); ?> &nbsp;
+<?= $this->Html->link('List Sites Templates', ['action' => 'index'], array('escape' => false, 'class' => 'btn btn-success')); ?> &nbsp;
+<hr>
+<h1 class="page-header text-center"><?= h($site->description) ?></h1>
+
+<div class="row">
+    <div class="col-sm-12">
+            <h4><?= __('Content') ?></h4>
+            <?= $site->content; ?>
     </div>
 </div>

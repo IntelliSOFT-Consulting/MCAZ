@@ -38,10 +38,6 @@
                 <td><?= h($notification->created) ?></td>
                 <td class="actions">
                     <?= $this->Html->link('<span class="label label-primary">View</span>', ['action' => 'view', $notification->id], array('escape' => false));  ?>
-                    <?php if(!$notification->deleted) { ?>
-                    <?= $this->Form->postLink('<span class="label label-danger">Delete</span>', ['action' => 'adelete', $notification->id], ['escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $notification->id), 'class' => 'label-link']);  ?> 
-                    <?php } ?>
-
                 </td>
             </tr>
             <?php endforeach; ?>
