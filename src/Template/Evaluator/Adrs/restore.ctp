@@ -3,13 +3,13 @@
 <?php $this->end(); ?>
 
 
-<h1 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> SAE
+<h1 class="page-header">Deleted SAE
     :: <small style="font-size: small;"><i class="fa fa-search-plus" aria-hidden="true"></i> Search, 
               <i class="fa fa-filter" aria-hidden="true"></i>Filter or  
               <i class="fa fa-download" aria-hidden="true"></i>  Download Reports</small>
 </h1>
 
-<?= $this->element('adrs/search') ?>
+<?= $this->element('adrs/search_restore') ?>
 
 <div class="paginator">
     <ul class="pagination pagination-sm">
@@ -58,11 +58,9 @@
                           echo  $this->Form->postLink('<span class="label label-default"> Archive</span>', ['action' => 'archive', $adr->id, 'prefix' => $prefix], ['escape' => false, 'class' => 'label-link', 'confirm' => __('Are you sure you want to archive report {0}?', $adr->reference_number)]); 
                             }
                     ?>
-                    <?php if($adr->submitted == 0) { ?>
-                    <span class="label label-danger">                     
-                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $adr->id], ['confirm' => __('Are you sure you want to delete # {0}?', $adr->id), 'class' => 'label-link']) ?>
+                    <span class="label label-success">                     
+                     <?= $this->Form->postLink(__('Restore'), ['action' => 'restoreDeleted', $adr->id], ['confirm' => __('Are you sure you want to restore # {0}?', $adr->created), 'class' => 'label-link']) ?>
                     </span> 
-                    <?php } ?>
                 </td>
             </tr>
             <?php endforeach; ?>

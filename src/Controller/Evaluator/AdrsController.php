@@ -3,6 +3,7 @@ namespace App\Controller\Evaluator;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+use Cake\Utility\Hash;
 
 /**
  * Adrs Controller
@@ -14,6 +15,39 @@ use Cake\Event\Event;
 class AdrsController extends AppController
 {
 
+    public function initialize() {
+       parent::initialize();
+       //$this->Auth->allow(['add', 'edit']);   
+       $this->loadComponent('Search.Prg', [
+            'actions' => ['index', 'restore']
+        ]);    
+    }
+
+    /**
+     * BeforeFilter method
+     * Use to format request data
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        //debug($this->request->data);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                if (isset($this->request->data['date_of_birth'])) {
+                    $this->request->data['date_of_birth'] = implode('-', $this->request->data['date_of_birth']);
+                } 
+                //date_of_onset_of_reaction
+                if (isset($this->request->data['date_of_onset_of_reaction'])) {
+                    $this->request->data['date_of_onset_of_reaction'] = implode('-', $this->request->data['date_of_onset_of_reaction']);
+                }
+                //date_of_end_of_reaction
+                if (isset($this->request->data['date_of_end_of_reaction'])) {
+                    $this->request->data['date_of_end_of_reaction'] = implode('-', $this->request->data['date_of_end_of_reaction']);
+                }
+            }
+        }
+    }
+
     /**
      * Index method
      *
@@ -22,12 +56,90 @@ class AdrsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users', 'Designations']
+            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews']
         ];
-        $adrs = $this->paginate($this->Adrs);
+        $query = $this->Adrs
+            ->find('search', ['search' => $this->request->query])
+            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
+        $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
+        $this->set(compact('designations'));
+        $this->set('adrs', $this->paginate($query));
 
-        $this->set(compact('adrs'));
-        $this->set('_serialize', ['adrs']);
+        $_designations = $designations->toArray();
+        if ($this->request->params['_ext'] === 'csv') {
+            $_serialize = 'query';
+            $_header = [ 'id', 'user_id', 'adr_id', 'reference_number', 'assigned_to', 'assigned_by', 'assigned_date', 'mrcz_protocol_number', 'mcaz_protocol_number', 'principal_investigator', 'reporter_name', 'reporter_email', 
+            'designation_id',
+            'reporter_phone', 'name_of_institution', 'institution_code', 'study_title', 'study_sponsor', 'date_of_adverse_event', 'participant_number', 'report_type', 'date_of_site_awareness', 'date_of_birth', 'age', 'gender', 'study_week', 'visit_number', 'adverse_event_type', 'sae_type', 'sae_description', 'toxicity_grade', 'previous_events', 'previous_events_number', 'total_saes', 'location_event', 'location_event_specify', 'research_involves', 'research_involves_specify', 'name_of_drug', 'drug_investigational', 'patient_other_drug', 'report_to_mcaz', 'report_to_mcaz_date', 'report_to_mrcz', 'report_to_mrcz_date', 'report_to_sponsor', 'report_to_sponsor_date', 'report_to_irb', 'report_to_irb_date', 'medical_history', 'diagnosis', 'immediate_cause', 'symptoms', 'investigations', 'results', 'management', 'outcome', 'd1_consent_form', 'd2_brochure', 'd3_changes_sae', 'd4_consent_sae', 'changes_explain', 'assess_risk', 'submitted', 'submitted_date', 'status', 'created', 'modified',   
+            'adr_list_of_drugs.drug_name', 'adr_list_of_drugs.dose', 'adr_list_of_drugs.dose_id', 'adr_list_of_drugs.route_id', 'adr_list_of_drugs.frequency_id', 'adr_list_of_drugs.start_date', 'adr_list_of_drugs.taking_drug', 'adr_list_of_drugs.relationship_to_sae',   
+            'adr_other_drugs.drug_name', 'adr_other_drugs.start_date', 'adr_other_drugs.stop_date', 'adr_other_drugs.relationship_to_sae',  
+            'adr_lab_tests.lab_test', 'adr_lab_tests.abnormal_result', 'adr_lab_tests.site_normal_range', 'adr_lab_tests.collection_date', 'adr_lab_tests.lab_value', 'adr_lab_tests.lab_value_date', 
+                'committees.comments', 'committees.literature_review', 'committees.references_text', 
+                'request_evaluators.system_message', 'request_evaluators.user_message', 
+                'request_reporters.system_message', 'request_reporters.user_message', 
+                'reviews.system_message', 'reviews.user_message', 
+                'attachments.file'
+            ];
+            $_extract = ['id', 'user_id', 'adr_id', 'reference_number', 'assigned_to', 'assigned_by', 'assigned_date', 'mrcz_protocol_number', 'mcaz_protocol_number', 'principal_investigator', 'reporter_name', 'reporter_email',
+            function ($row) use($_designations) { return $_designations[$row['designation_id']] ?? '' ; }, //'designation_id',
+            'reporter_phone', 'name_of_institution', 'institution_code', 'study_title', 'study_sponsor', 'date_of_adverse_event', 'participant_number', 'report_type', 'date_of_site_awareness', 'date_of_birth', 'age', 'gender', 'study_week', 'visit_number', 'adverse_event_type', 'sae_type', 'sae_description', 'toxicity_grade', 'previous_events', 'previous_events_number', 'total_saes', 'location_event', 'location_event_specify', 'research_involves', 'research_involves_specify', 'name_of_drug', 'drug_investigational', 'patient_other_drug', 'report_to_mcaz', 'report_to_mcaz_date', 'report_to_mrcz', 'report_to_mrcz_date', 'report_to_sponsor', 'report_to_sponsor_date', 'report_to_irb', 'report_to_irb_date', 'medical_history', 'diagnosis', 'immediate_cause', 'symptoms', 'investigations', 'results', 'management', 'outcome', 'd1_consent_form', 'd2_brochure', 'd3_changes_sae', 'd4_consent_sae', 'changes_explain', 'assess_risk', 'submitted', 'submitted_date', 'status', 'created', 'modified',   
+                function ($row) { return implode('|', Hash::extract($row['adr_list_of_drugs'], '{n}.drug_name')); }, //'.drug_name', 
+                function ($row) { return implode('|', Hash::extract($row['adr_list_of_drugs'], '{n}.dose')); }, //'.dose', 
+                function ($row) { return implode('|', Hash::extract($row['adr_list_of_drugs'], '{n}.dose_id')); }, //'.dose_id', 
+                function ($row) { return implode('|', Hash::extract($row['adr_list_of_drugs'], '{n}.route_id')); }, //'.route_id', 
+                function ($row) { return implode('|', Hash::extract($row['adr_list_of_drugs'], '{n}.frequency_id')); }, //'.frequency_id', 
+                function ($row) { return implode('|', Hash::extract($row['adr_list_of_drugs'], '{n}.start_date')); }, //'.start_date', 
+                function ($row) { return implode('|', Hash::extract($row['adr_list_of_drugs'], '{n}.taking_drug')); }, //'.taking_drug', 
+                function ($row) { return implode('|', Hash::extract($row['adr_list_of_drugs'], '{n}.relationship_to_sae')); }, //'.relationship_to_sae',   
+                function ($row) { return implode('|', Hash::extract($row['adr_other_drugs'], '{n}.drug_name')); }, //''.drug_name', 
+                function ($row) { return implode('|', Hash::extract($row['adr_other_drugs'], '{n}.start_date')); }, //'.start_date', 
+                function ($row) { return implode('|', Hash::extract($row['adr_other_drugs'], '{n}.stop_date')); }, //'.stop_date', 
+                function ($row) { return implode('|', Hash::extract($row['adr_other_drugs'], '{n}.relationship_to_sae')); }, //'.relationship_to_sae', 
+                function ($row) { return implode('|', Hash::extract($row['adr_lab_tests'], '{n}.lab_test')); }, //'.lab_test', 
+                function ($row) { return implode('|', Hash::extract($row['adr_lab_tests'], '{n}.abnormal_result')); }, //'.abnormal_result', 
+                function ($row) { return implode('|', Hash::extract($row['adr_lab_tests'], '{n}.site_normal_range')); }, //'.site_normal_range', 
+                function ($row) { return implode('|', Hash::extract($row['adr_lab_tests'], '{n}.collection_date')); }, //'.collection_date', 
+                function ($row) { return implode('|', Hash::extract($row['adr_lab_tests'], '{n}.lab_value')); }, //'.lab_value', 
+                function ($row) { return implode('|', Hash::extract($row['adr_lab_tests'], '{n}.lab_value_date')); }, //'.lab_value_date', 
+                function ($row) { return implode('|', Hash::extract($row['committees'], '{n}.comments')); }, //'committees.comments', 
+                function ($row) { return implode('|', Hash::extract($row['committees'], '{n}.literature_review')); }, //'.literature_review', 
+                function ($row) { return implode('|', Hash::extract($row['committees'], '{n}.references_text')); }, //'.references_text', 
+                function ($row) { return implode('|', Hash::extract($row['request_evaluators'], '{n}.system_message')); }, //'.system_message', 
+                function ($row) { return implode('|', Hash::extract($row['request_evaluators'], '{n}.user_message')); }, // '.user_message', 
+                function ($row) { return implode('|', Hash::extract($row['request_reporters'], '{n}.system_message')); }, //'.system_message', 
+                function ($row) { return implode('|', Hash::extract($row['request_reporters'], '{n}.system_message')); }, //'.user_message', 
+                function ($row) { return implode('|', Hash::extract($row['reviews'], '{n}.system_message')); }, //'reviews.system_message', 
+                function ($row) { return implode('|', Hash::extract($row['reviews'], '{n}.user_message')); }, //'reviews.user_message', 
+                function ($row) { return implode('|', Hash::extract($row['attachments'], '{n}.file')); }, //'attachments.file'
+            ];
+
+            $this->set(compact('query', '_serialize', '_header', '_extract'));
+        }
+    }
+    public function restore() {
+        $this->paginate = [
+            'contain' => []
+        ];
+        
+        $query = $this->Adrs
+            ->find('search', ['search' => $this->request->query, 'withDeleted'])
+            ->where(['deleted IS NOT' =>  null]);
+        $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
+        $this->set(compact('designations'));
+        $this->set('adrs', $this->paginate($query));
+    }
+    public function restoreDeleted($id = null)
+    {
+
+        $this->request->allowMethod(['post', 'delete', 'get']);
+        $adr = $this->Adrs->get($id, ['withDeleted']);
+        if ($this->Adrs->restore($adr)) {
+            $this->Flash->success(__('The SAE has been restored.'));
+        } else {
+            $this->Flash->error(__('The SAE could not be restored. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'restore']);
     }
 
     /**
@@ -39,8 +151,18 @@ class AdrsController extends AppController
      */
     public function view($id = null)
     {
+        //ensure only one 
+        $this->loadModel('OriginalAdrs');
+        $orig_adr = $this->OriginalAdrs->get($id, ['contain' => ['Adrs']]);
+        if ($orig_adr->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_adr['adr']['id']]);
+        }
+
         $adr = $this->Adrs->get($id, [
-            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews']
+            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 
+                          'Committees', 'Reviews', 
+                          'OriginalAdrs', 'OriginalAdrs.AdrListOfDrugs', 'OriginalAdrs.AdrOtherDrugs', 'OriginalAdrs.Attachments'], 'withDeleted'
         ]);
 
         // $this->viewBuilder()->setLayout('pdf/default');
@@ -203,7 +325,7 @@ class AdrsController extends AppController
                 $this->QueuedJobs->createJob('GenericNotification', $data);
                 //end 
                 
-               $this->Flash->success('Review successfully done for SADR '.$adr->reference_number);
+               $this->Flash->success('Review successfully done for SAE '.$adr->reference_number);
 
                 return $this->redirect($this->referer());
             } else {
@@ -211,7 +333,7 @@ class AdrsController extends AppController
                 return $this->redirect($this->referer());
             }
         } else {
-               $this->Flash->error(__('Unknown SADR Report. Please correct.')); 
+               $this->Flash->error(__('Unknown SAE Report. Please correct.')); 
                return $this->redirect($this->referer());
         }
     }
@@ -398,15 +520,46 @@ class AdrsController extends AppController
         return $adr;
     }
 
+    public function clean($id = null) {
+        //ensure only one 
+        // $orig_adr = $this->Adrs->get($id, []);
+        $this->loadModel('OriginalAdrs');
+        $orig_adr = $this->OriginalAdrs->get($id, ['contain' => ['Adrs']]);
+        if ($orig_adr->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_adr['adr']['id']]);
+        }
+        $adr = $this->Adrs->duplicateEntity($id);
+        $adr->adr_id = $id;        
+        $adr->user_id = $this->Auth->user('id'); //the report is reassigned to the evaluator... the reporter should only have original report
+
+        if ($this->Adrs->save($adr, ['validate' => false])) {            
+            $query = $this->Adrs->query();
+            $query->update()
+                ->set(['copied' => 'old copy'])
+                ->where(['id' => $orig_adr->id])
+                ->execute();
+            $this->Flash->success(__('The SAE has been successfully copied. make changes and submit.'));
+            return $this->redirect(['action' => 'edit', $adr->id]);
+        }
+        $this->Flash->error(__('The SAE Report could not be copied. Please, try again.'));
+        return $this->redirect($this->referer());        
+    }
+
     public function edit($id = null)
     {
+        //ensure only one 
+        $this->loadModel('OriginalAdrs');
+        $orig_adr = $this->OriginalAdrs->get($id, ['contain' => ['Adrs']]);
+        if ($orig_adr->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_adr['adr']['id']]);
+        }
+
         $adr = $this->Adrs->get($id, [
             'contain' => ['AdrListOfDrugs', 'AdrOtherDrugs', 'AdrLabTests', 'Attachments']
         ]);
-        if ($adr->submitted == 2) {
-            $this->Flash->success(__('Report '.$adr->reference_number.' already submitted.'));
-            return $this->redirect(['action' => 'view', $adr->id]);
-        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
             if (!empty($adr->attachments)) {
@@ -418,31 +571,33 @@ class AdrsController extends AppController
             
             if ($adr->submitted == 1) {
               //save changes button
+                $adr->submitted = 2;
               if ($this->Adrs->save($adr, ['validate' => false])) {
                 $this->Flash->success(__('The changes to the Report '.$adr->reference_number.' have been saved.'));
                 return $this->redirect(['action' => 'edit', $adr->id]);
               } else {
+                // debug($adr->errors());
                 $this->Flash->error(__('Report '.$adr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($adr->submitted == 2) {
               //submit to mcaz button
               if ($this->Adrs->save($adr, ['validate' => false])) {
-                $this->Flash->success(__('Report '.$adr->reference_number.' has been successfully submitted to MCAZ for review.'));
+                $this->Flash->success(__('Report '.$adr->reference_number.' has been successfully submitted to MCAZ for review.')); 
                 return $this->redirect(['action' => 'view', $adr->id]);
               } else {
-                $this->Flash->error(__('Report '.$adr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($adr->submitted == -1) {
                //cancel button              
-                $this->Flash->success(__('Cancel form successful. You may continue editing report '.$adr->reference_number.' later'));
+                $this->Flash->success(__('Cancel form successful. You may continue editing report later'));
                 return $this->redirect(['controller' => 'Users','action' => 'home']);
 
            } else {
               if ($this->Adrs->save($adr, ['validate' => false])) {
-                $this->Flash->success(__('The changes to the Report '.$adr->reference_number.' have been saved.'));
+                $this->Flash->success(__('The changes to the Report have been saved.'));
                 return $this->redirect(['action' => 'edit', $adr->id]);
               } else {
-                $this->Flash->error(__('Report '.$adr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
            }
            
@@ -450,7 +605,7 @@ class AdrsController extends AppController
         $adr = $this->format_dates($adr);
 
         $users = $this->Adrs->Users->find('list', ['limit' => 200]);
-        $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Adrs->Designations->find('list',array('order'=>'Designations.name ASC'));
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
         $routes = $this->Adrs->AdrListOfDrugs->Routes->find('list');
         $frequencies = $this->Adrs->AdrListOfDrugs->Frequencies->find('list');
@@ -466,6 +621,22 @@ class AdrsController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
+    public function archive($id = null)
+    {
+
+        $this->request->allowMethod(['post', 'delete']);
+        $adr = $this->Adrs->get($id);
+        //update field
+        $query = $this->Adrs->query();
+        $query->update()
+            ->set(['status' => 'Archived'])
+            ->where(['id' => $adr->id])
+            ->execute();
+        $this->Flash->success(__('The SAE has been archived.'));
+        //
+
+        return $this->redirect(['action' => 'index']);
+    }
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);

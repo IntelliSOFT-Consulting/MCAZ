@@ -23,11 +23,11 @@ class SadrsController extends AppController
         $this->loadComponent('Search.Prg', [
             // This is default config. You can modify "actions" as needed to make
             // the PRG component work only for specified methods.
-            'actions' => ['index']
+            'actions' => ['index', 'restore']
         ]);
         // $this->loadComponent('RequestHandler', ['viewClassMap' => ['csv' => 'CsvView.Csv']]);
     }
-    
+
     /**
      * Index method
      *
@@ -48,7 +48,7 @@ class SadrsController extends AppController
             // Use the plugins 'search' custom finder and pass in the
             // processed query params
             ->find('search', ['search' => $this->request->query])
-            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not']);
+            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
             // You can add extra things to the query if you need to
             //->where([['ifnull(report_type,-1) !=' => 'FollowUp']]);
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
@@ -97,7 +97,33 @@ class SadrsController extends AppController
             $this->set(compact('query', '_serialize', '_header', '_extract'));
         }
     }
+    public function restore() {
+        $this->paginate = [
+            'contain' => []
+        ];
+        
+        $query = $this->Sadrs
+            ->find('search', ['search' => $this->request->query, 'withDeleted'])
+            ->where(['deleted IS NOT' =>  null]);
+            
+        $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
+        $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
+        $this->set(compact('provinces', 'designations'));
+        $this->set('sadrs', $this->paginate($query));
+    }
+    public function restoreDeleted($id = null)
+    {
 
+        $this->request->allowMethod(['post', 'delete', 'get']);
+        $sadr = $this->Sadrs->get($id, ['withDeleted']);
+        if ($this->Sadrs->restore($sadr)) {
+            $this->Flash->success(__('The ADR has been restored.'));
+        } else {
+            $this->Flash->error(__('The ADR could not be restored. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'restore']);
+    }
     /**
      * View method
      *
@@ -107,9 +133,19 @@ class SadrsController extends AppController
      */
     public function view($id = null)
     {
+        //ensure only one 
+        $this->loadModel('OriginalSadrs');
+        $orig_sadr = $this->OriginalSadrs->get($id, ['contain' => ['Sadrs']]);
+        if ($orig_sadr->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_sadr['sadr']['id']]);
+        }
+        
         $sadr = $this->Sadrs->get($id, [
-            'contain' => //['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'Reviews', 'RequestReporters']
-                         ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'RequestReporters', 'RequestEvaluators', 'Committees', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'RequestReporters', 'RequestEvaluators', 'Committees', 
+                          'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
+                          'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments',
+                          ], 'withDeleted'
         ]);
 
         if(strpos($this->request->url, 'pdf')) {
@@ -495,6 +531,7 @@ class SadrsController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
+
     private function format_dates($sadr) {
         //format dates
         if (!empty($sadr->date_of_birth)) {
@@ -515,33 +552,60 @@ class SadrsController extends AppController
         return $sadr;
     }
 
+    public function clean($id = null) {
+        //ensure only one 
+        $this->loadModel('OriginalSadrs');
+        $orig_sadr = $this->OriginalSadrs->get($id, ['contain' => ['Sadrs']]);
+        if ($orig_sadr->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_sadr['sadr']['id']]);
+        }
+        $sadr = $this->Sadrs->duplicateEntity($id);
+        $sadr->sadr_id = $id;        
+        $sadr->user_id = $this->Auth->user('id'); //the report is reassigned to the evaluator... the reporter should only have original report
+
+        if ($this->Sadrs->save($sadr, ['validate' => false])) {            
+            $query = $this->Sadrs->query();
+            $query->update()
+                ->set(['copied' => 'old copy'])
+                ->where(['id' => $orig_sadr->id])
+                ->execute();
+            $this->Flash->success(__('The SADR has been successfully copied. make changes and submit.'));
+            return $this->redirect(['action' => 'edit', $sadr->id]);
+        }
+        $this->Flash->error(__('The SADR Report could not be copied. Please, try again.'));
+        return $this->redirect($this->referer());        
+    }
+
     public function edit($id = null)
     {
+        //ensure only one 
+        $this->loadModel('OriginalSadrs');
+        $orig_sadr = $this->OriginalSadrs->get($id, ['contain' => ['Sadrs']]);
+        if ($orig_sadr->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_sadr['sadr']['id']]);
+        }
         $sadr = $this->Sadrs->get($id, [
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
         ]);
-        if ($sadr->submitted == 2) {
-            $this->Flash->success(__('Report '.$sadr->reference_number.' already submitted.'));
-            return $this->redirect(['action' => 'view', $sadr->id]);
-        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
-            //Attachments
             if (!empty($sadr->attachments)) {
                   for ($i = 0; $i <= count($sadr->attachments)-1; $i++) { 
                     $sadr->attachments[$i]->model = 'Sadrs';
                     $sadr->attachments[$i]->category = 'attachments';
                   }
                 }
-            // debug((string)$sadr);
-            // debug($this->request->data);
             if ($sadr->submitted == 1) {
               //save changes button
+              $sadr->submitted = 2;
               if ($this->Sadrs->save($sadr, ['validate' => false])) {
-                $this->Flash->success(__('The changes to the Report '.$sadr->reference_number.' have been saved.'));
+                $this->Flash->success(__('The changes to the Report  have been saved.'));
                 return $this->redirect(['action' => 'edit', $sadr->id]);
               } else {
-                $this->Flash->error(__('Report '.$sadr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report  could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($sadr->submitted == 2) {
               //submit to mcaz button
@@ -549,19 +613,19 @@ class SadrsController extends AppController
                 $this->Flash->success(__('Report '.$sadr->reference_number.' has been successfully submitted to MCAZ for review.'));
                 return $this->redirect(['action' => 'view', $sadr->id]);
               } else {
-                $this->Flash->error(__('Report '.$sadr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($sadr->submitted == -1) {
                //cancel button              
-                $this->Flash->success(__('Cancel form successful. You may continue editing report '.$sadr->reference_number.' later'));
+                $this->Flash->success(__('Cancel form successful. You may continue editing the report later'));
                 return $this->redirect(['controller' => 'Users','action' => 'home']);
 
            } else {
               if ($this->Sadrs->save($sadr, ['validate' => false])) {
-                $this->Flash->success(__('The changes to the Report '.$sadr->reference_number.' have been saved.'));
+                $this->Flash->success(__('The changes to the Report have been saved.'));
                 return $this->redirect(['action' => 'edit', $sadr->id]);
               } else {
-                $this->Flash->error(__('Report '.$sadr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
            }
 
@@ -569,12 +633,13 @@ class SadrsController extends AppController
         
         $sadr = $this->format_dates($sadr);
 
-        $designations = $this->Sadrs->Designations->find('list',array('order'=>'Designations.name ASC'));
+        $designations = $this->Sadrs->Designations->find('list', array('order'=>'Designations.name ASC'));
+        $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
         $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
         $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list');
-        $this->set(compact('sadr', 'designations', 'doses', 'routes', 'frequencies'));
-        $this->set('_serialize', ['sadr']);
+        $this->set(compact('sadr', 'designations', 'provinces', 'doses', 'routes', 'frequencies'));
+        $this->set('_serialize', ['sadr', 'provinces']);
     }
 
     /**
@@ -584,6 +649,22 @@ class SadrsController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
+    public function archive($id = null)
+    {
+
+        $this->request->allowMethod(['post', 'delete']);
+        $sadr = $this->Sadrs->get($id);
+        //update field
+        $query = $this->Sadrs->query();
+        $query->update()
+            ->set(['status' => 'Archived'])
+            ->where(['id' => $sadr->id])
+            ->execute();
+        $this->Flash->success(__('The ADR has been archived.'));
+        //
+
+        return $this->redirect(['action' => 'index']);
+    }
     public function delete($id = null)
     {
 
