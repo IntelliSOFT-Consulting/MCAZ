@@ -13,6 +13,7 @@
      }
      // pr($stats);
      $Submitted = isset($stats['Submitted']) ? $stats['Submitted'] : 0 ;
+     $Manual = isset($stats['Manual']) ? $stats['Manual'] : 0 ;
      $UnSubmitted = isset($stats['UnSubmitted']) ? $stats['UnSubmitted'] : 0 ;
      $Archived = isset($stats['Archived']) ? $stats['Archived'] : 0 ;
      $E2B = isset($stats['E2B']) ? $stats['E2B'] : 0 ;
@@ -27,6 +28,7 @@
      $Rejected = isset($stats['Rejected']) ? $stats['Rejected'] : 0 ;
      $Duplicated = isset($stats['Duplicated']) ? $stats['Duplicated'] : 0 ;
      $aSubmitted = $aefi_stat['Submitted'] ?? 0 ;
+     $aManual = $aefi_stat['Manual'] ?? 0 ;
      $aUnSubmitted = $aefi_stat['UnSubmitted'] ?? 0 ;
      $aArchived = $aefi_stat['Archived'] ?? 0 ;
      $aE2B = $aefi_stat['E2B'] ?? 0 ;
@@ -40,6 +42,7 @@
      $aRejected = $aefi_stat['Rejected'] ?? 0;
      $aDuplicated = $aefi_stat['Duplicated'] ?? 0;
      $saSubmitted = $saefi_stat['Submitted'] ?? 0;
+     $saManual = $saefi_stat['Manual'] ?? 0;
      $saUnSubmitted = $saefi_stat['UnSubmitted'] ?? 0;
      $saArchived = $saefi_stat['Archived'] ?? 0;
      $saAssigned = $saefi_stat['Assigned'] ?? 0;
@@ -52,6 +55,7 @@
      $saRejected = $saefi_stat['Rejected'] ?? 0;
      $saDuplicated = $saefi_stat['Duplicated'] ?? 0;
      $rSubmitted = $adr_stat['Submitted'] ?? 0;
+     $rManual = $adr_stat['Manual'] ?? 0;
      $rUnSubmitted = $adr_stat['UnSubmitted'] ?? 0;
      $rArchived = $adr_stat['Archived'] ?? 0;
      $rAssigned = $adr_stat['Assigned'] ?? 0;
@@ -74,6 +78,7 @@
         <?php if (($prefix == 'manager' || $prefix == 'evaluator') && $this->request->params['controller'] == 'Sadrs' ) { ?>
           <ul class="nav van-<?= $prefix ?>">
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Submitted') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Submitted <small class="badge badge-sadr pull-right">'. $Submitted .'</small>', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Submitted'], array('escape' => false)); ?> </li>
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Manual') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Manual <small class="badge badge-sadr pull-right">'. $Manual .'</small>', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Manual'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Assigned') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Assigned <small class="badge badge-sadr pull-right">'. $Assigned .'</small>', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Assigned'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Evaluated') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Evaluated <small class="badge badge-sadr pull-right">'. $Evaluated .'</small>', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Evaluated'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Committee') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Committee <small class="badge badge-sadr pull-right">'. $Committee .'</small>', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Committee'], array('escape' => false)); ?> </li>
@@ -94,6 +99,7 @@
         <?php if (($prefix == 'admin') && $this->request->params['controller'] == 'Sadrs' ) { ?>
           <ul class="nav van-<?= $prefix ?>">
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Submitted') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Submitted <small class="badge badge-sadr pull-right">'. $Submitted .'</small>', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Submitted'], array('escape' => false)); ?> </li>
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Manual') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Manual <small class="badge badge-sadr pull-right">'. $Manual .'</small>', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Manual'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Assigned') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Assigned <small class="badge badge-sadr pull-right">'. $Assigned .'</small>', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Assigned'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Evaluated') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Evaluated <small class="badge badge-sadr pull-right">'. $Evaluated .'</small>', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Evaluated'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Committee') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Committee <small class="badge badge-sadr pull-right">'. $Committee .'</small>', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Committee'], array('escape' => false)); ?> </li>
@@ -113,6 +119,7 @@
       <?php if (($prefix == 'manager' || $prefix == 'evaluator') && $this->request->params['controller'] == 'Aefis' ) { ?>
           <ul class="nav van-<?= $prefix ?>">
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Submitted') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Submitted <small class="badge badge-aefi pull-right">'. $aSubmitted.'</small>', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Submitted'], array('escape' => false)); ?> </li>
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Manual') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Manual <small class="badge badge-aefi pull-right">'. $aManual.'</small>', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Manual'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Assigned') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Assigned <small class="badge badge-aefi pull-right">'. $aAssigned .'</small>', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Assigned'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Evaluated') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Evaluated <small class="badge badge-aefi pull-right">'. $aEvaluated .'</small>', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Evaluated'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Committee') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Committee <small class="badge badge-aefi pull-right">'. $aCommittee .'</small>', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Committee'], array('escape' => false)); ?> </li>
@@ -134,6 +141,7 @@
       <?php if (($prefix == 'manager' || $prefix == 'evaluator') && $this->request->params['controller'] == 'Saefis' ) { ?>
           <ul class="nav van-<?= $prefix ?>">
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Submitted') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Submitted <small class="badge badge-saefi pull-right">'. $saSubmitted.'</small>', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Submitted'], array('escape' => false)); ?> </li>
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Manual') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Manual <small class="badge badge-saefi pull-right">'. $saManual.'</small>', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Manual'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Assigned') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Assigned <small class="badge badge-saefi pull-right">'. $saAssigned .'</small>', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Assigned'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Evaluated') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Evaluated <small class="badge badge-saefi pull-right">'. $saEvaluated .'</small>', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Evaluated'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Committee') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Committee <small class="badge badge-saefi pull-right">'. $saCommittee .'</small>', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Committee'], array('escape' => false)); ?> </li>
@@ -153,6 +161,7 @@
       <?php if (($prefix == 'manager' || $prefix == 'evaluator') && $this->request->params['controller'] == 'Adrs' ) { ?>
           <ul class="nav van-<?= $prefix ?>">
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Submitted') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Submitted <small class="badge badge-adr pull-right">'. $rSubmitted.'</small>', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Submitted'], array('escape' => false)); ?> </li>
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Manual') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Manual <small class="badge badge-adr pull-right">'. $rManual.'</small>', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Manual'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Assigned') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Assigned <small class="badge badge-adr pull-right">'. $rAssigned .'</small>', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Assigned'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Evaluated') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Evaluated <small class="badge badge-adr pull-right">'. $rEvaluated .'</small>', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Evaluated'], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Committee') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Committee <small class="badge badge-adr pull-right">'. $rCommittee .'</small>', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Committee'], array('escape' => false)); ?> </li>

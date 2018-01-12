@@ -333,7 +333,7 @@ class SadrsController extends AppController
             } elseif ($sadr->submitted == 2) {
               //submit to mcaz button
               $sadr->submitted_date = date("Y-m-d H:i:s");
-              $sadr->status = 'Submitted';
+              $sadr->status = ($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
               $sadr->reference_number = 'ADR'.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy');
               if ($this->Sadrs->save($sadr, ['validate' => false])) {
                 $this->Flash->success(__('Report '.$sadr->reference_number.' has been successfully submitted to MCAZ for review.'));

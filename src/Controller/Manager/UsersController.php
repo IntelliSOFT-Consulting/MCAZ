@@ -54,13 +54,13 @@ class UsersController extends AppController
 
         // pr($user);
 
-        $sadrs = $this->paginate($this->Sadrs->find('all')->where(['submitted' => 2, 'status' => 'Submitted', 'IFNULL(copied, "N") !=' => 'old copy']), ['scope' => 'sadr', 'order' => ['Sadrs.id' => 'desc'],
+        $sadrs = $this->paginate($this->Sadrs->find('all')->where(['submitted' => 2, 'status IN' => ['Submitted', 'Manual'], 'IFNULL(copied, "N") !=' => 'old copy']), ['scope' => 'sadr', 'order' => ['Sadrs.status' => 'asc', 'Sadrs.id' => 'desc'],
                                     'fields' => ['Sadrs.id', 'Sadrs.created', 'Sadrs.reference_number', 'Sadrs.submitted']]);
-        $adrs = $this->paginate($this->Adrs->find('all')->where(['submitted' => 2, 'status' => 'Submitted', 'IFNULL(copied, "N") !=' => 'old copy']), ['scope' => 'adr', 'order' => ['Adrs.id' => 'desc'],
+        $adrs = $this->paginate($this->Adrs->find('all')->where(['submitted' => 2, 'status IN' => ['Submitted', 'Manual'], 'IFNULL(copied, "N") !=' => 'old copy']), ['scope' => 'adr', 'order' => ['Adrs.status' => 'asc', 'Adrs.id' => 'desc'],
                                     'fields' => ['Adrs.id', 'Adrs.created', 'Adrs.reference_number']]);
-        $aefis = $this->paginate($this->Aefis->find('all')->where(['submitted' => 2, 'status' => 'Submitted', 'IFNULL(copied, "N") !=' => 'old copy']), ['scope' => 'aefi', 'order' => ['Aefis.id' => 'desc'],
+        $aefis = $this->paginate($this->Aefis->find('all')->where(['submitted' => 2, 'status IN' => ['Submitted', 'Manual'], 'IFNULL(copied, "N") !=' => 'old copy']), ['scope' => 'aefi', 'order' => ['Aefis.status' => 'asc', 'Aefis.id' => 'desc'],
                                     'fields' => ['Aefis.id', 'Aefis.created', 'Aefis.reference_number']]);
-        $saefis = $this->paginate($this->Saefis->find('all')->where(['submitted' => 2, 'status' => 'Submitted', 'IFNULL(copied, "N") !=' => 'old copy']), ['scope' => 'saefi', 'order' => ['Saefis.id' => 'desc'],
+        $saefis = $this->paginate($this->Saefis->find('all')->where(['submitted' => 2, 'status IN' => ['Submitted', 'Manual'], 'IFNULL(copied, "N") !=' => 'old copy']), ['scope' => 'saefi', 'order' => ['Saefis.status' => 'asc', 'Saefis.id' => 'desc'],
                                     'fields' => ['Saefis.id', 'Saefis.created', 'Saefis.reference_number']]);
 
         $this->set(compact('sadrs', 'adrs', 'aefis', 'saeifs'));

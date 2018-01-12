@@ -253,7 +253,7 @@ class AdrsController extends AppController
             } elseif ($adr->submitted == 2) {
               //submit to mcaz button
               $adr->submitted_date = date("Y-m-d H:i:s");
-              $adr->status = 'Submitted';
+              $adr->status = ($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
               $adr->reference_number = 'SAE'.$adr->id.'/'.$adr->created->i18nFormat('yyyy');
               if ($this->Adrs->save($adr, ['validate' => false])) {
                 $this->Flash->success(__('Report '.$adr->reference_number.' has been successfully submitted to MCAZ for review.'));                //send email and notification

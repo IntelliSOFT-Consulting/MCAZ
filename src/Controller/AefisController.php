@@ -233,7 +233,7 @@ class AefisController extends AppController
             } elseif ($aefi->submitted == 2) {
               //submit to mcaz button
               $aefi->submitted_date = date("Y-m-d H:i:s");
-              $aefi->status = 'Submitted';
+              $aefi->status = ($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
               $aefi->reference_number = 'AEFI'.$aefi->id.'/'.$aefi->created->i18nFormat('yyyy');
               if ($this->Aefis->save($aefi, ['validate' => false])) {
                 $this->Flash->success(__('Report '.$aefi->reference_number.' has been successfully submitted to MCAZ for review.'));               
