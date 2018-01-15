@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Evaluator;
 
 use App\Controller\AppController;
 
@@ -8,13 +8,16 @@ use App\Controller\AppController;
  *
  * @property \App\Model\Table\FeedbacksTable $Feedbacks
  *
- * @method \App\Model\Entity\Feedback[] paginate($object = null, array $settings = [])
+ * @method \App\Model\Entity\Site[] paginate($object = null, array $settings = [])
  */
 class FeedbacksController extends AppController
 {
-    public function initialize() {
-       parent::initialize();
-       $this->Auth->allow('add');       
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('Search.Prg', [
+            'actions' => ['index']
+        ]);
     }
 
     /**
@@ -25,25 +28,27 @@ class FeedbacksController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users', 'Sadrs', 'SadrFollowups', 'Pqmps']
+            'contain' => ['Users'],
+            'order' => ['Feedbacks.created' => 'DESC']
         ];
-        $feedbacks = $this->paginate($this->Feedbacks);
+        $withDeleted = ($this->request->getQuery('deleted')) ? 'withDeleted' : '';
+        $query = $this->Feedbacks
+            ->find('search', ['search' => $this->request->query, $withDeleted ]);
 
-        $this->set(compact('feedbacks'));
-        $this->set('_serialize', ['feedbacks']);
+        $this->set('feedbacks', $this->paginate($query));
     }
 
     /**
      * View method
      *
-     * @param string|null $id Feedback id.
+     * @param string|null $id Site id.
      * @return \Cake\Http\Response|void
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
         $feedback = $this->Feedbacks->get($id, [
-            'contain' => ['Users', 'Sadrs', 'SadrFollowups', 'Pqmps']
+            'contain' => []
         ]);
 
         $this->set('feedback', $feedback);
@@ -57,23 +62,16 @@ class FeedbacksController extends AppController
      */
     public function add()
     {
-        $this->Feedbacks->addBehavior('Captcha.Captcha');
         $feedback = $this->Feedbacks->newEntity();
         if ($this->request->is('post')) {
             $feedback = $this->Feedbacks->patchEntity($feedback, $this->request->getData());
-            $feedback->user_id = $this->request->session()->read('Auth.User.id');
             if ($this->Feedbacks->save($feedback)) {
-                $this->Flash->success(__('The feedback has been sent to MCAZ. Thank you..'));
+                $this->Flash->success(__('The feedback has been saved.'));
 
-                return $this->redirect('/');
+                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The feedback could not be saved. Please, try again.'));
-            //return $this->redirect('/');
         }
-        // $users = $this->Feedbacks->Users->find('list', ['limit' => 200]);
-        // $sadrs = $this->Feedbacks->Sadrs->find('list', ['limit' => 200]);
-        // $sadrFollowups = $this->Feedbacks->SadrFollowups->find('list', ['limit' => 200]);
-        // $pqmps = $this->Feedbacks->Pqmps->find('list', ['limit' => 200]);
         $this->set(compact('feedback'));
         $this->set('_serialize', ['feedback']);
     }
@@ -81,7 +79,7 @@ class FeedbacksController extends AppController
     /**
      * Edit method
      *
-     * @param string|null $id Feedback id.
+     * @param string|null $id Site id.
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
@@ -99,18 +97,14 @@ class FeedbacksController extends AppController
             }
             $this->Flash->error(__('The feedback could not be saved. Please, try again.'));
         }
-        $users = $this->Feedbacks->Users->find('list', ['limit' => 200]);
-        $sadrs = $this->Feedbacks->Sadrs->find('list', ['limit' => 200]);
-        $sadrFollowups = $this->Feedbacks->SadrFollowups->find('list', ['limit' => 200]);
-        $pqmps = $this->Feedbacks->Pqmps->find('list', ['limit' => 200]);
-        $this->set(compact('feedback', 'users', 'sadrs', 'sadrFollowups', 'pqmps'));
+        $this->set(compact('feedback'));
         $this->set('_serialize', ['feedback']);
     }
 
     /**
      * Delete method
      *
-     * @param string|null $id Feedback id.
+     * @param string|null $id Site id.
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */

@@ -141,17 +141,17 @@
     </div>
     <div class="col-md-2">
         <br>
-        <button type="submit" class="btn btn-primary btn-sm" id="search" 
+        <button type="submit" class="btn btn-primary btn-sm btn-block " id="search" 
                 style="margin-bottom: 4px;" ><i class="fa fa-search-plus" aria-hidden="true"></i> Search</button>
         <?php
-            echo $this->Html->link('<i class="fa fa-close" aria-hidden="true"></i> Reset', ['action' => 'index'], ['class' => 'btn btn-default btn-sm', 'escape' => false]);
+            echo $this->Html->link('<i class="fa fa-close" aria-hidden="true"></i> Reset', ['action' => 'index'], ['class' => 'btn btn-default btn-sm btn-block ', 'escape' => false]);
         ?>
-        <!-- <button type="submit" class="btn btn-success btn-sm" id="search" style="margin-top: 4px;"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Csv</button> -->
-        <a class="btn btn-success btn-sm" href="<?= $url ?>" style="margin-top: 4px;">
+        <!-- <button type="submit" class="btn btn-success btn-sm btn-block " id="search" style="margin-top: 4px;"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Csv</button> -->
+        <a class="btn btn-success btn-sm btn-block " href="<?= $url ?>" style="margin-top: 4px;">
             <i class="fa fa-file-excel-o" aria-hidden="true"></i> Csv
         </a>
         <div class="dropdown"  style="margin-top: 14px;">
-          <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          <button class="btn btn-default btn-sm btn-block  dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             Sort by
             <span class="caret"></span>
           </button>

@@ -12,6 +12,13 @@ use App\Controller\AppController;
  */
 class FeedbacksController extends AppController
 {
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('Search.Prg', [
+            'actions' => ['index']
+        ]);
+    }
 
     /**
      * Index method
@@ -20,10 +27,15 @@ class FeedbacksController extends AppController
      */
     public function index()
     {
-        $feedbacks = $this->paginate($this->Feedbacks);
+        $this->paginate = [
+            'contain' => ['Users'],
+            'order' => ['Feedbacks.created' => 'DESC']
+        ];
+        $withDeleted = ($this->request->getQuery('deleted')) ? 'withDeleted' : '';
+        $query = $this->Feedbacks
+            ->find('search', ['search' => $this->request->query, $withDeleted ]);
 
-        $this->set(compact('feedbacks'));
-        $this->set('_serialize', ['feedbacks']);
+        $this->set('feedbacks', $this->paginate($query));
     }
 
     /**

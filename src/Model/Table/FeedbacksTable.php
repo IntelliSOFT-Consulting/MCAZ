@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use SoftDelete\Model\Table\SoftDeleteTrait;
 
 /**
  * Feedbacks Model
@@ -27,6 +28,7 @@ use Cake\Validation\Validator;
 class FeedbacksTable extends Table
 {
 
+    use SoftDeleteTrait;
     /**
      * Initialize method
      *
@@ -42,6 +44,7 @@ class FeedbacksTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Search.Search');
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
@@ -55,6 +58,20 @@ class FeedbacksTable extends Table
         $this->belongsTo('Pqmps', [
             'foreignKey' => 'pqmp_id'
         ]);
+    }
+    
+    /**
+    * @return \Search\Manager
+    */
+    public function searchManager()
+    {
+        $searchManager = $this->behaviors()->Search->searchManager();
+        $searchManager
+            ->like('message', ['field' => ['subject', 'feedback']])
+            ->compare('created_start', ['operator' => '>=', 'field' => ['created']])
+            ->compare('created_end', ['operator' => '<=', 'field' => ['created']]);
+
+        return $searchManager;
     }
 
     /**

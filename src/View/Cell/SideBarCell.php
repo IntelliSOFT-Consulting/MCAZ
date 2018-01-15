@@ -34,6 +34,7 @@ class SideBarCell extends Cell
         $this->loadModel('Adrs');
         $this->loadModel('Aefis');
         $this->loadModel('Saefis');
+        $this->loadModel('Notifications');
 
         $sadr_stats = $this->Sadrs->find('all')->select([ 'status',
                                                           'count' => $this->Sadrs->find('all')->func()->count('*')
@@ -55,7 +56,8 @@ class SideBarCell extends Cell
                                                         ])
                                                  ->where(['IFNULL(copied, "N") !=' => 'old copy'])
                                                  ->group('status');
-        $this->set(['prefix'=> $prefix, 'sadr_stats' => $sadr_stats, 'aefi_stats' => $aefi_stats, 'saefi_stats' => $saefi_stats, 'adr_stats' => $adr_stats]);
+        $ncount = $this->Notifications->find('all')->where(['user_id' => $this->request->session()->read('Auth.User.id')])->count();
+        $this->set(['prefix'=> $prefix, 'sadr_stats' => $sadr_stats, 'aefi_stats' => $aefi_stats, 'saefi_stats' => $saefi_stats, 'adr_stats' => $adr_stats, 'ncount' => $ncount]);
     }
 
 }

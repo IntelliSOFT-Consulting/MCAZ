@@ -17,7 +17,7 @@ class NotificationsController extends AppController
     {
         parent::initialize();
         $this->loadComponent('Search.Prg', [
-            'actions' => ['index', 'restore']
+            'actions' => ['index']
         ]);
     }
 

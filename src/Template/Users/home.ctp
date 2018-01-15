@@ -72,7 +72,7 @@
         </nav>  
     </div>
     <div class="col-md-4">
-      <div style="min-height: 320px">
+      <div style="min-height: 352px">
         <h3 class="btn-zangu"><?= $this->Html->link('<i class="fa fa-file-text-o" aria-hidden="true"></i> AEFI', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge"  style="background-color: #ff92c9;"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Aefis']) ?></small></h3>
         <hr>
         <p>Adverse Event Following Immunization. 
