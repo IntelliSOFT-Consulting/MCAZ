@@ -125,7 +125,8 @@ class AdrsController extends AppController
     public function view($id = null)
     {
         $adr = $this->Adrs->get($id, [
-            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments']
+            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments'],
+            'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
 
         // $this->viewBuilder()->setLayout('pdf/default');
@@ -227,7 +228,8 @@ class AdrsController extends AppController
     public function edit($id = null)
     {
         $adr = $this->Adrs->get($id, [
-            'contain' => ['AdrListOfDrugs', 'AdrOtherDrugs', 'AdrLabTests', 'Attachments']
+            'contain' => ['AdrListOfDrugs', 'AdrOtherDrugs', 'AdrLabTests', 'Attachments'],
+            'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
         if ($adr->submitted == 2) {
             $this->Flash->success(__('Report '.$adr->reference_number.' already submitted.'));

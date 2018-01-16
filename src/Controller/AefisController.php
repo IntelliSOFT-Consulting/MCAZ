@@ -124,7 +124,8 @@ class AefisController extends AppController
     public function view($id = null)
     {
         $aefi = $this->Aefis->get($id, [
-            'contain' => ['AefiListOfVaccines', 'AefiListOfDiluents', 'Attachments', 'AefiFollowups', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments']
+            'contain' => ['AefiListOfVaccines', 'AefiListOfDiluents', 'Attachments', 'AefiFollowups', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments'],
+            'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
 
         if(strpos($this->request->url, 'pdf')) {
@@ -207,7 +208,8 @@ class AefisController extends AppController
     {
 
         $aefi = $this->Aefis->get($id, [
-            'contain' => ['AefiListOfVaccines', 'Attachments']
+            'contain' => ['AefiListOfVaccines', 'Attachments'],
+            'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
         if ($aefi->submitted == 2) {
             $this->Flash->success(__('Report '.$aefi->reference_number.' already submitted.'));

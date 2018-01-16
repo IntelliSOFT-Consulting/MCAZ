@@ -81,7 +81,8 @@ class SaefisController extends AppController
     public function view($id = null)
     {
         $saefi = $this->Saefis->get($id, [
-            'contain' => ['SaefiListOfVaccines', 'Attachments', 'Reports']
+            'contain' => ['SaefiListOfVaccines', 'Attachments', 'Reports'],
+            'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
 
         if(strpos($this->request->url, 'pdf')) {
@@ -168,7 +169,8 @@ class SaefisController extends AppController
     public function edit($id = null)
     {
         $saefi = $this->Saefis->get($id, [
-            'contain' => ['SaefiListOfVaccines',  'Attachments', 'Reports']
+            'contain' => ['SaefiListOfVaccines',  'Attachments', 'Reports'],
+            'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
         if ($saefi->submitted == 2) {
             $this->Flash->success(__('Report '.$saefi->reference_number.' already submitted.'));

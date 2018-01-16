@@ -129,7 +129,8 @@ class SadrsController extends AppController
     public function view($id = null)
     {
         $sadr = $this->Sadrs->get($id, [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments'],
+            'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
 
         if($sadr->submitted !== 2) {
@@ -305,10 +306,11 @@ class SadrsController extends AppController
     public function edit($id = null)
     {
         $sadr = $this->Sadrs->get($id, [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments'],
+            'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
         if ($sadr->submitted == 2) {
-            $this->Flash->success(__('Report '.$aefi->reference_number.' already submitted.'));
+            $this->Flash->success(__('Report '.$sadr->reference_number.' already submitted.'));
             return $this->redirect(['action' => 'view', $sadr->id]);
         }
         if ($this->request->is(['patch', 'post', 'put'])) {
