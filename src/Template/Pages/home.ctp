@@ -4,6 +4,7 @@
 
 
 <?php
+  $this->assign('Home', 'active');
   $this->Html->script('jquery/partial_register', ['block' => true]);
 ?>
 <!-- Example row of columns -->
@@ -108,15 +109,19 @@
                       </div>
                     </div>
                     <div class="form-group" id="fg-password">
-                      <div class="col-sm-4"><label for="recipient-name" class="control-label">Password:</label></div>
+                      <div class="col-sm-4"><label for="password" class="control-label">Password:</label></div>
                       <div class="col-sm-7"><input class="form-control" name="password" required="required" id="password" type="password">
                       <span class="help-block" id="help-password"></span></div>
                     </div>
                     <div class="form-group" id="fg-confirm-password">
-                      <div class="col-sm-4"><label for="recipient-name" class="control-label">Confirm Password:</label></div>
+                      <div class="col-sm-4"><label for="confirm-password" class="control-label">Confirm Password:</label></div>
                       <div class="col-sm-7"><input class="form-control" name="confirm_password" required="required" id="confirm-password" value="" type="password">
                       <span class="help-block" id="help-confirm-password"></span></div>
                     </div>
+                    <?php
+                      $this->loadHelper('Captcha.Captcha');
+                      echo $this->Captcha->render(['placeholder' => __('Please solve the riddle')]);
+                    ?>
                     <!-- <div class="form-group">
                       <button type="button" class="btn btn-primary" id="registerUser"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 Register</button>

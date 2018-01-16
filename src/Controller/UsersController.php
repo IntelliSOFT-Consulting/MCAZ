@@ -107,6 +107,7 @@ class UsersController extends AppController
     }
 
     public function register() {
+        $this->Users->addBehavior('Captcha.Captcha');
         if ($this->Auth->user()) {
             return $this->redirect($this->Auth->redirectUrl()); 
         }

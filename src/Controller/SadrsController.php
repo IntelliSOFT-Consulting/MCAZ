@@ -129,7 +129,8 @@ class SadrsController extends AppController
     public function view($id = null)
     {
         $sadr = $this->Sadrs->get($id, [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments'],
+            'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
 
         if($sadr->submitted !== 2) {
@@ -175,6 +176,12 @@ class SadrsController extends AppController
         $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list', ['limit' => 200]);
         $this->set('_serialize', false);
         $this->set(compact('sadr', 'doses', 'routes'));
+        $query = $this->Sadrs->query();
+        $query->update()
+                    ->set(['status' => 'E2B'])
+                    ->where(['id' => $sadr->id])
+                    ->execute();
+
         $this->response->download(($sadr->submitted==2) ? str_replace('/', '_', $sadr->reference_number).'.xml' : 'ADR_'.$sadr->created->i18nFormat('dd-MM-yyyy_HHmmss').'.xml');
     }
 
@@ -205,7 +212,7 @@ class SadrsController extends AppController
         // $this->Sadrs->save($sadr, ['validate' => false]);
 
         $payload = $this->VigibaseApi->sadr_e2b($sadr, $doses, $routes);
-        Log::write('debug', 'Payload :: '.$payload);
+        //Log::write('debug', 'Payload :: '.$payload);
         $umc = $http->post(Configure::read('vigi_post_url'), 
             (string)$payload,
             ['headers' => Configure::read('vigi_headers')]);  
@@ -216,7 +223,7 @@ class SadrsController extends AppController
 
             $query = $this->Sadrs->query();
             $query->update()
-                    ->set(['messageid' => $messageid['MessageId']])
+                    ->set(['messageid' => $messageid['MessageId'], 'status' => 'VigiBase'])
                     ->where(['id' => $sadr->id])
                     ->execute();
 
@@ -299,7 +306,8 @@ class SadrsController extends AppController
     public function edit($id = null)
     {
         $sadr = $this->Sadrs->get($id, [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments'],
+            'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
         if ($sadr->submitted == 2) {
             $this->Flash->success(__('Report '.$sadr->reference_number.' already submitted.'));
@@ -319,24 +327,17 @@ class SadrsController extends AppController
             if ($sadr->submitted == 1) {
               //save changes button
               if ($this->Sadrs->save($sadr, ['validate' => false])) {
-                $this->Flash->success(__('The changes to the Report '.$sadr->reference_number.' have been saved.'));
+                $this->Flash->success(__('The changes to the Report  have been saved.'));
                 return $this->redirect(['action' => 'edit', $sadr->id]);
               } else {
-                $this->Flash->error(__('Report '.$sadr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report  could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($sadr->submitted == 2) {
               //submit to mcaz button
               $sadr->submitted_date = date("Y-m-d H:i:s");
-              $sadr->status = 'Submitted';
+              $sadr->status = ($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
+              $sadr->reference_number = 'ADR'.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy');
               if ($this->Sadrs->save($sadr, ['validate' => false])) {
-                //update field
-                $query = $this->Sadrs->query();
-                $query->update()
-                    ->set(['reference_number' => 'ADR'.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy')])
-                    ->where(['id' => $sadr->id])
-                    ->execute();
-                //
-                
                 $this->Flash->success(__('Report '.$sadr->reference_number.' has been successfully submitted to MCAZ for review.'));
                 //send email and notification
                 $this->loadModel('Queue.QueuedJobs');    
@@ -344,7 +345,8 @@ class SadrsController extends AppController
                     'email_address' => $sadr->reporter_email, 'user_id' => $this->Auth->user('id'),
                     'type' => 'applicant_submit_sadr_email', 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
                     'vars' =>  $sadr->toArray()
-                ];                
+                ]; 
+                $html = new HtmlHelper(new \Cake\View\View());
                 $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'Sadrs', 'action' => 'view', $sadr->id, '_ext' => 'pdf',  
                                           '_full' => true]);
                 //notify applicant
@@ -364,19 +366,19 @@ class SadrsController extends AppController
                 //
                 return $this->redirect(['action' => 'view', $sadr->id]);
               } else {
-                $this->Flash->error(__('Report '.$sadr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($sadr->submitted == -1) {
                //cancel button              
-                $this->Flash->success(__('Cancel form successful. You may continue editing report '.$sadr->reference_number.' later'));
+                $this->Flash->success(__('Cancel form successful. You may continue editing the report later'));
                 return $this->redirect(['controller' => 'Users','action' => 'home']);
 
            } else {
               if ($this->Sadrs->save($sadr, ['validate' => false])) {
-                $this->Flash->success(__('The changes to the Report '.$sadr->reference_number.' have been saved.'));
+                $this->Flash->success(__('The changes to the Report have been saved.'));
                 return $this->redirect(['action' => 'edit', $sadr->id]);
               } else {
-                $this->Flash->error(__('Report '.$sadr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
            }
 
@@ -508,7 +510,7 @@ class SadrsController extends AppController
     public function delete($id = null)
     {
 
-        $this->request->allowMethod(['post', 'delete']);
+        $this->request->allowMethod(['post', 'delete', 'get']);
         $sadr = $this->Sadrs->get($id);
         if ($sadr->user_id == $this->Auth->user('id') && $sadr->submitted == 0) {
             if ($this->Sadrs->delete($sadr)) {

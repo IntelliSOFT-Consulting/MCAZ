@@ -152,6 +152,9 @@ class AdrsController extends AppController
             $this->_attachments();
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
             $adr->user_id = $this->Auth->user('id');
+            $adr->submitted_date = date("Y-m-d H:i:s");
+            $adr->status = 'Submitted';
+
             if ($this->Adrs->save($adr, ['validate' => false])) {
                 //update field
                 $query = $this->Adrs->query();

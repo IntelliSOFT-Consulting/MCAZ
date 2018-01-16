@@ -46,12 +46,25 @@ class AdrsTable extends Table
 
         $this->addBehavior('Timestamp');
         $this->addBehavior('Search.Search');
+        $this->addBehavior('Duplicatable.Duplicatable', [
+            'contain' => ['AdrListOfDrugs',  'Attachments'],
+            'remove' => ['created', 'modified', 'adr_list_of_drugs.created',  'attachments.created',
+                          'adr_list_of_drugs.modified',  'attachments.modified'],
+            'set' => [
+                'copied' => 'new copy'
+            ]
+        ]);
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
         ]);
         $this->belongsTo('Designations', [
             'foreignKey' => 'designation_id'
+        ]);
+        $this->belongsTo('OriginalAdrs', [
+            'foreignKey' => 'adr_id',
+            'dependent' => true,
+            'conditions' => array('OriginalAdrs.copied' => 'old copy')
         ]);
         $this->hasMany('AdrLabTests', [
             'foreignKey' => 'adr_id'

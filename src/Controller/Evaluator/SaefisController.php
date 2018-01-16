@@ -3,6 +3,7 @@ namespace App\Controller\Evaluator;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+use Cake\Utility\Hash;
 
 /**
  * Saefis Controller
@@ -15,7 +16,10 @@ class SaefisController extends AppController
 {
     public function initialize() {
        parent::initialize();
-       //$this->Auth->allow(['add', 'edit']);       
+       //$this->Auth->allow(['add', 'edit']);   
+       $this->loadComponent('Search.Prg', [
+            'actions' => ['index', 'restore']
+        ]);    
     }
     /**
      * Index method
@@ -25,14 +29,71 @@ class SaefisController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users', 'Designations']
+            'contain' => ['SaefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews']
         ];
+        $query = $this->Saefis
+            ->find('search', ['search' => $this->request->query])
+            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
+        $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
+        $this->set(compact('designations'));
+        $this->set('saefis', $this->paginate($query));
 
-        if($this->request->getQuery('status')) {$saefis = $this->paginate($this->Saefis->find('all')->where(['status' => $this->request->getQuery('status')]), ['order' => ['Saefis.id' => 'desc']]); }
-        else {$saefis = $this->paginate($this->Saefis->find('all'), ['order' => ['Saefis.id' => 'desc']]);}
+        $_designations = $designations->toArray();
+        if ($this->request->params['_ext'] === 'csv') {
+            $_serialize = 'query';
+            $_header = [ 'id', 'user_id', 'saefi_id', 'reference_number', 'assigned_to', 'assigned_by', 'assigned_date', 'basic_details', 'place_vaccination', 'place_vaccination_other', 'site_type', 'site_type_other', 'vaccination_in', 'vaccination_in_other', 'reporter_name', 'report_date', 'start_date', 'complete_date', 
+                'designation_id', 
+                'telephone', 'mobile', 'reporter_email', 'patient_name', 'gender', 'hospitalization_date', 'status_on_date', 'died_date', 'autopsy_done', 'autopsy_done_date', 'autopsy_planned', 'autopsy_planned_date', 'past_history', 'past_history_remarks', 'adverse_event', 'adverse_event_remarks', 'allergy_history', 'allergy_history_remarks', 'existing_illness', 'existing_illness_remarks', 'hospitalization_history', 'hospitalization_history_remarks', 'medication_vaccination', 'medication_vaccination_remarks', 'faith_healers', 'faith_healers_remarks', 'family_history', 'family_history_remarks', 'pregnant', 'pregnant_weeks', 'breastfeeding', 'infant', 'birth_weight', 'delivery_procedure', 'delivery_procedure_specify', 'source_examination', 'source_documents', 'source_verbal', 'verbal_source', 'source_other', 'source_other_specify', 'examiner_name', 'other_sources', 'signs_symptoms', 'person_details', 'person_designation', 'person_date', 'medical_care', 'not_medical_care', 'final_diagnosis', 'when_vaccinated', 'when_vaccinated_specify', 'prescribing_error', 'prescribing_error_specify', 'vaccine_unsterile', 'vaccine_unsterile_specify', 'vaccine_condition', 'vaccine_condition_specify', 'vaccine_reconstitution', 'vaccine_reconstitution_specify', 'vaccine_handling', 'vaccine_handling_specify', 'vaccine_administered', 'vaccine_administered_specify', 'vaccinated_vial', 'vaccinated_session', 'vaccinated_locations', 'vaccinated_locations_specify', 'vaccinated_cluster', 'vaccinated_cluster_number', 'vaccinated_cluster_vial', 'vaccinated_cluster_vial_number', 'syringes_used', 'syringes_used_specify', 'syringes_used_other', 'syringes_used_findings', 'reconstitution_multiple', 'reconstitution_different', 'reconstitution_vial', 'reconstitution_syringe', 'reconstitution_vaccines', 'reconstitution_observations', 'cold_temperature', 'cold_temperature_deviation', 'cold_temperature_specify', 'procedure_followed', 'other_items', 'partial_vaccines', 'unusable_vaccines', 'unusable_diluents', 'additional_observations', 'cold_transportation', 'vaccine_carrier', 'coolant_packs', 'transport_findings', 'similar_events', 'similar_events_describe', 'similar_events_episodes', 'affected_vaccinated', 'affected_not_vaccinated', 'affected_unknown', 'community_comments', 'relevant_findings', 'created', 'modified', 'submitted', 'submitted_date', 'status', 'reports file', 
+                'saefi_list_of_vaccines.vaccine_name', 'saefi_list_of_vaccines.vaccination_doses',
+                'committees.comments', 'committees.literature_review', 'committees.references_text', 
+                'request_evaluators.system_message', 'request_evaluators.user_message', 
+                'request_reporters.system_message', 'request_reporters.user_message', 
+                'reviews.system_message', 'reviews.user_message', 
+                'attachments.file'];
+            $_extract = [ 'id', 'user_id', 'saefi_id', 'reference_number', 'assigned_to', 'assigned_by', 'assigned_date', 'basic_details', 'place_vaccination', 'place_vaccination_other', 'site_type', 'site_type_other', 'vaccination_in', 'vaccination_in_other', 'reporter_name', 'report_date', 'start_date', 'complete_date', 
+                function ($row) use($_designations) { return $_designations[$row['designation_id']] ?? '' ; }, //'designation_id', 
+                'telephone', 'mobile', 'reporter_email', 'patient_name', 'gender', 'hospitalization_date', 'status_on_date', 'died_date', 'autopsy_done', 'autopsy_done_date', 'autopsy_planned', 'autopsy_planned_date', 'past_history', 'past_history_remarks', 'adverse_event', 'adverse_event_remarks', 'allergy_history', 'allergy_history_remarks', 'existing_illness', 'existing_illness_remarks', 'hospitalization_history', 'hospitalization_history_remarks', 'medication_vaccination', 'medication_vaccination_remarks', 'faith_healers', 'faith_healers_remarks', 'family_history', 'family_history_remarks', 'pregnant', 'pregnant_weeks', 'breastfeeding', 'infant', 'birth_weight', 'delivery_procedure', 'delivery_procedure_specify', 'source_examination', 'source_documents', 'source_verbal', 'verbal_source', 'source_other', 'source_other_specify', 'examiner_name', 'other_sources', 'signs_symptoms', 'person_details', 'person_designation', 'person_date', 'medical_care', 'not_medical_care', 'final_diagnosis', 'when_vaccinated', 'when_vaccinated_specify', 'prescribing_error', 'prescribing_error_specify', 'vaccine_unsterile', 'vaccine_unsterile_specify', 'vaccine_condition', 'vaccine_condition_specify', 'vaccine_reconstitution', 'vaccine_reconstitution_specify', 'vaccine_handling', 'vaccine_handling_specify', 'vaccine_administered', 'vaccine_administered_specify', 'vaccinated_vial', 'vaccinated_session', 'vaccinated_locations', 'vaccinated_locations_specify', 'vaccinated_cluster', 'vaccinated_cluster_number', 'vaccinated_cluster_vial', 'vaccinated_cluster_vial_number', 'syringes_used', 'syringes_used_specify', 'syringes_used_other', 'syringes_used_findings', 'reconstitution_multiple', 'reconstitution_different', 'reconstitution_vial', 'reconstitution_syringe', 'reconstitution_vaccines', 'reconstitution_observations', 'cold_temperature', 'cold_temperature_deviation', 'cold_temperature_specify', 'procedure_followed', 'other_items', 'partial_vaccines', 'unusable_vaccines', 'unusable_diluents', 'additional_observations', 'cold_transportation', 'vaccine_carrier', 'coolant_packs', 'transport_findings', 'similar_events', 'similar_events_describe', 'similar_events_episodes', 'affected_vaccinated', 'affected_not_vaccinated', 'affected_unknown', 'community_comments', 'relevant_findings', 'created', 'modified', 'submitted', 'submitted_date', 'status', 
+                    'reports.0.file', 
+                function ($row) { return implode('|', Hash::extract($row['saefi_list_of_vaccines'], '{n}.vaccine_name')); }, //'.vaccine_name', 
+                function ($row) { return implode('|', Hash::extract($row['saefi_list_of_vaccines'], '{n}.vaccination_doses')); }, //'.doses no.', 
+                function ($row) { return implode('|', Hash::extract($row['committees'], '{n}.comments')); }, //'committees.comments', 
+                function ($row) { return implode('|', Hash::extract($row['committees'], '{n}.literature_review')); }, //'.literature_review', 
+                function ($row) { return implode('|', Hash::extract($row['committees'], '{n}.references_text')); }, //'.references_text', 
+                function ($row) { return implode('|', Hash::extract($row['request_evaluators'], '{n}.system_message')); }, //'.system_message', 
+                function ($row) { return implode('|', Hash::extract($row['request_evaluators'], '{n}.user_message')); }, // '.user_message', 
+                function ($row) { return implode('|', Hash::extract($row['request_reporters'], '{n}.system_message')); }, //'.system_message', 
+                function ($row) { return implode('|', Hash::extract($row['request_reporters'], '{n}.system_message')); }, //'.user_message', 
+                function ($row) { return implode('|', Hash::extract($row['reviews'], '{n}.system_message')); }, //'reviews.system_message', 
+                function ($row) { return implode('|', Hash::extract($row['reviews'], '{n}.user_message')); }, //'reviews.user_message', 
+                function ($row) { return implode('|', Hash::extract($row['attachments'], '{n}.file')); }, //'attachments.file'
+            ];
 
-        $this->set(compact('saefis'));
-        $this->set('_serialize', ['saefis']);
+            $this->set(compact('query', '_serialize', '_header', '_extract'));
+        }
+    }
+    public function restore() {
+        $this->paginate = [
+            'contain' => []
+        ];
+        
+        $query = $this->Saefis
+            ->find('search', ['search' => $this->request->query, 'withDeleted'])
+            ->where(['deleted IS NOT' =>  null]);
+            
+        $this->set('saefis', $this->paginate($query));
+    }
+    public function restoreDeleted($id = null)
+    {
+
+        $this->request->allowMethod(['post', 'delete', 'get']);
+        $saefi = $this->Saefis->get($id, ['withDeleted']);
+        if ($this->Saefis->restore($saefi)) {
+            $this->Flash->success(__('The SAEFI has been restored.'));
+        } else {
+            $this->Flash->error(__('The SAEFI could not be restored. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'restore']);
     }
 
     /**
@@ -45,7 +106,10 @@ class SaefisController extends AppController
     public function view($id = null)
     {
         $saefi = $this->Saefis->get($id, [
-            'contain' => ['SaefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews']
+            'contain' => ['SaefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'AefiCausalities',
+                          'Reports',
+                          'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports'], 
+                          'withDeleted'
         ]);
 
         if(strpos($this->request->url, 'pdf')) {
@@ -71,8 +135,7 @@ class SaefisController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add() {
         $saefi = $this->Saefis->newEntity();
         if ($this->request->is('post')) {
             $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
@@ -96,7 +159,6 @@ class SaefisController extends AppController
         $this->set(compact('saefi', 'users', 'designations'));
         $this->set('_serialize', ['saefi']);
     }
-
 
     public function assignEvaluator() {
         $saefi = $this->Saefis->get($this->request->getData('saefi_pr_id'), []);
@@ -199,13 +261,11 @@ class SaefisController extends AppController
     }
 
     public function causality() {
+        debug($this->request->getData());
         $saefi = $this->Saefis->get($this->request->getData('saefi_pr_id'), []);
         if (isset($saefi->id) && $this->request->is('post')) {
             $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
             $saefi->status = 'Evaluated';
-            $saefi->reviews[0]->user_id = $this->Auth->user('id');
-            $saefi->reviews[0]->model = 'Saefis';
-            $saefi->reviews[0]->category = 'causality';
             //Notification should be sent to manager and assigned_to evaluator if exists
             if ($this->Saefis->save($saefi)) {
                 //Send email and message (if present!!!) to evaluator
@@ -369,23 +429,44 @@ class SaefisController extends AppController
     }
 
 
-
     /**
      * Edit method
      *
      * @param string|null $id Saefi id.
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
+     */    
+    public function clean($id = null) {
+        //ensure only one 
+        $this->loadModel('OriginalSaefis');
+        $orig_saefi = $this->OriginalSaefis->get($id, ['contain' => ['Saefis']]);
+        if ($orig_saefi->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_saefi['Saefi']['id']]);
+        }
+        $saefi = $this->Saefis->duplicateEntity($id);
+        $saefi->saefi_id = $id;        
+        $saefi->user_id = $this->Auth->user('id'); //the report is reassigned to the evaluator... the reporter should only have original report
+
+        if ($this->Saefis->save($saefi, ['validate' => false])) {            
+            $query = $this->Saefis->query();
+            $query->update()
+                ->set(['copied' => 'old copy'])
+                ->where(['id' => $orig_saefi->id])
+                ->execute();
+            $this->Flash->success(__('The SAEFI has been successfully copied. make changes and submit.'));
+            return $this->redirect(['action' => 'edit', $saefi->id]);
+        }
+        $this->Flash->error(__('The AEFI Investigation Report could not be copied. Please, try again.'));
+        return $this->redirect($this->referer());        
+    }
+
     public function edit($id = null)
     {
         $saefi = $this->Saefis->get($id, [
             'contain' => ['SaefiListOfVaccines',  'Attachments', 'Reports']
         ]);
-        if ($saefi->submitted == 2) {
-            $this->Flash->success(__('Report '.$saefi->reference_number.' already submitted.'));
-            return $this->redirect(['action' => 'view', $saefi->id]);
-        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
             if (!empty($saefi->attachments)) {
@@ -404,6 +485,7 @@ class SaefisController extends AppController
             
             if ($saefi->submitted == 1) {
               //save changes button
+              $saefi->submitted = 2;
               if ($this->Saefis->save($saefi, ['validate' => false])) {
                 $this->Flash->success(__('The changes to the Report '.$saefi->reference_number.' have been saved.'));
                 return $this->redirect(['action' => 'edit', $saefi->id]);
@@ -413,7 +495,7 @@ class SaefisController extends AppController
             } elseif ($saefi->submitted == 2) {
               //submit to mcaz button
               if ($this->Saefis->save($saefi, ['validate' => false])) {
-                $this->Flash->success(__('Report '.$saefi->reference_number.' has been successfully submitted to MCAZ for review.'));
+                $this->Flash->success(__('Report '.$saefi->reference_number.' has been successfully saved and is ready for review.'));
                 return $this->redirect(['action' => 'view', $saefi->id]);
               } else {
                 $this->Flash->error(__('Report '.$saefi->reference_number.' could not be saved. Kindly correct the errors and try again.'));
@@ -421,7 +503,7 @@ class SaefisController extends AppController
             } elseif ($saefi->submitted == -1) {
                //cancel button              
                 $this->Flash->success(__('Cancel form successful. You may continue editing report '.$saefi->reference_number.' later'));
-                return $this->redirect(['controller' => 'Users','action' => 'home']);
+                return $this->redirect(['action' => 'index']);
 
            } else {
               if ($this->Saefis->save($saefi, ['validate' => false])) {
@@ -446,6 +528,22 @@ class SaefisController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
+    public function archive($id = null)
+    {
+
+        $this->request->allowMethod(['post', 'delete']);
+        $saefi = $this->Saefis->get($id);
+        //update field
+        $query = $this->Saefis->query();
+        $query->update()
+            ->set(['status' => 'Archived'])
+            ->where(['id' => $saefi->id])
+            ->execute();
+        $this->Flash->success(__('The SAEFI has been archived.'));
+        //
+
+        return $this->redirect(['action' => 'index']);
+    }
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);

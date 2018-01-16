@@ -57,21 +57,24 @@ class FeedbacksController extends AppController
      */
     public function add()
     {
+        $this->Feedbacks->addBehavior('Captcha.Captcha');
         $feedback = $this->Feedbacks->newEntity();
         if ($this->request->is('post')) {
             $feedback = $this->Feedbacks->patchEntity($feedback, $this->request->getData());
+            $feedback->user_id = $this->request->session()->read('Auth.User.id');
             if ($this->Feedbacks->save($feedback)) {
                 $this->Flash->success(__('The feedback has been sent to MCAZ. Thank you..'));
 
                 return $this->redirect('/');
             }
             $this->Flash->error(__('The feedback could not be saved. Please, try again.'));
+            //return $this->redirect('/');
         }
-        $users = $this->Feedbacks->Users->find('list', ['limit' => 200]);
-        $sadrs = $this->Feedbacks->Sadrs->find('list', ['limit' => 200]);
-        $sadrFollowups = $this->Feedbacks->SadrFollowups->find('list', ['limit' => 200]);
-        $pqmps = $this->Feedbacks->Pqmps->find('list', ['limit' => 200]);
-        $this->set(compact('feedback', 'users', 'sadrs', 'sadrFollowups', 'pqmps'));
+        // $users = $this->Feedbacks->Users->find('list', ['limit' => 200]);
+        // $sadrs = $this->Feedbacks->Sadrs->find('list', ['limit' => 200]);
+        // $sadrFollowups = $this->Feedbacks->SadrFollowups->find('list', ['limit' => 200]);
+        // $pqmps = $this->Feedbacks->Pqmps->find('list', ['limit' => 200]);
+        $this->set(compact('feedback'));
         $this->set('_serialize', ['feedback']);
     }
 

@@ -14,6 +14,7 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         '90236b492da7ca2983a2ad6e33e4152e' => __DIR__ . '/..' . '/cakephp/cakephp/src/I18n/functions.php',
         'b1fc73705e1bec51cd2b20a32cf1c60a' => __DIR__ . '/..' . '/cakephp/cakephp/src/Utility/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
+        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
     );
 
@@ -77,6 +78,7 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         ),
         'D' => 
         array (
+            'Duplicatable\\' => 13,
             'DebugKit\\Test\\Fixture\\' => 22,
             'DebugKit\\' => 9,
         ),
@@ -89,6 +91,8 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
             'Composer\\Installers\\' => 20,
             'Composer\\CaBundle\\' => 18,
             'Composer\\' => 9,
+            'Captcha\\Test\\Fixture\\' => 21,
+            'Captcha\\' => 8,
             'Cake\\Test\\' => 10,
             'Cake\\Composer\\' => 14,
             'Cake\\Chronos\\' => 13,
@@ -233,6 +237,10 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
+        'Duplicatable\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/riesenia/cakephp-duplicatable/src',
+        ),
         'DebugKit\\Test\\Fixture\\' => 
         array (
             0 => __DIR__ . '/..' . '/cakephp/debug_kit/tests/Fixture',
@@ -268,6 +276,14 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         'Composer\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/composer/src/Composer',
+        ),
+        'Captcha\\Test\\Fixture\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dereuromark/cakephp-captcha/tests/Fixture',
+        ),
+        'Captcha\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dereuromark/cakephp-captcha/src',
         ),
         'Cake\\Test\\' => 
         array (

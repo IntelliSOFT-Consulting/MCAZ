@@ -20,7 +20,7 @@ class AefisController extends AppController
         parent::initialize();
 
         $this->loadComponent('Search.Prg', [
-            'actions' => ['index']
+            'actions' => ['index', 'restore']
         ]);
         // $this->loadComponent('RequestHandler', ['viewClassMap' => ['csv' => 'CsvView.Csv']]);
     }
@@ -38,7 +38,8 @@ class AefisController extends AppController
 
 
         $query = $this->Aefis
-            ->find('search', ['search' => $this->request->query]);
+            ->find('search', ['search' => $this->request->query])
+            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
         $this->set(compact('provinces', 'designations'));
@@ -92,6 +93,32 @@ class AefisController extends AppController
         // $this->set(compact('aefis'));
         // $this->set('_serialize', ['aefis']);
     }
+    public function restore() {
+        $this->paginate = [
+            'contain' => []
+        ];
+        
+        $query = $this->Aefis
+            ->find('search', ['search' => $this->request->query, 'withDeleted'])
+            ->where(['deleted IS NOT' =>  null]);
+        $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
+        $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
+        $this->set(compact('provinces', 'designations'));
+        $this->set('aefis', $this->paginate($query));
+    }
+    public function restoreDeleted($id = null)
+    {
+
+        $this->request->allowMethod(['post', 'delete', 'get']);
+        $aefi = $this->Aefis->get($id, ['withDeleted']);
+        if ($this->Aefis->restore($aefi)) {
+            $this->Flash->success(__('The AEFI has been restored.'));
+        } else {
+            $this->Flash->error(__('The AEFI could not be restored. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'restore']);
+    }
 
     /**
      * View method
@@ -102,8 +129,18 @@ class AefisController extends AppController
      */
     public function view($id = null)
     {
+        //ensure only one 
+        $this->loadModel('OriginalAefis');
+        $orig_aefi = $this->OriginalAefis->get($id, ['contain' => ['Aefis']]);
+        if ($orig_aefi->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_aefi['aefi']['id']]);
+        }
+        
         $aefi = $this->Aefis->get($id, [
-            'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 'Committees', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments']
+            'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 
+                          'Committees', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments', 
+                          'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments'], 'withDeleted'
         ]);
 
         if(strpos($this->request->url, 'pdf')) {
@@ -208,6 +245,49 @@ class AefisController extends AppController
         }
     }
 
+    public function causality() {
+        $aefi = $this->Aefis->get($this->request->getData('aefi_pr_id'), []);
+        if (isset($aefi->id) && $this->request->is('post')) {
+            $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
+            $aefi->status = 'Evaluated';
+            //Notification should be sent to manager and assigned_to evaluator if exists
+            if ($this->Aefis->save($aefi)) {
+                //Send email and message (if present!!!) to evaluator
+                $this->loadModel('Queue.QueuedJobs');    
+                if(!empty($aefi->assigned_to)) {
+                    $evaluator = $this->Aefis->Users->get($aefi->assigned_to);
+                    $data = [
+                      'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                      'type' => 'manager_review_assigned_email', 'model' => 'Aefis', 'foreign_key' => $aefi->id,
+                        'vars' =>  $aefi->toArray()
+                    ];
+                    $data['vars']['name'] = $evaluator->name;
+                    $data['vars']['assigned_by_name'] = $this->Auth->user('name');
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_review_assigned_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);                
+                } 
+
+                //notify manager                
+                $data = ['user_id' => $this->Auth->user('id'), 'model' => 'Aefis', 'foreign_key' => $aefi->id,
+                    'vars' =>  $aefi->toArray()];
+                $data['type'] = 'manager_review_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                //end 
+                
+               $this->Flash->success('Review successfully done for AEFI '.$aefi->reference_number);
+
+                return $this->redirect($this->referer());
+            } else {
+                $this->Flash->error(__('Unable to review report. Please, try again.')); 
+                return $this->redirect($this->referer());
+            }
+        } else {
+               $this->Flash->error(__('Unknown AEFI Report. Please correct.')); 
+               return $this->redirect($this->referer());
+        }
+    }
 
     public function requestEvaluator() {
         $aefi = $this->Aefis->get($this->request->getData('aefi_pr_id'), []);
@@ -388,16 +468,45 @@ class AefisController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
+    public function clean($id = null) {
+        //ensure only one 
+        $this->loadModel('OriginalAefis');
+        $orig_aefi = $this->OriginalAefis->get($id, ['contain' => ['Aefis']]);
+        if ($orig_aefi->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_aefi['aefi']['id']]);
+        }
+        $aefi = $this->Aefis->duplicateEntity($id);
+        $aefi->aefi_id = $id;        
+        $aefi->user_id = $this->Auth->user('id'); //the report is reassigned to the evaluator... the reporter should only have original report
+
+        if ($this->Aefis->save($aefi, ['validate' => false])) {            
+            $query = $this->Aefis->query();
+            $query->update()
+                ->set(['copied' => 'old copy'])
+                ->where(['id' => $orig_aefi->id])
+                ->execute();
+            $this->Flash->success(__('The AEFI has been successfully copied. make changes and submit.'));
+            return $this->redirect(['action' => 'edit', $aefi->id]);
+        }
+        $this->Flash->error(__('The AEFI Investigation Report could not be copied. Please, try again.'));
+        return $this->redirect($this->referer());        
+    }
+
     public function edit($id = null)
-    {
+    {   
+        //ensure only one 
+        $this->loadModel('OriginalAefis');
+        $orig_aefi = $this->OriginalAefis->get($id, ['contain' => ['Aefis']]);
+        if ($orig_aefi->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_aefi['aefi']['id']]);
+        }
 
         $aefi = $this->Aefis->get($id, [
-            'contain' => ['AefiListOfVaccines', 'AefiListOfDiluents', 'Attachments']
+            'contain' => ['AefiListOfVaccines', 'Attachments']
         ]);
-        if ($aefi->submitted == 2) {
-            $this->Flash->success(__('Report '.$aefi->reference_number.' already submitted.'));
-            return $this->redirect(['action' => 'view', $aefi->id]);
-        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
             if (!empty($aefi->attachments)) {
@@ -409,31 +518,32 @@ class AefisController extends AppController
             
             if ($aefi->submitted == 1) {
               //save changes button
+                $aefi->submitted = 2;
               if ($this->Aefis->save($aefi, ['validate' => false])) {
-                $this->Flash->success(__('The changes to the Report '.$aefi->reference_number.' have been saved.'));
+                $this->Flash->success(__('The changes to the Report have been saved.'));
                 return $this->redirect(['action' => 'edit', $aefi->id]);
               } else {
-                $this->Flash->error(__('Report '.$aefi->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($aefi->submitted == 2) {
               //submit to mcaz button
               if ($this->Aefis->save($aefi, ['validate' => false])) {
-                $this->Flash->success(__('Report '.$aefi->reference_number.' has been successfully submitted to MCAZ for review.'));
+                $this->Flash->success(__('Report '.$aefi->reference_number.' has been successfully submitted to MCAZ for review.'));               
                 return $this->redirect(['action' => 'view', $aefi->id]);
               } else {
-                $this->Flash->error(__('Report '.$aefi->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($aefi->submitted == -1) {
                //cancel button              
-                $this->Flash->success(__('Cancel form successful. You may continue editing report '.$aefi->reference_number.' later'));
+                $this->Flash->success(__('Cancel form successful. You may continue editing report later'));
                 return $this->redirect(['controller' => 'Users','action' => 'home']);
 
            } else {
               if ($this->Aefis->save($aefi, ['validate' => false])) {
-                $this->Flash->success(__('The changes to the Report '.$aefi->reference_number.' have been saved.'));
+                $this->Flash->success(__('The changes to the Report have been saved.'));
                 return $this->redirect(['action' => 'edit', $aefi->id]);
               } else {
-                $this->Flash->error(__('Report '.$aefi->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
            }
 
@@ -446,7 +556,7 @@ class AefisController extends AppController
             $aefi->date_of_birth = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
         }
 
-        $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Aefis->Designations->find('list',array('order'=>'Designations.name ASC'));
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
         $this->set(compact('aefi', 'designations', 'provinces'));
         $this->set('_serialize', ['aefi']);

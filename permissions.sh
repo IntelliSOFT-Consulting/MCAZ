@@ -1,9 +1,25 @@
 bin/cake acl_extras aco_sync
 bin/cake acl grant Groups.1 controllers
+bin/cake acl deny  Groups.1 controllers/Sadrs/add
+bin/cake acl deny  Groups.1 controllers/Aefis/add
+bin/cake acl deny  Groups.1 controllers/Saefis/add
+bin/cake acl deny  Groups.1 controllers/Adrs/add
+bin/cake acl deny  Groups.1 controllers/Sadrs/edit
+bin/cake acl deny  Groups.1 controllers/Aefis/edit
+bin/cake acl deny  Groups.1 controllers/Saefis/edit
+bin/cake acl deny  Groups.1 controllers/Adrs/edit
 #Manager permissions
 #TODO: Align to remove mass assignment of permissions
 bin/cake acl grant Groups.2 controllers
-bin/cake acl grant Groups.2 controllers/Manager/Sadrs
+bin/cake acl grant Groups.2 controllers/Manager
+bin/cake acl deny  Groups.2 controllers/Sadrs/add
+bin/cake acl deny  Groups.2 controllers/Aefis/add
+bin/cake acl deny  Groups.2 controllers/Saefis/add
+bin/cake acl deny  Groups.2 controllers/Adrs/add
+bin/cake acl deny  Groups.2 controllers/Sadrs/edit
+bin/cake acl deny  Groups.2 controllers/Aefis/edit
+bin/cake acl deny  Groups.2 controllers/Saefis/edit
+bin/cake acl deny  Groups.2 controllers/Adrs/edit
 #end Managers
 bin/cake acl grant Groups.4 controllers
 bin/cake acl grant Groups.3 controllers/Aefis/index
@@ -40,4 +56,7 @@ bin/cake acl grant Groups.3 controllers/Users/home
 bin/cake acl grant Groups.3 controllers/SadrListOfDrugs/delete
 bin/cake acl grant Groups.3 controllers/SadrOtherDrugs/delete
 bin/cake acl grant Groups.3 controllers/Notifications/delete
+bin/cake acl grant Groups.3 controllers/Notifications/adelete
+bin/cake acl grant Groups.3 controllers/Notifications/index
+bin/cake acl grant Groups.3 controllers/Notifications/view
 

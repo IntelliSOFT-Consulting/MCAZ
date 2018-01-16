@@ -150,8 +150,9 @@ class AefisController extends AppController
         if ($this->request->is('post')) {
             $this->_attachments();
             $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
-            $aefi->user_id = $this->Auth->user('id');
-
+            $aefi->user_id = $this->Auth->user('id');            
+            $aefi->submitted_date = date("Y-m-d H:i:s");
+            $aefi->status = 'Submitted';
             if ($this->Aefis->save($aefi, ['validate' => false])) {
                 //update field
                 $query = $this->Aefis->query();

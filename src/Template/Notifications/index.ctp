@@ -1,65 +1,50 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Notification[]|\Cake\Collection\CollectionInterface $notifications
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Notification'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
+<?php $this->start('sidebar'); ?>
+  <?= $this->cell('SideBar'); ?>
+<?php $this->end(); ?>
+
+<h1 class="page-header">  <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Notifications</h1>
+
+<?= $this->element('notifications/search') ?>
+
+<div class="paginator">
+    <ul class="pagination pagination-sm">
+        <?= $this->Paginator->first('<< ' . __('first')) ?>
+        <?= $this->Paginator->prev('< ' . __('previous')) ?>
+        <?= $this->Paginator->numbers() ?>
+        <?= $this->Paginator->next(__('next') . ' >') ?>
+        <?= $this->Paginator->last(__('last') . ' >>') ?>
     </ul>
-</nav>
-<div class="notifications index large-9 medium-8 columns content">
-    <h3><?= __('Notifications') ?></h3>
-    <table cellpadding="0" cellspacing="0">
+</div>
+<p><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of <b>{{count}}</b> total')]) ?></small></p>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('user_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('type') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('model') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('foreign_key') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('title') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('url') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('deleted') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('system_message', 'Message') ?></th>
+                <th scope="col">Uri</th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($notifications as $notification): ?>
-            <tr>
+            <tr class="<?= $notification->has('message') ? $notification->message->style : '' ?>">
                 <td><?= $this->Number->format($notification->id) ?></td>
-                <td><?= $notification->has('user') ? $this->Html->link($notification->user->name, ['controller' => 'Users', 'action' => 'view', $notification->user->id]) : '' ?></td>
-                <td><?= h($notification->type) ?></td>
-                <td><?= h($notification->model) ?></td>
-                <td><?= $this->Number->format($notification->foreign_key) ?></td>
-                <td><?= h($notification->title) ?></td>
-                <td><?= h($notification->url) ?></td>
-                <td><?= h($notification->deleted) ?></td>
+                <td><?= $notification->user_message ?><br>
+                    <?= $notification->system_message ?></td>
+                <td><?php if(!empty($notification->model)) echo $this->Html->link($notification->model, ['controller' => $notification->model, 'action' => 'view', $notification->foreign_key]) ?></td>
                 <td><?= h($notification->created) ?></td>
-                <td><?= h($notification->modified) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $notification->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $notification->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $notification->id], ['confirm' => __('Are you sure you want to delete # {0}?', $notification->id)]) ?>
+                    <?= $this->Html->link('<span class="label label-primary">View</span>', ['action' => 'view', $notification->id], array('escape' => false));  ?>
+                    <?php if(!$notification->deleted) { ?>
+                    <?= $this->Form->postLink('<span class="label label-danger">Delete</span>', ['action' => 'adelete', $notification->id], ['escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $notification->id), 'class' => 'label-link']);  ?> 
+                    <?php } ?>
+
                 </td>
             </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-    </div>
 </div>

@@ -21,7 +21,8 @@ class UsersController extends AppController
             'Sadrs' => ['scope' => 'sadr'],
             'Adrs' => ['scope' => 'adr'],
             'Aefis' => ['scope' => 'aefi'],
-            'Saefis' => ['scope' => 'saefi']
+            'Saefis' => ['scope' => 'saefi'],
+            'Feedbacks' => ['scope' => 'feedback']
         ];
 
     public function initialize() {
@@ -47,8 +48,10 @@ class UsersController extends AppController
             'limit' => 5,
         ];
 
+        $this->loadModel('Feedbacks');
+        $feedbacks = $this->paginate($this->Feedbacks->find('all'), ['scope' => 'feedback', 'order' => ['Feedbacks.id' => 'desc']]);
 
-        $this->set(compact('user'));
+        $this->set(compact('user', 'feedbacks'));
     }
 
     /**
@@ -146,14 +149,19 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
+        $fieldList = ['Users.id', 'Users.name', 'Users.email', 'Users.username', 'Users.group_id', 'Users.phone_no',
+                      'Users.name_of_institution', 'Users.institution_address', 'Users.institution_code', 'Users.designation_id', 
+                      'Users.is_active', 'Users.deactivated', 'Users.is_admin'];
+
         $user = $this->Users->get($id, [
+            'fields' => $fieldList,
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
+        if ($this->request->is(['patch', 'post', 'put'])) {   
             if (empty($this->request->data['password'])) {
                 unset($this->request->data['password']);
                 unset($this->request->data['confirm_password']);
-            }
+            }         
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user\'s details have been updated.'));

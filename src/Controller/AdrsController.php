@@ -125,7 +125,8 @@ class AdrsController extends AppController
     public function view($id = null)
     {
         $adr = $this->Adrs->get($id, [
-            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments']
+            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments'],
+            'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
 
         // $this->viewBuilder()->setLayout('pdf/default');
@@ -227,7 +228,8 @@ class AdrsController extends AppController
     public function edit($id = null)
     {
         $adr = $this->Adrs->get($id, [
-            'contain' => ['AdrListOfDrugs', 'AdrOtherDrugs', 'AdrLabTests', 'Attachments']
+            'contain' => ['AdrListOfDrugs', 'AdrOtherDrugs', 'AdrLabTests', 'Attachments'],
+            'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
         if ($adr->submitted == 2) {
             $this->Flash->success(__('Report '.$adr->reference_number.' already submitted.'));
@@ -253,28 +255,17 @@ class AdrsController extends AppController
             } elseif ($adr->submitted == 2) {
               //submit to mcaz button
               $adr->submitted_date = date("Y-m-d H:i:s");
-              $adr->status = 'Submitted';
-              
+              $adr->status = ($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
+              $adr->reference_number = 'SAE'.$adr->id.'/'.$adr->created->i18nFormat('yyyy');
               if ($this->Adrs->save($adr, ['validate' => false])) {
-                
-                //update field
-                $query = $this->Adrs->query();
-                $query->update()
-                    ->set(['reference_number' => 'SAE'.$adr->id.'/'.$adr->created->i18nFormat('yyyy')])
-                    ->where(['id' => $adr->id])
-                    ->execute();
-                //
-                $this->Flash->success(__('Report '.$adr->reference_number.' has been successfully submitted to MCAZ for review.'));
-                return $this->redirect(['action' => 'view', $adr->id]);
-
-
-                //send email and notification
+                $this->Flash->success(__('Report '.$adr->reference_number.' has been successfully submitted to MCAZ for review.'));                //send email and notification
                 $this->loadModel('Queue.QueuedJobs');    
                 $data = [
                     'email_address' => $adr->reporter_email, 'user_id' => $this->Auth->user('id'),
                     'type' => 'applicant_submit_adr_email', 'model' => 'Adrs', 'foreign_key' => $adr->id,
                     'vars' =>  $adr->toArray()
                 ];
+                $html = new HtmlHelper(new \Cake\View\View());
                 $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'Adrs', 'action' => 'view', $adr->id, '_ext' => 'pdf',  
                                           '_full' => true]);
                 //notify applicant
@@ -292,21 +283,21 @@ class AdrsController extends AppController
                     $data['type'] = 'manager_submit_adr_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
-
+                return $this->redirect(['action' => 'view', $adr->id]);
               } else {
-                $this->Flash->error(__('Report '.$adr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($adr->submitted == -1) {
                //cancel button              
-                $this->Flash->success(__('Cancel form successful. You may continue editing report '.$adr->reference_number.' later'));
+                $this->Flash->success(__('Cancel form successful. You may continue editing report later'));
                 return $this->redirect(['controller' => 'Users','action' => 'home']);
 
            } else {
               if ($this->Adrs->save($adr, ['validate' => false])) {
-                $this->Flash->success(__('The changes to the Report '.$adr->reference_number.' have been saved.'));
+                $this->Flash->success(__('The changes to the Report have been saved.'));
                 return $this->redirect(['action' => 'edit', $adr->id]);
               } else {
-                $this->Flash->error(__('Report '.$adr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
            }
            
@@ -332,7 +323,7 @@ class AdrsController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->request->allowMethod(['post', 'delete', 'get']);
         $adr = $this->Adrs->get($id);
         if ($adr->user_id == $this->Auth->user('id') && $adr->submitted == 0) {
           if ($this->Adrs->delete($adr)) {

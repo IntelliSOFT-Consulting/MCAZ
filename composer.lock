@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "898a424197bb7aadedb14ee0ed02a013",
+    "content-hash": "31b95f08fdbec0365e83832786ce1f85",
     "packages": [
         {
             "name": "admad/cakephp-jwt-auth",
@@ -498,6 +498,57 @@
                 "zikula"
             ],
             "time": "2017-08-09T07:53:48+00:00"
+        },
+        {
+            "name": "dereuromark/cakephp-captcha",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dereuromark/cakephp-captcha.git",
+                "reference": "e0caf11472cdc631757448cd4dac5813ce5942a4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dereuromark/cakephp-captcha/zipball/e0caf11472cdc631757448cd4dac5813ce5942a4",
+                "reference": "e0caf11472cdc631757448cd4dac5813ce5942a4",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "^3.4",
+                "paragonie/random_compat": "@stable",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "cakephp/migrations": "@stable",
+                "fig-r/psr2r-sniffer": "dev-master"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Captcha\\": "src",
+                    "Captcha\\Test\\Fixture\\": "tests/Fixture"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Scherer",
+                    "homepage": "http://www.dereuromark.de",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "A CakePHP plugin to integrate captchas.",
+            "homepage": "https://github.com/dereuromark/cakephp-captcha",
+            "keywords": [
+                "cakephp",
+                "captchas",
+                "plugin",
+                "security"
+            ],
+            "time": "2017-09-22T06:58:37+00:00"
         },
         {
             "name": "dereuromark/cakephp-queue",
@@ -1248,6 +1299,54 @@
             "time": "2017-08-29T18:23:54+00:00"
         },
         {
+            "name": "paragonie/random_compat",
+            "version": "v2.0.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paragonie/random_compat.git",
+                "reference": "5da4d3c796c275c55f057af5a643ae297d96b4d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/5da4d3c796c275c55f057af5a643ae297d96b4d8",
+                "reference": "5da4d3c796c275c55f057af5a643ae297d96b4d8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*|5.*"
+            },
+            "suggest": {
+                "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "lib/random.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paragon Initiative Enterprises",
+                    "email": "security@paragonie.com",
+                    "homepage": "https://paragonie.com"
+                }
+            ],
+            "description": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7",
+            "keywords": [
+                "csprng",
+                "pseudorandom",
+                "random"
+            ],
+            "time": "2017-09-27T21:40:39+00:00"
+        },
+        {
             "name": "pgbi/cakephp3-soft-delete",
             "version": "1.3.0",
             "source": {
@@ -1387,6 +1486,53 @@
                 "psr-3"
             ],
             "time": "2016-10-10T12:19:37+00:00"
+        },
+        {
+            "name": "riesenia/cakephp-duplicatable",
+            "version": "v3.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/riesenia/cakephp-duplicatable.git",
+                "reference": "64833ad9e87f7a3a95e9d9846f73c5c4073ea1c6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/riesenia/cakephp-duplicatable/zipball/64833ad9e87f7a3a95e9d9846f73c5c4073ea1c6",
+                "reference": "64833ad9e87f7a3a95e9d9846f73c5c4073ea1c6",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/orm": "~3.0",
+                "php": ">=5.4.16"
+            },
+            "require-dev": {
+                "cakephp/cakephp": "~3.0",
+                "phpunit/phpunit": "<6.0"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Duplicatable\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tomas Saghy",
+                    "email": "segy@riesenia.com"
+                }
+            ],
+            "description": "CakePHP ORM plugin for duplicating entities (including related entities)",
+            "keywords": [
+                "cakephp",
+                "copy",
+                "duplicate",
+                "orm"
+            ],
+            "time": "2017-12-29T11:37:35+00:00"
         },
         {
             "name": "robmorgan/phinx",

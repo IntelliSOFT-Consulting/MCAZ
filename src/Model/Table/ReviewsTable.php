@@ -46,6 +46,9 @@ class ReviewsTable extends Table
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
         ]);
+        /*$this->belongsTo('Sadrs', [
+            'foreignKey' => 'foreign_key'
+        ]);*/
 
     }
 

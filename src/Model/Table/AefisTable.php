@@ -44,6 +44,14 @@ class AefisTable extends Table
 
         $this->addBehavior('Timestamp');
         $this->addBehavior('Search.Search');
+        $this->addBehavior('Duplicatable.Duplicatable', [
+            'contain' => ['AefiListOfVaccines',  'Attachments'],
+            'remove' => ['created', 'modified', 'aefi_list_of_vaccines.created',  'attachments.created',
+                          'aefi_list_of_vaccines.modified',  'attachments.modified'],
+            'set' => [
+                'copied' => 'new copy'
+            ]
+        ]);
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
@@ -54,10 +62,18 @@ class AefisTable extends Table
         $this->belongsTo('Provinces', [
             'foreignKey' => 'province_id'
         ]);
+        $this->belongsTo('OriginalAefis', [
+            'foreignKey' => 'aefi_id',
+            'dependent' => true,
+            'conditions' => array('OriginalAefis.copied' => 'old copy')
+        ]);
         $this->hasMany('AefiListOfVaccines', [
             'foreignKey' => 'aefi_id'
         ]);
         $this->hasMany('AefiListOfDiluents', [
+            'foreignKey' => 'aefi_id'
+        ]);
+        $this->hasOne('AefiCausalities', [
             'foreignKey' => 'aefi_id'
         ]);
 

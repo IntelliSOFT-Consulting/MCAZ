@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 08, 2018 at 10:06 AM
+-- Generation Time: Jan 11, 2018 at 03:45 AM
 -- Server version: 5.7.20-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -62,7 +62,7 @@ CREATE TABLE `acos` (
 --
 
 INSERT INTO `acos` (`id`, `parent_id`, `model`, `foreign_key`, `alias`, `lft`, `rght`) VALUES
-(1, NULL, NULL, NULL, 'controllers', 1, 928),
+(1, NULL, NULL, NULL, 'controllers', 1, 1010),
 (2, 1, NULL, NULL, 'Users', 2, 31),
 (3, 2, NULL, NULL, 'login', 3, 4),
 (4, 2, NULL, NULL, 'logout', 5, 6),
@@ -219,51 +219,51 @@ INSERT INTO `acos` (`id`, `parent_id`, `model`, `foreign_key`, `alias`, `lft`, `
 (155, 152, NULL, NULL, 'add', 329, 330),
 (156, 152, NULL, NULL, 'edit', 331, 332),
 (157, 152, NULL, NULL, 'delete', 333, 334),
-(158, 1, NULL, NULL, 'Api', 336, 401),
+(158, 1, NULL, NULL, 'Api', 336, 405),
 (159, 158, NULL, NULL, 'Sadrs', 337, 350),
 (160, 159, NULL, NULL, 'index', 338, 339),
 (161, 159, NULL, NULL, 'view', 340, 341),
 (162, 159, NULL, NULL, 'add', 342, 343),
 (163, 159, NULL, NULL, 'edit', 344, 345),
 (164, 159, NULL, NULL, 'delete', 346, 347),
-(165, 1, NULL, NULL, 'Crud', 402, 403),
-(166, 1, NULL, NULL, 'Josegonzalez\\Upload', 404, 405),
-(167, 1, NULL, NULL, 'AdrListOfDrugs', 406, 417),
-(168, 167, NULL, NULL, 'index', 407, 408),
-(169, 167, NULL, NULL, 'view', 409, 410),
-(170, 167, NULL, NULL, 'add', 411, 412),
-(171, 167, NULL, NULL, 'edit', 413, 414),
-(172, 167, NULL, NULL, 'delete', 415, 416),
-(173, 1, NULL, NULL, 'Adrs', 418, 431),
-(174, 173, NULL, NULL, 'index', 419, 420),
-(175, 173, NULL, NULL, 'view', 421, 422),
-(176, 173, NULL, NULL, 'add', 423, 424),
-(177, 173, NULL, NULL, 'edit', 425, 426),
-(178, 173, NULL, NULL, 'delete', 427, 428),
-(179, 1, NULL, NULL, 'AdrOtherDrugs', 432, 443),
-(180, 179, NULL, NULL, 'index', 433, 434),
-(181, 179, NULL, NULL, 'view', 435, 436),
-(182, 179, NULL, NULL, 'add', 437, 438),
-(183, 179, NULL, NULL, 'edit', 439, 440),
-(184, 179, NULL, NULL, 'delete', 441, 442),
-(185, 1, NULL, NULL, 'AdrLabTests', 444, 455),
-(186, 185, NULL, NULL, 'index', 445, 446),
-(187, 185, NULL, NULL, 'view', 447, 448),
-(188, 185, NULL, NULL, 'add', 449, 450),
-(189, 185, NULL, NULL, 'edit', 451, 452),
-(190, 185, NULL, NULL, 'delete', 453, 454),
-(191, 1, NULL, NULL, 'AefiListOfVaccines', 456, 467),
-(192, 191, NULL, NULL, 'index', 457, 458),
-(193, 191, NULL, NULL, 'view', 459, 460),
-(194, 191, NULL, NULL, 'add', 461, 462),
-(195, 191, NULL, NULL, 'edit', 463, 464),
-(196, 191, NULL, NULL, 'delete', 465, 466),
-(197, 1, NULL, NULL, 'AefiListOfDiluents', 468, 479),
-(198, 197, NULL, NULL, 'index', 469, 470),
-(199, 197, NULL, NULL, 'view', 471, 472),
-(200, 197, NULL, NULL, 'add', 473, 474),
-(201, 197, NULL, NULL, 'edit', 475, 476),
-(202, 197, NULL, NULL, 'delete', 477, 478),
+(165, 1, NULL, NULL, 'Crud', 406, 407),
+(166, 1, NULL, NULL, 'Josegonzalez\\Upload', 408, 409),
+(167, 1, NULL, NULL, 'AdrListOfDrugs', 410, 421),
+(168, 167, NULL, NULL, 'index', 411, 412),
+(169, 167, NULL, NULL, 'view', 413, 414),
+(170, 167, NULL, NULL, 'add', 415, 416),
+(171, 167, NULL, NULL, 'edit', 417, 418),
+(172, 167, NULL, NULL, 'delete', 419, 420),
+(173, 1, NULL, NULL, 'Adrs', 422, 435),
+(174, 173, NULL, NULL, 'index', 423, 424),
+(175, 173, NULL, NULL, 'view', 425, 426),
+(176, 173, NULL, NULL, 'add', 427, 428),
+(177, 173, NULL, NULL, 'edit', 429, 430),
+(178, 173, NULL, NULL, 'delete', 431, 432),
+(179, 1, NULL, NULL, 'AdrOtherDrugs', 436, 447),
+(180, 179, NULL, NULL, 'index', 437, 438),
+(181, 179, NULL, NULL, 'view', 439, 440),
+(182, 179, NULL, NULL, 'add', 441, 442),
+(183, 179, NULL, NULL, 'edit', 443, 444),
+(184, 179, NULL, NULL, 'delete', 445, 446),
+(185, 1, NULL, NULL, 'AdrLabTests', 448, 459),
+(186, 185, NULL, NULL, 'index', 449, 450),
+(187, 185, NULL, NULL, 'view', 451, 452),
+(188, 185, NULL, NULL, 'add', 453, 454),
+(189, 185, NULL, NULL, 'edit', 455, 456),
+(190, 185, NULL, NULL, 'delete', 457, 458),
+(191, 1, NULL, NULL, 'AefiListOfVaccines', 460, 471),
+(192, 191, NULL, NULL, 'index', 461, 462),
+(193, 191, NULL, NULL, 'view', 463, 464),
+(194, 191, NULL, NULL, 'add', 465, 466),
+(195, 191, NULL, NULL, 'edit', 467, 468),
+(196, 191, NULL, NULL, 'delete', 469, 470),
+(197, 1, NULL, NULL, 'AefiListOfDiluents', 472, 483),
+(198, 197, NULL, NULL, 'index', 473, 474),
+(199, 197, NULL, NULL, 'view', 475, 476),
+(200, 197, NULL, NULL, 'add', 477, 478),
+(201, 197, NULL, NULL, 'edit', 479, 480),
+(202, 197, NULL, NULL, 'delete', 481, 482),
 (203, 2, NULL, NULL, 'home', 21, 22),
 (204, 2, NULL, NULL, 'activate', 23, 24),
 (205, 158, NULL, NULL, 'Adrs', 351, 362),
@@ -278,254 +278,295 @@ INSERT INTO `acos` (`id`, `parent_id`, `model`, `foreign_key`, `alias`, `lft`, `
 (214, 211, NULL, NULL, 'add', 368, 369),
 (215, 211, NULL, NULL, 'edit', 370, 371),
 (216, 211, NULL, NULL, 'delete', 372, 373),
-(217, 1, NULL, NULL, 'CakePdf', 480, 481),
-(218, 1, NULL, NULL, 'Queue', 482, 483),
-(219, 1, NULL, NULL, 'Provinces', 484, 495),
-(220, 219, NULL, NULL, 'index', 485, 486),
-(221, 219, NULL, NULL, 'view', 487, 488),
-(222, 219, NULL, NULL, 'add', 489, 490),
-(223, 219, NULL, NULL, 'edit', 491, 492),
-(224, 219, NULL, NULL, 'delete', 493, 494),
-(225, 1, NULL, NULL, 'SaefiListOfVaccines', 496, 507),
-(226, 225, NULL, NULL, 'index', 497, 498),
-(227, 225, NULL, NULL, 'view', 499, 500),
-(228, 225, NULL, NULL, 'add', 501, 502),
-(229, 225, NULL, NULL, 'edit', 503, 504),
-(230, 225, NULL, NULL, 'delete', 505, 506),
-(231, 1, NULL, NULL, 'Saefis', 508, 521),
-(232, 231, NULL, NULL, 'index', 509, 510),
-(233, 231, NULL, NULL, 'view', 511, 512),
-(234, 231, NULL, NULL, 'add', 513, 514),
-(235, 231, NULL, NULL, 'edit', 515, 516),
-(236, 231, NULL, NULL, 'delete', 517, 518),
+(217, 1, NULL, NULL, 'CakePdf', 484, 485),
+(218, 1, NULL, NULL, 'Queue', 486, 487),
+(219, 1, NULL, NULL, 'Provinces', 488, 499),
+(220, 219, NULL, NULL, 'index', 489, 490),
+(221, 219, NULL, NULL, 'view', 491, 492),
+(222, 219, NULL, NULL, 'add', 493, 494),
+(223, 219, NULL, NULL, 'edit', 495, 496),
+(224, 219, NULL, NULL, 'delete', 497, 498),
+(225, 1, NULL, NULL, 'SaefiListOfVaccines', 500, 511),
+(226, 225, NULL, NULL, 'index', 501, 502),
+(227, 225, NULL, NULL, 'view', 503, 504),
+(228, 225, NULL, NULL, 'add', 505, 506),
+(229, 225, NULL, NULL, 'edit', 507, 508),
+(230, 225, NULL, NULL, 'delete', 509, 510),
+(231, 1, NULL, NULL, 'Saefis', 512, 525),
+(232, 231, NULL, NULL, 'index', 513, 514),
+(233, 231, NULL, NULL, 'view', 515, 516),
+(234, 231, NULL, NULL, 'add', 517, 518),
+(235, 231, NULL, NULL, 'edit', 519, 520),
+(236, 231, NULL, NULL, 'delete', 521, 522),
 (237, 158, NULL, NULL, 'Saefis', 377, 388),
 (238, 237, NULL, NULL, 'index', 378, 379),
 (239, 237, NULL, NULL, 'view', 380, 381),
 (240, 237, NULL, NULL, 'add', 382, 383),
 (241, 237, NULL, NULL, 'edit', 384, 385),
 (242, 237, NULL, NULL, 'delete', 386, 387),
-(243, 1, NULL, NULL, 'Admin', 522, 627),
-(244, 243, NULL, NULL, 'Users', 523, 542),
-(246, 244, NULL, NULL, 'index', 524, 525),
-(247, 244, NULL, NULL, 'view', 526, 527),
-(248, 244, NULL, NULL, 'profile', 528, 529),
-(249, 244, NULL, NULL, 'add', 530, 531),
-(250, 244, NULL, NULL, 'edit', 532, 533),
-(251, 244, NULL, NULL, 'delete', 534, 535),
-(252, 244, NULL, NULL, 'dashboard', 536, 537),
-(253, 243, NULL, NULL, 'Sadrs', 543, 554),
-(254, 253, NULL, NULL, 'index', 544, 545),
-(255, 253, NULL, NULL, 'view', 546, 547),
-(256, 253, NULL, NULL, 'add', 548, 549),
-(257, 253, NULL, NULL, 'edit', 550, 551),
-(258, 253, NULL, NULL, 'delete', 552, 553),
-(259, 243, NULL, NULL, 'Adrs', 555, 566),
-(260, 259, NULL, NULL, 'index', 556, 557),
-(261, 259, NULL, NULL, 'view', 558, 559),
-(262, 259, NULL, NULL, 'add', 560, 561),
-(263, 259, NULL, NULL, 'edit', 562, 563),
-(264, 259, NULL, NULL, 'delete', 564, 565),
-(265, 243, NULL, NULL, 'Saefis', 567, 578),
-(266, 265, NULL, NULL, 'view', 568, 569),
-(267, 265, NULL, NULL, 'add', 570, 571),
-(268, 265, NULL, NULL, 'edit', 572, 573),
-(269, 265, NULL, NULL, 'delete', 574, 575),
-(270, 243, NULL, NULL, 'Aefis', 579, 590),
-(271, 270, NULL, NULL, 'index', 580, 581),
-(272, 270, NULL, NULL, 'view', 582, 583),
-(273, 270, NULL, NULL, 'add', 584, 585),
-(274, 270, NULL, NULL, 'edit', 586, 587),
-(275, 270, NULL, NULL, 'delete', 588, 589),
-(276, 265, NULL, NULL, 'index', 576, 577),
+(243, 1, NULL, NULL, 'Admin', 526, 659),
+(244, 243, NULL, NULL, 'Users', 527, 546),
+(246, 244, NULL, NULL, 'index', 528, 529),
+(247, 244, NULL, NULL, 'view', 530, 531),
+(248, 244, NULL, NULL, 'profile', 532, 533),
+(249, 244, NULL, NULL, 'add', 534, 535),
+(250, 244, NULL, NULL, 'edit', 536, 537),
+(251, 244, NULL, NULL, 'delete', 538, 539),
+(252, 244, NULL, NULL, 'dashboard', 540, 541),
+(253, 243, NULL, NULL, 'Sadrs', 547, 558),
+(254, 253, NULL, NULL, 'index', 548, 549),
+(255, 253, NULL, NULL, 'view', 550, 551),
+(256, 253, NULL, NULL, 'add', 552, 553),
+(257, 253, NULL, NULL, 'edit', 554, 555),
+(258, 253, NULL, NULL, 'delete', 556, 557),
+(259, 243, NULL, NULL, 'Adrs', 559, 570),
+(260, 259, NULL, NULL, 'index', 560, 561),
+(261, 259, NULL, NULL, 'view', 562, 563),
+(262, 259, NULL, NULL, 'add', 564, 565),
+(263, 259, NULL, NULL, 'edit', 566, 567),
+(264, 259, NULL, NULL, 'delete', 568, 569),
+(265, 243, NULL, NULL, 'Saefis', 571, 582),
+(266, 265, NULL, NULL, 'view', 572, 573),
+(267, 265, NULL, NULL, 'add', 574, 575),
+(268, 265, NULL, NULL, 'edit', 576, 577),
+(269, 265, NULL, NULL, 'delete', 578, 579),
+(270, 243, NULL, NULL, 'Aefis', 583, 594),
+(271, 270, NULL, NULL, 'index', 584, 585),
+(272, 270, NULL, NULL, 'view', 586, 587),
+(273, 270, NULL, NULL, 'add', 588, 589),
+(274, 270, NULL, NULL, 'edit', 590, 591),
+(275, 270, NULL, NULL, 'delete', 592, 593),
+(276, 265, NULL, NULL, 'index', 580, 581),
 (286, 2, NULL, NULL, 'dashboard', 25, 26),
-(287, 243, NULL, NULL, 'Groups', 591, 602),
-(288, 287, NULL, NULL, 'index', 592, 593),
-(289, 287, NULL, NULL, 'view', 594, 595),
-(290, 287, NULL, NULL, 'add', 596, 597),
-(291, 287, NULL, NULL, 'edit', 598, 599),
-(292, 287, NULL, NULL, 'delete', 600, 601),
-(293, 1, NULL, NULL, 'Manager', 628, 751),
-(294, 293, NULL, NULL, 'Users', 629, 644),
-(295, 294, NULL, NULL, 'dashboard', 630, 631),
-(296, 294, NULL, NULL, 'index', 632, 633),
-(297, 294, NULL, NULL, 'view', 634, 635),
-(298, 294, NULL, NULL, 'profile', 636, 637),
-(299, 294, NULL, NULL, 'add', 638, 639),
-(300, 294, NULL, NULL, 'edit', 640, 641),
-(301, 294, NULL, NULL, 'delete', 642, 643),
-(302, 293, NULL, NULL, 'Adrs', 645, 668),
-(303, 302, NULL, NULL, 'index', 646, 647),
-(304, 302, NULL, NULL, 'view', 648, 649),
-(305, 302, NULL, NULL, 'add', 650, 651),
-(306, 302, NULL, NULL, 'edit', 652, 653),
-(307, 302, NULL, NULL, 'delete', 654, 655),
-(308, 293, NULL, NULL, 'Groups', 669, 680),
-(309, 308, NULL, NULL, 'index', 670, 671),
-(310, 308, NULL, NULL, 'view', 672, 673),
-(311, 308, NULL, NULL, 'add', 674, 675),
-(312, 308, NULL, NULL, 'edit', 676, 677),
-(313, 308, NULL, NULL, 'delete', 678, 679),
-(314, 293, NULL, NULL, 'Saefis', 681, 704),
-(315, 314, NULL, NULL, 'index', 682, 683),
-(316, 314, NULL, NULL, 'view', 684, 685),
-(317, 314, NULL, NULL, 'add', 686, 687),
-(318, 314, NULL, NULL, 'edit', 688, 689),
-(319, 314, NULL, NULL, 'delete', 690, 691),
-(320, 293, NULL, NULL, 'Aefis', 705, 726),
-(321, 320, NULL, NULL, 'index', 706, 707),
-(322, 320, NULL, NULL, 'view', 708, 709),
-(323, 320, NULL, NULL, 'add', 710, 711),
-(324, 320, NULL, NULL, 'edit', 712, 713),
-(325, 320, NULL, NULL, 'delete', 714, 715),
-(326, 293, NULL, NULL, 'Sadrs', 727, 750),
-(327, 326, NULL, NULL, 'index', 728, 729),
-(328, 326, NULL, NULL, 'view', 730, 731),
-(329, 326, NULL, NULL, 'add', 732, 733),
-(330, 326, NULL, NULL, 'edit', 734, 735),
-(331, 326, NULL, NULL, 'delete', 736, 737),
-(332, 1, NULL, NULL, 'Evaluator', 752, 867),
-(333, 332, NULL, NULL, 'Users', 753, 768),
-(334, 333, NULL, NULL, 'dashboard', 754, 755),
-(335, 333, NULL, NULL, 'index', 756, 757),
-(336, 333, NULL, NULL, 'view', 758, 759),
-(337, 333, NULL, NULL, 'profile', 760, 761),
-(338, 333, NULL, NULL, 'add', 762, 763),
-(339, 333, NULL, NULL, 'edit', 764, 765),
-(340, 333, NULL, NULL, 'delete', 766, 767),
-(341, 332, NULL, NULL, 'Adrs', 769, 790),
-(342, 341, NULL, NULL, 'index', 770, 771),
-(343, 341, NULL, NULL, 'view', 772, 773),
-(344, 341, NULL, NULL, 'add', 774, 775),
-(345, 341, NULL, NULL, 'edit', 776, 777),
-(346, 341, NULL, NULL, 'delete', 778, 779),
-(347, 332, NULL, NULL, 'Groups', 791, 802),
-(348, 347, NULL, NULL, 'index', 792, 793),
-(349, 347, NULL, NULL, 'view', 794, 795),
-(350, 347, NULL, NULL, 'add', 796, 797),
-(351, 347, NULL, NULL, 'edit', 798, 799),
-(352, 347, NULL, NULL, 'delete', 800, 801),
-(353, 332, NULL, NULL, 'Saefis', 803, 824),
-(354, 353, NULL, NULL, 'index', 804, 805),
-(355, 353, NULL, NULL, 'view', 806, 807),
-(356, 353, NULL, NULL, 'add', 808, 809),
-(357, 353, NULL, NULL, 'edit', 810, 811),
-(358, 353, NULL, NULL, 'delete', 812, 813),
-(359, 332, NULL, NULL, 'Aefis', 825, 844),
-(360, 359, NULL, NULL, 'index', 826, 827),
-(361, 359, NULL, NULL, 'view', 828, 829),
-(362, 359, NULL, NULL, 'add', 830, 831),
-(363, 359, NULL, NULL, 'edit', 832, 833),
-(364, 359, NULL, NULL, 'delete', 834, 835),
-(365, 332, NULL, NULL, 'Sadrs', 845, 866),
-(366, 365, NULL, NULL, 'index', 846, 847),
-(367, 365, NULL, NULL, 'view', 848, 849),
-(368, 365, NULL, NULL, 'add', 850, 851),
-(369, 365, NULL, NULL, 'edit', 852, 853),
-(370, 365, NULL, NULL, 'delete', 854, 855),
-(371, 1, NULL, NULL, 'Notifications', 868, 879),
-(372, 371, NULL, NULL, 'index', 869, 870),
-(373, 371, NULL, NULL, 'view', 871, 872),
-(374, 371, NULL, NULL, 'add', 873, 874),
-(375, 371, NULL, NULL, 'edit', 875, 876),
-(376, 371, NULL, NULL, 'delete', 877, 878),
-(377, 243, NULL, NULL, 'Messages', 603, 614),
-(378, 377, NULL, NULL, 'index', 604, 605),
-(379, 377, NULL, NULL, 'view', 606, 607),
-(380, 377, NULL, NULL, 'add', 608, 609),
-(381, 377, NULL, NULL, 'edit', 610, 611),
-(382, 377, NULL, NULL, 'delete', 612, 613),
-(383, 1, NULL, NULL, 'SoftDelete', 880, 881),
+(287, 243, NULL, NULL, 'Groups', 595, 606),
+(288, 287, NULL, NULL, 'index', 596, 597),
+(289, 287, NULL, NULL, 'view', 598, 599),
+(290, 287, NULL, NULL, 'add', 600, 601),
+(291, 287, NULL, NULL, 'edit', 602, 603),
+(292, 287, NULL, NULL, 'delete', 604, 605),
+(293, 1, NULL, NULL, 'Manager', 660, 793),
+(294, 293, NULL, NULL, 'Users', 661, 676),
+(295, 294, NULL, NULL, 'dashboard', 662, 663),
+(296, 294, NULL, NULL, 'index', 664, 665),
+(297, 294, NULL, NULL, 'view', 666, 667),
+(298, 294, NULL, NULL, 'profile', 668, 669),
+(299, 294, NULL, NULL, 'add', 670, 671),
+(300, 294, NULL, NULL, 'edit', 672, 673),
+(301, 294, NULL, NULL, 'delete', 674, 675),
+(302, 293, NULL, NULL, 'Adrs', 677, 702),
+(303, 302, NULL, NULL, 'index', 678, 679),
+(304, 302, NULL, NULL, 'view', 680, 681),
+(305, 302, NULL, NULL, 'add', 682, 683),
+(306, 302, NULL, NULL, 'edit', 684, 685),
+(307, 302, NULL, NULL, 'delete', 686, 687),
+(308, 293, NULL, NULL, 'Groups', 703, 714),
+(309, 308, NULL, NULL, 'index', 704, 705),
+(310, 308, NULL, NULL, 'view', 706, 707),
+(311, 308, NULL, NULL, 'add', 708, 709),
+(312, 308, NULL, NULL, 'edit', 710, 711),
+(313, 308, NULL, NULL, 'delete', 712, 713),
+(314, 293, NULL, NULL, 'Saefis', 715, 740),
+(315, 314, NULL, NULL, 'index', 716, 717),
+(316, 314, NULL, NULL, 'view', 718, 719),
+(317, 314, NULL, NULL, 'add', 720, 721),
+(318, 314, NULL, NULL, 'edit', 722, 723),
+(319, 314, NULL, NULL, 'delete', 724, 725),
+(320, 293, NULL, NULL, 'Aefis', 741, 766),
+(321, 320, NULL, NULL, 'index', 742, 743),
+(322, 320, NULL, NULL, 'view', 744, 745),
+(323, 320, NULL, NULL, 'add', 746, 747),
+(324, 320, NULL, NULL, 'edit', 748, 749),
+(325, 320, NULL, NULL, 'delete', 750, 751),
+(326, 293, NULL, NULL, 'Sadrs', 767, 792),
+(327, 326, NULL, NULL, 'index', 768, 769),
+(328, 326, NULL, NULL, 'view', 770, 771),
+(329, 326, NULL, NULL, 'add', 772, 773),
+(330, 326, NULL, NULL, 'edit', 774, 775),
+(331, 326, NULL, NULL, 'delete', 776, 777),
+(332, 1, NULL, NULL, 'Evaluator', 794, 909),
+(333, 332, NULL, NULL, 'Users', 795, 810),
+(334, 333, NULL, NULL, 'dashboard', 796, 797),
+(335, 333, NULL, NULL, 'index', 798, 799),
+(336, 333, NULL, NULL, 'view', 800, 801),
+(337, 333, NULL, NULL, 'profile', 802, 803),
+(338, 333, NULL, NULL, 'add', 804, 805),
+(339, 333, NULL, NULL, 'edit', 806, 807),
+(340, 333, NULL, NULL, 'delete', 808, 809),
+(341, 332, NULL, NULL, 'Adrs', 811, 832),
+(342, 341, NULL, NULL, 'index', 812, 813),
+(343, 341, NULL, NULL, 'view', 814, 815),
+(344, 341, NULL, NULL, 'add', 816, 817),
+(345, 341, NULL, NULL, 'edit', 818, 819),
+(346, 341, NULL, NULL, 'delete', 820, 821),
+(347, 332, NULL, NULL, 'Groups', 833, 844),
+(348, 347, NULL, NULL, 'index', 834, 835),
+(349, 347, NULL, NULL, 'view', 836, 837),
+(350, 347, NULL, NULL, 'add', 838, 839),
+(351, 347, NULL, NULL, 'edit', 840, 841),
+(352, 347, NULL, NULL, 'delete', 842, 843),
+(353, 332, NULL, NULL, 'Saefis', 845, 866),
+(354, 353, NULL, NULL, 'index', 846, 847),
+(355, 353, NULL, NULL, 'view', 848, 849),
+(356, 353, NULL, NULL, 'add', 850, 851),
+(357, 353, NULL, NULL, 'edit', 852, 853),
+(358, 353, NULL, NULL, 'delete', 854, 855),
+(359, 332, NULL, NULL, 'Aefis', 867, 886),
+(360, 359, NULL, NULL, 'index', 868, 869),
+(361, 359, NULL, NULL, 'view', 870, 871),
+(362, 359, NULL, NULL, 'add', 872, 873),
+(363, 359, NULL, NULL, 'edit', 874, 875),
+(364, 359, NULL, NULL, 'delete', 876, 877),
+(365, 332, NULL, NULL, 'Sadrs', 887, 908),
+(366, 365, NULL, NULL, 'index', 888, 889),
+(367, 365, NULL, NULL, 'view', 890, 891),
+(368, 365, NULL, NULL, 'add', 892, 893),
+(369, 365, NULL, NULL, 'edit', 894, 895),
+(370, 365, NULL, NULL, 'delete', 896, 897),
+(371, 1, NULL, NULL, 'Notifications', 910, 921),
+(372, 371, NULL, NULL, 'index', 911, 912),
+(373, 371, NULL, NULL, 'view', 913, 914),
+(374, 371, NULL, NULL, 'add', 915, 916),
+(375, 371, NULL, NULL, 'edit', 917, 918),
+(376, 371, NULL, NULL, 'delete', 919, 920),
+(377, 243, NULL, NULL, 'Messages', 607, 618),
+(378, 377, NULL, NULL, 'index', 608, 609),
+(379, 377, NULL, NULL, 'view', 610, 611),
+(380, 377, NULL, NULL, 'add', 612, 613),
+(381, 377, NULL, NULL, 'edit', 614, 615),
+(382, 377, NULL, NULL, 'delete', 616, 617),
+(383, 1, NULL, NULL, 'SoftDelete', 922, 923),
 (384, 85, NULL, NULL, 'e2b', 195, 196),
 (385, 146, NULL, NULL, 'e2b', 319, 320),
-(386, 173, NULL, NULL, 'e2b', 429, 430),
-(387, 231, NULL, NULL, 'e2b', 519, 520),
-(389, 326, NULL, NULL, 'assignEvaluator', 738, 739),
+(386, 173, NULL, NULL, 'e2b', 433, 434),
+(387, 231, NULL, NULL, 'e2b', 523, 524),
+(389, 326, NULL, NULL, 'assignEvaluator', 778, 779),
 (390, 158, NULL, NULL, 'Users', 389, 396),
 (394, 390, NULL, NULL, 'register', 390, 391),
 (400, 390, NULL, NULL, 'add', 392, 393),
-(403, 1, NULL, NULL, 'ADmad\\JwtAuth', 882, 883),
+(403, 1, NULL, NULL, 'ADmad\\JwtAuth', 924, 925),
 (404, 390, NULL, NULL, 'token', 394, 395),
-(405, 1, NULL, NULL, 'Reviews', 884, 895),
-(406, 405, NULL, NULL, 'index', 885, 886),
-(407, 405, NULL, NULL, 'view', 887, 888),
-(408, 405, NULL, NULL, 'add', 889, 890),
-(409, 405, NULL, NULL, 'edit', 891, 892),
-(410, 405, NULL, NULL, 'delete', 893, 894),
-(411, 326, NULL, NULL, 'causality', 740, 741),
-(412, 326, NULL, NULL, 'requestReporter', 742, 743),
+(405, 1, NULL, NULL, 'Reviews', 926, 937),
+(406, 405, NULL, NULL, 'index', 927, 928),
+(407, 405, NULL, NULL, 'view', 929, 930),
+(408, 405, NULL, NULL, 'add', 931, 932),
+(409, 405, NULL, NULL, 'edit', 933, 934),
+(410, 405, NULL, NULL, 'delete', 935, 936),
+(411, 326, NULL, NULL, 'causality', 780, 781),
+(412, 326, NULL, NULL, 'requestReporter', 782, 783),
 (413, 85, NULL, NULL, 'followup', 197, 198),
-(415, 326, NULL, NULL, 'requestEvaluator', 744, 745),
-(416, 326, NULL, NULL, 'committeeReview', 746, 747),
+(415, 326, NULL, NULL, 'requestEvaluator', 784, 785),
+(416, 326, NULL, NULL, 'committeeReview', 786, 787),
 (417, 146, NULL, NULL, 'followup', 321, 322),
-(418, 320, NULL, NULL, 'assignEvaluator', 716, 717),
-(419, 320, NULL, NULL, 'requestEvaluator', 718, 719),
-(420, 320, NULL, NULL, 'requestReporter', 720, 721),
-(421, 320, NULL, NULL, 'committeeReview', 722, 723),
+(418, 320, NULL, NULL, 'assignEvaluator', 752, 753),
+(419, 320, NULL, NULL, 'requestEvaluator', 754, 755),
+(420, 320, NULL, NULL, 'requestReporter', 756, 757),
+(421, 320, NULL, NULL, 'committeeReview', 758, 759),
 (422, 211, NULL, NULL, 'followup', 374, 375),
 (423, 159, NULL, NULL, 'followup', 348, 349),
-(424, 314, NULL, NULL, 'assignEvaluator', 692, 693),
-(425, 314, NULL, NULL, 'requestEvaluator', 694, 695),
-(426, 314, NULL, NULL, 'requestReporter', 696, 697),
-(427, 314, NULL, NULL, 'committeeReview', 698, 699),
-(428, 314, NULL, NULL, 'causality', 700, 701),
-(429, 302, NULL, NULL, 'assignEvaluator', 656, 657),
-(430, 302, NULL, NULL, 'requestEvaluator', 658, 659),
-(431, 302, NULL, NULL, 'causality', 660, 661),
-(432, 302, NULL, NULL, 'requestReporter', 662, 663),
-(433, 302, NULL, NULL, 'committeeReview', 664, 665),
+(424, 314, NULL, NULL, 'assignEvaluator', 726, 727),
+(425, 314, NULL, NULL, 'requestEvaluator', 728, 729),
+(426, 314, NULL, NULL, 'requestReporter', 730, 731),
+(427, 314, NULL, NULL, 'committeeReview', 732, 733),
+(428, 314, NULL, NULL, 'causality', 734, 735),
+(429, 302, NULL, NULL, 'assignEvaluator', 688, 689),
+(430, 302, NULL, NULL, 'requestEvaluator', 690, 691),
+(431, 302, NULL, NULL, 'causality', 692, 693),
+(432, 302, NULL, NULL, 'requestReporter', 694, 695),
+(433, 302, NULL, NULL, 'committeeReview', 696, 697),
 (434, 85, NULL, NULL, 'vigibase', 199, 200),
-(435, 1, NULL, NULL, 'Sites', 896, 907),
-(436, 435, NULL, NULL, 'index', 897, 898),
-(437, 435, NULL, NULL, 'view', 899, 900),
-(438, 435, NULL, NULL, 'add', 901, 902),
-(439, 435, NULL, NULL, 'edit', 903, 904),
-(440, 435, NULL, NULL, 'delete', 905, 906),
-(441, 243, NULL, NULL, 'Sites', 615, 626),
-(442, 441, NULL, NULL, 'index', 616, 617),
-(443, 441, NULL, NULL, 'view', 618, 619),
-(444, 441, NULL, NULL, 'add', 620, 621),
-(445, 441, NULL, NULL, 'edit', 622, 623),
-(446, 441, NULL, NULL, 'delete', 624, 625),
-(447, 341, NULL, NULL, 'assignEvaluator', 780, 781),
-(448, 341, NULL, NULL, 'requestEvaluator', 782, 783),
-(449, 341, NULL, NULL, 'causality', 784, 785),
-(450, 341, NULL, NULL, 'requestReporter', 786, 787),
-(451, 341, NULL, NULL, 'committeeReview', 788, 789),
-(452, 353, NULL, NULL, 'assignEvaluator', 814, 815),
-(453, 353, NULL, NULL, 'requestEvaluator', 816, 817),
-(454, 353, NULL, NULL, 'causality', 818, 819),
-(455, 353, NULL, NULL, 'requestReporter', 820, 821),
-(456, 353, NULL, NULL, 'committeeReview', 822, 823),
-(457, 359, NULL, NULL, 'assignEvaluator', 836, 837),
-(458, 359, NULL, NULL, 'requestEvaluator', 838, 839),
-(459, 359, NULL, NULL, 'requestReporter', 840, 841),
-(460, 359, NULL, NULL, 'committeeReview', 842, 843),
-(461, 365, NULL, NULL, 'assignEvaluator', 856, 857),
-(462, 365, NULL, NULL, 'causality', 858, 859),
-(463, 365, NULL, NULL, 'requestReporter', 860, 861),
-(464, 365, NULL, NULL, 'requestEvaluator', 862, 863),
-(465, 365, NULL, NULL, 'committeeReview', 864, 865),
+(435, 1, NULL, NULL, 'Sites', 938, 949),
+(436, 435, NULL, NULL, 'index', 939, 940),
+(437, 435, NULL, NULL, 'view', 941, 942),
+(438, 435, NULL, NULL, 'add', 943, 944),
+(439, 435, NULL, NULL, 'edit', 945, 946),
+(440, 435, NULL, NULL, 'delete', 947, 948),
+(441, 243, NULL, NULL, 'Sites', 619, 630),
+(442, 441, NULL, NULL, 'index', 620, 621),
+(443, 441, NULL, NULL, 'view', 622, 623),
+(444, 441, NULL, NULL, 'add', 624, 625),
+(445, 441, NULL, NULL, 'edit', 626, 627),
+(446, 441, NULL, NULL, 'delete', 628, 629),
+(447, 341, NULL, NULL, 'assignEvaluator', 822, 823),
+(448, 341, NULL, NULL, 'requestEvaluator', 824, 825),
+(449, 341, NULL, NULL, 'causality', 826, 827),
+(450, 341, NULL, NULL, 'requestReporter', 828, 829),
+(451, 341, NULL, NULL, 'committeeReview', 830, 831),
+(452, 353, NULL, NULL, 'assignEvaluator', 856, 857),
+(453, 353, NULL, NULL, 'requestEvaluator', 858, 859),
+(454, 353, NULL, NULL, 'causality', 860, 861),
+(455, 353, NULL, NULL, 'requestReporter', 862, 863),
+(456, 353, NULL, NULL, 'committeeReview', 864, 865),
+(457, 359, NULL, NULL, 'assignEvaluator', 878, 879),
+(458, 359, NULL, NULL, 'requestEvaluator', 880, 881),
+(459, 359, NULL, NULL, 'requestReporter', 882, 883),
+(460, 359, NULL, NULL, 'committeeReview', 884, 885),
+(461, 365, NULL, NULL, 'assignEvaluator', 898, 899),
+(462, 365, NULL, NULL, 'causality', 900, 901),
+(463, 365, NULL, NULL, 'requestReporter', 902, 903),
+(464, 365, NULL, NULL, 'requestEvaluator', 904, 905),
+(465, 365, NULL, NULL, 'committeeReview', 906, 907),
 (466, 158, NULL, NULL, 'Sites', 397, 400),
 (467, 466, NULL, NULL, 'view', 398, 399),
-(468, 1, NULL, NULL, 'Facilities', 908, 923),
-(469, 468, NULL, NULL, 'facilityName', 909, 910),
-(470, 468, NULL, NULL, 'facilityCode', 911, 912),
-(471, 468, NULL, NULL, 'index', 913, 914),
-(472, 468, NULL, NULL, 'view', 915, 916),
-(473, 468, NULL, NULL, 'add', 917, 918),
-(474, 468, NULL, NULL, 'edit', 919, 920),
-(475, 468, NULL, NULL, 'delete', 921, 922),
+(468, 1, NULL, NULL, 'Facilities', 950, 965),
+(469, 468, NULL, NULL, 'facilityName', 951, 952),
+(470, 468, NULL, NULL, 'facilityCode', 953, 954),
+(471, 468, NULL, NULL, 'index', 955, 956),
+(472, 468, NULL, NULL, 'view', 957, 958),
+(473, 468, NULL, NULL, 'add', 959, 960),
+(474, 468, NULL, NULL, 'edit', 961, 962),
+(475, 468, NULL, NULL, 'delete', 963, 964),
 (476, 2, NULL, NULL, 'forgotPassword', 27, 28),
 (477, 2, NULL, NULL, 'resetPassword', 29, 30),
 (478, 41, NULL, NULL, 'drugName', 105, 106),
-(479, 244, NULL, NULL, 'deactivate', 538, 539),
-(480, 244, NULL, NULL, 'activate', 540, 541),
-(481, 1, NULL, NULL, 'CsvView', 924, 925),
-(482, 1, NULL, NULL, 'Search', 926, 927),
-(483, 326, NULL, NULL, 'archive', 748, 749),
-(484, 302, NULL, NULL, 'archive', 666, 667),
-(485, 314, NULL, NULL, 'archive', 702, 703),
-(486, 320, NULL, NULL, 'archive', 724, 725);
+(479, 244, NULL, NULL, 'deactivate', 542, 543),
+(480, 244, NULL, NULL, 'activate', 544, 545),
+(481, 1, NULL, NULL, 'CsvView', 966, 967),
+(482, 1, NULL, NULL, 'Search', 968, 969),
+(483, 326, NULL, NULL, 'archive', 788, 789),
+(484, 302, NULL, NULL, 'archive', 698, 699),
+(485, 314, NULL, NULL, 'archive', 736, 737),
+(486, 320, NULL, NULL, 'archive', 760, 761),
+(487, 243, NULL, NULL, 'Facilities', 631, 646),
+(488, 487, NULL, NULL, 'facilityName', 632, 633),
+(489, 487, NULL, NULL, 'facilityCode', 634, 635),
+(490, 487, NULL, NULL, 'index', 636, 637),
+(491, 487, NULL, NULL, 'view', 638, 639),
+(492, 487, NULL, NULL, 'add', 640, 641),
+(493, 487, NULL, NULL, 'edit', 642, 643),
+(494, 487, NULL, NULL, 'delete', 644, 645),
+(507, 1, NULL, NULL, 'Reports', 970, 989),
+(508, 507, NULL, NULL, 'index', 971, 972),
+(510, 507, NULL, NULL, 'sadrsPerProvince', 973, 974),
+(511, 507, NULL, NULL, 'aefisPerProvince', 975, 976),
+(514, 507, NULL, NULL, 'saefisPerMonth', 977, 978),
+(515, 507, NULL, NULL, 'adrsPerMonth', 979, 980),
+(516, 507, NULL, NULL, 'sadrsPerYear', 981, 982),
+(517, 507, NULL, NULL, 'sadrsPerCausality', 983, 984),
+(518, 507, NULL, NULL, 'aefisPerYear', 985, 986),
+(519, 507, NULL, NULL, 'aefisPerCausality', 987, 988),
+(520, 320, NULL, NULL, 'causality', 762, 763),
+(521, 1, NULL, NULL, 'AefiCausalities', 990, 1001),
+(522, 521, NULL, NULL, 'index', 991, 992),
+(523, 521, NULL, NULL, 'view', 993, 994),
+(524, 521, NULL, NULL, 'add', 995, 996),
+(525, 521, NULL, NULL, 'edit', 997, 998),
+(526, 521, NULL, NULL, 'delete', 999, 1000),
+(533, 158, NULL, NULL, 'Feedbacks', 401, 404),
+(534, 533, NULL, NULL, 'add', 402, 403),
+(535, 243, NULL, NULL, 'Feedbacks', 647, 658),
+(536, 535, NULL, NULL, 'index', 648, 649),
+(537, 535, NULL, NULL, 'view', 650, 651),
+(538, 535, NULL, NULL, 'add', 652, 653),
+(539, 535, NULL, NULL, 'edit', 654, 655),
+(540, 535, NULL, NULL, 'delete', 656, 657),
+(541, 314, NULL, NULL, 'clean', 738, 739),
+(542, 1, NULL, NULL, 'Captcha', 1002, 1007),
+(543, 542, NULL, NULL, 'Captcha', 1003, 1006),
+(544, 543, NULL, NULL, 'display', 1004, 1005),
+(545, 1, NULL, NULL, 'Duplicatable', 1008, 1009),
+(546, 302, NULL, NULL, 'clean', 700, 701),
+(547, 320, NULL, NULL, 'clean', 764, 765),
+(548, 326, NULL, NULL, 'clean', 790, 791);
 
 -- --------------------------------------------------------
 
@@ -602,19 +643,22 @@ CREATE TABLE `adrs` (
   `status` varchar(255) DEFAULT 'UnSubmitted',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  `deleted` datetime DEFAULT NULL
+  `deleted` datetime DEFAULT NULL,
+  `copied` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `adrs`
 --
 
-INSERT INTO `adrs` (`id`, `user_id`, `adr_id`, `reference_number`, `assigned_to`, `assigned_by`, `assigned_date`, `mrcz_protocol_number`, `mcaz_protocol_number`, `principal_investigator`, `reporter_name`, `reporter_email`, `designation_id`, `reporter_phone`, `name_of_institution`, `institution_code`, `study_title`, `study_sponsor`, `date_of_adverse_event`, `participant_number`, `report_type`, `date_of_site_awareness`, `date_of_birth`, `age`, `gender`, `study_week`, `visit_number`, `adverse_event_type`, `sae_type`, `sae_description`, `toxicity_grade`, `previous_events`, `previous_events_number`, `total_saes`, `location_event`, `location_event_specify`, `research_involves`, `research_involves_specify`, `name_of_drug`, `drug_investigational`, `patient_other_drug`, `report_to_mcaz`, `report_to_mcaz_date`, `report_to_mrcz`, `report_to_mrcz_date`, `report_to_sponsor`, `report_to_sponsor_date`, `report_to_irb`, `report_to_irb_date`, `medical_history`, `diagnosis`, `immediate_cause`, `symptoms`, `investigations`, `results`, `management`, `outcome`, `d1_consent_form`, `d2_brochure`, `d3_changes_sae`, `d4_consent_sae`, `changes_explain`, `assess_risk`, `submitted`, `submitted_date`, `status`, `created`, `modified`, `deleted`) VALUES
-(1, 3, NULL, 'SAE1/2017', 12, 2, '2017-12-18 23:56:27', '2255', '3212', 'PI numero uno', 'Edward', 'eddieokemwa@gmail.com', 2, '254729932475', 'Kenyatta National Hospital', '001', 'Big study', 'GSK', '2008-11-12', '225', 'Initial', '2017-06-08', '09-11-2017', NULL, 'Male', '33', '2', 'SAE', 'Life-threatening (an actual risk of death at the time of the event).', 'None to specify', 'Grade 3', 'No', '22', '4', 'Other, specify', 'specified here', 'Drug', 'specified research involves', 'sijui', 'Yes', '', 'Yes', '2017-11-01', 'No', '2017-11-02', 'No', '2017-11-03', 'Yes', '2017-11-07', 'Medical history', 'alikua mgongjwa', 'hatujatambua', 'coughing', 'none so far', 'Coco di rahh', 'Alpha blondy', 'tereree', 'Yes', 'No', 'N/A', 'No', 'Explanation required', 'Yes', 2, '2017-12-18', 'Approved', '2017-11-09 16:45:27', '2017-12-19 00:01:19', NULL),
-(2, NULL, NULL, 'SAE2/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'eddieokemwa@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '2017-11-29 15:00:21', '2017-11-29 15:00:21', NULL),
-(3, NULL, NULL, 'SAE3/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'eddieokemwa@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '2017-12-08 00:47:46', '2017-12-08 00:47:46', '2018-01-07 22:00:44'),
-(4, 3, NULL, 'SAE4/2017', NULL, NULL, NULL, '2255', '3212', 'PI numero uno', 'Gi', 'eddieokemwa@gmail.com', 5, '', 'Kenyatta National Hospital', 'but more', 'Big study', 'GSK', '2017-12-01', '225', 'Initial', '2017-12-01', '14-10-2004', NULL, 'Male', '33', '2', 'SAE', 'Life-threatening (an actual risk of death at the time of the event).', 'asdfas asfa ', 'Grade 4', 'Yes', '22', '4', 'Clinic/Hospital', 'asfasfdasfd', 'Procedure', 'asdfasfd', 'asfasfdasfd', 'Yes', 'Yes', 'Yes', '2017-12-02', 'No', '2017-12-01', 'Yes', '2017-12-05', 'Yes', '2017-12-01', 'asdf asfd saf ', 'da sdf', ' asdfas fa', 'sfas ', 'asfsa f', 'asf a', 'asdf a', 'asdf sa f', 'No', 'Yes', 'N/A', 'Yes', 'sdfsadf asdf adf', 'Yes', 1, NULL, NULL, '2017-12-08 00:50:18', '2017-12-12 09:28:51', NULL),
-(6, 16, NULL, 'SAE6/2018', NULL, NULL, NULL, NULL, NULL, NULL, 'reporter', 'eddyokemwa@gmail.com', 5, '0729932475', NULL, 'bu Bulawayo Maternal Health Clinic', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'UnSubmitted', '2018-01-03 02:00:17', '2018-01-03 02:00:17', NULL);
+INSERT INTO `adrs` (`id`, `user_id`, `adr_id`, `reference_number`, `assigned_to`, `assigned_by`, `assigned_date`, `mrcz_protocol_number`, `mcaz_protocol_number`, `principal_investigator`, `reporter_name`, `reporter_email`, `designation_id`, `reporter_phone`, `name_of_institution`, `institution_code`, `study_title`, `study_sponsor`, `date_of_adverse_event`, `participant_number`, `report_type`, `date_of_site_awareness`, `date_of_birth`, `age`, `gender`, `study_week`, `visit_number`, `adverse_event_type`, `sae_type`, `sae_description`, `toxicity_grade`, `previous_events`, `previous_events_number`, `total_saes`, `location_event`, `location_event_specify`, `research_involves`, `research_involves_specify`, `name_of_drug`, `drug_investigational`, `patient_other_drug`, `report_to_mcaz`, `report_to_mcaz_date`, `report_to_mrcz`, `report_to_mrcz_date`, `report_to_sponsor`, `report_to_sponsor_date`, `report_to_irb`, `report_to_irb_date`, `medical_history`, `diagnosis`, `immediate_cause`, `symptoms`, `investigations`, `results`, `management`, `outcome`, `d1_consent_form`, `d2_brochure`, `d3_changes_sae`, `d4_consent_sae`, `changes_explain`, `assess_risk`, `submitted`, `submitted_date`, `status`, `created`, `modified`, `deleted`, `copied`) VALUES
+(1, 3, NULL, 'SAE1/2017', 12, 2, '2017-12-18 23:56:27', '2255', '3212', 'PI numero uno', 'Edward', 'eddieokemwa@gmail.com', 2, '254729932475', 'Kenyatta National Hospital', '001', 'Big study', 'GSK', '2008-11-12', '225', 'Initial', '2017-06-08', '09-11-2017', NULL, 'Male', '33', '2', 'SAE', 'Life-threatening (an actual risk of death at the time of the event).', 'None to specify', 'Grade 3', 'No', '22', '4', 'Other, specify', 'specified here', 'Drug', 'specified research involves', 'sijui', 'Yes', '', 'Yes', '2017-11-01', 'No', '2017-11-02', 'No', '2017-11-03', 'Yes', '2017-11-07', 'Medical history', 'alikua mgongjwa', 'hatujatambua', 'coughing', 'none so far', 'Coco di rahh', 'Alpha blondy', 'tereree', 'Yes', 'No', 'N/A', 'No', 'Explanation required', 'Yes', 2, '2017-12-18', 'Approved', '2017-11-09 16:45:27', '2017-12-19 00:01:19', NULL, 'old copy'),
+(2, NULL, NULL, 'SAE2/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'eddieokemwa@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '2017-11-29 15:00:21', '2017-11-29 15:00:21', NULL, NULL),
+(3, NULL, NULL, 'SAE3/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'eddieokemwa@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '2017-12-08 00:47:46', '2017-12-08 00:47:46', '2018-01-07 22:00:44', NULL),
+(4, 3, NULL, 'SAE4/2017', NULL, NULL, NULL, '2255', '3212', 'PI numero uno', 'Gi', 'eddieokemwa@gmail.com', 5, '', 'Kenyatta National Hospital', 'but more', 'Big study', 'GSK', '2017-12-01', '225', 'Initial', '2017-12-01', '14-10-2004', NULL, 'Male', '33', '2', 'SAE', 'Life-threatening (an actual risk of death at the time of the event).', 'asdfas asfa ', 'Grade 4', 'Yes', '22', '4', 'Clinic/Hospital', 'asfasfdasfd', 'Procedure', 'asdfasfd', 'asfasfdasfd', 'Yes', 'Yes', 'Yes', '2017-12-02', 'No', '2017-12-01', 'Yes', '2017-12-05', 'Yes', '2017-12-01', 'asdf asfd saf ', 'da sdf', ' asdfas fa', 'sfas ', 'asfsa f', 'asf a', 'asdf a', 'asdf sa f', 'No', 'Yes', 'N/A', 'Yes', 'sdfsadf asdf adf', 'Yes', 1, NULL, NULL, '2017-12-08 00:50:18', '2017-12-12 09:28:51', NULL, NULL),
+(6, 16, NULL, 'SAE6/2018', NULL, NULL, NULL, NULL, NULL, NULL, 'reporter', 'eddyokemwa@gmail.com', 5, '0729932475', NULL, 'bu Bulawayo Maternal Health Clinic', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'UnSubmitted', '2018-01-03 02:00:17', '2018-01-03 02:00:17', NULL, NULL),
+(7, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Edward', 'eddyokemwa1@gmail.com', 12, '0729932475', NULL, 'ha Glen View Satellite Clinic', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'UnSubmitted', '2018-01-09 15:18:40', '2018-01-09 15:18:40', '2018-01-09 15:18:50', NULL),
+(8, 2, '1', 'SAE1/2017', 12, 2, '2017-12-18 23:56:27', '225555', '3212', 'PI numero uno', 'Edward', 'eddieokemwa@gmail.com', 11, '254729932475', 'Kenyatta National Hospital', '001', 'Big study', 'GSK', '2008-11-12', '225', 'Initial', '2017-06-08', '09-11-2017', NULL, 'Male', '33', '2', 'SAE', 'Life-threatening (an actual risk of death at the time of the event).', 'None to specify', 'Grade 3', 'No', '22', '4', 'Other, specify', 'specified here', 'Drug', 'specified research involves', 'sijui', 'Yes', '', 'Yes', '2017-11-01', 'No', '2017-11-02', 'No', '2017-11-03', 'Yes', '2017-11-07', 'Medical history', 'alikua mgongjwa', 'hatujatambua', 'coughing', 'none so far', 'Coco di rahh', 'Alpha blondy', 'tereree', 'Yes', 'No', 'N/A', 'No', 'Explanation required', 'Yes', 2, '2017-12-18', 'Approved', '2018-01-11 03:27:33', '2018-01-11 03:36:08', NULL, 'new copy');
 
 -- --------------------------------------------------------
 
@@ -676,7 +720,9 @@ INSERT INTO `adr_list_of_drugs` (`id`, `adr_id`, `drug_name`, `dosage`, `dose_id
 (1, 1, 'Devices 1', '2', 5, 3, 3, '2017-11-01', NULL, 'Yes', 'Possibly related', '2017-11-12 12:09:39', '2017-11-12 12:09:39'),
 (3, 1, 'Devices 3 ', '35', 4, 3, 3, '2017-11-01', NULL, 'Yes', 'Possibly related', '2017-11-12 12:18:51', '2017-11-12 12:18:51'),
 (4, 4, 'Devices 1', '2', 17, 23, 5, '2017-12-01', NULL, 'Yes', 'Possibly related', '2017-12-12 09:28:51', '2017-12-12 09:28:51'),
-(5, 4, 'Devices 2', '3', 7, 37, 5, '2017-12-01', NULL, 'No', 'Not related', '2017-12-12 09:28:51', '2017-12-12 09:28:51');
+(5, 4, 'Devices 2', '3', 7, 37, 5, '2017-12-01', NULL, 'No', 'Not related', '2017-12-12 09:28:51', '2017-12-12 09:28:51'),
+(6, 8, 'Devices 1', '2', 5, 3, 3, '2017-11-01', NULL, 'Yes', 'Possibly related', '2018-01-11 03:27:33', '2018-01-11 03:27:33'),
+(7, 8, 'Devices 3 ', '35', 4, 3, 3, '2017-11-01', NULL, 'Yes', 'Possibly related', '2018-01-11 03:27:33', '2018-01-11 03:27:33');
 
 -- --------------------------------------------------------
 
@@ -777,23 +823,99 @@ CREATE TABLE `aefis` (
   `status` varchar(255) DEFAULT 'UnSubmitted',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `deleted` datetime DEFAULT NULL
+  `deleted` datetime DEFAULT NULL,
+  `copied` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `aefis`
 --
 
-INSERT INTO `aefis` (`id`, `user_id`, `aefi_id`, `province_id`, `reference_number`, `assigned_to`, `assigned_by`, `assigned_date`, `patient_name`, `patient_surname`, `patient_next_of_kin`, `patient_address`, `patient_telephone`, `report_type`, `gender`, `date_of_birth`, `age_at_onset`, `age_at_onset_years`, `age_at_onset_months`, `age_at_onset_days`, `age_at_onset_specify`, `reporter_name`, `designation_id`, `reporter_department`, `reporter_address`, `reporter_institution`, `reporter_district`, `reporter_province`, `reporter_phone`, `reporter_email`, `name_of_vaccination_center`, `adverse_events`, `ae_severe_local_reaction`, `ae_seizures`, `ae_abscess`, `ae_sepsis`, `ae_encephalopathy`, `ae_toxic_shock`, `ae_thrombocytopenia`, `ae_anaphylaxis`, `ae_fever`, `ae_3days`, `ae_febrile`, `ae_beyond_joint`, `ae_afebrile`, `ae_other`, `adverse_events_specify`, `aefi_date`, `notification_date`, `description_of_reaction`, `treatment_provided`, `serious`, `serious_yes`, `outcome`, `died_date`, `autopsy`, `past_medical_history`, `district_receive_date`, `investigation_needed`, `investigation_date`, `national_receive_date`, `comments`, `submitted`, `submitted_date`, `status`, `created`, `modified`, `deleted`) VALUES
-(1, 3, NULL, NULL, 'AEFI1/2017', 12, 2, '2017-12-18 00:22:03', 'Justin', 'dida', 'ba bwaki yo wapi', '785', '741125', NULL, 'Female', '--2015', 'Months', 5, 2, 3, 45, 'Edward', 2, 'pharmacy', '7554', NULL, 'Namulongo', 'Entebbe', '254729932475', 'eddieokemwa@gmail.com', 'Namugongo PMCT Center', '', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'specified other', '2017-11-03 12:34:00', '2017-11-02', 'Kichwa nauma', 'Yes', 'Yes', 'Death', 'Recovering', '2008-11-05', 'Unknown', 'We suspect something here', '2008-11-06', 'Yes', '2018-03-16', '2017-06-08', 'Criticial out deh', 1, '2017-12-17', 'RequestEvaluator', '2017-11-11 07:55:59', '2017-12-18 01:18:53', NULL),
-(2, 3, NULL, 2, 'AEFI2/2017', NULL, NULL, NULL, 'Justin', 'dida', 'ba bwaki yo wapi', '785', '741125', NULL, 'Male', '15-10-2003', 'Years', NULL, NULL, NULL, 55, 'Edward', 1, 'pharmacy', '7554', NULL, 'Namulongo', NULL, '0729932475', 'eddyokemwa@gmail.com', 'Namugongo PMCT Center', NULL, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'asfasfdafd', '2017-07-12 09:21:00', '2017-12-01', 'you should put more effort into entering some pretty long text here.....', 'Yes', 'No', 'Hospitalization', 'Recovered', '2017-12-01', 'No', 'safdasdfa', '2017-12-01', 'Yes', '2017-12-01', '2017-12-01', 'asfasdasfd', 2, '2017-12-16', 'Archived', '2017-11-23 00:51:20', '2017-12-18 01:07:07', NULL),
-(3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'JMM', 's', 's', 's', 's', NULL, 'Male', '4-2-2016', 's', NULL, NULL, NULL, NULL, 's', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ss', 'ae_seizures,ae-thrombocytopenia', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-21', 'ss', NULL, 'Yes', 'Hospitalizaion/Prolonged', 'Recovering', NULL, 'No', 'ss', '2017-10-01', 'Yes', '2017-10-13', '2017-10-20', 'sss', 0, NULL, NULL, '2017-12-06 09:46:35', '2017-12-06 09:46:35', '2018-01-07 21:58:09'),
-(4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'JMM', 's', 's', 's', 's', NULL, 'Male', '4-2-2016', 's', NULL, NULL, NULL, NULL, 's', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ss', 'ae_seizures,ae-thrombocytopenia', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-21', 'ss', NULL, 'Yes', 'Hospitalizaion/Prolonged', 'Recovering', NULL, 'No', 'ss', '2017-10-01', 'Yes', '2017-10-13', '2017-10-20', 'sss', 0, NULL, NULL, '2017-12-06 09:48:25', '2017-12-06 09:48:25', NULL),
-(5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'JMM', 's', 's', 's', 's', NULL, 'Male', '4-2-2016', 's', NULL, NULL, NULL, NULL, 's', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ss', 'ae_seizures,ae-thrombocytopenia', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-21', 'ss', NULL, 'Yes', 'Hospitalizaion/Prolonged', 'Recovering', NULL, 'No', 'ss', '2017-10-01', 'Yes', '2017-10-13', '2017-10-20', 'sss', 0, NULL, NULL, '2017-12-06 09:55:15', '2017-12-06 09:55:15', NULL),
-(6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'John', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '2017-12-06 09:57:07', '2017-12-06 09:57:07', NULL),
-(7, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'FollowUp', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'list of vaccine', '2016-12-17 03:43:00', '2017-12-01', 'asfdadfadsfa', 'Yes', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, '2017-12-17', 'UnSubmitted', '2017-12-17 00:44:13', '2017-12-17 01:01:59', NULL),
-(8, 3, NULL, NULL, 'AEFI8/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'eddyokemwa@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'UnSubmitted', '2017-12-17 23:03:41', '2017-12-17 23:03:41', '2018-01-07 13:13:34'),
-(9, 16, NULL, NULL, 'AEFI9/2018', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'reporter', 5, NULL, 'kazi moto', NULL, NULL, NULL, '0729932475', 'eddyokemwa@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'UnSubmitted', '2018-01-03 01:59:53', '2018-01-03 01:59:53', NULL);
+INSERT INTO `aefis` (`id`, `user_id`, `aefi_id`, `province_id`, `reference_number`, `assigned_to`, `assigned_by`, `assigned_date`, `patient_name`, `patient_surname`, `patient_next_of_kin`, `patient_address`, `patient_telephone`, `report_type`, `gender`, `date_of_birth`, `age_at_onset`, `age_at_onset_years`, `age_at_onset_months`, `age_at_onset_days`, `age_at_onset_specify`, `reporter_name`, `designation_id`, `reporter_department`, `reporter_address`, `reporter_institution`, `reporter_district`, `reporter_province`, `reporter_phone`, `reporter_email`, `name_of_vaccination_center`, `adverse_events`, `ae_severe_local_reaction`, `ae_seizures`, `ae_abscess`, `ae_sepsis`, `ae_encephalopathy`, `ae_toxic_shock`, `ae_thrombocytopenia`, `ae_anaphylaxis`, `ae_fever`, `ae_3days`, `ae_febrile`, `ae_beyond_joint`, `ae_afebrile`, `ae_other`, `adverse_events_specify`, `aefi_date`, `notification_date`, `description_of_reaction`, `treatment_provided`, `serious`, `serious_yes`, `outcome`, `died_date`, `autopsy`, `past_medical_history`, `district_receive_date`, `investigation_needed`, `investigation_date`, `national_receive_date`, `comments`, `submitted`, `submitted_date`, `status`, `created`, `modified`, `deleted`, `copied`) VALUES
+(1, 3, NULL, NULL, 'AEFI1/2017', 12, 2, '2017-12-18 00:22:03', 'Justin', 'dida', 'ba bwaki yo wapi', '785', '741125', NULL, 'Female', '--2015', 'Months', 5, 2, 3, 45, 'Edward', 2, 'pharmacy', '7554', '', 'Namulongo', 'Entebbe', '254729932475', 'eddieokemwa@gmail.com', 'Namugongo PMCT Center', '', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'specified other', '2017-11-03 12:34:00', '2017-11-02', 'Kichwa nauma', 'Yes', 'Yes', 'Death', 'Recovering', '2008-11-05', 'Unknown', 'We suspect something here', '2008-11-06', 'Yes', '2018-03-16', '2017-06-08', 'Criticial out deh', 2, '2018-01-09', 'RequestReporter', '2017-11-11 07:55:59', '2018-01-09 14:03:23', NULL, NULL),
+(2, 3, NULL, 2, 'AEFI2/2017', NULL, NULL, NULL, 'Justin', 'dida', 'ba bwaki yo wapi', '785', '741125', NULL, 'Male', '15-10-2003', 'Years', NULL, NULL, NULL, 55, 'Edward', 1, 'pharmacy', '7554', NULL, 'Namulongo', NULL, '0729932475', 'eddyokemwa@gmail.com', 'Namugongo PMCT Center', NULL, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'asfasfdafd', '2017-07-12 09:21:00', '2017-12-01', 'you should put more effort into entering some pretty long text here.....', 'Yes', 'No', 'Hospitalization', 'Recovered', '2017-12-01', 'No', 'safdasdfa', '2017-12-01', 'Yes', '2017-12-01', '2017-12-01', 'asfasdasfd', 2, '2017-12-16', 'Evaluated', '2017-11-23 00:51:20', '2018-01-10 17:08:02', NULL, 'old copy'),
+(3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'JMM', 's', 's', 's', 's', NULL, 'Male', '4-2-2016', 's', NULL, NULL, NULL, NULL, 's', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ss', 'ae_seizures,ae-thrombocytopenia', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-21', 'ss', NULL, 'Yes', 'Hospitalizaion/Prolonged', 'Recovering', NULL, 'No', 'ss', '2017-10-01', 'Yes', '2017-10-13', '2017-10-20', 'sss', 0, NULL, NULL, '2017-12-06 09:46:35', '2017-12-06 09:46:35', '2018-01-07 21:58:09', NULL),
+(4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'JMM', 's', 's', 's', 's', NULL, 'Male', '4-2-2016', 's', NULL, NULL, NULL, NULL, 's', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ss', 'ae_seizures,ae-thrombocytopenia', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-21', 'ss', NULL, 'Yes', 'Hospitalizaion/Prolonged', 'Recovering', NULL, 'No', 'ss', '2017-10-01', 'Yes', '2017-10-13', '2017-10-20', 'sss', 0, NULL, NULL, '2017-12-06 09:48:25', '2017-12-06 09:48:25', NULL, NULL),
+(5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'JMM', 's', 's', 's', 's', NULL, 'Male', '4-2-2016', 's', NULL, NULL, NULL, NULL, 's', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ss', 'ae_seizures,ae-thrombocytopenia', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-21', 'ss', NULL, 'Yes', 'Hospitalizaion/Prolonged', 'Recovering', NULL, 'No', 'ss', '2017-10-01', 'Yes', '2017-10-13', '2017-10-20', 'sss', 0, NULL, NULL, '2017-12-06 09:55:15', '2017-12-06 09:55:15', NULL, NULL),
+(6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'John', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '2017-12-06 09:57:07', '2017-12-06 09:57:07', NULL, NULL),
+(7, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'FollowUp', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'list of vaccine', '2016-12-17 03:43:00', '2017-12-01', 'asfdadfadsfa', 'Yes', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, '2017-12-17', 'UnSubmitted', '2017-12-17 00:44:13', '2017-12-17 01:01:59', NULL, NULL),
+(8, 3, NULL, NULL, 'AEFI8/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'eddyokemwa@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'UnSubmitted', '2017-12-17 23:03:41', '2017-12-17 23:03:41', '2018-01-07 13:13:34', NULL),
+(9, 16, NULL, NULL, 'AEFI9/2018', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'reporter', 5, NULL, 'kazi moto', NULL, NULL, NULL, '0729932475', 'eddyokemwa@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'UnSubmitted', '2018-01-03 01:59:53', '2018-01-03 01:59:53', NULL, NULL),
+(10, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Edward', 12, NULL, 'avondale', 'ha Glen View Satellite Clinic', NULL, NULL, '0729932475', 'eddyokemwa1@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'UnSubmitted', '2018-01-09 15:18:14', '2018-01-09 15:18:14', '2018-01-09 15:18:22', NULL),
+(11, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Edward', 12, NULL, 'avondale', 'ha Glen View Satellite Clinic', NULL, NULL, '0729932475', 'eddyokemwa1@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'UnSubmitted', '2018-01-10 08:33:44', '2018-01-10 08:33:44', NULL, NULL),
+(12, 2, 2, 2, 'AEFI2/2017', NULL, NULL, NULL, 'Justin', 'dida', 'ba bwaki yo wapi', '785', '741125', NULL, 'Male', '', 'Years', NULL, NULL, NULL, 55, 'Edward', 5, 'pharmacy', '7554', '', 'Namulongo', NULL, '0729932475', 'eddyokemwa@gmail.com', 'Namugongo PMCT Center', NULL, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'asfasfdafd', '2017-07-12 09:21:00', '2017-12-01', 'you should put more effort into entering some pretty long text here.....', 'Yes', 'No', 'Hospitalization', 'Recovered', '2017-12-01', 'No', 'safdasdfa', '2017-12-01', 'Yes', '2017-12-01', '2017-12-01', 'asfasdasfd', 2, '2017-12-16', 'Evaluated', '2018-01-11 03:26:21', '2018-01-11 03:26:34', NULL, 'new copy');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aefi_causalities`
+--
+
+CREATE TABLE `aefi_causalities` (
+  `id` int(11) NOT NULL,
+  `aefi_id` int(11) DEFAULT NULL,
+  `saefi_id` int(11) DEFAULT NULL,
+  `diagnosis_meet` varchar(25) DEFAULT NULL,
+  `primary_vaccine` varchar(255) DEFAULT NULL,
+  `clinical_examination` varchar(50) DEFAULT NULL,
+  `clinical_examination_specify` text,
+  `evidence_literature_specify` varchar(255) DEFAULT NULL,
+  `evidence_literature` text,
+  `causal_role` varchar(55) DEFAULT NULL,
+  `causal_role_specify` text,
+  `prescribing_error` varchar(255) DEFAULT NULL,
+  `prescribing_error_specify` text,
+  `vaccine_unsterile` varchar(255) DEFAULT NULL,
+  `vaccine_unsterile_specify` text,
+  `vaccine_condition` varchar(255) DEFAULT NULL,
+  `vaccine_condition_specify` text,
+  `vaccine_reconstitution` varchar(255) DEFAULT NULL,
+  `vaccine_reconstitution_specify` text,
+  `vaccine_handling` varchar(255) DEFAULT NULL,
+  `vaccine_handling_specify` text,
+  `vaccine_administered` varchar(255) DEFAULT NULL,
+  `vaccine_administered_specify` text,
+  `vaccine_anxiety` varchar(55) DEFAULT NULL,
+  `vaccine_anxiety_specify` text,
+  `time_window` varchar(55) DEFAULT NULL,
+  `time_window_specify` text NOT NULL,
+  `causal_association` varchar(55) DEFAULT NULL,
+  `causal_association_specify` text,
+  `independent_vaccination` varchar(55) DEFAULT NULL,
+  `independent_vaccination_specify` text,
+  `manifest_health` varchar(55) DEFAULT NULL,
+  `manifest_health_specify` text,
+  `comparable_event` varchar(55) DEFAULT NULL,
+  `comparable_event_specify` text,
+  `exposure_risk` varchar(55) DEFAULT NULL,
+  `exposure_risk_specify` text,
+  `acute_illness` varchar(55) DEFAULT NULL,
+  `acute_illness_specify` text,
+  `occur_past` varchar(55) DEFAULT NULL,
+  `occur_past_specify` text,
+  `taking_medication` varchar(55) DEFAULT NULL,
+  `taking_medication_specify` text,
+  `biological_plausibility` varchar(55) DEFAULT NULL,
+  `biological_plausibility_specify` text,
+  `inconsistent_i` tinyint(1) DEFAULT NULL,
+  `consistent_ii` tinyint(1) DEFAULT NULL,
+  `inconsistent_iii` tinyint(1) DEFAULT NULL,
+  `consistent_iv` tinyint(1) DEFAULT NULL,
+  `indeterminate` tinyint(1) DEFAULT NULL,
+  `inconsistent_iv` tinyint(1) DEFAULT NULL,
+  `unclassifiable` tinyint(1) DEFAULT NULL,
+  `deleted` datetime DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `aefi_causalities`
+--
+
+INSERT INTO `aefi_causalities` (`id`, `aefi_id`, `saefi_id`, `diagnosis_meet`, `primary_vaccine`, `clinical_examination`, `clinical_examination_specify`, `evidence_literature_specify`, `evidence_literature`, `causal_role`, `causal_role_specify`, `prescribing_error`, `prescribing_error_specify`, `vaccine_unsterile`, `vaccine_unsterile_specify`, `vaccine_condition`, `vaccine_condition_specify`, `vaccine_reconstitution`, `vaccine_reconstitution_specify`, `vaccine_handling`, `vaccine_handling_specify`, `vaccine_administered`, `vaccine_administered_specify`, `vaccine_anxiety`, `vaccine_anxiety_specify`, `time_window`, `time_window_specify`, `causal_association`, `causal_association_specify`, `independent_vaccination`, `independent_vaccination_specify`, `manifest_health`, `manifest_health_specify`, `comparable_event`, `comparable_event_specify`, `exposure_risk`, `exposure_risk_specify`, `acute_illness`, `acute_illness_specify`, `occur_past`, `occur_past_specify`, `taking_medication`, `taking_medication_specify`, `biological_plausibility`, `biological_plausibility_specify`, `inconsistent_i`, `consistent_ii`, `inconsistent_iii`, `consistent_iv`, `indeterminate`, `inconsistent_iv`, `unclassifiable`, `deleted`, `created`, `modified`) VALUES
+(2, 2, NULL, 'No', 'above', 'No', 'ee', 'obo', 'Yes', 'No', 'sf', 'No', 'sasf', 'No', 'asdfs', 'No', 'sfa', 'No', 'asfas', 'Yes', 'asfdas', 'Yes', 'asfda', 'No', 'saf', 'Yes', 'saf', 'No', 'adsf', 'No', 'afd', 'Yes', 'asfd', 'No', '1', 'Yes', '1', 'No', 'asfd', 'Yes', 'asd', 'No', 'asdf', 'No', 'adf', 1, 1, 1, 1, 0, 1, 1, NULL, '2018-01-10 17:08:02', '2018-01-10 17:08:02'),
+(3, NULL, 1, 'Yes', 'Kipindu', 'Yes', 'asf', 'asf', 'Yes', 'Yes', 'saf', 'Yes', '2', 'Yes', 'AF', 'Yes', 'FA', 'Yes', 'DF', 'Yes', 'ASD', 'Yes', 'ASFD', 'Yes', 'asf', 'Yes', 'asf', 'Yes', 'asf', 'Yes', 'asf', 'Yes', 'asdf', 'Yes', 'saf', 'Yes', 'asf', 'Yes', 'as sdf', 'Yes', 'saf', 'Yes', 'saf', 'Yes', 'sf', 1, 1, 1, 1, 0, 1, 1, NULL, '2018-01-10 17:51:35', '2018-01-10 17:51:35');
 
 -- --------------------------------------------------------
 
@@ -852,9 +974,9 @@ CREATE TABLE `aefi_list_of_vaccines` (
 --
 
 INSERT INTO `aefi_list_of_vaccines` (`id`, `aefi_id`, `vaccine_name`, `vaccination_date`, `vaccination_time`, `dosage`, `batch_number`, `expiry_date`, `diluent_batch_number`, `diluent_date`, `diluent_expiry_date`, `created`, `modified`) VALUES
-(1, 1, 'militant', '2017-11-03 15:19:00', NULL, '1st', '55', '2017-11-10', '', NULL, NULL, '2017-11-10 09:32:08', '2017-12-17 20:55:31'),
-(3, 1, 'Jose', '2017-11-03 15:19:00', NULL, '3rd', '55', '2017-11-09', '', NULL, NULL, '2017-11-10 09:47:00', '2017-12-17 20:55:31'),
-(4, 1, 'ka', '2017-11-10 18:31:00', NULL, '22', '55', '2017-11-01', '', NULL, NULL, '2017-11-10 11:31:47', '2017-12-17 20:55:31'),
+(1, 1, 'militant', '2017-11-03 15:19:00', '', '1st', '55', '2017-11-10', '', NULL, NULL, '2017-11-10 09:32:08', '2018-01-09 13:48:52'),
+(3, 1, 'Jose', '2017-11-03 15:19:00', '', '3rd', '55', '2017-11-09', '', NULL, NULL, '2017-11-10 09:47:00', '2018-01-09 13:48:52'),
+(4, 1, 'ka', '2017-11-10 18:31:00', '', '22', '55', '2017-11-01', '', NULL, NULL, '2017-11-10 11:31:47', '2018-01-09 13:48:52'),
 (5, 3, 'ss', NULL, NULL, 's', 'ss', '2017-10-22', NULL, NULL, NULL, '2017-12-06 09:46:35', '2017-12-06 09:46:35'),
 (6, 4, 'ss', NULL, NULL, 's', 'ss', '2017-10-22', NULL, NULL, NULL, '2017-12-06 09:48:25', '2017-12-06 09:48:25'),
 (7, 5, 'ss', NULL, NULL, 's', 'ss', '2017-10-22', NULL, NULL, NULL, '2017-12-06 09:55:15', '2017-12-06 09:55:15'),
@@ -864,7 +986,10 @@ INSERT INTO `aefi_list_of_vaccines` (`id`, `aefi_id`, `vaccine_name`, `vaccinati
 (11, 7, 'follow up list', '2017-12-01 03:41:00', NULL, '2', '55', '2017-12-09', '10', '2017-12-17 01:42:00', '2017-12-06', '2017-12-17 00:44:13', '2017-12-17 00:44:13'),
 (12, 7, 'Vive', '2017-11-01 16:19:00', NULL, '2nd', '200', '2012-12-07', '5', '2017-12-17 03:42:00', '2008-12-04', '2017-12-17 00:44:13', '2017-12-17 00:44:13'),
 (13, 7, 'follow up list', '2017-12-01 03:41:00', NULL, '2', '55', '2017-12-09', '10', '2017-12-17 01:42:00', '2017-12-06', '2017-12-17 01:01:59', '2017-12-17 01:01:59'),
-(14, 7, 'Vive', '2017-11-01 16:19:00', NULL, '2nd', '200', '2012-12-07', '5', '2017-12-17 03:42:00', '2008-12-04', '2017-12-17 01:01:59', '2017-12-17 01:01:59');
+(14, 7, 'Vive', '2017-11-01 16:19:00', NULL, '2nd', '200', '2012-12-07', '5', '2017-12-17 03:42:00', '2008-12-04', '2017-12-17 01:01:59', '2017-12-17 01:01:59'),
+(15, 12, 'militant', '2011-11-02 15:20:00', '', '1st', '55', '2017-12-01', '10', '2017-12-16 20:16:00', '2017-12-02', '2018-01-11 03:26:21', '2018-01-11 03:26:34'),
+(16, 12, 'Vive', '2017-07-06 17:20:00', '', '2nd', '200', '2008-01-08', '5', '2017-12-16 20:16:00', '2017-12-04', '2018-01-11 03:26:21', '2018-01-11 03:26:34'),
+(17, 12, 'above', '2017-12-09 20:19:00', '', '3rd', '22', '2017-12-07', '3', '2017-12-16 20:20:00', '2017-12-08', '2018-01-11 03:26:21', '2018-01-11 03:26:34');
 
 -- --------------------------------------------------------
 
@@ -889,7 +1014,7 @@ CREATE TABLE `aros` (
 INSERT INTO `aros` (`id`, `parent_id`, `model`, `foreign_key`, `alias`, `lft`, `rght`) VALUES
 (2, NULL, 'Groups', 1, NULL, 1, 4),
 (3, NULL, 'Groups', 2, NULL, 5, 10),
-(4, NULL, 'Groups', 3, NULL, 11, 36),
+(4, NULL, 'Groups', 3, NULL, 11, 40),
 (5, 2, 'Users', 1, NULL, 2, 3),
 (6, 3, 'Users', 2, NULL, 6, 7),
 (7, 4, 'Users', 3, NULL, 12, 13),
@@ -900,14 +1025,16 @@ INSERT INTO `aros` (`id`, `parent_id`, `model`, `foreign_key`, `alias`, `lft`, `
 (12, 4, 'Users', 8, NULL, 22, 23),
 (13, 4, 'Users', 9, NULL, 24, 25),
 (14, 3, 'Users', 10, NULL, 8, 9),
-(15, NULL, 'Groups', 4, NULL, 37, 42),
-(16, 15, 'Users', 11, NULL, 38, 39),
-(17, 15, 'Users', 12, NULL, 40, 41),
+(15, NULL, 'Groups', 4, NULL, 41, 46),
+(16, 15, 'Users', 11, NULL, 42, 43),
+(17, 15, 'Users', 12, NULL, 44, 45),
 (18, 4, 'Users', 13, NULL, 26, 27),
 (19, 4, 'Users', 14, NULL, 28, 29),
 (20, 4, 'Users', 15, NULL, 30, 31),
 (21, 4, 'Users', 16, NULL, 32, 33),
-(22, 4, 'Users', 17, NULL, 34, 35);
+(22, 4, 'Users', 17, NULL, 34, 35),
+(23, 4, 'Users', 18, NULL, 36, 37),
+(24, 4, 'Users', 19, NULL, 38, 39);
 
 -- --------------------------------------------------------
 
@@ -997,7 +1124,7 @@ INSERT INTO `attachments` (`id`, `foreign_key`, `file`, `dir`, `size`, `type`, `
 (1, 3, 'DSC_1145.jpg', 'webroot/files/Attachments/file/', '106704', 'image/jpeg', 'Sadrs', 'attachments', 'asfa', '2017-11-13 19:58:54', '2017-12-06 01:29:14'),
 (2, 3, 'DSC_1007.jpg', 'webroot/files/Attachments/file/', '138255', 'image/jpeg', 'Sadrs', 'attachments', 'batch this', '2017-11-13 20:22:13', '2017-12-06 01:29:14'),
 (3, 3, 'DSC_0815.jpg', 'webroot/files/Attachments/file/', '266055', 'image/jpeg', 'Sadrs', 'attachments', 'Kadenge', '2017-11-13 20:24:09', '2017-12-06 01:29:14'),
-(4, 1, 'DSC_0939.jpg', 'webroot/files/Attachments/file/', '138338', 'image/jpeg', 'Aefis', 'attachments', 'File ya ADR', '2017-11-13 21:13:06', '2017-12-18 01:18:53'),
+(4, 1, 'DSC_0939.jpg', 'webroot/files/Attachments/file/', '138338', 'image/jpeg', 'Aefis', 'attachments', 'File ya ADR', '2017-11-13 21:13:06', '2018-01-09 13:48:52'),
 (5, 1, 'sadr.png', 'webroot/files/Attachments/file/', '206820', 'image/png', 'Adrs', 'attachments', '51', '2017-11-13 21:27:05', '2017-12-18 22:42:28'),
 (6, 1, 'view.png', 'webroot/files/Reports/file/', '54123', 'image/png', 'Saefis', 'reports', NULL, '2017-11-25 21:29:14', '2017-11-25 21:29:14'),
 (7, 1, 'get_sadr.png', 'webroot/files/Attachments/file/', '695113', 'image/png', 'Saefis', 'attachments', 'A good file', '2017-11-25 21:32:03', '2017-11-25 21:33:33'),
@@ -1028,7 +1155,108 @@ INSERT INTO `attachments` (`id`, `foreign_key`, `file`, `dir`, `size`, `type`, `
 (39, 60, 'access-with-token.png', 'webroot/files/Attachments/file/', '49538', 'image/png', 'Sadrs', 'attachments', 'access with token', '2017-12-15 15:07:23', '2017-12-15 15:11:03'),
 (40, 7, 'EmojiOneMozilla.ttf', 'webroot/files/Attachments/file/', '1227260', 'application/x-font-ttf', 'Aefis', 'attachments', 'ati ttf?', '2017-12-17 00:44:13', '2017-12-17 00:44:13'),
 (41, 7, NULL, NULL, NULL, NULL, 'Aefis', 'attachments', 'ati ttf?', '2017-12-17 01:01:59', '2017-12-17 01:01:59'),
-(42, 64, '5a3be325a2fe1-faustina', 'webroot/files/Attachments/file/', '943', 'image/png', 'Sadrs', 'attachments', 'Ajax save file ', '2017-12-21 16:36:53', '2017-12-21 16:47:36');
+(42, 64, '5a3be325a2fe1-faustina', 'webroot/files/Attachments/file/', '943', 'image/png', 'Sadrs', 'attachments', 'Ajax save file ', '2017-12-21 16:36:53', '2017-12-21 16:47:36'),
+(43, 67, 'IMG_0115.JPG', 'webroot/files/Attachments/file/', '1829316', 'image/jpeg', 'Sadrs', 'attachments', 'dasf', '2018-01-09 01:32:51', '2018-01-09 01:32:51'),
+(50, 11, NULL, 'webroot/files/Attachments/file/', '695113', 'image/png', 'Saefis', 'attachments', 'A good file', '2018-01-11 00:22:15', '2018-01-11 03:27:12'),
+(51, 11, NULL, 'webroot/files/Reports/file/', '54123', 'image/png', 'Saefis', 'reports', NULL, '2018-01-11 00:22:15', '2018-01-11 00:22:15'),
+(52, 8, NULL, NULL, NULL, NULL, 'Saefis', 'reports', NULL, '2018-01-11 00:42:20', '2018-01-11 00:42:20'),
+(53, 68, 'registration.png', 'webroot/files/Attachments/file/', '41602', 'image/png', 'Sadrs', 'attachments', '', '2018-01-11 03:18:02', '2018-01-11 03:18:02'),
+(54, 12, NULL, 'webroot/files/Attachments/file/', '3426', 'application/json', 'Aefis', 'attachments', 'assa  asdf asdf ', '2018-01-11 03:26:21', '2018-01-11 03:26:34'),
+(55, 8, NULL, 'webroot/files/Attachments/file/', '206820', 'image/png', 'Adrs', 'attachments', '51', '2018-01-11 03:27:33', '2018-01-11 03:36:08');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `captchas`
+--
+
+CREATE TABLE `captchas` (
+  `id` int(11) NOT NULL,
+  `session_id` varchar(255) NOT NULL,
+  `ip` varchar(255) NOT NULL,
+  `image` varbinary(60000) DEFAULT NULL,
+  `result` varchar(255) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `used` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `captchas`
+--
+
+INSERT INTO `captchas` (`id`, `session_id`, `ip`, `image`, `result`, `created`, `used`) VALUES
+(1, 't9279g0m59r5qfebnsgcnqe6m6', '127.0.0.1', NULL, NULL, '2018-01-09 17:58:59', NULL),
+(2, 't9279g0m59r5qfebnsgcnqe6m6', '127.0.0.1', NULL, NULL, '2018-01-09 17:59:58', NULL),
+(3, 't9279g0m59r5qfebnsgcnqe6m6', '127.0.0.1', NULL, NULL, '2018-01-09 18:01:56', NULL),
+(4, 't9279g0m59r5qfebnsgcnqe6m6', '127.0.0.1', NULL, NULL, '2018-01-09 18:02:10', NULL),
+(5, 't9279g0m59r5qfebnsgcnqe6m6', '127.0.0.1', NULL, NULL, '2018-01-09 18:06:18', NULL),
+(6, 't9279g0m59r5qfebnsgcnqe6m6', '127.0.0.1', NULL, NULL, '2018-01-09 18:13:47', NULL),
+(7, 't9279g0m59r5qfebnsgcnqe6m6', '127.0.0.1', NULL, NULL, '2018-01-09 18:16:43', NULL),
+(8, 't9279g0m59r5qfebnsgcnqe6m6', '127.0.0.1', NULL, NULL, '2018-01-09 18:17:11', NULL),
+(9, 't9279g0m59r5qfebnsgcnqe6m6', '127.0.0.1', NULL, NULL, '2018-01-09 18:19:32', NULL),
+(10, 't9279g0m59r5qfebnsgcnqe6m6', '127.0.0.1', NULL, NULL, '2018-01-09 18:20:05', NULL),
+(11, 't9279g0m59r5qfebnsgcnqe6m6', '127.0.0.1', NULL, NULL, '2018-01-09 18:20:08', NULL),
+(12, 'phdf9h2gn0ocjbeg8gvfttacg7', '127.0.0.1', NULL, NULL, '2018-01-09 18:20:33', NULL),
+(13, 't9279g0m59r5qfebnsgcnqe6m6', '127.0.0.1', NULL, NULL, '2018-01-09 18:21:59', NULL),
+(14, 't9279g0m59r5qfebnsgcnqe6m6', '127.0.0.1', NULL, NULL, '2018-01-09 18:24:14', NULL),
+(15, 'phdf9h2gn0ocjbeg8gvfttacg7', '127.0.0.1', NULL, NULL, '2018-01-09 18:24:23', NULL),
+(16, 'cgvdrvh1hc804r2c79b7hm3tc4', '127.0.0.1', NULL, NULL, '2018-01-09 18:28:06', NULL),
+(17, 'cgvdrvh1hc804r2c79b7hm3tc4', '127.0.0.1', NULL, NULL, '2018-01-09 18:28:15', NULL),
+(18, 'cgvdrvh1hc804r2c79b7hm3tc4', '127.0.0.1', NULL, NULL, '2018-01-09 18:52:25', NULL),
+(19, 'cgvdrvh1hc804r2c79b7hm3tc4', '127.0.0.1', NULL, NULL, '2018-01-09 18:52:37', NULL),
+(20, 'phdf9h2gn0ocjbeg8gvfttacg7', '127.0.0.1', NULL, NULL, '2018-01-09 18:56:51', NULL),
+(21, 'cgvdrvh1hc804r2c79b7hm3tc4', '127.0.0.1', NULL, NULL, '2018-01-09 19:02:54', NULL),
+(22, 'phdf9h2gn0ocjbeg8gvfttacg7', '127.0.0.1', NULL, NULL, '2018-01-09 19:52:51', NULL),
+(23, 'phdf9h2gn0ocjbeg8gvfttacg7', '127.0.0.1', 0x89504e470d0a1a0a0000000d49484452000000230000001504030000003ed44ada0000001b504c5445ffffff9f9f9f3f3f3fdfdfdf1f1f1f7f7f7f5f5f5fbfbfbf0000002887a0bb0000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b000000984944415418956360200e948506c09882a1c9208add9921142ac25ac0206100a49912182ca0421c060c1c201d1c090c1c0510211665860a109325012205048c2dc2ae209a2d81a102667e49870288627666908009a519b5808c673015b41080dae8c010a10061561830b0b8b8808d656a00b92b81210ca8ddd8182cc4e60052ad00340d6a63338309d88cd0300398878442d3890c059a0300997314480d0124bf0000000049454e44ae426082, '1', '2018-01-09 19:53:04', NULL),
+(24, 'phdf9h2gn0ocjbeg8gvfttacg7', '127.0.0.1', NULL, NULL, '2018-01-09 19:53:21', NULL),
+(25, 'phdf9h2gn0ocjbeg8gvfttacg7', '127.0.0.1', 0x89504e470d0a1a0a0000000d494844520000002d000000150403000000201d7a690000001b504c5445ffffff1f1f1f3f3f3f5f5f5fbfbfbf9f9f9f7f7f7fdfdfdf000000b4842a5d0000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b0000008e49444154189563602015b0a78148d604189fc52c054ca5b581a80ab8783043208401168f8089b3b733b821c4593960e2cc0a308d207177b838a36958025c9c3d002ece21ce100417676340882b305438c0c4c311e28c06303650dc2c2d43cd8181515090818109599c01cc662f2f071a896c0e03c21c06718624b03f921b8101c16a215600152f4e832b1902000021c018b0fa105db60000000049454e44ae426082, '8', '2018-01-09 19:54:27', NULL),
+(26, 'phdf9h2gn0ocjbeg8gvfttacg7', '127.0.0.1', 0x89504e470d0a1a0a0000000d4948445200000034000000150403000000fba6d04b0000001b504c5445ffffff1f1f1f3f3f3fbfbfbf5f5f5f7f7f7f9f9f9fdfdfdf0000001e7b7d600000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b0000009b4944415428916360200bb0a7861820f34b0340642a886032606e068bb18149d30890147b2b88cd98c000a6191821ba3840526c102106a82e64a904a8145300ba14730144aacc95015daa8c0166a038ba54004c8a418981815549494349490d22c5560091322a60f040d3c5121ada140c646614303862b810a2ab84815d0c8714bb2b34a02052a51ea240b994c670e4c06364c00998714b0d280000c29318796945359b0000000049454e44ae426082, '17', '2018-01-09 19:58:27', NULL),
+(27, 'phdf9h2gn0ocjbeg8gvfttacg7', '127.0.0.1', 0x89504e470d0a1a0a0000000d49484452000000350000001504030000001464bb750000001b504c5445ffffff1f1f1f3f3f3f5f5f5fbfbfbf9f9f9f7f7f7fdfdfdf000000b4842a5d0000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b0000008149444154289163602017b0a78148d6041441089725ad0d445540e458a172502e03582e02c26184ca4520c9b172a0c8c1b86039775439772439f6001439381724c7c6802207e782e4c2c11c3625250d25255518172a679696a1e680d007e742fc80ea16647d38e4d8931b8181c66a215680ec3f28170530628820000b1eb9010500f25c1847f8927f470000000049454e44ae426082, '18', '2018-01-09 20:00:42', NULL),
+(28, 'phdf9h2gn0ocjbeg8gvfttacg7', '127.0.0.1', 0x89504e470d0a1a0a0000000d494844520000002e000000150403000000cb2ac16a0000001b504c5445ffffff3f3f3f1f1f1fbfbfbf5f5f5f9f9f9f7f7f7fdfdfdf0000002363b1250000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b0000007349444154189563602015b0a73130b086a51420f3818039ad8d81219981b51d2a0ce68301906e0793083e8c562c606ec6261ea15a94804d9c59a391019b388bbb843a36f12406b6466ce22a0c0c120c0c4c4a4a98e24e401f9597a3bba7805d15cd1cf694a6340656b11403583080f843070000a9ef19fb44b1f3540000000049454e44ae426082, '17', '2018-01-09 20:08:28', NULL),
+(29, 'phdf9h2gn0ocjbeg8gvfttacg7', '127.0.0.1', 0x89504e470d0a1a0a0000000d494844520000002c000000150403000000cfdf11570000001b504c5445ffffff1f1f1f3f3f3f5f5f5fbfbfbfdfdfdf7f7f7f9f9f9f00000000aa89fa0000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b0000005f4944415418956360201594217358d3608c36085d002258d2a03c067628430042c1840bb00ab30460150e67c02a9c8055983d00cc4852526a52522a800b33a7a535a560730976b371091737a6228459931b61be6740518d0e1cb00bd30b00000f4914a57255f0e10000000049454e44ae426082, '5', '2018-01-09 20:09:15', NULL),
+(30, 'phdf9h2gn0ocjbeg8gvfttacg7', '127.0.0.1', 0x89504e470d0a1a0a0000000d494844520000002b0000001504030000002d030a2e0000001b504c5445ffffff3f3f3f5f5f5fbfbfbf1f1f1fdfdfdf9f9f9f7f7f7f0000007f3a91920000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b0000006d4944415418956360c001ca4203b0097774b82173c30b20b4ab3184660393e615506107a8321608c5815fd8395d159bb0024322366106860803acc24016bba0a084a0a01842985100ca4255cd58c06081c510360306256c56a617252009876bb8c3ed44568d0e98b10bd30d000017cd10ab25cd53e80000000049454e44ae426082, '6', '2018-01-09 20:13:19', NULL),
+(31, 'phdf9h2gn0ocjbeg8gvfttacg7', '127.0.0.1', 0x89504e470d0a1a0a0000000d494844520000003700000015040300000010916b480000001b504c5445ffffff9f9f9f3f3f3f1f1f1f5f5f5fbfbfbf7f7f7fdfdfdf000000088f32d30000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b000000a24944415428916360201fb0a73130b0baa5a1f01953540a406cd6b4360686e002b604a81c982fcac0a200e102392a0cec0d70ad40be21037b239cd3c2c0d08a2a0922a11c13388701ca42d2e9c2c08a268964677101239a6470019cc39e28de8822c9ee80ac92b59d8181d9d818c62f6360874b8630b00195b29797c34c0a6060844b26016d4536b64c50d015ece694e63406b6347778e881f8161d1ded0cc30a0000740d22a73b635f720000000049454e44ae426082, '7', '2018-01-09 20:13:47', NULL),
+(32, 'phdf9h2gn0ocjbeg8gvfttacg7', '127.0.0.1', 0x89504e470d0a1a0a0000000d494844520000002e000000150403000000cb2ac16a0000001b504c5445ffffff1f1f1f3f3f3f5f5f5fbfbfbf9f9f9f7f7f7fdfdfdf000000b4842a5d0000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b0000005c49444154189563602015b0a78148d604543e034b5a1b88aa808943f94000a623e0ea1990c55939b08bbb6317670fc02ecec6805d3c1c87b8595a869a0303a3a020babd60f5ece5e558c551cc614f6e047a9cd542ac8001893f640000354317dbafb9fc940000000049454e44ae426082, '13', '2018-01-09 20:14:10', NULL),
+(33, '10irhemd36q4c9ss1trho884h4', '127.0.0.1', 0x89504e470d0a1a0a0000000d4948445200000034000000150403000000fba6d04b0000001b504c5445ffffff3f3f3f1f1f1fbfbfbf9f9f9f5f5f5f7f7f7fdfdfdf000000f1806c8d0000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b0000009e4944415428916360200fb0a70171885b01921073581a984a6b6360282a6057000bb28049a302b60430032895c8c02006663381495106f60698942803432092542b0343334c4a8d812108494a152c089102a20c24a95006665c5245052c702955b0816c82821282822240bfa4b8b7e07006d04bed381c6fcac0160093827b19229508140085536a531a22a020526c69e19801ca84290403ccb8a5060a00002de31b62f4e5d1b60000000049454e44ae426082, '19', '2018-01-09 20:14:36', NULL),
+(34, '6sptktc8bnafed69pmhb3tr621', '127.0.0.1', 0x89504e470d0a1a0a0000000d4948445200000034000000150403000000fba6d04b0000001b504c5445ffffff1f1f1fbfbfbf3f3f3f5f5f5f9f9f9f7f7f7fdfdfdf000000773617810000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b000000a34944415428916360200db097971780e9340606d614930224298b8e8e5620c594d6c6c010c4c06200166405934e4aaa102e504a9481bd15cc66049b13c0c056809002913029069031302906145d409e039214d42ea8144b0192946201b2542103420a6c029bb1b185b1b12990158c2455c6c08eaccb0521c5ae00f511544a042155161aea842c05f1097b4a631a834447473bb29429032660c42206054cb8a5060a0000e51b1871512b1b400000000049454e44ae426082, '19', '2018-01-09 20:17:21', NULL),
+(35, '6sptktc8bnafed69pmhb3tr621', '127.0.0.1', 0x89504e470d0a1a0a0000000d494844520000002d000000150403000000201d7a690000001b504c5445ffffff3f3f3f9f9f9f1f1f1f5f5f5fbfbfbf7f7f7fdfdfdf0000001d00d22f0000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b0000007d49444154189563602015b0a70189b204385f29cd1d44b1a6b531308465c0c5d90218340ac02ca03803075c9ca300c641156716678808c022ced4ac6ec680459c21b84300abb84b6133367bd90c18320450c5998d8d818403036303aa387b7939589cc5009b7bda198a15408a529ad318ca3ccce0128a69ae0c430700009b3d1a5c360c8be50000000049454e44ae426082, '3', '2018-01-09 20:17:59', NULL),
+(36, '6sptktc8bnafed69pmhb3tr621', '127.0.0.1', 0x89504e470d0a1a0a0000000d494844520000003e000000150403000000ec8440820000001b504c5445ffffff1f1f1f3f3f3f5f5f5fbfbfbf9f9f9f7f7f7fdfdfdf000000b4842a5d0000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b0000007a4944415428916360a014b0a78148d60464b1b2049838034b5a1b88aa80c8b38249b78c0498381080e908883c2344882301260ea55939f0cbbbe397670fc02fcfc6805f3e1c2cc2a6a4a4a1a4a48a45de2c2d43cd019ffb08988f479e3db9111890ac16620508f9320bb10488383a60c41442012c04e4071d0000901e1e61b543e6bd0000000049454e44ae426082, '25', '2018-01-09 20:18:57', NULL),
+(37, '6sptktc8bnafed69pmhb3tr621', '127.0.0.1', 0x89504e470d0a1a0a0000000d494844520000002d000000150403000000201d7a690000001b504c5445ffffff3f3f3f1f1f1fbfbfbf5f5f5f9f9f9f7f7f7fdfdfdf0000002363b1250000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b000000a049444154189563602016a496178069f6340606d6b09402987847872a88624e6b63604866606d8789ab1b431940f1763009010a0c0871c502e6666ce211aa450930ae72983b5c9c59a311ee1e078640b8388bbb843ac2a5150630f12406368406068e0498b80a03830403039392120303a300aab813d087e5e540f104060bb8391105ecaa5043580d185cc0c190d294c6c02a966200333d2c250023cc062f00008a541ad73daa6e5f0000000049454e44ae426082, '13', '2018-01-09 20:19:15', NULL),
+(38, '6sptktc8bnafed69pmhb3tr621', '127.0.0.1', 0x89504e470d0a1a0a0000000d4948445200000024000000150403000000dc0851a30000001b504c5445ffffff1f1f1f3f3f3fbfbfbf5f5f5f7f7f7f9f9f9fdfdfdf0000001e7b7d600000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b000000624944415418956360200ab0a78618c0d9a1608ac980b9192ac21cda0aa61913185ae15a602cb82a84105300ba50992b03862a66710c2106253421a302060fa0bd828208a18c020647a023cbcb1142250cec62681ad95de11e620f690cc5f0f0000100fea70ff1f0ce35070000000049454e44ae426082, '2', '2018-01-09 20:19:26', NULL),
+(39, '6sptktc8bnafed69pmhb3tr621', '127.0.0.1', 0x89504e470d0a1a0a0000000d494844520000003e000000150403000000ec8440820000001b504c5445ffffff3f3f3f1f1f1fbfbfbf5f5f5f9f9f9f7f7f7fdfdfdf0000002363b1250000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b000000ce494441542891cdd0bb0ac2301406e0bf699338b6a0d251c1d28ec527283af80052e958b4d43514e9ec855e1edbb42590e0e0e0e23f1c42bee47012e0d7f012a0a742685bb4980bdcd2ebb0b6cb16b88076938cf508c7e521aae9b4f46eac3264ac0178c35c58b9f2b5b05f86a3b512d944791654b9e672a886e47056caede801c31d779683dd953b073f347c2b0c3f83c906ccf37ccf5b0ced139044ebbf017cfd7e0d6ecc277da7398f418df76582079ad769ba57ffc38b6709ba2c62cda3beefd4ff9a219f5b46ec2ffe777903119c22028135d9470000000049454e44ae426082, '38', '2018-01-09 20:19:38', '2018-01-09 20:19:48'),
+(40, '6sptktc8bnafed69pmhb3tr621', '127.0.0.1', 0x89504e470d0a1a0a0000000d494844520000002e000000150403000000cb2ac16a0000001b504c5445ffffff3f3f3f1f1f1fbfbfbf5f5f5f9f9f9f7f7f7fdfdfdf0000002363b1250000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b0000007349444154189563602015b0a73130b086a51420f3818039ad8d81219981b51d2a0ce68301906e0793083e8c562c606ec6261ea15a94804d9c59a391019b388bbb843a36f12406b6466ce22a0c0c120c0c4c4a4a98e24e401f9597a3bba7805d15cd1cf694a6340656b11403583080f843070000a9ef19fb44b1f3540000000049454e44ae426082, '17', '2018-01-09 20:23:08', NULL),
+(41, '6sptktc8bnafed69pmhb3tr621', '127.0.0.1', 0x89504e470d0a1a0a0000000d494844520000003700000015040300000010916b480000001b504c5445ffffff9f9f9f3f3f3f1f1f1f5f5f5fbfbfbf7f7f7fdfdfdf000000088f32d30000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b0000009d4944415428916360201fb0a73130b0baa5a1f01918181340246b5a1b034370015b02540ecc6760a880f2811c1506f606b856b0a40442b28581a11545929103216902550f970c47927461604591641740922c2e60449164634092644f146f449614479604faa09d8181d9d818ca774bcb500b80498630b03900f59797c31523e94c02da8aea4f88247b4a731a035b9a3b4c0acc6760f43043a81e0e000044b9225c040c9f010000000049454e44ae426082, '5', '2018-01-09 20:24:58', '2018-01-09 20:25:39'),
+(42, '6sptktc8bnafed69pmhb3tr621', '127.0.0.1', 0x89504e470d0a1a0a0000000d4948445200000034000000150403000000fba6d04b0000001b504c5445ffffff3f3f3f5f5f5fbfbfbf1f1f1fdfdfdf9f9f9f7f7f7f0000007f3a91920000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b000000ab4944415428916360c003ca420370497574b82173c30b1818d2ca55c16c576388181b9834af2860603760c8009be40055ce02a1380a183802402456291651060b0310db395d154d8aad25d51dcc56604844936230e910801a15618026a514d81200e7b10b0a4a080a8a41390e0c15206d8c0250e72039438181b101245500750e8a1413c8dd6c060c4ae82e6c65084900b1d38b1290a4c235dc0b1812cb9551c29285012760c62d35a00000eb1c1b4a2b984ba60000000049454e44ae426082, '23', '2018-01-09 20:28:08', NULL),
+(43, '6sptktc8bnafed69pmhb3tr621', '127.0.0.1', 0x89504e470d0a1a0a0000000d494844520000002a000000150403000000c2c161100000001b504c5445ffffff1f1f1fbfbfbfdfdfdf3f3f3f5f5f5f7f7f7f9f9f9f000000175e25880000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b0000009049444154189563602006301b1b1b80e8b2906024518f8e8e7620c5aec01002e6b383c92025750720c558c0605100e233820d2860603380887224c04581a0084a23a905aa0e808a42cc858ab21a40682661645143a8525320667371f170717107b24aa00625301820a90d8550460c0cc8b6894294a697972a2089b6412ce9e8e84036c11d355c1819b00126aca2f40000c3b711cfb6dd480c0000000049454e44ae426082, '9', '2018-01-09 20:28:23', NULL),
+(44, '6sptktc8bnafed69pmhb3tr621', '127.0.0.1', 0x89504e470d0a1a0a0000000d4948445200000034000000150403000000fba6d04b0000001b504c5445ffffff9f9f9f3f3f3fdfdfdf1f1f1f7f7f7f5f5f5fbfbfbf0000002887a0bb0000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b000000894944415428916360200f94850620734d813ce6503093dd9901c2600493a511010ceca1ad60365302830598c102d1c501320322c591c0c051805d8a2501c2c322c596c05081438ad9994102871483a9a0850003ab9292869292229a1403438501765dec090c61381ccfaa00b40d875da161064852a619ae01cc612da1c86107d3850db0e3961a50000073b71710034b2ef70000000049454e44ae426082, '20', '2018-01-09 20:28:26', '2018-01-09 20:29:12'),
+(45, '6sptktc8bnafed69pmhb3tr621', '127.0.0.1', 0x89504e470d0a1a0a0000000d494844520000002d000000150403000000201d7a690000001b504c5445ffffff1f1f1f3f3f3fbfbfbf5f5f5f9f9f9f7f7f7fdfdfdf000000fc7fd2c30000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b0000009a49444154189563602015b0a7313094a639c3f9cc6ec9602aad8d814199c1c200261ec210086100c54519381260dadb19cce0e20c08f52c0a308d607135188fd1352c012ece1e02338681439c210849bd61014c5c81a1c20021ce043396d101e68636066675069606a090a020500192386b3b038b00d096f2720606362473d81d180a0360168b332481fd91d298c65082140e256970b70d010000a9c3186c3773d5330000000049454e44ae426082, '7', '2018-01-09 20:29:20', NULL),
+(46, 'k67bobsrm6erotp21r52ad3bn0', '127.0.0.1', 0x89504e470d0a1a0a0000000d494844520000002d000000150403000000201d7a690000001b504c5445ffffff1f1f1f3f3f3f5f5f5fbfbfbf9f9f9f7f7f7fdfdfdf000000b4842a5d0000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b0000008b49444154189563602015b0a78148d604183fccc81c44b1a4b581a80a9838ab0383118405168f80893306305404c0c5593990c4a16c90b83b5c1c64265c3d7b00b238c27c360624711671b87838b27831035cdc2c2d43cd8181515010e49f048602843b41ead9cbcb81ac12068600547188f75343831d407472233020582dc40aa0eeefe8e8286018320000207419ff1c3981390000000049454e44ae426082, '12', '2018-01-09 22:06:20', NULL),
+(47, 'k67bobsrm6erotp21r52ad3bn0', '127.0.0.1', 0x89504e470d0a1a0a0000000d494844520000002e000000150403000000cb2ac16a0000001b504c5445ffffff1f1f1f3f3f3f5f5f5fbfbfbf9f9f9f7f7f7fdfdfdf000000b4842a5d0000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b0000007b49444154189563602015b0a78148d6048448188860496b0351150871f636080da62210e2ac48e2ac1c08f10024717784384b01429c3d00215eca8010676340882720898723c4590b90c4cdd232d41c18180505191898d3d29a5210ee04a9672f2f47082089c30058803db9111810ac16620530e1e0c67486210300090c1a8d98d82d560000000049454e44ae426082, '10', '2018-01-10 08:16:24', NULL),
+(48, 't9denlrn3ungsaebn9aqpudht5', '127.0.0.1', 0x89504e470d0a1a0a0000000d4948445200000034000000150403000000fba6d04b0000001b504c5445ffffff1f1f1fbfbfbfdfdfdf3f3f3f5f5f5f7f7f7f9f9f9f000000175e25880000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b000000b84944415428916360200f9485043330879719208ba9a6290049760586100643036601b0183b840c600771190b182c0a521818dcc0828c60d2c280290122c591e0ca00d48a900a819b6c5120c6c0108824255a9e06950a61686360c840926a34607700339884d1a55a18989bc00c53a0096003d95c5c3c5c5cdcc1dc36900c730283019a335ca152460c0ce88e4f8118c89c5e5eaa00f732448ad1800de40cc68e8e0e03784041a498c3608e47028c984230c0845b6aa0000057611bc3d03aaebb0000000049454e44ae426082, '26', '2018-01-10 13:10:47', NULL),
+(49, 't9denlrn3ungsaebn9aqpudht5', '127.0.0.1', 0x89504e470d0a1a0a0000000d4948445200000034000000150403000000fba6d04b0000001b504c5445ffffff3f3f3f1f1f1f9f9f9f5f5f5fbfbfbf7f7f7fdfdfdf0000009649176d0000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b000000a44944415428916360200fb0a7018990b4002421e614910220c59ad606643b302b4004c1a429038b00980194aa28604d00b399c0a432037b334cca1166144c0a24089152314e43966240d2d554c02c802285b0ab9181bd15452aa8006e2098641314941014140699e7c000931281d90bd555c6c00e934a4435903d00ea41a01453011bb233ca8c8d5d412a529ad218d8dd501cafd1d1d1ce800e983044e08015b7d4400100b7af191adaa24ca40000000049454e44ae426082, '18', '2018-01-10 13:10:52', NULL),
+(50, 'g8qpbof5tv4c0f2ihqsakfu1f0', '127.0.0.1', 0x89504e470d0a1a0a0000000d494844520000002e000000150403000000cb2ac16a0000001b504c5445ffffff3f3f3f1f1f1fbfbfbf5f5f5f9f9f9f7f7f7fdfdfdf0000002363b1250000000174524e530040e6d866000000097048597300000ec400000ec401952b0e1b0000009049444154189563602015b0a73130b086a5142044c24004735a1b034332036b3b42611b840652ed60120a5811e28a05cccd70f1008478846a51024c98b90021ceacd108575eca80106771975087892720892731b0c134b0162089ab303048303030292901b5a6a5352623893b011d5e5e0e1380b9a7805d15e15fb0387b4a531a03ab588a015c38a4291d4b700d5200007d0f1cace1c01da90000000049454e44ae426082, '14', '2018-01-10 13:11:15', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `captcha_phinxlog`
+--
+
+CREATE TABLE `captcha_phinxlog` (
+  `version` bigint(20) NOT NULL,
+  `migration_name` varchar(100) DEFAULT NULL,
+  `start_time` timestamp NULL DEFAULT NULL,
+  `end_time` timestamp NULL DEFAULT NULL,
+  `breakpoint` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `captcha_phinxlog`
+--
+
+INSERT INTO `captcha_phinxlog` (`version`, `migration_name`, `start_time`, `end_time`, `breakpoint`) VALUES
+(20160428093345, 'CaptchaInit', '2018-01-09 17:49:58', '2018-01-09 17:49:59', 0),
+(20160428093346, 'Binary', '2018-01-09 17:49:59', '2018-01-09 17:50:00', 0);
 
 -- --------------------------------------------------------
 
@@ -3502,7 +3730,14 @@ CREATE TABLE `feedbacks` (
 --
 
 INSERT INTO `feedbacks` (`id`, `email`, `user_id`, `subject`, `feedback`, `created`, `modified`) VALUES
-(1, 'eddieokemwa@gmail.com', NULL, NULL, NULL, '2018-01-03 12:45:56', '2018-01-03 12:45:56');
+(1, 'eddieokemwa@gmail.com', NULL, 'umqasfasfasf', 'aasf asfda s  sdfas f a', '2018-01-03 12:45:56', '2018-01-03 12:45:56'),
+(2, 'eddieokemwa@gmail.com', NULL, 'safds', NULL, '2018-01-09 01:36:00', '2018-01-09 01:36:00'),
+(3, 'sijui@wendawazimu.com', NULL, 'sdf as f', NULL, '2018-01-09 01:36:46', '2018-01-09 01:36:46'),
+(4, 'sijui@wendawazimu.com', NULL, 'yes sir', 'I\'m grateful to God', '2018-01-09 20:19:48', '2018-01-09 20:19:48'),
+(9, 'eddieokemwa@gmail.com', NULL, NULL, 'king julian', '2018-01-09 20:53:31', '2018-01-09 20:53:31'),
+(10, 'eddieokemwa@gmail.com', NULL, 'sdf asdf ', 'mugabe', '2018-01-09 20:54:22', '2018-01-09 20:54:22'),
+(11, 'eddieokemwa@gmail.com', NULL, 'ningelijua', 'niafwoasd   ', '2018-01-09 20:54:37', '2018-01-09 20:54:37'),
+(12, 'eddieokemwa@gmail.com', NULL, 'john of endor', 'required message', '2018-01-09 20:55:14', '2018-01-09 20:55:14');
 
 -- --------------------------------------------------------
 
@@ -3861,7 +4096,8 @@ INSERT INTO `notifications` (`id`, `user_id`, `sender_id`, `type`, `model`, `for
 (115, 12, NULL, 'manager_committee_assigned_notification', 'Adrs', 1, NULL, NULL, '<p>Dear Evaluator3,</p>\r\n\r\n<p>A new Committee review has been submitted for report SAE1/2017 assigned to you by manager.</p>\r\n\r\n<p>Regards</p>\r\n\r\n<p>MCAZ</p>\r\n', NULL, NULL, '2017-12-19 00:11:28', '2017-12-19 00:11:28'),
 (116, 2, NULL, 'manager_committee_notification', 'Adrs', 1, NULL, NULL, '<p>You have submitted a committee review for report SAE1/2017</p>\r\n', NULL, NULL, '2017-12-19 00:11:28', '2017-12-19 00:11:28'),
 (117, 3, NULL, 'reporter_committee_comments_notification', 'Adrs', 1, NULL, NULL, '<p>MCAZ Review of SAE1/2017,</p>\r\n\r\n<p>MCAZ has reviewed and approved the SAE1/2017 that you submitted on 2017-11-09T16:45:27+00:00.</p>\r\n\r\n<p>MCAZ Comments:</p>\r\n\r\n<p>peee</p>\r\n\r\n<p>Regards,</p>\r\n\r\n<p>MCAZ</p>\r\n', NULL, NULL, '2017-12-19 00:11:32', '2017-12-19 00:11:32'),
-(118, 16, NULL, 'registration_notification', 'Users', 16, NULL, NULL, '<p>Dear reporter,</p>\r\n\r\n<p>Welcome to the MCAZ PV reporting website. Your email is reporter. Thank you.</p>\r\n\r\n<p>Regards,</p>\r\n\r\n<p>Edward</p>\r\n', NULL, NULL, '2018-01-03 01:15:48', '2018-01-03 01:15:48');
+(118, 16, NULL, 'registration_notification', 'Users', 16, NULL, NULL, '<p>Dear reporter,</p>\r\n\r\n<p>Welcome to the MCAZ PV reporting website. Your email is reporter. Thank you.</p>\r\n\r\n<p>Regards,</p>\r\n\r\n<p>Edward</p>\r\n', NULL, NULL, '2018-01-03 01:15:48', '2018-01-03 01:15:48'),
+(119, 3, 2, 'request_reporter_info', 'Aefis', 1, NULL, NULL, NULL, 'Nione Kando...', NULL, '2018-01-09 14:03:23', '2018-01-09 14:03:23');
 
 -- --------------------------------------------------------
 
@@ -4038,7 +4274,48 @@ INSERT INTO `queued_jobs` (`id`, `job_type`, `data`, `job_group`, `reference`, `
 (40, 'GenericEmail', '{"email_address":"eddieokemwa@gmail.com","user_id":3,"type":"applicant_submit_sadr_email","model":"Sadrs","foreign_key":3,"vars":{"id":3,"user_id":3,"reference_number":"ADR3\\/2017","designation_id":2,"report_type":null,"name_of_institution":"Kenyatta National Hospital","institution_code":"00125","patient_name":"A.O","ip_no":"258","date_of_birth":"-02-1993","age_group":"child","gender":"Male","weight":"75","height":"2.1","date_of_onset_of_reaction":"15-12-2004","date_of_end_of_reaction":"04-02-2010","duration_type":"Hours","duration":"3","description_of_reaction":"Sick","severity":"Yes","severity_reason":"Life-threatening","medical_history":"has been sickly\\r\\n","past_drug_therapy":"dawa\\r\\n","outcome":"Not yet recovered","lab_test_results":"black stool","reporter_name":"Edward","reporter_email":"eddieokemwa@gmail.com","reporter_phone":"0729932475","submitted":2,"emails":0,"active":true,"device":0,"notified":0,"created":"2017-11-06T06:59:23+00:00","modified":"2017-12-06T00:56:12+00:00","action_taken":"","relatedness":"","attachments":[{"id":1,"foreign_key":3,"file":"DSC_1145.jpg","dir":"webroot\\/files\\/Attachments\\/file\\/","size":"106704","type":"image\\/jpeg","model":"Sadrs","category":"attachments","description":"asfa","created":"2017-11-13T19:58:54+00:00","modified":"2017-12-06T00:56:12+00:00"},{"id":2,"foreign_key":3,"file":"DSC_1007.jpg","dir":"webroot\\/files\\/Attachments\\/file\\/","size":"138255","type":"image\\/jpeg","model":"Sadrs","category":"attachments","description":"batch this","created":"2017-11-13T20:22:13+00:00","modified":"2017-12-06T00:56:12+00:00"},{"id":3,"foreign_key":3,"file":"DSC_0815.jpg","dir":"webroot\\/files\\/Attachments\\/file\\/","size":"266055","type":"image\\/jpeg","model":"Sadrs","category":"attachments","description":"Kadenge","created":"2017-11-13T20:24:09+00:00","modified":"2017-12-06T00:56:12+00:00"}],"sadr_other_drugs":[{"id":1,"sadr_id":3,"drug_name":"Miti ni dawa","start_date":"2017-01-06T00:00:00+00:00","stop_date":"2017-02-06T00:00:00+00:00","suspected_drug":"1","created":"2017-11-06T11:22:31+00:00","modified":"2017-11-08T20:38:09+00:00"}],"sadr_list_of_drugs":[{"id":1,"sadr_id":3,"sadr_followup_id":null,"dose_id":3,"route_id":3,"frequency_id":2,"drug_name":"Panadol","brand_name":"dawa","batch_number":"22","dose":"2","start_date":"2008-06-02T00:00:00+00:00","stop_date":"2015-06-17T00:00:00+00:00","indication":"sss","suspected_drug":"1","created":"2017-11-06T11:06:44+00:00","modified":"2017-11-07T21:26:34+00:00"}],"province_id":""}}', NULL, NULL, '2017-12-06 00:56:12', NULL, '2017-12-06 00:56:36', NULL, NULL, 2, 'Cake\\Network\\Exception\\SocketException: SMTP server did not accept the password.', '9cb728961b964a5943727f598137946932b10aad', NULL, 5),
 (202, 'GenericEmail', '{"email_address":"eddieokemwa@gmail.com","user_id":14,"type":"registration_email","model":"Users","foreign_key":14,"vars":{"id":14,"designation_id":null,"county_id":null,"username":null,"confirm_password":"$2y$10$FvUTtG37bixPK9TczMmnC.XO810d9BHJiD5TaiD\\/V\\/oa7Q0zNfCZi","name":"mike","email":"eddieokemwa@gmail.com","group_id":3,"name_of_institution":null,"institution_address":null,"institution_code":null,"institution_contact":null,"ward":null,"phone_no":null,"forgot_password":0,"initial_email":0,"is_active":true,"deactivated":null,"is_admin":false,"created":"2017-12-13T00:42:17+00:00","modified":"2017-12-13T00:42:17+00:00","activation_key":"21542810","pv_site":"<a href=\\"http:\\/\\/mcazpvdev\\/pages\\/home\\">MCAZ PV website<\\/a>","activation_link":"<a href=\\"http:\\/\\/mcazpvdev\\/users\\/activate\\/21542810\\">ACTIVATE<\\/a>"}}', NULL, NULL, '2018-01-03 11:31:33', NULL, '2018-01-03 11:31:42', '2018-01-03 11:31:48', NULL, 0, NULL, 'cca20a8c12f4c1e3c5d4f25d5880cb2d1e6aabe9', NULL, 5),
 (203, 'GenericEmail', '{"email_address":"fakeuser@mail.com","user_id":17,"type":"registration_email","model":"Users","foreign_key":17,"vars":{"email":"fakeuser@mail.com","group_id":3,"created":"2018-01-05T12:19:25+00:00","modified":"2018-01-05T12:19:25+00:00","id":17,"activation_key":21543181,"name":"Sir\\/Madam","pv_site":"<a href=\\"http:\\/\\/mcazpvdev\\/pages\\/home\\">MCAZ PV website<\\/a>","activation_link":"<a href=\\"http:\\/\\/mcazpvdev\\/users\\/activate\\/21543181\\">ACTIVATE<\\/a>"}}', NULL, NULL, '2018-01-05 12:19:25', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
-(204, 'GenericNotification', '{"email_address":"fakeuser@mail.com","user_id":17,"type":"registration_notification","model":"Users","foreign_key":17,"vars":{"email":"fakeuser@mail.com","group_id":3,"created":"2018-01-05T12:19:25+00:00","modified":"2018-01-05T12:19:25+00:00","id":17,"activation_key":21543181,"name":"Sir\\/Madam","pv_site":"<a href=\\"http:\\/\\/mcazpvdev\\/pages\\/home\\">MCAZ PV website<\\/a>","activation_link":"<a href=\\"http:\\/\\/mcazpvdev\\/users\\/activate\\/21543181\\">ACTIVATE<\\/a>"}}', NULL, NULL, '2018-01-05 12:19:25', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5);
+(204, 'GenericNotification', '{"email_address":"fakeuser@mail.com","user_id":17,"type":"registration_notification","model":"Users","foreign_key":17,"vars":{"email":"fakeuser@mail.com","group_id":3,"created":"2018-01-05T12:19:25+00:00","modified":"2018-01-05T12:19:25+00:00","id":17,"activation_key":21543181,"name":"Sir\\/Madam","pv_site":"<a href=\\"http:\\/\\/mcazpvdev\\/pages\\/home\\">MCAZ PV website<\\/a>","activation_link":"<a href=\\"http:\\/\\/mcazpvdev\\/users\\/activate\\/21543181\\">ACTIVATE<\\/a>"}}', NULL, NULL, '2018-01-05 12:19:25', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(205, 'GenericEmail', '{"email_address":"eddyokemwa@gmail.com","user_id":3,"type":"applicant_submit_sadr_email","model":"Sadrs","foreign_key":67,"vars":{"id":67,"user_id":3,"sadr_id":null,"messageid":null,"assigned_to":null,"assigned_by":null,"assigned_date":null,"province_id":9,"reference_number":null,"designation_id":12,"report_type":null,"name_of_institution":"ha Glen View Satellite Clinic","institution_code":"ZW000A14","institution_name":"ha Glen View Satellite Clinic","institution_address":"avondale","patient_name":"Ju","ip_no":"","date_of_birth":"--2004","age_group":"NaN","gender":"Male","weight":"233","height":"12","date_of_onset_of_reaction":"--2001","date_of_end_of_reaction":"--2005","duration_type":null,"duration":null,"description_of_reaction":"dsadf","severity":"Yes","severity_reason":"Hospitalizaion\\/Prolonged","medical_history":"","past_drug_therapy":"","outcome":"Recovering","lab_test_results":"","reporter_name":"Edward","reporter_email":"eddyokemwa@gmail.com","reporter_phone":"0729932475","submitted":2,"submitted_date":"2018-01-09 01:32:51","action_taken":"Dose increased","relatedness":"Probable \\/ Likely","status":"Submitted","emails":0,"active":true,"device":0,"notified":0,"created":"2018-01-09T01:30:26+00:00","modified":"2018-01-09T01:32:51+00:00","deleted":null,"attachments":[{"description":"dasf","file":"IMG_0115.JPG","model":"Sadrs","category":"attachments","foreign_key":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","dir":"webroot\\/files\\/Attachments\\/file\\/","size":1829316,"type":"image\\/jpeg","id":43}],"sadr_other_drugs":[],"sadr_list_of_drugs":[{"drug_name":"Atasol compound","brand_name":"Para-seltzer","batch_number":"3","dose":"1","dose_id":20,"route_id":18,"frequency_id":3,"indication":"d","start_date":"2018-01-01T00:00:00+00:00","stop_date":"2018-01-09T00:00:00+00:00","suspected_drug":"on","sadr_id":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","id":39},{"drug_name":"c","brand_name":"sa","batch_number":"3","dose":"a","dose_id":19,"route_id":19,"frequency_id":4,"indication":"sa","start_date":"2018-01-01T00:00:00+00:00","stop_date":"2018-01-09T00:00:00+00:00","suspected_drug":"","sadr_id":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","id":40}],"age":"","doses_holder":"","routes_holder":"","frequencies_holder":"","pdf_link":"<a href=\\"http:\\/\\/mcazpvdev\\/sadrs\\/view\\/67.pdf\\">Download<\\/a>"}}', NULL, NULL, '2018-01-09 01:32:52', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(206, 'GenericNotification', '{"email_address":"eddyokemwa@gmail.com","user_id":3,"type":"applicant_submit_sadr_notification","model":"Sadrs","foreign_key":67,"vars":{"id":67,"user_id":3,"sadr_id":null,"messageid":null,"assigned_to":null,"assigned_by":null,"assigned_date":null,"province_id":9,"reference_number":null,"designation_id":12,"report_type":null,"name_of_institution":"ha Glen View Satellite Clinic","institution_code":"ZW000A14","institution_name":"ha Glen View Satellite Clinic","institution_address":"avondale","patient_name":"Ju","ip_no":"","date_of_birth":"--2004","age_group":"NaN","gender":"Male","weight":"233","height":"12","date_of_onset_of_reaction":"--2001","date_of_end_of_reaction":"--2005","duration_type":null,"duration":null,"description_of_reaction":"dsadf","severity":"Yes","severity_reason":"Hospitalizaion\\/Prolonged","medical_history":"","past_drug_therapy":"","outcome":"Recovering","lab_test_results":"","reporter_name":"Edward","reporter_email":"eddyokemwa@gmail.com","reporter_phone":"0729932475","submitted":2,"submitted_date":"2018-01-09 01:32:51","action_taken":"Dose increased","relatedness":"Probable \\/ Likely","status":"Submitted","emails":0,"active":true,"device":0,"notified":0,"created":"2018-01-09T01:30:26+00:00","modified":"2018-01-09T01:32:51+00:00","deleted":null,"attachments":[{"description":"dasf","file":"IMG_0115.JPG","model":"Sadrs","category":"attachments","foreign_key":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","dir":"webroot\\/files\\/Attachments\\/file\\/","size":1829316,"type":"image\\/jpeg","id":43}],"sadr_other_drugs":[],"sadr_list_of_drugs":[{"drug_name":"Atasol compound","brand_name":"Para-seltzer","batch_number":"3","dose":"1","dose_id":20,"route_id":18,"frequency_id":3,"indication":"d","start_date":"2018-01-01T00:00:00+00:00","stop_date":"2018-01-09T00:00:00+00:00","suspected_drug":"on","sadr_id":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","id":39},{"drug_name":"c","brand_name":"sa","batch_number":"3","dose":"a","dose_id":19,"route_id":19,"frequency_id":4,"indication":"sa","start_date":"2018-01-01T00:00:00+00:00","stop_date":"2018-01-09T00:00:00+00:00","suspected_drug":"","sadr_id":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","id":40}],"age":"","doses_holder":"","routes_holder":"","frequencies_holder":"","pdf_link":"<a href=\\"http:\\/\\/mcazpvdev\\/sadrs\\/view\\/67.pdf\\">Download<\\/a>"}}', NULL, NULL, '2018-01-09 01:32:52', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(207, 'GenericEmail', '{"email_address":"manager@mcaz.org","user_id":2,"model":"Sadrs","foreign_key":67,"vars":{"id":67,"user_id":3,"sadr_id":null,"messageid":null,"assigned_to":null,"assigned_by":null,"assigned_date":null,"province_id":9,"reference_number":null,"designation_id":12,"report_type":null,"name_of_institution":"ha Glen View Satellite Clinic","institution_code":"ZW000A14","institution_name":"ha Glen View Satellite Clinic","institution_address":"avondale","patient_name":"Ju","ip_no":"","date_of_birth":"--2004","age_group":"NaN","gender":"Male","weight":"233","height":"12","date_of_onset_of_reaction":"--2001","date_of_end_of_reaction":"--2005","duration_type":null,"duration":null,"description_of_reaction":"dsadf","severity":"Yes","severity_reason":"Hospitalizaion\\/Prolonged","medical_history":"","past_drug_therapy":"","outcome":"Recovering","lab_test_results":"","reporter_name":"Edward","reporter_email":"eddyokemwa@gmail.com","reporter_phone":"0729932475","submitted":2,"submitted_date":"2018-01-09 01:32:51","action_taken":"Dose increased","relatedness":"Probable \\/ Likely","status":"Submitted","emails":0,"active":true,"device":0,"notified":0,"created":"2018-01-09T01:30:26+00:00","modified":"2018-01-09T01:32:51+00:00","deleted":null,"attachments":[{"description":"dasf","file":"IMG_0115.JPG","model":"Sadrs","category":"attachments","foreign_key":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","dir":"webroot\\/files\\/Attachments\\/file\\/","size":1829316,"type":"image\\/jpeg","id":43}],"sadr_other_drugs":[],"sadr_list_of_drugs":[{"drug_name":"Atasol compound","brand_name":"Para-seltzer","batch_number":"3","dose":"1","dose_id":20,"route_id":18,"frequency_id":3,"indication":"d","start_date":"2018-01-01T00:00:00+00:00","stop_date":"2018-01-09T00:00:00+00:00","suspected_drug":"on","sadr_id":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","id":39},{"drug_name":"c","brand_name":"sa","batch_number":"3","dose":"a","dose_id":19,"route_id":19,"frequency_id":4,"indication":"sa","start_date":"2018-01-01T00:00:00+00:00","stop_date":"2018-01-09T00:00:00+00:00","suspected_drug":"","sadr_id":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","id":40}],"age":"","doses_holder":"","routes_holder":"","frequencies_holder":""},"type":"manager_submit_sadr_email"}', NULL, NULL, '2018-01-09 01:32:52', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(208, 'GenericNotification', '{"email_address":"manager@mcaz.org","user_id":2,"model":"Sadrs","foreign_key":67,"vars":{"id":67,"user_id":3,"sadr_id":null,"messageid":null,"assigned_to":null,"assigned_by":null,"assigned_date":null,"province_id":9,"reference_number":null,"designation_id":12,"report_type":null,"name_of_institution":"ha Glen View Satellite Clinic","institution_code":"ZW000A14","institution_name":"ha Glen View Satellite Clinic","institution_address":"avondale","patient_name":"Ju","ip_no":"","date_of_birth":"--2004","age_group":"NaN","gender":"Male","weight":"233","height":"12","date_of_onset_of_reaction":"--2001","date_of_end_of_reaction":"--2005","duration_type":null,"duration":null,"description_of_reaction":"dsadf","severity":"Yes","severity_reason":"Hospitalizaion\\/Prolonged","medical_history":"","past_drug_therapy":"","outcome":"Recovering","lab_test_results":"","reporter_name":"Edward","reporter_email":"eddyokemwa@gmail.com","reporter_phone":"0729932475","submitted":2,"submitted_date":"2018-01-09 01:32:51","action_taken":"Dose increased","relatedness":"Probable \\/ Likely","status":"Submitted","emails":0,"active":true,"device":0,"notified":0,"created":"2018-01-09T01:30:26+00:00","modified":"2018-01-09T01:32:51+00:00","deleted":null,"attachments":[{"description":"dasf","file":"IMG_0115.JPG","model":"Sadrs","category":"attachments","foreign_key":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","dir":"webroot\\/files\\/Attachments\\/file\\/","size":1829316,"type":"image\\/jpeg","id":43}],"sadr_other_drugs":[],"sadr_list_of_drugs":[{"drug_name":"Atasol compound","brand_name":"Para-seltzer","batch_number":"3","dose":"1","dose_id":20,"route_id":18,"frequency_id":3,"indication":"d","start_date":"2018-01-01T00:00:00+00:00","stop_date":"2018-01-09T00:00:00+00:00","suspected_drug":"on","sadr_id":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","id":39},{"drug_name":"c","brand_name":"sa","batch_number":"3","dose":"a","dose_id":19,"route_id":19,"frequency_id":4,"indication":"sa","start_date":"2018-01-01T00:00:00+00:00","stop_date":"2018-01-09T00:00:00+00:00","suspected_drug":"","sadr_id":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","id":40}],"age":"","doses_holder":"","routes_holder":"","frequencies_holder":""},"type":"manager_submit_sadr_notification"}', NULL, NULL, '2018-01-09 01:32:52', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(209, 'GenericEmail', '{"email_address":"roberto@gmail.com","user_id":10,"model":"Sadrs","foreign_key":67,"vars":{"id":67,"user_id":3,"sadr_id":null,"messageid":null,"assigned_to":null,"assigned_by":null,"assigned_date":null,"province_id":9,"reference_number":null,"designation_id":12,"report_type":null,"name_of_institution":"ha Glen View Satellite Clinic","institution_code":"ZW000A14","institution_name":"ha Glen View Satellite Clinic","institution_address":"avondale","patient_name":"Ju","ip_no":"","date_of_birth":"--2004","age_group":"NaN","gender":"Male","weight":"233","height":"12","date_of_onset_of_reaction":"--2001","date_of_end_of_reaction":"--2005","duration_type":null,"duration":null,"description_of_reaction":"dsadf","severity":"Yes","severity_reason":"Hospitalizaion\\/Prolonged","medical_history":"","past_drug_therapy":"","outcome":"Recovering","lab_test_results":"","reporter_name":"Edward","reporter_email":"eddyokemwa@gmail.com","reporter_phone":"0729932475","submitted":2,"submitted_date":"2018-01-09 01:32:51","action_taken":"Dose increased","relatedness":"Probable \\/ Likely","status":"Submitted","emails":0,"active":true,"device":0,"notified":0,"created":"2018-01-09T01:30:26+00:00","modified":"2018-01-09T01:32:51+00:00","deleted":null,"attachments":[{"description":"dasf","file":"IMG_0115.JPG","model":"Sadrs","category":"attachments","foreign_key":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","dir":"webroot\\/files\\/Attachments\\/file\\/","size":1829316,"type":"image\\/jpeg","id":43}],"sadr_other_drugs":[],"sadr_list_of_drugs":[{"drug_name":"Atasol compound","brand_name":"Para-seltzer","batch_number":"3","dose":"1","dose_id":20,"route_id":18,"frequency_id":3,"indication":"d","start_date":"2018-01-01T00:00:00+00:00","stop_date":"2018-01-09T00:00:00+00:00","suspected_drug":"on","sadr_id":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","id":39},{"drug_name":"c","brand_name":"sa","batch_number":"3","dose":"a","dose_id":19,"route_id":19,"frequency_id":4,"indication":"sa","start_date":"2018-01-01T00:00:00+00:00","stop_date":"2018-01-09T00:00:00+00:00","suspected_drug":"","sadr_id":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","id":40}],"age":"","doses_holder":"","routes_holder":"","frequencies_holder":""},"type":"manager_submit_sadr_email"}', NULL, NULL, '2018-01-09 01:32:52', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(210, 'GenericNotification', '{"email_address":"roberto@gmail.com","user_id":10,"model":"Sadrs","foreign_key":67,"vars":{"id":67,"user_id":3,"sadr_id":null,"messageid":null,"assigned_to":null,"assigned_by":null,"assigned_date":null,"province_id":9,"reference_number":null,"designation_id":12,"report_type":null,"name_of_institution":"ha Glen View Satellite Clinic","institution_code":"ZW000A14","institution_name":"ha Glen View Satellite Clinic","institution_address":"avondale","patient_name":"Ju","ip_no":"","date_of_birth":"--2004","age_group":"NaN","gender":"Male","weight":"233","height":"12","date_of_onset_of_reaction":"--2001","date_of_end_of_reaction":"--2005","duration_type":null,"duration":null,"description_of_reaction":"dsadf","severity":"Yes","severity_reason":"Hospitalizaion\\/Prolonged","medical_history":"","past_drug_therapy":"","outcome":"Recovering","lab_test_results":"","reporter_name":"Edward","reporter_email":"eddyokemwa@gmail.com","reporter_phone":"0729932475","submitted":2,"submitted_date":"2018-01-09 01:32:51","action_taken":"Dose increased","relatedness":"Probable \\/ Likely","status":"Submitted","emails":0,"active":true,"device":0,"notified":0,"created":"2018-01-09T01:30:26+00:00","modified":"2018-01-09T01:32:51+00:00","deleted":null,"attachments":[{"description":"dasf","file":"IMG_0115.JPG","model":"Sadrs","category":"attachments","foreign_key":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","dir":"webroot\\/files\\/Attachments\\/file\\/","size":1829316,"type":"image\\/jpeg","id":43}],"sadr_other_drugs":[],"sadr_list_of_drugs":[{"drug_name":"Atasol compound","brand_name":"Para-seltzer","batch_number":"3","dose":"1","dose_id":20,"route_id":18,"frequency_id":3,"indication":"d","start_date":"2018-01-01T00:00:00+00:00","stop_date":"2018-01-09T00:00:00+00:00","suspected_drug":"on","sadr_id":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","id":39},{"drug_name":"c","brand_name":"sa","batch_number":"3","dose":"a","dose_id":19,"route_id":19,"frequency_id":4,"indication":"sa","start_date":"2018-01-01T00:00:00+00:00","stop_date":"2018-01-09T00:00:00+00:00","suspected_drug":"","sadr_id":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","id":40}],"age":"","doses_holder":"","routes_holder":"","frequencies_holder":""},"type":"manager_submit_sadr_notification"}', NULL, NULL, '2018-01-09 01:32:52', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(211, 'GenericEmail', '{"email_address":"evaluator2@gmail.com","user_id":11,"model":"Sadrs","foreign_key":67,"vars":{"id":67,"user_id":3,"sadr_id":null,"messageid":null,"assigned_to":null,"assigned_by":null,"assigned_date":null,"province_id":9,"reference_number":null,"designation_id":12,"report_type":null,"name_of_institution":"ha Glen View Satellite Clinic","institution_code":"ZW000A14","institution_name":"ha Glen View Satellite Clinic","institution_address":"avondale","patient_name":"Ju","ip_no":"","date_of_birth":"--2004","age_group":"NaN","gender":"Male","weight":"233","height":"12","date_of_onset_of_reaction":"--2001","date_of_end_of_reaction":"--2005","duration_type":null,"duration":null,"description_of_reaction":"dsadf","severity":"Yes","severity_reason":"Hospitalizaion\\/Prolonged","medical_history":"","past_drug_therapy":"","outcome":"Recovering","lab_test_results":"","reporter_name":"Edward","reporter_email":"eddyokemwa@gmail.com","reporter_phone":"0729932475","submitted":2,"submitted_date":"2018-01-09 01:32:51","action_taken":"Dose increased","relatedness":"Probable \\/ Likely","status":"Submitted","emails":0,"active":true,"device":0,"notified":0,"created":"2018-01-09T01:30:26+00:00","modified":"2018-01-09T01:32:51+00:00","deleted":null,"attachments":[{"description":"dasf","file":"IMG_0115.JPG","model":"Sadrs","category":"attachments","foreign_key":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","dir":"webroot\\/files\\/Attachments\\/file\\/","size":1829316,"type":"image\\/jpeg","id":43}],"sadr_other_drugs":[],"sadr_list_of_drugs":[{"drug_name":"Atasol compound","brand_name":"Para-seltzer","batch_number":"3","dose":"1","dose_id":20,"route_id":18,"frequency_id":3,"indication":"d","start_date":"2018-01-01T00:00:00+00:00","stop_date":"2018-01-09T00:00:00+00:00","suspected_drug":"on","sadr_id":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","id":39},{"drug_name":"c","brand_name":"sa","batch_number":"3","dose":"a","dose_id":19,"route_id":19,"frequency_id":4,"indication":"sa","start_date":"2018-01-01T00:00:00+00:00","stop_date":"2018-01-09T00:00:00+00:00","suspected_drug":"","sadr_id":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","id":40}],"age":"","doses_holder":"","routes_holder":"","frequencies_holder":""},"type":"manager_submit_sadr_email"}', NULL, NULL, '2018-01-09 01:32:52', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(212, 'GenericNotification', '{"email_address":"evaluator2@gmail.com","user_id":11,"model":"Sadrs","foreign_key":67,"vars":{"id":67,"user_id":3,"sadr_id":null,"messageid":null,"assigned_to":null,"assigned_by":null,"assigned_date":null,"province_id":9,"reference_number":null,"designation_id":12,"report_type":null,"name_of_institution":"ha Glen View Satellite Clinic","institution_code":"ZW000A14","institution_name":"ha Glen View Satellite Clinic","institution_address":"avondale","patient_name":"Ju","ip_no":"","date_of_birth":"--2004","age_group":"NaN","gender":"Male","weight":"233","height":"12","date_of_onset_of_reaction":"--2001","date_of_end_of_reaction":"--2005","duration_type":null,"duration":null,"description_of_reaction":"dsadf","severity":"Yes","severity_reason":"Hospitalizaion\\/Prolonged","medical_history":"","past_drug_therapy":"","outcome":"Recovering","lab_test_results":"","reporter_name":"Edward","reporter_email":"eddyokemwa@gmail.com","reporter_phone":"0729932475","submitted":2,"submitted_date":"2018-01-09 01:32:51","action_taken":"Dose increased","relatedness":"Probable \\/ Likely","status":"Submitted","emails":0,"active":true,"device":0,"notified":0,"created":"2018-01-09T01:30:26+00:00","modified":"2018-01-09T01:32:51+00:00","deleted":null,"attachments":[{"description":"dasf","file":"IMG_0115.JPG","model":"Sadrs","category":"attachments","foreign_key":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","dir":"webroot\\/files\\/Attachments\\/file\\/","size":1829316,"type":"image\\/jpeg","id":43}],"sadr_other_drugs":[],"sadr_list_of_drugs":[{"drug_name":"Atasol compound","brand_name":"Para-seltzer","batch_number":"3","dose":"1","dose_id":20,"route_id":18,"frequency_id":3,"indication":"d","start_date":"2018-01-01T00:00:00+00:00","stop_date":"2018-01-09T00:00:00+00:00","suspected_drug":"on","sadr_id":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","id":39},{"drug_name":"c","brand_name":"sa","batch_number":"3","dose":"a","dose_id":19,"route_id":19,"frequency_id":4,"indication":"sa","start_date":"2018-01-01T00:00:00+00:00","stop_date":"2018-01-09T00:00:00+00:00","suspected_drug":"","sadr_id":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","id":40}],"age":"","doses_holder":"","routes_holder":"","frequencies_holder":""},"type":"manager_submit_sadr_notification"}', NULL, NULL, '2018-01-09 01:32:52', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(213, 'GenericEmail', '{"email_address":"evaluator3@gmail.com","user_id":12,"model":"Sadrs","foreign_key":67,"vars":{"id":67,"user_id":3,"sadr_id":null,"messageid":null,"assigned_to":null,"assigned_by":null,"assigned_date":null,"province_id":9,"reference_number":null,"designation_id":12,"report_type":null,"name_of_institution":"ha Glen View Satellite Clinic","institution_code":"ZW000A14","institution_name":"ha Glen View Satellite Clinic","institution_address":"avondale","patient_name":"Ju","ip_no":"","date_of_birth":"--2004","age_group":"NaN","gender":"Male","weight":"233","height":"12","date_of_onset_of_reaction":"--2001","date_of_end_of_reaction":"--2005","duration_type":null,"duration":null,"description_of_reaction":"dsadf","severity":"Yes","severity_reason":"Hospitalizaion\\/Prolonged","medical_history":"","past_drug_therapy":"","outcome":"Recovering","lab_test_results":"","reporter_name":"Edward","reporter_email":"eddyokemwa@gmail.com","reporter_phone":"0729932475","submitted":2,"submitted_date":"2018-01-09 01:32:51","action_taken":"Dose increased","relatedness":"Probable \\/ Likely","status":"Submitted","emails":0,"active":true,"device":0,"notified":0,"created":"2018-01-09T01:30:26+00:00","modified":"2018-01-09T01:32:51+00:00","deleted":null,"attachments":[{"description":"dasf","file":"IMG_0115.JPG","model":"Sadrs","category":"attachments","foreign_key":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","dir":"webroot\\/files\\/Attachments\\/file\\/","size":1829316,"type":"image\\/jpeg","id":43}],"sadr_other_drugs":[],"sadr_list_of_drugs":[{"drug_name":"Atasol compound","brand_name":"Para-seltzer","batch_number":"3","dose":"1","dose_id":20,"route_id":18,"frequency_id":3,"indication":"d","start_date":"2018-01-01T00:00:00+00:00","stop_date":"2018-01-09T00:00:00+00:00","suspected_drug":"on","sadr_id":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","id":39},{"drug_name":"c","brand_name":"sa","batch_number":"3","dose":"a","dose_id":19,"route_id":19,"frequency_id":4,"indication":"sa","start_date":"2018-01-01T00:00:00+00:00","stop_date":"2018-01-09T00:00:00+00:00","suspected_drug":"","sadr_id":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","id":40}],"age":"","doses_holder":"","routes_holder":"","frequencies_holder":""},"type":"manager_submit_sadr_email"}', NULL, NULL, '2018-01-09 01:32:52', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(214, 'GenericNotification', '{"email_address":"evaluator3@gmail.com","user_id":12,"model":"Sadrs","foreign_key":67,"vars":{"id":67,"user_id":3,"sadr_id":null,"messageid":null,"assigned_to":null,"assigned_by":null,"assigned_date":null,"province_id":9,"reference_number":null,"designation_id":12,"report_type":null,"name_of_institution":"ha Glen View Satellite Clinic","institution_code":"ZW000A14","institution_name":"ha Glen View Satellite Clinic","institution_address":"avondale","patient_name":"Ju","ip_no":"","date_of_birth":"--2004","age_group":"NaN","gender":"Male","weight":"233","height":"12","date_of_onset_of_reaction":"--2001","date_of_end_of_reaction":"--2005","duration_type":null,"duration":null,"description_of_reaction":"dsadf","severity":"Yes","severity_reason":"Hospitalizaion\\/Prolonged","medical_history":"","past_drug_therapy":"","outcome":"Recovering","lab_test_results":"","reporter_name":"Edward","reporter_email":"eddyokemwa@gmail.com","reporter_phone":"0729932475","submitted":2,"submitted_date":"2018-01-09 01:32:51","action_taken":"Dose increased","relatedness":"Probable \\/ Likely","status":"Submitted","emails":0,"active":true,"device":0,"notified":0,"created":"2018-01-09T01:30:26+00:00","modified":"2018-01-09T01:32:51+00:00","deleted":null,"attachments":[{"description":"dasf","file":"IMG_0115.JPG","model":"Sadrs","category":"attachments","foreign_key":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","dir":"webroot\\/files\\/Attachments\\/file\\/","size":1829316,"type":"image\\/jpeg","id":43}],"sadr_other_drugs":[],"sadr_list_of_drugs":[{"drug_name":"Atasol compound","brand_name":"Para-seltzer","batch_number":"3","dose":"1","dose_id":20,"route_id":18,"frequency_id":3,"indication":"d","start_date":"2018-01-01T00:00:00+00:00","stop_date":"2018-01-09T00:00:00+00:00","suspected_drug":"on","sadr_id":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","id":39},{"drug_name":"c","brand_name":"sa","batch_number":"3","dose":"a","dose_id":19,"route_id":19,"frequency_id":4,"indication":"sa","start_date":"2018-01-01T00:00:00+00:00","stop_date":"2018-01-09T00:00:00+00:00","suspected_drug":"","sadr_id":67,"created":"2018-01-09T01:32:51+00:00","modified":"2018-01-09T01:32:51+00:00","id":40}],"age":"","doses_holder":"","routes_holder":"","frequencies_holder":""},"type":"manager_submit_sadr_notification"}', NULL, NULL, '2018-01-09 01:32:52', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(215, 'GenericEmail', '{"email_address":"eddieokemwa@gmail.com","user_id":3,"type":"applicant_submit_aefi_email","model":"Aefis","foreign_key":1,"vars":{"id":1,"user_id":3,"aefi_id":null,"province_id":null,"reference_number":"AEFI1\\/2017","assigned_to":12,"assigned_by":2,"assigned_date":"2017-12-18T00:22:03+00:00","patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Female","date_of_birth":"--2015","age_at_onset":"Months","age_at_onset_years":5,"age_at_onset_months":2,"age_at_onset_days":3,"age_at_onset_specify":45,"reporter_name":"Edward","designation_id":2,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":"","reporter_district":"Namulongo","reporter_province":"Entebbe","reporter_phone":"254729932475","reporter_email":"eddieokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":"","ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"specified other","aefi_date":"2017-11-03T12:34:00+00:00","notification_date":"2017-11-02T00:00:00+00:00","description_of_reaction":"Kichwa nauma","treatment_provided":"Yes","serious":"Yes","serious_yes":"Death","outcome":"Recovering","died_date":"2008-11-05T00:00:00+00:00","autopsy":"Unknown","past_medical_history":"We suspect something here","district_receive_date":"2008-11-06T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2018-03-16T00:00:00+00:00","national_receive_date":"2017-06-08T00:00:00+00:00","comments":"Criticial out deh","submitted":2,"submitted_date":"2018-01-09 13:48:52","status":"Submitted","created":"2017-11-11T07:55:59+00:00","modified":"2018-01-09T13:48:52+00:00","deleted":null,"attachments":[{"id":4,"foreign_key":1,"file":"DSC_0939.jpg","dir":"webroot\\/files\\/Attachments\\/file\\/","size":"138338","type":"image\\/jpeg","model":"Aefis","category":"attachments","description":"File ya ADR","created":"2017-11-13T21:13:06+00:00","modified":"2018-01-09T13:48:52+00:00"}],"aefi_list_of_vaccines":[{"id":1,"aefi_id":1,"vaccine_name":"militant","vaccination_date":"2017-11-03T15:19:00+00:00","vaccination_time":"","dosage":"1st","batch_number":"55","expiry_date":"2017-11-10T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T09:32:08+00:00","modified":"2018-01-09T13:48:52+00:00"},{"id":3,"aefi_id":1,"vaccine_name":"Jose","vaccination_date":"2017-11-03T15:19:00+00:00","vaccination_time":"","dosage":"3rd","batch_number":"55","expiry_date":"2017-11-09T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T09:47:00+00:00","modified":"2018-01-09T13:48:52+00:00"},{"id":4,"aefi_id":1,"vaccine_name":"ka","vaccination_date":"2017-11-10T18:31:00+00:00","vaccination_time":"","dosage":"22","batch_number":"55","expiry_date":"2017-11-01T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T11:31:47+00:00","modified":"2018-01-09T13:48:52+00:00"}],"patient_hospitalization":"","pdf_link":"<a href=\\"http:\\/\\/mcazpvdev\\/aefis\\/view\\/1.pdf\\">Download<\\/a>"}}', NULL, NULL, '2018-01-09 13:48:53', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(216, 'GenericNotification', '{"email_address":"eddieokemwa@gmail.com","user_id":3,"type":"applicant_submit_aefi_notification","model":"Aefis","foreign_key":1,"vars":{"id":1,"user_id":3,"aefi_id":null,"province_id":null,"reference_number":"AEFI1\\/2017","assigned_to":12,"assigned_by":2,"assigned_date":"2017-12-18T00:22:03+00:00","patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Female","date_of_birth":"--2015","age_at_onset":"Months","age_at_onset_years":5,"age_at_onset_months":2,"age_at_onset_days":3,"age_at_onset_specify":45,"reporter_name":"Edward","designation_id":2,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":"","reporter_district":"Namulongo","reporter_province":"Entebbe","reporter_phone":"254729932475","reporter_email":"eddieokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":"","ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"specified other","aefi_date":"2017-11-03T12:34:00+00:00","notification_date":"2017-11-02T00:00:00+00:00","description_of_reaction":"Kichwa nauma","treatment_provided":"Yes","serious":"Yes","serious_yes":"Death","outcome":"Recovering","died_date":"2008-11-05T00:00:00+00:00","autopsy":"Unknown","past_medical_history":"We suspect something here","district_receive_date":"2008-11-06T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2018-03-16T00:00:00+00:00","national_receive_date":"2017-06-08T00:00:00+00:00","comments":"Criticial out deh","submitted":2,"submitted_date":"2018-01-09 13:48:52","status":"Submitted","created":"2017-11-11T07:55:59+00:00","modified":"2018-01-09T13:48:52+00:00","deleted":null,"attachments":[{"id":4,"foreign_key":1,"file":"DSC_0939.jpg","dir":"webroot\\/files\\/Attachments\\/file\\/","size":"138338","type":"image\\/jpeg","model":"Aefis","category":"attachments","description":"File ya ADR","created":"2017-11-13T21:13:06+00:00","modified":"2018-01-09T13:48:52+00:00"}],"aefi_list_of_vaccines":[{"id":1,"aefi_id":1,"vaccine_name":"militant","vaccination_date":"2017-11-03T15:19:00+00:00","vaccination_time":"","dosage":"1st","batch_number":"55","expiry_date":"2017-11-10T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T09:32:08+00:00","modified":"2018-01-09T13:48:52+00:00"},{"id":3,"aefi_id":1,"vaccine_name":"Jose","vaccination_date":"2017-11-03T15:19:00+00:00","vaccination_time":"","dosage":"3rd","batch_number":"55","expiry_date":"2017-11-09T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T09:47:00+00:00","modified":"2018-01-09T13:48:52+00:00"},{"id":4,"aefi_id":1,"vaccine_name":"ka","vaccination_date":"2017-11-10T18:31:00+00:00","vaccination_time":"","dosage":"22","batch_number":"55","expiry_date":"2017-11-01T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T11:31:47+00:00","modified":"2018-01-09T13:48:52+00:00"}],"patient_hospitalization":"","pdf_link":"<a href=\\"http:\\/\\/mcazpvdev\\/aefis\\/view\\/1.pdf\\">Download<\\/a>"}}', NULL, NULL, '2018-01-09 13:48:53', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(217, 'GenericEmail', '{"email_address":"manager@mcaz.org","user_id":2,"model":"Aefis","foreign_key":1,"vars":{"id":1,"user_id":3,"aefi_id":null,"province_id":null,"reference_number":"AEFI1\\/2017","assigned_to":12,"assigned_by":2,"assigned_date":"2017-12-18T00:22:03+00:00","patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Female","date_of_birth":"--2015","age_at_onset":"Months","age_at_onset_years":5,"age_at_onset_months":2,"age_at_onset_days":3,"age_at_onset_specify":45,"reporter_name":"Edward","designation_id":2,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":"","reporter_district":"Namulongo","reporter_province":"Entebbe","reporter_phone":"254729932475","reporter_email":"eddieokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":"","ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"specified other","aefi_date":"2017-11-03T12:34:00+00:00","notification_date":"2017-11-02T00:00:00+00:00","description_of_reaction":"Kichwa nauma","treatment_provided":"Yes","serious":"Yes","serious_yes":"Death","outcome":"Recovering","died_date":"2008-11-05T00:00:00+00:00","autopsy":"Unknown","past_medical_history":"We suspect something here","district_receive_date":"2008-11-06T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2018-03-16T00:00:00+00:00","national_receive_date":"2017-06-08T00:00:00+00:00","comments":"Criticial out deh","submitted":2,"submitted_date":"2018-01-09 13:48:52","status":"Submitted","created":"2017-11-11T07:55:59+00:00","modified":"2018-01-09T13:48:52+00:00","deleted":null,"attachments":[{"id":4,"foreign_key":1,"file":"DSC_0939.jpg","dir":"webroot\\/files\\/Attachments\\/file\\/","size":"138338","type":"image\\/jpeg","model":"Aefis","category":"attachments","description":"File ya ADR","created":"2017-11-13T21:13:06+00:00","modified":"2018-01-09T13:48:52+00:00"}],"aefi_list_of_vaccines":[{"id":1,"aefi_id":1,"vaccine_name":"militant","vaccination_date":"2017-11-03T15:19:00+00:00","vaccination_time":"","dosage":"1st","batch_number":"55","expiry_date":"2017-11-10T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T09:32:08+00:00","modified":"2018-01-09T13:48:52+00:00"},{"id":3,"aefi_id":1,"vaccine_name":"Jose","vaccination_date":"2017-11-03T15:19:00+00:00","vaccination_time":"","dosage":"3rd","batch_number":"55","expiry_date":"2017-11-09T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T09:47:00+00:00","modified":"2018-01-09T13:48:52+00:00"},{"id":4,"aefi_id":1,"vaccine_name":"ka","vaccination_date":"2017-11-10T18:31:00+00:00","vaccination_time":"","dosage":"22","batch_number":"55","expiry_date":"2017-11-01T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T11:31:47+00:00","modified":"2018-01-09T13:48:52+00:00"}],"patient_hospitalization":""},"type":"manager_submit_aefi_email"}', NULL, NULL, '2018-01-09 13:48:53', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(218, 'GenericNotification', '{"email_address":"manager@mcaz.org","user_id":2,"model":"Aefis","foreign_key":1,"vars":{"id":1,"user_id":3,"aefi_id":null,"province_id":null,"reference_number":"AEFI1\\/2017","assigned_to":12,"assigned_by":2,"assigned_date":"2017-12-18T00:22:03+00:00","patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Female","date_of_birth":"--2015","age_at_onset":"Months","age_at_onset_years":5,"age_at_onset_months":2,"age_at_onset_days":3,"age_at_onset_specify":45,"reporter_name":"Edward","designation_id":2,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":"","reporter_district":"Namulongo","reporter_province":"Entebbe","reporter_phone":"254729932475","reporter_email":"eddieokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":"","ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"specified other","aefi_date":"2017-11-03T12:34:00+00:00","notification_date":"2017-11-02T00:00:00+00:00","description_of_reaction":"Kichwa nauma","treatment_provided":"Yes","serious":"Yes","serious_yes":"Death","outcome":"Recovering","died_date":"2008-11-05T00:00:00+00:00","autopsy":"Unknown","past_medical_history":"We suspect something here","district_receive_date":"2008-11-06T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2018-03-16T00:00:00+00:00","national_receive_date":"2017-06-08T00:00:00+00:00","comments":"Criticial out deh","submitted":2,"submitted_date":"2018-01-09 13:48:52","status":"Submitted","created":"2017-11-11T07:55:59+00:00","modified":"2018-01-09T13:48:52+00:00","deleted":null,"attachments":[{"id":4,"foreign_key":1,"file":"DSC_0939.jpg","dir":"webroot\\/files\\/Attachments\\/file\\/","size":"138338","type":"image\\/jpeg","model":"Aefis","category":"attachments","description":"File ya ADR","created":"2017-11-13T21:13:06+00:00","modified":"2018-01-09T13:48:52+00:00"}],"aefi_list_of_vaccines":[{"id":1,"aefi_id":1,"vaccine_name":"militant","vaccination_date":"2017-11-03T15:19:00+00:00","vaccination_time":"","dosage":"1st","batch_number":"55","expiry_date":"2017-11-10T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T09:32:08+00:00","modified":"2018-01-09T13:48:52+00:00"},{"id":3,"aefi_id":1,"vaccine_name":"Jose","vaccination_date":"2017-11-03T15:19:00+00:00","vaccination_time":"","dosage":"3rd","batch_number":"55","expiry_date":"2017-11-09T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T09:47:00+00:00","modified":"2018-01-09T13:48:52+00:00"},{"id":4,"aefi_id":1,"vaccine_name":"ka","vaccination_date":"2017-11-10T18:31:00+00:00","vaccination_time":"","dosage":"22","batch_number":"55","expiry_date":"2017-11-01T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T11:31:47+00:00","modified":"2018-01-09T13:48:52+00:00"}],"patient_hospitalization":"","name":"manager"},"type":"manager_submit_aefi_notification"}', NULL, NULL, '2018-01-09 13:48:53', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5);
+INSERT INTO `queued_jobs` (`id`, `job_type`, `data`, `job_group`, `reference`, `created`, `notbefore`, `fetched`, `completed`, `progress`, `failed`, `failure_message`, `workerkey`, `status`, `priority`) VALUES
+(219, 'GenericEmail', '{"email_address":"roberto@gmail.com","user_id":10,"model":"Aefis","foreign_key":1,"vars":{"id":1,"user_id":3,"aefi_id":null,"province_id":null,"reference_number":"AEFI1\\/2017","assigned_to":12,"assigned_by":2,"assigned_date":"2017-12-18T00:22:03+00:00","patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Female","date_of_birth":"--2015","age_at_onset":"Months","age_at_onset_years":5,"age_at_onset_months":2,"age_at_onset_days":3,"age_at_onset_specify":45,"reporter_name":"Edward","designation_id":2,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":"","reporter_district":"Namulongo","reporter_province":"Entebbe","reporter_phone":"254729932475","reporter_email":"eddieokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":"","ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"specified other","aefi_date":"2017-11-03T12:34:00+00:00","notification_date":"2017-11-02T00:00:00+00:00","description_of_reaction":"Kichwa nauma","treatment_provided":"Yes","serious":"Yes","serious_yes":"Death","outcome":"Recovering","died_date":"2008-11-05T00:00:00+00:00","autopsy":"Unknown","past_medical_history":"We suspect something here","district_receive_date":"2008-11-06T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2018-03-16T00:00:00+00:00","national_receive_date":"2017-06-08T00:00:00+00:00","comments":"Criticial out deh","submitted":2,"submitted_date":"2018-01-09 13:48:52","status":"Submitted","created":"2017-11-11T07:55:59+00:00","modified":"2018-01-09T13:48:52+00:00","deleted":null,"attachments":[{"id":4,"foreign_key":1,"file":"DSC_0939.jpg","dir":"webroot\\/files\\/Attachments\\/file\\/","size":"138338","type":"image\\/jpeg","model":"Aefis","category":"attachments","description":"File ya ADR","created":"2017-11-13T21:13:06+00:00","modified":"2018-01-09T13:48:52+00:00"}],"aefi_list_of_vaccines":[{"id":1,"aefi_id":1,"vaccine_name":"militant","vaccination_date":"2017-11-03T15:19:00+00:00","vaccination_time":"","dosage":"1st","batch_number":"55","expiry_date":"2017-11-10T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T09:32:08+00:00","modified":"2018-01-09T13:48:52+00:00"},{"id":3,"aefi_id":1,"vaccine_name":"Jose","vaccination_date":"2017-11-03T15:19:00+00:00","vaccination_time":"","dosage":"3rd","batch_number":"55","expiry_date":"2017-11-09T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T09:47:00+00:00","modified":"2018-01-09T13:48:52+00:00"},{"id":4,"aefi_id":1,"vaccine_name":"ka","vaccination_date":"2017-11-10T18:31:00+00:00","vaccination_time":"","dosage":"22","batch_number":"55","expiry_date":"2017-11-01T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T11:31:47+00:00","modified":"2018-01-09T13:48:52+00:00"}],"patient_hospitalization":""},"type":"manager_submit_aefi_email"}', NULL, NULL, '2018-01-09 13:48:53', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(220, 'GenericNotification', '{"email_address":"roberto@gmail.com","user_id":10,"model":"Aefis","foreign_key":1,"vars":{"id":1,"user_id":3,"aefi_id":null,"province_id":null,"reference_number":"AEFI1\\/2017","assigned_to":12,"assigned_by":2,"assigned_date":"2017-12-18T00:22:03+00:00","patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Female","date_of_birth":"--2015","age_at_onset":"Months","age_at_onset_years":5,"age_at_onset_months":2,"age_at_onset_days":3,"age_at_onset_specify":45,"reporter_name":"Edward","designation_id":2,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":"","reporter_district":"Namulongo","reporter_province":"Entebbe","reporter_phone":"254729932475","reporter_email":"eddieokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":"","ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"specified other","aefi_date":"2017-11-03T12:34:00+00:00","notification_date":"2017-11-02T00:00:00+00:00","description_of_reaction":"Kichwa nauma","treatment_provided":"Yes","serious":"Yes","serious_yes":"Death","outcome":"Recovering","died_date":"2008-11-05T00:00:00+00:00","autopsy":"Unknown","past_medical_history":"We suspect something here","district_receive_date":"2008-11-06T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2018-03-16T00:00:00+00:00","national_receive_date":"2017-06-08T00:00:00+00:00","comments":"Criticial out deh","submitted":2,"submitted_date":"2018-01-09 13:48:52","status":"Submitted","created":"2017-11-11T07:55:59+00:00","modified":"2018-01-09T13:48:52+00:00","deleted":null,"attachments":[{"id":4,"foreign_key":1,"file":"DSC_0939.jpg","dir":"webroot\\/files\\/Attachments\\/file\\/","size":"138338","type":"image\\/jpeg","model":"Aefis","category":"attachments","description":"File ya ADR","created":"2017-11-13T21:13:06+00:00","modified":"2018-01-09T13:48:52+00:00"}],"aefi_list_of_vaccines":[{"id":1,"aefi_id":1,"vaccine_name":"militant","vaccination_date":"2017-11-03T15:19:00+00:00","vaccination_time":"","dosage":"1st","batch_number":"55","expiry_date":"2017-11-10T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T09:32:08+00:00","modified":"2018-01-09T13:48:52+00:00"},{"id":3,"aefi_id":1,"vaccine_name":"Jose","vaccination_date":"2017-11-03T15:19:00+00:00","vaccination_time":"","dosage":"3rd","batch_number":"55","expiry_date":"2017-11-09T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T09:47:00+00:00","modified":"2018-01-09T13:48:52+00:00"},{"id":4,"aefi_id":1,"vaccine_name":"ka","vaccination_date":"2017-11-10T18:31:00+00:00","vaccination_time":"","dosage":"22","batch_number":"55","expiry_date":"2017-11-01T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T11:31:47+00:00","modified":"2018-01-09T13:48:52+00:00"}],"patient_hospitalization":"","name":"roberto"},"type":"manager_submit_aefi_notification"}', NULL, NULL, '2018-01-09 13:48:53', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(221, 'GenericEmail', '{"email_address":"evaluator2@gmail.com","user_id":11,"model":"Aefis","foreign_key":1,"vars":{"id":1,"user_id":3,"aefi_id":null,"province_id":null,"reference_number":"AEFI1\\/2017","assigned_to":12,"assigned_by":2,"assigned_date":"2017-12-18T00:22:03+00:00","patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Female","date_of_birth":"--2015","age_at_onset":"Months","age_at_onset_years":5,"age_at_onset_months":2,"age_at_onset_days":3,"age_at_onset_specify":45,"reporter_name":"Edward","designation_id":2,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":"","reporter_district":"Namulongo","reporter_province":"Entebbe","reporter_phone":"254729932475","reporter_email":"eddieokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":"","ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"specified other","aefi_date":"2017-11-03T12:34:00+00:00","notification_date":"2017-11-02T00:00:00+00:00","description_of_reaction":"Kichwa nauma","treatment_provided":"Yes","serious":"Yes","serious_yes":"Death","outcome":"Recovering","died_date":"2008-11-05T00:00:00+00:00","autopsy":"Unknown","past_medical_history":"We suspect something here","district_receive_date":"2008-11-06T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2018-03-16T00:00:00+00:00","national_receive_date":"2017-06-08T00:00:00+00:00","comments":"Criticial out deh","submitted":2,"submitted_date":"2018-01-09 13:48:52","status":"Submitted","created":"2017-11-11T07:55:59+00:00","modified":"2018-01-09T13:48:52+00:00","deleted":null,"attachments":[{"id":4,"foreign_key":1,"file":"DSC_0939.jpg","dir":"webroot\\/files\\/Attachments\\/file\\/","size":"138338","type":"image\\/jpeg","model":"Aefis","category":"attachments","description":"File ya ADR","created":"2017-11-13T21:13:06+00:00","modified":"2018-01-09T13:48:52+00:00"}],"aefi_list_of_vaccines":[{"id":1,"aefi_id":1,"vaccine_name":"militant","vaccination_date":"2017-11-03T15:19:00+00:00","vaccination_time":"","dosage":"1st","batch_number":"55","expiry_date":"2017-11-10T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T09:32:08+00:00","modified":"2018-01-09T13:48:52+00:00"},{"id":3,"aefi_id":1,"vaccine_name":"Jose","vaccination_date":"2017-11-03T15:19:00+00:00","vaccination_time":"","dosage":"3rd","batch_number":"55","expiry_date":"2017-11-09T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T09:47:00+00:00","modified":"2018-01-09T13:48:52+00:00"},{"id":4,"aefi_id":1,"vaccine_name":"ka","vaccination_date":"2017-11-10T18:31:00+00:00","vaccination_time":"","dosage":"22","batch_number":"55","expiry_date":"2017-11-01T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T11:31:47+00:00","modified":"2018-01-09T13:48:52+00:00"}],"patient_hospitalization":""},"type":"manager_submit_aefi_email"}', NULL, NULL, '2018-01-09 13:48:53', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(222, 'GenericNotification', '{"email_address":"evaluator2@gmail.com","user_id":11,"model":"Aefis","foreign_key":1,"vars":{"id":1,"user_id":3,"aefi_id":null,"province_id":null,"reference_number":"AEFI1\\/2017","assigned_to":12,"assigned_by":2,"assigned_date":"2017-12-18T00:22:03+00:00","patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Female","date_of_birth":"--2015","age_at_onset":"Months","age_at_onset_years":5,"age_at_onset_months":2,"age_at_onset_days":3,"age_at_onset_specify":45,"reporter_name":"Edward","designation_id":2,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":"","reporter_district":"Namulongo","reporter_province":"Entebbe","reporter_phone":"254729932475","reporter_email":"eddieokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":"","ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"specified other","aefi_date":"2017-11-03T12:34:00+00:00","notification_date":"2017-11-02T00:00:00+00:00","description_of_reaction":"Kichwa nauma","treatment_provided":"Yes","serious":"Yes","serious_yes":"Death","outcome":"Recovering","died_date":"2008-11-05T00:00:00+00:00","autopsy":"Unknown","past_medical_history":"We suspect something here","district_receive_date":"2008-11-06T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2018-03-16T00:00:00+00:00","national_receive_date":"2017-06-08T00:00:00+00:00","comments":"Criticial out deh","submitted":2,"submitted_date":"2018-01-09 13:48:52","status":"Submitted","created":"2017-11-11T07:55:59+00:00","modified":"2018-01-09T13:48:52+00:00","deleted":null,"attachments":[{"id":4,"foreign_key":1,"file":"DSC_0939.jpg","dir":"webroot\\/files\\/Attachments\\/file\\/","size":"138338","type":"image\\/jpeg","model":"Aefis","category":"attachments","description":"File ya ADR","created":"2017-11-13T21:13:06+00:00","modified":"2018-01-09T13:48:52+00:00"}],"aefi_list_of_vaccines":[{"id":1,"aefi_id":1,"vaccine_name":"militant","vaccination_date":"2017-11-03T15:19:00+00:00","vaccination_time":"","dosage":"1st","batch_number":"55","expiry_date":"2017-11-10T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T09:32:08+00:00","modified":"2018-01-09T13:48:52+00:00"},{"id":3,"aefi_id":1,"vaccine_name":"Jose","vaccination_date":"2017-11-03T15:19:00+00:00","vaccination_time":"","dosage":"3rd","batch_number":"55","expiry_date":"2017-11-09T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T09:47:00+00:00","modified":"2018-01-09T13:48:52+00:00"},{"id":4,"aefi_id":1,"vaccine_name":"ka","vaccination_date":"2017-11-10T18:31:00+00:00","vaccination_time":"","dosage":"22","batch_number":"55","expiry_date":"2017-11-01T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T11:31:47+00:00","modified":"2018-01-09T13:48:52+00:00"}],"patient_hospitalization":"","name":"Evaluator2"},"type":"manager_submit_aefi_notification"}', NULL, NULL, '2018-01-09 13:48:53', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(223, 'GenericEmail', '{"email_address":"evaluator3@gmail.com","user_id":12,"model":"Aefis","foreign_key":1,"vars":{"id":1,"user_id":3,"aefi_id":null,"province_id":null,"reference_number":"AEFI1\\/2017","assigned_to":12,"assigned_by":2,"assigned_date":"2017-12-18T00:22:03+00:00","patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Female","date_of_birth":"--2015","age_at_onset":"Months","age_at_onset_years":5,"age_at_onset_months":2,"age_at_onset_days":3,"age_at_onset_specify":45,"reporter_name":"Edward","designation_id":2,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":"","reporter_district":"Namulongo","reporter_province":"Entebbe","reporter_phone":"254729932475","reporter_email":"eddieokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":"","ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"specified other","aefi_date":"2017-11-03T12:34:00+00:00","notification_date":"2017-11-02T00:00:00+00:00","description_of_reaction":"Kichwa nauma","treatment_provided":"Yes","serious":"Yes","serious_yes":"Death","outcome":"Recovering","died_date":"2008-11-05T00:00:00+00:00","autopsy":"Unknown","past_medical_history":"We suspect something here","district_receive_date":"2008-11-06T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2018-03-16T00:00:00+00:00","national_receive_date":"2017-06-08T00:00:00+00:00","comments":"Criticial out deh","submitted":2,"submitted_date":"2018-01-09 13:48:52","status":"Submitted","created":"2017-11-11T07:55:59+00:00","modified":"2018-01-09T13:48:52+00:00","deleted":null,"attachments":[{"id":4,"foreign_key":1,"file":"DSC_0939.jpg","dir":"webroot\\/files\\/Attachments\\/file\\/","size":"138338","type":"image\\/jpeg","model":"Aefis","category":"attachments","description":"File ya ADR","created":"2017-11-13T21:13:06+00:00","modified":"2018-01-09T13:48:52+00:00"}],"aefi_list_of_vaccines":[{"id":1,"aefi_id":1,"vaccine_name":"militant","vaccination_date":"2017-11-03T15:19:00+00:00","vaccination_time":"","dosage":"1st","batch_number":"55","expiry_date":"2017-11-10T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T09:32:08+00:00","modified":"2018-01-09T13:48:52+00:00"},{"id":3,"aefi_id":1,"vaccine_name":"Jose","vaccination_date":"2017-11-03T15:19:00+00:00","vaccination_time":"","dosage":"3rd","batch_number":"55","expiry_date":"2017-11-09T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T09:47:00+00:00","modified":"2018-01-09T13:48:52+00:00"},{"id":4,"aefi_id":1,"vaccine_name":"ka","vaccination_date":"2017-11-10T18:31:00+00:00","vaccination_time":"","dosage":"22","batch_number":"55","expiry_date":"2017-11-01T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T11:31:47+00:00","modified":"2018-01-09T13:48:52+00:00"}],"patient_hospitalization":""},"type":"manager_submit_aefi_email"}', NULL, NULL, '2018-01-09 13:48:53', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(224, 'GenericNotification', '{"email_address":"evaluator3@gmail.com","user_id":12,"model":"Aefis","foreign_key":1,"vars":{"id":1,"user_id":3,"aefi_id":null,"province_id":null,"reference_number":"AEFI1\\/2017","assigned_to":12,"assigned_by":2,"assigned_date":"2017-12-18T00:22:03+00:00","patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Female","date_of_birth":"--2015","age_at_onset":"Months","age_at_onset_years":5,"age_at_onset_months":2,"age_at_onset_days":3,"age_at_onset_specify":45,"reporter_name":"Edward","designation_id":2,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":"","reporter_district":"Namulongo","reporter_province":"Entebbe","reporter_phone":"254729932475","reporter_email":"eddieokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":"","ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"specified other","aefi_date":"2017-11-03T12:34:00+00:00","notification_date":"2017-11-02T00:00:00+00:00","description_of_reaction":"Kichwa nauma","treatment_provided":"Yes","serious":"Yes","serious_yes":"Death","outcome":"Recovering","died_date":"2008-11-05T00:00:00+00:00","autopsy":"Unknown","past_medical_history":"We suspect something here","district_receive_date":"2008-11-06T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2018-03-16T00:00:00+00:00","national_receive_date":"2017-06-08T00:00:00+00:00","comments":"Criticial out deh","submitted":2,"submitted_date":"2018-01-09 13:48:52","status":"Submitted","created":"2017-11-11T07:55:59+00:00","modified":"2018-01-09T13:48:52+00:00","deleted":null,"attachments":[{"id":4,"foreign_key":1,"file":"DSC_0939.jpg","dir":"webroot\\/files\\/Attachments\\/file\\/","size":"138338","type":"image\\/jpeg","model":"Aefis","category":"attachments","description":"File ya ADR","created":"2017-11-13T21:13:06+00:00","modified":"2018-01-09T13:48:52+00:00"}],"aefi_list_of_vaccines":[{"id":1,"aefi_id":1,"vaccine_name":"militant","vaccination_date":"2017-11-03T15:19:00+00:00","vaccination_time":"","dosage":"1st","batch_number":"55","expiry_date":"2017-11-10T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T09:32:08+00:00","modified":"2018-01-09T13:48:52+00:00"},{"id":3,"aefi_id":1,"vaccine_name":"Jose","vaccination_date":"2017-11-03T15:19:00+00:00","vaccination_time":"","dosage":"3rd","batch_number":"55","expiry_date":"2017-11-09T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T09:47:00+00:00","modified":"2018-01-09T13:48:52+00:00"},{"id":4,"aefi_id":1,"vaccine_name":"ka","vaccination_date":"2017-11-10T18:31:00+00:00","vaccination_time":"","dosage":"22","batch_number":"55","expiry_date":"2017-11-01T00:00:00+00:00","diluent_batch_number":"","diluent_date":null,"diluent_expiry_date":null,"created":"2017-11-10T11:31:47+00:00","modified":"2018-01-09T13:48:52+00:00"}],"patient_hospitalization":"","name":"Evaluator3"},"type":"manager_submit_aefi_notification"}', NULL, NULL, '2018-01-09 13:48:53', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(225, 'GenericEmail', '{"email_address":"evaluator3@gmail.com","user_id":12,"type":"manager_review_assigned_email","model":"Aefis","foreign_key":1,"vars":{"id":1,"user_id":3,"aefi_id":null,"province_id":null,"reference_number":"AEFI1\\/2017","assigned_to":12,"assigned_by":2,"assigned_date":"2017-12-18T00:22:03+00:00","patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Female","date_of_birth":"--2015","age_at_onset":"Months","age_at_onset_years":5,"age_at_onset_months":2,"age_at_onset_days":3,"age_at_onset_specify":45,"reporter_name":"Edward","designation_id":2,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":"","reporter_district":"Namulongo","reporter_province":"Entebbe","reporter_phone":"254729932475","reporter_email":"eddieokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":"","ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"specified other","aefi_date":"2017-11-03T12:34:00+00:00","notification_date":"2017-11-02T00:00:00+00:00","description_of_reaction":"Kichwa nauma","treatment_provided":"Yes","serious":"Yes","serious_yes":"Death","outcome":"Recovering","died_date":"2008-11-05T00:00:00+00:00","autopsy":"Unknown","past_medical_history":"We suspect something here","district_receive_date":"2008-11-06T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2018-03-16T00:00:00+00:00","national_receive_date":"2017-06-08T00:00:00+00:00","comments":"Criticial out deh","submitted":2,"submitted_date":"2018-01-09T00:00:00+00:00","status":"Evaluated","created":"2017-11-11T07:55:59+00:00","modified":"2018-01-09T13:59:56+00:00","deleted":null,"aefi_pr_id":"1","reviews":[{"literature_review":"Typically, I did try to get initially","comments":"what it meant","references_text":"to have this as a first item..?? ","user_id":2,"model":"Aefis","category":"causality","foreign_key":1,"created":"2018-01-09T13:59:56+00:00","modified":"2018-01-09T13:59:56+00:00","file":null,"id":10}],"name":"Evaluator3","assigned_by_name":"manager"}}', NULL, NULL, '2018-01-09 13:59:56', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(226, 'GenericNotification', '{"email_address":"evaluator3@gmail.com","user_id":12,"type":"manager_review_assigned_notification","model":"Aefis","foreign_key":1,"vars":{"id":1,"user_id":3,"aefi_id":null,"province_id":null,"reference_number":"AEFI1\\/2017","assigned_to":12,"assigned_by":2,"assigned_date":"2017-12-18T00:22:03+00:00","patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Female","date_of_birth":"--2015","age_at_onset":"Months","age_at_onset_years":5,"age_at_onset_months":2,"age_at_onset_days":3,"age_at_onset_specify":45,"reporter_name":"Edward","designation_id":2,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":"","reporter_district":"Namulongo","reporter_province":"Entebbe","reporter_phone":"254729932475","reporter_email":"eddieokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":"","ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"specified other","aefi_date":"2017-11-03T12:34:00+00:00","notification_date":"2017-11-02T00:00:00+00:00","description_of_reaction":"Kichwa nauma","treatment_provided":"Yes","serious":"Yes","serious_yes":"Death","outcome":"Recovering","died_date":"2008-11-05T00:00:00+00:00","autopsy":"Unknown","past_medical_history":"We suspect something here","district_receive_date":"2008-11-06T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2018-03-16T00:00:00+00:00","national_receive_date":"2017-06-08T00:00:00+00:00","comments":"Criticial out deh","submitted":2,"submitted_date":"2018-01-09T00:00:00+00:00","status":"Evaluated","created":"2017-11-11T07:55:59+00:00","modified":"2018-01-09T13:59:56+00:00","deleted":null,"aefi_pr_id":"1","reviews":[{"literature_review":"Typically, I did try to get initially","comments":"what it meant","references_text":"to have this as a first item..?? ","user_id":2,"model":"Aefis","category":"causality","foreign_key":1,"created":"2018-01-09T13:59:56+00:00","modified":"2018-01-09T13:59:56+00:00","file":null,"id":10}],"name":"Evaluator3","assigned_by_name":"manager"}}', NULL, NULL, '2018-01-09 13:59:56', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(227, 'GenericNotification', '{"user_id":2,"model":"Aefis","foreign_key":1,"vars":{"id":1,"user_id":3,"aefi_id":null,"province_id":null,"reference_number":"AEFI1\\/2017","assigned_to":12,"assigned_by":2,"assigned_date":"2017-12-18T00:22:03+00:00","patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Female","date_of_birth":"--2015","age_at_onset":"Months","age_at_onset_years":5,"age_at_onset_months":2,"age_at_onset_days":3,"age_at_onset_specify":45,"reporter_name":"Edward","designation_id":2,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":"","reporter_district":"Namulongo","reporter_province":"Entebbe","reporter_phone":"254729932475","reporter_email":"eddieokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":"","ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"specified other","aefi_date":"2017-11-03T12:34:00+00:00","notification_date":"2017-11-02T00:00:00+00:00","description_of_reaction":"Kichwa nauma","treatment_provided":"Yes","serious":"Yes","serious_yes":"Death","outcome":"Recovering","died_date":"2008-11-05T00:00:00+00:00","autopsy":"Unknown","past_medical_history":"We suspect something here","district_receive_date":"2008-11-06T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2018-03-16T00:00:00+00:00","national_receive_date":"2017-06-08T00:00:00+00:00","comments":"Criticial out deh","submitted":2,"submitted_date":"2018-01-09T00:00:00+00:00","status":"Evaluated","created":"2017-11-11T07:55:59+00:00","modified":"2018-01-09T13:59:56+00:00","deleted":null,"aefi_pr_id":"1","reviews":[{"literature_review":"Typically, I did try to get initially","comments":"what it meant","references_text":"to have this as a first item..?? ","user_id":2,"model":"Aefis","category":"causality","foreign_key":1,"created":"2018-01-09T13:59:56+00:00","modified":"2018-01-09T13:59:56+00:00","file":null,"id":10}]},"type":"manager_review_notification"}', NULL, NULL, '2018-01-09 13:59:56', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(228, 'GenericEmail', '{"email_address":"eddyokemwa1@gmail.com","user_id":3,"type":"manager_request_reporter_email","model":"Aefis","foreign_key":1,"vars":{"id":1,"user_id":3,"aefi_id":null,"province_id":null,"reference_number":"AEFI1\\/2017","assigned_to":12,"assigned_by":2,"assigned_date":"2017-12-18T00:22:03+00:00","patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Female","date_of_birth":"--2015","age_at_onset":"Months","age_at_onset_years":5,"age_at_onset_months":2,"age_at_onset_days":3,"age_at_onset_specify":45,"reporter_name":"Edward","designation_id":2,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":"","reporter_district":"Namulongo","reporter_province":"Entebbe","reporter_phone":"254729932475","reporter_email":"eddieokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":"","ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"specified other","aefi_date":"2017-11-03T12:34:00+00:00","notification_date":"2017-11-02T00:00:00+00:00","description_of_reaction":"Kichwa nauma","treatment_provided":"Yes","serious":"Yes","serious_yes":"Death","outcome":"Recovering","died_date":"2008-11-05T00:00:00+00:00","autopsy":"Unknown","past_medical_history":"We suspect something here","district_receive_date":"2008-11-06T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2018-03-16T00:00:00+00:00","national_receive_date":"2017-06-08T00:00:00+00:00","comments":"Criticial out deh","submitted":2,"submitted_date":"2018-01-09T00:00:00+00:00","status":"RequestReporter","created":"2017-11-11T07:55:59+00:00","modified":"2018-01-09T14:03:23+00:00","deleted":null,"aefi_pk_id":"1","request_reporters":[{"user_message":"Nione Kando...","user_id":3,"sender_id":2,"type":"request_reporter_info","model":"Aefis","foreign_key":1,"created":"2018-01-09T14:03:23+00:00","modified":"2018-01-09T14:03:23+00:00","id":119}],"user_message":"Nione Kando..."}}', NULL, NULL, '2018-01-09 14:03:23', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(229, 'GenericNotification', '{"email_address":"eddyokemwa1@gmail.com","user_id":3,"type":"manager_request_reporter_message","model":"Aefis","foreign_key":1,"vars":{"id":1,"user_id":3,"aefi_id":null,"province_id":null,"reference_number":"AEFI1\\/2017","assigned_to":12,"assigned_by":2,"assigned_date":"2017-12-18T00:22:03+00:00","patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Female","date_of_birth":"--2015","age_at_onset":"Months","age_at_onset_years":5,"age_at_onset_months":2,"age_at_onset_days":3,"age_at_onset_specify":45,"reporter_name":"Edward","designation_id":2,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":"","reporter_district":"Namulongo","reporter_province":"Entebbe","reporter_phone":"254729932475","reporter_email":"eddieokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":"","ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"specified other","aefi_date":"2017-11-03T12:34:00+00:00","notification_date":"2017-11-02T00:00:00+00:00","description_of_reaction":"Kichwa nauma","treatment_provided":"Yes","serious":"Yes","serious_yes":"Death","outcome":"Recovering","died_date":"2008-11-05T00:00:00+00:00","autopsy":"Unknown","past_medical_history":"We suspect something here","district_receive_date":"2008-11-06T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2018-03-16T00:00:00+00:00","national_receive_date":"2017-06-08T00:00:00+00:00","comments":"Criticial out deh","submitted":2,"submitted_date":"2018-01-09T00:00:00+00:00","status":"RequestReporter","created":"2017-11-11T07:55:59+00:00","modified":"2018-01-09T14:03:23+00:00","deleted":null,"aefi_pk_id":"1","request_reporters":[{"user_message":"Nione Kando...","user_id":3,"sender_id":2,"type":"request_reporter_info","model":"Aefis","foreign_key":1,"created":"2018-01-09T14:03:23+00:00","modified":"2018-01-09T14:03:23+00:00","id":119}],"user_message":"Nione Kando..."}}', NULL, NULL, '2018-01-09 14:03:23', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(230, 'GenericNotification', '{"email_address":"evaluator3@gmail.com","user_id":12,"type":"manager_request_reporter_evaluator_notification","model":"Aefis","foreign_key":1,"vars":{"id":1,"user_id":3,"aefi_id":null,"province_id":null,"reference_number":"AEFI1\\/2017","assigned_to":12,"assigned_by":2,"assigned_date":"2017-12-18T00:22:03+00:00","patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Female","date_of_birth":"--2015","age_at_onset":"Months","age_at_onset_years":5,"age_at_onset_months":2,"age_at_onset_days":3,"age_at_onset_specify":45,"reporter_name":"Edward","designation_id":2,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":"","reporter_district":"Namulongo","reporter_province":"Entebbe","reporter_phone":"254729932475","reporter_email":"eddieokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":"","ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"specified other","aefi_date":"2017-11-03T12:34:00+00:00","notification_date":"2017-11-02T00:00:00+00:00","description_of_reaction":"Kichwa nauma","treatment_provided":"Yes","serious":"Yes","serious_yes":"Death","outcome":"Recovering","died_date":"2008-11-05T00:00:00+00:00","autopsy":"Unknown","past_medical_history":"We suspect something here","district_receive_date":"2008-11-06T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2018-03-16T00:00:00+00:00","national_receive_date":"2017-06-08T00:00:00+00:00","comments":"Criticial out deh","submitted":2,"submitted_date":"2018-01-09T00:00:00+00:00","status":"RequestReporter","created":"2017-11-11T07:55:59+00:00","modified":"2018-01-09T14:03:23+00:00","deleted":null,"aefi_pk_id":"1","request_reporters":[{"user_message":"Nione Kando...","user_id":3,"sender_id":2,"type":"request_reporter_info","model":"Aefis","foreign_key":1,"created":"2018-01-09T14:03:23+00:00","modified":"2018-01-09T14:03:23+00:00","id":119}],"assigned_by_name":"manager","user_message":"Nione Kando..."}}', NULL, NULL, '2018-01-09 14:03:23', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(231, 'GenericEmail', '{"email_address":"maradona@safaricom.com","user_id":18,"type":"registration_email","model":"Users","foreign_key":18,"vars":{"name":"james","email":"maradona@safaricom.com","username":"maradona","captcha_result":"5","captcha_id":"41","email_homepage":"","phone_no":"","name_of_institution":"","institution_address":"","institution_code":"","designation_id":10,"group_id":3,"created":"2018-01-09T20:25:40+00:00","modified":"2018-01-09T20:25:40+00:00","id":18,"activation_key":21543302,"pv_site":"<a href=\\"http:\\/\\/mcazpvdev\\/pages\\/home\\">MCAZ PV website<\\/a>","activation_link":"<a href=\\"http:\\/\\/mcazpvdev\\/users\\/activate\\/21543302\\">ACTIVATE<\\/a>"}}', NULL, NULL, '2018-01-09 20:25:40', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(232, 'GenericNotification', '{"email_address":"maradona@safaricom.com","user_id":18,"type":"registration_notification","model":"Users","foreign_key":18,"vars":{"name":"james","email":"maradona@safaricom.com","username":"maradona","captcha_result":"5","captcha_id":"41","email_homepage":"","phone_no":"","name_of_institution":"","institution_address":"","institution_code":"","designation_id":10,"group_id":3,"created":"2018-01-09T20:25:40+00:00","modified":"2018-01-09T20:25:40+00:00","id":18,"activation_key":21543302,"pv_site":"<a href=\\"http:\\/\\/mcazpvdev\\/pages\\/home\\">MCAZ PV website<\\/a>","activation_link":"<a href=\\"http:\\/\\/mcazpvdev\\/users\\/activate\\/21543302\\">ACTIVATE<\\/a>"}}', NULL, NULL, '2018-01-09 20:25:40', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(233, 'GenericEmail', '{"email_address":"wazito@ufc.com","user_id":19,"type":"registration_email","model":"Users","foreign_key":19,"vars":{"email":"wazito@ufc.com","captcha_result":"20","captcha_id":"44","email_homepage":"","group_id":3,"created":"2018-01-09T20:29:12+00:00","modified":"2018-01-09T20:29:12+00:00","id":19,"activation_key":21543423,"name":"Sir\\/Madam","pv_site":"<a href=\\"http:\\/\\/mcazpvdev\\/pages\\/home\\">MCAZ PV website<\\/a>","activation_link":"<a href=\\"http:\\/\\/mcazpvdev\\/users\\/activate\\/21543423\\">ACTIVATE<\\/a>"}}', NULL, NULL, '2018-01-09 20:29:12', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(234, 'GenericNotification', '{"email_address":"wazito@ufc.com","user_id":19,"type":"registration_notification","model":"Users","foreign_key":19,"vars":{"email":"wazito@ufc.com","captcha_result":"20","captcha_id":"44","email_homepage":"","group_id":3,"created":"2018-01-09T20:29:12+00:00","modified":"2018-01-09T20:29:12+00:00","id":19,"activation_key":21543423,"name":"Sir\\/Madam","pv_site":"<a href=\\"http:\\/\\/mcazpvdev\\/pages\\/home\\">MCAZ PV website<\\/a>","activation_link":"<a href=\\"http:\\/\\/mcazpvdev\\/users\\/activate\\/21543423\\">ACTIVATE<\\/a>"}}', NULL, NULL, '2018-01-09 20:29:12', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(235, 'GenericNotification', '{"user_id":2,"model":"Aefis","foreign_key":2,"vars":{"id":2,"user_id":3,"aefi_id":null,"province_id":2,"reference_number":"AEFI2\\/2017","assigned_to":null,"assigned_by":null,"assigned_date":null,"patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Male","date_of_birth":"15-10-2003","age_at_onset":"Years","age_at_onset_years":null,"age_at_onset_months":null,"age_at_onset_days":null,"age_at_onset_specify":55,"reporter_name":"Edward","designation_id":1,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":null,"reporter_district":"Namulongo","reporter_province":null,"reporter_phone":"0729932475","reporter_email":"eddyokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":null,"ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"asfasfdafd","aefi_date":"2017-07-12T09:21:00+00:00","notification_date":"2017-12-01T00:00:00+00:00","description_of_reaction":"you should put more effort into entering some pretty long text here.....","treatment_provided":"Yes","serious":"No","serious_yes":"Hospitalization","outcome":"Recovered","died_date":"2017-12-01T00:00:00+00:00","autopsy":"No","past_medical_history":"safdasdfa","district_receive_date":"2017-12-01T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2017-12-01T00:00:00+00:00","national_receive_date":"2017-12-01T00:00:00+00:00","comments":"asfasdasfd","submitted":2,"submitted_date":"2017-12-16T00:00:00+00:00","status":"Evaluated","created":"2017-11-23T00:51:20+00:00","modified":"2018-01-10T15:40:59+00:00","deleted":null,"aefi_causalities":[{"diagnosis_meet":"","primary_vaccine":"militant","clinical_examination":"","clinical_examination_specify":"","evidence_literature":"","evidence_literature_specify":"","causal_role":"","causal_role_specify":"","prescribing_error":"","vaccine_unsterile":"","vaccine_condition":"","vaccine_reconstitution":"","vaccine_handling":"","vaccine_administered":"","vaccine_anxiety":"","time_window":"","causal_association":"","independent_vaccination":"","manifest_health":"","comparable_event":"","exposure_risk":"","acute_illness":"","occur_past":"","taking_medication":"","biological_plausibility":""}],"aefi_pr_id":"2"},"type":"manager_review_notification"}', NULL, NULL, '2018-01-10 15:40:59', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(236, 'GenericNotification', '{"user_id":2,"model":"Aefis","foreign_key":2,"vars":{"id":2,"user_id":3,"aefi_id":null,"province_id":2,"reference_number":"AEFI2\\/2017","assigned_to":null,"assigned_by":null,"assigned_date":null,"patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Male","date_of_birth":"15-10-2003","age_at_onset":"Years","age_at_onset_years":null,"age_at_onset_months":null,"age_at_onset_days":null,"age_at_onset_specify":55,"reporter_name":"Edward","designation_id":1,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":null,"reporter_district":"Namulongo","reporter_province":null,"reporter_phone":"0729932475","reporter_email":"eddyokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":null,"ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"asfasfdafd","aefi_date":"2017-07-12T09:21:00+00:00","notification_date":"2017-12-01T00:00:00+00:00","description_of_reaction":"you should put more effort into entering some pretty long text here.....","treatment_provided":"Yes","serious":"No","serious_yes":"Hospitalization","outcome":"Recovered","died_date":"2017-12-01T00:00:00+00:00","autopsy":"No","past_medical_history":"safdasdfa","district_receive_date":"2017-12-01T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2017-12-01T00:00:00+00:00","national_receive_date":"2017-12-01T00:00:00+00:00","comments":"asfasdasfd","submitted":2,"submitted_date":"2017-12-16T00:00:00+00:00","status":"Evaluated","created":"2017-11-23T00:51:20+00:00","modified":"2018-01-10T16:42:35+00:00","deleted":null,"aefi_causalities":[{"diagnosis_meet":"Yes","primary_vaccine":"Vive","clinical_examination":"Unk","clinical_examination_specify":"thi","evidence_literature":"Unk","evidence_literature_specify":"lasf","causal_role":"No","causal_role_specify":"llas","prescribing_error":"Unk","prescribing_error_specify":"sdf","vaccine_unsterile":"Unk","vaccine_unsterile_specify":"lfs","vaccine_condition":"No","vaccine_condition_specify":"fls","vaccine_reconstitution":"Yes","vaccine_reconstitution_specify":"dsaf","vaccine_handling":"No","vaccine_handling_specify":"sdfa","vaccine_administered":"Yes","vaccine_administered_specify":"ksf","vaccine_anxiety":"No","vaccine_anxiety_specify":"fasd","time_window":"Yes","time_window_specify":"daf","causal_association":"Yes","causal_association_specify":"fsaf","independent_vaccination":"No","independent_vaccination_specify":"safsa","manifest_health":"Yes","manifest_health_specify":"sfasdf","comparable_event":"No","comparable_event_specify":"asfd","exposure_risk":"No","exposure_risk_specify":"saf","acute_illness":"Yes","acute_illness_specify":"asf","occur_past":"No","occur_past_specify":"asdfa","taking_medication":"No","taking_medication_specify":"asdfa","biological_plausibility":"Yes","biological_plausibility_specify":"asdfa"}],"aefi_pr_id":"2","inconsistent_i":"1","inconsistent_iii":"1","inconsistent_iv":"1","consistent_ii":"1","consistent_iv":"1","indeterminate":"0","unclassifiable":"1"},"type":"manager_review_notification"}', NULL, NULL, '2018-01-10 16:42:35', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(237, 'GenericNotification', '{"user_id":2,"model":"Aefis","foreign_key":2,"vars":{"id":2,"user_id":3,"aefi_id":null,"province_id":2,"reference_number":"AEFI2\\/2017","assigned_to":null,"assigned_by":null,"assigned_date":null,"patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Male","date_of_birth":"15-10-2003","age_at_onset":"Years","age_at_onset_years":null,"age_at_onset_months":null,"age_at_onset_days":null,"age_at_onset_specify":55,"reporter_name":"Edward","designation_id":1,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":null,"reporter_district":"Namulongo","reporter_province":null,"reporter_phone":"0729932475","reporter_email":"eddyokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":null,"ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"asfasfdafd","aefi_date":"2017-07-12T09:21:00+00:00","notification_date":"2017-12-01T00:00:00+00:00","description_of_reaction":"you should put more effort into entering some pretty long text here.....","treatment_provided":"Yes","serious":"No","serious_yes":"Hospitalization","outcome":"Recovered","died_date":"2017-12-01T00:00:00+00:00","autopsy":"No","past_medical_history":"safdasdfa","district_receive_date":"2017-12-01T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2017-12-01T00:00:00+00:00","national_receive_date":"2017-12-01T00:00:00+00:00","comments":"asfasdasfd","submitted":2,"submitted_date":"2017-12-16T00:00:00+00:00","status":"Evaluated","created":"2017-11-23T00:51:20+00:00","modified":"2018-01-10T16:48:15+00:00","deleted":null,"aefi_causalities":[{"diagnosis_meet":"Yes","primary_vaccine":"militant","clinical_examination":"Unk","clinical_examination_specify":"","evidence_literature":"Unk","evidence_literature_specify":"","causal_role":"Unk","causal_role_specify":"","prescribing_error":"Unk","prescribing_error_specify":"","vaccine_unsterile":"Unk","vaccine_unsterile_specify":"","vaccine_condition":"Unk","vaccine_condition_specify":"","vaccine_reconstitution":"Unk","vaccine_reconstitution_specify":"","vaccine_handling":"Unk","vaccine_handling_specify":"","vaccine_administered":"Unk","vaccine_administered_specify":"","vaccine_anxiety":"Unk","vaccine_anxiety_specify":"","time_window":"Unk","time_window_specify":"","causal_association":"Unk","causal_association_specify":"","independent_vaccination":"Unk","independent_vaccination_specify":"","manifest_health":"Unk","manifest_health_specify":"","comparable_event":"Unk","comparable_event_specify":"","exposure_risk":"Unk","exposure_risk_specify":"","acute_illness":"Unk","acute_illness_specify":"","occur_past":"Unk","occur_past_specify":"","taking_medication":"Unk","taking_medication_specify":"","biological_plausibility":"Unk","biological_plausibility_specify":"","inconsistent_i":"0","inconsistent_iii":"0","inconsistent_iv":"0","consistent_ii":"0","consistent_iv":"0","indeterminate":"1","unclassifiable":"0"}],"aefi_pr_id":"2"},"type":"manager_review_notification"}', NULL, NULL, '2018-01-10 16:48:15', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5);
+INSERT INTO `queued_jobs` (`id`, `job_type`, `data`, `job_group`, `reference`, `created`, `notbefore`, `fetched`, `completed`, `progress`, `failed`, `failure_message`, `workerkey`, `status`, `priority`) VALUES
+(238, 'GenericNotification', '{"user_id":2,"model":"Aefis","foreign_key":2,"vars":{"id":2,"user_id":3,"aefi_id":null,"province_id":2,"reference_number":"AEFI2\\/2017","assigned_to":null,"assigned_by":null,"assigned_date":null,"patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Male","date_of_birth":"15-10-2003","age_at_onset":"Years","age_at_onset_years":null,"age_at_onset_months":null,"age_at_onset_days":null,"age_at_onset_specify":55,"reporter_name":"Edward","designation_id":1,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":null,"reporter_district":"Namulongo","reporter_province":null,"reporter_phone":"0729932475","reporter_email":"eddyokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":null,"ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"asfasfdafd","aefi_date":"2017-07-12T09:21:00+00:00","notification_date":"2017-12-01T00:00:00+00:00","description_of_reaction":"you should put more effort into entering some pretty long text here.....","treatment_provided":"Yes","serious":"No","serious_yes":"Hospitalization","outcome":"Recovered","died_date":"2017-12-01T00:00:00+00:00","autopsy":"No","past_medical_history":"safdasdfa","district_receive_date":"2017-12-01T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2017-12-01T00:00:00+00:00","national_receive_date":"2017-12-01T00:00:00+00:00","comments":"asfasdasfd","submitted":2,"submitted_date":"2017-12-16T00:00:00+00:00","status":"Evaluated","created":"2017-11-23T00:51:20+00:00","modified":"2018-01-10T16:50:49+00:00","deleted":null,"aefi_causalities":{"diagnosis_meet":"Yes","primary_vaccine":"militant","clinical_examination":"Unk","clinical_examination_specify":"","evidence_literature":"Unk","evidence_literature_specify":"","causal_role":"Unk","causal_role_specify":"","prescribing_error":"Unk","prescribing_error_specify":"","vaccine_unsterile":"Unk","vaccine_unsterile_specify":"","vaccine_condition":"Unk","vaccine_condition_specify":"","vaccine_reconstitution":"Unk","vaccine_reconstitution_specify":"","vaccine_handling":"Unk","vaccine_handling_specify":"","vaccine_administered":"Unk","vaccine_administered_specify":"","vaccine_anxiety":"Unk","vaccine_anxiety_specify":"","time_window":"Unk","time_window_specify":"","causal_association":"Unk","causal_association_specify":"","independent_vaccination":"Unk","independent_vaccination_specify":"","manifest_health":"Unk","manifest_health_specify":"","comparable_event":"Unk","comparable_event_specify":"","exposure_risk":"Unk","exposure_risk_specify":"","acute_illness":"Unk","acute_illness_specify":"","occur_past":"Unk","occur_past_specify":"","taking_medication":"Unk","taking_medication_specify":"","biological_plausibility":"Unk","biological_plausibility_specify":"","inconsistent_i":"0","inconsistent_iii":"0","inconsistent_iv":"0","consistent_ii":"0","consistent_iv":"0","indeterminate":"1","unclassifiable":"0"},"aefi_pr_id":"2"},"type":"manager_review_notification"}', NULL, NULL, '2018-01-10 16:50:50', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(239, 'GenericNotification', '{"user_id":2,"model":"Aefis","foreign_key":2,"vars":{"id":2,"user_id":3,"aefi_id":null,"province_id":2,"reference_number":"AEFI2\\/2017","assigned_to":null,"assigned_by":null,"assigned_date":null,"patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Male","date_of_birth":"15-10-2003","age_at_onset":"Years","age_at_onset_years":null,"age_at_onset_months":null,"age_at_onset_days":null,"age_at_onset_specify":55,"reporter_name":"Edward","designation_id":1,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":null,"reporter_district":"Namulongo","reporter_province":null,"reporter_phone":"0729932475","reporter_email":"eddyokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":null,"ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"asfasfdafd","aefi_date":"2017-07-12T09:21:00+00:00","notification_date":"2017-12-01T00:00:00+00:00","description_of_reaction":"you should put more effort into entering some pretty long text here.....","treatment_provided":"Yes","serious":"No","serious_yes":"Hospitalization","outcome":"Recovered","died_date":"2017-12-01T00:00:00+00:00","autopsy":"No","past_medical_history":"safdasdfa","district_receive_date":"2017-12-01T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2017-12-01T00:00:00+00:00","national_receive_date":"2017-12-01T00:00:00+00:00","comments":"asfasdasfd","submitted":2,"submitted_date":"2017-12-16T00:00:00+00:00","status":"Evaluated","created":"2017-11-23T00:51:20+00:00","modified":"2018-01-10T16:55:55+00:00","deleted":null,"aefi_causality":{"diagnosis_meet":"No","primary_vaccine":"Vive","clinical_examination":"Yes","clinical_examination_specify":"asfd","evidence_literature":"Unk","evidence_literature_specify":"asf","causal_role":"No","causal_role_specify":"asfda","prescribing_error":"No","prescribing_error_specify":"saf","vaccine_unsterile":"No","vaccine_unsterile_specify":"afdsf","vaccine_condition":"Unk","vaccine_condition_specify":"","vaccine_reconstitution":"Unk","vaccine_reconstitution_specify":"","vaccine_handling":"Unk","vaccine_handling_specify":"","vaccine_administered":"Unk","vaccine_administered_specify":"","vaccine_anxiety":"Unk","vaccine_anxiety_specify":"","time_window":"Unk","time_window_specify":"","causal_association":"Unk","causal_association_specify":"","independent_vaccination":"Unk","independent_vaccination_specify":"","manifest_health":"Unk","manifest_health_specify":"","comparable_event":null,"comparable_event_specify":null,"exposure_risk":null,"exposure_risk_specify":null,"acute_illness":"Unk","acute_illness_specify":"","occur_past":"Unk","occur_past_specify":"","taking_medication":"Unk","taking_medication_specify":"","biological_plausibility":"Unk","biological_plausibility_specify":"","inconsistent_i":true,"inconsistent_iii":false,"inconsistent_iv":false,"consistent_ii":true,"consistent_iv":true,"indeterminate":false,"unclassifiable":false,"aefi_id":2,"created":"2018-01-10T16:55:55+00:00","modified":"2018-01-10T16:55:55+00:00","id":1},"aefi_pr_id":"2"},"type":"manager_review_notification"}', NULL, NULL, '2018-01-10 16:55:56', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(240, 'GenericNotification', '{"user_id":2,"model":"Aefis","foreign_key":2,"vars":{"id":2,"user_id":3,"aefi_id":null,"province_id":2,"reference_number":"AEFI2\\/2017","assigned_to":null,"assigned_by":null,"assigned_date":null,"patient_name":"Justin","patient_surname":"dida","patient_next_of_kin":"ba bwaki yo wapi","patient_address":"785","patient_telephone":"741125","report_type":null,"gender":"Male","date_of_birth":"15-10-2003","age_at_onset":"Years","age_at_onset_years":null,"age_at_onset_months":null,"age_at_onset_days":null,"age_at_onset_specify":55,"reporter_name":"Edward","designation_id":1,"reporter_department":"pharmacy","reporter_address":"7554","reporter_institution":null,"reporter_district":"Namulongo","reporter_province":null,"reporter_phone":"0729932475","reporter_email":"eddyokemwa@gmail.com","name_of_vaccination_center":"Namugongo PMCT Center","adverse_events":null,"ae_severe_local_reaction":1,"ae_seizures":1,"ae_abscess":1,"ae_sepsis":1,"ae_encephalopathy":1,"ae_toxic_shock":1,"ae_thrombocytopenia":1,"ae_anaphylaxis":1,"ae_fever":1,"ae_3days":1,"ae_febrile":1,"ae_beyond_joint":1,"ae_afebrile":1,"ae_other":1,"adverse_events_specify":"asfasfdafd","aefi_date":"2017-07-12T09:21:00+00:00","notification_date":"2017-12-01T00:00:00+00:00","description_of_reaction":"you should put more effort into entering some pretty long text here.....","treatment_provided":"Yes","serious":"No","serious_yes":"Hospitalization","outcome":"Recovered","died_date":"2017-12-01T00:00:00+00:00","autopsy":"No","past_medical_history":"safdasdfa","district_receive_date":"2017-12-01T00:00:00+00:00","investigation_needed":"Yes","investigation_date":"2017-12-01T00:00:00+00:00","national_receive_date":"2017-12-01T00:00:00+00:00","comments":"asfasdasfd","submitted":2,"submitted_date":"2017-12-16T00:00:00+00:00","status":"Evaluated","created":"2017-11-23T00:51:20+00:00","modified":"2018-01-10T17:08:02+00:00","deleted":null,"aefi_causality":{"diagnosis_meet":"No","primary_vaccine":"above","clinical_examination":"No","clinical_examination_specify":"ee","evidence_literature":"Yes","evidence_literature_specify":"obo","causal_role":"No","causal_role_specify":"sf","prescribing_error":"No","prescribing_error_specify":"sasf","vaccine_unsterile":"No","vaccine_unsterile_specify":"asdfs","vaccine_condition":"No","vaccine_condition_specify":"sfa","vaccine_reconstitution":"No","vaccine_reconstitution_specify":"asfas","vaccine_handling":"Yes","vaccine_handling_specify":"asfdas","vaccine_administered":"Yes","vaccine_administered_specify":"asfda","vaccine_anxiety":"No","vaccine_anxiety_specify":"saf","time_window":"Yes","time_window_specify":"saf","causal_association":"No","causal_association_specify":"adsf","independent_vaccination":"No","independent_vaccination_specify":"afd","manifest_health":"Yes","manifest_health_specify":"asfd","comparable_event":"No","comparable_event_specify":"1","exposure_risk":"Yes","exposure_risk_specify":"1","acute_illness":"No","acute_illness_specify":"asfd","occur_past":"Yes","occur_past_specify":"asd","taking_medication":"No","taking_medication_specify":"asdf","biological_plausibility":"No","biological_plausibility_specify":"adf","inconsistent_i":true,"inconsistent_iii":true,"inconsistent_iv":true,"consistent_ii":true,"consistent_iv":true,"indeterminate":false,"unclassifiable":true,"aefi_id":2,"created":"2018-01-10T17:08:02+00:00","modified":"2018-01-10T17:08:02+00:00","id":2},"aefi_pr_id":"2"},"type":"manager_review_notification"}', NULL, NULL, '2018-01-10 17:08:02', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(241, 'GenericEmail', '{"email_address":"evaluator2@gmail.com","user_id":11,"type":"manager_review_assigned_email","model":"Saefis","foreign_key":1,"vars":{"id":1,"user_id":3,"saefi_id":null,"reference_number":"SAEFI1\\/2017","assigned_to":11,"assigned_by":2,"assigned_date":"2017-12-18T20:06:24+00:00","basic_details":"Mbezik details","place_vaccination":"Private health facility","place_vaccination_other":"Medic","site_type":"Outreach","site_type_other":"sina makosa","vaccination_in":"Other","vaccination_in_other":"hasIira","reporter_name":"Gi","report_date":"2017-12-01T00:00:00+00:00","start_date":"2017-12-02T00:00:00+00:00","complete_date":"2017-12-03T00:00:00+00:00","designation_id":2,"telephone":"2034fpw","mobile":"0412555A5S","reporter_email":"eddieokemwa@gmail.com","patient_name":"Impeached","gender":"Male","hospitalization_date":"2017-12-04T00:00:00+00:00","status_on_date":"Recovering","died_date":"2012-12-07T10:35:00+00:00","autopsy_done":"Yes","autopsy_done_date":"2017-12-12T00:00:00+00:00","autopsy_planned":"No","autopsy_planned_date":null,"past_history":"Yes","past_history_remarks":"remark1","adverse_event":"No","adverse_event_remarks":"re","allergy_history":"Unknown","allergy_history_remarks":"asdf","existing_illness":"Yes","existing_illness_remarks":"as sdf","hospitalization_history":"Yes","hospitalization_history_remarks":"asf ","medication_vaccination":"Unknown","medication_vaccination_remarks":"af ","faith_healers":"No","faith_healers_remarks":"sdf as","family_history":"Yes","family_history_remarks":"asfd af","pregnant":"No","pregnant_weeks":"3","breastfeeding":"Yes","infant":"post-term","birth_weight":8,"delivery_procedure":"Caesarean","delivery_procedure_specify":"Hakuna","source_examination":false,"source_documents":true,"source_verbal":true,"verbal_source":"verbal autopsy","source_other":true,"source_other_specify":"None to specify","examiner_name":"Joshua","other_sources":"no other sources","signs_symptoms":"No other symptoms","person_details":"Ndifu","person_designation":"kababa","person_date":null,"medical_care":"safa","not_medical_care":"asfasdf","final_diagnosis":"Hakuna matata","when_vaccinated":"","when_vaccinated_specify":"AFASF","prescribing_error":"Yes","prescribing_error_specify":"2","vaccine_unsterile":"No","vaccine_unsterile_specify":"AF","vaccine_condition":"Unable to assess","vaccine_condition_specify":"FA","vaccine_reconstitution":"Unable to assess","vaccine_reconstitution_specify":"DF","vaccine_handling":"Yes","vaccine_handling_specify":"ASD","vaccine_administered":"No","vaccine_administered_specify":"ASFD","vaccinated_vial":0,"vaccinated_session":-3,"vaccinated_locations":74,"vaccinated_locations_specify":"ASF","vaccinated_cluster":"No","vaccinated_cluster_number":-1,"vaccinated_cluster_vial":"Yes","vaccinated_cluster_vial_number":2,"syringes_used":"Yes","syringes_used_specify":"Disposable","syringes_used_other":"SAFA","syringes_used_findings":"2FASD","reconstitution_multiple":"No","reconstitution_different":"Yes","reconstitution_vial":"Yes","reconstitution_syringe":"No","reconstitution_vaccines":"Yes","reconstitution_observations":"ASF","cold_temperature":"Yes","cold_temperature_deviation":"No","cold_temperature_specify":"sdfad","procedure_followed":"No","other_items":"Unknown","partial_vaccines":"Yes","unusable_vaccines":"No","unusable_diluents":"Unknown","additional_observations":"ASFAS","cold_transportation":"Yes","vaccine_carrier":"No","coolant_packs":"Unknown","transport_findings":"asfsadf","similar_events":"No","similar_events_describe":"ASF","similar_events_episodes":2,"affected_vaccinated":234,"affected_not_vaccinated":null,"affected_unknown":"4","community_comments":"2324","relevant_findings":"ASFAS","created":"2017-11-25T11:48:36+00:00","modified":"2018-01-10T17:51:35+00:00","submitted":2,"submitted_date":"2017-12-18T00:00:00+00:00","status":"Evaluated","deleted":null,"aefi_causality":{"diagnosis_meet":"Yes","primary_vaccine":"Kipindu","clinical_examination":"Yes","clinical_examination_specify":"asf","evidence_literature":"Yes","evidence_literature_specify":"asf","causal_role":"Yes","causal_role_specify":"saf","prescribing_error":"Yes","prescribing_error_specify":"2","vaccine_unsterile":"Yes","vaccine_unsterile_specify":"AF","vaccine_condition":"Yes","vaccine_condition_specify":"FA","vaccine_reconstitution":"Yes","vaccine_reconstitution_specify":"DF","vaccine_handling":"Yes","vaccine_handling_specify":"ASD","vaccine_administered":"Yes","vaccine_administered_specify":"ASFD","vaccine_anxiety":"Yes","vaccine_anxiety_specify":"asf","time_window":"Yes","time_window_specify":"asf","causal_association":"Yes","causal_association_specify":"asf","independent_vaccination":"Yes","independent_vaccination_specify":"asf","manifest_health":"Yes","manifest_health_specify":"asdf","comparable_event":"Yes","comparable_event_specify":"saf","exposure_risk":"Yes","exposure_risk_specify":"asf","acute_illness":"Yes","acute_illness_specify":"as sdf","occur_past":"Yes","occur_past_specify":"saf","taking_medication":"Yes","taking_medication_specify":"saf","biological_plausibility":"Yes","biological_plausibility_specify":"sf","inconsistent_i":true,"inconsistent_iii":true,"inconsistent_iv":true,"consistent_ii":true,"consistent_iv":true,"indeterminate":false,"unclassifiable":true,"saefi_id":1,"created":"2018-01-10T17:51:35+00:00","modified":"2018-01-10T17:51:35+00:00","id":3},"saefi_pr_id":"1","name":"Evaluator2","assigned_by_name":"manager"}}', NULL, NULL, '2018-01-10 17:51:35', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(242, 'GenericNotification', '{"email_address":"evaluator2@gmail.com","user_id":11,"type":"manager_review_assigned_notification","model":"Saefis","foreign_key":1,"vars":{"id":1,"user_id":3,"saefi_id":null,"reference_number":"SAEFI1\\/2017","assigned_to":11,"assigned_by":2,"assigned_date":"2017-12-18T20:06:24+00:00","basic_details":"Mbezik details","place_vaccination":"Private health facility","place_vaccination_other":"Medic","site_type":"Outreach","site_type_other":"sina makosa","vaccination_in":"Other","vaccination_in_other":"hasIira","reporter_name":"Gi","report_date":"2017-12-01T00:00:00+00:00","start_date":"2017-12-02T00:00:00+00:00","complete_date":"2017-12-03T00:00:00+00:00","designation_id":2,"telephone":"2034fpw","mobile":"0412555A5S","reporter_email":"eddieokemwa@gmail.com","patient_name":"Impeached","gender":"Male","hospitalization_date":"2017-12-04T00:00:00+00:00","status_on_date":"Recovering","died_date":"2012-12-07T10:35:00+00:00","autopsy_done":"Yes","autopsy_done_date":"2017-12-12T00:00:00+00:00","autopsy_planned":"No","autopsy_planned_date":null,"past_history":"Yes","past_history_remarks":"remark1","adverse_event":"No","adverse_event_remarks":"re","allergy_history":"Unknown","allergy_history_remarks":"asdf","existing_illness":"Yes","existing_illness_remarks":"as sdf","hospitalization_history":"Yes","hospitalization_history_remarks":"asf ","medication_vaccination":"Unknown","medication_vaccination_remarks":"af ","faith_healers":"No","faith_healers_remarks":"sdf as","family_history":"Yes","family_history_remarks":"asfd af","pregnant":"No","pregnant_weeks":"3","breastfeeding":"Yes","infant":"post-term","birth_weight":8,"delivery_procedure":"Caesarean","delivery_procedure_specify":"Hakuna","source_examination":false,"source_documents":true,"source_verbal":true,"verbal_source":"verbal autopsy","source_other":true,"source_other_specify":"None to specify","examiner_name":"Joshua","other_sources":"no other sources","signs_symptoms":"No other symptoms","person_details":"Ndifu","person_designation":"kababa","person_date":null,"medical_care":"safa","not_medical_care":"asfasdf","final_diagnosis":"Hakuna matata","when_vaccinated":"","when_vaccinated_specify":"AFASF","prescribing_error":"Yes","prescribing_error_specify":"2","vaccine_unsterile":"No","vaccine_unsterile_specify":"AF","vaccine_condition":"Unable to assess","vaccine_condition_specify":"FA","vaccine_reconstitution":"Unable to assess","vaccine_reconstitution_specify":"DF","vaccine_handling":"Yes","vaccine_handling_specify":"ASD","vaccine_administered":"No","vaccine_administered_specify":"ASFD","vaccinated_vial":0,"vaccinated_session":-3,"vaccinated_locations":74,"vaccinated_locations_specify":"ASF","vaccinated_cluster":"No","vaccinated_cluster_number":-1,"vaccinated_cluster_vial":"Yes","vaccinated_cluster_vial_number":2,"syringes_used":"Yes","syringes_used_specify":"Disposable","syringes_used_other":"SAFA","syringes_used_findings":"2FASD","reconstitution_multiple":"No","reconstitution_different":"Yes","reconstitution_vial":"Yes","reconstitution_syringe":"No","reconstitution_vaccines":"Yes","reconstitution_observations":"ASF","cold_temperature":"Yes","cold_temperature_deviation":"No","cold_temperature_specify":"sdfad","procedure_followed":"No","other_items":"Unknown","partial_vaccines":"Yes","unusable_vaccines":"No","unusable_diluents":"Unknown","additional_observations":"ASFAS","cold_transportation":"Yes","vaccine_carrier":"No","coolant_packs":"Unknown","transport_findings":"asfsadf","similar_events":"No","similar_events_describe":"ASF","similar_events_episodes":2,"affected_vaccinated":234,"affected_not_vaccinated":null,"affected_unknown":"4","community_comments":"2324","relevant_findings":"ASFAS","created":"2017-11-25T11:48:36+00:00","modified":"2018-01-10T17:51:35+00:00","submitted":2,"submitted_date":"2017-12-18T00:00:00+00:00","status":"Evaluated","deleted":null,"aefi_causality":{"diagnosis_meet":"Yes","primary_vaccine":"Kipindu","clinical_examination":"Yes","clinical_examination_specify":"asf","evidence_literature":"Yes","evidence_literature_specify":"asf","causal_role":"Yes","causal_role_specify":"saf","prescribing_error":"Yes","prescribing_error_specify":"2","vaccine_unsterile":"Yes","vaccine_unsterile_specify":"AF","vaccine_condition":"Yes","vaccine_condition_specify":"FA","vaccine_reconstitution":"Yes","vaccine_reconstitution_specify":"DF","vaccine_handling":"Yes","vaccine_handling_specify":"ASD","vaccine_administered":"Yes","vaccine_administered_specify":"ASFD","vaccine_anxiety":"Yes","vaccine_anxiety_specify":"asf","time_window":"Yes","time_window_specify":"asf","causal_association":"Yes","causal_association_specify":"asf","independent_vaccination":"Yes","independent_vaccination_specify":"asf","manifest_health":"Yes","manifest_health_specify":"asdf","comparable_event":"Yes","comparable_event_specify":"saf","exposure_risk":"Yes","exposure_risk_specify":"asf","acute_illness":"Yes","acute_illness_specify":"as sdf","occur_past":"Yes","occur_past_specify":"saf","taking_medication":"Yes","taking_medication_specify":"saf","biological_plausibility":"Yes","biological_plausibility_specify":"sf","inconsistent_i":true,"inconsistent_iii":true,"inconsistent_iv":true,"consistent_ii":true,"consistent_iv":true,"indeterminate":false,"unclassifiable":true,"saefi_id":1,"created":"2018-01-10T17:51:35+00:00","modified":"2018-01-10T17:51:35+00:00","id":3},"saefi_pr_id":"1","name":"Evaluator2","assigned_by_name":"manager"}}', NULL, NULL, '2018-01-10 17:51:35', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5),
+(243, 'GenericNotification', '{"user_id":2,"model":"Saefis","foreign_key":1,"vars":{"id":1,"user_id":3,"saefi_id":null,"reference_number":"SAEFI1\\/2017","assigned_to":11,"assigned_by":2,"assigned_date":"2017-12-18T20:06:24+00:00","basic_details":"Mbezik details","place_vaccination":"Private health facility","place_vaccination_other":"Medic","site_type":"Outreach","site_type_other":"sina makosa","vaccination_in":"Other","vaccination_in_other":"hasIira","reporter_name":"Gi","report_date":"2017-12-01T00:00:00+00:00","start_date":"2017-12-02T00:00:00+00:00","complete_date":"2017-12-03T00:00:00+00:00","designation_id":2,"telephone":"2034fpw","mobile":"0412555A5S","reporter_email":"eddieokemwa@gmail.com","patient_name":"Impeached","gender":"Male","hospitalization_date":"2017-12-04T00:00:00+00:00","status_on_date":"Recovering","died_date":"2012-12-07T10:35:00+00:00","autopsy_done":"Yes","autopsy_done_date":"2017-12-12T00:00:00+00:00","autopsy_planned":"No","autopsy_planned_date":null,"past_history":"Yes","past_history_remarks":"remark1","adverse_event":"No","adverse_event_remarks":"re","allergy_history":"Unknown","allergy_history_remarks":"asdf","existing_illness":"Yes","existing_illness_remarks":"as sdf","hospitalization_history":"Yes","hospitalization_history_remarks":"asf ","medication_vaccination":"Unknown","medication_vaccination_remarks":"af ","faith_healers":"No","faith_healers_remarks":"sdf as","family_history":"Yes","family_history_remarks":"asfd af","pregnant":"No","pregnant_weeks":"3","breastfeeding":"Yes","infant":"post-term","birth_weight":8,"delivery_procedure":"Caesarean","delivery_procedure_specify":"Hakuna","source_examination":false,"source_documents":true,"source_verbal":true,"verbal_source":"verbal autopsy","source_other":true,"source_other_specify":"None to specify","examiner_name":"Joshua","other_sources":"no other sources","signs_symptoms":"No other symptoms","person_details":"Ndifu","person_designation":"kababa","person_date":null,"medical_care":"safa","not_medical_care":"asfasdf","final_diagnosis":"Hakuna matata","when_vaccinated":"","when_vaccinated_specify":"AFASF","prescribing_error":"Yes","prescribing_error_specify":"2","vaccine_unsterile":"No","vaccine_unsterile_specify":"AF","vaccine_condition":"Unable to assess","vaccine_condition_specify":"FA","vaccine_reconstitution":"Unable to assess","vaccine_reconstitution_specify":"DF","vaccine_handling":"Yes","vaccine_handling_specify":"ASD","vaccine_administered":"No","vaccine_administered_specify":"ASFD","vaccinated_vial":0,"vaccinated_session":-3,"vaccinated_locations":74,"vaccinated_locations_specify":"ASF","vaccinated_cluster":"No","vaccinated_cluster_number":-1,"vaccinated_cluster_vial":"Yes","vaccinated_cluster_vial_number":2,"syringes_used":"Yes","syringes_used_specify":"Disposable","syringes_used_other":"SAFA","syringes_used_findings":"2FASD","reconstitution_multiple":"No","reconstitution_different":"Yes","reconstitution_vial":"Yes","reconstitution_syringe":"No","reconstitution_vaccines":"Yes","reconstitution_observations":"ASF","cold_temperature":"Yes","cold_temperature_deviation":"No","cold_temperature_specify":"sdfad","procedure_followed":"No","other_items":"Unknown","partial_vaccines":"Yes","unusable_vaccines":"No","unusable_diluents":"Unknown","additional_observations":"ASFAS","cold_transportation":"Yes","vaccine_carrier":"No","coolant_packs":"Unknown","transport_findings":"asfsadf","similar_events":"No","similar_events_describe":"ASF","similar_events_episodes":2,"affected_vaccinated":234,"affected_not_vaccinated":null,"affected_unknown":"4","community_comments":"2324","relevant_findings":"ASFAS","created":"2017-11-25T11:48:36+00:00","modified":"2018-01-10T17:51:35+00:00","submitted":2,"submitted_date":"2017-12-18T00:00:00+00:00","status":"Evaluated","deleted":null,"aefi_causality":{"diagnosis_meet":"Yes","primary_vaccine":"Kipindu","clinical_examination":"Yes","clinical_examination_specify":"asf","evidence_literature":"Yes","evidence_literature_specify":"asf","causal_role":"Yes","causal_role_specify":"saf","prescribing_error":"Yes","prescribing_error_specify":"2","vaccine_unsterile":"Yes","vaccine_unsterile_specify":"AF","vaccine_condition":"Yes","vaccine_condition_specify":"FA","vaccine_reconstitution":"Yes","vaccine_reconstitution_specify":"DF","vaccine_handling":"Yes","vaccine_handling_specify":"ASD","vaccine_administered":"Yes","vaccine_administered_specify":"ASFD","vaccine_anxiety":"Yes","vaccine_anxiety_specify":"asf","time_window":"Yes","time_window_specify":"asf","causal_association":"Yes","causal_association_specify":"asf","independent_vaccination":"Yes","independent_vaccination_specify":"asf","manifest_health":"Yes","manifest_health_specify":"asdf","comparable_event":"Yes","comparable_event_specify":"saf","exposure_risk":"Yes","exposure_risk_specify":"asf","acute_illness":"Yes","acute_illness_specify":"as sdf","occur_past":"Yes","occur_past_specify":"saf","taking_medication":"Yes","taking_medication_specify":"saf","biological_plausibility":"Yes","biological_plausibility_specify":"sf","inconsistent_i":true,"inconsistent_iii":true,"inconsistent_iv":true,"consistent_ii":true,"consistent_iv":true,"indeterminate":false,"unclassifiable":true,"saefi_id":1,"created":"2018-01-10T17:51:35+00:00","modified":"2018-01-10T17:51:35+00:00","id":3},"saefi_pr_id":"1"},"type":"manager_review_notification"}', NULL, NULL, '2018-01-10 17:51:35', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 5);
 
 -- --------------------------------------------------------
 
@@ -4150,7 +4427,8 @@ INSERT INTO `reviews` (`id`, `user_id`, `foreign_key`, `category`, `model`, `com
 (6, 2, 1, 'causality', 'Saefis', 'b', 'a', 'c', NULL, NULL, NULL, NULL, '2017-12-18 20:29:56', '2017-12-18 20:29:56'),
 (7, 2, 1, 'committee', 'Saefis', 'Is it possible that this one', 'saves without intevention??', NULL, 'IMG_0228.JPG', 'webroot/files/Committees/file/', '2381600', 'image/jpeg', '2017-12-18 21:05:32', '2017-12-18 21:05:32'),
 (8, 2, 1, 'causality', 'Adrs', 'yebi me sak', 'sadou makambo', 'basi na bango', NULL, NULL, NULL, NULL, '2017-12-18 23:59:08', '2017-12-18 23:59:08'),
-(9, 2, 1, 'committee', 'Adrs', 'pe perreee', 'peee', NULL, 'IMG_0179.JPG', 'webroot/files/Committees/file/', '1993181', 'image/jpeg', '2017-12-19 00:01:19', '2017-12-19 00:01:19');
+(9, 2, 1, 'committee', 'Adrs', 'pe perreee', 'peee', NULL, 'IMG_0179.JPG', 'webroot/files/Committees/file/', '1993181', 'image/jpeg', '2017-12-19 00:01:19', '2017-12-19 00:01:19'),
+(10, 2, 1, 'causality', 'Aefis', 'what it meant', 'Typically, I did try to get initially', 'to have this as a first item..?? ', NULL, NULL, NULL, NULL, '2018-01-09 13:59:56', '2018-01-09 13:59:56');
 
 -- --------------------------------------------------------
 
@@ -4294,32 +4572,36 @@ CREATE TABLE `sadrs` (
   `notified` tinyint(2) DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `deleted` datetime DEFAULT NULL
+  `deleted` datetime DEFAULT NULL,
+  `copied` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `sadrs`
 --
 
-INSERT INTO `sadrs` (`id`, `user_id`, `sadr_id`, `messageid`, `assigned_to`, `assigned_by`, `assigned_date`, `province_id`, `reference_number`, `designation_id`, `report_type`, `name_of_institution`, `institution_code`, `institution_name`, `institution_address`, `patient_name`, `ip_no`, `date_of_birth`, `age_group`, `gender`, `weight`, `height`, `date_of_onset_of_reaction`, `date_of_end_of_reaction`, `duration_type`, `duration`, `description_of_reaction`, `severity`, `severity_reason`, `medical_history`, `past_drug_therapy`, `outcome`, `lab_test_results`, `reporter_name`, `reporter_email`, `reporter_phone`, `submitted`, `submitted_date`, `action_taken`, `relatedness`, `status`, `emails`, `active`, `device`, `notified`, `created`, `modified`, `deleted`) VALUES
-(3, 3, NULL, '555644', 11, 2, NULL, NULL, 'ADR3/2017', 2, NULL, 'Kenyatta National Hospital', '00125', NULL, NULL, 'A.O', '258', '-02-1993', 'child', 'Male', '75', '2.1', '15-12-2004', '04-02-2010', 'Hours', '3', 'Sick', 'Yes', 'Life-threatening', 'has been sickly\r\n', 'dawa\r\n', 'Not yet recovered', 'black stool', 'Edward', 'eddieokemwa@gmail.com', '0729932475', 2, NULL, '', '', 'FollowUp', 0, 1, 0, 0, '2017-11-06 06:59:23', '2017-12-23 19:06:33', NULL),
-(25, 3, NULL, '555655', 11, 2, '2017-12-12 22:08:50', NULL, 'ADR25/2017', NULL, NULL, '', '', NULL, NULL, 'Justin', '', '--2017', '', '', '', '', '--', '--', NULL, NULL, '', '', '', '', '', '', '', '', 'fmutunga@safaricom.co.ke', '', 2, NULL, '', '', 'Assigned', 0, 1, 0, 0, '2017-11-07 00:53:10', '2017-12-12 22:08:50', NULL),
-(26, 1, NULL, '', NULL, NULL, NULL, NULL, 'ADR26/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'eddieokemwa@gmail.com', NULL, 0, NULL, '', '', 'UnSubmitted', 0, 1, 0, 0, '2017-11-09 07:45:08', '2017-11-09 07:45:08', NULL),
-(27, 3, NULL, '', NULL, NULL, NULL, NULL, 'ADR27/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'eddieokemwa@gmail.com', NULL, 0, NULL, '', '', 'UnSubmitted', 0, 1, 0, 0, '2017-11-09 10:41:42', '2017-11-09 10:41:42', '2018-01-07 12:54:26'),
-(28, 3, NULL, '', NULL, NULL, NULL, 4, 'ADR28/2017', 2, NULL, 'Mashongwe', 'ZW040247', 'Mashongwe', '', 'A.O', '', '--', '', 'Male', '', '', '02-02-2016', '--', NULL, NULL, 'asfdsadf', 'Yes', '', '', '', 'Recovering', '', 'Edward', 'eddieokemwa@gmail.com', '254729932475', 1, NULL, 'Dose increased', 'Possible', 'UnSubmitted', 0, 1, 0, 0, '2017-11-09 10:43:38', '2018-01-01 12:57:02', NULL),
-(29, 3, NULL, '', 12, 2, '2017-12-12 00:00:00', 2, 'ADR29/2017', 2, NULL, 'This one should be removed', 'but more', NULL, NULL, 'j', 'importantly', '14-11-2017', '', 'Female', '55', '', '14-11-2017', '01-12-2017', NULL, NULL, 'asfa', 'No', 'Death', 'This will be some long text that`', 'can later be \r\nremoved\r\nor even translated', 'Recovered', 'Another successful one from crater automobiles', 'Edward', 'eddieokemwa@gmail.com', '254729932475', 2, '2017-12-12 08:08:45', 'Drug withdrawn', 'Conditional / Unclassified', 'FollowUp', 0, 1, 0, 0, '2017-11-14 07:57:48', '2017-12-15 15:11:03', NULL),
-(53, NULL, NULL, '', 11, 2, '2017-12-18 00:21:40', NULL, 'ADR53/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Edward', 'fmutunga@safaricom.co.ke', NULL, 2, NULL, NULL, NULL, 'Archived', 0, 1, 0, 0, '2017-12-08 17:15:29', '2017-12-18 01:04:02', NULL),
-(54, NULL, NULL, '', NULL, NULL, NULL, NULL, 'ADR54/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Edward', 'fmutunga@safaricom.co.ke', NULL, 0, NULL, NULL, NULL, NULL, 0, 1, 0, 0, '2017-12-08 17:17:03', '2017-12-08 17:17:03', '2018-01-07 21:56:44'),
-(55, NULL, NULL, '', NULL, NULL, NULL, NULL, 'ADR55/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Edward', 'fmutunga@safaricom.co.ke', NULL, 0, NULL, NULL, NULL, NULL, 0, 1, 0, 0, '2017-12-08 17:25:15', '2017-12-08 17:25:15', NULL),
-(56, NULL, NULL, '', NULL, NULL, NULL, NULL, 'ADR56/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Edward', 'fmutunga@safaricom.co.ke', NULL, 0, NULL, NULL, NULL, NULL, 0, 1, 0, 0, '2017-12-08 17:26:07', '2017-12-08 17:26:07', NULL),
-(57, NULL, NULL, '', NULL, NULL, NULL, NULL, 'ADR57/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Edward', 'fmutunga@safaricom.co.ke', NULL, 0, NULL, NULL, NULL, NULL, 0, 1, 0, 0, '2017-12-08 17:27:52', '2017-12-08 17:27:52', NULL),
-(58, NULL, 29, '', NULL, NULL, NULL, NULL, NULL, NULL, 'FollowUp', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '03-04-2011', '03-02-2014', NULL, NULL, NULL, 'No', 'Life-threatening', 'Some other important text', 'and other yet', NULL, 'without fail', NULL, NULL, NULL, 2, '2017-12-15 12:43:45', NULL, NULL, NULL, 0, 1, 0, 0, '2017-12-15 11:56:06', '2017-12-15 12:43:45', NULL),
-(59, NULL, 29, '', NULL, NULL, NULL, NULL, NULL, NULL, 'FollowUp', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '--', '--', NULL, NULL, 'Just add this one item... nothing more and save changes', '', '', '', '', NULL, '', NULL, NULL, NULL, 2, '2017-12-15 13:44:32', NULL, NULL, NULL, 0, 1, 0, 0, '2017-12-15 13:25:22', '2017-12-15 13:44:32', NULL),
-(60, NULL, 29, '', NULL, NULL, NULL, NULL, NULL, NULL, 'FollowUp', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '15-12-2017', '15-12-2017', NULL, NULL, '', '', '', '', '', NULL, '', NULL, NULL, NULL, 2, '2017-12-15 15:11:03', NULL, NULL, NULL, 0, 1, 0, 0, '2017-12-15 15:07:06', '2017-12-15 15:11:03', NULL),
-(61, NULL, 3, '', NULL, NULL, NULL, NULL, NULL, NULL, 'FollowUp', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'A folow up description of the reaction', NULL, NULL, 'Medical History follow up', NULL, NULL, NULL, NULL, NULL, NULL, 2, '2017-12-18 01:43:24', NULL, NULL, 'UnSubmitted', 0, 1, 0, 0, '2017-12-18 01:43:24', '2017-12-18 01:43:24', NULL),
-(62, NULL, 3, '', NULL, NULL, NULL, NULL, NULL, NULL, 'FollowUp', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'A folow up description of the reaction', NULL, NULL, 'Medical History follow up', NULL, NULL, NULL, NULL, NULL, NULL, 2, '2017-12-18 01:45:08', NULL, NULL, 'UnSubmitted', 0, 1, 0, 0, '2017-12-18 01:45:08', '2017-12-18 01:45:08', NULL),
-(64, 14, NULL, '', NULL, NULL, NULL, 1, 'ADR64/2017', NULL, NULL, NULL, '', NULL, NULL, 'af', '', '--2013', NULL, 'Male', '', '', '--2017', '--', NULL, NULL, 'asfda', 'Yes', 'Disabling', '', '', 'Recovering', '', 'Edward', 'fmutunga@safaricom.co.ke', '', 1, NULL, '', '', 'UnSubmitted', 0, 1, 0, 0, '2017-12-21 16:36:53', '2017-12-21 16:47:36', NULL),
-(65, 16, NULL, NULL, NULL, NULL, NULL, NULL, 'ADR65/2018', NULL, NULL, 'bu Bulawayo Maternal Health Clinic', 'ZW090A21', 'bu Bulawayo Maternal Health Clinic', 'kazi moto', 'Justin', '', '', '', 'Male', '', '', '', '', NULL, NULL, 'ii', 'Yes', '', '', '', 'Recovered', '', 'reporter', 'eddyokemwa@gmail.com', '0729932475', 1, NULL, '', '', 'UnSubmitted', 0, 1, 0, 0, '2018-01-03 01:49:22', '2018-01-05 01:59:17', NULL);
+INSERT INTO `sadrs` (`id`, `user_id`, `sadr_id`, `messageid`, `assigned_to`, `assigned_by`, `assigned_date`, `province_id`, `reference_number`, `designation_id`, `report_type`, `name_of_institution`, `institution_code`, `institution_name`, `institution_address`, `patient_name`, `ip_no`, `date_of_birth`, `age_group`, `gender`, `weight`, `height`, `date_of_onset_of_reaction`, `date_of_end_of_reaction`, `duration_type`, `duration`, `description_of_reaction`, `severity`, `severity_reason`, `medical_history`, `past_drug_therapy`, `outcome`, `lab_test_results`, `reporter_name`, `reporter_email`, `reporter_phone`, `submitted`, `submitted_date`, `action_taken`, `relatedness`, `status`, `emails`, `active`, `device`, `notified`, `created`, `modified`, `deleted`, `copied`) VALUES
+(3, 3, NULL, '555644', 11, 2, NULL, NULL, 'ADR3/2017', 2, NULL, 'Kenyatta National Hospital', '00125', NULL, NULL, 'A.O', '258', '-02-1993', 'child', 'Male', '75', '2.1', '15-12-2004', '04-02-2010', 'Hours', '3', 'Sick', 'Yes', 'Life-threatening', 'has been sickly\r\n', 'dawa\r\n', 'Not yet recovered', 'black stool', 'Edward', 'eddieokemwa@gmail.com', '0729932475', 2, NULL, '', '', 'FollowUp', 0, 1, 0, 0, '2017-11-06 06:59:23', '2017-12-23 19:06:33', NULL, NULL),
+(25, 3, NULL, '555655', 11, 2, '2017-12-12 22:08:50', NULL, 'ADR25/2017', NULL, NULL, '', '', NULL, NULL, 'Justin', '', '--2017', '', '', '', '', '--', '--', NULL, NULL, '', '', '', '', '', '', '', '', 'fmutunga@safaricom.co.ke', '', 2, NULL, '', '', 'Assigned', 0, 1, 0, 0, '2017-11-07 00:53:10', '2017-12-12 22:08:50', NULL, 'old copy'),
+(26, 1, NULL, '', NULL, NULL, NULL, NULL, 'ADR26/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'eddieokemwa@gmail.com', NULL, 0, NULL, '', '', 'UnSubmitted', 0, 1, 0, 0, '2017-11-09 07:45:08', '2017-11-09 07:45:08', NULL, NULL),
+(27, 3, NULL, '', NULL, NULL, NULL, NULL, 'ADR27/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'eddieokemwa@gmail.com', NULL, 0, NULL, '', '', 'UnSubmitted', 0, 1, 0, 0, '2017-11-09 10:41:42', '2017-11-09 10:41:42', '2018-01-07 12:54:26', NULL),
+(28, 3, NULL, '', NULL, NULL, NULL, 4, 'ADR28/2017', 2, NULL, 'Mashongwe', 'ZW040247', 'Mashongwe', '', 'A.O', '', '--', '', 'Male', '', '', '02-02-2016', '--', NULL, NULL, 'asfdsadf', 'Yes', '', '', '', 'Recovering', '', 'Edward', 'eddieokemwa@gmail.com', '254729932475', 1, NULL, 'Dose increased', 'Possible', 'UnSubmitted', 0, 1, 0, 0, '2017-11-09 10:43:38', '2018-01-01 12:57:02', NULL, NULL),
+(29, 3, NULL, '', 12, 2, '2017-12-12 00:00:00', 2, 'ADR29/2017', 2, NULL, 'This one should be removed', 'but more', NULL, NULL, 'j', 'importantly', '14-11-2017', '', 'Female', '55', '', '14-11-2017', '01-12-2017', NULL, NULL, 'asfa', 'No', 'Death', 'This will be some long text that`', 'can later be \r\nremoved\r\nor even translated', 'Recovered', 'Another successful one from crater automobiles', 'Edward', 'eddieokemwa@gmail.com', '254729932475', 2, '2017-12-12 08:08:45', 'Drug withdrawn', 'Conditional / Unclassified', 'FollowUp', 0, 1, 0, 0, '2017-11-14 07:57:48', '2017-12-15 15:11:03', NULL, NULL),
+(53, NULL, NULL, '', 11, 2, '2017-12-18 00:21:40', NULL, 'ADR53/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Edward', 'fmutunga@safaricom.co.ke', NULL, 2, NULL, NULL, NULL, 'Archived', 0, 1, 0, 0, '2017-12-08 17:15:29', '2017-12-18 01:04:02', NULL, NULL),
+(54, NULL, NULL, '', NULL, NULL, NULL, NULL, 'ADR54/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Edward', 'fmutunga@safaricom.co.ke', NULL, 0, NULL, NULL, NULL, NULL, 0, 1, 0, 0, '2017-12-08 17:17:03', '2017-12-08 17:17:03', '2018-01-07 21:56:44', NULL),
+(55, NULL, NULL, '', NULL, NULL, NULL, NULL, 'ADR55/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Edward', 'fmutunga@safaricom.co.ke', NULL, 0, NULL, NULL, NULL, NULL, 0, 1, 0, 0, '2017-12-08 17:25:15', '2017-12-08 17:25:15', NULL, NULL),
+(56, NULL, NULL, '', NULL, NULL, NULL, NULL, 'ADR56/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Edward', 'fmutunga@safaricom.co.ke', NULL, 0, NULL, NULL, NULL, NULL, 0, 1, 0, 0, '2017-12-08 17:26:07', '2017-12-08 17:26:07', NULL, NULL),
+(57, NULL, NULL, '', NULL, NULL, NULL, NULL, 'ADR57/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Edward', 'fmutunga@safaricom.co.ke', NULL, 0, NULL, NULL, NULL, NULL, 0, 1, 0, 0, '2017-12-08 17:27:52', '2017-12-08 17:27:52', NULL, NULL),
+(58, NULL, 29, '', NULL, NULL, NULL, NULL, NULL, NULL, 'FollowUp', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '03-04-2011', '03-02-2014', NULL, NULL, NULL, 'No', 'Life-threatening', 'Some other important text', 'and other yet', NULL, 'without fail', NULL, NULL, NULL, 2, '2017-12-15 12:43:45', NULL, NULL, NULL, 0, 1, 0, 0, '2017-12-15 11:56:06', '2017-12-15 12:43:45', NULL, NULL),
+(59, NULL, 29, '', NULL, NULL, NULL, NULL, NULL, NULL, 'FollowUp', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '--', '--', NULL, NULL, 'Just add this one item... nothing more and save changes', '', '', '', '', NULL, '', NULL, NULL, NULL, 2, '2017-12-15 13:44:32', NULL, NULL, NULL, 0, 1, 0, 0, '2017-12-15 13:25:22', '2017-12-15 13:44:32', NULL, NULL),
+(60, NULL, 29, '', NULL, NULL, NULL, NULL, NULL, NULL, 'FollowUp', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '15-12-2017', '15-12-2017', NULL, NULL, '', '', '', '', '', NULL, '', NULL, NULL, NULL, 2, '2017-12-15 15:11:03', NULL, NULL, NULL, 0, 1, 0, 0, '2017-12-15 15:07:06', '2017-12-15 15:11:03', NULL, NULL),
+(61, NULL, 3, '', NULL, NULL, NULL, NULL, NULL, NULL, 'FollowUp', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'A folow up description of the reaction', NULL, NULL, 'Medical History follow up', NULL, NULL, NULL, NULL, NULL, NULL, 2, '2017-12-18 01:43:24', NULL, NULL, 'UnSubmitted', 0, 1, 0, 0, '2017-12-18 01:43:24', '2017-12-18 01:43:24', NULL, NULL),
+(62, NULL, 3, '', NULL, NULL, NULL, NULL, NULL, NULL, 'FollowUp', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'A folow up description of the reaction', NULL, NULL, 'Medical History follow up', NULL, NULL, NULL, NULL, NULL, NULL, 2, '2017-12-18 01:45:08', NULL, NULL, 'UnSubmitted', 0, 1, 0, 0, '2017-12-18 01:45:08', '2017-12-18 01:45:08', NULL, NULL),
+(64, 14, NULL, '', NULL, NULL, NULL, 1, 'ADR64/2017', NULL, NULL, NULL, '', NULL, NULL, 'af', '', '--2013', NULL, 'Male', '', '', '--2017', '--', NULL, NULL, 'asfda', 'Yes', 'Disabling', '', '', 'Recovering', '', 'Edward', 'fmutunga@safaricom.co.ke', '', 1, NULL, '', '', 'UnSubmitted', 0, 1, 0, 0, '2017-12-21 16:36:53', '2017-12-21 16:47:36', NULL, NULL),
+(65, 16, NULL, NULL, NULL, NULL, NULL, NULL, 'ADR65/2018', NULL, NULL, 'bu Bulawayo Maternal Health Clinic', 'ZW090A21', 'bu Bulawayo Maternal Health Clinic', 'kazi moto', 'Justin', '', '', '', 'Male', '', '', '', '', NULL, NULL, 'ii', 'Yes', '', '', '', 'Recovered', '', 'reporter', 'eddyokemwa@gmail.com', '0729932475', 1, NULL, '', '', 'UnSubmitted', 0, 1, 0, 0, '2018-01-03 01:49:22', '2018-01-05 01:59:17', NULL, NULL),
+(66, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 12, NULL, 'ha Glen View Satellite Clinic', 'ZW000A14', 'ha Glen View Satellite Clinic', 'avondale', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Edward', 'eddyokemwa1@gmail.com', '0729932475', 0, NULL, NULL, NULL, 'UnSubmitted', 0, 1, 0, 0, '2018-01-09 01:30:02', '2018-01-09 01:30:02', '2018-01-09 15:15:10', NULL),
+(67, 3, NULL, NULL, NULL, NULL, NULL, 9, 'ADR67/2018', 12, NULL, 'ha Glen View Satellite Clinic', 'ZW000A14', 'ha Glen View Satellite Clinic', 'avondale', 'Ju', '', '--2004', 'NaN', 'Male', '233', '12', '--2001', '--2005', NULL, NULL, 'dsadf', 'Yes', 'Hospitalizaion/Prolonged', '', '', 'Recovering', '', 'Edward', 'eddyokemwa@gmail.com', '0729932475', 2, '2018-01-09 01:32:51', 'Dose increased', 'Probable / Likely', 'Submitted', 0, 1, 0, 0, '2018-01-09 01:30:26', '2018-01-09 01:32:51', NULL, NULL),
+(68, 2, 25, '555655', 11, 2, '2017-12-12 22:08:50', NULL, 'ADR25/2017', NULL, NULL, 'ekokite hospita', 'kamu', '', '', 'Justin', 'saf sf', '', 'adult', 'Male', '', '', '', '', NULL, NULL, 'sfa', 'Yes', 'Life-threatening', '', '', 'Not yet recovered', '', '', 'fmutunga@safaricom.co.ke', '', 2, NULL, '', '', 'Assigned', 0, 1, 0, 0, '2018-01-11 03:14:46', '2018-01-11 03:18:02', NULL, 'new copy');
 
 -- --------------------------------------------------------
 
@@ -4399,7 +4681,10 @@ INSERT INTO `sadr_list_of_drugs` (`id`, `sadr_id`, `sadr_followup_id`, `dose_id`
 (31, 58, NULL, 4, 5, 5, 'drug 2 ', 'brand 2', '2 ', '3', '2017-12-01', '2017-12-05', 'sicklll', '0', '2017-12-15 11:56:06', '2017-12-15 12:11:07'),
 (36, 60, NULL, 3, 4, 3, 'jamo', 'patty', '2', '2', '2017-12-01', '2017-11-07', 'sss', '0', '2017-12-15 15:10:35', '2017-12-15 15:11:03'),
 (37, 28, NULL, NULL, 4, NULL, 'Day & night cold & flu', 'Bromhexine hydrochloride', '', '', NULL, NULL, '', '0', '2018-01-01 12:56:42', '2018-01-01 12:57:02'),
-(38, 65, NULL, NULL, NULL, NULL, 'swese', '', '', '', NULL, NULL, '', '0', '2018-01-05 01:59:18', '2018-01-05 01:59:18');
+(38, 65, NULL, NULL, NULL, NULL, 'swese', '', '', '', NULL, NULL, '', '0', '2018-01-05 01:59:18', '2018-01-05 01:59:18'),
+(39, 67, NULL, 20, 18, 3, 'Atasol compound', 'Para-seltzer', '3', '1', '2018-01-01', '2018-01-09', 'd', 'on', '2018-01-09 01:32:51', '2018-01-09 01:32:51'),
+(40, 67, NULL, 19, 19, 4, 'c', 'sa', '3', 'a', '2018-01-01', '2018-01-09', 'sa', '', '2018-01-09 01:32:51', '2018-01-09 01:32:51'),
+(41, 68, NULL, NULL, NULL, NULL, '', '', '', '', NULL, NULL, '', '0', '2018-01-11 03:14:46', '2018-01-11 03:14:46');
 
 -- --------------------------------------------------------
 
@@ -4561,20 +4846,24 @@ CREATE TABLE `saefis` (
   `submitted` int(2) NOT NULL DEFAULT '0',
   `submitted_date` date DEFAULT NULL,
   `status` varchar(255) DEFAULT 'UnSubmitted',
-  `deleted` datetime DEFAULT NULL
+  `deleted` datetime DEFAULT NULL,
+  `copied` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `saefis`
 --
 
-INSERT INTO `saefis` (`id`, `user_id`, `saefi_id`, `reference_number`, `assigned_to`, `assigned_by`, `assigned_date`, `basic_details`, `place_vaccination`, `place_vaccination_other`, `site_type`, `site_type_other`, `vaccination_in`, `vaccination_in_other`, `reporter_name`, `report_date`, `start_date`, `complete_date`, `designation_id`, `telephone`, `mobile`, `reporter_email`, `patient_name`, `gender`, `hospitalization_date`, `status_on_date`, `died_date`, `autopsy_done`, `autopsy_done_date`, `autopsy_planned`, `autopsy_planned_date`, `past_history`, `past_history_remarks`, `adverse_event`, `adverse_event_remarks`, `allergy_history`, `allergy_history_remarks`, `existing_illness`, `existing_illness_remarks`, `hospitalization_history`, `hospitalization_history_remarks`, `medication_vaccination`, `medication_vaccination_remarks`, `faith_healers`, `faith_healers_remarks`, `family_history`, `family_history_remarks`, `pregnant`, `pregnant_weeks`, `breastfeeding`, `infant`, `birth_weight`, `delivery_procedure`, `delivery_procedure_specify`, `source_examination`, `source_documents`, `source_verbal`, `verbal_source`, `source_other`, `source_other_specify`, `examiner_name`, `other_sources`, `signs_symptoms`, `person_details`, `person_designation`, `person_date`, `medical_care`, `not_medical_care`, `final_diagnosis`, `when_vaccinated`, `when_vaccinated_specify`, `prescribing_error`, `prescribing_error_specify`, `vaccine_unsterile`, `vaccine_unsterile_specify`, `vaccine_condition`, `vaccine_condition_specify`, `vaccine_reconstitution`, `vaccine_reconstitution_specify`, `vaccine_handling`, `vaccine_handling_specify`, `vaccine_administered`, `vaccine_administered_specify`, `vaccinated_vial`, `vaccinated_session`, `vaccinated_locations`, `vaccinated_locations_specify`, `vaccinated_cluster`, `vaccinated_cluster_number`, `vaccinated_cluster_vial`, `vaccinated_cluster_vial_number`, `syringes_used`, `syringes_used_specify`, `syringes_used_other`, `syringes_used_findings`, `reconstitution_multiple`, `reconstitution_different`, `reconstitution_vial`, `reconstitution_syringe`, `reconstitution_vaccines`, `reconstitution_observations`, `cold_temperature`, `cold_temperature_deviation`, `cold_temperature_specify`, `procedure_followed`, `other_items`, `partial_vaccines`, `unusable_vaccines`, `unusable_diluents`, `additional_observations`, `cold_transportation`, `vaccine_carrier`, `coolant_packs`, `transport_findings`, `similar_events`, `similar_events_describe`, `similar_events_episodes`, `affected_vaccinated`, `affected_not_vaccinated`, `affected_unknown`, `community_comments`, `relevant_findings`, `created`, `modified`, `submitted`, `submitted_date`, `status`, `deleted`) VALUES
-(1, 3, NULL, 'SAEFI1/2017', 11, 2, '2017-12-18 20:06:24', 'Mbezik details', 'Private health facility', 'Medic', 'Outreach', 'sina makosa', 'Other', 'hasIira', 'Gi', '2017-12-01', '2017-12-02', '2017-12-03', 2, '2034fpw', '0412555A5S', 'eddieokemwa@gmail.com', 'Impeached', 'Male', '2017-12-04', 'Recovering', '2012-12-07 10:35:00', 'Yes', '2017-12-12', 'No', NULL, 'Yes', 'remark1', 'No', 're', 'Unknown', 'asdf', 'Yes', 'as sdf', 'Yes', 'asf ', 'Unknown', 'af ', 'No', 'sdf as', 'Yes', 'asfd af', 'No', '3', 'Yes', 'post-term', 8, 'Caesarean', 'Hakuna', 0, 1, 1, 'verbal autopsy', 1, 'None to specify', 'Joshua', 'no other sources', 'No other symptoms', 'Ndifu', 'kababa', NULL, 'safa', 'asfasdf', 'Hakuna matata', '', 'AFASF', 'Yes', '2', 'No', 'AF', 'Unable to assess', 'FA', 'Unable to assess', 'DF', 'Yes', 'ASD', 'No', 'ASFD', 0, -3, 74, 'ASF', 'No', -1, 'Yes', 2, 'Yes', 'Disposable', 'SAFA', '2FASD', 'No', 'Yes', 'Yes', 'No', 'Yes', 'ASF', 'Yes', 'No', 'sdfad', 'No', 'Unknown', 'Yes', 'No', 'Unknown', 'ASFAS', 'Yes', 'No', 'Unknown', 'asfsadf', 'No', 'ASF', 2, 234, NULL, '4', '2324', 'ASFAS', '2017-11-25 11:48:36', '2017-12-18 21:05:32', 2, '2017-12-18', 'Approved', NULL),
-(2, NULL, NULL, 'SAEFI2/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'John', NULL, NULL, '2017-12-01', NULL, '02099988', NULL, NULL, NULL, 'Male', '2017-11-13', 'Disabled', NULL, 'Yes', NULL, 'Yes', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', 'pre-term', 3, 'Caesarean', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ss', 'Ludacris', 'Speaker', NULL, 'sss', 'sss', 'ssd', 'Within the first vaccinations of the session', NULL, 'No', NULL, 'Unable to assess', NULL, 'Unable to assess', NULL, 'Unable to assess', NULL, 'Unable to assess', NULL, NULL, NULL, 2, 1, 2, NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', 'Other', NULL, NULL, 'No', 's', NULL, NULL, NULL, NULL, 'No', 'No', NULL, 'No', 'No', 'No', 'No', NULL, NULL, 'No', 'No', NULL, NULL, 'Unknown', NULL, NULL, 2, 1, '3', NULL, 'asas', '2017-12-06 10:03:46', '2017-12-06 10:03:46', 0, NULL, NULL, '2018-01-07 21:59:28'),
-(3, NULL, NULL, 'SAEFI3/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'John', NULL, NULL, '2017-12-01', NULL, '02099988', NULL, NULL, NULL, 'Male', '2017-11-13', 'Disabled', NULL, 'Yes', NULL, 'Yes', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', 'pre-term', 3, 'Caesarean', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ss', 'Ludacris', 'Speaker', NULL, 'sss', 'sss', 'ssd', 'Within the first vaccinations of the session', NULL, 'No', NULL, 'Unable to assess', NULL, 'Unable to assess', NULL, 'Unable to assess', NULL, 'Unable to assess', NULL, NULL, NULL, 2, 1, 2, NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', 'Other', NULL, NULL, 'No', 's', NULL, NULL, NULL, NULL, 'No', 'No', NULL, 'No', 'No', 'No', 'No', NULL, NULL, 'No', 'No', NULL, NULL, 'Unknown', NULL, NULL, 2, 1, '3', NULL, 'asas', '2017-12-06 10:36:08', '2017-12-06 10:36:08', 0, NULL, NULL, NULL),
-(4, NULL, NULL, 'SAEFI4/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'John', NULL, NULL, '2017-12-01', NULL, '02099988', NULL, NULL, NULL, 'Male', '2017-11-13', 'Disabled', NULL, 'Yes', NULL, 'Yes', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', 'pre-term', 3, 'Caesarean', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ss', 'Ludacris', 'Speaker', NULL, 'sss', 'sss', 'ssd', 'Within the first vaccinations of the session', NULL, 'No', NULL, 'Unable to assess', NULL, 'Unable to assess', NULL, 'Unable to assess', NULL, 'Unable to assess', NULL, NULL, NULL, 2, 1, 2, NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', 'Other', NULL, NULL, 'No', 's', NULL, NULL, NULL, NULL, 'No', 'No', NULL, 'No', 'No', 'No', 'No', NULL, NULL, 'No', 'No', NULL, NULL, 'Unknown', NULL, NULL, 2, 1, '3', NULL, 'asas', '2017-12-06 10:37:18', '2017-12-06 10:37:18', 0, NULL, NULL, NULL),
-(5, 3, NULL, 'SAEFI5/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'eddyokemwa@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-12-18 16:59:57', '2017-12-18 16:59:57', 0, NULL, 'UnSubmitted', '2018-01-07 13:43:21'),
-(6, 16, NULL, 'SAEFI6/2018', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'reporter', NULL, NULL, NULL, 5, NULL, '0729932475', 'eddyokemwa@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-03 02:00:31', '2018-01-03 02:00:31', 0, NULL, 'UnSubmitted', NULL);
+INSERT INTO `saefis` (`id`, `user_id`, `saefi_id`, `reference_number`, `assigned_to`, `assigned_by`, `assigned_date`, `basic_details`, `place_vaccination`, `place_vaccination_other`, `site_type`, `site_type_other`, `vaccination_in`, `vaccination_in_other`, `reporter_name`, `report_date`, `start_date`, `complete_date`, `designation_id`, `telephone`, `mobile`, `reporter_email`, `patient_name`, `gender`, `hospitalization_date`, `status_on_date`, `died_date`, `autopsy_done`, `autopsy_done_date`, `autopsy_planned`, `autopsy_planned_date`, `past_history`, `past_history_remarks`, `adverse_event`, `adverse_event_remarks`, `allergy_history`, `allergy_history_remarks`, `existing_illness`, `existing_illness_remarks`, `hospitalization_history`, `hospitalization_history_remarks`, `medication_vaccination`, `medication_vaccination_remarks`, `faith_healers`, `faith_healers_remarks`, `family_history`, `family_history_remarks`, `pregnant`, `pregnant_weeks`, `breastfeeding`, `infant`, `birth_weight`, `delivery_procedure`, `delivery_procedure_specify`, `source_examination`, `source_documents`, `source_verbal`, `verbal_source`, `source_other`, `source_other_specify`, `examiner_name`, `other_sources`, `signs_symptoms`, `person_details`, `person_designation`, `person_date`, `medical_care`, `not_medical_care`, `final_diagnosis`, `when_vaccinated`, `when_vaccinated_specify`, `prescribing_error`, `prescribing_error_specify`, `vaccine_unsterile`, `vaccine_unsterile_specify`, `vaccine_condition`, `vaccine_condition_specify`, `vaccine_reconstitution`, `vaccine_reconstitution_specify`, `vaccine_handling`, `vaccine_handling_specify`, `vaccine_administered`, `vaccine_administered_specify`, `vaccinated_vial`, `vaccinated_session`, `vaccinated_locations`, `vaccinated_locations_specify`, `vaccinated_cluster`, `vaccinated_cluster_number`, `vaccinated_cluster_vial`, `vaccinated_cluster_vial_number`, `syringes_used`, `syringes_used_specify`, `syringes_used_other`, `syringes_used_findings`, `reconstitution_multiple`, `reconstitution_different`, `reconstitution_vial`, `reconstitution_syringe`, `reconstitution_vaccines`, `reconstitution_observations`, `cold_temperature`, `cold_temperature_deviation`, `cold_temperature_specify`, `procedure_followed`, `other_items`, `partial_vaccines`, `unusable_vaccines`, `unusable_diluents`, `additional_observations`, `cold_transportation`, `vaccine_carrier`, `coolant_packs`, `transport_findings`, `similar_events`, `similar_events_describe`, `similar_events_episodes`, `affected_vaccinated`, `affected_not_vaccinated`, `affected_unknown`, `community_comments`, `relevant_findings`, `created`, `modified`, `submitted`, `submitted_date`, `status`, `deleted`, `copied`) VALUES
+(1, 3, NULL, 'SAEFI1/2017', 11, 2, '2017-12-18 20:06:24', 'Mbezik details', 'Private health facility', 'Medic', 'Outreach', 'sina makosa', 'Other', 'hasIira', 'Gi', '2017-12-01', '2017-12-02', '2017-12-03', 2, '2034fpw', '0412555A5S', 'eddieokemwa@gmail.com', 'Impeached', 'Male', '2017-12-04', 'Recovering', '2012-12-07 10:35:00', 'Yes', '2017-12-12', 'No', NULL, 'Yes', 'remark1', 'No', 're', 'Unknown', 'asdf', 'Yes', 'as sdf', 'Yes', 'asf ', 'Unknown', 'af ', 'No', 'sdf as', 'Yes', 'asfd af', 'No', '3', 'Yes', 'post-term', 8, 'Caesarean', 'Hakuna', 0, 1, 1, 'verbal autopsy', 1, 'None to specify', 'Joshua', 'no other sources', 'No other symptoms', 'Ndifu', 'kababa', NULL, 'safa', 'asfasdf', 'Hakuna matata', '', 'AFASF', 'Yes', '2', 'No', 'AF', 'Unable to assess', 'FA', 'Unable to assess', 'DF', 'Yes', 'ASD', 'No', 'ASFD', 0, -3, 74, 'ASF', 'No', -1, 'Yes', 2, 'Yes', 'Disposable', 'SAFA', '2FASD', 'No', 'Yes', 'Yes', 'No', 'Yes', 'ASF', 'Yes', 'No', 'sdfad', 'No', 'Unknown', 'Yes', 'No', 'Unknown', 'ASFAS', 'Yes', 'No', 'Unknown', 'asfsadf', 'No', 'ASF', 2, 234, NULL, '4', '2324 saf', 'ASFAS', '2017-11-25 11:48:36', '2018-01-10 17:51:35', 2, '2017-12-18', 'Evaluated', NULL, 'old copy'),
+(2, NULL, NULL, 'SAEFI2/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'John', NULL, NULL, '2017-12-01', NULL, '02099988', NULL, NULL, NULL, 'Male', '2017-11-13', 'Disabled', NULL, 'Yes', NULL, 'Yes', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', 'pre-term', 3, 'Caesarean', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ss', 'Ludacris', 'Speaker', NULL, 'sss', 'sss', 'ssd', 'Within the first vaccinations of the session', NULL, 'No', NULL, 'Unable to assess', NULL, 'Unable to assess', NULL, 'Unable to assess', NULL, 'Unable to assess', NULL, NULL, NULL, 2, 1, 2, NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', 'Other', NULL, NULL, 'No', 's', NULL, NULL, NULL, NULL, 'No', 'No', NULL, 'No', 'No', 'No', 'No', NULL, NULL, 'No', 'No', NULL, NULL, 'Unknown', NULL, NULL, 2, 1, '3', NULL, 'asas', '2017-12-06 10:03:46', '2017-12-06 10:03:46', 0, NULL, NULL, '2018-01-07 21:59:28', NULL),
+(3, NULL, NULL, 'SAEFI3/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'John', NULL, NULL, '2017-12-01', NULL, '02099988', NULL, NULL, NULL, 'Male', '2017-11-13', 'Disabled', NULL, 'Yes', NULL, 'Yes', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', 'pre-term', 3, 'Caesarean', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ss', 'Ludacris', 'Speaker', NULL, 'sss', 'sss', 'ssd', 'Within the first vaccinations of the session', NULL, 'No', NULL, 'Unable to assess', NULL, 'Unable to assess', NULL, 'Unable to assess', NULL, 'Unable to assess', NULL, NULL, NULL, 2, 1, 2, NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', 'Other', NULL, NULL, 'No', 's', NULL, NULL, NULL, NULL, 'No', 'No', NULL, 'No', 'No', 'No', 'No', NULL, NULL, 'No', 'No', NULL, NULL, 'Unknown', NULL, NULL, 2, 1, '3', NULL, 'asas', '2017-12-06 10:36:08', '2017-12-06 10:36:08', 0, NULL, NULL, NULL, NULL),
+(4, NULL, NULL, 'SAEFI4/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'John', NULL, NULL, '2017-12-01', NULL, '02099988', NULL, NULL, NULL, 'Male', '2017-11-13', 'Disabled', NULL, 'Yes', NULL, 'Yes', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', 'pre-term', 3, 'Caesarean', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ss', 'Ludacris', 'Speaker', NULL, 'sss', 'sss', 'ssd', 'Within the first vaccinations of the session', NULL, 'No', NULL, 'Unable to assess', NULL, 'Unable to assess', NULL, 'Unable to assess', NULL, 'Unable to assess', NULL, NULL, NULL, 2, 1, 2, NULL, 'Unknown', NULL, 'Unknown', NULL, 'Unknown', 'Other', NULL, NULL, 'No', 's', NULL, NULL, NULL, NULL, 'No', 'No', NULL, 'No', 'No', 'No', 'No', NULL, NULL, 'No', 'No', NULL, NULL, 'Unknown', NULL, NULL, 2, 1, '3', NULL, 'asas', '2017-12-06 10:37:18', '2017-12-06 10:37:18', 0, NULL, NULL, NULL, NULL),
+(5, 3, NULL, 'SAEFI5/2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'eddyokemwa@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-12-18 16:59:57', '2017-12-18 16:59:57', 0, NULL, 'UnSubmitted', '2018-01-07 13:43:21', NULL),
+(6, 16, NULL, 'SAEFI6/2018', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'reporter', NULL, NULL, NULL, 5, NULL, '0729932475', 'eddyokemwa@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-03 02:00:31', '2018-01-03 02:00:31', 0, NULL, 'UnSubmitted', NULL, NULL),
+(7, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Edward', NULL, NULL, NULL, 12, NULL, '0729932475', 'eddyokemwa1@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-09 15:19:00', '2018-01-09 15:19:00', 0, NULL, 'UnSubmitted', '2018-01-09 15:19:09', NULL),
+(8, 3, NULL, NULL, NULL, NULL, NULL, 'a true copy of discussion', '', '', '', '', '', '', 'Edward', NULL, NULL, NULL, 12, '', '0729932475', 'eddyokemwa1@gmail.com', '', '', NULL, '', NULL, '', NULL, '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', NULL, '', '', 0, 0, 0, '', 0, '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', '', NULL, '', NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', NULL, NULL, NULL, '', '', '', '2018-01-10 08:16:48', '2018-01-11 00:46:57', 1, NULL, 'UnSubmitted', NULL, NULL),
+(11, 2, 1, 'SAEFI1/2017', 11, 2, '2017-12-18 20:06:24', 'Mbezik details copied with orig', 'Private health facility', 'Medic', 'Outreach', 'sina makosa', 'Other', 'hasIira', 'Gi copied', '2017-12-01', '2017-12-02', '2017-12-03', 19, '2034fpw', '0412555A5S', 'eddieokemwa@gmail.com', 'Impeached', 'Male', '2017-12-04', 'Recovering', '2012-12-07 10:35:00', 'Yes', '2017-12-12', 'No', NULL, 'Yes', 'remark1', 'Yes', 're', 'Yes', 'asdf', 'Yes', 'as sdf', 'Yes', 'asf ', 'Unknown', 'af ', 'No', 'sdf as', 'Yes', 'asfd af', 'No', '3', 'Yes', 'post-term', 8, 'Caesarean', 'Hakuna', 0, 1, 1, 'verbal autopsy', 1, 'None to specify', 'Joshua', 'no other sources', 'No other symptoms', 'Ndifu', 'kababa', NULL, 'safa', 'asfasdf', 'Hakuna matata', '', 'AFASF', 'Yes', '2', 'Unable to assess', 'AF', 'Unable to assess', 'FA', 'Unable to assess', 'DF', 'Unable to assess', 'ASD', 'No', 'ASFD', 0, -3, 74, 'ASF', 'No', -1, 'Yes', 2, 'Yes', 'Disposable', 'SAFA', '2FASD', 'No', 'Yes', 'Yes', 'No', 'Yes', 'ASF', 'Yes', 'No', 'sdfad', 'No', 'Unknown', 'Yes', 'No', 'Unknown', 'ASFAS', 'Yes', 'No', 'Unknown', 'asfsadf', 'No', 'ASF', 2, 234, NULL, '4', '2324 saf', 'Asunata unataka nini? Pesa ya ngai..', '2018-01-11 00:22:15', '2018-01-11 03:27:12', 2, '2017-12-18', 'Evaluated', NULL, 'new copy');
 
 -- --------------------------------------------------------
 
@@ -4599,7 +4888,11 @@ INSERT INTO `saefi_list_of_vaccines` (`id`, `saefi_id`, `vaccine_name`, `vaccina
 (1, 1, 'Kipindu', 323, '2017-11-25 21:32:03', '2017-11-25 21:32:03'),
 (2, 2, 'ss', 2, '2017-12-06 10:03:46', '2017-12-06 10:03:46'),
 (3, 3, 'ss', 2, '2017-12-06 10:36:08', '2017-12-06 10:36:08'),
-(4, 4, 'ss', 2, '2017-12-06 10:37:18', '2017-12-06 10:37:18');
+(4, 4, 'ss', 2, '2017-12-06 10:37:18', '2017-12-06 10:37:18'),
+(5, 1, 'Kipindu', 323, '2017-11-25 21:32:03', '2017-11-25 21:32:03'),
+(10, 11, 'Kipindu', 323, '2018-01-11 00:22:15', '2018-01-11 00:22:15'),
+(12, 11, 'not kipindu pindu', 324, '2018-01-11 00:40:36', '2018-01-11 00:40:36'),
+(13, 8, 'vaccine 1', 22, '2018-01-11 00:42:45', '2018-01-11 00:42:45');
 
 -- --------------------------------------------------------
 
@@ -4623,7 +4916,7 @@ INSERT INTO `sites` (`id`, `description`, `content`, `created`, `modified`) VALU
 (1, 'home', '<div class="row">\r\n        <div class="col-md-4">\r\n          <h2>ADR</h2>\r\n          <p>Adverse drug reaction. </p>\r\n          <!-- <p><a class="btn btn-primary" href="/sadrs/add" role="button">Report &raquo;</a></p> -->\r\n          <P><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registrationModal">Report &raquo;</button></P>\r\n        </div>\r\n        <div class="col-md-4">\r\n          <h2>AEFI</h2>\r\n          <p>Adverse Event Following Immunization. </p>\r\n          <!-- <p><a class="btn btn-success" href="/aefis/add" role="button">Report &raquo;</a></p> -->\r\n          <p><button type="button" class="btn btn-success" data-toggle="modal" data-target="#registrationModal">Report &raquo;</button></p>\r\n          <p class="has-error"><label>If Serious AEFI...</label></p>\r\n          <p><button type="button" class="btn btn-success" data-toggle="modal" data-target="#registrationModal">Report &raquo;</button></p>\r\n       </div>\r\n        <div class="col-md-4">\r\n          <h2>SAE</h2>\r\n          <p>Serious Adverse Event Reporting Form.</p>\r\n          <p><i>**The SAE form is to be completed for SAEs from Clinical Trials</i></p>\r\n          <!-- <p><a class="btn btn-info" href="/adrs/add" role="button">View details &raquo;</a></p> -->\r\n          <P><button type="button" class="btn btn-info" data-toggle="modal" data-target="#registrationModal">Report &raquo;</button></P>\r\n        </div>\r\n      </div>', '2017-12-30 23:17:05', '2017-12-30 23:54:45'),
 (2, 'News', '<div class="row">\r\n        <div class="col-md-4">\r\n          <h2>News</h2>\r\n          <p>News items here... </p>\r\n          </div>\r\n</div>', '2017-12-30 23:18:38', '2017-12-30 23:18:38'),
 (3, 'faqs', '<div class="row">\r\n        <div class="col-md-12">\r\n          <h2>Frequently Asked Questions</h2>\r\n          <p>Probably an ordered list </p>\r\n          <ul> \r\n             <li>We need to ensure ability to add images</li>\r\n              <li>Hence the reason we will most likely kill this method</li>\r\n           </ul>\r\n</div>\r\n</div>', '2017-12-30 23:21:13', '2017-12-30 23:21:13'),
-(4, 'contactus', '<p>Your feedback is welcome...</p>', '2017-12-30 23:22:24', '2018-01-03 12:41:02');
+(4, 'contactus', '<p>Your feedback is welcome...</p>\r\n<p>You may contact us using the email below </p>\r\n<em>email@mcaz.org</em>', '2017-12-30 23:22:24', '2018-01-09 20:17:16');
 
 -- --------------------------------------------------------
 
@@ -4695,7 +4988,9 @@ INSERT INTO `users` (`id`, `designation_id`, `county_id`, `username`, `password`
 (14, NULL, NULL, NULL, '$2y$10$OFSzf.iPx8Y.QlS2VN.eduS/pwwWvq77vJYEY4sGHZ/zB.wvnw4nO', '$2y$10$FvUTtG37bixPK9TczMmnC.XO810d9BHJiD5TaiD/V/oa7Q0zNfCZi', 'mike', 'eddieokemwa@gmail.com', 3, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 1, NULL, 0, NULL, '2017-12-13 00:42:17', '2017-12-13 00:42:17', '21542810'),
 (15, 3, NULL, 'edward', '$2y$10$wup4zcLbhe6VmZ3tKpicE.wOYXIQgY9WaGKCo/MuXeBvQ89lNvHMy', '$2y$10$RAghF2dQi.n1hQ2zW7mbSeJ91v4C2JMLp8UhdabHxsupHA/S2vqGK', 'edward', 'edwardokemwa@gmail.com', 3, NULL, NULL, NULL, NULL, NULL, '+257429932475', 0, 0, 0, NULL, 0, NULL, '2017-12-18 16:39:25', '2017-12-18 16:39:25', '21542419'),
 (16, 12, NULL, 'reporter', '$2y$10$PM5c4xbwuqMApIV21NK4WejlAaYuJC6bFzMzfcaeFbLlgd02W8mZ.', '$2y$10$4POoDZErDkP9lyNGbGn.X.Ipr85R9UghhMYJZZW2OjjCvv/oNVfUC', 'reporter', 'eddyokemwa@gmail.com', 3, 'Belvedere', 'kazi moto', 'ZW000A05', NULL, NULL, '0729932475', 0, 0, 1, 0, 0, NULL, '2018-01-03 01:14:48', '2018-01-05 12:18:41', '21542548'),
-(17, NULL, NULL, 'fakeuser', '$2y$10$lFLtphOIDkbjJ4133C0N2u7gM32YI53kmxznoIU.s94P/ZlrTKhoa', '$2y$10$6KD5E8iyBwrQBWqbhzGWY.ILP3lhSEIp0c6KIq3dq.4qnHFTuepdi', 'faker', 'fakeuser@mail.com', 3, 'Junction Gate', '', 'ZW010348', NULL, NULL, '', 0, 0, 1, 0, 0, NULL, '2018-01-05 12:19:25', '2018-01-05 12:22:22', '21543181');
+(17, NULL, NULL, 'fakeuser', '$2y$10$lFLtphOIDkbjJ4133C0N2u7gM32YI53kmxznoIU.s94P/ZlrTKhoa', '$2y$10$6KD5E8iyBwrQBWqbhzGWY.ILP3lhSEIp0c6KIq3dq.4qnHFTuepdi', 'faker', 'fakeuser@mail.com', 3, 'Junction Gate', '', 'ZW010348', NULL, NULL, '', 0, 0, 1, 0, 0, NULL, '2018-01-05 12:19:25', '2018-01-05 12:22:22', '21543181'),
+(18, 10, NULL, 'maradona', '$2y$10$o/7xYXtCxKWdrHaLZ2jrv.UpQ7Mbb9fVPKRaq/HrTkSUOg1o8j3OW', '$2y$10$W6K.txBPd.01UPwXZD5sZeH6k/f6EZtys7r01m6QzU9yMKBDUihT6', 'james', 'maradona@safaricom.com', 3, '', '', '', NULL, NULL, '', 0, 0, 0, 0, 0, NULL, '2018-01-09 20:25:40', '2018-01-09 20:25:40', '21543302'),
+(19, NULL, NULL, NULL, '$2y$10$TSgk/n/CBdWsYYplRfZurODF9nJSHaRXfE2ETTsMolinKm93MGMOi', '$2y$10$gP1E8eljXYJlP5.ygHS2JOyE08jGUxcF0J2ULb9hV/QUwTy78NwQe', NULL, 'wazito@ufc.com', 3, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, 0, NULL, '2018-01-09 20:29:12', '2018-01-09 20:29:12', '21543423');
 
 -- --------------------------------------------------------
 
@@ -4965,6 +5260,12 @@ ALTER TABLE `aefis`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `aefi_causalities`
+--
+ALTER TABLE `aefi_causalities`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `aefi_list_of_diluents`
 --
 ALTER TABLE `aefi_list_of_diluents`
@@ -4997,6 +5298,18 @@ ALTER TABLE `aros_acos`
 --
 ALTER TABLE `attachments`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `captchas`
+--
+ALTER TABLE `captchas`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `captcha_phinxlog`
+--
+ALTER TABLE `captcha_phinxlog`
+  ADD PRIMARY KEY (`version`);
 
 --
 -- Indexes for table `counties`
@@ -5187,12 +5500,12 @@ ALTER TABLE `who_drugs`
 -- AUTO_INCREMENT for table `acos`
 --
 ALTER TABLE `acos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=487;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=549;
 --
 -- AUTO_INCREMENT for table `adrs`
 --
 ALTER TABLE `adrs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `adr_lab_tests`
 --
@@ -5202,7 +5515,7 @@ ALTER TABLE `adr_lab_tests`
 -- AUTO_INCREMENT for table `adr_list_of_drugs`
 --
 ALTER TABLE `adr_list_of_drugs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `adr_other_drugs`
 --
@@ -5212,7 +5525,12 @@ ALTER TABLE `adr_other_drugs`
 -- AUTO_INCREMENT for table `aefis`
 --
 ALTER TABLE `aefis`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `aefi_causalities`
+--
+ALTER TABLE `aefi_causalities`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `aefi_list_of_diluents`
 --
@@ -5222,12 +5540,12 @@ ALTER TABLE `aefi_list_of_diluents`
 -- AUTO_INCREMENT for table `aefi_list_of_vaccines`
 --
 ALTER TABLE `aefi_list_of_vaccines`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `aros`
 --
 ALTER TABLE `aros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `aros_acos`
 --
@@ -5237,7 +5555,12 @@ ALTER TABLE `aros_acos`
 -- AUTO_INCREMENT for table `attachments`
 --
 ALTER TABLE `attachments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+--
+-- AUTO_INCREMENT for table `captchas`
+--
+ALTER TABLE `captchas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 --
 -- AUTO_INCREMENT for table `counties`
 --
@@ -5267,7 +5590,7 @@ ALTER TABLE `facility_codes`
 -- AUTO_INCREMENT for table `feedbacks`
 --
 ALTER TABLE `feedbacks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `frequencies`
 --
@@ -5292,7 +5615,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 --
 -- AUTO_INCREMENT for table `pqmps`
 --
@@ -5307,7 +5630,7 @@ ALTER TABLE `provinces`
 -- AUTO_INCREMENT for table `queued_jobs`
 --
 ALTER TABLE `queued_jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=244;
 --
 -- AUTO_INCREMENT for table `queue_processes`
 --
@@ -5317,7 +5640,7 @@ ALTER TABLE `queue_processes`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `routes`
 --
@@ -5327,7 +5650,7 @@ ALTER TABLE `routes`
 -- AUTO_INCREMENT for table `sadrs`
 --
 ALTER TABLE `sadrs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 --
 -- AUTO_INCREMENT for table `sadr_followups`
 --
@@ -5337,7 +5660,7 @@ ALTER TABLE `sadr_followups`
 -- AUTO_INCREMENT for table `sadr_list_of_drugs`
 --
 ALTER TABLE `sadr_list_of_drugs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 --
 -- AUTO_INCREMENT for table `sadr_other_drugs`
 --
@@ -5347,12 +5670,12 @@ ALTER TABLE `sadr_other_drugs`
 -- AUTO_INCREMENT for table `saefis`
 --
 ALTER TABLE `saefis`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `saefi_list_of_vaccines`
 --
 ALTER TABLE `saefi_list_of_vaccines`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `sites`
 --
@@ -5367,7 +5690,7 @@ ALTER TABLE `sub_counties`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

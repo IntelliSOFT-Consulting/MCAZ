@@ -89,7 +89,7 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <!-- <li><a href="/"><i class="fa fa-home"></i> Home</a></li> -->
-        <li class="<?php echo $this->fetch('Login') ?>">
+        <li class="<?php echo $this->fetch('Home') ?>">
                 <?php
                     if($this->request->session()->read('Auth.User')) {
                         echo $this->Html->link('<i class="fa fa-home"></i> Home', array('controller' => 'Users', 'action' => 'home') , 
@@ -100,17 +100,17 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
                     }
                 ?>
         </li>
-        <li>
+        <li class="<?php echo $this->fetch('News') ?>">
             <?= $this->Html->link('<i class="fa fa-bullhorn"></i> News', 
                 ['controller' => 'Pages', 'action' =>  'news', 'prefix' => false] , ['escape' => false]); ?>
         </li>
-        <li>
+        <li class="<?php echo $this->fetch('Faqs') ?>">
             <?= $this->Html->link('<i class="fa fa-question-circle"></i> FAQs', 
                 ['controller' => 'Pages', 'action' =>  'faqs', 'prefix' => false] , ['escape' => false]); ?>
         </li>
-        <li>
+        <li class="<?php echo $this->fetch('Contactus') ?>">
             <?= $this->Html->link('<i class="fa fa-envelope-o"></i> Contact us', 
-                ['controller' => 'Pages', 'action' =>  'contactus', 'prefix' => false] , ['escape' => false]); ?>
+                ['controller' => 'Feedbacks', 'action' =>  'add', 'prefix' => false] , ['escape' => false]); ?>
         </li>
       </ul>
 

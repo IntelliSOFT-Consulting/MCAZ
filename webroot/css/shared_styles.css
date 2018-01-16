@@ -76,3 +76,19 @@ a.label-link {
 .accordion-toggle {
     cursor: pointer;
 }
+
+.badge-sadr {
+  background-color: #71C7A0;
+} 
+.badge-aefi {
+  background-color: #ff92c9;
+} 
+.badge-saefi {
+  background-color: #ff92c9;
+} 
+.badge-adr {
+  background-color: #7f7fff;
+} 
+.muted {
+    color: #999999;
+}

@@ -4,6 +4,7 @@ namespace App\Controller\Evaluator;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use App\Model\Entity;
+use Cake\Utility\Hash;
 
 /**
  * Sadrs Controller
@@ -14,7 +15,19 @@ use App\Model\Entity;
  */
 class SadrsController extends AppController
 {
-    
+
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->loadComponent('Search.Prg', [
+            // This is default config. You can modify "actions" as needed to make
+            // the PRG component work only for specified methods.
+            'actions' => ['index', 'restore']
+        ]);
+        // $this->loadComponent('RequestHandler', ['viewClassMap' => ['csv' => 'CsvView.Csv']]);
+    }
+
     /**
      * Index method
      *
@@ -23,18 +36,94 @@ class SadrsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users', 'Designations', 'Reviews']
+            // 'contain' => ['Users', 'Designations', 'Reviews']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'RequestReporters', 'RequestEvaluators', 'Committees', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments']
+            // 'contain' => []
         ];
-        // $sadrs = $this->paginate($this->Sadrs,['finder' => ['status' => $id]]);
+        /*// $sadrs = $this->paginate($this->Sadrs,['finder' => ['status' => $id]]);
         if($this->request->getQuery('status')) {$sadrs = $this->paginate($this->Sadrs->find('all')->where(['status' => $this->request->getQuery('status'), 'ifnull(report_type,-1) !=' => 'FollowUp']), ['order' => ['Sadrs.id' => 'desc']]); }
-        else {$sadrs = $this->paginate($this->Sadrs->find('all')->where(['ifnull(report_type,-1) !=' => 'FollowUp']), ['order' => ['Sadrs.id' => 'desc']]);}
-        // debug($this->request->data);
-        // debug($id);
+        else {$sadrs = $this->paginate($this->Sadrs->find('all')->where(['ifnull(report_type,-1) !=' => 'FollowUp']), ['order' => ['Sadrs.id' => 'desc']]);}*/
+        
+        $query = $this->Sadrs
+            // Use the plugins 'search' custom finder and pass in the
+            // processed query params
+            ->find('search', ['search' => $this->request->query])
+            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
+            // You can add extra things to the query if you need to
+            //->where([['ifnull(report_type,-1) !=' => 'FollowUp']]);
+        $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
+        $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
+        $this->set(compact('provinces', 'designations'));
+        $this->set('sadrs', $this->paginate($query));
 
-        $this->set(compact('sadrs'));
-        $this->set('_serialize', ['sadrs']);
+        // $this->set(compact('sadrs'));
+        // $this->set('_serialize', ['sadrs']);
+        $_provinces = $provinces->toArray();
+        $_designations = $designations->toArray();
+        if ($this->request->params['_ext'] === 'csv') {
+            $_serialize = 'query';
+            $_header = ['id', 'user_id', 'sadr_id', 'messageid', 'assigned_to', 'assigned_by', 'assigned_date', 'Province', 'reference_number', 'Designation', 'report_type', 'name_of_institution', 'institution_code', 'institution_name', 'institution_address', 'patient_name', 'ip_no', 'date_of_birth', 'age_group', 'gender', 'weight', 'height', 'date_of_onset_of_reaction', 'date_of_end_of_reaction', 'duration_type', 'duration', 'description_of_reaction', 'severity', 'severity_reason', 'medical_history', 'past_drug_therapy', 'outcome', 'lab_test_results', 'reporter_name', 'reporter_email', 'reporter_phone', 'submitted', 'submitted_date', 'action_taken', 'relatedness', 'status', 'emails', 'active', 'device', 'notified', 'created', 'modified', 
+                'sadr_list_of_drugs.drug_name', 'sadr_list_of_drugs.brand_name', 'sadr_list_of_drugs.dose',  'sadr_list_of_drugs.dose_id', 'sadr_list_of_drugs.route_id', 'sadr_list_of_drugs.frequency_id', 
+                'sadr_followups', 
+                'committees.comments', 'committees.literature_review', 'committees.references_text', 
+                'request_evaluators.system_message', 'request_evaluators.user_message', 
+                'request_reporters.system_message', 'request_reporters.user_message', 
+                'reviews.system_message', 'reviews.user_message', 
+                'attachments.file'];
+            $_extract = ['id', 'user_id', 'sadr_id', 'messageid', 'assigned_to', 'assigned_by', 'assigned_date', 
+                function ($row) use ($_provinces) { return $_provinces[$row['province_id']] ?? ''; }, //provinces
+                'reference_number', 
+                function ($row) use($_designations) { return $_designations[$row['designation_id']] ?? '' ; }, //designation_id 
+                'report_type', 'name_of_institution', 'institution_code', 'institution_name', 'institution_address', 'patient_name', 'ip_no', 'date_of_birth', 'age_group', 'gender', 'weight', 'height', 'date_of_onset_of_reaction', 'date_of_end_of_reaction', 'duration_type', 'duration', 'description_of_reaction', 'severity', 'severity_reason', 'medical_history', 'past_drug_therapy', 'outcome', 'lab_test_results', 'reporter_name', 'reporter_email', 'reporter_phone', 'submitted', 'submitted_date', 'action_taken', 'relatedness', 'status', 'emails', 'active', 'device', 'notified', 'created', 'modified', 
+                function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.drug_name')); }, // 'drug_name', 
+                function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.brand_name')); }, //'.brand_name', 
+                function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.dose')); }, //'.dose',  
+                function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.dose_id')); }, //'sadr_list_of_drugs.dose_id', 
+                function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.route_id')); },//'.route_id', 
+                function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.frequency_id')); }, //'.frequency_id', 
+                function ($row) { return implode('|', Hash::extract($row['sadr_followups'], '{n}.id')); }, //'sadr_followups', 
+                function ($row) { return implode('|', Hash::extract($row['committees'], '{n}.comments')); }, //'committees.comments', 
+                function ($row) { return implode('|', Hash::extract($row['committees'], '{n}.literature_review')); }, //'.literature_review', 
+                function ($row) { return implode('|', Hash::extract($row['committees'], '{n}.references_text')); }, //'.references_text', 
+                function ($row) { return implode('|', Hash::extract($row['request_evaluators'], '{n}.system_message')); }, //'.system_message', 
+                function ($row) { return implode('|', Hash::extract($row['request_evaluators'], '{n}.user_message')); }, // '.user_message', 
+                function ($row) { return implode('|', Hash::extract($row['request_reporters'], '{n}.system_message')); }, //'.system_message', 
+                function ($row) { return implode('|', Hash::extract($row['request_reporters'], '{n}.system_message')); }, //'.user_message', 
+                function ($row) { return implode('|', Hash::extract($row['reviews'], '{n}.system_message')); }, //'reviews.system_message', 
+                function ($row) { return implode('|', Hash::extract($row['reviews'], '{n}.user_message')); }, //'reviews.user_message', 
+                function ($row) { return implode('|', Hash::extract($row['attachments'], '{n}.file')); }, //'attachments.file'
+            ];
+
+            $this->set(compact('query', '_serialize', '_header', '_extract'));
+        }
     }
+    public function restore() {
+        $this->paginate = [
+            'contain' => []
+        ];
+        
+        $query = $this->Sadrs
+            ->find('search', ['search' => $this->request->query, 'withDeleted'])
+            ->where(['deleted IS NOT' =>  null]);
+            
+        $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
+        $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
+        $this->set(compact('provinces', 'designations'));
+        $this->set('sadrs', $this->paginate($query));
+    }
+    public function restoreDeleted($id = null)
+    {
 
+        $this->request->allowMethod(['post', 'delete', 'get']);
+        $sadr = $this->Sadrs->get($id, ['withDeleted']);
+        if ($this->Sadrs->restore($sadr)) {
+            $this->Flash->success(__('The ADR has been restored.'));
+        } else {
+            $this->Flash->error(__('The ADR could not be restored. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'restore']);
+    }
     /**
      * View method
      *
@@ -44,9 +133,19 @@ class SadrsController extends AppController
      */
     public function view($id = null)
     {
+        //ensure only one 
+        $this->loadModel('OriginalSadrs');
+        $orig_sadr = $this->OriginalSadrs->get($id, ['contain' => ['Sadrs']]);
+        if ($orig_sadr->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_sadr['sadr']['id']]);
+        }
+        
         $sadr = $this->Sadrs->get($id, [
-            'contain' => //['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'Reviews', 'RequestReporters']
-                         ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'RequestReporters', 'RequestEvaluators', 'Committees', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'RequestReporters', 'RequestEvaluators', 'Committees', 
+                          'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
+                          'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments',
+                          ], 'withDeleted'
         ]);
 
         if(strpos($this->request->url, 'pdf')) {
@@ -432,6 +531,7 @@ class SadrsController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
+
     private function format_dates($sadr) {
         //format dates
         if (!empty($sadr->date_of_birth)) {
@@ -452,33 +552,60 @@ class SadrsController extends AppController
         return $sadr;
     }
 
+    public function clean($id = null) {
+        //ensure only one 
+        $this->loadModel('OriginalSadrs');
+        $orig_sadr = $this->OriginalSadrs->get($id, ['contain' => ['Sadrs']]);
+        if ($orig_sadr->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_sadr['sadr']['id']]);
+        }
+        $sadr = $this->Sadrs->duplicateEntity($id);
+        $sadr->sadr_id = $id;        
+        $sadr->user_id = $this->Auth->user('id'); //the report is reassigned to the evaluator... the reporter should only have original report
+
+        if ($this->Sadrs->save($sadr, ['validate' => false])) {            
+            $query = $this->Sadrs->query();
+            $query->update()
+                ->set(['copied' => 'old copy'])
+                ->where(['id' => $orig_sadr->id])
+                ->execute();
+            $this->Flash->success(__('The SADR has been successfully copied. make changes and submit.'));
+            return $this->redirect(['action' => 'edit', $sadr->id]);
+        }
+        $this->Flash->error(__('The SADR Report could not be copied. Please, try again.'));
+        return $this->redirect($this->referer());        
+    }
+
     public function edit($id = null)
     {
+        //ensure only one 
+        $this->loadModel('OriginalSadrs');
+        $orig_sadr = $this->OriginalSadrs->get($id, ['contain' => ['Sadrs']]);
+        if ($orig_sadr->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_sadr['sadr']['id']]);
+        }
         $sadr = $this->Sadrs->get($id, [
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
         ]);
-        if ($sadr->submitted == 2) {
-            $this->Flash->success(__('Report '.$sadr->reference_number.' already submitted.'));
-            return $this->redirect(['action' => 'view', $sadr->id]);
-        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
-            //Attachments
             if (!empty($sadr->attachments)) {
                   for ($i = 0; $i <= count($sadr->attachments)-1; $i++) { 
                     $sadr->attachments[$i]->model = 'Sadrs';
                     $sadr->attachments[$i]->category = 'attachments';
                   }
                 }
-            // debug((string)$sadr);
-            // debug($this->request->data);
             if ($sadr->submitted == 1) {
               //save changes button
+              $sadr->submitted = 2;
               if ($this->Sadrs->save($sadr, ['validate' => false])) {
-                $this->Flash->success(__('The changes to the Report '.$sadr->reference_number.' have been saved.'));
+                $this->Flash->success(__('The changes to the Report  have been saved.'));
                 return $this->redirect(['action' => 'edit', $sadr->id]);
               } else {
-                $this->Flash->error(__('Report '.$sadr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report  could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($sadr->submitted == 2) {
               //submit to mcaz button
@@ -486,19 +613,19 @@ class SadrsController extends AppController
                 $this->Flash->success(__('Report '.$sadr->reference_number.' has been successfully submitted to MCAZ for review.'));
                 return $this->redirect(['action' => 'view', $sadr->id]);
               } else {
-                $this->Flash->error(__('Report '.$sadr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($sadr->submitted == -1) {
                //cancel button              
-                $this->Flash->success(__('Cancel form successful. You may continue editing report '.$sadr->reference_number.' later'));
+                $this->Flash->success(__('Cancel form successful. You may continue editing the report later'));
                 return $this->redirect(['controller' => 'Users','action' => 'home']);
 
            } else {
               if ($this->Sadrs->save($sadr, ['validate' => false])) {
-                $this->Flash->success(__('The changes to the Report '.$sadr->reference_number.' have been saved.'));
+                $this->Flash->success(__('The changes to the Report have been saved.'));
                 return $this->redirect(['action' => 'edit', $sadr->id]);
               } else {
-                $this->Flash->error(__('Report '.$sadr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
            }
 
@@ -506,12 +633,13 @@ class SadrsController extends AppController
         
         $sadr = $this->format_dates($sadr);
 
-        $designations = $this->Sadrs->Designations->find('list',array('order'=>'Designations.name ASC'));
+        $designations = $this->Sadrs->Designations->find('list', array('order'=>'Designations.name ASC'));
+        $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
         $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
         $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list');
-        $this->set(compact('sadr', 'designations', 'doses', 'routes', 'frequencies'));
-        $this->set('_serialize', ['sadr']);
+        $this->set(compact('sadr', 'designations', 'provinces', 'doses', 'routes', 'frequencies'));
+        $this->set('_serialize', ['sadr', 'provinces']);
     }
 
     /**
@@ -521,6 +649,22 @@ class SadrsController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
+    public function archive($id = null)
+    {
+
+        $this->request->allowMethod(['post', 'delete']);
+        $sadr = $this->Sadrs->get($id);
+        //update field
+        $query = $this->Sadrs->query();
+        $query->update()
+            ->set(['status' => 'Archived'])
+            ->where(['id' => $sadr->id])
+            ->execute();
+        $this->Flash->success(__('The ADR has been archived.'));
+        //
+
+        return $this->redirect(['action' => 'index']);
+    }
     public function delete($id = null)
     {
 

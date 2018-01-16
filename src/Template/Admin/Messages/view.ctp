@@ -4,11 +4,11 @@
 
 
 
-<h1 class="page-header">Messages</h1>
+<h1 class="page-header">Message</h1>
 
 
 <?= $this->Html->link('<i class="fa fa-file-code-o" aria-hidden="true"></i> Add Message Template', ['controller' => 'messages', 'action' => 'add', 'prefix' => 'admin'], array('escape' => false, 'class' => 'btn btn-info')); ?> &nbsp;
-<?= $this->Html->link('List Message Templates', ['controller' => 'messages', 'action' => 'index', 'prefix' => 'admin'], array('escape' => false, 'class' => 'btn btn-success')); ?> &nbsp;
+<?= $this->Html->link('<i class="fa fa-list-ul" aria-hidden="true"></i> List Message Templates', ['controller' => 'messages', 'action' => 'index', 'prefix' => 'admin'], array('escape' => false, 'class' => 'btn btn-success')); ?> &nbsp;
 <hr>
 
 <div class="messages view large-9 medium-8 columns content">

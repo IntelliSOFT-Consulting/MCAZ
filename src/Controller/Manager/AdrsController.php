@@ -19,8 +19,33 @@ class AdrsController extends AppController
        parent::initialize();
        //$this->Auth->allow(['add', 'edit']);   
        $this->loadComponent('Search.Prg', [
-            'actions' => ['index']
+            'actions' => ['index', 'restore']
         ]);    
+    }
+
+    /**
+     * BeforeFilter method
+     * Use to format request data
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        //debug($this->request->data);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                if (isset($this->request->data['date_of_birth'])) {
+                    $this->request->data['date_of_birth'] = implode('-', $this->request->data['date_of_birth']);
+                } 
+                //date_of_onset_of_reaction
+                if (isset($this->request->data['date_of_onset_of_reaction'])) {
+                    $this->request->data['date_of_onset_of_reaction'] = implode('-', $this->request->data['date_of_onset_of_reaction']);
+                }
+                //date_of_end_of_reaction
+                if (isset($this->request->data['date_of_end_of_reaction'])) {
+                    $this->request->data['date_of_end_of_reaction'] = implode('-', $this->request->data['date_of_end_of_reaction']);
+                }
+            }
+        }
     }
 
     /**
@@ -34,7 +59,8 @@ class AdrsController extends AppController
             'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews']
         ];
         $query = $this->Adrs
-            ->find('search', ['search' => $this->request->query]);
+            ->find('search', ['search' => $this->request->query])
+            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
         $this->set(compact('designations'));
         $this->set('adrs', $this->paginate($query));
@@ -90,6 +116,31 @@ class AdrsController extends AppController
             $this->set(compact('query', '_serialize', '_header', '_extract'));
         }
     }
+    public function restore() {
+        $this->paginate = [
+            'contain' => []
+        ];
+        
+        $query = $this->Adrs
+            ->find('search', ['search' => $this->request->query, 'withDeleted'])
+            ->where(['deleted IS NOT' =>  null]);
+        $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
+        $this->set(compact('designations'));
+        $this->set('adrs', $this->paginate($query));
+    }
+    public function restoreDeleted($id = null)
+    {
+
+        $this->request->allowMethod(['post', 'delete', 'get']);
+        $adr = $this->Adrs->get($id, ['withDeleted']);
+        if ($this->Adrs->restore($adr)) {
+            $this->Flash->success(__('The SAE has been restored.'));
+        } else {
+            $this->Flash->error(__('The SAE could not be restored. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'restore']);
+    }
 
     /**
      * View method
@@ -100,8 +151,18 @@ class AdrsController extends AppController
      */
     public function view($id = null)
     {
+        //ensure only one 
+        $this->loadModel('OriginalAdrs');
+        $orig_adr = $this->OriginalAdrs->get($id, ['contain' => ['Adrs']]);
+        if ($orig_adr->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_adr['adr']['id']]);
+        }
+
         $adr = $this->Adrs->get($id, [
-            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews']
+            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 
+                          'Committees', 'Reviews', 
+                          'OriginalAdrs', 'OriginalAdrs.AdrListOfDrugs', 'OriginalAdrs.AdrOtherDrugs', 'OriginalAdrs.Attachments'], 'withDeleted'
         ]);
 
         // $this->viewBuilder()->setLayout('pdf/default');
@@ -264,7 +325,7 @@ class AdrsController extends AppController
                 $this->QueuedJobs->createJob('GenericNotification', $data);
                 //end 
                 
-               $this->Flash->success('Review successfully done for SADR '.$adr->reference_number);
+               $this->Flash->success('Review successfully done for SAE '.$adr->reference_number);
 
                 return $this->redirect($this->referer());
             } else {
@@ -272,7 +333,7 @@ class AdrsController extends AppController
                 return $this->redirect($this->referer());
             }
         } else {
-               $this->Flash->error(__('Unknown SADR Report. Please correct.')); 
+               $this->Flash->error(__('Unknown SAE Report. Please correct.')); 
                return $this->redirect($this->referer());
         }
     }
@@ -459,15 +520,46 @@ class AdrsController extends AppController
         return $adr;
     }
 
+    public function clean($id = null) {
+        //ensure only one 
+        // $orig_adr = $this->Adrs->get($id, []);
+        $this->loadModel('OriginalAdrs');
+        $orig_adr = $this->OriginalAdrs->get($id, ['contain' => ['Adrs']]);
+        if ($orig_adr->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_adr['adr']['id']]);
+        }
+        $adr = $this->Adrs->duplicateEntity($id);
+        $adr->adr_id = $id;        
+        $adr->user_id = $this->Auth->user('id'); //the report is reassigned to the evaluator... the reporter should only have original report
+
+        if ($this->Adrs->save($adr, ['validate' => false])) {            
+            $query = $this->Adrs->query();
+            $query->update()
+                ->set(['copied' => 'old copy'])
+                ->where(['id' => $orig_adr->id])
+                ->execute();
+            $this->Flash->success(__('The SAE has been successfully copied. make changes and submit.'));
+            return $this->redirect(['action' => 'edit', $adr->id]);
+        }
+        $this->Flash->error(__('The SAE Report could not be copied. Please, try again.'));
+        return $this->redirect($this->referer());        
+    }
+
     public function edit($id = null)
     {
+        //ensure only one 
+        $this->loadModel('OriginalAdrs');
+        $orig_adr = $this->OriginalAdrs->get($id, ['contain' => ['Adrs']]);
+        if ($orig_adr->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_adr['adr']['id']]);
+        }
+
         $adr = $this->Adrs->get($id, [
             'contain' => ['AdrListOfDrugs', 'AdrOtherDrugs', 'AdrLabTests', 'Attachments']
         ]);
-        if ($adr->submitted == 2) {
-            $this->Flash->success(__('Report '.$adr->reference_number.' already submitted.'));
-            return $this->redirect(['action' => 'view', $adr->id]);
-        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
             if (!empty($adr->attachments)) {
@@ -479,31 +571,33 @@ class AdrsController extends AppController
             
             if ($adr->submitted == 1) {
               //save changes button
+                $adr->submitted = 2;
               if ($this->Adrs->save($adr, ['validate' => false])) {
                 $this->Flash->success(__('The changes to the Report '.$adr->reference_number.' have been saved.'));
                 return $this->redirect(['action' => 'edit', $adr->id]);
               } else {
+                // debug($adr->errors());
                 $this->Flash->error(__('Report '.$adr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($adr->submitted == 2) {
               //submit to mcaz button
               if ($this->Adrs->save($adr, ['validate' => false])) {
-                $this->Flash->success(__('Report '.$adr->reference_number.' has been successfully submitted to MCAZ for review.'));
+                $this->Flash->success(__('Report '.$adr->reference_number.' has been successfully submitted to MCAZ for review.')); 
                 return $this->redirect(['action' => 'view', $adr->id]);
               } else {
-                $this->Flash->error(__('Report '.$adr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($adr->submitted == -1) {
                //cancel button              
-                $this->Flash->success(__('Cancel form successful. You may continue editing report '.$adr->reference_number.' later'));
+                $this->Flash->success(__('Cancel form successful. You may continue editing report later'));
                 return $this->redirect(['controller' => 'Users','action' => 'home']);
 
            } else {
               if ($this->Adrs->save($adr, ['validate' => false])) {
-                $this->Flash->success(__('The changes to the Report '.$adr->reference_number.' have been saved.'));
+                $this->Flash->success(__('The changes to the Report have been saved.'));
                 return $this->redirect(['action' => 'edit', $adr->id]);
               } else {
-                $this->Flash->error(__('Report '.$adr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
+                $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
            }
            
@@ -511,7 +605,7 @@ class AdrsController extends AppController
         $adr = $this->format_dates($adr);
 
         $users = $this->Adrs->Users->find('list', ['limit' => 200]);
-        $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
+        $designations = $this->Adrs->Designations->find('list',array('order'=>'Designations.name ASC'));
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
         $routes = $this->Adrs->AdrListOfDrugs->Routes->find('list');
         $frequencies = $this->Adrs->AdrListOfDrugs->Frequencies->find('list');

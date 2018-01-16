@@ -15,12 +15,9 @@ class NotificationsController extends AppController
     public function initialize()
     {
         parent::initialize();
-        
-        // $this->loadComponent('RequestHandler', [
-        //     'inputTypeMap' => [
-        //         'json' => ['json_decode', true]
-        //     ]
-        // ]);
+        $this->loadComponent('Search.Prg', [
+            'actions' => ['index', 'restore']
+        ]);
     }
 
     /**
@@ -31,12 +28,15 @@ class NotificationsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users']
+            'contain' => ['Messages'],
+            'order' => ['Notifications.created' => 'DESC']
         ];
-        $notifications = $this->paginate($this->Notifications);
+        $withDeleted = ($this->request->getQuery('deleted')) ? 'withDeleted' : '';
+        $query = $this->Notifications
+            ->find('search', ['search' => $this->request->query, $withDeleted ])
+            ->where(['user_id' => $this->request->session()->read('Auth.User.id')]);
 
-        $this->set(compact('notifications'));
-        $this->set('_serialize', ['notifications']);
+        $this->set('notifications', $this->paginate($query));
     }
 
     /**
@@ -53,54 +53,6 @@ class NotificationsController extends AppController
         ]);
 
         $this->set('notification', $notification);
-        $this->set('_serialize', ['notification']);
-    }
-
-    /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $notification = $this->Notifications->newEntity();
-        if ($this->request->is('post')) {
-            $notification = $this->Notifications->patchEntity($notification, $this->request->getData());
-            if ($this->Notifications->save($notification)) {
-                $this->Flash->success(__('The notification has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The notification could not be saved. Please, try again.'));
-        }
-        $users = $this->Notifications->Users->find('list', ['limit' => 200]);
-        $this->set(compact('notification', 'users'));
-        $this->set('_serialize', ['notification']);
-    }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id Notification id.
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $notification = $this->Notifications->get($id, [
-            'contain' => []
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $notification = $this->Notifications->patchEntity($notification, $this->request->getData());
-            if ($this->Notifications->save($notification)) {
-                $this->Flash->success(__('The notification has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The notification could not be saved. Please, try again.'));
-        }
-        $users = $this->Notifications->Users->find('list', ['limit' => 200]);
-        $this->set(compact('notification', 'users'));
         $this->set('_serialize', ['notification']);
     }
 
@@ -137,5 +89,22 @@ class NotificationsController extends AppController
             }
 
         }
+    }
+
+    public function adelete($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete', 'get']);
+        $notification = $this->Notifications->get($id);
+        if ($notification->user_id == $this->Auth->user('id')) {
+            if ($this->Notifications->delete($notification)) {
+                $this->Flash->success(__('The notification has been deleted.'));
+            } else {
+                $this->Flash->error(__('The notification could not be deleted. Please, try again.'));
+            }
+        } else {
+            $this->Flash->error(__('You do not have permission to delete the notification'));
+        }        
+
+        return $this->redirect(['action' => 'index']);
     }
 }

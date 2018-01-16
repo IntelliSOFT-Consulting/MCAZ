@@ -33,8 +33,10 @@
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name_of_institution') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>                
+                <?php if(isset($this->request->query['status']) && $this->request->query['status'] != 'UnSubmitted') { ?>
+                <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th> 
+                <?php } ?>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -46,7 +48,8 @@
                       echo ($sadr->submitted == 2) ? $this->Html->link($sadr->reference_number, ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) : $sadr->created ; ?></td>
                 <td><?= h($sadr->name_of_institution) ?></td>
                 <td><?= h($sadr->status) ?></td>
-                <td><?= h($sadr->modified) ?></td>                
+                <td><?= h($sadr->modified) ?></td>         
+                <?php if(isset($this->request->query['status']) && $this->request->query['status'] != 'UnSubmitted') { ?>       
                 <td>
                     <?php if($sadr->submitted == 2 && empty($sadr->messageid)) {                                        
                            echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']); 
@@ -55,6 +58,7 @@
                           }
                     ?>
                 </td>
+                <?php } ?>
                 <td>
                     <?php if($sadr->submitted == 2) {                                        
                           echo  $this->Html->link('<span class="label label-primary"> E2B</span>', ['action' => 'e2b', $sadr->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']); 

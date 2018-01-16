@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use SoftDelete\Model\Table\SoftDeleteTrait;
 
 /**
  * Feedbacks Model
@@ -27,6 +28,7 @@ use Cake\Validation\Validator;
 class FeedbacksTable extends Table
 {
 
+    use SoftDeleteTrait;
     /**
      * Initialize method
      *
@@ -42,6 +44,7 @@ class FeedbacksTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Search.Search');
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
@@ -56,6 +59,20 @@ class FeedbacksTable extends Table
             'foreignKey' => 'pqmp_id'
         ]);
     }
+    
+    /**
+    * @return \Search\Manager
+    */
+    public function searchManager()
+    {
+        $searchManager = $this->behaviors()->Search->searchManager();
+        $searchManager
+            ->like('message', ['field' => ['subject', 'feedback']])
+            ->compare('created_start', ['operator' => '>=', 'field' => ['created']])
+            ->compare('created_end', ['operator' => '<=', 'field' => ['created']]);
+
+        return $searchManager;
+    }
 
     /**
      * Default validation rules.
@@ -66,16 +83,24 @@ class FeedbacksTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
-
-        $validator
             ->email('email')
-            ->allowEmpty('email');
+            ->requirePresence('email', 'create')
+            ->notEmpty('email')
+            ->add('email',[
+                'minLength' => [
+                    'rule' => ['minLength', 6],
+                    'message' => 'Minimum email length is 6.'
+                ]]);
 
         $validator
             ->scalar('feedback')
-            ->allowEmpty('feedback');
+            ->requirePresence('feedback', 'create')
+            ->notEmpty('feedback')
+            ->add('feedback',[
+                'minLength' => [
+                    'rule' => ['minLength', 6],
+                    'message' => 'Please enter a message.'
+                ]]);
 
         return $validator;
     }
@@ -89,11 +114,11 @@ class FeedbacksTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->isUnique(['email']));
-        $rules->add($rules->existsIn(['user_id'], 'Users'));
-        $rules->add($rules->existsIn(['sadr_id'], 'Sadrs'));
-        $rules->add($rules->existsIn(['sadr_followup_id'], 'SadrFollowups'));
-        $rules->add($rules->existsIn(['pqmp_id'], 'Pqmps'));
+        // $rules->add($rules->isUnique(['email']));
+        // $rules->add($rules->existsIn(['user_id'], 'Users'));
+        // $rules->add($rules->existsIn(['sadr_id'], 'Sadrs'));
+        // $rules->add($rules->existsIn(['sadr_followup_id'], 'SadrFollowups'));
+        // $rules->add($rules->existsIn(['pqmp_id'], 'Pqmps'));
 
         return $rules;
     }
