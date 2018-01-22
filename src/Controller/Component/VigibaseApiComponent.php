@@ -46,7 +46,7 @@ class VigibaseApiComponent extends Component
                 }
                 
         $onsetf = 102;
-        $a = explode('-', $sadr->date_of_onset_of_reaction);
+        $a = explode('-',  (!empty($sadr->date_of_onset_of_reaction)) ? $sadr->date_of_onset_of_reaction : '--' );
         $sadr->date_of_onset_of_reaction = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
         if (empty($sadr['date_of_onset_of_reaction']['day']) && empty($sadr['date_of_onset_of_reaction']['month'])) {
             $onsetf = 602;
