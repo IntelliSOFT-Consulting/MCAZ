@@ -170,15 +170,15 @@ class SadrsTable extends Table
             ->notEmpty('patient_name');   
 
         //We shall revisit!!
-        // $validator
-        //     ->scalar('date_of_birth')
-        //     ->notEmpty('date_of_birth')
-        //     ->add('date_of_birth', [
-        //             'length' => [
-        //                 'rule' => ['minLength', 3],
-        //                 'message' => 'Please select at least year of birth.',
-        //             ]
-        //         ]);
+        $validator
+            ->scalar('date_of_birth')
+            ->notEmpty('date_of_birth')
+            ->add('date_of_birth', [
+                    'length' => [
+                        'rule' => ['minLength', 3],
+                        'message' => 'Please select at least year of birth.',
+                    ]
+                ]);
 
         $validator
             ->scalar('gender')

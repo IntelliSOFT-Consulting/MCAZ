@@ -216,7 +216,8 @@ class AefisController extends AppController
             return $this->redirect(['action' => 'view', $aefi->id]);
         }
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
+            $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData(), 
+                        ['validate' => ($this->request->getData('submitted') == 2) ? true : false, ]);
             if (!empty($aefi->attachments)) {
               for ($i = 0; $i <= count($aefi->attachments)-1; $i++) { 
                 $aefi->attachments[$i]->model = 'Aefis';

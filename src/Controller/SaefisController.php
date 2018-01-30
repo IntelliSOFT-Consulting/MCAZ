@@ -177,7 +177,8 @@ class SaefisController extends AppController
             return $this->redirect(['action' => 'view', $saefi->id]);
         }
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
+            $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData(), 
+                        ['validate' => ($this->request->getData('submitted') == 2) ? true : false, ]);
             $saefi = $this->_fileUploads($saefi);
             
              // debug((string)$saefi);

@@ -236,7 +236,8 @@ class AdrsController extends AppController
             return $this->redirect(['action' => 'view', $adr->id]);
         }
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
+            $adr = $this->Adrs->patchEntity($adr, $this->request->getData(), 
+                        ['validate' => ($this->request->getData('submitted') == 2) ? true : false, ]);
             if (!empty($adr->attachments)) {
               for ($i = 0; $i <= count($adr->attachments)-1; $i++) { 
                 $adr->attachments[$i]->model = 'Adrs';

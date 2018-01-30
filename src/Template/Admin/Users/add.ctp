@@ -30,7 +30,13 @@
                 echo $this->Form->control('name_of_institution');
                 echo $this->Form->control('institution_address');
                 echo $this->Form->control('institution_code');
-                echo $this->Form->control('designation_id', ['options' => $designations, 'empty' => true]);     
+                echo $this->Form->control('designation_id', ['options' => $designations, 'empty' => true]);                  
+                echo $this->Form->control('is_active', ['label' => 'Is Active? <small class="muted">(activation after registration)</small>', 
+                    'templates' => 'checkbox_form_user', 'escape' => false]);  
+                echo $this->Form->control('deactivated', ['label' => 'Deactivated? <small class="muted">(deny user access)</small>', 
+                    'templates' => 'checkbox_form_user', 'escape' => false]);  
+                echo $this->Form->control('is_admin', ['label' => 'Is Admin? <small class="muted">(for manual data entry)</small>', 
+                    'templates' => 'checkbox_form_user', 'escape' => false]);     
                 ?>
         </div><!--/span-->
     </div><!--/row-->

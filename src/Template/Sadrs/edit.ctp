@@ -9,7 +9,7 @@
 <div class="well">
   <div class="row">
     <div class="col-md-3 text-center">
-      <button name="submitted" value="1" id="sadrSaveChanges" class="btn btn-primary active" type="submit">
+      <button name="submitted" value="1" id="sadrSaveChanges" class="btn btn-primary active" type="submit" formnovalidate="formnovalidate">
         <span class="fa fa-edit" aria-hidden="true"></span> Save changes
       </button>
     </div>
@@ -21,7 +21,7 @@
       </button>
     </div>
     <div class="col-md-3 text-center">
-      <button name="submitted" value="-1" id="sadrCancel" class="btn btn-default active" type="submit"
+      <button name="submitted" value="-1" id="sadrCancel" class="btn btn-default active" type="submit" formnovalidate="formnovalidate"
               onclick="return confirm('Are you sure you wish to cancel the report?');"
       >
         <span class="fa fa-close" aria-hidden="true"></span> Cancel
