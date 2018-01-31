@@ -15,6 +15,7 @@ echo "*************** Assign Manager Permissions *8******************"
 #Manager permissions
 #TODO: Align to remove mass assignment of permissions
 bin/cake acl deny Groups.2 controllers
+bin/cake acl grant Groups.2 controllers/Reports
 bin/cake acl grant Groups.2 controllers/Manager
 bin/cake acl deny  Groups.2 controllers/Sadrs
 bin/cake acl deny  Groups.2 controllers/Aefis
@@ -22,6 +23,7 @@ bin/cake acl deny  Groups.2 controllers/Saefis
 bin/cake acl deny  Groups.2 controllers/Adrs
 echo "*************** Assign Evaluator Permissions *******************"
 bin/cake acl deny Groups.4 controllers
+bin/cake acl grant Groups.4 controllers/Reports
 bin/cake acl grant Groups.4 controllers/Evaluator
 bin/cake acl deny  Groups.4 controllers/Sadrs
 bin/cake acl deny  Groups.4 controllers/Aefis
