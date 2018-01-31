@@ -6,6 +6,8 @@ use Cake\Validation\Validation;
 use Cake\Event\Event;
 use Cake\Log\Log;
 use Cake\Auth\DefaultPasswordHasher;
+use Cake\Utility\Xml;
+use Cake\Filesystem\File;
 
 /**
  * Users Controller
@@ -59,4 +61,78 @@ class UsersBaseController extends AppController
         $this->render('/Base/Users/dashboard');
     }
 
+    protected function _attachments(){
+        if (!empty($this->request->data['attachments'])) {
+            for ($i = 0; $i <= count($this->request->data['attachments'])-1; $i++) { 
+                $this->request->data['attachments'][$i]['model'] = 'Sadrs';
+
+                $file = explode(',', $this->request->data['attachments'][$i]['file']);
+                //data:image/jpeg;base64
+                $mystring = $file[0];
+                $end = strpos($mystring, ';');
+                $start2 = strpos($mystring, '/');
+                $start3 = strpos($mystring, ':');
+                $fileExt = substr($mystring, $start2+1, $end - $start2-1); //jpeg
+                $fileType = substr($mystring, $start3+1, $end - $start3-1); //image/jpeg
+
+                //decode it
+                $data = base64_decode($file[1]);
+
+                $filename =  (isset($this->request->data['attachments'][$i]['filename'])) ? uniqid().'-'. $this->request->data['attachments'][$i]['filename'] :  uniqid().'.' . $fileExt;
+                $file_dir = WWW_ROOT . DS. 'files' .DS. 'Attachments' .DS. 'file' .DS. $filename;
+                //file create
+                file_put_contents($file_dir, $data);
+
+                //not necessarily. I write it for use delete function this plugin
+                $filesize = filesize($file_dir);
+
+                //after base64 decode ,file delete
+                $this->request->data['attachments'][$i]['file'] = null;
+
+                $this->request->data['attachments'][$i]['file']['name'] = $filename;
+                $this->request->data['attachments'][$i]['file']['type'] = $fileType;
+                $this->request->data['attachments'][$i]['file']['tmp_name'] = $file_dir;
+                $this->request->data['attachments'][$i]['file']['error'] = 0;
+                $this->request->data['attachments'][$i]['file']['size'] = $filesize;
+                $this->request->data['attachments'][$i]['category'] = 'attachments';
+           }
+        }        
+    }
+    public function imports() {         
+        $this->loadModel('Sadrs');
+
+        if ($this->request->is('post')) {
+            $file = new File($this->request->data['sadr_files']['tmp_name']);
+            $xmlString = $file->read();
+            $xmlArray = Xml::toArray(Xml::build($xmlString, array('return' => 'domdocument')));
+            // debug($xmlArray);
+            // return;
+            foreach ($xmlArray['response']['sadrs'] as $sadrArr) {       
+                $sadr = $this->Sadrs->newEntity();
+                if ($this->request->is('post')) {
+                    $this->_attachments();
+                    $sadr = $this->Sadrs->patchEntity($sadr, $sadrArr, ['validate' => false]);
+                    //debug($sadr->errors());
+                    //return;
+                    $sadr->user_id = $this->Auth->user('id');
+                    $sadr->submitted_date = date("Y-m-d H:i:s");
+                    $sadr->status = 'Imported';
+                    if ($this->Sadrs->save($sadr)) {
+                        //update field
+                        $query = $this->Sadrs->query();
+                        $query->update()
+                            ->set(['reference_number' => 'ADR'.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy')])
+                            ->where(['id' => $sadr->id])
+                            ->execute();
+                        
+                        $this->Flash->success(__('The ADR(s) have been imported.'));
+                    } else {                
+                        $this->Flash->error(__('The ADR could not be imported. Please, try again.'));
+                    }
+                }
+            }
+            //return $this->redirect(['controller' => 'UsersBase', 'action' => 'imports', 'prefix' => 'base']);
+        } 
+        $this->render('/Base/Users/imports');
+    }
 }
