@@ -98,36 +98,70 @@ class UsersBaseController extends AppController
            }
         }        
     }
-    public function imports() {         
-        $this->loadModel('Sadrs');
-
+    public function imports() {
         if ($this->request->is('post')) {
+
+            $this->loadModel('Sadrs');
+            $this->loadModel('Adrs');
+            $this->loadModel('Aefis');
+            $this->loadModel('Saefis');
+
+            if ($this->request->getData('submitted') === 'sadrs') {
+                $entity = $this->Sadrs;
+                $pre = 'ADR';
+            } elseif ($this->request->getData('submitted') == 'adrs') {
+                $entity = $this->Adrs;
+                $pre = 'SAE';
+            } elseif ($this->request->getData('submitted') == 'aefis') {
+                $entity = $this->Aefis;
+                $pre = 'AEFIS';
+            } elseif ($this->request->getData('submitted') == 'saefis') {
+                $entity = $this->Saefis;
+                $pre = 'SAEFIS';
+            } else {
+                $this->Flash->error(__('Unable to process request. Please, try again.')); 
+                return $this->redirect($this->referer());
+            }
+
             $file = new File($this->request->data['sadr_files']['tmp_name']);
             $xmlString = $file->read();
             $xmlArray = Xml::toArray(Xml::build($xmlString, array('return' => 'domdocument')));
             // debug($xmlArray);
             // return;
-            foreach ($xmlArray['response']['sadrs'] as $sadrArr) {       
-                $sadr = $this->Sadrs->newEntity();
+            if(array_key_exists(0, $xmlArray['response'][$this->request->getData('submitted')])) {
+                // debug("array key exists");
+                $retVal = $xmlArray['response'][$this->request->getData('submitted')];
+            } else {
+                // debug("array key does not exists");
+                $retVal[] = $xmlArray['response'][$this->request->getData('submitted')];
+            } 
+                          
+            // debug(count($xmlArray['response'][$this->request->getData('submitted')]));
+            // debug($retVal);
+            // return;
+            foreach ($retVal as $sadrArr) {       
+                $sadr = $entity->newEntity();
                 if ($this->request->is('post')) {
                     $this->_attachments();
-                    $sadr = $this->Sadrs->patchEntity($sadr, $sadrArr, ['validate' => false]);
-                    //debug($sadr->errors());
-                    //return;
+                    // debug($sadrArr);
+                    // return;
+                    $sadr = $entity->patchEntity($sadr, $sadrArr, ['validate' => false]);
+                    // debug($sadr->errors());
+                    // return;
                     $sadr->user_id = $this->Auth->user('id');
                     $sadr->submitted_date = date("Y-m-d H:i:s");
                     $sadr->status = 'Imported';
-                    if ($this->Sadrs->save($sadr)) {
+                    if ($entity->save($sadr)) {
                         //update field
-                        $query = $this->Sadrs->query();
+                        $query = $entity->query();
                         $query->update()
-                            ->set(['reference_number' => 'ADR'.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy')])
+                            ->set(['reference_number' => $pre.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy')])
                             ->where(['id' => $sadr->id])
                             ->execute();
                         
-                        $this->Flash->success(__('The ADR(s) have been imported.'));
+                        $this->Flash->success(__('The '.$pre.'(s) have been imported.'));
                     } else {                
-                        $this->Flash->error(__('The ADR could not be imported. Please, try again.'));
+                        $this->Flash->error(__('The '.$pre.'(s) could not be imported. Please, try again.'));
                     }
                 }
             }
