@@ -9,22 +9,6 @@
     </div>
   </div>
 
-Participant ID
-MCAZ Ref #
-SAE
-Suspected Drug(s)
-(and dose)
-Concomitant  Drug(s)
-(Including start and stop date, and dose)
-Clinical Findings/ Laboratory Values
-
-SAE Management and Outcome
-AE Listing in Summary of Product  Characteristics
-Evidence from Literature review
-PI
-Causality Assessment
-Recommended Causality Assessment  
-
  
 <div class="table-responsive">
     <table class="table table-striped table-bordered">
@@ -48,7 +32,7 @@ Recommended Causality Assessment
                 <td><?= $adr->symptoms ?></td>
                 <td>
                     <?php foreach($adr->adr_list_of_drugs as $list_of_drug): ?>    
-                      <p><?= $list_of_drug->drug_name.' - '.$list_of_drug->dosage.' - '.$doses->toArray()[$list_of_drug->dose_id] ?></p>        
+                      <p><?= $list_of_drug->drug_name.' - '.$list_of_drug->dosage.' - '.isset($doses->toArray()[$list_of_drug->dose_id]) ? $doses->toArray()[$list_of_drug->dose_id] : $list_of_drug->dose_id ?></p>        
                       <p><?= $list_of_drug->start_date ?></p>        
                     <?php endforeach; ?>
                 </td>
