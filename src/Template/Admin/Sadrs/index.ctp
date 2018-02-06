@@ -10,7 +10,7 @@
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('name_of_institution') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('institution_name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('reporter_name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('reporter_email') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('reporter_phone') ?></th>
@@ -23,7 +23,7 @@
             <tr>
                 <td><?= $this->Number->format($sadr->id) ?></td>
                 <td><?= h($sadr->reference_number) ?></td>
-                <td><?= h($sadr->name_of_institution) ?></td>
+                <td><?= h($sadr->institution_name) ?></td>
                 <td><?= h($sadr->reporter_name) ?></td>
                 <td><?= h($sadr->reporter_email) ?></td>
                 <td><?= h($sadr->reporter_phone) ?></td>

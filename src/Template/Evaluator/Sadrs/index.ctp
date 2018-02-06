@@ -46,7 +46,7 @@
                 <td><?= $this->Number->format($sadr->id) ?></td>
                 <td><?php
                       echo ($sadr->submitted == 2) ? $this->Html->link($sadr->reference_number, ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) : $sadr->created ; ?></td>
-                <td><?= h($sadr->name_of_institution) ?></td>
+                <td><?= h($sadr->institution_name) ?></td>
                 <td><?= h($sadr->status) ?></td>
                 <td><?= h($sadr->modified) ?></td>         
                 <?php if(isset($this->request->query['status']) && $this->request->query['status'] != 'UnSubmitted') { ?>       

@@ -17,7 +17,7 @@ $editable = $this->fetch('editable');
     <div class="col-xs-12">
       <h3 class="text-center"> 
       <span class="text-center"><?= $this->Html->image("mcaz_3.png", ['fullBase' => true, 'style' => 'width: 70%;']); ?></span> <br>
-      Adverse Event After Immunization (AEFI) Report Form
+      Adverse Event Following Immunization (AEFI) Report Form
       </h3>  
       <div class="row">
         <div class="col-xs-12"><h5 class="text-center">ZIMBABWE REPORTING FORM FOR ADVERSE EVENTS FOLLOWING IMMUNIZATION (AEFI) </h5></div>

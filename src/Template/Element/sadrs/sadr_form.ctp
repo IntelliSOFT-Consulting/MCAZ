@@ -61,23 +61,34 @@ function getAge(dateString,type) {
 }
 
 function getDate(sel){
-  var get_day = document.getElementById('date_of_birth[day]');
-  var day = get_day.options[get_day.selectedIndex].value;
-  var get_month = document.getElementById("date_of_birth[month]");
-  var month = get_month.options[get_month.selectedIndex].value;
-  var get_year = document.getElementById("date_of_birth[year]");
-  var year = get_year.options[get_year.selectedIndex].value;
-
-  var get_age = document.getElementById("age");
-  var age = get_age.value;
 
   if(sel==1){
+    var get_day = document.getElementById('date_of_birth[day]');
+    var day = get_day.options[get_day.selectedIndex].value;
+    var get_month = document.getElementById("date_of_birth[month]");
+    var month = get_month.options[get_month.selectedIndex].value;
+    var get_year = document.getElementById("date_of_birth[year]");
+    var year = get_year.options[get_year.selectedIndex].value;
+
     date = year+'/'+month+'/'+day;
+  }else if(sel==2){
+    var get_day = document.getElementById('day_of_birth');
+    var day = get_day.value;
+    var get_month = document.getElementById("month_of_birth");
+    var month = get_month.value;
+    var get_year = document.getElementById("year_of_birth");
+    var year = get_year.value;
+    
+    date = year+'/'+month+'/'+day;
+
   }else{
+    var get_age = document.getElementById("age");
+    var age = get_age.value;  
+
     date = age;
   }
 
-  console.log(getAge(date,sel));
+  console.log(getAge(date,'1'));
   return date;
 
 }
@@ -129,7 +140,11 @@ function getDate(sel){
                     'minYear' => date('Y') - 100, 
                     'maxYear' => date('Y'), 'empty' => true,
                   ));
-                  echo $this->Form->control('age',[
+                  echo $this->Form->control('year_of_birth', ['label' => 'OR Age at onset:', 'escape' => false, 'placeholder' => 'years...','type' => 'number','id'=>'year_of_birth','onchange'=>'getDate(2)']);
+                  echo $this->Form->control('month_of_birth', ['label' => '', 'escape' => false, 'placeholder' => 'months...','type' => 'number','id'=>'month_of_birth','onchange'=>'getDate(2)']);
+                  echo $this->Form->control('day_of_birth', ['label' => '', 'escape' => false, 'placeholder' => 'days...','type' => 'number','id'=>'day_of_birth','onchange'=>'getDate(2)']);
+
+                  /*echo $this->Form->control('age',[
                     'label' => 'OR AGE',
                     'id' => 'age',
                     'type'=>'number',
