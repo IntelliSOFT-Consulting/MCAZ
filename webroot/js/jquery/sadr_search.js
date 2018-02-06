@@ -46,4 +46,11 @@ $(function() {
       }
     }); 
 
+    $(".collapse :input").each(function()
+    {
+        if (this.value != "")
+        {
+            $('#collapseExample').collapse('show');
+        }
+    });
 });

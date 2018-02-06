@@ -53,7 +53,7 @@ class SadrsController extends AppController
             //->where([['ifnull(report_type,-1) !=' => 'FollowUp']]);
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
-        $this->set(compact('provinces', 'designations'));
+        $this->set(compact('provinces', 'designations', 'query'));
         $this->set('sadrs', $this->paginate($query));
 
         // $this->set(compact('sadrs'));
@@ -95,6 +95,11 @@ class SadrsController extends AppController
             ];
 
             $this->set(compact('query', '_serialize', '_header', '_extract'));
+        }
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->render('/Base/Sadrs/pdf/index');
+        } else {
+            $this->render('/Base/Sadrs/index');
         }
     }
     public function restore() {

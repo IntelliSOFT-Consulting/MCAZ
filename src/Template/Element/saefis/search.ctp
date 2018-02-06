@@ -5,8 +5,10 @@
     $arr1 = explode('?', $this->request->getRequestTarget());
     if(count($arr1) > 1) {
         $url = implode('.csv?', explode('?', $this->request->getRequestTarget()));
+        $pdf = implode('.pdf?', explode('?', $this->request->getRequestTarget()));
     } else {
         $url = implode('.csv?', explode('?', $this->request->getRequestTarget())).'.csv';
+        $pdf = implode('.pdf?', explode('?', $this->request->getRequestTarget())).'.pdf';
     }
 ?>
 

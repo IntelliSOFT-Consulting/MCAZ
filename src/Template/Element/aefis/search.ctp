@@ -5,8 +5,10 @@
     $arr1 = explode('?', $this->request->getRequestTarget());
     if(count($arr1) > 1) {
         $url = implode('.csv?', explode('?', $this->request->getRequestTarget()));
+        $pdf = implode('.pdf?', explode('?', $this->request->getRequestTarget()));
     } else {
         $url = implode('.csv?', explode('?', $this->request->getRequestTarget())).'.csv';
+        $pdf = implode('.pdf?', explode('?', $this->request->getRequestTarget())).'.pdf';
     }
 ?>
 
@@ -186,6 +188,9 @@
         <!-- <button type="submit" class="btn btn-success btn-sm btn-block " id="search" style="margin-top: 4px;"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Csv</button> -->
         <a class="btn btn-success btn-sm btn-block " href="<?= $url ?>" style="margin-top: 4px;">
             <i class="fa fa-file-excel-o" aria-hidden="true"></i> Csv
+        </a>
+        <a class="btn btn-warning btn-sm btn-block" href="<?= $pdf ?>" style="margin-top: 4px;">
+            <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Summary Report
         </a>
         <div class="dropdown"  style="margin-top: 14px;">
           <button class="btn btn-default btn-sm btn-block  dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

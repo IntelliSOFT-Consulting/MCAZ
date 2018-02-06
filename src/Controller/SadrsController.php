@@ -314,7 +314,8 @@ class SadrsController extends AppController
             return $this->redirect(['action' => 'view', $sadr->id]);
         }
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
+            $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData(), 
+                        ['validate' => ($this->request->getData('submitted') == 2) ? true : false, ]);
             //Attachments
             if (!empty($sadr->attachments)) {
                   for ($i = 0; $i <= count($sadr->attachments)-1; $i++) { 

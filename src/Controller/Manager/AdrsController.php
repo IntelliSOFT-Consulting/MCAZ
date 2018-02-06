@@ -62,7 +62,8 @@ class AdrsController extends AppController
             ->find('search', ['search' => $this->request->query])
             ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
-        $this->set(compact('designations'));
+        $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
+        $this->set(compact('designations', 'query', 'doses'));
         $this->set('adrs', $this->paginate($query));
 
         $_designations = $designations->toArray();
@@ -114,6 +115,18 @@ class AdrsController extends AppController
             ];
 
             $this->set(compact('query', '_serialize', '_header', '_extract'));
+        }
+
+
+        if(strpos($this->request->url, 'pdf')) {
+            // $this->viewBuilder()->setLayout('pdf/default');
+            $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'orientation' => 'landscape',
+                    'filename' => 'summary_saes.pdf'
+                ]
+            ]);
         }
     }
     public function restore() {

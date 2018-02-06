@@ -1,49 +1,40 @@
+echo "Assiging permissions to users..."
 bin/cake acl_extras aco_sync
+bin/cake cache clear_all
+echo "*************** Assign Admin Permissions  *******************"
+#Admin permissions
 bin/cake acl grant Groups.1 controllers
-bin/cake acl deny  Groups.1 controllers/Sadrs/add
-bin/cake acl deny  Groups.1 controllers/Aefis/add
-bin/cake acl deny  Groups.1 controllers/Saefis/add
-bin/cake acl deny  Groups.1 controllers/Adrs/add
-bin/cake acl deny  Groups.1 controllers/Sadrs/edit
-bin/cake acl deny  Groups.1 controllers/Aefis/edit
-bin/cake acl deny  Groups.1 controllers/Saefis/edit
-bin/cake acl deny  Groups.1 controllers/Adrs/edit
+bin/cake acl grant Groups.2 controllers/Admin
+bin/cake acl deny Groups.1 controllers/Manager
+bin/cake acl deny Groups.1 controllers/Evaluator
+bin/cake acl deny  Groups.1 controllers/Sadrs
+bin/cake acl deny  Groups.1 controllers/Aefis
+bin/cake acl deny  Groups.1 controllers/Saefis
+bin/cake acl deny  Groups.1 controllers/Adrs
+echo "*************** Assign Manager Permissions *8******************"
 #Manager permissions
 #TODO: Align to remove mass assignment of permissions
-bin/cake acl grant Groups.2 controllers
+bin/cake acl deny Groups.2 controllers
+bin/cake acl grant Groups.2 controllers/Reports
 bin/cake acl grant Groups.2 controllers/Manager
-bin/cake acl deny  Groups.2 controllers/Sadrs/add
-bin/cake acl deny  Groups.2 controllers/Aefis/add
-bin/cake acl deny  Groups.2 controllers/Saefis/add
-bin/cake acl deny  Groups.2 controllers/Adrs/add
-bin/cake acl deny  Groups.2 controllers/Sadrs/edit
-bin/cake acl deny  Groups.2 controllers/Aefis/edit
-bin/cake acl deny  Groups.2 controllers/Saefis/edit
-bin/cake acl deny  Groups.2 controllers/Adrs/edit
+bin/cake acl deny  Groups.2 controllers/Sadrs
+bin/cake acl deny  Groups.2 controllers/Aefis
+bin/cake acl deny  Groups.2 controllers/Saefis
+bin/cake acl deny  Groups.2 controllers/Adrs
+echo "*************** Assign Evaluator Permissions *******************"
+bin/cake acl deny Groups.4 controllers
+bin/cake acl grant Groups.4 controllers/Reports
+bin/cake acl grant Groups.4 controllers/Evaluator
+bin/cake acl deny  Groups.4 controllers/Sadrs
+bin/cake acl deny  Groups.4 controllers/Aefis
+bin/cake acl deny  Groups.4 controllers/Saefis
+bin/cake acl deny  Groups.4 controllers/Adrs
+echo "*************** Assign Users Permissions ***********************"
 #end Managers
-bin/cake acl grant Groups.4 controllers
-bin/cake acl grant Groups.3 controllers/Aefis/index
-bin/cake acl grant Groups.3 controllers/Aefis/add
-bin/cake acl grant Groups.3 controllers/Aefis/edit
-bin/cake acl grant Groups.3 controllers/Aefis/view
-bin/cake acl grant Groups.3 controllers/Aefis/followup
-bin/cake acl grant Groups.3 controllers/Aefis/delete
-bin/cake acl grant Groups.3 controllers/Saefis/index
-bin/cake acl grant Groups.3 controllers/Saefis/add
-bin/cake acl grant Groups.3 controllers/Saefis/edit
-bin/cake acl grant Groups.3 controllers/Saefis/view
-bin/cake acl grant Groups.3 controllers/Saefis/delete
-bin/cake acl grant Groups.3 controllers/Adrs/index
-bin/cake acl grant Groups.3 controllers/Adrs/add
-bin/cake acl grant Groups.3 controllers/Adrs/edit
-bin/cake acl grant Groups.3 controllers/Adrs/view
-bin/cake acl grant Groups.3 controllers/Adrs/delete
-bin/cake acl grant Groups.3 controllers/Sadrs/index
-bin/cake acl grant Groups.3 controllers/Sadrs/add
-bin/cake acl grant Groups.3 controllers/Sadrs/edit
-bin/cake acl grant Groups.3 controllers/Sadrs/view
-bin/cake acl grant Groups.3 controllers/Sadrs/followup
-bin/cake acl grant Groups.3 controllers/Sadrs/delete
+bin/cake acl grant Groups.3 controllers/Aefis
+bin/cake acl grant Groups.3 controllers/Saefis
+bin/cake acl grant Groups.3 controllers/Adrs
+bin/cake acl grant Groups.3 controllers/Sadrs
 bin/cake acl grant Groups.3 controllers/AefiListOfVaccines/delete
 bin/cake acl grant Groups.3 controllers/SaefiListOfVaccines/delete
 bin/cake acl grant Groups.3 controllers/AefiListOfDiluents/delete
@@ -60,3 +51,4 @@ bin/cake acl grant Groups.3 controllers/Notifications/adelete
 bin/cake acl grant Groups.3 controllers/Notifications/index
 bin/cake acl grant Groups.3 controllers/Notifications/view
 
+sudo chmod -R 777 .

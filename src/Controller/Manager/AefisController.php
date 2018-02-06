@@ -42,7 +42,7 @@ class AefisController extends AppController
             ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
-        $this->set(compact('provinces', 'designations'));
+        $this->set(compact('provinces', 'designations', 'query'));
         $this->set('aefis', $this->paginate($query));
 
         $_provinces = $provinces->toArray();
@@ -89,9 +89,11 @@ class AefisController extends AppController
 
             $this->set(compact('query', '_serialize', '_header', '_extract'));
         }
-
-        // $this->set(compact('aefis'));
-        // $this->set('_serialize', ['aefis']);
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->render('/Manager/Aefis/pdf/index');
+        } else {
+            $this->render('/Manager/Aefis/index');
+        }
     }
     public function restore() {
         $this->paginate = [

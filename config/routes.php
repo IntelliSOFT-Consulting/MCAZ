@@ -70,6 +70,10 @@ Router::prefix('admin', function ($routes) {
 
     $routes->fallbacks(DashedRoute::class);
 });
+Router::prefix('base', function ($routes) {
+    $routes->connect('/', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => 'base']);
+    $routes->fallbacks(DashedRoute::class);
+});
 Router::prefix('manager', function ($routes) {
     $routes->connect('/', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => 'manager']);
 
