@@ -27,24 +27,7 @@ $(function () {
             }
     });*/
     //console.info('ready.. steady...');
-    function sadrChart(data, loc, dname) {
-        // console.log(JSON.stringify(data));        
-        var myChart = Highcharts.chart(loc, {
-                chart: {
-                        type: 'column'
-                },
-                title: {
-                    text: data.title
-                },
-                series: [{
-                    data: data.data, //$.map(data.data, function(el) { return el }),//data.data,
-                    name: dname
-                }], 
-                xAxis: {
-                    type: 'category'
-                }
-        });
-    }
+    
     function pieChart(data, loc, dname) {
         // console.log(JSON.stringify(data));        
         var myChart = Highcharts.chart(loc, {
@@ -64,6 +47,66 @@ $(function () {
                 xAxis: {
                     type: 'category'
                 }
+        });
+    }
+
+
+    function sadrChart(data, loc, dname) {
+        // console.log(JSON.stringify(data));        
+        var myChart = Highcharts.chart(loc, {
+                chart: {
+                        type: 'column'
+                },
+                title: {
+                    text: data.title
+                },
+                series: [{
+                    data: data.data, //$.map(data.data, function(el) { return el }),//data.data,
+                    name: dname
+                }], 
+                xAxis: {
+                    type: 'category'
+                }
+        });
+    }
+
+    function totalAMR(data, loc){
+
+        var myChart =Highcharts.chart(loc, {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: data.title
+            },
+            xAxis: {
+                categories: data.columns,
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Cases'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                    data: data.data, //$.map(data.data, function(el) { return el }),//data.data,
+                    name: data.title
+                }],
         });
     }
 
@@ -115,6 +158,51 @@ $(function () {
         success: function (data) {
             console.info(data);
             sadrChart(data, 'adrs-index', 'Months');
+        }
+    });
+    $.ajax({
+        url: '/reports/total-amrs.json',
+        type: 'GET',
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            totalAMR(data, 'total-index');
+        }
+    });
+
+    $.ajax({
+        url: '/reports/hospitalizations-per-year.json',
+        type: 'GET',
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            totalAMR(data,'hopitalization-index');
+        }
+    });
+
+
+     $.ajax({
+        url: '/reports/deaths-per-year.json',
+        type: 'GET',
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            totalAMR(data,'death-index');
+        }
+    });
+
+   
+     $.ajax({
+        url: '/reports/adr-per-facility.json',
+        type: 'GET',
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            totalAMR(data,'adr-facilities');
         }
     });
 });
