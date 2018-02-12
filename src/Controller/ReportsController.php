@@ -295,7 +295,7 @@ class ReportsController extends AppController
                 }
     }
 
-    public function hospitalizationAMRs(){
+    public function hospitalizationsPerYear(){
         $this->loadModel('Adrs');
         $this->loadModel('Sadrs');
         $this->loadModel('Aefis');
@@ -369,7 +369,7 @@ class ReportsController extends AppController
                 }
     }
 
-    public function hospitalizationsPerYear(){
+    public function hospitalizationsADR(){
         $this->loadModel('Sadrs');
         $total = 0;
         $sadr_stats = $this->Sadrs->find('all')->select([ 'year' => 'date_format(created,"%Y")',
