@@ -31,6 +31,7 @@ class FacilitiesTable extends Table
         parent::initialize($config);
 
         $this->setTable('facilities');
+        
     }
 
     /**
