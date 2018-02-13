@@ -11,7 +11,7 @@ bin/cake acl deny  Groups.1 controllers/Sadrs
 bin/cake acl deny  Groups.1 controllers/Aefis
 bin/cake acl deny  Groups.1 controllers/Saefis
 bin/cake acl deny  Groups.1 controllers/Adrs
-echo "*************** Assign Manager Permissions *8******************"
+echo "*************** Assign Manager Permissions ********************"
 #Manager permissions
 #TODO: Align to remove mass assignment of permissions
 bin/cake acl deny Groups.2 controllers
