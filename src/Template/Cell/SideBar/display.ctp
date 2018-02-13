@@ -194,6 +194,12 @@
             </li>
             <li class="<?= ($this->request->params['action'] == 'aefisPerYear') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Aefis Per Year ', ['controller' => 'Reports', 'action' => 'aefisPerYear', 'prefix' => false], array('escape' => false)); ?> 
             </li>
+            <li class="<?= ($this->request->params['action'] == 'deathsPerYear') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Deaths Per Year ', ['controller' => 'Reports', 'action' => 'deathsPerYear', 'prefix' => false], array('escape' => false)); ?> 
+            </li>
+            <li class="<?= ($this->request->params['action'] == 'genderReports') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Gender reports ', ['controller' => 'Reports', 'action' => 'genderReports', 'prefix' => false], array('escape' => false)); ?> 
+            </li>
+            <li class="<?= ($this->request->params['action'] == 'hospitalizationsPerYear') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Hospitalizations reports ', ['controller' => 'Reports', 'action' => 'hospitalizationsPerYear', 'prefix' => false], array('escape' => false)); ?> 
+            </li>
           </ul>
         <?php } ?>
     </li>
