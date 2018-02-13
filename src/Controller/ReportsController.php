@@ -245,7 +245,7 @@ class ReportsController extends AppController
     }
 
 
-    public function totalAMRs()
+    public function total()
     {
         $this->loadModel('Adrs');
         $this->loadModel('Sadrs');
@@ -345,7 +345,7 @@ class ReportsController extends AppController
                 }
     }
 
-     public function hospitalizationAEFI(){
+     public function hospitalizationsAEFI(){
         $this->loadModel('Aefis');
         $aefi_stats = $this->Aefis->find('all')->select([ 'year' => 'date_format(created,"%Y")',
                                                           'count' => $this->Aefis->find('all')->func()->count('*')
@@ -394,7 +394,7 @@ class ReportsController extends AppController
                 }
     }
 
-    public function hospitalizationSAE(){
+    public function hospitalizationsSAE(){
         $this->loadModel('Adrs');
         $total = 0;
         //'amr' =>  $this->Adrs->find('all')->func()->sum('sae_type'),

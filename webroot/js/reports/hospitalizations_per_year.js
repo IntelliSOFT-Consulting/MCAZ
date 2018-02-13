@@ -1,25 +1,6 @@
 $(function () { 
 
 
-    function sadrChart(data, loc, dname) {
-        // console.log(JSON.stringify(data));        
-        var myChart = Highcharts.chart(loc, {
-                chart: {
-                        type: 'column'
-                },
-                title: {
-                    text: data.title
-                },
-                series: [{
-                    data: data.data, //$.map(data.data, function(el) { return el }),//data.data,
-                    name: dname
-                }], 
-                xAxis: {
-                    type: 'category'
-                }
-        });
-    }
-
     function totalAMR(data, loc){
 
         var myChart =Highcharts.chart(loc, {
@@ -61,7 +42,7 @@ $(function () {
     }
 
       $.ajax({
-        url: '/reports/hospitalization-amrs.json',
+        url: '/reports/hospitalizations-per-year.json',
         type: 'GET',
         async: true,
         dataType: "json",
@@ -72,7 +53,7 @@ $(function () {
     });
 
     $.ajax({
-        url: '/reports/hospitalization-adr.json',
+        url: '/reports/hospitalizations-adr.json',
         type: 'GET',
         async: true,
         dataType: "json",
@@ -84,7 +65,7 @@ $(function () {
 
 
     $.ajax({
-        url: '/reports/hospitalization-sae.json',
+        url: '/reports/hospitalizations-sae.json',
         type: 'GET',
         async: true,
         dataType: "json",
@@ -95,7 +76,7 @@ $(function () {
     });
 
     $.ajax({
-        url: '/reports/hospitalization-aefi.json',
+        url: '/reports/hospitalizations-aefi.json',
         type: 'GET',
         async: true,
         dataType: "json",

@@ -161,7 +161,7 @@ $(function () {
         }
     });
     $.ajax({
-        url: '/reports/total-amrs.json',
+        url: '/reports/total.json',
         type: 'GET',
         async: true,
         dataType: "json",
