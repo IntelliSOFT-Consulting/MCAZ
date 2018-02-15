@@ -345,7 +345,7 @@ class ReportsController extends AppController
                 }
     }
 
-     public function hospitalizationsAEFI(){
+     public function hospitalizationsAefi(){
         $this->loadModel('Aefis');
         $aefi_stats = $this->Aefis->find('all')->select([ 'year' => 'date_format(created,"%Y")',
                                                           'count' => $this->Aefis->find('all')->func()->count('*')
@@ -369,7 +369,7 @@ class ReportsController extends AppController
                 }
     }
 
-    public function hospitalizationsADR(){
+    public function hospitalizationsAdr(){
         $this->loadModel('Sadrs');
         $total = 0;
         $sadr_stats = $this->Sadrs->find('all')->select([ 'year' => 'date_format(created,"%Y")',
@@ -394,7 +394,7 @@ class ReportsController extends AppController
                 }
     }
 
-    public function hospitalizationsSAE(){
+    public function hospitalizationsSae(){
         $this->loadModel('Adrs');
         $total = 0;
         //'amr' =>  $this->Adrs->find('all')->func()->sum('sae_type'),
@@ -474,7 +474,7 @@ class ReportsController extends AppController
     }
 
 
-    public function deathSAE(){
+    public function deathSae(){
         $this->loadModel('Adrs');
         $sadr_stats = $this->Adrs->find('all')->select([ 'year' => 'date_format(created,"%Y")',
                                                           'count' => $this->Adrs->find('all')->func()->count('*')
@@ -499,7 +499,7 @@ class ReportsController extends AppController
     }
 
 
-    public function deathADR(){
+    public function deathAdr(){
         $this->loadModel('Sadrs');
         $sadr_stats = $this->Sadrs->find('all')->select([ 'year' => 'date_format(created,"%Y")',
                                                           'count' => $this->Sadrs->find('all')->func()->count('*')
@@ -525,7 +525,7 @@ class ReportsController extends AppController
     }
 
 
-    public function deathAEFI(){
+    public function deathAefi(){
         $this->loadModel('Aefis');
         $aefi_stats = $this->Aefis->find('all')->select([ 'year' => 'date_format(created,"%Y")',
                                                           'count' => $this->Aefis->find('all')->func()->count('*')
