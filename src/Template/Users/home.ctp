@@ -10,7 +10,7 @@
 <div class="row">
     <div class="col-md-4">
       <div style="min-height: 320px">
-        <h3 class="btn-zangu"><?= $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> ADRS', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge" style="background-color: #71C7A0;"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Sadrs']) ?></small>          
+        <h3 class="btn-zangu"><?= $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> ADR', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge" style="background-color: #71C7A0;"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Sadrs']) ?></small>          
         </h3>
         <hr>
         <p>Adverse drug reaction. 
@@ -43,7 +43,7 @@
         </nav>        
       </div>
 
-        <h3 class="btn-zangu"><?= $this->Html->link('<i class="fa fa-file-o" aria-hidden="true"></i> SAES', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge" style="background-color: #7f7fff;"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Adrs']) ?></small></h3>
+        <h3 class="btn-zangu"><?= $this->Html->link('<i class="fa fa-file-o" aria-hidden="true"></i> SAE', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge" style="background-color: #7f7fff;"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Adrs']) ?></small></h3>
         <hr>
           <p>Serious Adverse Event Reporting Form. <a class="btn btn-info tiptip" href="/adrs/add"  data-original-title="Report SAE" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a></p>          
         <ul class="list-unstyled">
