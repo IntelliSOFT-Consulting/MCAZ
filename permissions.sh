@@ -21,6 +21,8 @@ bin/cake acl deny  Groups.2 controllers/Sadrs
 bin/cake acl deny  Groups.2 controllers/Aefis
 bin/cake acl deny  Groups.2 controllers/Saefis
 bin/cake acl deny  Groups.2 controllers/Adrs
+bin/cake acl grant Groups.2 controllers/Notifications/delete
+bin/cake acl grant Groups.2 controllers/Notifications/adelete
 echo "*************** Assign Evaluator Permissions *******************"
 bin/cake acl deny Groups.4 controllers
 bin/cake acl grant Groups.4 controllers/Reports
@@ -29,6 +31,8 @@ bin/cake acl deny  Groups.4 controllers/Sadrs
 bin/cake acl deny  Groups.4 controllers/Aefis
 bin/cake acl deny  Groups.4 controllers/Saefis
 bin/cake acl deny  Groups.4 controllers/Adrs
+bin/cake acl grant Groups.4 controllers/Notifications/delete
+bin/cake acl grant Groups.4 controllers/Notifications/adelete
 echo "*************** Assign Users Permissions ***********************"
 #end Managers
 bin/cake acl grant Groups.3 controllers/Aefis
