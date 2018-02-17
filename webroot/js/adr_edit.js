@@ -22,6 +22,32 @@ $(function() {
         showAnim:'show'
       });
 
+    var cache2 = {},    lastXhr;
+    $( "#mcaz-protocol-number" ).autocomplete({
+        source: function( request, response ) {
+            var term = request.term;
+            if ( term in cache2 ) {
+                response( cache2[ term ] );
+                return;
+            }
+
+            lastXhr = $.getJSON( "http://mcazpublicdev/api/applications.json", request, function( data, status, xhr ) {
+                cache2[ term ] = data;
+                if ( xhr === lastXhr ) {
+                    response( data );
+                }
+            });
+        },
+        select: function( event, ui ) {
+            $( "#mrcz-protocol-number" ).val( ui.item.value );
+            $( "#mcaz-protocol-number" ).val( ui.item.value );
+            $( "#study-title" ).val( ui.item.label );
+            $( "#study-sponsor" ).val( ui.item.sponsor );
+            $( "#principal-investigator" ).val( ui.item.dist );
+            return false;
+        }
+    });
+
     //active for admins
     //https://stackoverflow.com/questions/18999501/bootstrap-3-keep-selected-tab-on-page-refresh
     $('a[data-toggle="tab"]').click(function (e) {
