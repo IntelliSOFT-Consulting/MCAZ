@@ -17,10 +17,120 @@ class ReportsController extends AppController
 
     public function initialize() {
        parent::initialize();
-       //$this->Auth->allow(['add', 'edit']);   
+       $this->Auth->allow(['publicReports', 'sadrsPerDesignation', 'aefisPerDesignation', 'saefisPerDesignation', 'adrsPerDesignation']);   
        $this->loadComponent('Search.Prg', [
             'actions' => ['index']
         ]);    
+    }
+
+    public function publicReports() {
+
+    }
+
+    public function sadrsPerDesignation()
+    {
+        $this->loadModel('Sadrs');
+        $sadr_stats = $this->Sadrs->find('all')->select([ 'Designations.name',
+                                                          'count' => $this->Sadrs->find('all')->func()->count('*')
+                                                        ])
+                                                 ->where(['designation_id IS NOT' => null, 'submitted' => 2])
+                                                 ->group('Designations.name')
+                                                 ->contain(['Designations'])
+                                                 ->hydrate(false);
+        foreach ($sadr_stats->toArray() as $key => $value) {
+            $data[] = ['name' => (!empty($value['designation']['name'])) ? $value['designation']['name'] : 'Unknown' ,
+                       'y' => $value['count']];
+        }
+        if($this->request->is('json')) {
+                    $this->set([
+                        'message' => 'Success',
+                        'title' => 'ADRs by designation',
+                        'data' => $data, 
+                        '_serialize' => ['message', 'data', 'title']]);
+                    return;
+                }
+    }
+    public function aefisPerDesignation()
+    {
+        $this->loadModel('Aefis');
+        $sadr_stats = $this->Aefis->find('all')->select([ 'Designations.name',
+                                                          'count' => $this->Aefis->find('all')->func()->count('*')
+                                                        ])
+                                                 ->where(['designation_id IS NOT' => null, 'submitted' => 2])
+                                                 ->group('Designations.name')
+                                                 ->contain(['Designations'])
+                                                 ->hydrate(false);
+        foreach ($sadr_stats->toArray() as $key => $value) {
+            $data[] = ['name' => (!empty($value['designation']['name'])) ? $value['designation']['name'] : 'Unknown' ,
+                       'y' => $value['count']];
+        }
+        if($this->request->is('json')) {
+                    $this->set([
+                        'message' => 'Success',
+                        'title' => 'AEFIs by designation',
+                        'data' => $data, 
+                        '_serialize' => ['message', 'data', 'title']]);
+                    return;
+                }
+    }
+    public function adrsPerDesignation()
+    {
+        $this->loadModel('Adrs');
+        $sadr_stats = $this->Adrs->find('all')->select([ 'Designations.name',
+                                                          'count' => $this->Adrs->find('all')->func()->count('*')
+                                                        ])
+                                                 ->where(['designation_id IS NOT' => null, 'submitted' => 2])
+                                                 ->group('Designations.name')
+                                                 ->contain(['Designations'])
+                                                 ->hydrate(false);
+        foreach ($sadr_stats->toArray() as $key => $value) {
+            $data[] = ['name' => (!empty($value['designation']['name'])) ? $value['designation']['name'] : 'Unknown' ,
+                       'y' => $value['count']];
+        }
+        if($this->request->is('json')) {
+                    $this->set([
+                        'message' => 'Success',
+                        'title' => 'SAEs by designation',
+                        'data' => $data, 
+                        '_serialize' => ['message', 'data', 'title']]);
+                    return;
+                }
+    }
+    public function saefisPerDesignation()
+    {
+        $this->loadModel('Saefis');
+        $sadr_stats = $this->Saefis->find('all')->select([ 'Designations.name',
+                                                          'count' => $this->Saefis->find('all')->func()->count('*')
+                                                        ])
+                                                 ->where(['designation_id IS NOT' => null, 'submitted' => 2])
+                                                 ->group('Designations.name')
+                                                 ->contain(['Designations'])
+                                                 ->hydrate(false);
+        foreach ($sadr_stats->toArray() as $key => $value) {
+            $data[] = ['name' => (!empty($value['designation']['name'])) ? $value['designation']['name'] : 'Unknown' ,
+                       'y' => $value['count']];
+        }
+        if($this->request->is('json')) {
+                    $this->set([
+                        'message' => 'Success',
+                        'title' => 'AEFIs Investigational by designation',
+                        'data' => $data, 
+                        '_serialize' => ['message', 'data', 'title']]);
+                    return;
+                }
+    }
+
+    public function sadrReports() {
+
+    }
+    public function aefiReports() {
+
+    }
+    public function adrReports() {
+
+    }
+    public function saefiReports() {
+
     }
 
     /**
@@ -92,7 +202,7 @@ class ReportsController extends AppController
         if($this->request->is('json')) {
                     $this->set([
                         'message' => 'Success',
-                        'title' => 'AEFIS by provinces',
+                        'title' => 'AEFIs by provinces',
                         'data' => $data, 
                         '_serialize' => ['message', 'data', 'title']]);
                     return;
@@ -138,7 +248,7 @@ class ReportsController extends AppController
         if($this->request->is('json')) {
                     $this->set([
                         'message' => 'Success',
-                        'title' => 'AEFIS per year',
+                        'title' => 'AEFIs per year',
                         'data' => $data, 
                         '_serialize' => ['message', 'data', 'title']]);
                     return;
