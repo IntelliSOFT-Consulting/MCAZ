@@ -31,7 +31,7 @@ $(function() {
                 return;
             }
 
-            lastXhr = $.getJSON( "http://mcazpublicdev/api/applications.json?callback=?", request, function( data, status, xhr ) {
+            lastXhr = $.getJSON( "http://45.79.130.91:8965//api/applications.json?callback=?", request, function( data, status, xhr ) {
                 cache2[ term ] = data;
                 if ( xhr === lastXhr ) {
                     response( data );
