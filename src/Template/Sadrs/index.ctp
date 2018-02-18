@@ -23,7 +23,6 @@
                 <th scope="col"><?= $this->Paginator->sort('name_of_institution') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -38,15 +37,7 @@
                 </td>
                 <td><?= h($sadr->name_of_institution) ?></td>
                 <td><?= h($sadr->status) ?></td>
-                <td><?= h($sadr->modified) ?></td>                
-                <td>
-                    <?php if($sadr->submitted == 2 && empty($sadr->messageid)) {                                        
-                           echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']); 
-                          } elseif (!empty($sadr->messageid)) {
-                            echo $sadr->messageid;
-                          }
-                    ?>
-                </td>
+                <td><?= h($sadr->modified) ?></td>
                 <td>
                    <span class="label label-primary">                     
                      <?= $this->Html->link('View', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'label-link'])
