@@ -31,7 +31,7 @@ $(function() {
                 return;
             }
 
-            lastXhr = $.getJSON( "http://45.79.130.91:8965//api/applications.json?callback=?", request, function( data, status, xhr ) {
+            lastXhr = $.getJSON( "http://45.79.130.91:8965/api/applications.json?callback=?", request, function( data, status, xhr ) {
                 cache2[ term ] = data;
                 if ( xhr === lastXhr ) {
                     response( data );
@@ -49,10 +49,10 @@ $(function() {
     });
 
     
-    /*$( "#mcaz-protocol-number" ).autocomplete({
+    /*$( "#study-title" ).autocomplete({
       source: function( request, response ) {
         $.ajax( {
-          url: "http://mcazpublicdev/api/applications.json",
+          url: "http://mcazpublicdev/api/applications/protocols",
           dataType: "jsonp",
           data: {
             term: request.term
@@ -63,9 +63,13 @@ $(function() {
         } );
       },
       minLength: 2,
-      // select: function( event, ui ) {
-      //   log( "Selected: " + ui.item.value + " aka " + ui.item.id );
-      // }
+      select: function( event, ui ) {        
+        $( "#mrcz-protocol-number" ).val( ui.item.label );
+        $( "#mcaz-protocol-number" ).val( ui.item.label );
+        $( "#study-title" ).val( ui.item.value );
+        $( "#study-sponsor" ).val( ui.item.sponsor );
+        $( "#principal-investigator" ).val( ui.item.dist );
+      }
     } );*/
 
 
