@@ -31,7 +31,7 @@ $(function() {
                 return;
             }
 
-            lastXhr = $.getJSON( "http://mcazpublicdev/api/applications.json", request, function( data, status, xhr ) {
+            lastXhr = $.getJSON( "http://mcazpublicdev/api/applications.json?callback=?", request, function( data, status, xhr ) {
                 cache2[ term ] = data;
                 if ( xhr === lastXhr ) {
                     response( data );
@@ -39,14 +39,35 @@ $(function() {
             });
         },
         select: function( event, ui ) {
-            $( "#mrcz-protocol-number" ).val( ui.item.value );
-            $( "#mcaz-protocol-number" ).val( ui.item.value );
-            $( "#study-title" ).val( ui.item.label );
+            $( "#mrcz-protocol-number" ).val( ui.item.label );
+            $( "#mcaz-protocol-number" ).val( ui.item.label );
+            $( "#study-title" ).val( ui.item.value );
             $( "#study-sponsor" ).val( ui.item.sponsor );
             $( "#principal-investigator" ).val( ui.item.dist );
             return false;
         }
     });
+
+    
+    /*$( "#mcaz-protocol-number" ).autocomplete({
+      source: function( request, response ) {
+        $.ajax( {
+          url: "http://mcazpublicdev/api/applications.json",
+          dataType: "jsonp",
+          data: {
+            term: request.term
+          },
+          success: function( data ) {
+            response( data );
+          }
+        } );
+      },
+      minLength: 2,
+      // select: function( event, ui ) {
+      //   log( "Selected: " + ui.item.value + " aka " + ui.item.id );
+      // }
+    } );*/
+
 
     //active for admins
     //https://stackoverflow.com/questions/18999501/bootstrap-3-keep-selected-tab-on-page-refresh

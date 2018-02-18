@@ -1,4 +1,6 @@
-
+<?php
+  $trns = ['Sadrs' => 'ADR', 'Aefis' => 'AEFI', 'Saefis' => 'AEFI Investigational', 'Adrs' => 'SAE'];
+?>
 <h3 class="btn-zangu">
   <?= $this->Html->link('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> Notifications', ['controller' => 'Notifications', 'action' => 'index'], ['escape' => false, 'class' => 'btn-zangu']) ?>
    
@@ -18,7 +20,8 @@
                    ?> alert-dismissible fade in" title="<?= $notification->id ?>" role="alert"> 
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> 
                  <div class="article"> 
-                  <p class="text-right"><small class="btn-zangu"><em><?php if(!empty($notification->model)) echo $this->Html->link($notification->model, ['controller' => $notification->model, 'action' => 'view', $notification->foreign_key]) ?>  </em></small></p>
+                  <p class="text-right"><small class="btn-zangu"><em><?php if(!empty($notification->model)) 
+                    echo $this->Html->link((($trns[$notification->model]) ?? $notification->model), ['controller' => $notification->model, 'action' => 'view', $notification->foreign_key]) ?>  </em></small></p>
                   <?= (!empty($notification->system_message)) ? $notification->system_message : $notification->user_message ; ?> </div>
                 </div>
                 <?php endforeach; ?>

@@ -2,6 +2,10 @@
   <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
+<?php
+  $trns = ['Sadrs' => 'ADR', 'Aefis' => 'AEFI', 'Saefis' => 'AEFI Investigational', 'Adrs' => 'SAE'];
+?>
+
 <h1 class="page-header">  <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Notifications</h1>
 
 <?= $this->element('notifications/search') ?>
@@ -34,7 +38,7 @@
                 <td><?= $this->Number->format($notification->id) ?></td>
                 <td><?= $notification->user_message ?><br>
                     <?= $notification->system_message ?></td>
-                <td><p class="btn-zangu"><?php if(!empty($notification->model)) echo $this->Html->link($notification->model, ['controller' => $notification->model, 'action' => 'view', $notification->foreign_key], ['class' => 'btn-zangu', 'escape' => false]) ?></p></td>
+                <td><p class="btn-zangu"><?php if(!empty($notification->model)) echo $this->Html->link((($trns[$notification->model]) ?? $notification->model), ['controller' => $notification->model, 'action' => 'view', $notification->foreign_key], ['class' => 'btn-zangu', 'escape' => false]) ?></p></td>
                 <td><?= h($notification->created) ?></td>
                 <td class="actions">
                     <?= $this->Html->link('<span class="label label-primary">View</span>', ['action' => 'view', $notification->id], array('escape' => false));  ?>
