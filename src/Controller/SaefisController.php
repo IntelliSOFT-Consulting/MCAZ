@@ -215,9 +215,9 @@ class SaefisController extends AppController
                 $data['type'] = 'applicant_submit_saefi_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
                 //notify managers
-                $managers = $this->Aefis->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
+                $managers = $this->Saefis->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
                 foreach ($managers as $manager) {
-                    $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Aefis', 'foreign_key' => $saefi->id,
+                    $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Saefis', 'foreign_key' => $saefi->id,
                       'vars' =>  $saefi->toArray()];
                     $data['type'] = 'manager_submit_saefi_email';
                     $data['vars']['name'] = $manager->name;
