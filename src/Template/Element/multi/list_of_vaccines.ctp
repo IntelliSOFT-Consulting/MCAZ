@@ -18,7 +18,7 @@
             <table id="<?= ($editable) ? 'listOfVaccinesTable' : 'disabledlist'  ?>"  class="table table-bordered table-condensed">
                 <thead>
                   <tr>
-                    <th colspan="6" style="width: 65%">Vaccine</th>
+                    <th colspan="7" style="width: 65%">Vaccine</th>
                     <th colspan="4">Diluent</th>
                   </tr>
                   <tr>
