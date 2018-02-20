@@ -77,6 +77,7 @@ class UsersController extends AppController
                 $this->set([
                     'id' => $user->id,
                     'message' => 'Registration successfull. Click on link sent on email to complete registration', 
+                    'user' => $user->toArray(),
                     'token' => JWT::encode(
                         [
                             'sub' => $user->id,
@@ -84,7 +85,7 @@ class UsersController extends AppController
                         ],
                         Security::salt()
                     ),
-                    '_serialize' => ['id', 'message', 'token']]);
+                    '_serialize' => ['id', 'message', 'user', 'token']]);
 
                 
                   return;
@@ -121,6 +122,7 @@ class UsersController extends AppController
 
         $this->set([
             'success' => true,
+            'user' => $user,
             'data' => [
                 'token' => JWT::encode(
                     [
@@ -130,7 +132,7 @@ class UsersController extends AppController
                     Security::salt()
                 )
             ],
-            '_serialize' => ['success', 'data']
+            '_serialize' => ['success', 'user', 'data']
         ]);
     }
 }
