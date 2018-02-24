@@ -29,13 +29,13 @@ class UsersController extends AppController
     public function initialize() {
        parent::initialize();
        $this->loadComponent('Paginator');
-       // $this->Auth->allow('logout', 'activate', 'view');       
+       $this->Auth->allow('logout', 'activate', 'view');       
     }
 
     public function beforeFilter(Event $event) {
         parent::beforeFilter($event);
         // $this->Auth->allow();
-        $this->Auth->allow(['register', 'login', 'logout', 'activate', 'forgotPassword', 'resetPassword']);
+        $this->Auth->allow(['register', 'login', 'logout', 'activate', 'forgotPassword', 'resetPassword', 'view']);
     }
 
     public function dashboard() {

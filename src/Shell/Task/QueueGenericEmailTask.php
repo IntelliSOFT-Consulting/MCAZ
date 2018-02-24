@@ -40,7 +40,7 @@ class QueueGenericEmailTask extends QueueTask {
         $message = $this->Messages->findByName($data['type'])->first();
         //$this->out(print_r($message, true));
 
-        $this->Email = new Email();
+        $this->Email = new Email('default');
         $this->Email
             ->emailFormat('html')
             ->to($data['email_address'])

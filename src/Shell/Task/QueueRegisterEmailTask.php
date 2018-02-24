@@ -30,12 +30,12 @@ class QueueRegisterEmailTask extends QueueTask {
     public function run(array $data, $jobId) {
         Log::write('debug', 'Mail to ::: '.$data['vars']['user']['email']);
         // Log::write('debug', $data['vars']['user']);
-        $this->Email = new Email();
+        $this->Email = new Email('default');
         $this->Email
             ->template('register_email')
             ->emailFormat('html')
             ->to($data['vars']['user']['email'])
-            ->setFrom('intellisoftkenya@mail.com')
+            ->setFrom('e-pv@mcaz.co.zw')
             ->subject('Registration to MCAZ PV');
         // ...
         if (!empty($data['vars'])) {
