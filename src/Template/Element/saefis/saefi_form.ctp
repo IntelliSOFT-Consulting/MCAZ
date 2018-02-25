@@ -51,12 +51,20 @@ function getChoice(sel){
             <div class="col-xs-12"><h5 class="text-center">MCAZ Reference Number: <strong><?= ($saefi->submitted == 2) ? $saefi->reference_number : $saefi->created->i18nFormat('dd-MM-yyyy HH:mm:ss') ; ?></strong></h5></div>         
           </div>
 
+          <h4>Section A:  <span class="text-center">Basic Details </span></h4>
+
           <div class="row">
-            <div class="col-xs-6">Section A</div>
-            <div class="col-xs-6">
-              Basic Details
+            <div class="col-xs-4"><?= $this->Form->input('province_id', ['options' => $provinces, 'empty' => true]);?></div>
+            <div class="col-xs-4"><?= $this->Form->control('district', ['label' => 'District']); ?></div>
+            <div class="col-xs-4"><?= $this->Form->control('aefi_report_ref', ['label' => 'AEFI Report ID']); ?></div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12">
+              <?php
+                  echo $this->Form->control('name_of_vaccination_site', ['label' => 'Name of vaccination site <span class="sterix fa fa-asterisk" aria-hidden="true"></span>','escape' => false]);
+              ?>
             </div>
-            <div class="col-xs-1"></div>
           </div>
 
           <div class="row">              
@@ -79,7 +87,7 @@ function getChoice(sel){
             <div class="col-xs-8">
               <?php                  
                   echo $this->Form->control('place_vaccination', ['type' => 'radio', 
-                     'label' => '<b>Treatment provided</b>', 'escape' => false,
+                     'label' => '<b>Place of vaccination</b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Govt. health facility' => 'Govt. health facility', 'Private health facility' => 'Private health facility', 'Other' => 'Other']]);
                   echo $this->Form->control('place_vaccination_other', ['label' => 'Other, (specify)']);
@@ -127,8 +135,45 @@ function getChoice(sel){
           </div>
 
           <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+              <?php
+                echo $this->Form->control('patient_address', ['label' => 'Patient’s physical address <small class="muted">(Street name, house number, ward/village, phone number etc.)</small>:', 'type' => 'text',  'escape' => false,                 
+                    'templates' => ($editable) ? [    
+                      'label' => '<label {{attrs}}>{{text}}</label>',
+                      'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>'] : 'view_form_text']);
+              ?>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-3 col-xs-offset-1"><?php
+              echo $this->Form->control('date_of_birth', ['label' => 'Date of birth', 'type' => 'text',                   
+                    'templates' => ($editable) ? [    
+                      'label' => '<label {{attrs}}>{{text}}</label>',
+                      'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>'] : 'view_form_text']);
+            ?></div>
+            <div class="col-xs-4"><?php
+                echo $this->Form->control('age_at_onset_years', ['label' => '<b>OR</b> Age at onset:', 'escape' => false, 'placeholder' => 'years...']);
+                echo $this->Form->control('age_at_onset_months', ['label' => '', 'escape' => false, 'placeholder' => 'months...']);
+                echo $this->Form->control('age_at_onset_days', ['label' => '', 'escape' => false, 'placeholder' => 'days...']);
+            ?></div>
+            <div class="col-xs-4">
+              <?= $this->Form->control('age_group', ['type' => 'radio', 
+                     'label' => '<b>OR</b> Age group', 'escape' => false,
+                     'templates' => ($editable) ? 'checkbox_form': 'view_form_radio' ,
+                     'options' => ['< 1 Year' => '< 1 Year', '1-5 years' => '1-5 years', '> 5 years' => '> 5 years']]);
+                ?>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12"><?php echo $this->element('multi/list_of_vaccines', ['editable' => $editable]);?></div>
+          </div>
+
+          <div class="row">
             <div class="col-xs-8">
               <?php              
+                  echo $this->Form->control('symptom_date', ['label' => 'Date and time of first/key symptom', 'type' => 'text']);    
                   echo $this->Form->control('hospitalization_date', ['label' => 'Date of hospitalization', 'type' => 'text']);    
                   echo $this->Form->control('status_on_date', ['type' => 'radio', 
                      'label' => '<b>Status on the date of investigation</b>', 'escape' => false,
@@ -427,10 +472,13 @@ function getChoice(sel){
           </div>
 
           <div class="row">
-              <div class="col-xs-4">
+              <div class="col-xs-3 col-xs-offset-1">
                   <?php
                     echo $this->Form->control('person_details', [
-                         'label' => 'Name and contact information of person completing these clinical details:',]);
+                        'label' => 'Name and contact information of person completing these clinical details:',                                      
+                        'templates' => ($editable) ? [    
+                      'label' => '<label {{attrs}}>{{text}}</label>',
+                      'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>'] : 'view_form_text']);
                   ?>
               </div>
               <div class="col-xs-4">

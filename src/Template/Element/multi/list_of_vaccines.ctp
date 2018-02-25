@@ -37,8 +37,10 @@
                     //Dynamic fields
                   if (isset($followup_form)) {
                       $list_of_vaccines = (!empty($followup['aefi_list_of_vaccines'])) ? $followup['aefi_list_of_vaccines'] : '';
-                  } else {
+                  } elseif(isset($aefi['aefi_list_of_vaccines'])) {
                       $list_of_vaccines = (!empty($aefi['aefi_list_of_vaccines'])) ? $aefi['aefi_list_of_vaccines'] : '';
+                  } elseif(isset($saefi['aefi_list_of_vaccines'])) {
+                      $list_of_vaccines = (!empty($saefi['aefi_list_of_vaccines'])) ? $saefi['aefi_list_of_vaccines'] : '';
                   }
                     if (!empty($list_of_vaccines)) {
                       for ($i = 0; $i <= count($list_of_vaccines)-1; $i++) { 

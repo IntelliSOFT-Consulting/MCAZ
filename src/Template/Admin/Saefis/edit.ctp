@@ -30,13 +30,7 @@ $this->Html->script('saefi_edit', ['block' => true]);
           <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
-              <?php
-                  echo $this->Form->control('basic_details', ['label' => 'Basic Details',  
-                    'templates' =>[ 
-                      'label' => '<label {{attrs}}>{{text}}</label>',
-                      'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
-                      'textarea' => '<textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea>',]]);
-              ?>
+
             </div>
             <div class="col-md-1"></div>
           </div>

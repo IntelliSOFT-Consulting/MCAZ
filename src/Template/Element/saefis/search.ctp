@@ -44,8 +44,8 @@
                 <tr>  
                     <td>                        
                         <?php
-                            echo $this->Form->control('basic_details', 
-                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Basic details*']);
+                           // echo $this->Form->control('basic_details', 
+                            //    ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Basic details*']);
                         ?>
                     </td>
                     <td colspan="2">

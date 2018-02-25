@@ -125,7 +125,6 @@ class OriginalSaefisTable extends Table
             ->compare('created_end', ['operator' => '<=', 'field' => ['created']])
             ->compare('report_date_start', ['operator' => '>=', 'field' => ['report_date']])
             ->compare('report_date_end', ['operator' => '<=', 'field' => ['report_date']])
-            ->like('basic_details')
             ->value('status_on_date')
             ->value('pregnant')
             ->value('infant')
@@ -150,10 +149,6 @@ class OriginalSaefisTable extends Table
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
-
-        $validator
-            ->scalar('basic_details')
-            ->allowEmpty('basic_details');
 
         $validator
             ->scalar('place_vaccination')

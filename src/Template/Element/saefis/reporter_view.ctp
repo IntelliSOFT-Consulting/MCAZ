@@ -20,11 +20,9 @@
           </div>
 
           <div class="row">
-            <div class="col-xs-1"></div>
-            <div class="col-xs-10">
-              <?php
-                  echo $this->Form->control('basic_details', ['type' => 'textarea', 'label' => 'Basic Details']);
-              ?>
+            <div class="col-xs-6">Section A</div>
+            <div class="col-xs-6">
+              Basic Details
             </div>
             <div class="col-xs-1"></div>
           </div>

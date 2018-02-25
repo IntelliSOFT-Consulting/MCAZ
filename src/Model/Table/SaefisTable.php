@@ -46,7 +46,7 @@ class SaefisTable extends Table
         $this->addBehavior('Search.Search');
         // add Duplicatable behavior
         $this->addBehavior('Duplicatable.Duplicatable', [
-            'contain' => ['SaefiListOfVaccines',  'Attachments', 'Reports'],
+            'contain' => ['SaefiListOfVaccines', 'AefiListOfVaccines',  'Attachments', 'Reports'],
             'remove' => ['created', 'modified', 'saefi_list_of_vaccines.created',  'attachments.created', 'reports.created',
                           'saefi_list_of_vaccines.modified',  'attachments.modified', 'reports.modified'],
             // mark invoice as copied
@@ -61,12 +61,18 @@ class SaefisTable extends Table
         $this->belongsTo('Designations', [
             'foreignKey' => 'designation_id'
         ]);
+        $this->belongsTo('Provinces', [
+            'foreignKey' => 'province_id'
+        ]);
         $this->belongsTo('OriginalSaefis', [
             'foreignKey' => 'saefi_id',
             'dependent' => true,
             'conditions' => array('OriginalSaefis.copied' => 'old copy')
         ]);
         $this->hasMany('SaefiListOfVaccines', [
+            'foreignKey' => 'saefi_id'
+        ]);
+        $this->hasMany('AefiListOfVaccines', [
             'foreignKey' => 'saefi_id'
         ]);
         $this->hasOne('AefiCausalities', [
@@ -127,7 +133,6 @@ class SaefisTable extends Table
             ->compare('created_end', ['operator' => '<=', 'field' => ['created']])
             ->compare('report_date_start', ['operator' => '>=', 'field' => ['report_date']])
             ->compare('report_date_end', ['operator' => '<=', 'field' => ['report_date']])
-            ->like('basic_details')
             ->value('status_on_date')
             ->value('pregnant')
             ->value('infant')
@@ -152,10 +157,6 @@ class SaefisTable extends Table
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
-
-        $validator
-            ->scalar('basic_details')
-            ->allowEmpty('basic_details');
 
         $validator
             ->scalar('place_vaccination')

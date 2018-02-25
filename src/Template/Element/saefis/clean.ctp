@@ -23,15 +23,9 @@
           </div>
 
           <div class="row">
-            <div class="col-xs-1"></div>
-            <div class="col-xs-10">
-              <?php
-                  echo $this->Form->control('basic_details', ['label' => 'Basic Details',  
-                    'templates' => ($editable) ? [ 
-                      'label' => '<label {{attrs}}>{{text}}</label>',
-                      'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
-                      'textarea' => '<textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea>',] : 'view_form_text']);
-              ?>
+            <div class="col-xs-6">Section A</div>
+            <div class="col-xs-6">
+              Basic Details
             </div>
             <div class="col-xs-1"></div>
           </div>

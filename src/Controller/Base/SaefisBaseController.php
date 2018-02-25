@@ -35,14 +35,17 @@ class SaefisBaseController extends AppController
             ->find('search', ['search' => $this->request->query])
             ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
         $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
-        $this->set(compact('designations'));
+        $provinces = $this->Saefis->Provinces->find('list', ['limit' => 200]);
+        $this->set(compact('designations', 'provinces'));
         $this->set('saefis', $this->paginate($query));
 
         $_designations = $designations->toArray();
+        $_provinces = $provinces->toArray();
         if ($this->request->params['_ext'] === 'csv') {
             $_serialize = 'query';
-            $_header = [ 'id', 'user_id', 'saefi_id', 'reference_number', 'assigned_to', 'assigned_by', 'assigned_date', 'basic_details', 'place_vaccination', 'place_vaccination_other', 'site_type', 'site_type_other', 'vaccination_in', 'vaccination_in_other', 'reporter_name', 'report_date', 'start_date', 'complete_date', 
+            $_header = [ 'id', 'user_id', 'saefi_id', 'reference_number', 'assigned_to', 'assigned_by', 'assigned_date', 'place_vaccination', 'place_vaccination_other', 'site_type', 'site_type_other', 'vaccination_in', 'vaccination_in_other', 'reporter_name', 'report_date', 'start_date', 'complete_date', 
                 'designation_id', 
+                'province_id', 
                 'telephone', 'mobile', 'reporter_email', 'patient_name', 'gender', 'hospitalization_date', 'status_on_date', 'died_date', 'autopsy_done', 'autopsy_done_date', 'autopsy_planned', 'autopsy_planned_date', 'past_history', 'past_history_remarks', 'adverse_event', 'adverse_event_remarks', 'allergy_history', 'allergy_history_remarks', 'existing_illness', 'existing_illness_remarks', 'hospitalization_history', 'hospitalization_history_remarks', 'medication_vaccination', 'medication_vaccination_remarks', 'faith_healers', 'faith_healers_remarks', 'family_history', 'family_history_remarks', 'pregnant', 'pregnant_weeks', 'breastfeeding', 'infant', 'birth_weight', 'delivery_procedure', 'delivery_procedure_specify', 'source_examination', 'source_documents', 'source_verbal', 'verbal_source', 'source_other', 'source_other_specify', 'examiner_name', 'other_sources', 'signs_symptoms', 'person_details', 'person_designation', 'person_date', 'medical_care', 'not_medical_care', 'final_diagnosis', 'when_vaccinated', 'when_vaccinated_specify', 'prescribing_error', 'prescribing_error_specify', 'vaccine_unsterile', 'vaccine_unsterile_specify', 'vaccine_condition', 'vaccine_condition_specify', 'vaccine_reconstitution', 'vaccine_reconstitution_specify', 'vaccine_handling', 'vaccine_handling_specify', 'vaccine_administered', 'vaccine_administered_specify', 'vaccinated_vial', 'vaccinated_session', 'vaccinated_locations', 'vaccinated_locations_specify', 'vaccinated_cluster', 'vaccinated_cluster_number', 'vaccinated_cluster_vial', 'vaccinated_cluster_vial_number', 'syringes_used', 'syringes_used_specify', 'syringes_used_other', 'syringes_used_findings', 'reconstitution_multiple', 'reconstitution_different', 'reconstitution_vial', 'reconstitution_syringe', 'reconstitution_vaccines', 'reconstitution_observations', 'cold_temperature', 'cold_temperature_deviation', 'cold_temperature_specify', 'procedure_followed', 'other_items', 'partial_vaccines', 'unusable_vaccines', 'unusable_diluents', 'additional_observations', 'cold_transportation', 'vaccine_carrier', 'coolant_packs', 'transport_findings', 'similar_events', 'similar_events_describe', 'similar_events_episodes', 'affected_vaccinated', 'affected_not_vaccinated', 'affected_unknown', 'community_comments', 'relevant_findings', 'created', 'modified', 'submitted', 'submitted_date', 'status', 'reports file', 
                 'saefi_list_of_vaccines.vaccine_name', 'saefi_list_of_vaccines.vaccination_doses',
                 'committees.comments', 'committees.literature_review', 'committees.references_text', 
@@ -50,8 +53,9 @@ class SaefisBaseController extends AppController
                 'request_reporters.system_message', 'request_reporters.user_message', 
                 'reviews.system_message', 'reviews.user_message', 
                 'attachments.file'];
-            $_extract = [ 'id', 'user_id', 'saefi_id', 'reference_number', 'assigned_to', 'assigned_by', 'assigned_date', 'basic_details', 'place_vaccination', 'place_vaccination_other', 'site_type', 'site_type_other', 'vaccination_in', 'vaccination_in_other', 'reporter_name', 'report_date', 'start_date', 'complete_date', 
+            $_extract = [ 'id', 'user_id', 'saefi_id', 'reference_number', 'assigned_to', 'assigned_by', 'assigned_date', 'place_vaccination', 'place_vaccination_other', 'site_type', 'site_type_other', 'vaccination_in', 'vaccination_in_other', 'reporter_name', 'report_date', 'start_date', 'complete_date', 
                 function ($row) use($_designations) { return $_designations[$row['designation_id']] ?? '' ; }, //'designation_id', 
+                function ($row) use($_provinces) { return $_provinces[$row['province_id']] ?? '' ; },  
                 'telephone', 'mobile', 'reporter_email', 'patient_name', 'gender', 'hospitalization_date', 'status_on_date', 'died_date', 'autopsy_done', 'autopsy_done_date', 'autopsy_planned', 'autopsy_planned_date', 'past_history', 'past_history_remarks', 'adverse_event', 'adverse_event_remarks', 'allergy_history', 'allergy_history_remarks', 'existing_illness', 'existing_illness_remarks', 'hospitalization_history', 'hospitalization_history_remarks', 'medication_vaccination', 'medication_vaccination_remarks', 'faith_healers', 'faith_healers_remarks', 'family_history', 'family_history_remarks', 'pregnant', 'pregnant_weeks', 'breastfeeding', 'infant', 'birth_weight', 'delivery_procedure', 'delivery_procedure_specify', 'source_examination', 'source_documents', 'source_verbal', 'verbal_source', 'source_other', 'source_other_specify', 'examiner_name', 'other_sources', 'signs_symptoms', 'person_details', 'person_designation', 'person_date', 'medical_care', 'not_medical_care', 'final_diagnosis', 'when_vaccinated', 'when_vaccinated_specify', 'prescribing_error', 'prescribing_error_specify', 'vaccine_unsterile', 'vaccine_unsterile_specify', 'vaccine_condition', 'vaccine_condition_specify', 'vaccine_reconstitution', 'vaccine_reconstitution_specify', 'vaccine_handling', 'vaccine_handling_specify', 'vaccine_administered', 'vaccine_administered_specify', 'vaccinated_vial', 'vaccinated_session', 'vaccinated_locations', 'vaccinated_locations_specify', 'vaccinated_cluster', 'vaccinated_cluster_number', 'vaccinated_cluster_vial', 'vaccinated_cluster_vial_number', 'syringes_used', 'syringes_used_specify', 'syringes_used_other', 'syringes_used_findings', 'reconstitution_multiple', 'reconstitution_different', 'reconstitution_vial', 'reconstitution_syringe', 'reconstitution_vaccines', 'reconstitution_observations', 'cold_temperature', 'cold_temperature_deviation', 'cold_temperature_specify', 'procedure_followed', 'other_items', 'partial_vaccines', 'unusable_vaccines', 'unusable_diluents', 'additional_observations', 'cold_transportation', 'vaccine_carrier', 'coolant_packs', 'transport_findings', 'similar_events', 'similar_events_describe', 'similar_events_episodes', 'affected_vaccinated', 'affected_not_vaccinated', 'affected_unknown', 'community_comments', 'relevant_findings', 'created', 'modified', 'submitted', 'submitted_date', 'status', 
                     'reports.0.file', 
                 function ($row) { return implode('|', Hash::extract($row['saefi_list_of_vaccines'], '{n}.vaccine_name')); }, //'.vaccine_name', 
@@ -70,6 +74,8 @@ class SaefisBaseController extends AppController
 
             $this->set(compact('query', '_serialize', '_header', '_extract'));
         }
+
+        $this->render('/Base/Saefis/index');
     }
     public function restore() {
         $this->paginate = [
@@ -106,7 +112,7 @@ class SaefisBaseController extends AppController
     public function view($id = null)
     {
         $saefi = $this->Saefis->get($id, [
-            'contain' => ['SaefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'AefiCausalities',
+            'contain' => ['SaefiListOfVaccines', 'AefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'AefiCausalities',
                           'Reports',
                           'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports'], 
                           'withDeleted'
@@ -117,7 +123,7 @@ class SaefisBaseController extends AppController
             $this->viewBuilder()->options([
                 'pdfConfig' => [
                     'orientation' => 'portrait',
-                    'filename' => $saefi->reference_number.'.pdf'
+                    'filename' => (isset($saefi->reference_number)) ? $saefi->reference_number.'.pdf' : 'saefi_'.$saefi->id.'.pdf'
                 ]
             ]);
         }
@@ -126,8 +132,11 @@ class SaefisBaseController extends AppController
         
 
         $designations = $this->Saefis->Designations->find('list',array('order'=>'Designations.name ASC'));
-        $this->set(compact('saefi', 'designations', 'evaluators', 'users'));
+        $provinces = $this->Saefis->Provinces->find('list', ['limit' => 200]);
+        $this->set(compact('saefi', 'designations', 'provinces', 'evaluators', 'users'));
         $this->set('_serialize', ['saefi', 'designations']);
+
+        $this->render('/Base/Saefis/view');
     }
 
     /**
@@ -156,58 +165,9 @@ class SaefisBaseController extends AppController
         }
         $users = $this->Saefis->Users->find('list', ['limit' => 200]);
         $designations = $this->Saefis->Designations->find('list',array('order'=>'Designations.name ASC'));
-        $this->set(compact('saefi', 'users', 'designations'));
+        $provinces = $this->Saefis->Provinces->find('list', ['limit' => 200]);
+        $this->set(compact('saefi', 'users', 'designations', 'provinces'));
         $this->set('_serialize', ['saefi']);
-    }
-
-    public function assignEvaluator() {
-        $saefi = $this->Saefis->get($this->request->getData('saefi_pr_id'), []);
-        if (isset($saefi->id) && $this->request->is('post')) {
-            $saefi->assigned_by = $this->Auth->user('id');
-            $saefi->assigned_to = $this->request->getData('evaluator');
-            $saefi->assigned_date = date("Y-m-d H:i:s");
-            $saefi->status = 'Assigned';
-            $evaluator = $this->Saefis->Users->get($this->request->getData('evaluator'));
-            if ($this->Saefis->save($saefi)) {
-                //Send email and message (if present!!!) to evaluator
-                $this->loadModel('Queue.QueuedJobs');    
-                $data = [
-                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
-                    'type' => 'manager_assign_evaluator_email', 'model' => 'Saefis', 'foreign_key' => $saefi->id,
-                    'vars' =>  $saefi->toArray()
-                ];
-                $data['vars']['assigned_by_name'] = $this->Auth->user('name');
-                $data['vars']['user_message'] = $this->request->getData('user_message');
-                $data['vars']['name'] = $evaluator->name;
-                //notify evaluator
-                $this->QueuedJobs->createJob('GenericEmail', $data);
-                $data['type'] = 'manager_assign_evaluator_notification';
-                $this->QueuedJobs->createJob('GenericNotification', $data);
-                if ($this->request->getData('user_message')) {
-                  $data['type'] = 'manager_assign_evaluator_message';
-                  $data['user_message'] = $this->request->getData('user_message');
-                  $this->QueuedJobs->createJob('GenericNotification', $data);
-                }
-                
-                //notify manager                
-                $data = ['user_id' => $saefi->assigned_by, 'model' => 'Saefis', 'foreign_key' => $saefi->id,
-                    'vars' =>  $saefi->toArray()];
-                $data['vars']['assigned_to_name'] = $evaluator->name;
-                $data['type'] = 'manager_assign_notification';
-                $this->QueuedJobs->createJob('GenericNotification', $data);
-                //end 
-                
-               $this->Flash->success('Evaluator '.$evaluator->name.' assigned AEFI '.$saefi->reference_number);
-
-                return $this->redirect($this->referer());
-            } else {
-                $this->Flash->error(__('Unable to assign evaluator. Please, try again.')); 
-                return $this->redirect($this->referer());
-            }
-        } else {
-                $this->Flash->error(__('Unknown AEFI Investigation Report. Please correct.')); 
-                return $this->redirect($this->referer());
-        }
     }
 
 
@@ -517,7 +477,8 @@ class SaefisBaseController extends AppController
         }
 
         $designations = $this->Saefis->Designations->find('list',array('order'=>'Designations.name ASC'));
-        $this->set(compact('saefi', 'designations'));
+        $provinces = $this->Saefis->Provinces->find('list', ['limit' => 200]);
+        $this->set(compact('saefi', 'designations', 'provinces'));
         $this->set('_serialize', ['saefi']);
     }
 

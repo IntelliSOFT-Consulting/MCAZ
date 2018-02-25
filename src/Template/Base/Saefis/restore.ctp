@@ -29,7 +29,7 @@
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('basic_details') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col">Actions</th>
@@ -41,7 +41,7 @@
                 <td><?= $this->Number->format($saefi->id) ?></td>
                 <td><?php
                       echo ($saefi->submitted == 2) ? $this->Html->link($saefi->reference_number, ['action' => 'view', $saefi->id, 'prefix' => $prefix, 'status' => $saefi->status], ['escape' => false, 'class' => 'btn-zangu']) : $saefi->created ; ?></td>
-                <td><?= h($saefi->basic_details) ?></td>
+                <td><?= h($saefi->reference_number) ?></td>
                 <td><?= h($saefi->status) ?></td>
                 <td><?= h($saefi->modified) ?></td>
                 <td>

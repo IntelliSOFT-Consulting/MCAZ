@@ -566,7 +566,6 @@
                 <th scope="col"><?= __('Id') ?></th>
                 <th scope="col"><?= __('User Id') ?></th>
                 <th scope="col"><?= __('Reference Number') ?></th>
-                <th scope="col"><?= __('Basic Details') ?></th>
                 <th scope="col"><?= __('Place Vaccination') ?></th>
                 <th scope="col"><?= __('Place Vaccination Other') ?></th>
                 <th scope="col"><?= __('Site Type') ?></th>
@@ -690,7 +689,6 @@
                 <td><?= h($saefis->id) ?></td>
                 <td><?= h($saefis->user_id) ?></td>
                 <td><?= h($saefis->reference_number) ?></td>
-                <td><?= h($saefis->basic_details) ?></td>
                 <td><?= h($saefis->place_vaccination) ?></td>
                 <td><?= h($saefis->place_vaccination_other) ?></td>
                 <td><?= h($saefis->site_type) ?></td>

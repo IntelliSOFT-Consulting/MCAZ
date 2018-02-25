@@ -43,6 +43,9 @@ class AefiListOfVaccinesTable extends Table
         $this->belongsTo('Aefis', [
             'foreignKey' => 'aefi_id'
         ]);
+        $this->belongsTo('Saefis', [
+            'foreignKey' => 'saefi_id'
+        ]);
     }
 
     /**

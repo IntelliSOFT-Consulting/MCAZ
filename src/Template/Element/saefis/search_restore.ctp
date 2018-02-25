@@ -32,11 +32,7 @@
                     </td>   
                 </tr>
                 <tr>  
-                    <td>                        
-                        <?php
-                            echo $this->Form->control('basic_details', 
-                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Basic details*']);
-                        ?>
+                    <td>    
                     </td>
                     <td colspan="2">
                         <?php
