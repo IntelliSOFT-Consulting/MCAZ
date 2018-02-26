@@ -117,6 +117,14 @@ class SaefisBaseController extends AppController
                           'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports'], 
                           'withDeleted'
         ]);
+        $ekey = 100;
+        if ($this->request->is(['patch', 'post', 'put']) && $this->Auth->user('group_id') == 2) {
+            foreach ($saefi->aefi_causalities as $key => $value) {
+                if($value['id'] == $this->request->getData('causality_id')) {
+                    $ekey = $key;
+                }
+            } 
+        }
 
         if(strpos($this->request->url, 'pdf')) {
             $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
@@ -133,10 +141,40 @@ class SaefisBaseController extends AppController
 
         $designations = $this->Saefis->Designations->find('list',array('order'=>'Designations.name ASC'));
         $provinces = $this->Saefis->Provinces->find('list', ['limit' => 200]);
-        $this->set(compact('saefi', 'designations', 'provinces', 'evaluators', 'users'));
+        $this->set(compact('saefi', 'designations', 'provinces', 'evaluators', 'users', 'ekey'));
         $this->set('_serialize', ['saefi', 'designations']);
 
         $this->render('/Base/Saefis/view');
+    }
+    public function download($id = null, $part = null)
+    {
+        //Method to download specific part of form
+        $saefi = $this->Saefis->get($id, [
+            'contain' => ['SaefiListOfVaccines', 'AefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'AefiCausalities',
+                          'Reports',
+                          'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports'], 
+                          'withDeleted'
+        ]);
+        $ekey = 100;
+        if(strpos($this->request->url, 'pdf')) {
+            $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'orientation' => 'portrait',
+                    'filename' => (isset($saefi->reference_number)) ? $saefi->reference_number.'.pdf' : 'saefi_'.$saefi->id.'.pdf'
+                ]
+            ]);
+        }
+        $evaluators = $this->Saefis->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
+        $users = $this->Saefis->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        
+
+        $designations = $this->Saefis->Designations->find('list',array('order'=>'Designations.name ASC'));
+        $provinces = $this->Saefis->Provinces->find('list', ['limit' => 200]);
+        $this->set(compact('saefi', 'designations', 'provinces', 'evaluators', 'users', 'ekey', 'part'));
+        $this->set('_serialize', ['saefi', 'designations']);
+
+        $this->render('/Base/Saefis/pdf/download');
     }
 
     /**
@@ -221,7 +259,7 @@ class SaefisBaseController extends AppController
     }
 
     public function causality() {
-        debug($this->request->getData());
+        //debug($this->request->getData());
         $saefi = $this->Saefis->get($this->request->getData('saefi_pr_id'), []);
         if (isset($saefi->id) && $this->request->is('post')) {
             $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
@@ -263,8 +301,7 @@ class SaefisBaseController extends AppController
                $this->Flash->error(__('Unknown AEFI Investigation Report Report. Please correct.')); 
                return $this->redirect($this->referer());
         }
-    }
-
+    }    
 
     public function requestReporter() {
         $saefi = $this->Saefis->get($this->request->getData('saefi_pk_id'), []);
@@ -424,7 +461,7 @@ class SaefisBaseController extends AppController
     public function edit($id = null)
     {
         $saefi = $this->Saefis->get($id, [
-            'contain' => ['SaefiListOfVaccines',  'Attachments', 'Reports']
+            'contain' => ['SaefiListOfVaccines', 'AefiListOfVaccines', 'Attachments', 'Reports']
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {

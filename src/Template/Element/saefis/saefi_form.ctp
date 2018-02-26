@@ -167,6 +167,7 @@ function getChoice(sel){
           </div>
 
           <div class="row">
+            <h4>*Complete below table if vaccination information missing on the AEFI reporting form</h4>
             <div class="col-xs-12"><?php echo $this->element('multi/list_of_vaccines', ['editable' => $editable]);?></div>
           </div>
 

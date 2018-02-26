@@ -42,7 +42,7 @@ class AefisBaseController extends AppController
             ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
-        $this->set(compact('provinces', 'designations'));
+        $this->set(compact('provinces', 'designations', 'query'));
         $this->set('aefis', $this->paginate($query));
 
         $_provinces = $provinces->toArray();
@@ -89,9 +89,11 @@ class AefisBaseController extends AppController
 
             $this->set(compact('query', '_serialize', '_header', '_extract'));
         }
-
-        // $this->set(compact('aefis'));
-        // $this->set('_serialize', ['aefis']);
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->render('/Base/Aefis/pdf/index');
+        } else {
+            $this->render('/Base/Aefis/index');
+        }
     }
     public function restore() {
         $this->paginate = [
@@ -143,6 +145,15 @@ class AefisBaseController extends AppController
                           'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments'], 'withDeleted'
         ]);
 
+        $ekey = 100;
+        if ($this->request->is(['patch', 'post', 'put']) && $this->Auth->user('group_id') == 2) {
+            foreach ($saefi->aefi_causalities as $key => $value) {
+                if($value['id'] == $this->request->getData('causality_id')) {
+                    $ekey = $key;
+                }
+            } 
+        }
+        
         if(strpos($this->request->url, 'pdf')) {
             $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
             $this->viewBuilder()->options([
@@ -158,8 +169,10 @@ class AefisBaseController extends AppController
         
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
-        $this->set(compact('aefi', 'designations', 'provinces', 'evaluators', 'users'));
+        $this->set(compact('aefi', 'designations', 'provinces', 'evaluators', 'users', 'ekey'));
         $this->set('_serialize', ['aefi', 'designations', 'provinces']);
+
+        $this->render('/Base/Aefis/view');
     }
 
     /**
@@ -192,57 +205,6 @@ class AefisBaseController extends AppController
         $this->set(compact('aefi', 'users', 'designations'));
         $this->set('_serialize', ['aefi']);
 
-    }
-
-
-    public function assignEvaluator() {
-        $aefi = $this->Aefis->get($this->request->getData('aefi_pr_id'), []);
-        if (isset($aefi->id) && $this->request->is('post')) {
-            $aefi->assigned_by = $this->Auth->user('id');
-            $aefi->assigned_to = $this->request->getData('evaluator');
-            $aefi->assigned_date = date("Y-m-d H:i:s");
-            $aefi->status = 'Assigned';
-            $evaluator = $this->Aefis->Users->get($this->request->getData('evaluator'));
-            if ($this->Aefis->save($aefi)) {
-                //Send email and message (if present!!!) to evaluator
-                $this->loadModel('Queue.QueuedJobs');    
-                $data = [
-                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
-                    'type' => 'manager_assign_evaluator_email', 'model' => 'Aefis', 'foreign_key' => $aefi->id,
-                    'vars' =>  $aefi->toArray()
-                ];
-                $data['vars']['assigned_by_name'] = $this->Auth->user('name');                
-                $data['vars']['user_message'] = $this->request->getData('user_message');
-                $data['vars']['name'] = $evaluator->name;
-                //notify applicant
-                $this->QueuedJobs->createJob('GenericEmail', $data);
-                $data['type'] = 'manager_assign_evaluator_notification';
-                $this->QueuedJobs->createJob('GenericNotification', $data);
-                if ($this->request->getData('user_message')) {
-                  $data['type'] = 'manager_assign_evaluator_message';
-                  $data['user_message'] = $this->request->getData('user_message');
-                  $this->QueuedJobs->createJob('GenericNotification', $data);
-                }
-                
-                //notify manager                
-                $data = ['user_id' => $aefi->assigned_by, 'model' => 'Aefis', 'foreign_key' => $aefi->id,
-                    'vars' =>  $aefi->toArray()];
-                $data['vars']['assigned_to_name'] = $evaluator->name;
-                $data['type'] = 'manager_assign_notification';
-                $this->QueuedJobs->createJob('GenericNotification', $data);
-                //end 
-                
-               $this->Flash->success('Evaluator '.$evaluator->name.' assigned AEFI '.$aefi->reference_number);
-
-                return $this->redirect($this->referer());
-            } else {
-                $this->Flash->error(__('Unable to assign evaluator. Please, try again.')); 
-                return $this->redirect($this->referer());
-            }
-        } else {
-                $this->Flash->error(__('Unknown AEFI Report. Please correct.')); 
-                return $this->redirect($this->referer());
-        }
     }
 
     public function causality() {

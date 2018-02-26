@@ -73,7 +73,7 @@ class AefisTable extends Table
         $this->hasMany('AefiListOfDiluents', [
             'foreignKey' => 'aefi_id'
         ]);
-        $this->hasOne('AefiCausalities', [
+        $this->hasMany('AefiCausalities', [
             'foreignKey' => 'aefi_id'
         ]);
 

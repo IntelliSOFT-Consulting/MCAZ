@@ -75,7 +75,7 @@ class SaefisTable extends Table
         $this->hasMany('AefiListOfVaccines', [
             'foreignKey' => 'saefi_id'
         ]);
-        $this->hasOne('AefiCausalities', [
+        $this->hasMany('AefiCausalities', [
             'foreignKey' => 'saefi_id'
         ]);
 

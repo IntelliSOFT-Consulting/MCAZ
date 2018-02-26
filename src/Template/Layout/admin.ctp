@@ -44,6 +44,7 @@ $cakeDescription = 'MCAZ PV';
 
     <!-- jquery UI -->
     <?= $this->Html->css('jquery-ui.min') ?>
+    <?= $this->Html->css('ctr-fix') ?>
     <?= $this->Html->css('shared_styles') ?>
     <?= $this->Html->css('admin') ?>
     <?= $this->Html->script('jquery/jquery') ?>
