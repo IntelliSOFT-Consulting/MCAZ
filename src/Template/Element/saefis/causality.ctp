@@ -482,7 +482,7 @@
       <div class="col-xs-1">
         <label>Adequate information available</label>
       </div>
-      <div class="col-xs-4">
+      <div class="col-xs-4 c1">
         <div class="well" style="background-color: #FECCFF">
           <p><strong>A. Consistent with causal associatioin to Immunization</strong></p>
           <?php
@@ -496,18 +496,18 @@
           ?>
         </div>
       </div>
-      <div class="col-xs-4">
+      <div class="col-xs-4 c2">
         <div class="well" style="background-color: #FFFFCD">
           <p><strong>B. Indeterminate</strong></p>
           <?php
             echo $this->Form->control('aefi_causalities.'.$ekey.'.indeterminate_i', ['type' => 'checkbox', 'label' => 'B1. *Temporal relationship is consistent but there is insufficient definitive evidence for vaccine causing event (may be new vaccine-linked event)', 
-              'checked' => $saefi['aefi_causalities'][$ekey]['indeterminate'] ?? true,
+              //'checked' => $saefi['aefi_causalities'][$ekey]['indeterminate'] ?? true,
               'templates' => 'checkbox_formV2']);   
             echo $this->Form->control('aefi_causalities.'.$ekey.'.indeterminate_ii', ['type' => 'checkbox', 'label' => 'B2. Reviewing factors result in conflicting trends of consistency and inconsistency with causal association to immunization', 'templates' => 'checkbox_formV2']);               
           ?>
         </div>        
       </div>
-      <div class="col-xs-3">
+      <div class="col-xs-3 c3">
         <div class="well" style="background-color: #CDFFCC"> 
           <p><strong>C. Inconsistent with causal association to immunization</strong></p>         
           <?php
@@ -521,13 +521,20 @@
       <div class="col-xs-1">
         <label>Adequate information not available</label>
       </div>
-      <div class="col-xs-11">
+      <div class="col-xs-11 c4">
         <div class="well" style="background-color: #8EB4E3"> 
           <?php
             echo $this->Form->control('aefi_causalities.'.$ekey.'.unclassifiable', ['type' => 'checkbox', 'label' => '<b>Unclassifiable</b>', 'escape' => false, 'templates' => 'checkbox_formV2']);                   
             echo $this->Form->control('aefi_causalities.'.$ekey.'.unclassifiable_specify', ['label' => 'Specify the additional information required for classification:', 'templates' => 'app_form']);                   
           ?>
         </div>  
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-xs-12 text-center"> 
+        <a href="#" class="btn btn-info" onclick="if (confirm('Are you sure you want to rerun the algorithm?')) { causality_assessment(); } event.returnValue = false; return false;">Rerun Algorithm</a>
       </div>
     </div>
 
@@ -546,6 +553,7 @@
         </p>
       </div>
     </div>
+
 
     <div class="row">
       <div class="form-group"> 

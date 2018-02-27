@@ -118,7 +118,7 @@ class SaefisBaseController extends AppController
                           'withDeleted'
         ]);
         $ekey = 100;
-        if ($this->request->is(['patch', 'post', 'put']) && $this->Auth->user('group_id') == 2) {
+        if ($this->request->is(['patch', 'post', 'put'])) {
             foreach ($saefi->aefi_causalities as $key => $value) {
                 if($value['id'] == $this->request->getData('causality_id')) {
                     $ekey = $key;

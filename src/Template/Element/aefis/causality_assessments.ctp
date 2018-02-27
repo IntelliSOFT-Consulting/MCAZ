@@ -35,24 +35,24 @@
         <div class="<?= ($this->request->params['_ext'] != 'pdf') ? 'collapse' : ''; ?>" id="<?= $aefi_causality->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">
 
     <div class="row muted">
-      <?php echo $this->Form->create($saefi, ['url' => ['action' => 'causality']]); ?>
+      <?php echo $this->Form->create($aefi, ['url' => ['action' => 'causality']]); ?>
       <fieldset disabled="disabled"  >
       <div class="row">
         <div class="col-xs-4">
           <p><b>Patient ID/Name</b></p>
-          <?=  $saefi['patient_name'].' '.$saefi['patient_surname'] ?>
+          <?=  $aefi['patient_name'].' '.$aefi['patient_surname'] ?>
         </div>
         <div class="col-xs-4">        
           <p><b>DOB/Age</b></p>
           <?php  
-              if(!empty($saefi['date_of_birth'])) echo $saefi['date_of_birth'].'<br>';
-              if(!empty($saefi['age_at_onset_days']) or !empty($saefi['age_at_onset_months']) or !empty($saefi['age_at_onset_years'])) echo $saefi['age_at_onset_days'].' days-'.$saefi['age_at_onset_months'].' months-'.$saefi['age_at_onset_years'].' years'.'<br>';
-              if(!empty($saefi['age_group'])) echo $saefi['age_group'].'<br>';
+              if(!empty($aefi['date_of_birth'])) echo $aefi['date_of_birth'].'<br>';
+              if(!empty($aefi['age_at_onset_days']) or !empty($aefi['age_at_onset_months']) or !empty($aefi['age_at_onset_years'])) echo $aefi['age_at_onset_days'].' days-'.$aefi['age_at_onset_months'].' months-'.$aefi['age_at_onset_years'].' years'.'<br>';
+              if(!empty($aefi['age_group'])) echo $aefi['age_group'].'<br>';
            ?>
         </div>
         <div class="col-xs-4">        
           <p><b>Sex</b></p>
-          <?=  $saefi['gender'] ?>
+          <?=  $aefi['gender'] ?>
         </div>
       </div>
       <div class="row">
@@ -64,16 +64,18 @@
         <div class="col-xs-4">        
           <p><b>Name of one or more vaccines administered before this event</b></p>
           <?php
-            if(!empty($saefi['saefi_list_of_vaccines'])) {
-              foreach ($saefi['saefi_list_of_vaccines'] as $ssaefi_list_of_vaccines) {
-                echo "<span>".$ssaefi_list_of_vaccines['vaccine_name']."</span><br>";
+            if(!empty($aefi['aefi_list_of_vaccines'])) {
+              foreach ($aefi['aefi_list_of_vaccines'] as $aefi_list_of_vaccines) {
+                echo "<span>".$aefi_list_of_vaccines['vaccine_name']."</span><br>";
               }
             }
           ?>
         </div>
         <div class="col-xs-4">
           <p><b>What is the Valid Diagnosis</b></p>
-          <?=  $saefi['final_diagnosis'] ?>        
+          <?php 
+                echo $this->Form->control('aefi_causalities.'.$ikey.'.valid_diagnosis', ['label' => false, 'templates' => 'table_form']);
+            ?>   
         </div>
         <div class="col-xs-4">
           <p><b>Does the diagnosis meet a case definition</b></p>
@@ -91,7 +93,7 @@
         </div>
         <div class="col-xs-3">
           <?= $this->Form->control('aefi_causalities.'.$ikey.'.primary_vaccine', ['type' => 'select', 'label' => false, 
-              'options' => Hash::combine($saefi->toArray(), 'saefi_list_of_vaccines.{n}.vaccine_name', 'saefi_list_of_vaccines.{n}.vaccine_name'), 
+              'options' => Hash::combine($aefi->toArray(), 'aefi_list_of_vaccines.{n}.vaccine_name', 'aefi_list_of_vaccines.{n}.vaccine_name'), 
               'templates' => 'table_form']);?>
         </div>
         <div class="col-xs-3">
@@ -211,7 +213,7 @@
                               <td>
                                 <div class="col-xs-12">
                                   <?= $this->Form->control('aefi_causalities.'.$ikey.'.vaccine_quality', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ikey]['vaccine_quality'] ?? 'Unk',
+                     'label' => false, 'value' => $aefi['aefi_causalities'][$ikey]['vaccine_quality'] ?? 'Unk',
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unk' => 'Unk']]); ?>
                      </div>
@@ -510,7 +512,7 @@
             <p><strong>B. Indeterminate</strong></p>
             <?php
               echo $this->Form->control('aefi_causalities.'.$ikey.'.indeterminate_i', ['type' => 'checkbox', 'label' => 'B1. *Temporal relationship is consistent but there is insufficient definitive evidence for vaccine causing event (may be new vaccine-linked event)', 
-               // 'checked' => $aefi_causality['indeterminate'] ?? true,
+                //'checked' => $aefi_causality['indeterminate'] ?? true,
                 'templates' => 'checkbox_formV2']);   
               echo $this->Form->control('aefi_causalities.'.$ikey.'.indeterminate_ii', ['type' => 'checkbox', 'label' => 'B2. Reviewing factors result in conflicting trends of consistency and inconsistency with causal association to immunization', 'templates' => 'checkbox_formV2']);               
             ?>
@@ -553,6 +555,11 @@
           <p> With available evidence, we could <b>NOT</b> classify the case because:
             <?= $this->Form->control('aefi_causalities.'.$ikey.'.conclude_inability', ['label' => false, 'templates' => 'table_form'])?>
           </p>
+
+          <?php
+            echo $this->Html->image(substr($aefi_causality->dir, 8) . '/' . $aefi_causality->file, ['fullBase' => true]);
+            //echo $this->Html->link($aefi_causality->file, substr($aefi_causality->dir, 8) . '/' . $aefi_causality->file, ['fullBase' => true]);
+          ?>
         </div>
       </div>
 

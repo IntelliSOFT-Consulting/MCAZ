@@ -147,7 +147,7 @@ class AefisBaseController extends AppController
 
         $ekey = 100;
         if ($this->request->is(['patch', 'post', 'put']) && $this->Auth->user('group_id') == 2) {
-            foreach ($saefi->aefi_causalities as $key => $value) {
+            foreach ($aefi->aefi_causalities as $key => $value) {
                 if($value['id'] == $this->request->getData('causality_id')) {
                     $ekey = $key;
                 }
@@ -173,6 +173,36 @@ class AefisBaseController extends AppController
         $this->set('_serialize', ['aefi', 'designations', 'provinces']);
 
         $this->render('/Base/Aefis/view');
+    }
+    public function download($id = null, $part = null)
+    {
+        //Method to download specific part of form
+        $aefi = $this->Aefis->get($id, [
+            'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 
+                          'Committees', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments', 
+                          'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments'], 
+                          'withDeleted'
+        ]);
+        $ekey = 100;
+        if(strpos($this->request->url, 'pdf')) {
+            $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'orientation' => 'portrait',
+                    'filename' => (isset($aefi->reference_number)) ? $aefi->reference_number.'.pdf' : 'aefi_'.$aefi->id.'.pdf'
+                ]
+            ]);
+        }
+        $evaluators = $this->Aefis->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
+        $users = $this->Aefis->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        
+
+        $designations = $this->Aefis->Designations->find('list',array('order'=>'Designations.name ASC'));
+        $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
+        $this->set(compact('aefi', 'designations', 'provinces', 'evaluators', 'users', 'ekey', 'part'));
+        $this->set('_serialize', ['aefi', 'designations']);
+
+        $this->render('/Base/Aefis/pdf/download');
     }
 
     /**

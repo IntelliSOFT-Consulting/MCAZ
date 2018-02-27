@@ -67,14 +67,14 @@
                 </tr>                
                 <tr>
                     <td colspan="3">
-                    <a class="btn" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                      View more
+                    <a class="btn" role="button" data-toggle="collapse" href="#collapseAefi" aria-expanded="false" aria-controls="collapseAefi">
+                      View more...
                     </a>
                     </td>
                 </tr>     
             </tbody>
         </table>
-        <div class="collapse" id="collapseExample">
+        <div class="collapse" id="collapseAefi">
         <table class="table">
             <tbody>           
                 <tr>
