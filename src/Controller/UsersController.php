@@ -448,13 +448,18 @@ class UsersController extends AppController
     {
         $user = $this->Users->get($id, [
             'contain' => [],
-            'fields' => ['id' , 'designation_id' , 'username' , 'name' , 'email' , 'name_of_institution' ,
+            'fields' => ['id' , 'designation_id' , 'username' , 'name' , 'email' , 'name_of_institution' , 'file', 'dir',
                                 'institution_address' , 'institution_code' , 'institution_contact' , 'phone_no', 'group_id' ]
         ]);
+        if ($this->Auth->user('group_id') != 1 && $this->Auth->user('id') != $id) {
+            $this->Flash->error(__('You can only edit your profile.'));
+            return $this->redirect(['action' => 'profile']);
+        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             // debug($this->request->getData())
             $user = $this->Users->patchEntity($user, $this->request->getData(), [
-                'fieldList' => ['id' , 'designation_id' , 'username' , 'name' , 'email' , 'name_of_institution' ,
+                'fieldList' => ['id' , 'designation_id' , 'username' , 'name' , 'email' , 'name_of_institution' , 'file',
                                 'institution_address' , 'institution_code' , 'institution_contact' , 'phone_no' ]
             ]);
             // debug($this->request->getData());

@@ -8,6 +8,7 @@ use Cake\Log\Log;
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\Utility\Xml;
 use Cake\Filesystem\File;
+use Cake\Utility\Hash;
 
 /**
  * Users Controller
@@ -106,6 +107,8 @@ class UsersBaseController extends AppController
             $this->loadModel('Aefis');
             $this->loadModel('Saefis');
 
+            $this->loadModel('Imports');
+
             if ($this->request->getData('submitted') === 'sadrs') {
                 $entity = $this->Sadrs;
                 $pre = 'ADR';
@@ -123,6 +126,18 @@ class UsersBaseController extends AppController
                 return $this->redirect($this->referer());
             }
 
+            //Check if file has been loaded before 
+            $import = $this->Imports->findByFilename($this->request->data['sadr_files']['name']);
+            if (!$import->isEmpty()) {
+                $import_dates = implode(', ', Hash::extract($import->toArray(), '{n}.created'));
+                $this->Flash->warning('The file <b>'.$this->request->data['sadr_files']['name'].'</b> has been imported before on '.$import_dates.'. If the file is different, rename the file (e.g. filename_v2) and import it again.', ['escape' => false]);
+                return $this->redirect(['action' => 'imports']);
+            } else {
+                $datum = $this->Imports->newEntity(['filename' => $this->request->data['sadr_files']['name']]);
+                $this->Imports->save($datum);
+            }
+            //
+            //debug($this->request->data);
             $file = new File($this->request->data['sadr_files']['tmp_name']);
             $xmlString = $file->read();
             $xmlArray = Xml::toArray(Xml::build($xmlString, array('return' => 'domdocument')));
@@ -150,6 +165,7 @@ class UsersBaseController extends AppController
                     // return;
                     $sadr->user_id = $this->Auth->user('id');
                     $sadr->submitted_date = date("Y-m-d H:i:s");
+                    $sadr->submitted = 2;
                     $sadr->status = 'Imported';
                     if ($entity->save($sadr)) {
                         //update field

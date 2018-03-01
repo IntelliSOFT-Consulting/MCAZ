@@ -113,7 +113,7 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
                 ['controller' => 'Reports', 'action' =>  'publicReports', 'prefix' => false] , ['escape' => false]); ?>
         </li>
         <li class="<?php echo $this->fetch('Contactus') ?>">
-            <?= $this->Html->link('<i class="fa fa-envelope-o"></i> Contact us', 
+            <?= $this->Html->link('<i class="fa fa-envelope-o"></i> Feedback', 
                 ['controller' => 'Feedbacks', 'action' =>  'add', 'prefix' => false] , ['escape' => false]); ?>
         </li>
       </ul>

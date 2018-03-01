@@ -34,6 +34,12 @@
         <dd><?= h($user->institution_address) ?></dd>
      <dt scope="row"><?= __('Institution Code') ?></dt>
         <dd><?= h($user->institution_code) ?></dd>
+        <?php 
+        if($this->request->session()->read('Auth.User.group_id') != 3) {                    
+        ?> 
+     <dt scope="row"><?= __('Signature') ?></dt>
+        <dd><?php echo "<img src='".$this->Url->build(substr($user->dir, 8) . '/' . $user->file, true)."' style='width: 70%;' alt=''>"; ?></dd>
+        <?php } ?>
     </dl>
     <hr>
     <div class="row">

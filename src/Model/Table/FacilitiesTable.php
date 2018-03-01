@@ -31,6 +31,10 @@ class FacilitiesTable extends Table
         parent::initialize($config);
 
         $this->setTable('facilities');
+        $this->setDisplayField('facility_name');
+        $this->setPrimaryKey('id');
+
+        $this->addBehavior('Timestamp');
         
     }
 

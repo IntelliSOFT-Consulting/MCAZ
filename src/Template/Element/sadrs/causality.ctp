@@ -1,4 +1,9 @@
-  <div class="row">
+<?php
+  $checked = '<i class="fa fa-check-square-o" aria-hidden="true"></i>';
+  $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i>';
+?>
+
+<div class="row">
     <div class="col-xs-12">
       <!-- <p>insert causality assessment table here... collapsible. Collapsed by default</p> -->
       <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
@@ -110,6 +115,19 @@ should be submitted as follow up report</td></tr>
           echo "<h4 class='text-center'>Literature Review</h4><p class='text-center'>".$review['literature_review']."</p>";
           echo "<h4 class='text-center'>Comments</h4><p class='text-center'>".$review['comments']."</p>";
           echo "<h4 class='text-center'>Reference Text</h4><p class='text-center'>".$review['references_text']."</p>";
+          ?>
+      <div class="row">
+        <div class="col-xs-12">
+          <h4 class="text-center"><?= ($review->signature) ? $checked : $nChecked; ?> Signature</h4>
+        </div>
+        <div class="col-xs-12">
+          <h4 class="text-center"><?php          
+            echo ($review->signature) ? "<img src='".$this->Url->build(substr($this->request->session()->read('Auth.User.dir'), 8) . '/' . $this->request->session()->read('Auth.User.file'), true)."' style='width: 30%;' alt=''>" : '';
+          ?></h4>
+        </div>
+      </div>
+      <br>
+          <?php
         }
       }
       ?>
@@ -132,6 +150,21 @@ should be submitted as follow up report</td></tr>
 	            ?>
          	    </div>          
             </div>
+            <div class="row">
+              <div class="col-xs-6">
+                <?php
+                  echo $this->Form->control('reviews.100.signature', ['type' => 'checkbox', 'label' => 'Attach signature', 'escape' => false, 'templates' => 'app_form']);
+                ?>
+              </div>
+              <div class="col-xs-4">
+                <?php          
+                  echo "<img src='".$this->Url->build(substr($this->request->session()->read('Auth.User.dir'), 8) . '/' . $this->request->session()->read('Auth.User.file'), true)."' style='width: 70%;' alt=''>";
+                ?>
+              </div>
+              <div class="col-xs-2"> </div>
+            </div>
+            <br>
+
             <div class="form-group"> 
                 <div class="col-sm-offset-4 col-sm-8"> 
                   <button type="submit" class="btn btn-primary active" id="registerUser"><i class="fa fa-plus" aria-hidden="true"></i> Review</button>

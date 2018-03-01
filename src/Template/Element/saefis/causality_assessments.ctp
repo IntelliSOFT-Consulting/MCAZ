@@ -20,9 +20,9 @@
             // ]);
             $this->Form->resetTemplates();
             echo $this->Form->postLink(
-                __('Edit'),
+                '<span class="label label-info">Edit</span>',
                 [],
-                ['data' => ['causality_id' => $aefi_causality->id], 
+                ['data' => ['causality_id' => $aefi_causality->id], 'escape' => false, 
                  'confirm' => __('Are you sure you want to edit aefi_causality {0}?', $aefi_causality->id)]
             );
             $this->Form->setTemplates($template);
@@ -556,6 +556,21 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="col-xs-6">
+          <?php
+            echo $this->Form->control('aefi_causalities.'.$ikey.'.signature', ['type' => 'checkbox', 'label' => 'Attach signature', 'escape' => false, 'templates' => 'app_form']);
+          ?>
+        </div>
+        <div class="col-xs-4">
+          <?php          
+            echo "<img src='".$this->Url->build(substr($this->request->session()->read('Auth.User.dir'), 8) . '/' . $this->request->session()->read('Auth.User.file'), true)."' style='width: 70%;' alt=''>";
+          ?>
+        </div>
+        <div class="col-xs-2"> </div>
+      </div>
+      <br>
+      
       </fieldset>
            <?php echo $this->Form->end() ?>
     </div>

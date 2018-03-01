@@ -62,7 +62,8 @@ class AdrsBaseController extends AppController
             ->find('search', ['search' => $this->request->query])
             ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
-        $this->set(compact('designations'));
+        $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
+        $this->set(compact('designations', 'query', 'doses'));
         $this->set('adrs', $this->paginate($query));
 
         $_designations = $designations->toArray();
@@ -114,6 +115,23 @@ class AdrsBaseController extends AppController
             ];
 
             $this->set(compact('query', '_serialize', '_header', '_extract'));
+            if ($this->request->params['_ext'] === 'pdf') {
+                $this->render('/Base/Adrs/pdf/index');
+            } else {
+                $this->render('/Base/Adrs/index');
+            }
+        }
+
+
+        if(strpos($this->request->url, 'pdf')) {
+            // $this->viewBuilder()->setLayout('pdf/default');
+            $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'orientation' => 'landscape',
+                    'filename' => 'summary_saes.pdf'
+                ]
+            ]);
         }
     }
     public function restore() {
@@ -474,7 +492,7 @@ class AdrsBaseController extends AppController
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
             if ($this->Adrs->save($adr, ['validate' => false])) {
                 //update field
-		$adr->user_id = $this->Auth->user('id');
+        $adr->user_id = $this->Auth->user('id');
                 $query = $this->Adrs->query();
                 $query->update()
                     ->set(['reference_number' => 'SAE'.$adr->id.'/'.$adr->created->i18nFormat('yyyy')])

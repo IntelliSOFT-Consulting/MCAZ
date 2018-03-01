@@ -1,9 +1,7 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\User $user
- */
-?>
+<?php $this->start('sidebar'); ?>
+  <?= $this->cell('SideBar'); ?>
+<?php $this->end(); ?>
+
 <?php
     $this->assign('Login', 'active');
 ?>
@@ -32,7 +30,7 @@
         // ));
     ?>
 
-    <?= $this->Form->create($user) ?>
+    <?= $this->Form->create($user, ['type' => 'file']) ?>
 
     <div class="row">
         <h5 class="text-center"><small><em>fields marked with <span class="sterix fa fa-asterisk" aria-hidden="true"></span> are required!!</em></small></h5>
@@ -44,8 +42,13 @@
                 echo $this->Form->control('phone_no');
                 //echo $this->Form->control('password', ['label' => 'Password', 'escape' => false, 'value' => '', 'required' => false]);
                 //echo $this->Form->control('confirm_password', ['type' => 'password', 'label' => 'Confirm Password', 'escape' => false, 'value' => '', 'required' => false]);   
-                //echo $this->Form->control('name_of_institution');
-                ?>
+                if($this->request->session()->read('Auth.User.group_id') != 3) {
+                    echo "<label>Kindly attach digital signature</label>";
+                    echo $this->Form->control('file', ['type' => 'file', 'label' => 'Signature!']);
+                    //echo $this->Html->image(substr($user->dir, 8) . '/' . $user->file);
+                    echo "<img src='".$this->Url->build(substr($user->dir, 8) . '/' . $user->file, true)."' style='width: 70%;' alt=''>";
+                } 
+            ?>
         </div><!--/span-->
         <div class="col-md-6">
             <?php
@@ -53,7 +56,7 @@
                 echo $this->Form->control('institution_address');
                 echo $this->Form->control('institution_code');
                 echo $this->Form->control('designation_id', ['options' => $designations, 'empty' => true]);     
-                ?>
+            ?>
         </div><!--/span-->
     </div><!--/row-->
      <hr>
