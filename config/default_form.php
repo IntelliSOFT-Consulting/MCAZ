@@ -62,4 +62,4 @@ return [
         'textarea' => '<textarea name="{{name}}"{{attrs}}>{{value}}</textarea>',
         // Container for submit buttons.
         'submitContainer' => '<div class="submit">{{content}}</div>',
-    ]
+    ];
