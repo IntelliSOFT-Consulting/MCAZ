@@ -59,7 +59,7 @@ class SadrsController extends AppController
     {
         $this->paginate = [
             // 'contain' => ['Users', 'Designations', 'Reviews']
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'RequestReporters', 'RequestEvaluators', 'Committees', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'RequestReporters', 'RequestEvaluators', 'Committees', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments', 'ReportStages']
             // 'contain' => []
         ];
         /*// $sadrs = $this->paginate($this->Sadrs,['finder' => ['status' => $id]]);
@@ -129,9 +129,13 @@ class SadrsController extends AppController
     public function view($id = null)
     {
         $sadr = $this->Sadrs->get($id, [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments'],
-            'conditions' => ['user_id' => $this->Auth->user('id')]
-        ]);
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'RequestReporters', 'RequestEvaluators', 'Committees', 
+                          'Committees.Users', 'Committees.SadrComments', 'Committees.SadrComments.Attachments', 'ReportStages',
+                          'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
+                          'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments',
+                          ],
+            'conditions' => ['Sadrs.user_id' => $this->Auth->user('id')]
+        ]);        
 
         if($sadr->submitted !== 2) {
             $this->Flash->warning(__('Kindly submit Report '.$sadr->reference_number.' before viewing.'));
@@ -168,6 +172,14 @@ class SadrsController extends AppController
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
         ]);        
         
+        $stage1  = $this->Sadrs->ReportStages->newEntity();
+        $stage1->model = 'Sadrs';
+        $stage1->stage = 'VigiBase';
+        $stage1->description = 'Stage 9';
+        $stage1->stage_date = date("Y-m-d H:i:s");
+        $sadr->report_stages = [$stage1];
+        $sadr->status = 'VigiBase';
+        $this->Sadrs->save($sadr);
 
         $designations = $this->Sadrs->Designations->find('list', array('order'=>'Designations.name ASC'));
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
@@ -176,11 +188,11 @@ class SadrsController extends AppController
         $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list', ['limit' => 200]);
         $this->set('_serialize', false);
         $this->set(compact('sadr', 'doses', 'routes'));
-        $query = $this->Sadrs->query();
+        /*$query = $this->Sadrs->query();
         $query->update()
                     ->set(['status' => 'E2B'])
                     ->where(['id' => $sadr->id])
-                    ->execute();
+                    ->execute();*/
 
         $this->response->download(($sadr->submitted==2) ? str_replace('/', '_', $sadr->reference_number).'.xml' : 'ADR_'.$sadr->created->i18nFormat('dd-MM-yyyy_HHmmss').'.xml');
     }
@@ -221,11 +233,19 @@ class SadrsController extends AppController
             $messageid = $umc->json;
             // Log::write('error', $messageid['MessageId']); 
 
-            $query = $this->Sadrs->query();
+            /*$query = $this->Sadrs->query();
             $query->update()
                     ->set(['messageid' => $messageid['MessageId'], 'status' => 'VigiBase'])
                     ->where(['id' => $sadr->id])
-                    ->execute();
+                    ->execute();*/
+            $stage1  = $this->Sadrs->ReportStages->newEntity();
+            $stage1->model = 'Sadrs';
+            $stage1->stage = 'VigiBase';
+            $stage1->description = 'Stage 9';
+            $stage1->stage_date = date("Y-m-d H:i:s");
+            $sadr->report_stages = [$stage1];
+            $sadr->status = 'VigiBase';
+            $this->Sadrs->save($sadr);
 
             $this->set([
                     'umc' => $umc->json, 
@@ -306,7 +326,7 @@ class SadrsController extends AppController
     public function edit($id = null)
     {
         $sadr = $this->Sadrs->get($id, [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments'],
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'ReportStages'],
             'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
         if ($sadr->submitted == 2) {
@@ -334,9 +354,17 @@ class SadrsController extends AppController
                 $this->Flash->error(__('Report  could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($sadr->submitted == 2) {
+                //new stage
+                $stage1  = $this->Sadrs->ReportStages->newEntity();
+                $stage1->model = 'Sadrs';
+                $stage1->stage = 'Submitted';
+                $stage1->description = 'Stage 1';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $sadr->report_stages = [$stage1];
+
               //submit to mcaz button
               $sadr->submitted_date = date("Y-m-d H:i:s");
-              $sadr->status = ($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
+              $sadr->status = 'Submitted';//($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
               $sadr->reference_number = 'ADR'.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy');
               if ($this->Sadrs->save($sadr, ['validate' => false])) {
                 $this->Flash->success(__('Report '.$sadr->reference_number.' has been successfully submitted to MCAZ for review.'));
@@ -357,12 +385,13 @@ class SadrsController extends AppController
                 //notify managers
                 $managers = $this->Sadrs->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
                 foreach ($managers as $manager) {
-                  $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
-                    'vars' =>  $sadr->toArray()];
-                  $data['type'] = 'manager_submit_sadr_email';
-                  $this->QueuedJobs->createJob('GenericEmail', $data);
-                  $data['type'] = 'manager_submit_sadr_notification';
-                  $this->QueuedJobs->createJob('GenericNotification', $data);
+                    $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
+                            'vars' =>  $sadr->toArray()];
+                    $data['vars']['name'] = $manager->name;
+                    $data['type'] = 'manager_submit_sadr_email';
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_submit_sadr_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
                 //
                 return $this->redirect(['action' => 'view', $sadr->id]);
@@ -447,10 +476,6 @@ class SadrsController extends AppController
                     //TODO: validate linked data here since validate will be false
                     if ($this->SadrFollowups->save($followup, ['validate' => false])) {
                         $this->Flash->success(__('Follow up for report '.$sadr->reference_number.' has been successfully submitted to MCAZ for review.'));
-
-                        //update Initial SADR report status
-                        $sadr->status = 'FollowUp';
-                        $this->Sadrs->save($sadr, ['validate' => false]);
 
                         //send email and notification
                         $this->loadModel('Queue.QueuedJobs');    

@@ -982,3 +982,6 @@ function getChoice(sel){
 <?php 
   echo $this->fetch('other_tabs');
 ?>
+
+
+    <?php echo $this->fetch('endjs') ?>

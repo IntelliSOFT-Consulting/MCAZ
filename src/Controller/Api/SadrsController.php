@@ -280,10 +280,6 @@ class SadrsController extends AppController
                 //TODO: validate linked data here since validate will be false
                 if ($this->SadrFollowups->save($followup, ['validate' => false])) {
                     
-                    //update Initial SADR report status
-                    $sadr->status = 'FollowUp';
-                    $this->Sadrs->save($sadr, ['validate' => false]);
-
                     //send email and notification
                     $this->loadModel('Queue.QueuedJobs');    
                     $data = [

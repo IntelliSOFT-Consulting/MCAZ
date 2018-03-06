@@ -37,7 +37,7 @@ class SadrsBaseController extends AppController
     {
         $this->paginate = [
             // 'contain' => ['Users', 'Designations', 'Reviews']
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'RequestReporters', 'RequestEvaluators', 'Committees', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'RequestReporters', 'RequestEvaluators', 'Committees', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments', 'ReportStages']
             // 'contain' => []
         ];
         /*// $sadrs = $this->paginate($this->Sadrs,['finder' => ['status' => $id]]);
@@ -150,6 +150,7 @@ class SadrsBaseController extends AppController
         
         $sadr = $this->Sadrs->get($id, [
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'RequestReporters', 'RequestEvaluators', 'Committees', 
+                          'Committees.Users', 'Committees.SadrComments', 'Committees.SadrComments.Attachments', 'ReportStages',
                           'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
                           'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments',
                           ], 'withDeleted'
@@ -186,13 +187,24 @@ class SadrsBaseController extends AppController
     }
 
     public function causality() {
-        $sadr = $this->Sadrs->get($this->request->getData('sadr_pr_id'), []);
+        $sadr = $this->Sadrs->get($this->request->getData('sadr_pr_id'), ['contain' => 'ReportStages']);
         if (isset($sadr->id) && $this->request->is('post')) {
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
-            $sadr->status = 'Evaluated';
             $sadr->reviews[0]->user_id = $this->Auth->user('id');
             $sadr->reviews[0]->model = 'Sadrs';
             $sadr->reviews[0]->category = 'causality';
+
+            //new stage only once
+            if(!in_array("Evaluated", Hash::extract($sadr->report_stages, '{n}.stage'))) {
+                $stage1  = $this->Sadrs->ReportStages->newEntity();
+                $stage1->model = 'Sadrs';
+                $stage1->stage = 'Evaluated';
+                $stage1->description = 'Stage 3';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $sadr->report_stages = [$stage1];
+                $sadr->status = 'Evaluated';
+            }
+
             //Notification should be sent to manager and assigned_to evaluator if exists
             if ($this->Sadrs->save($sadr)) {
                 //Send email and message (if present!!!) to evaluator
@@ -242,7 +254,6 @@ class SadrsBaseController extends AppController
         $sadr = $this->Sadrs->get($this->request->getData('sadr_pk_id'), []);
         if (isset($sadr->id) && $this->request->is('post')) {
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
-            $sadr->status = 'RequestReporter';
             $sadr->request_reporters[0]->user_id = $sadr->user_id;
             $sadr->request_reporters[0]->sender_id = $this->Auth->user('id');  //TODO: Can have view to see all messages where I requested for info
             $sadr->request_reporters[0]->type = 'request_reporter_info';
@@ -308,10 +319,6 @@ class SadrsBaseController extends AppController
         $sadr = $this->Sadrs->get($this->request->getData('sadr_pr_id'), []);
         if (isset($sadr->id) && $this->request->is('post')) {
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
-        //     debug((string)$sadr);
-        // debug($this->request->data);
-        // return;
-            $sadr->status = 'RequestEvaluator';
             $sadr->request_evaluators[0]->user_id = $sadr->assigned_to;
             $sadr->request_evaluators[0]->sender_id = $this->Auth->user('id');  //TODO: Can have view to see all messages where I requested for info
             $sadr->request_evaluators[0]->type = 'request_evaluator_info';
@@ -357,18 +364,47 @@ class SadrsBaseController extends AppController
 
 
     public function committeeReview() {
-        // $sadr = $this->Sadrs->get($this->request->getData('sadr_pr_id'), []);
-        // debug((string)$sadr);
-        // debug($this->request->data);
-        // $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
-        // debug((string)$sadr);
-        $sadr = $this->Sadrs->get($this->request->getData('sadr_pr_id'), []);
+        $sadr = $this->Sadrs->get($this->request->getData('sadr_pr_id'), ['contain' => 'ReportStages']);
         if (isset($sadr->id) && $this->request->is('post')) {
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
-            $sadr->status = (!empty($this->request->data['status'])) ? $this->request->data['status'] : 'Committee';
             $sadr->committees[0]->user_id = $this->Auth->user('id');
             $sadr->committees[0]->model = 'Sadrs';
             $sadr->committees[0]->category = 'committee';
+
+            /**
+             * Committee decision 
+             * If decision is Approved, the status is set to Committee or Stage 9
+             * Else Application status is set to Committee. Committee process always visible to PI (except internal comments)
+             * 
+             */
+            if(!empty($this->request->getData('committees.100.status'))) {
+                $stage1  = $this->Sadrs->ReportStages->newEntity();
+                $stage1->model = 'Sadrs';
+                $stage1->stage = 'FinalFeedback';
+                $stage1->description = 'Stage 8';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $stage1->alt_date = $sadr->committees[0]->outcome_date;
+                $sadr->report_stages = [$stage1];
+                $sadr->status = 'FinalFeedback';
+            } else {
+                //If Coming from Stage 6 then stage 4
+                $stage1  = $this->Sadrs->ReportStages->newEntity();
+                $stage1->model = 'Sadrs';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $stage1->alt_date = $sadr->committees[0]->outcome_date;
+                if(in_array("Correspondence", Hash::extract($sadr->report_stages, '{n}.stage'))) {                    
+                    $stage1->stage = 'Presented';
+                    $stage1->description = 'Stage 7: PVCT';
+                    $sadr->status = 'Presented';
+                    $sadr->report_stages = [$stage1];
+                } else {                 
+                    $stage1->stage = 'Committee';
+                    $stage1->description = 'Stage 4: PVCT';
+                    $sadr->status = 'Committee';                    
+                    $sadr->report_stages = [$stage1];
+                }
+            }
+
             //Notification should be sent to manager and assigned_to evaluator if exists
             if ($this->Sadrs->save($sadr)) {
                 //Send email and message (if present!!!) to evaluator
@@ -395,7 +431,7 @@ class SadrsBaseController extends AppController
                 $this->QueuedJobs->createJob('GenericNotification', $data);
 
                 //reporter visible notification and email sent when approved
-                if(!empty($sadr->committees[0]->literature_review) && $sadr->status == 'Approved') {
+                if(!empty($sadr->committees[0]->literature_review) && !empty($sadr->status)) {
                     $reporter = $this->Sadrs->Users->get($sadr->user_id);
                     $data = [
                       'email_address' => $sadr->reporter_email, 'user_id' => $sadr->user_id,

@@ -75,6 +75,12 @@ class SadrsTable extends Table
             'dependent' => true,
             'conditions' => array('OriginalSadrs.copied' => 'old copy')
         ]);
+        $this->hasMany('ReportStages', [
+            'className' => 'ReportStages',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('ReportStages.model' => 'Sadrs'),
+        ]);
         $this->hasMany('Attachments', [
             'className' => 'Attachments',
             'foreignKey' => 'foreign_key',

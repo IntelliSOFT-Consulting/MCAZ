@@ -124,8 +124,12 @@ class AefisController extends AppController
     public function view($id = null)
     {
         $aefi = $this->Aefis->get($id, [
-            'contain' => ['AefiListOfVaccines', 'AefiListOfDiluents', 'Attachments', 'AefiFollowups', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments'],
-            'conditions' => ['user_id' => $this->Auth->user('id')]
+            'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 
+                          'Committees', 'Committees.Users', 'Committees.AefiComments', 'Committees.AefiComments.Attachments', 
+                          'ReportStages', 
+                          'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments', 
+                          'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments'],
+            'conditions' => ['Aefis.user_id' => $this->Auth->user('id')]
         ]);
 
         if(strpos($this->request->url, 'pdf')) {
@@ -208,7 +212,7 @@ class AefisController extends AppController
     {
 
         $aefi = $this->Aefis->get($id, [
-            'contain' => ['AefiListOfVaccines', 'Attachments'],
+            'contain' => ['AefiListOfVaccines', 'Attachments', 'ReportStages'],
             'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
         if ($aefi->submitted == 2) {
@@ -234,9 +238,17 @@ class AefisController extends AppController
                 $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($aefi->submitted == 2) {
+                //new stage
+                $stage1  = $this->Aefis->ReportStages->newEntity();
+                $stage1->model = 'Aefis';
+                $stage1->stage = 'Submitted';
+                $stage1->description = 'Stage 1';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $aefi->report_stages = [$stage1];
+
               //submit to mcaz button
               $aefi->submitted_date = date("Y-m-d H:i:s");
-              $aefi->status = ($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
+              $aefi->status = 'Submitted';//($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
               $aefi->reference_number = 'AEFI'.$aefi->id.'/'.$aefi->created->i18nFormat('yyyy');
               if ($this->Aefis->save($aefi, ['validate' => false])) {
                 $this->Flash->success(__('Report '.$aefi->reference_number.' has been successfully submitted to MCAZ for review.'));               
@@ -352,10 +364,6 @@ class AefisController extends AppController
                     if ($this->AefiFollowups->save($followup, ['validate' => false])) {
                         $this->Flash->success(__('Follow up for report '.$aefi->reference_number.' has been successfully submitted to MCAZ for review.'));
 
-                        //update Initial SADR report status
-                        $aefi->status = 'FollowUp';
-                        $this->Aefis->save($aefi, ['validate' => false]);
-
                         //send email and notification
                         $this->loadModel('Queue.QueuedJobs');    
                         $data = [
@@ -373,6 +381,7 @@ class AefisController extends AppController
                         foreach ($managers as $manager) {
                             $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Aefis', 'foreign_key' => $aefi->id,
                                      'vars' =>  $aefi->toArray()];
+                            $data['vars']['name'] = $manager->name;
                             $data['type'] = 'manager_submit_aefi_followup_email';
                             $this->QueuedJobs->createJob('GenericEmail', $data);
                             $data['type'] = 'manager_submit_aefi_followup_notification';

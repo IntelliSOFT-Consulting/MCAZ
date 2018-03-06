@@ -298,3 +298,6 @@ $editable = $this->fetch('editable');
 <?php 
   echo $this->fetch('other_tabs');
 ?>
+
+
+    <?php echo $this->fetch('endjs') ?>

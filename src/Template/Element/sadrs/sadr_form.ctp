@@ -382,3 +382,6 @@ function getDate(sel){
     echo $this->fetch('other_tabs');
 ?>
 </div>
+
+
+    <?php echo $this->fetch('endjs') ?>

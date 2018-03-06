@@ -46,10 +46,32 @@ class ReviewsTable extends Table
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
         ]);
-        /*$this->belongsTo('Sadrs', [
-            'foreignKey' => 'foreign_key'
-        ]);*/
+        
 
+        $this->hasMany('SadrComments', [
+            'className' => 'Comments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('SadrComments.model' => 'Sadrs'),
+        ]);
+        $this->hasMany('AdrComments', [
+            'className' => 'Comments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('AdrComments.model' => 'Adrs'),
+        ]);
+        $this->hasMany('AefiComments', [
+            'className' => 'Comments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('AefiComments.model' => 'Aefis'),
+        ]);
+        $this->hasMany('SaefiComments', [
+            'className' => 'Comments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('SaefiComments.model' => 'Saefis'),
+        ]);
     }
 
     /**

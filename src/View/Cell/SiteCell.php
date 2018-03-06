@@ -2,6 +2,7 @@
 namespace App\View\Cell;
 
 use Cake\View\Cell;
+use Cake\Datasource\Paginator;
 
 /**
  * Site cell
@@ -48,5 +49,33 @@ class SiteCell extends Cell
         $this->loadModel('Sites');
         $site = $this->Sites->get(4, [ 'contain' => []]);
         $this->set(compact('site'));
+    }
+
+    public function calendar()
+    {
+        $this->loadModel('CommitteeDates');
+        $this->loadModel('Sites');
+        $paginator = new Paginator();
+        $committee_dates = $paginator->paginate(
+            $this->CommitteeDates->find('all', ['order' => ['CommitteeDates.meeting_date' => 'desc']]),            
+            $this->request->getQueryParams(),
+            [
+                // Use scoped query string parameters.
+                'scope' => 'committeedate',
+            ]
+        );
+
+        $paging = $paginator->getPagingParams() + (array)$this->request->getParam('paging');
+        $this->request = $this->request->withParam('paging', $paging);
+
+        $site = $this->Sites->get(6, [ 'contain' => []]);
+
+
+        $prefix = null;
+        if($this->request->session()->read('Auth.User.group_id') == 1) {$prefix = 'admin';} 
+        elseif ($this->request->session()->read('Auth.User.group_id') == 2) { $prefix = 'manager'; }
+        elseif ($this->request->session()->read('Auth.User.group_id') == 4) { $prefix = 'evaluator'; }
+
+        $this->set(compact('site', 'prefix', 'committee_dates'));
     }
 }

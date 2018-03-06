@@ -115,11 +115,6 @@ class AdrsBaseController extends AppController
             ];
 
             $this->set(compact('query', '_serialize', '_header', '_extract'));
-            if ($this->request->params['_ext'] === 'pdf') {
-                $this->render('/Base/Adrs/pdf/index');
-            } else {
-                $this->render('/Base/Adrs/index');
-            }
         }
 
 
@@ -132,6 +127,12 @@ class AdrsBaseController extends AppController
                     'filename' => 'summary_saes.pdf'
                 ]
             ]);
+        }
+
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->render('/Base/Adrs/pdf/index');
+        } else {
+            $this->render('/Base/Adrs/index');
         }
     }
     public function restore() {
@@ -179,7 +180,7 @@ class AdrsBaseController extends AppController
 
         $adr = $this->Adrs->get($id, [
             'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 
-                          'Committees', 'Reviews', 
+                          'Committees', 'Committees.Users', 'Committees.AdrComments', 'Committees.AdrComments.Attachments', 'ReportStages', 'Reviews', 
                           'OriginalAdrs', 'OriginalAdrs.AdrListOfDrugs', 'OriginalAdrs.AdrOtherDrugs', 'OriginalAdrs.Attachments'], 'withDeleted'
         ]);
 
@@ -206,57 +207,9 @@ class AdrsBaseController extends AppController
 
         $this->set('adr', $adr);
         $this->set('_serialize', ['adr']);
-    }
 
 
-    public function assignEvaluator() {
-        $adr = $this->Adrs->get($this->request->getData('adr_pr_id'), []);
-        if (isset($adr->id) && $this->request->is('post')) {
-            $adr->assigned_by = $this->Auth->user('id');
-            $adr->assigned_to = $this->request->getData('evaluator');
-            $adr->assigned_date = date("Y-m-d H:i:s");
-            $adr->status = 'Assigned';
-            $evaluator = $this->Adrs->Users->get($this->request->getData('evaluator'));
-            if ($this->Adrs->save($adr)) {
-                //Send email and message (if present!!!) to evaluator
-                $this->loadModel('Queue.QueuedJobs');    
-                $data = [
-                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
-                    'type' => 'manager_assign_evaluator_email', 'model' => 'Adrs', 'foreign_key' => $adr->id,
-                    'vars' =>  $adr->toArray()
-                ];
-                $data['vars']['assigned_by_name'] = $this->Auth->user('name');
-                $data['vars']['user_message'] = $this->request->getData('user_message');
-                $data['vars']['name'] = $evaluator->name;
-                //notify evaluator
-                $this->QueuedJobs->createJob('GenericEmail', $data);
-                $data['type'] = 'manager_assign_evaluator_notification';
-                $this->QueuedJobs->createJob('GenericNotification', $data);
-                if ($this->request->getData('user_message')) {
-                  $data['type'] = 'manager_assign_evaluator_message';
-                  $data['user_message'] = $this->request->getData('user_message');
-                  $this->QueuedJobs->createJob('GenericNotification', $data);
-                }
-                
-                //notify manager                
-                $data = ['user_id' => $adr->assigned_by, 'model' => 'Adrs', 'foreign_key' => $adr->id,
-                    'vars' =>  $adr->toArray()];
-                $data['vars']['assigned_to_name'] = $evaluator->name;
-                $data['type'] = 'manager_assign_notification';
-                $this->QueuedJobs->createJob('GenericNotification', $data);
-                //end 
-                
-               $this->Flash->success('Evaluator '.$evaluator->name.' assigned AEFI '.$adr->reference_number);
-
-                return $this->redirect($this->referer());
-            } else {
-                $this->Flash->error(__('Unable to assign evaluator. Please, try again.')); 
-                return $this->redirect($this->referer());
-            }
-        } else {
-                $this->Flash->error(__('Unknown AEFI Report. Please correct.')); 
-                return $this->redirect($this->referer());
-        }
+        $this->render('/Base/Adrs/view');
     }
 
 
@@ -265,7 +218,6 @@ class AdrsBaseController extends AppController
         if (isset($adr->id) && $this->request->is('post')) {
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
 
-            $adr->status = 'RequestEvaluator';
             $adr->request_evaluators[0]->user_id = $adr->assigned_to;
             $adr->request_evaluators[0]->sender_id = $this->Auth->user('id');  //TODO: Can have view to see all messages where I requested for info
             $adr->request_evaluators[0]->type = 'request_evaluator_info';
@@ -313,10 +265,21 @@ class AdrsBaseController extends AppController
         $adr = $this->Adrs->get($this->request->getData('adr_pr_id'), []);
         if (isset($adr->id) && $this->request->is('post')) {
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
-            $adr->status = 'Evaluated';
             $adr->reviews[0]->user_id = $this->Auth->user('id');
             $adr->reviews[0]->model = 'Adrs';
             $adr->reviews[0]->category = 'causality';
+
+            //new stage only once
+            if(!in_array("Evaluated", Hash::extract($adr->report_stages, '{n}.stage'))) {
+                $stage1  = $this->Adrs->ReportStages->newEntity();
+                $stage1->model = 'Adrs';
+                $stage1->stage = 'Evaluated';
+                $stage1->description = 'Stage 3';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $adr->report_stages = [$stage1];
+                $adr->status = 'Evaluated';
+            }
+
             //Notification should be sent to manager and assigned_to evaluator if exists
             if ($this->Adrs->save($adr)) {
                 //Send email and message (if present!!!) to evaluator
@@ -361,7 +324,6 @@ class AdrsBaseController extends AppController
         $adr = $this->Adrs->get($this->request->getData('adr_pk_id'), []);
         if (isset($adr->id) && $this->request->is('post')) {
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
-            $adr->status = 'RequestReporter';
             $adr->request_reporters[0]->user_id = $adr->user_id;
             $adr->request_reporters[0]->sender_id = $this->Auth->user('id');  //TODO: Can have view to see all messages where I requested for info
             $adr->request_reporters[0]->type = 'request_reporter_info';
@@ -418,13 +380,48 @@ class AdrsBaseController extends AppController
     }
 
     public function committeeReview() {
-        $adr = $this->Adrs->get($this->request->getData('adr_pr_id'), []);
+        $adr = $this->Adrs->get($this->request->getData('adr_pr_id'), ['contain' => 'ReportStages']);
         if (isset($adr->id) && $this->request->is('post')) {
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
-            $adr->status = (!empty($this->request->data['status'])) ? $this->request->data['status'] : 'Committee';
             $adr->committees[0]->user_id = $this->Auth->user('id');
             $adr->committees[0]->model = 'Adrs';
             $adr->committees[0]->category = 'committee';
+
+            /**
+             * Committee decision 
+             * If decision is Approved, the status is set to Committee or Stage 9
+             * Else Application status is set to Committee. Committee process always visible to PI (except internal comments)
+             * 
+             */
+            if(!empty($this->request->getData('committees.100.status'))) {
+                $stage1  = $this->Adrs->ReportStages->newEntity();
+                $stage1->model = 'Adrs';
+                $stage1->stage = 'FinalFeedback';
+                $stage1->description = 'Stage 8';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $stage1->alt_date = $adr->committees[0]->outcome_date;
+                $adr->report_stages = [$stage1];
+                $adr->status = 'FinalFeedback';
+            } else {
+                //If Coming from Stage 6 then stage 4
+                $stage1  = $this->Adrs->ReportStages->newEntity();
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $stage1->alt_date = $adr->committees[0]->outcome_date;
+                if(in_array("Correspondence", Hash::extract($adr->report_stages, '{n}.stage'))) {    
+                    $stage1->model = 'Adrs';                
+                    $stage1->stage = 'Presented';
+                    $stage1->description = 'Stage 7: PVCT';
+                    $adr->status = 'Presented';
+                    $adr->report_stages = [$stage1];
+                } else {                 
+                    $stage1->model = 'Adrs';
+                    $stage1->stage = 'Committee';
+                    $stage1->description = 'Stage 4: PVCT';
+                    $adr->status = 'Committee';                    
+                    $adr->report_stages = [$stage1];
+                }
+            }
+
             //Notification should be sent to manager and assigned_to evaluator if exists
             if ($this->Adrs->save($adr)) {
                 //Send email and message (if present!!!) to evaluator
@@ -451,7 +448,7 @@ class AdrsBaseController extends AppController
                 $this->QueuedJobs->createJob('GenericNotification', $data);
 
                 //reporter visible notification and email sent when approved
-                if(!empty($adr->committees[0]->literature_review) && $adr->status == 'Approved') {
+                if(!empty($adr->committees[0]->literature_review) && !empty($adr->status)) {
                     $reporter = $this->Adrs->Users->get($adr->user_id);
                     $data = [
                       'email_address' => $adr->reporter_email, 'user_id' => $adr->user_id,

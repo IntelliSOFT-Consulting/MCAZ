@@ -141,7 +141,8 @@ class AefisBaseController extends AppController
         
         $aefi = $this->Aefis->get($id, [
             'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 
-                          'Committees', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments', 
+                          'Committees', 'Committees.Users', 'Committees.AefiComments', 'Committees.AefiComments.Attachments', 'ReportStages', 
+                          'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments', 
                           'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments'], 'withDeleted'
         ]);
 
@@ -238,10 +239,21 @@ class AefisBaseController extends AppController
     }
 
     public function causality() {
-        $aefi = $this->Aefis->get($this->request->getData('aefi_pr_id'), []);
+        $aefi = $this->Aefis->get($this->request->getData('aefi_pr_id'), ['contain' => 'ReportStages']);
         if (isset($aefi->id) && $this->request->is('post')) {
             $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
-            $aefi->status = 'Evaluated';
+
+            //new stage only once
+            if(!in_array("Evaluated", Hash::extract($aefi->report_stages, '{n}.stage'))) {
+                $stage1  = $this->Aefis->ReportStages->newEntity();
+                $stage1->model = 'Aefis';
+                $stage1->stage = 'Evaluated';
+                $stage1->description = 'Stage 3';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $aefi->report_stages = [$stage1];
+                $aefi->status = 'Evaluated';
+            }
+
             //Notification should be sent to manager and assigned_to evaluator if exists
             if ($this->Aefis->save($aefi)) {
                 //Send email and message (if present!!!) to evaluator
@@ -286,7 +298,6 @@ class AefisBaseController extends AppController
         if (isset($aefi->id) && $this->request->is('post')) {
             $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
 
-            $aefi->status = 'RequestEvaluator';
             $aefi->request_evaluators[0]->user_id = $aefi->assigned_to;
             $aefi->request_evaluators[0]->sender_id = $this->Auth->user('id');  //TODO: Can have view to see all messages where I requested for info
             $aefi->request_evaluators[0]->type = 'request_evaluator_info';
@@ -334,7 +345,6 @@ class AefisBaseController extends AppController
         $aefi = $this->Aefis->get($this->request->getData('aefi_pk_id'), []);
         if (isset($aefi->id) && $this->request->is('post')) {
             $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
-            $aefi->status = 'RequestReporter';
             $aefi->request_reporters[0]->user_id = $aefi->user_id;
             $aefi->request_reporters[0]->sender_id = $this->Auth->user('id');  //TODO: Can have view to see all messages where I requested for info
             $aefi->request_reporters[0]->type = 'request_reporter_info';
@@ -391,13 +401,48 @@ class AefisBaseController extends AppController
     }
 
     public function committeeReview() {
-        $aefi = $this->Aefis->get($this->request->getData('aefi_pr_id'), []);
+        $aefi = $this->Aefis->get($this->request->getData('aefi_pr_id'), ['contain' => 'ReportStages']);
         if (isset($aefi->id) && $this->request->is('post')) {
             $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
-            $aefi->status = (!empty($this->request->data['status'])) ? $this->request->data['status'] : 'Committee';
             $aefi->committees[0]->user_id = $this->Auth->user('id');
             $aefi->committees[0]->model = 'Aefis';
             $aefi->committees[0]->category = 'committee';
+
+            /**
+             * Committee decision 
+             * If decision is Approved, the status is set to Committee or Stage 9
+             * Else Application status is set to Committee. Committee process always visible to PI (except internal comments)
+             * 
+             */
+            if(!empty($this->request->getData('committees.100.status'))) {
+                $stage1  = $this->Aefis->ReportStages->newEntity();
+                $stage1->model = 'Aefis';
+                $stage1->stage = 'FinalFeedback';
+                $stage1->description = 'Stage 8';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $stage1->alt_date = $aefi->committees[0]->outcome_date;
+                $aefi->report_stages = [$stage1];
+                $aefi->status = 'FinalFeedback';
+            } else {
+                //If Coming from Stage 6 then stage 4
+                $stage1  = $this->Aefis->ReportStages->newEntity();
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $stage1->alt_date = $aefi->committees[0]->outcome_date;
+                if(in_array("Correspondence", Hash::extract($aefi->report_stages, '{n}.stage'))) {   
+                    $stage1->model = 'Aefis';                 
+                    $stage1->stage = 'Presented';
+                    $stage1->description = 'Stage 7: PVCT';
+                    $aefi->status = 'Presented';
+                    $aefi->report_stages = [$stage1];
+                } else { 
+                    $stage1->model = 'Aefis';
+                    $stage1->stage = 'Committee';
+                    $stage1->description = 'Stage 4: PVCT';
+                    $aefi->status = 'Committee';                    
+                    $aefi->report_stages = [$stage1];
+                }
+            }
+
             //Notification should be sent to manager and assigned_to evaluator if exists
             if ($this->Aefis->save($aefi)) {
                 //Send email and message (if present!!!) to evaluator

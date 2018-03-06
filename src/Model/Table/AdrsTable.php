@@ -76,6 +76,12 @@ class AdrsTable extends Table
             'foreignKey' => 'adr_id'
         ]);
 
+        $this->hasMany('ReportStages', [
+            'className' => 'ReportStages',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('ReportStages.model' => 'Adrs'),
+        ]);
         $this->hasMany('Attachments', [
             'className' => 'Attachments',
             'foreignKey' => 'foreign_key',

@@ -267,10 +267,6 @@ class AefisController extends AppController
                 
                 //TODO: validate linked data here since validate will be false
                 if ($this->AefiFollowups->save($followup, ['validate' => false])) {
-                    
-                    //update Initial SADR report status
-                    $aefi->status = 'FollowUp';
-                    $this->Aefis->save($aefi, ['validate' => false]);
 
                     //send email and notification
                     $this->loadModel('Queue.QueuedJobs');    

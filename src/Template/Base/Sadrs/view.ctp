@@ -31,6 +31,7 @@
         <?php if($sadr->copied === 'new copy') { ?>
     <li role="presentation"><a href="#original" aria-controls="original" role="tab" data-toggle="tab">Original Report</a></li>
         <?php } ?>
+    <li role="presentation"><a href="#stages" aria-controls="stages" role="tab" data-toggle="tab">STAGES</a></li>
   </ul>
 
   <!-- Tab panes -->
@@ -85,6 +86,9 @@
         <?php  echo $this->element('sadrs/clean') ?>
     </div>
         <?php } ?>
+    <div role="tabpanel" class="tab-pane" id="stages">
+        <?= $this->element('sadrs/stages') ?>
+    </div>
   </div>
 
   <div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">

@@ -11,6 +11,7 @@ bin/cake acl deny  Groups.1 controllers/Sadrs
 bin/cake acl deny  Groups.1 controllers/Aefis
 bin/cake acl deny  Groups.1 controllers/Saefis
 bin/cake acl deny  Groups.1 controllers/Adrs
+bin/cake acl grant Groups.1 controllers/CommitteeDates
 echo "*************** Assign Manager Permissions ********************"
 #Manager permissions
 #TODO: Align to remove mass assignment of permissions
@@ -26,6 +27,7 @@ bin/cake acl grant Groups.2 controllers/Notifications/adelete
 bin/cake acl grant Groups.2 controllers/Users/profile
 bin/cake acl grant Groups.2 controllers/Users/edit
 bin/cake acl grant Groups.2 controllers/Users/dashboard
+bin/cake acl grant Groups.2 controllers/CommitteeDates
 echo "*************** Assign Evaluator Permissions *******************"
 bin/cake acl deny Groups.4 controllers
 bin/cake acl grant Groups.4 controllers/Reports
@@ -39,8 +41,9 @@ bin/cake acl grant Groups.4 controllers/Notifications/adelete
 bin/cake acl grant Groups.4 controllers/Users/profile
 bin/cake acl grant Groups.4 controllers/Users/edit
 bin/cake acl grant Groups.4 controllers/Users/dashboard
-echo "*************** Assign Users Permissions ***********************"
+bin/cake acl grant Groups.4 controllers/CommitteeDates
 #end Managers
+echo "*************** Assign Users Permissions ***********************"
 bin/cake acl grant Groups.3 controllers/Aefis
 bin/cake acl grant Groups.3 controllers/Saefis
 bin/cake acl grant Groups.3 controllers/Adrs
@@ -60,5 +63,6 @@ bin/cake acl grant Groups.3 controllers/Notifications/delete
 bin/cake acl grant Groups.3 controllers/Notifications/adelete
 bin/cake acl grant Groups.3 controllers/Notifications/index
 bin/cake acl grant Groups.3 controllers/Notifications/view
+bin/cake acl grant Groups.3 controllers/Comments
 
 sudo chmod -R 777 .

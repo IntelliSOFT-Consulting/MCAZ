@@ -2,18 +2,33 @@
 namespace App\Controller\Manager;
 
 use App\Controller\Base\SadrsBaseController;
+use Cake\Utility\Hash;
+use Cake\Event\Event;
+use App\Controller\AppController;
 
 class SadrsController extends SadrsBaseController
 {
 
     public function assignEvaluator() {
-        $sadr = $this->Sadrs->get($this->request->getData('sadr_pr_id'), []);
+        $sadr = $this->Sadrs->get($this->request->getData('sadr_pr_id'), ['contain' => 'ReportStages']);
         if (isset($sadr->id) && $this->request->is('post')) {
             $sadr->assigned_by = $this->Auth->user('id');
             $sadr->assigned_to = $this->request->getData('evaluator');
             $sadr->assigned_date = date("Y-m-d H:i:s");
             $sadr->status = 'Assigned';
             $evaluator = $this->Sadrs->Users->get($this->request->getData('evaluator'));
+
+            //new stage only once
+            if(!in_array("Assigned", Hash::extract($sadr->report_stages, '{n}.stage'))) {
+                $stage1  = $this->Sadrs->ReportStages->newEntity();
+                $stage1->model = 'Sadrs';
+                $stage1->stage = 'Assigned';
+                $stage1->description = 'Stage 2';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $sadr->report_stages = [$stage1];
+                $sadr->status = 'Assigned';
+            }
+
             if ($this->Sadrs->save($sadr)) {
                 //Send email and message (if present!!!) to evaluator
                 $this->loadModel('Queue.QueuedJobs');    

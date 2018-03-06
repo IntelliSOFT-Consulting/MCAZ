@@ -17,13 +17,25 @@ class SaefisController extends SaefisBaseController
 {
     
     public function assignEvaluator() {
-        $saefi = $this->Saefis->get($this->request->getData('saefi_pr_id'), []);
+        $saefi = $this->Saefis->get($this->request->getData('saefi_pr_id'), ['contain' => 'ReportStages']);
         if (isset($saefi->id) && $this->request->is('post')) {
             $saefi->assigned_by = $this->Auth->user('id');
             $saefi->assigned_to = $this->request->getData('evaluator');
             $saefi->assigned_date = date("Y-m-d H:i:s");
             $saefi->status = 'Assigned';
             $evaluator = $this->Saefis->Users->get($this->request->getData('evaluator'));
+
+            //new stage only once
+            if(!in_array("Assigned", Hash::extract($saefi->report_stages, '{n}.stage'))) {
+                $stage1  = $this->Sadrs->ReportStages->newEntity();
+                $stage1->model = 'Saefis';
+                $stage1->stage = 'Assigned';
+                $stage1->description = 'Stage 2';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $saefi->report_stages = [$stage1];
+                $saefi->status = 'Assigned';
+            }
+
             if ($this->Saefis->save($saefi)) {
                 //Send email and message (if present!!!) to evaluator
                 $this->loadModel('Queue.QueuedJobs');    

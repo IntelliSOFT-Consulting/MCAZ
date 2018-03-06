@@ -79,6 +79,12 @@ class SaefisTable extends Table
             'foreignKey' => 'saefi_id'
         ]);
 
+        $this->hasMany('ReportStages', [
+            'className' => 'ReportStages',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('ReportStages.model' => 'Saefis'),
+        ]);
         $this->hasMany('Attachments', [
             'className' => 'Attachments',
             'foreignKey' => 'foreign_key',

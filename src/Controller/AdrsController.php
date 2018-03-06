@@ -125,8 +125,11 @@ class AdrsController extends AppController
     public function view($id = null)
     {
         $adr = $this->Adrs->get($id, [
-            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments'],
-            'conditions' => ['user_id' => $this->Auth->user('id')]
+            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 
+                          'Committees', 'Committees.Users', 'Committees.AdrComments', 'Committees.AdrComments.Attachments', 
+                          'ReportStages', 'Reviews', 
+                          'OriginalAdrs', 'OriginalAdrs.AdrListOfDrugs', 'OriginalAdrs.AdrOtherDrugs', 'OriginalAdrs.Attachments'],
+            'conditions' => ['Adrs.user_id' => $this->Auth->user('id')]
         ]);
 
         // $this->viewBuilder()->setLayout('pdf/default');
@@ -228,7 +231,7 @@ class AdrsController extends AppController
     public function edit($id = null)
     {
         $adr = $this->Adrs->get($id, [
-            'contain' => ['AdrListOfDrugs', 'AdrOtherDrugs', 'AdrLabTests', 'Attachments'],
+            'contain' => ['AdrListOfDrugs', 'AdrOtherDrugs', 'AdrLabTests', 'Attachments', 'ReportStages'],
             'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
         if ($adr->submitted == 2) {
@@ -254,9 +257,17 @@ class AdrsController extends AppController
                 $this->Flash->error(__('Report '.$adr->reference_number.' could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($adr->submitted == 2) {
+                //new stage
+                $stage1  = $this->Adr->ReportStages->newEntity();
+                $stage1->model = 'Adrs';
+                $stage1->stage = 'Submitted';
+                $stage1->description = 'Stage 1';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $adr->report_stages = [$stage1];
+
               //submit to mcaz button
               $adr->submitted_date = date("Y-m-d H:i:s");
-              $adr->status = ($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
+              $adr->status = 'Submitted';//($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
               $adr->reference_number = 'SAE'.$adr->id.'/'.$adr->created->i18nFormat('yyyy');
               if ($this->Adrs->save($adr, ['validate' => false])) {
                 $this->Flash->success(__('Report '.$adr->reference_number.' has been successfully submitted to MCAZ for review.'));                //send email and notification

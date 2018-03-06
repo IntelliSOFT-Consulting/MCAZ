@@ -33,6 +33,7 @@
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('institution_name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
+                <th scope="col">Stages</th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>                
                 <?php if(isset($this->request->query['status']) && $this->request->query['status'] != 'UnSubmitted') { ?>
                 <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th> 
@@ -47,7 +48,14 @@
                 <td><?php
                       echo ($sadr->submitted == 2) ? $this->Html->link($sadr->reference_number, ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) : $sadr->created ; ?></td>
                 <td><?= h($sadr->institution_name) ?></td>
-                <td><?= h($sadr->status) ?></td>
+                <td><?= h($sadr->status) ?></td>                
+                <td>
+                    <?php 
+                        foreach ($sadr->report_stages as $application_stage) {
+                            echo "<p>".$application_stage->stage." - ".$application_stage->description." - ".h($application_stage->created)."</p>";
+                        }
+                    ?>
+                </td>
                 <td><?= h($sadr->modified) ?></td>         
                 <?php if(isset($this->request->query['status']) && $this->request->query['status'] != 'UnSubmitted') { ?>       
                 <td>

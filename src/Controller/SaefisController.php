@@ -81,8 +81,11 @@ class SaefisController extends AppController
     public function view($id = null)
     {
         $saefi = $this->Saefis->get($id, [
-            'contain' => ['SaefiListOfVaccines', 'Attachments', 'Reports'],
-            'conditions' => ['user_id' => $this->Auth->user('id')]
+            'contain' => ['SaefiListOfVaccines', 'AefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 
+                          'Committees.Users', 'Committees.SaefiComments', 'Committees.SaefiComments.Attachments', 
+                          'ReportStages', 'AefiCausalities', 'Reports',
+                          'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports'],
+            'conditions' => ['Saefis.user_id' => $this->Auth->user('id')]
         ]);
 
         if(strpos($this->request->url, 'pdf')) {
@@ -169,7 +172,7 @@ class SaefisController extends AppController
     public function edit($id = null)
     {
         $saefi = $this->Saefis->get($id, [
-            'contain' => ['SaefiListOfVaccines', 'AefiListOfVaccines',  'Attachments', 'Reports'],
+            'contain' => ['SaefiListOfVaccines', 'AefiListOfVaccines',  'Attachments', 'Reports', 'ReportStages'],
             'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
         if ($saefi->submitted == 2) {
@@ -193,9 +196,16 @@ class SaefisController extends AppController
                 $this->Flash->error(__('Report could not be saved. Kindly correct the errors and try again.'));
               }
             } elseif ($saefi->submitted == 2) {
+                //new stage
+                $stage1  = $this->Saefis->ReportStages->newEntity();
+                $stage1->model = 'Saefis';
+                $stage1->stage = 'Submitted';
+                $stage1->description = 'Stage 1';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $saefi->report_stages = [$stage1];
               //submit to mcaz button
               $saefi->submitted_date = date("Y-m-d H:i:s");
-              $saefi->status = ($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
+              $saefi->status = 'Submitted';//($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
               $saefi->reference_number = 'SAEFI'.$saefi->id.'/'.$saefi->created->i18nFormat('yyyy');
               if ($this->Saefis->save($saefi, ['validate' => false])) {
                 $this->Flash->success(__('Report '.$saefi->reference_number.' has been successfully submitted to MCAZ for review.'));                

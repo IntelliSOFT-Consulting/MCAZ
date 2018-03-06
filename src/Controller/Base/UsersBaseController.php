@@ -166,7 +166,6 @@ class UsersBaseController extends AppController
                     $sadr->user_id = $this->Auth->user('id');
                     $sadr->submitted_date = date("Y-m-d H:i:s");
                     $sadr->submitted = 2;
-                    $sadr->status = 'Imported';
                     if ($entity->save($sadr)) {
                         //update field
                         $query = $entity->query();
