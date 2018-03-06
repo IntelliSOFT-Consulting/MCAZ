@@ -29,6 +29,26 @@
 	            ?>
          	    </div>          
             </div>
+            <div class="row">
+              <div class="col-xs-6">
+                <?php
+                  if ($prefix == 'manager') {                  
+                      echo $this->Form->control('reviews.100.signature', ['type' => 'checkbox', 'label' => 'Attach signature', 'escape' => false, 'templates' => 'app_form']);
+                  } else {
+                      echo "<div class='control-label'><label>Signature<label></div>";
+                      echo $this->Form->control('reviews.100.signature', ['type' => 'hidden', 'value' => 1, 'templates' => 'table_form']);
+                  }
+                ?>
+              </div>
+              <div class="col-xs-4">
+                <?php          
+                  echo "<img src='".$this->Url->build(substr($this->request->session()->read('Auth.User.dir'), 8) . '/' . $this->request->session()->read('Auth.User.file'), true)."' style='width: 70%;' alt=''>";
+                ?>
+              </div>
+              <div class="col-xs-2"> </div>
+            </div>
+            <br>
+            
             <div class="form-group"> 
                 <div class="col-sm-offset-4 col-sm-8"> 
                   <button type="submit" class="btn btn-primary active" id="registerUser"><i class="fa fa-plus" aria-hidden="true"></i> Review</button>

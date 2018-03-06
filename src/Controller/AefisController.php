@@ -273,9 +273,9 @@ class AefisController extends AppController
                     $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Aefis', 'foreign_key' => $aefi->id,
                       'vars' =>  $aefi->toArray()];
                     $data['type'] = 'manager_submit_aefi_email';
+                    $data['vars']['name'] = $manager->name;
                     $this->QueuedJobs->createJob('GenericEmail', $data);
                     $data['type'] = 'manager_submit_aefi_notification';
-                    $data['vars']['name'] = $manager->name;
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
                 return $this->redirect(['action' => 'view', $aefi->id]);

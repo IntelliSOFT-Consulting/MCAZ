@@ -56,8 +56,8 @@ class CommentsController extends AppController
 
             if ($this->Comments->save($comment) && $entity->save($report)) {
                 //Send email, notification and message to managers and assigned evaluators
-                $filt = [1, $report->assigned_to];
-                $managers = $entity->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+                $filt = [1, $report->assigned_by, $report->assigned_to];
+                $managers = $entity->Users->find('all', ['limit' => 200])->Where(['id IN' => $filt]);
 
                 $this->loadModel('Queue.QueuedJobs'); 
 

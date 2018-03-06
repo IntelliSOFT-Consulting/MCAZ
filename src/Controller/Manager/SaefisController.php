@@ -27,7 +27,7 @@ class SaefisController extends SaefisBaseController
 
             //new stage only once
             if(!in_array("Assigned", Hash::extract($saefi->report_stages, '{n}.stage'))) {
-                $stage1  = $this->Sadrs->ReportStages->newEntity();
+                $stage1  = $this->Saefis->ReportStages->newEntity();
                 $stage1->model = 'Saefis';
                 $stage1->stage = 'Assigned';
                 $stage1->description = 'Stage 2';

@@ -25,7 +25,6 @@
          ?>
     </a></li>
     <li role="presentation"><a href="#causality" aria-controls="causality" role="tab" data-toggle="tab">Causality Assessment</a></li>
-    <li role="presentation"><a href="#request_reporter" aria-controls="request_reporter" role="tab" data-toggle="tab">Request info</a></li>
     <li role="presentation"><a href="#committee_review" aria-controls="committee_review" role="tab" data-toggle="tab">Committee Review</a></li>
     <?php } ?>
         <?php if($sadr->copied === 'new copy') { ?>
@@ -74,9 +73,6 @@
     </div>
     <div role="tabpanel" class="tab-pane" id="causality">
         <?= $this->element('sadrs/causality') ?>
-    </div>
-    <div role="tabpanel" class="tab-pane" id="request_reporter">
-        <?= $this->element('sadrs/request_reporter') ?>
     </div>
     <div role="tabpanel" class="tab-pane" id="committee_review">
         <?= $this->element('sadrs/committee_review') ?>

@@ -25,7 +25,6 @@
      $ApplicantResponse = isset($stats['ApplicantResponse']) ? '<small class="badge badge-sadr pull-right">'. $stats['ApplicantResponse'] .'</small>' : '' ;
      $Presented = isset($stats['Presented']) ? '<small class="badge badge-sadr pull-right">'. $stats['Presented'] .'</small>' : '' ;
      $FinalFeedback = isset($stats['FinalFeedback']) ? '<small class="badge badge-sadr pull-right">'. $stats['FinalFeedback'] .'</small>' : '' ;
-     $Rejected = isset($stats['Rejected']) ? '<small class="badge badge-sadr pull-right">'. $stats['Rejected'] .'</small>' : '' ;
      $Duplicated = isset($stats['Duplicated']) ? '<small class="badge badge-sadr pull-right">'. $stats['Duplicated'] .'</small>' : '' ;
 
      $aSubmitted = isset($aefi_stat['Submitted']) ? '<small class="badge badge-aefi pull-right">'. $aefi_stat['Submitted'] .'</small>' : '' ;
@@ -41,7 +40,7 @@
      $aApplicantResponse = isset($aefi_stat['ApplicantResponse']) ? '<small class="badge badge-aefi pull-right">'. $aefi_stat['ApplicantResponse'] .'</small>' : '' ;
      $aPresented = isset($aefi_stat['Presented']) ? '<small class="badge badge-aefi pull-right">'. $aefi_stat['Presented'] .'</small>' : '' ;
      $aFinalFeedback = isset($aefi_stat['FinalFeedback']) ? '<small class="badge badge-aefi pull-right">'. $aefi_stat['FinalFeedback'] .'</small>' : '' ;
-     $aRejected = isset($aefi_stat['Rejected']) ? '<small class="badge badge-aefi pull-right">'. $aefi_stat['Rejected'] .'</small>' : '' ;
+     $aVigiBase = isset($aefi_stat['VigiBase']) ? '<small class="badge badge-aefi pull-right">'. $aefi_stat['VigiBase'] .'</small>' : '' ;
      $aDuplicated = isset($aefi_stat['Duplicated']) ? '<small class="badge badge-aefi pull-right">'. $aefi_stat['Duplicated'] .'</small>' : '' ;
 
      $saSubmitted = isset($saefi_stat['Submitted']) ? '<small class="badge badge-saefi pull-right">'. $saefi_stat['Submitted'] .'</small>' : '' ;
@@ -56,7 +55,7 @@
      $saApplicantResponse = isset($saefi_stat['ApplicantResponse']) ? '<small class="badge badge-saefi pull-right">'. $saefi_stat['ApplicantResponse'] .'</small>' : '' ;
      $saPresented = isset($saefi_stat['Presented']) ? '<small class="badge badge-saefi pull-right">'. $saefi_stat['Presented'] .'</small>' : '' ;
      $saFinalFeedback = isset($saefi_stat['FinalFeedback']) ? '<small class="badge badge-saefi pull-right">'. $saefi_stat['FinalFeedback'] .'</small>' : '' ;
-     $saRejected = isset($saefi_stat['Rejected']) ? '<small class="badge badge-saefi pull-right">'. $saefi_stat['Rejected'] .'</small>' : '' ;
+     $saVigiBase = isset($saefi_stat['VigiBase']) ? '<small class="badge badge-saefi pull-right">'. $saefi_stat['VigiBase'] .'</small>' : '' ;
      $saDuplicated = isset($saefi_stat['Duplicated']) ? '<small class="badge badge-saefi pull-right">'. $saefi_stat['Duplicated'] .'</small>' : '' ;
 
      $rSubmitted = isset($adr_stat['Submitted']) ? '<small class="badge badge-adr pull-right">'. $adr_stat['Submitted'] .'</small>' : '' ;
@@ -71,7 +70,7 @@
      $rApplicantResponse = isset($adr_stat['ApplicantResponse']) ? '<small class="badge badge-adr pull-right">'. $adr_stat['ApplicantResponse'] .'</small>' : '' ;
      $rPresented = isset($adr_stat['Presented']) ? '<small class="badge badge-adr pull-right">'. $adr_stat['Presented'] .'</small>' : '' ;
      $rFinalFeedback = isset($adr_stat['FinalFeedback']) ? '<small class="badge badge-adr pull-right">'. $adr_stat['FinalFeedback'] .'</small>' : '' ;
-     $rRejected = isset($adr_stat['Rejected']) ? '<small class="badge badge-adr pull-right">'. $adr_stat['Rejected'] .'</small>' : '' ;
+     $rVigiBase = isset($adr_stat['VigiBase']) ? '<small class="badge badge-adr pull-right">'. $adr_stat['VigiBase'] .'</small>' : '' ;
      $rDuplicated = isset($adr_stat['Duplicated']) ? '<small class="badge badge-adr pull-right">'. $adr_stat['Duplicated'] .'</small>' : '' ;
 
      $ncount = isset($ncount) ? '<small class="badge pull-right">'. $ncount .'</small>' : '' ;

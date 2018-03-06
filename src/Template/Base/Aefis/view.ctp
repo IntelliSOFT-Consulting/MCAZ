@@ -24,12 +24,12 @@
          ?>
     </a></li>
     <li role="presentation"><a href="#causality" aria-controls="causality" role="tab" data-toggle="tab">Causality Assessment</a></li>
-    <li role="presentation"><a href="#request_reporter" aria-controls="request_reporter" role="tab" data-toggle="tab">Communications</a></li>
     <li role="presentation"><a href="#committee_review" aria-controls="committee_review" role="tab" data-toggle="tab">Committee Review</a></li>
         <?php if($aefi->copied === 'new copy') { ?>
     <li role="presentation"><a href="#original" aria-controls="original" role="tab" data-toggle="tab">Original Report</a></li>
         <?php } ?>
     <?php } ?>
+    <li role="presentation"><a href="#stages" aria-controls="stages" role="tab" data-toggle="tab">STAGES</a></li>
   </ul>
 
   <!-- Tab panes -->
@@ -73,9 +73,6 @@
     <div role="tabpanel" class="tab-pane" id="causality">
         <?php echo $this->element('aefis/causality') ?>
     </div>
-    <div role="tabpanel" class="tab-pane" id="request_reporter">
-        <?php  echo $this->element('aefis/request_reporter') ?>
-    </div>
     <div role="tabpanel" class="tab-pane" id="committee_review">
         <?php  echo $this->element('aefis/committee_review') ?>
     </div>
@@ -84,6 +81,9 @@
         <?php  echo $this->element('aefis/clean') ?>
     </div>
         <?php } ?>
+    <div role="tabpanel" class="tab-pane" id="stages">
+        <?= $this->element('aefis/stages') ?>
+    </div>
   </div>
 </div>
 

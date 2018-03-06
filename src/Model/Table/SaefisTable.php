@@ -165,8 +165,8 @@ class SaefisTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('place_vaccination')
-            ->allowEmpty('place_vaccination');
+            ->scalar('name_of_vaccination_site')
+            ->notEmpty('name_of_vaccination_site');
 
         $validator
             ->scalar('place_vaccination_other')

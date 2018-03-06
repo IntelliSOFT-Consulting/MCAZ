@@ -46,6 +46,18 @@ class ReviewsTable extends Table
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
         ]);
+        $this->belongsTo('Sadrs', [
+            'foreignKey' => 'foreign_key'
+        ]);
+        $this->belongsTo('Adrs', [
+            'foreignKey' => 'foreign_key'
+        ]);
+        $this->belongsTo('Aefis', [
+            'foreignKey' => 'foreign_key'
+        ]);
+        $this->belongsTo('Saefis', [
+            'foreignKey' => 'foreign_key'
+        ]);
         
 
         $this->hasMany('SadrComments', [
@@ -85,6 +97,9 @@ class ReviewsTable extends Table
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
+
+        $validator
+            ->allowEmpty('file');
 
         $validator
             ->integer('foreign_key')

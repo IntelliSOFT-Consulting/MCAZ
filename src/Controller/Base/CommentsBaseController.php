@@ -56,8 +56,8 @@ class CommentsBaseController extends AppController
 
             if ($this->Comments->save($comment) && $entity->save($report)) {
                 //Send email, notification and message to managers and assigned evaluators
-                $filt = [1, $report->assigned_to];
-                $managers = $entity->Users->find('all', ['limit' => 200])->where(['group_id' => 2])->orWhere(['id IN' => $filt]);
+                $filt = [$this->Auth->user('id'), $report->assigned_to];
+                $managers = $entity->Users->find('all', ['limit' => 200])->Where(['id IN' => $filt]);
 
                 $this->loadModel('Queue.QueuedJobs'); 
 
@@ -97,6 +97,71 @@ class CommentsBaseController extends AppController
                 return $this->redirect($this->referer());
             }
             $this->Flash->error(__('The comment could not be saved. Please, try again.'));
+        }
+        
+    }
+
+    public function addFromCausality($parm)
+    {
+        $comment = $this->Comments->newEntity();
+        if ($this->request->is('post')) {
+
+            $this->loadModel('Sadrs');
+            $this->loadModel('Adrs');
+            $this->loadModel('Aefis');
+            $this->loadModel('Saefis');
+
+            if ($parm === 'sadrs') {
+                $entity = $this->Sadrs;
+            } elseif ($parm == 'adrs') {
+                $entity = $this->Adrs;
+            } elseif ($parm == 'aefis') {
+                $entity = $this->Aefis;
+            } elseif ($parm == 'saefis') {
+                $entity = $this->Saefis;
+            } else {
+                $this->Flash->error(__('Unable to process request. Please, try again.')); 
+                return $this->redirect($this->referer());
+            }
+
+            $comment = $this->Comments->patchEntity($comment, $this->request->getData());
+            $report = $entity->get($this->request->getData('model_id'), []);
+
+            /**
+             * Committee raises query to evaluator after assessment
+             * Should fire notification to evaluator
+             * 
+             */
+            $pparm = ['adrs' => 'Adrs', 'sadrs' => 'Sadrs', 'aefis' => 'Aefis', 'saefis' => 'Saefis'];
+
+            if ($this->Comments->save($comment)) {
+                //Send email, notification and message to managers and assigned evaluators
+                $filt = [$this->Auth->user('id'), $report->assigned_to];
+                $managers = $entity->Users->find('all', ['limit' => 200])->Where(['id IN' => $filt]);
+
+                $this->loadModel('Queue.QueuedJobs'); 
+
+                foreach ($managers as $manager) {
+                    //Notify managers  
+                    $data = [
+                        'email_address' => $manager->email, 'user_id' => $manager->id,
+                        'type' => 'manager_evaluator_query_email', 'model' => $pparm[$parm], 'foreign_key' => $report->id,
+                    ];
+                    $data['vars']['name'] = $manager->name;
+                    $data['vars']['reference_number'] = $report->reference_number;
+                    $data['vars']['subject'] = $comment->subject;  
+                    $data['vars']['content'] = $comment->content;              
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'manager_evaluator_query_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+
+                $this->Flash->success(__('The internal comment has been successfully raised.'));
+
+                return $this->redirect($this->referer());
+            }
+            $this->Flash->error(__('The internal comment could not be saved. Please, try again.'));
         }
         
     }

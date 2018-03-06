@@ -558,8 +558,13 @@
 
     <div class="row">
       <div class="col-xs-6">
-        <?php
-          echo $this->Form->control('aefi_causalities.'.$ekey.'.signature', ['type' => 'checkbox', 'label' => 'Attach signature', 'escape' => false, 'templates' => 'app_form']);
+        <?php          
+          if ($prefix == 'manager') {                  
+              echo $this->Form->control('aefi_causalities.'.$ekey.'.signature', ['type' => 'checkbox', 'label' => 'Attach signature', 'escape' => false, 'templates' => 'app_form']);
+          } else {
+              echo "<div class='control-label'><label>Signature<label></div>";
+              echo $this->Form->control('aefi_causalities.'.$ekey.'.signature', ['type' => 'hidden', 'value' => 1, 'templates' => 'table_form']);
+          }
         ?>
       </div>
       <div class="col-xs-4">

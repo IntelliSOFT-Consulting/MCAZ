@@ -13,6 +13,7 @@
       <li role="presentation" class="active"><a href="#report" aria-controls="report" role="tab" data-toggle="tab">
         <b><?= ($adr->submitted == 2) ? $adr->reference_number : $adr->created ?></b></a></li>
       <li role="presentation"><a href="#committee" aria-controls="committee" role="tab" data-toggle="tab"><b>Committee Review(s)</b></a></li>     
+      <li role="presentation"><a href="#stages" aria-controls="stages" role="tab" data-toggle="tab">STAGES</a></li>
   </ul>
 </div>
 <div class="col-xs-10">  
@@ -27,6 +28,9 @@
 
     <div role="tabpanel" class="tab-pane" id="committee">      
         <?= $this->element('adrs/applicant_committee') ?>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="stages">
+        <?= $this->element('adrs/stages') ?>
     </div>
     </div>
   </div>
