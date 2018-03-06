@@ -258,7 +258,7 @@ class AdrsController extends AppController
               }
             } elseif ($adr->submitted == 2) {
                 //new stage
-                $stage1  = $this->Adr->ReportStages->newEntity();
+                $stage1  = $this->Adrs->ReportStages->newEntity();
                 $stage1->model = 'Adrs';
                 $stage1->stage = 'Submitted';
                 $stage1->description = 'Stage 1';
