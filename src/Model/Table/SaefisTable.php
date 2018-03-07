@@ -69,6 +69,14 @@ class SaefisTable extends Table
             'dependent' => true,
             'conditions' => array('OriginalSaefis.copied' => 'old copy')
         ]);
+
+        $this->hasMany('SaefiComments', [
+            'className' => 'Comments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('SaefiComments.model' => 'Saefis'),
+        ]);
+        
         $this->hasMany('SaefiListOfVaccines', [
             'foreignKey' => 'saefi_id'
         ]);

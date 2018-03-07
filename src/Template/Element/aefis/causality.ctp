@@ -2,11 +2,37 @@
   use Cake\Utility\Hash; 
   $this->Html->script('causality', ['block' => true]);
 ?>
+<!-- <div class="ctr-groups"> -->
+  <br>
+<?php if($this->request->params['_ext'] != 'pdf') { ?>
+  <div class="amend-form">
+    <h5 class="text-center"><u>INTERNAL COMMENTS/QUERIES</u></h5>
+    <div class="row">
+      <div class="col-xs-8">    
+        <?php echo $this->element('comments/list', ['comments' => $aefi->aefi_comments]) ?> 
+      </div>
+      <div class="col-xs-4 lefty">
+        <?php if(!in_array("FinalStage", Hash::extract($aefi->report_stages, '{n}.stage')) && !empty($aefi->assigned_to)) { ?>
+        <?php  
+              echo $this->element('comments/add', [
+                'model' => ['model_id' => $aefi->id, 'foreign_key' => $aefi->id, 
+                            'model' => 'Aefis', 'category' => 'causality', 'url' => 'add-from-causality/aefis']]) 
+        ?>
+        <?php } ?>
+      </div>
+    </div>
+  </div>
+<?php } ?>
+<!-- </div> -->
+
   <div class="row">
-    <div class="col-xs-12"><h3 class="text-center">Causality Assessment</h3></div><hr>
+    <div class="col-xs-12"><h3 class="text-center text-success">Causality Assessment</h3><hr>
       <?php
-        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['action' => 'download', '_ext' => 'pdf', $aefi->id, 'causality', ], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
+        if($this->request->params['_ext'] != 'pdf') {
+          echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['action' => 'download', '_ext' => 'pdf', $aefi->id, 'causality', ], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
+        }
       ?>
+    </div>
   </div>
 
   <div class="row">
@@ -19,8 +45,10 @@
       <?php echo $this->element('aefis/causality_assessments', ["aefi_causalities" => $aefi->aefi_causalities]) ?>
     </div>
   </div>
-<?php if($this->request->params['_ext'] != 'pdf') { ?>
 
+<?php if($this->request->params['_ext'] != 'pdf') { ?>
+<br><hr>
+<h2 class="text-center text-danger">Causality Form</h2>
 <div class="row causality-form">
   <div class="col-xs-12">
     <hr>

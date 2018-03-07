@@ -113,9 +113,9 @@ class SaefisBaseController extends AppController
     {
         $saefi = $this->Saefis->get($id, [
             'contain' => ['SaefiListOfVaccines', 'AefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 
-                          'Reviews', 'Reviews.Users', 'Reviews.SaefiComments', 'Reviews.SaefiComments.Attachments',  
+                          'SaefiComments', 'SaefiComments.Attachments',  
                           'Committees.Users', 'Committees.SaefiComments', 'Committees.SaefiComments.Attachments', 
-                          'ReportStages', 'AefiCausalities', 'Reports',
+                          'ReportStages', 'AefiCausalities', 'AefiCausalities.Users', 'Reports',
                           'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports'], 
                           'withDeleted'
         ]);
@@ -138,7 +138,7 @@ class SaefisBaseController extends AppController
             ]);
         }
         $evaluators = $this->Saefis->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
-        $users = $this->Saefis->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        $users = $this->Saefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         
 
         $designations = $this->Saefis->Designations->find('list',array('order'=>'Designations.name ASC'));
@@ -152,8 +152,10 @@ class SaefisBaseController extends AppController
     {
         //Method to download specific part of form
         $saefi = $this->Saefis->get($id, [
-            'contain' => ['SaefiListOfVaccines', 'AefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'AefiCausalities',
-                          'Reports',
+            'contain' => ['SaefiListOfVaccines', 'AefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 
+                          'SaefiComments', 'SaefiComments.Attachments',  
+                          'Committees.Users', 'Committees.SaefiComments', 'Committees.SaefiComments.Attachments', 
+                          'ReportStages', 'AefiCausalities', 'AefiCausalities.Users', 'Reports',
                           'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports'], 
                           'withDeleted'
         ]);
@@ -563,11 +565,11 @@ class SaefisBaseController extends AppController
     }
 
     public function attachSignature($id = null) {
-        $review = $this->Saefis->Reviews->get($id, ['contain' => ['Saefis']]);
+        $aefi_causality = $this->Saefis->AefiCausalities->get($id, ['contain' => ['Saefis']]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $review = $this->Saefis->Reviews->patchEntity($review, ['chosen' => 1, 'saefi' => ['signature' => 1]], ['associated' => ['Saefis']]);
-            if ($this->Saefis->Reviews->save($review)) {
-                $this->Flash->success('Signature successfully attached to review');
+            $aefi_causality = $this->Saefis->AefiCausalities->patchEntity($aefi_causality, ['chosen' => 1, 'saefi' => ['signature' => 1]], ['associated' => ['Saefis']]);
+            if ($this->Saefis->AefiCausalities->save($aefi_causality)) {
+                $this->Flash->success('Signature successfully attached to assessment');
                 return $this->redirect($this->referer());
             } else {             
                 $this->Flash->error(__('Unable to attach signature. Please, try again.')); 

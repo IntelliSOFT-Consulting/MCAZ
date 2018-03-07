@@ -157,7 +157,7 @@ should be submitted as follow up report</td></tr>
                             </div>
                             <div>
                               <h4 class="form-control-static text-info text-left"><?php          
-                                echo ($review->signature) ? "<img src='".$this->Url->build(substr($this->request->session()->read('Auth.User.dir'), 8) . '/' . $this->request->session()->read('Auth.User.file'), true)."' style='width: 30%;' alt=''>" : '';
+                                echo ($review->signature) ? "<img src='".$this->Url->build(substr($review->user->dir, 8) . '/' . $review->user->file, true)."' style='width: 30%;' alt=''>" : '';
                               ?></h4>
                             </div>
                           </div>

@@ -15,7 +15,11 @@
                         echo $this->Form->control('model', ['type' => 'hidden', 'value' => $model['model'], 'templates' => 'table_form']);
                         echo $this->Form->control('category', ['type' => 'hidden', 'value' => $model['category'], 'templates' => 'table_form']);
                         echo $this->Form->control('user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);
-                        echo $this->Form->control('sender', ['escape' => false, 'templates' => 'comment_form']);
+                        if(strpos($model['url'], 'committee') !== false) {
+                          echo $this->Form->control('sender', ['escape' => false, 'templates' => 'comment_form']);
+                        } else {                          
+                          echo $this->Form->control('sender', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.name'), 'templates' => 'comment_form']);
+                        }
                         echo $this->Form->control('subject', ['label' => 'Subject', 'templates' => 'comment_form']);
                         echo $this->Form->control('content', ['label' => 'Content', 'type' => 'textarea', 'templates' => 
                               [

@@ -2,10 +2,33 @@
   use Cake\Utility\Hash; 
   $this->Html->script('causality', ['block' => true]);
 ?>
+  <br>
+  <?php if($this->request->params['_ext'] != 'pdf') { ?>
+    <div class="amend-form">
+      <h5 class="text-center"><u>INTERNAL COMMENTS/QUERIES</u></h5>
+      <div class="row">
+        <div class="col-xs-8">    
+          <?php echo $this->element('comments/list', ['comments' => $saefi->saefi_comments]) ?> 
+        </div>
+        <div class="col-xs-4 lefty">
+          <?php if(!in_array("FinalStage", Hash::extract($saefi->report_stages, '{n}.stage')) && !empty($saefi->assigned_to)) { ?>
+          <?php  
+                echo $this->element('comments/add', [
+                  'model' => ['model_id' => $saefi->id, 'foreign_key' => $saefi->id, 
+                              'model' => 'Saefis', 'category' => 'causality', 'url' => 'add-from-causality/saefis']]) 
+          ?>
+          <?php } ?>
+        </div>
+      </div>
+    </div>
+  <?php } ?>
+
   <div class="row">
     <div class="col-xs-12"><h3 class="text-center">Causality Assessment</h3></div><hr>
       <?php
-        echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['action' => 'download', '_ext' => 'pdf', $saefi->id, 'causality', ], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
+        if($this->request->params['_ext'] != 'pdf') {
+          echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download All ', ['action' => 'download', '_ext' => 'pdf', $saefi->id, 'causality', ], ['escape' => false, 'class' => 'btn btn-info btn-sm']);
+        }
       ?>
   </div>
 
@@ -17,7 +40,7 @@
           echo "<h3 class='text-center'>Previous Assessment(s)</h3>";
         }
       ?>
-      <?php echo $this->element('saefis/causality_assessments', ["aefi_causalities" => $saefi->aefi_causalities]) ?>
+      <?php echo $this->element('aefis/causality_assessments', ['aefi_causalities' => $saefi->aefi_causalities, 'aefi' => $saefi]) ?>
     </div>
   </div>
 <?php if($this->request->params['_ext'] != 'pdf') { ?>

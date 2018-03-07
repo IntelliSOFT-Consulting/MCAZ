@@ -57,18 +57,6 @@ class AefiCausalitiesTable extends Table
         ]);
 
         
-        $this->hasMany('AefiComments', [
-            'className' => 'Comments',
-            'foreignKey' => 'foreign_key',
-            'dependent' => true,
-            'conditions' => array('AefiComments.model' => 'Aefis'),
-        ]);
-        $this->hasMany('SaefiComments', [
-            'className' => 'Comments',
-            'foreignKey' => 'foreign_key',
-            'dependent' => true,
-            'conditions' => array('SaefiComments.model' => 'Saefis'),
-        ]);
     }
 
     /**

@@ -141,8 +141,7 @@ class AefisBaseController extends AppController
         
         $aefi = $this->Aefis->get($id, [
             'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 
-                          //'Reviews', 'Reviews.Users', 'Reviews.AefiComments', 'Reviews.AefiComments.Attachments',  
-                          'AefiCausalities.Users', 'AefiCausalities.AefiComments', 'AefiCausalities.AefiComments.Attachments',  
+                          'AefiCausalities.Users', 'AefiComments', 'AefiComments.Attachments',  
                           'Committees', 'Committees.Users', 'Committees.AefiComments', 'Committees.AefiComments.Attachments', 
                           'ReportStages', 
                           'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments', 
@@ -169,7 +168,7 @@ class AefisBaseController extends AppController
         }
 
         $evaluators = $this->Aefis->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
-        $users = $this->Aefis->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        $users = $this->Aefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
@@ -183,10 +182,14 @@ class AefisBaseController extends AppController
         //Method to download specific part of form
         $aefi = $this->Aefis->get($id, [
             'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 
-                          'Committees', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments', 
+                          'AefiCausalities.Users', 'AefiComments', 'AefiComments.Attachments',  
+                          'Committees', 'Committees.Users', 'Committees.AefiComments', 'Committees.AefiComments.Attachments', 
+                          'ReportStages', 
+                          'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments', 
                           'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments'], 
                           'withDeleted'
         ]);
+
         $ekey = 100;
         if(strpos($this->request->url, 'pdf')) {
             $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
@@ -198,7 +201,7 @@ class AefisBaseController extends AppController
             ]);
         }
         $evaluators = $this->Aefis->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
-        $users = $this->Aefis->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        $users = $this->Aefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         
 
         $designations = $this->Aefis->Designations->find('list',array('order'=>'Designations.name ASC'));
@@ -604,11 +607,11 @@ class AefisBaseController extends AppController
     }
 
     public function attachSignature($id = null) {
-        $review = $this->Aefis->Reviews->get($id, ['contain' => ['Aefis']]);
+        $aefi_causality = $this->Aefis->AefiCausalities->get($id, ['contain' => ['Aefis']]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $review = $this->Aefis->Reviews->patchEntity($review, ['chosen' => 1, 'aefi' => ['signature' => 1]], ['associated' => ['Aefis']]);
-            if ($this->Aefis->Reviews->save($review)) {
-                $this->Flash->success('Signature successfully attached to review');
+            $aefi_causality = $this->Aefis->AefiCausalities->patchEntity($aefi_causality, ['chosen' => 1, 'aefi' => ['signature' => 1]], ['associated' => ['Aefis']]);
+            if ($this->Aefis->AefiCausalities->save($aefi_causality)) {
+                $this->Flash->success('Signature successfully attached to assessment');
                 return $this->redirect($this->referer());
             } else {             
                 $this->Flash->error(__('Unable to attach signature. Please, try again.')); 
