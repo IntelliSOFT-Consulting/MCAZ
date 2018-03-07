@@ -180,7 +180,8 @@ class AdrsBaseController extends AppController
 
         $adr = $this->Adrs->get($id, [
             'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 
-                          'Committees', 'Committees.Users', 'Committees.AdrComments', 'Committees.AdrComments.Attachments', 'ReportStages', 'Reviews', 
+                          'Reviews', 'Reviews.Users', 'Reviews.AdrComments', 'Reviews.AdrComments.Attachments',  
+                          'Committees', 'Committees.Users', 'Committees.AdrComments', 'Committees.AdrComments.Attachments', 'ReportStages', 
                           'OriginalAdrs', 'OriginalAdrs.AdrListOfDrugs', 'OriginalAdrs.AdrOtherDrugs', 'OriginalAdrs.Attachments'], 'withDeleted'
         ]);
 
@@ -196,7 +197,7 @@ class AdrsBaseController extends AppController
         }
         
         $evaluators = $this->Adrs->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
-        $users = $this->Adrs->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        $users = $this->Adrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
@@ -262,7 +263,7 @@ class AdrsBaseController extends AppController
     }
 
     public function causality() {
-        $adr = $this->Adrs->get($this->request->getData('adr_pr_id'), []);
+        $adr = $this->Adrs->get($this->request->getData('adr_pr_id'), ['contain' => ['ReportStages']]);
         if (isset($adr->id) && $this->request->is('post')) {
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
             $adr->reviews[0]->user_id = $this->Auth->user('id');
@@ -629,8 +630,22 @@ class AdrsBaseController extends AppController
         $this->set('_serialize', ['adr']);
     }
 
+    public function attachSignature($id = null) {
+        $review = $this->Adrs->Reviews->get($id, ['contain' => ['Adrs']]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $review = $this->Adrs->Reviews->patchEntity($review, ['chosen' => 1, 'adr' => ['signature' => 1]], ['associated' => ['Adrs']]);
+            if ($this->Adrs->Reviews->save($review)) {
+                $this->Flash->success('Signature successfully attached to review');
+                return $this->redirect($this->referer());
+            } else {             
+                $this->Flash->error(__('Unable to attach signature. Please, try again.')); 
+                return $this->redirect($this->referer());
+            }
+        }
+    }
+
     /**
-     * Delete method
+     * Archive method
      *
      * @param string|null $id Adr id.
      * @return \Cake\Http\Response|null Redirects to index.
@@ -649,18 +664,6 @@ class AdrsBaseController extends AppController
             ->execute();
         $this->Flash->success(__('The SAE has been archived.'));
         //
-
-        return $this->redirect(['action' => 'index']);
-    }
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $adr = $this->Adrs->get($id);
-        if ($this->Adrs->delete($adr)) {
-            $this->Flash->success(__('The adr has been deleted.'));
-        } else {
-            $this->Flash->error(__('The adr could not be deleted. Please, try again.'));
-        }
 
         return $this->redirect(['action' => 'index']);
     }

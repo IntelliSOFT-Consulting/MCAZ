@@ -78,5 +78,16 @@ class AdrsController extends AdrsBaseController
         }
     }
 
+    public function delete($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $adr = $this->Adrs->get($id);
+        if ($this->Adrs->delete($adr)) {
+            $this->Flash->success(__('The adr has been deleted.'));
+        } else {
+            $this->Flash->error(__('The adr could not be deleted. Please, try again.'));
+        }
 
+        return $this->redirect(['action' => 'index']);
+    }
 }

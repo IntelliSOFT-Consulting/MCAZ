@@ -46,11 +46,28 @@ class AefiCausalitiesTable extends Table
             'file' => [],
         ]);
 
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id'
+        ]);
         $this->belongsTo('Aefis', [
             'foreignKey' => 'aefi_id'
         ]);
         $this->belongsTo('Saefis', [
             'foreignKey' => 'saefi_id'
+        ]);
+
+        
+        $this->hasMany('AefiComments', [
+            'className' => 'Comments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('AefiComments.model' => 'Aefis'),
+        ]);
+        $this->hasMany('SaefiComments', [
+            'className' => 'Comments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('SaefiComments.model' => 'Saefis'),
         ]);
     }
 

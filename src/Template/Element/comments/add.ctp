@@ -1,7 +1,7 @@
 <?php
   $this->Html->css('bootstrap/comments.css', ['block' => true]);
-  $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.3.2/tinymce.min.js', ['block' => true]);
-  $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.3.2/jquery.tinymce.min.js', ['block' => true]);
+  // $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.3.2/tinymce.min.js', ['block' => true]);
+  // $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.3.2/jquery.tinymce.min.js', ['block' => true]);
   $this->Html->script('comments/comments', ['block' => true]);
 ?>
 
@@ -24,13 +24,12 @@
                   ?>
                   <div class="row">
                       <div class="col-xs-12">
+                        <div class="uploadsTable">
                           <h6 class="muted"><b>Attach File(s) </b>
-                              <button type="button" class="btn btn-primary btn-xs" id="addUpload">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>
+                              <button type="button" class="btn btn-primary btn-xs addUpload">&nbsp;<i class="fa fa-plus"></i>&nbsp;</button>
                           </h6>
-                        <hr>
-                      <div id="uploadsTable">
-
-                      </div>
+                          <hr>
+                        </div>
                       </div>
                   </div>
             <div class="form-group"> 

@@ -52,12 +52,12 @@ class ReviewsTable extends Table
         $this->belongsTo('Adrs', [
             'foreignKey' => 'foreign_key'
         ]);
-        $this->belongsTo('Aefis', [
+        /*$this->belongsTo('Aefis', [
             'foreignKey' => 'foreign_key'
         ]);
         $this->belongsTo('Saefis', [
             'foreignKey' => 'foreign_key'
-        ]);
+        ]);*/
         
 
         $this->hasMany('SadrComments', [

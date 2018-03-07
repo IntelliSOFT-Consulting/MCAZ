@@ -141,6 +141,8 @@ class AefisBaseController extends AppController
         
         $aefi = $this->Aefis->get($id, [
             'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 
+                          //'Reviews', 'Reviews.Users', 'Reviews.AefiComments', 'Reviews.AefiComments.Attachments',  
+                          'AefiCausalities.Users', 'AefiCausalities.AefiComments', 'AefiCausalities.AefiComments.Attachments',  
                           'Committees', 'Committees.Users', 'Committees.AefiComments', 'Committees.AefiComments.Attachments', 
                           'ReportStages', 
                           'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments', 
@@ -601,8 +603,22 @@ class AefisBaseController extends AppController
 
     }
 
+    public function attachSignature($id = null) {
+        $review = $this->Aefis->Reviews->get($id, ['contain' => ['Aefis']]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $review = $this->Aefis->Reviews->patchEntity($review, ['chosen' => 1, 'aefi' => ['signature' => 1]], ['associated' => ['Aefis']]);
+            if ($this->Aefis->Reviews->save($review)) {
+                $this->Flash->success('Signature successfully attached to review');
+                return $this->redirect($this->referer());
+            } else {             
+                $this->Flash->error(__('Unable to attach signature. Please, try again.')); 
+                return $this->redirect($this->referer());
+            }
+        }
+    }
+
     /**
-     * Delete method
+     * Archive method
      *
      * @param string|null $id Aefi id.
      * @return \Cake\Http\Response|null Redirects to index.

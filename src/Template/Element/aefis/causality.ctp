@@ -9,7 +9,6 @@
       ?>
   </div>
 
-
   <div class="row">
     <div class="col-xs-12">          
       <?php
@@ -22,7 +21,9 @@
   </div>
 <?php if($this->request->params['_ext'] != 'pdf') { ?>
 
-  <div class="row causality-form">
+<div class="row causality-form">
+  <div class="col-xs-12">
+    <hr>
     <?php echo $this->Form->create($aefi, ['type' => 'file', 'url' => ['action' => 'causality']]); ?>
     <fieldset>
     <div class="row">
@@ -462,10 +463,10 @@
 
     <div class="col-xs-12">
       <!-- <p>insert causality assessment table here... collapsible. Collapsed by default</p> -->
-      <a class="btn btn-info" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="true" aria-controls="collapseExample">
+      <a class="btn btn-info" role="button" data-toggle="collapse" href="#collapseExampleTwo" aria-expanded="true" aria-controls="collapseExampleTwo">
          Causality Algorithm
       </a>
-      <div class="collapseTwo" id="collapseExampleTwo">
+      <div id="collapseExampleTwo">
         <div class="well">
           <?php 
             echo $this->Html->image('causality_algorithm.png', ['alt' => 'Causality Algorithm', 'width' => '826']); 
@@ -559,12 +560,12 @@
     <div class="row">
       <div class="col-xs-6">
         <?php          
-          if ($prefix == 'manager') {                  
-              echo $this->Form->control('aefi_causalities.'.$ekey.'.signature', ['type' => 'checkbox', 'label' => 'Attach signature', 'escape' => false, 'templates' => 'app_form']);
-          } else {
+          // if ($prefix == 'manager') {                  
+          //     echo $this->Form->control('aefi_causalities.'.$ekey.'.signature', ['type' => 'checkbox', 'label' => 'Attach signature', 'escape' => false, 'templates' => 'app_form']);
+          // } else {
               echo "<div class='control-label'><label>Signature<label></div>";
               echo $this->Form->control('aefi_causalities.'.$ekey.'.signature', ['type' => 'hidden', 'value' => 1, 'templates' => 'table_form']);
-          }
+          // }
         ?>
       </div>
       <div class="col-xs-4">
@@ -588,5 +589,6 @@
     </fieldset>
          <?php echo $this->Form->end() ?>
   </div>
+</div>
 
 <?php } ?>

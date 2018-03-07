@@ -176,7 +176,8 @@ should be submitted as follow up report</td></tr>
                               </div>
                             </div>                          
                           <?php 
-                            } elseif($prefix == 'manager' && $sadr->signature != 1) { 
+                            //If the current user did not submit the review and review final submission not yet done
+                            } elseif($review->user_id != $this->request->session()->read('Auth.User.id') && $sadr->signature != 1) { 
                                 $template = $this->Form->getTemplates();
                                 $this->Form->resetTemplates();
                                 echo $this->Form->postLink('<span class="label label-info">Attach signature?</span>', 
@@ -226,15 +227,16 @@ should be submitted as follow up report</td></tr>
 	            ?>
          	    </div>          
             </div>
+
             <div class="row">
               <div class="col-xs-6">
                 <?php
-                  if ($prefix == 'manager') {                  
-                      echo $this->Form->control('reviews.100.signature', ['type' => 'checkbox', 'label' => 'Attach signature', 'escape' => false, 'templates' => 'app_form']);
-                  } else {
+                  // if ($prefix == 'manager') {                  
+                  //     echo $this->Form->control('reviews.100.signature', ['type' => 'checkbox', 'label' => 'Attach signature', 'escape' => false, 'templates' => 'app_form']);
+                  // } else {
                       echo "<div class='control-label'><label>Signature<label></div>";
                       echo $this->Form->control('reviews.100.signature', ['type' => 'hidden', 'value' => 1, 'templates' => 'table_form']);
-                  }
+                  // }
                 ?>
               </div>
               <div class="col-xs-4">

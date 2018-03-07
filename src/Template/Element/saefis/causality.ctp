@@ -22,7 +22,8 @@
   </div>
 <?php if($this->request->params['_ext'] != 'pdf') { ?>
 
-  <div class="row causality-form">
+<div class="row causality-form">
+  <div class="col-xs-12">
     <?php echo $this->Form->create($saefi, ['url' => ['action' => 'causality']]); ?>
     <fieldset>
     <div class="row">
@@ -558,12 +559,12 @@
     <div class="row">
       <div class="col-xs-6">
         <?php          
-          if ($prefix == 'manager') {                  
-              echo $this->Form->control('aefi_causalities.'.$ekey.'.signature', ['type' => 'checkbox', 'label' => 'Attach signature', 'escape' => false, 'templates' => 'app_form']);
-          } else {
+          // if ($prefix == 'manager') {                  
+          //     echo $this->Form->control('aefi_causalities.'.$ekey.'.signature', ['type' => 'checkbox', 'label' => 'Attach signature', 'escape' => false, 'templates' => 'app_form']);
+          // } else {
               echo "<div class='control-label'><label>Signature<label></div>";
               echo $this->Form->control('aefi_causalities.'.$ekey.'.signature', ['type' => 'hidden', 'value' => 1, 'templates' => 'table_form']);
-          }
+          // }
         ?>
       </div>
       <div class="col-xs-4">
@@ -587,5 +588,6 @@
     </fieldset>
          <?php echo $this->Form->end() ?>
   </div>
+</div>
 
 <?php } ?>
