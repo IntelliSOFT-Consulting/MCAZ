@@ -140,12 +140,7 @@ class AefisBaseController extends AppController
         }
         
         $aefi = $this->Aefis->get($id, [
-            'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 
-                          'AefiCausalities.Users', 'AefiComments', 'AefiComments.Attachments',  
-                          'Committees', 'Committees.Users', 'Committees.AefiComments', 'Committees.AefiComments.Attachments', 
-                          'ReportStages', 
-                          'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments', 
-                          'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments'], 'withDeleted'
+            'contain' => $this->aefi_contain, 'withDeleted'
         ]);
 
         $ekey = 100;

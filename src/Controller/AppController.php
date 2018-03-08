@@ -39,6 +39,32 @@ class AppController extends Controller
      */
     use \Crud\Controller\ControllerTrait;
 
+    public $sadr_contain = ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators',
+                          'Reviews', 'Reviews.Users', 'Reviews.SadrComments', 'Reviews.SadrComments.Attachments',  
+                          'Committees', 'Committees.Users', 'Committees.SadrComments', 'Committees.SadrComments.Attachments', 
+                          'ReportStages',
+                          'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
+                          'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments',
+                          ];
+                          
+    public $aefi_contain = ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 
+                          'AefiCausalities.Users', 'AefiComments', 'AefiComments.Attachments',  
+                          'Committees', 'Committees.Users', 'Committees.AefiComments', 'Committees.AefiComments.Attachments', 
+                          'ReportStages', 
+                          'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments', 
+                          'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments'];
+
+    public $saefi_contain = ['SaefiListOfVaccines', 'AefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 
+                          'SaefiComments', 'SaefiComments.Attachments',  
+                          'Committees.Users', 'Committees.SaefiComments', 'Committees.SaefiComments.Attachments', 
+                          'ReportStages', 'AefiCausalities', 'AefiCausalities.Users', 'Reports',
+                          'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports'];
+
+    public $adr_contain = ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 
+                          'Reviews', 'Reviews.Users', 'Reviews.AdrComments', 'Reviews.AdrComments.Attachments',  
+                          'Committees', 'Committees.Users', 'Committees.AdrComments', 'Committees.AdrComments.Attachments', 'ReportStages', 
+                          'OriginalAdrs', 'OriginalAdrs.AdrListOfDrugs', 'OriginalAdrs.AdrOtherDrugs', 'OriginalAdrs.Attachments'];
+
     public $components = [
         'Acl' => [
             'className' => 'Acl.Acl'

@@ -29,6 +29,29 @@ class SadrsBaseController extends AppController
     }
 
     /**
+     * BeforeFilter method
+     * Use to format request data
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            //debug($this->request->data);
+            if (isset($this->request->data['date_of_birth'])) {
+                $this->request->data['date_of_birth'] = implode('-', $this->request->data['date_of_birth']);
+            } 
+            //date_of_onset_of_reaction
+            if (isset($this->request->data['date_of_onset_of_reaction'])) {
+                $this->request->data['date_of_onset_of_reaction'] = implode('-', $this->request->data['date_of_onset_of_reaction']);
+            }
+            //date_of_end_of_reaction
+            if (isset($this->request->data['date_of_end_of_reaction'])) {
+                $this->request->data['date_of_end_of_reaction'] = implode('-', $this->request->data['date_of_end_of_reaction']);
+            }
+        }
+    }
+
+    /**
      * Index method
      *
      * @return \Cake\Http\Response|void
@@ -149,13 +172,7 @@ class SadrsBaseController extends AppController
         }
         
         $sadr = $this->Sadrs->get($id, [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators',
-                          'Reviews', 'Reviews.Users', 'Reviews.SadrComments', 'Reviews.SadrComments.Attachments',  
-                          'Committees', 'Committees.Users', 'Committees.SadrComments', 'Committees.SadrComments.Attachments', 
-                          'ReportStages',
-                          'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
-                          'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments',
-                          ], 'withDeleted'
+            'contain' => $this->sadr_contain, 'withDeleted'
         ]);
 
         if(strpos($this->request->url, 'pdf')) {

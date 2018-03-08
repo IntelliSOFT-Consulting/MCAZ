@@ -52,8 +52,14 @@ class SadrsTable extends Table
         $this->addBehavior('Timestamp');        
         $this->addBehavior('Search.Search');
         $this->addBehavior('Duplicatable.Duplicatable', [
-            'contain' => ['SadrListOfDrugs',  'Attachments'],
-            'remove' => ['created', 'modified', 'sadr_list_of_drugs.created',  'attachments.created',
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators',
+                          'Reviews', 'Reviews.Users', 'Reviews.SadrComments', 'Reviews.SadrComments.Attachments',  
+                          'Committees', 'Committees.Users', 'Committees.SadrComments', 'Committees.SadrComments.Attachments', 
+                          'ReportStages',
+                          'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
+                          'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments',
+                          ],
+            'remove' =>  ['created', 'modified', 'sadr_list_of_drugs.created',  'attachments.created',
                           'sadr_list_of_drugs.modified',  'attachments.modified'],
             'set' => [
                 'copied' => 'new copy'

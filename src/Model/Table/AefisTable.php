@@ -45,7 +45,12 @@ class AefisTable extends Table
         $this->addBehavior('Timestamp');
         $this->addBehavior('Search.Search');
         $this->addBehavior('Duplicatable.Duplicatable', [
-            'contain' => ['AefiListOfVaccines',  'Attachments'],
+            'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 
+                          'AefiCausalities.Users', 'AefiComments', 'AefiComments.Attachments',  
+                          'Committees', 'Committees.Users', 'Committees.AefiComments', 'Committees.AefiComments.Attachments', 
+                          'ReportStages', 
+                          'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments', 
+                          'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments'],
             'remove' => ['created', 'modified', 'aefi_list_of_vaccines.created',  'attachments.created',
                           'aefi_list_of_vaccines.modified',  'attachments.modified'],
             'set' => [

@@ -46,7 +46,11 @@ class SaefisTable extends Table
         $this->addBehavior('Search.Search');
         // add Duplicatable behavior
         $this->addBehavior('Duplicatable.Duplicatable', [
-            'contain' => ['SaefiListOfVaccines', 'AefiListOfVaccines',  'Attachments', 'Reports'],
+            'contain' => ['SaefiListOfVaccines', 'AefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 
+                          'SaefiComments', 'SaefiComments.Attachments',  
+                          'Committees.Users', 'Committees.SaefiComments', 'Committees.SaefiComments.Attachments', 
+                          'ReportStages', 'AefiCausalities', 'AefiCausalities.Users', 'Reports',
+                          'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports'],
             'remove' => ['created', 'modified', 'saefi_list_of_vaccines.created',  'attachments.created', 'reports.created',
                           'saefi_list_of_vaccines.modified',  'attachments.modified', 'reports.modified'],
             // mark invoice as copied

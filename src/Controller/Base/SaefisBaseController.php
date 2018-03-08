@@ -112,11 +112,7 @@ class SaefisBaseController extends AppController
     public function view($id = null)
     {
         $saefi = $this->Saefis->get($id, [
-            'contain' => ['SaefiListOfVaccines', 'AefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 
-                          'SaefiComments', 'SaefiComments.Attachments',  
-                          'Committees.Users', 'Committees.SaefiComments', 'Committees.SaefiComments.Attachments', 
-                          'ReportStages', 'AefiCausalities', 'AefiCausalities.Users', 'Reports',
-                          'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports'], 
+            'contain' => $this->saefi_contain, 
                           'withDeleted'
         ]);
         $ekey = 100;
