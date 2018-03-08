@@ -4,9 +4,9 @@
   $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i>';
 ?>
 
+    <?php foreach ($aefi_causalities as $ikey => $aefi_causality) {  ?>
  <div class="row">
     <div class="col-xs-12">
-    <?php foreach ($aefi_causalities as $ikey => $aefi_causality) {  ?>
         <a class="btn btn-primary" role="button" data-toggle="collapse" 
           href="#<?= $aefi_causality->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>" aria-expanded="false" 
             aria-controls="<?= $aefi_causality->created->i18nFormat('dd-MM-yyyy_HH_mm_ss') ?>">
@@ -519,7 +519,7 @@
         ?>
         <br>
 
-    <?php } ?>
     </div>
   </div>
 </div>
+    <?php } ?>

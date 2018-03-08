@@ -169,7 +169,7 @@ class SadrsController extends AppController
     public function e2b($id = null)
     {
         $sadr = $this->Sadrs->get($id, [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'ReportStages']
         ]);        
         
         $stage1  = $this->Sadrs->ReportStages->newEntity();

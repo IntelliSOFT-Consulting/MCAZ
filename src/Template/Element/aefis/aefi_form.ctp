@@ -300,4 +300,4 @@ $editable = $this->fetch('editable');
 ?>
 
 
-    <?php echo $this->fetch('endjs') ?>
+ <?php echo $this->fetch('endjs') ?>
