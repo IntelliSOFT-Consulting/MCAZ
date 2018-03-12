@@ -39,7 +39,7 @@ class QueueGenericEmailTask extends QueueTask {
         // Log::write('debug', $data['vars']['user']);
         $message = $this->Messages->findByName($data['type'])->first();
         //$this->out(print_r($message, true));
-
+        if(!empty($data['email_address'])) {
         $this->Email = new Email('default');
         $this->Email
             ->emailFormat('html')
@@ -56,6 +56,10 @@ class QueueGenericEmailTask extends QueueTask {
         $data['vars']['mcaz_logo'] = $file->read();
 
         return (bool)$this->Email->send(Text::insert($message['content'], $data['vars']));
+        } else {
+                Log::write('debug', "Null email");
+                return;
+            }
     }
 
 }

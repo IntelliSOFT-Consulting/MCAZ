@@ -2,6 +2,26 @@
   use Cake\Utility\Hash; 
   $checked = '<i class="fa fa-check-square-o" aria-hidden="true"></i>';
   $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i>';
+  
+  $this->Html->css('stages', ['block' => true]); 
+  $rowo = '<div class="row stages text-center"> ';
+  $rowc = '</div>';
+  $pre = '<div class="col-xs-2">';
+  $rr = '</div><div class="col-xs-1"><span><i class="fa fa-long-arrow-right" aria-hidden="true"></i></span></div>';
+  $suf = $rr;
+  $brown = $pre.'<span class="stages-on bg-brown">I. Is there strong evidence for other causes?</span> '.$suf;
+  $green1 = $pre.'<span class="stages-on bg-green">I. A. Inconsistent causal association to immunization</span> '.$suf;
+  $green2 = $pre.'<span class="stages-on bg-green">III. A. Inconsistent causal association to immunization</span> '.$suf;
+  $green3 = $pre.'<span class="stages-on bg-green">IV. A. Inconsistent causal association to immunization</span> '.$suf;
+  $green_dark = $pre.'<span class="stages-on bg-green-dark">III. Is there a strong evidence against a causal association</span> '.$suf;
+  $green_light = $pre.'<span class="stages-on bg-green-light">Is the event classifiable</span> '.$suf;
+  $blue1 = $pre.'<span class="stages-on bg-blue1">II. Is there a known causal association with the vaccine/ vaccination</span> '.$suf;
+  $blue2 = $pre.'<span class="stages-on bg-blue2">II(Time). Was the event within the time window of the increased risk</span> '.$suf;
+  $blue3 = $pre.'<span class="stages-on bg-blue3">IV D. Unclassifiable</span> '.$suf;
+  $pink1 = $pre.'<span class="stages-on bg-pink">II A. Consistent causal association to immunization</span> '.$suf;
+  $pink2 = $pre.'<span class="stages-on bg-pink">IV A. Consistent causal association to immunization</span> '.$suf;
+  $red = $pre.'<span class="stages-on bg-red">IV. Review other qualifying factors</span> '.$suf;
+  $yellow = $pre.'<span class="stages-on bg-yellow">IV B. Indeterminate</span> '.$suf;
 ?>
 
     <?php foreach ($aefi_causalities as $ikey => $aefi_causality) {  ?>
@@ -404,6 +424,75 @@
                     echo $this->Html->image('causality_algorithm.png', ['fullBase' => true, 'style' => 'width: 70%;']); 
                     echo $aefi_causality->causality_notes;
                 ?>
+
+              <hr>
+              <h4 class="pages-header text-warning text-center">Decision Steps</h4>
+                  <!-- <div class="col-xs-12"> -->
+                    <?php
+                        $a = $aefi_causality;
+                        $vbrown = is_numeric(strpos($a->clinical_examination, 'Yes'));
+                        $vblue1 = is_numeric(strpos($a->evidence_literature.$a->biological_plausibility.$a->causal_role.$a->vaccine_quality.$a->prescribing_error.$a->vaccine_unsterile.$a->vaccine_condition.$a->vaccine_reconstitution.$a->vaccine_handling.$a->vaccine_administered.$a->vaccine_anxiety, 'Yes'));
+                        $vblue2 = is_numeric(strpos($a->time_window, 'Yes'));
+                        $vgreen_dark = is_numeric(strpos($a->causal_association, 'Yes'));
+                        $vred1 = is_numeric(strpos($a->comparable_event, 'Yes'));
+                        $vred2 = is_numeric(strpos($a->occur_past, 'Yes'));
+                        $vred3 = is_numeric(strpos($a->independent_vaccination.$a->acute_illness.$a->taking_medication.$a->exposure_risk, 'Yes'));
+
+                        //Rules/Paths
+                        // pr($vbrown);
+                        // pr($a->clinical_examination);
+                        if($vbrown) {
+                          echo $rowo.$brown.$green1.$rowc; 
+                        } 
+
+                        //No -> Yes -> Yes
+                        if(!$vbrown && $vblue1 && $vblue2) {    
+                          echo $rowo.$brown.$blue1.$blue2.$pink1.$rowc; 
+                        }
+
+                        //No -> Yes -> No -> Yes
+                        if(!$vbrown && $vblue1 && !$vblue2 && $vgreen_dark) {
+                          echo $rowo.$brown.$blue1.$blue2.$green_dark.$rowc.$rowo.$green2.$rowc; 
+                        }
+                        //No -> Yes -> No -> No -> No
+                        if(!$vbrown && $vblue1 && !$vblue2 && !$vgreen_dark && (!$vred1 && !$vred2 && !$vred3)) {
+                          echo $rowo.$brown.$blue1.$blue2.$red.$rowc.$rowo.$green_light.$blue3.$rowc; 
+                        }
+                        //No -> Yes -> No -> No -> Yes1
+                        if(!$vbrown && $vblue1 && !$vblue2 && !$vgreen_dark && $vred1 && !$vred2 && !$vred3) {
+                          echo $rowo.$brown.$blue1.$blue2.$red.$rowc.$rowo.$green_light.$pink2.$rowc;  
+                        }
+                        //No -> Yes -> No -> No -> Yes2
+                        if(!$vbrown && $vblue1 && !$vblue2 && !$vgreen_dark && $vred2 && !$vred1 && !$vred3) {
+                          echo $rowo.$brown.$blue1.$blue2.$red.$rowc.$rowo.$green_light.$green3.$rowc;
+                        }
+                        //No -> Yes -> No -> No -> Yes3
+                        if(!$vbrown && $vblue1 && !$vblue2 && !$vgreen_dark && $vred3 && !$vred1 && !$vred2) {
+                          echo $rowo.$brown.$blue1.$blue2.$red.$rowc.$rowo.$green_light.$yellow.$rowc;
+                        }
+
+                        //No-> No -> Yes
+                        if(!$vbrown && !$vblue1 && $vgreen_dark) {
+                          echo $rowo.$brown.$blue1.$green_dark.$green2.$rowc; 
+                        }      
+                        //No-> No -> NO -> NO
+                        if(!$vbrown && !$vblue1 && !$vgreen_dark && !$vred1 && !$vred2 && !$vred3) {
+                          echo $rowo.$brown.$blue1.$green_dark.$red.$rowc.$rowo.$green_light.$pink2.$rowc;
+                        }
+                        //No-> No -> NO -> Yes1
+                        if(!$vbrown && !$vblue1 && !$vgreen_dark && $vred1 && !$vred2 && !$vred3) {
+                          echo $rowo.$brown.$blue1.$green_dark.$red.$rowc.$rowo.$green_light.$blue3.$rowc; 
+                        }
+                        //No-> No -> NO -> Yes2
+                        if(!$vbrown && !$vblue1 && !$vgreen_dark && !$vred1 && $vred2 && !$vred3) {
+                          echo $rowo.$brown.$blue1.$green_dark.$red.$rowc.$rowo.$green_light.$green3.$rowc;   
+                        }
+                        //No-> No -> NO -> Yes3
+                        if(!$vbrown && !$vblue1 && !$vgreen_dark && !$vred1 && !$vred2 && $vred3) {
+                          echo $rowo.$brown.$blue1.$green_dark.$red.$rowc.$rowo.$green_light.$yellow.$rowc;  
+                        }
+                    ?>     
+
           </div>
         </div>
         <br>

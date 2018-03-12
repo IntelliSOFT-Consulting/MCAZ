@@ -316,7 +316,7 @@
                               <td>
                                 <div class="col-xs-12 r23">
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.vaccine_administered', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_administered'] ?? $saefi['vaccine_unsterile'],
+                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_administered'] ?? 'Unable to assess',
                      'templates' => 'radio_form' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
                      </div>

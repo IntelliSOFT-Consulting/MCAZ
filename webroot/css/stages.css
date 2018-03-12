@@ -1,0 +1,65 @@
+.stages {
+  margin-bottom: 10px;
+}
+
+.stages span {
+  display: block;
+  padding: 15px 10px;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.1;
+  text-align: center;
+  border-radius: 4px;
+}
+
+.stages-on {
+  color: #999;
+  border: 1px solid #ddd;
+}
+
+.stages-view {
+  color: #468847;
+  background-color: #dff0d8;
+  border: 1px solid #d6e9c6;
+}
+
+.bg-brown {
+  background-color: #663300;
+  color: #fff;
+}
+.bg-green {
+  background-color: #CCFFCC;
+  color: black;
+}
+.bg-green-dark {
+  background-color: #003300;
+  color: #fff;
+}
+.bg-green-light {
+  background-color: #b7f776;
+  color: black;
+}
+.bg-blue1 {
+  background-color: #000066;
+  color: #fff;
+}
+.bg-blue2 {
+  background-color: #5767B4;
+  color: #fff;
+}
+.bg-blue3 {
+  background-color: #C6D9F1;
+  color: black;
+}
+.bg-pink {
+  background-color: #FFCCFF;
+  color: black;
+}
+.bg-red {
+  background-color: #A50021;
+  color: #fff;
+}
+.bg-yellow {
+  background-color: #FFFFCC;
+  color: black;
+}
