@@ -165,7 +165,8 @@
       ?></div>
     </div>  
     <hr>
-        
+  
+  <div class="concomitant">      
     <div class="row">
       <div class="col-xs-12"><b>10.If yes, then list all concomitant medication being taken at least one month before the onset of the SAE and describe the relationship to the SAE: 
         <button <?= ($editable) ? '' : 'disabled=""' ?> type="button" class="btn btn-primary" id="addAdrConcomitant">
@@ -229,4 +230,5 @@
           </table>
         </div><!--/span-->
     </div><!--/row-->
+  </div>
     <hr>

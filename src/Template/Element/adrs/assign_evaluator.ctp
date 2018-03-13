@@ -1,3 +1,9 @@
+<?php
+  use Cake\Utility\Hash;
+  $this->Html->css('bootstrap-editable', ['block' => true]);
+  $this->Html->css('bootstrap/common_header', ['block' => true]);
+  $this->Html->script('bootstrap/bootstrap-editable', ['block' => true]);
+?>
   <div class="row">
     <div class="col-xs-12">
       <?php 
@@ -23,7 +29,17 @@ Assign</button>
          <?php echo $this->Form->end() ?>
          <?php     
           }	} else {
-            echo "<br><br><h4 class='text-center'>Assigned to: ".$evaluators->toArray()[$adr->assigned_to]." on ".$adr->assigned_date."</h4>";
+            echo "<br><br><h4 class='text-center'>Assigned to: ".$evaluators->toArray()[$adr->assigned_to]." on ".$adr->assigned_date."</h4>";?>
+          <br><br><h4 class="text-center">Assigned to: <span 
+          <?php if(!in_array("Evaluated", Hash::extract($adr->report_stages, '{n}.stage'))) { ?>
+            id="assigned-to" class="editable"
+            data-type="select" data-pk="<?= $adr->id ?>"
+            data-url="<?= $this->Url->build(['controller' => 'Adrs', 'action' => 'changeEvaluator',  'prefix' => 'manager', $adr->id, '_ext' => 'json']); ?>" 
+            data-name="assigned_to"
+            data-title="Change evaluator"
+          <?php } ?>
+          class='text-center'> <?= $evaluators->toArray()[$adr->assigned_to] ?></span> on <?= $adr->assigned_date ?></h4>
+      <?php
         	}
      	?>
     </div>
@@ -66,3 +82,18 @@ Assign</button>
          <?php } ?>
     </div>
   </div>
+
+<script type="text/javascript">
+  $(function(){
+    $('#assigned-to').editable({
+        value: <?= $adr->assigned_to ?>,    
+        source: <?php echo json_encode($evaluators); ?>,
+        params: function(params) {  //params already contain `name`, `value` and `pk`
+          var data = {};
+          data['id'] = params.pk;
+          data[params.name] = params.value;
+          return data;
+        }
+    });
+  });
+</script>

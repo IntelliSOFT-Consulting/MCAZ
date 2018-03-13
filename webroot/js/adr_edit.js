@@ -48,6 +48,22 @@ $(function() {
         }
     });
 
+//autocomplete combo
+    var availableTags = [
+        "Principal Investigator",
+        "Co- Investigator",
+        "Study co-ordinator",
+        "Pharmacist",
+        "Medical Officer",
+        "Nurse"
+    ];
+    $( "#designation-study" ).autocomplete({
+      source: availableTags,
+      minLength: 0
+    }).focus(function() {
+        $(this).autocomplete('search', $(this).val())
+    });
+//end autocomplete combo
     
     /*$( "#study-title" ).autocomplete({
       source: function( request, response ) {

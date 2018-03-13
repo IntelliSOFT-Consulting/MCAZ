@@ -172,7 +172,7 @@ function getChoice(sel){
           </div>
 
           <div class="row">
-            <div class="col-xs-8">
+            <div class="col-xs-7">
               <?php              
                   echo $this->Form->control('symptom_date', ['label' => 'Date and time of first/key symptom', 'type' => 'text']);    
                   echo $this->Form->control('hospitalization_date', ['label' => 'Date of hospitalization', 'type' => 'text']);    
@@ -181,6 +181,12 @@ function getChoice(sel){
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Died' => 'Died', 'Disabled' => 'Disabled', 'Recovering' => 'Recovering', 'Recovered completely' => 'Recovered completely', 'Unknown' => 'Unknown']]);
                   echo $this->Form->control('died_date', ['label' => 'If died, date and time of death ', 'type' => 'text']);
+              ?>
+            </div>
+            <div class="col-xs-4">
+                
+                <?php
+
                   echo $this->Form->control('autopsy_done', ['type' => 'radio', 
                      'label' => '<b>Autopsy done?</b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
@@ -192,17 +198,6 @@ function getChoice(sel){
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
                   echo $this->Form->control('autopsy_planned_date', ['label' => 'If yes, date:', 'type' => 'text']); 
-              ?>
-            </div>
-            <div class="col-xs-3">
-                <br><br><br>
-                <?php
-                if (!empty($saefi['reports'])) {
-                    echo '<p><b>File attachment:</b></p>';
-                    echo $this->Html->link($saefi['reports'][0]->file, substr($saefi['reports'][0]->dir, 8) . '/' . $saefi['reports'][0]->file, ['fullBase' => true]);
-                } else {
-                  echo $this->Form->control('reports.0.file', ['type' => 'file','label' => 'Attach report (if available)', 'templates' => 'table_form']);
-                }
               ?>
             </div>
           </div>
@@ -510,6 +505,21 @@ function getChoice(sel){
                 </div>
             </ul>
             </h4>
+            <div class="row">
+              <div class="col-xs-4">
+                <div class="control-label"><label>Autopsy report (if available):</label></div>
+              </div>
+              <div class="col-xs-7">
+                <?php
+                  if (!empty($saefi['reports'])) {
+                      echo '<p><b>File attachment:</b></p>';
+                      echo $this->Html->link($saefi['reports'][0]->file, substr($saefi['reports'][0]->dir, 8) . '/' . $saefi['reports'][0]->file, ['fullBase' => true]);
+                  } else {
+                    echo $this->Form->control('reports.0.file', ['type' => 'file','label' => false, 'templates' => 'table_form']);
+                  }
+                ?>
+              </div>
+            </div>
           <!-- <p>Attachments!!</p> -->
           <div class="row">
             <div class="col-xs-12"><?php echo $this->element('multi/attachments', ['editable' => $editable]);?></div>

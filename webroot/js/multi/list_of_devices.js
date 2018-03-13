@@ -5,6 +5,12 @@ $(function() {
     $(document).on('click', '#addAdrConcomitant', reloadDevices);
 
     //$('#aefi-list-of-vaccines-0-vaccination-date').datetimepicker();
+    $('#patient-other-drug-no').click(function() {
+        $('.concomitant').hide();
+    });
+    $('#patient-other-drug-yes').click(function() {
+        $('.concomitant').show();
+    });
 
     //Hapa Kazi tu    
     reloadDevices();

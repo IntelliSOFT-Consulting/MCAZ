@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Adr $adr
  */
 $this->Html->script('adr_edit', ['block' => true]);
+$this->Html->css('combo-box', ['block' => true]);
 $editable = $this->fetch('editable');
 ?>
 <?php 
@@ -12,8 +13,25 @@ $editable = $this->fetch('editable');
 
 <div class="<?= $this->fetch('baseClass');?>">
   <div class="row">
+    <div class="col-xs-6">
+      <p class="text-center"><?= $this->Html->image("mrcz.png", ['fullBase' => true, 'style' => 'width: 20%;']); ?></p>
+    </div>
+    <div class="col-xs-6">
+      <p class="text-center"><?= $this->Html->image("mcaz_logo.png", ['fullBase' => true, 'style' => 'width: 30%;']); ?></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <h4 class="text-center">MEDICAL RESEARCH  COUNCIL OF ZIMBABWE  -  MEDICINES CONTROL AUTHORITY OF ZIMBABWE</h4>
+      <h3 class="text-center">MEDICAL RESEARCH COUNCIL OF ZIMBABWE and MEDICINES CONTROL AUTHORITY OF ZIMBABWE </h3>
+      <p><em>Instructions :Complete entire form. Do not leave any blank spaces</em><br>
+Reporting period: SAEs should be reported within 3 days of site being aware. AE should be reported 7 days of site being aware. 
+Please use a separate adverse event reporting form for separate reportable adverse events  </p>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-xs-12"><h3 class="text-center">
-      <span class="text-center"><?= $this->Html->image("mcaz_3.png", ['fullBase' => true, 'style' => 'width: 70%;']); ?></span> <br>SERIOUS ADVERSE EVENT REPORTING FORM </h3>  
+       <br>SERIOUS ADVERSE EVENT REPORTING FORM </h3>  
       <div class="row">
         <div class="col-xs-12"><h5 class="text-center">ZIMBABWE REPORTING FORM FOR SERIOUS ADVERSE EVENT(SAE) </h5></div>
       </div>
@@ -71,7 +89,8 @@ $editable = $this->fetch('editable');
 
                   echo $this->Form->control('reporter_email', ['label' => 'Reporter Email', 'escape' => false]);
 
-                  echo $this->Form->input('designation_id', ['label' => 'Designation in the study','options' => $designations, 'empty' => true]);
+                  // echo $this->Form->input('designation_id', ['label' => 'Designation in the study','options' => $designations, 'empty' => true]);
+                  echo $this->Form->input('designation_study', ['label' => 'Designation in the study','escape' => false]);
 
                   echo $this->Form->control('reporter_phone', ['label' => 'Reporter Phone ', 'escape' => false]);
 

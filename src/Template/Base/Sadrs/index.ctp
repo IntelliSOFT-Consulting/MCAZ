@@ -35,7 +35,7 @@
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
                 <th scope="col">Stages</th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>                
-                <?php if(isset($this->request->query['status']) && $this->request->query['status'] != 'UnSubmitted') { ?>
+                <?php if(in_array("VigiBase", Hash::extract($sadr->report_stages, '{n}.stage'))) { ?>
                 <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th> 
                 <?php } ?>
                 <th scope="col"></th>
@@ -57,7 +57,7 @@
                     ?>
                 </td>
                 <td><?= h($sadr->modified) ?></td>         
-                <?php if(isset($this->request->query['status']) && $this->request->query['status'] != 'UnSubmitted') { ?>       
+                <?php if(in_array("VigiBase", Hash::extract($sadr->report_stages, '{n}.stage'))) { ?>       
                 <td>
                     <?php if($sadr->submitted == 2 && empty($sadr->messageid)) {                                        
                            echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']); 

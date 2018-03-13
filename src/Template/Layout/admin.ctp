@@ -91,7 +91,7 @@ $cakeDescription = 'MCAZ PV';
             <li>
               <?= $this->Html->link('<i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard', ['controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix], array('escape' => false)); ?>
             </li>
-            <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i> Settings</a></li>
+            <!-- <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i> Settings</a></li> -->
             <li><!-- <a href="#">Profile</a> -->
                 <?php
                     //if($this->Session->read('Auth.User')) {

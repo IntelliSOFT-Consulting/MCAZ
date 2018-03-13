@@ -378,6 +378,7 @@ class SadrsController extends AppController
                 $html = new HtmlHelper(new \Cake\View\View());
                 $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'Sadrs', 'action' => 'view', $sadr->id, '_ext' => 'pdf',  
                                           '_full' => true]);
+                $data['vars']['name'] = $sadr->reporter_name;
                 //notify applicant
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_submit_sadr_notification';
