@@ -57,7 +57,7 @@ $this->start('sidebar'); ?>
                     ?>
                 </td>
                 <td><?= h($sadr->modified) ?></td>         
-                <?php if(in_array("VigiBase", Hash::extract($sadr->report_stages, '{n}.stage'))) { ?>       
+                <?php if(!in_array("VigiBase", Hash::extract($sadr->report_stages, '{n}.stage'))) { ?>       
                 <td>
                     <?php if($sadr->submitted == 2 && empty($sadr->messageid)) {                                        
                            echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']); 
