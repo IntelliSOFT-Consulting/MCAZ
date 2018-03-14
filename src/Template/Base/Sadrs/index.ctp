@@ -1,4 +1,6 @@
-<?php $this->start('sidebar'); ?>
+<?php 
+use Cake\Utility\Hash;
+$this->start('sidebar'); ?>
   <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
@@ -35,9 +37,7 @@
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
                 <th scope="col">Stages</th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>                
-                <?php if(in_array("VigiBase", Hash::extract($sadr->report_stages, '{n}.stage'))) { ?>
                 <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th> 
-                <?php } ?>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -66,7 +66,7 @@
                           }
                     ?>
                 </td>
-                <?php } ?>
+                <?php } else { echo "<td></td>"; } ?>
                 <td>
                     <?php if($sadr->submitted == 2) {                                        
                           echo  $this->Html->link('<span class="label label-primary"> E2B</span>', ['action' => 'e2b', $sadr->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']); 
