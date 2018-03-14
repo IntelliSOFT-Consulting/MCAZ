@@ -353,12 +353,22 @@ Please use a separate adverse event reporting form for separate reportable adver
             </div>
             <div class="col-xs-12">
                 <?php             
-              echo $this->Form->control('outcome', ['label' => '(g) Outcome', 'escape' => false, 
+              /*echo $this->Form->control('outcome', ['label' => '(g) Outcome', 'escape' => false, 
             'templates' =>($editable) ? [ 
                       'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
-                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',] : 'view_form_text']);             
+                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',] : 'view_form_text']);    */         
 
               ?>
+              <?=
+                  $this->Form->control('outcome', ['type' => 'select', 
+                      'label' => 'Outcome <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'empty' => true, 'escape' => false,
+                      'templates' => 'radio_form',
+                      'options' => ['Recovered' => 'Recovered', 
+                  'Recovering' => 'Recovering', 
+                  'Not yet recovered' => 'Not yet recovered', 
+                  'Fatal' => 'Fatal', 
+                  'Unknown' => 'Unknown']]); 
+                ?>
             </div>
           </div>
 
