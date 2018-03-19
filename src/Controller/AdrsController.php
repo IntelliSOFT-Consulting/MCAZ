@@ -163,8 +163,8 @@ class AdrsController extends AppController
         
 
         $designations = $this->Adrs->Designations->find('list',array('order'=>'Designations.name ASC'));
-        $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
-        $routes = $this->Adrs->AdrListOfDrugs->Routes->find('list');
+        $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list', ['keyField' => 'id', 'valueField' => 'icsr_code']);
+        $routes = $this->Adrs->AdrListOfDrugs->Routes->find('list', ['keyField' => 'id', 'valueField' => 'icsr_code']);
         $frequencies = $this->Adrs->AdrListOfDrugs->Frequencies->find('list');
         $this->set(compact('adr', 'designations', 'doses', 'routes', 'frequencies'));
         $this->set('_serialize', false);

@@ -183,8 +183,8 @@ class SadrsController extends AppController
 
         $designations = $this->Sadrs->Designations->find('list', array('order'=>'Designations.name ASC'));
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
-        $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list', ['limit' => 200]);
-        $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list', ['limit' => 200]);
+        $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list', ['keyField' => 'id', 'valueField' => 'icsr_code']);
+        $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list', ['keyField' => 'id', 'valueField' => 'icsr_code']);
         $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list', ['limit' => 200]);
         $this->set('_serialize', false);
         $this->set(compact('sadr', 'doses', 'routes'));
