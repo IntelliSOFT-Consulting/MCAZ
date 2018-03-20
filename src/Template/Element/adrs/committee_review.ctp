@@ -70,7 +70,7 @@
     <div class="col-xs-12">
       <hr>
           <?php 
-          if($prefix == 'manager') {
+          //if($prefix == 'manager') {
           echo $this->Form->create($adr, ['type' => 'file', 'url' => ['action' => 'committee-review']]);
            ?>
             <div class="row">
@@ -106,7 +106,8 @@
               </div>
          <?php           
           echo $this->Form->end(); 
-          } ?>
+          //} 
+          ?>
     </div>
   </div>
 
