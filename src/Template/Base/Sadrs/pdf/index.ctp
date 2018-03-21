@@ -27,7 +27,10 @@
             <tr>
                 <td><?=  $sadr->reference_number ?></td>
                 <td><?=  $sadr->patient_name ?></td>
-                <td><?= h($sadr->description_of_reaction) ?></td>
+                <td>
+                  <?php echo "Onset: ".$sadr->date_of_onset_of_reaction." to ".$sadr->date_of_end_of_reaction; ?><br>
+                  <?php echo "Outcome: ".$sadr->outcome; ?><br>
+                  <?= h($sadr->description_of_reaction) ?></td>
                 <td><?= h($sadr->medical_history) ?></td>       
                 <td>
                     <?php foreach($sadr->sadr_list_of_drugs as $list_of_drug): ?>    

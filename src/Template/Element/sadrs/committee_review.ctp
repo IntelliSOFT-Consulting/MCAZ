@@ -70,7 +70,7 @@
     <div class="col-xs-12">
       <hr>
           <?php 
-         // if($prefix == 'manager') {
+          if(in_array("1", Hash::extract($sadr->reviews, '{n}.chosen'))) {
           echo $this->Form->create($sadr, ['type' => 'file', 'url' => ['action' => 'committee-review']]);
            ?>
             <div class="row">
@@ -109,8 +109,10 @@
               </div>
          <?php          
          echo $this->Form->end(); 
-         //}
-         ?>
+         } else { 
+          ?>
+          <p class="page-header">Review must first be completed.</p>
+          <?php } ?>
     </div>
   </div>
 

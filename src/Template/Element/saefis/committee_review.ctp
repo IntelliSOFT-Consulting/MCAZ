@@ -70,7 +70,7 @@
     <div class="col-xs-12">
       <hr>
           <?php  
-          //if($prefix == 'manager') {
+          if(in_array("1", Hash::extract($saefi->aefi_causalities, '{n}.chosen'))) {
           echo $this->Form->create($saefi, ['type' => 'file', 'url' => ['action' => 'committee-review']]);
            ?>
             <div class="row">
@@ -108,8 +108,10 @@
               </div>
          <?php 
          echo $this->Form->end();
-         //} 
-         ?>
+         }  else { 
+          ?>
+          <p class="page-header">Review must first be completed.</p>
+          <?php } ?>
     </div>
   </div>
 
