@@ -35,7 +35,8 @@
             <p class="topper"><small><em class="text-success">evaluated on: <?= $aefi_causality['created'] ?> by <?= $aefi_causality->user->name ?></em></small></p>
         <?php
             if($this->request->params['_ext'] != 'pdf') echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['action' => 'download', '_ext' => 'pdf', $aefi_causality->id, 'causality'], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
-            if($this->request->params['_ext'] != 'pdf' and $aefi_causality->user_id == $this->request->session()->read('Auth.User.id')) {
+            if($this->request->params['_ext'] != 'pdf' and ($aefi_causality->user_id == $this->request->session()->read('Auth.User.id') or
+                                                            $prefix == 'manager')) {
                 $template = $this->Form->getTemplates();
                 $this->Form->resetTemplates();
                 echo $this->Form->postLink(

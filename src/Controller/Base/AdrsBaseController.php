@@ -182,6 +182,15 @@ class AdrsBaseController extends AppController
             'contain' => $this->adr_contain, 'withDeleted'
         ]);
 
+        $ekey = 100;
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            foreach ($adr->reviews as $key => $value) {
+                if($value['id'] == $this->request->getData('review_id')) {
+                    $ekey = $key;
+                }
+            } 
+        }
+
         // $this->viewBuilder()->setLayout('pdf/default');
         if(strpos($this->request->url, 'pdf')) {
             $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
@@ -200,7 +209,7 @@ class AdrsBaseController extends AppController
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
         $routes = $this->Adrs->AdrListOfDrugs->Routes->find('list');
         $frequencies = $this->Adrs->AdrListOfDrugs->Frequencies->find('list');
-        $this->set(compact('adr', 'designations', 'doses', 'routes', 'frequencies', 'evaluators', 'users'));
+        $this->set(compact('adr', 'designations', 'doses', 'routes', 'frequencies', 'evaluators', 'users', 'ekey'));
         $this->set('_serialize', ['adr']);
 
         $this->set('adr', $adr);

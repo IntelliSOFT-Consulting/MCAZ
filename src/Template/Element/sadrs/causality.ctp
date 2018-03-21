@@ -118,6 +118,18 @@ should be submitted as follow up report</td></tr>
             <div class="amend-form">
                 <?php
                 //echo $this->Html->link('<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF ', ['controller' => 'Applications', 'action' => 'committee', '_ext' => 'pdf', $review->id], ['escape' => false, 'class' => 'btn btn-xs btn-success active topright']);
+
+
+                $template = $this->Form->getTemplates();
+                $this->Form->resetTemplates();
+                echo $this->Form->postLink(
+                    '<span class="label label-info">Edit</span>',
+                    [],
+                    ['data' => ['review_id' => $review->id], 'escape' => false, 
+                     'confirm' => __('Are you sure you want to edit review {0}?', $review->id)]
+                );
+                $this->Form->setTemplates($template);
+
                 ?>
               <div class="row">
                 <div class="col-xs-8">
@@ -220,10 +232,10 @@ should be submitted as follow up report</td></tr>
               <div class="col-xs-12">
 	          	<?php
                     echo $this->Form->control('sadr_pr_id', ['type' => 'hidden', 'value' => $sadr->id, 'escape' => false, 'templates' => 'table_form']);
-	                  echo $this->Form->control('reviews.100.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
-                    echo $this->Form->control('reviews.100.literature_review', ['escape' => false, 'templates' => 'app_form']);
-                    echo $this->Form->control('reviews.100.comments', ['escape' => false, 'templates' => 'app_form']);
-                    echo $this->Form->control('reviews.100.references_text', ['escape' => false, 'templates' => 'app_form']);
+	                  echo $this->Form->control('reviews.'.$ekey.'.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
+                    echo $this->Form->control('reviews.'.$ekey.'.literature_review', ['escape' => false, 'templates' => 'app_form']);
+                    echo $this->Form->control('reviews.'.$ekey.'.comments', ['escape' => false, 'templates' => 'app_form']);
+                    echo $this->Form->control('reviews.'.$ekey.'.references_text', ['escape' => false, 'templates' => 'app_form']);
 	            ?>
          	    </div>          
             </div>
@@ -232,10 +244,10 @@ should be submitted as follow up report</td></tr>
               <div class="col-xs-6">
                 <?php
                   // if ($prefix == 'manager') {                  
-                  //     echo $this->Form->control('reviews.100.signature', ['type' => 'checkbox', 'label' => 'Attach signature', 'escape' => false, 'templates' => 'app_form']);
+                  //     echo $this->Form->control('reviews.'.$ekey.'.signature', ['type' => 'checkbox', 'label' => 'Attach signature', 'escape' => false, 'templates' => 'app_form']);
                   // } else {
                       echo "<div class='control-label'><label>Signature<label></div>";
-                      echo $this->Form->control('reviews.100.signature', ['type' => 'hidden', 'value' => 1, 'templates' => 'table_form']);
+                      echo $this->Form->control('reviews.'.$ekey.'.signature', ['type' => 'hidden', 'value' => 1, 'templates' => 'table_form']);
                   // }
                 ?>
               </div>

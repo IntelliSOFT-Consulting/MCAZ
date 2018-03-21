@@ -175,6 +175,16 @@ class SadrsBaseController extends AppController
             'contain' => $this->sadr_contain, 'withDeleted'
         ]);
 
+
+        $ekey = 100;
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            foreach ($sadr->reviews as $key => $value) {
+                if($value['id'] == $this->request->getData('review_id')) {
+                    $ekey = $key;
+                }
+            } 
+        }
+
         if(strpos($this->request->url, 'pdf')) {
             // $this->viewBuilder()->setLayout('pdf/default');
             $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
@@ -194,7 +204,7 @@ class SadrsBaseController extends AppController
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
         $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
         $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list');
-        $this->set(compact('sadr', 'evaluators', 'users', 'designations', 'provinces', 'doses', 'routes', 'frequencies'));
+        $this->set(compact('sadr', 'evaluators', 'users', 'designations', 'provinces', 'doses', 'routes', 'frequencies', 'ekey'));
         $this->set('_serialize', ['sadr']);
         
 
