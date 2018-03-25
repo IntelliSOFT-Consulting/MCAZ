@@ -1,6 +1,11 @@
-<?php $this->start('sidebar'); ?>
+<?php 
+use Cake\Utility\Hash;
+$this->start('sidebar'); ?>
   <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
+
+<?=     $this->Html->script('jquery/vigibase', ['block' => true]); ?>
+<?=     $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
 
 <h1 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> AEFIS
     :: <small style="font-size: small;"><i class="fa fa-search-plus" aria-hidden="true"></i> Search, 
@@ -29,7 +34,8 @@
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name_of_vaccination_center') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('modified') ?></th> 
+                <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th> 
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -42,6 +48,14 @@
                 <td><?= h($aefi->name_of_vaccination_center) ?></td>
                 <td><?= h($aefi->status) ?></td>
                 <td><?= h($aefi->modified) ?></td>
+                <td>
+                    <?php if($aefi->submitted == 2 && empty($aefi->messageid)) {                                        
+                           echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $aefi->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']); 
+                          } elseif (!empty($aefi->messageid)) {
+                            echo $aefi->messageid;
+                          }
+                    ?>
+                </td>
                 <td>
 <span class="label label-primary"><?php
                    echo ($aefi->submitted == 2) ?  $this->Html->link('E2B', ['action' => 'e2b', $aefi->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']) : ''; ?></span>

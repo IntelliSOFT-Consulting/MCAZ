@@ -26,7 +26,7 @@
             ?></serious>
         <seriousnessdeath><?= ($saefi['status_on_date'] == 'Died') ? 1 : 0; ?></seriousnessdeath>
         <seriousnesslifethreatening><?= ($saefi['status_on_date'] == 'Life-threatening') ? 1 : 0; ?></seriousnesslifethreatening>
-        <seriousnesshospitalization><?= ($saefi['status_on_date'] == 'Hospitalizaion/Prolonged') ? 1 : 0; ?></seriousnesshospitalization>
+        <seriousnesshospitalization><?= (!empty($saefi['hospitalization_date'])) ? 1 : 0; ?></seriousnesshospitalization>
         <seriousnessdisabling><?= ($saefi['status_on_date'] == 'Disabled') ? 1 : 0; ?></seriousnessdisabling>
         <seriousnesscongenitalanomali><?= ($saefi['status_on_date'] == 'Congenital-anomaly') ? 1 : 0; ?></seriousnesscongenitalanomali>
         <seriousnessother><?= ($saefi['status_on_date'] == 'Other Medically Important Reason') ? 1 : 0; ?></seriousnessother>
@@ -60,19 +60,32 @@
             if ($saefi['designation_id'] == 1 || $saefi['designation_id'] == 2 || $saefi['designation_id'] == 3 ) {
                 echo 1;
             } else { echo 2;}
-        ?></medicallyconfirm>
+        ?></medicallyconfirm>      
+        <reportduplicate>
+            <duplicatesource></duplicatesource>
+            <duplicatenumb>ZW-MCAZ-<?php
+                echo $saefi['reference_number'];
+            ?></duplicatenumb>
+        </reportduplicate>
         <?php $arr = preg_split("/[\s]+/", $saefi['reporter_name']); ?>
         <primarysource>
             <reportergivename><?php if (isset($arr[0])) echo $arr[0]; ?></reportergivename>
             <reporterfamilyname><?php if (isset($arr[1])) echo $arr[1].' '; if (isset($arr[2])) echo $arr[2];  ?></reporterfamilyname>
-            <reporterorganization><?php echo $saefi['institution_code']; ?></reporterorganization>
+            <reporterorganization><?php echo $saefi['name_of_vaccination_site']; ?></reporterorganization>
             <reporterdepartment/>
             <reporterstreet/>
             <reportercity/>
             <reporterstate/>
             <reporterpostcode/>
             <reportercountry>ZW</reportercountry>
-            <qualification><?php echo $saefi['designation_id']; ?></qualification>
+            <qualification>
+                <?php 
+                    $desg = [1 => 1, 2 => 1, 3 => 3, 4 => 2, 5 => 3, 6 => 2, 7 => 3, 8 => 1, 9 => 1, 10 => 1, 11 => 1, 12 => 1, 
+                             13 => 1, 14 => 1, 15 => 1, 16 => 1, 17 => 1, 18 => 1, 19 => 3, 20 => 1, 21 => 5, 22 => 5, 23 => 3, 
+                          ];
+                    echo $desg[($saefi['designation_id']) ?? 3]; 
+                ?>
+            </qualification>
             <literaturereference/>
             <studyname/>
             <sponsorstudynumb/>
@@ -127,38 +140,30 @@
             <patienthospitalrecordnumb><?php echo $saefi['ip_no']; ?></patienthospitalrecordnumb>
             <patientinvestigationnumb/>
             <?php
-                if (!empty($saefi['date_of_birth']) && $saefi['date_of_birth'] != '--') {
-                    $a = explode('-', $saefi->date_of_birth);
-                    $saefi->date_of_birth = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
-                    $birthdatef = 102;
-                    if (empty($saefi['date_of_birth']['day']) && empty($saefi['date_of_birth']['month'])) {
-                        $birthdatef = 602;
-                    } else if (empty($saefi['date_of_birth']['day']) && !empty($saefi['date_of_birth']['month'])) {
-                        $birthdatef = 610;
-                    } else if (!empty($saefi['date_of_birth']['day']) && empty($saefi['date_of_birth']['month'])) {
-                        $birthdatef = 602;
-                    }
-                    echo '<patientbirthdateformat>'.$birthdatef.'</patientbirthdateformat>';
-                    echo "\n";
-                } else {
-                    echo '<patientbirthdateformat/>';
-                    echo "\n";
+
+                if (!empty($saefi['date_of_birth'])) {
+                    echo "<patientbirthdateformat>102</patientbirthdateformat>";
+                    echo "<patientbirthdate>".date('Ymd', strtotime($saefi['date_of_birth']))."</patientbirthdate>";
                 }
 
-                if(isset($birthdatef)) {
-                    echo '<patientbirthdate>';
-                    if($birthdatef == 102) echo date('Ymd', strtotime(implode('-', $saefi['date_of_birth'])));
-                    if($birthdatef == 602) echo $saefi['date_of_birth']['year'];
-                    if($birthdatef == 610) echo $saefi['date_of_birth']['year'].$saefi['date_of_birth']['month'];
-                    echo '</patientbirthdate>';
-                    echo "\n";
-                } else {
-                    echo '<patientbirthdate/>';
-                    echo "\n";
+            ?>
+            
+            <?php
+                if (!empty($saefi->age_at_onset_years)) {
+                        echo "<patientonsetage>".$saefi->age_at_onset_years."</patientonsetage>";
+                        echo "<patientonsetageunit>801</patientonsetageunit>";
+                    } elseif (!empty($saefi->age_at_onset_months)) {
+                        echo "<patientonsetage>".$saefi->age_at_onset_months."</patientonsetage>";
+                        echo "<patientonsetageunit>802</patientonsetageunit>";
+                    } elseif (!empty($saefi->age_at_onset_days)) {
+                        echo "<patientonsetage>".$saefi->age_at_onset_days."</patientonsetage>";
+                        echo "<patientonsetageunit>804</patientonsetageunit>";
+                    } else {
+                        echo "<patientonsetage/>";
+                        echo "<patientonsetageunit/>";
                 }
-                ?>
-            <patientonsetage/>
-            <patientonsetageunit/>
+            ?>
+
             <gestationperiod/>
             <gestationperiodunit/>
             <?php
@@ -169,6 +174,9 @@
                                 'adolescent' => 4,
                                 'adult' => 5,
                                 'elderly' => 6,
+                                '< 1 Year' => 2,
+                                '1-5 years' => 3,
+                                '> 5 years' => 3,
                             );
                 if (!empty($saefi['age_group']) && array_key_exists($saefi['age_group'], $ages)) echo '<patientagegroup>'.$ages[$saefi['age_group']].'</patientagegroup>';
                 echo "\n";
@@ -189,30 +197,23 @@
                 <patientautopsyyesno/>
             </patientdeath>
             <reaction>
-                <primarysourcereaction><?php echo $saefi['description_of_reaction']; ?></primarysourcereaction>
+                <primarysourcereaction><?php echo $saefi['signs_symptoms']; ?></primarysourcereaction>
                 <reactionmeddraversionllt>WHO-ART</reactionmeddraversionllt>
                 <reactionmeddrallt/>
                 <reactionmeddraversionpt/>
                 <reactionmeddrapt/>
                 <termhighlighted/>
-                <reactionstartdateformat><?php
-                    $onsetf = 102;
-                    $a = explode('-', $saefi->date_of_onset_of_reaction);
-                    $saefi->date_of_onset_of_reaction = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
-                    if (empty($saefi['date_of_onset_of_reaction']['day']) && empty($saefi['date_of_onset_of_reaction']['month'])) {
-                        $onsetf = 602;
-                    } else if (empty($saefi['date_of_onset_of_reaction']['day']) && !empty($saefi['date_of_onset_of_reaction']['month'])) {
-                        $onsetf = 610;
-                    } else if (!empty($saefi['date_of_onset_of_reaction']['day']) && empty($saefi['date_of_onset_of_reaction']['month'])) {
-                        $onsetf = 602;
+                <?php
+
+                    if (!empty($saefi['report_date'])) {
+                        echo "<reactionstartdateformat>102</reactionstartdateformat>";
+                        echo "<reactionstartdate>".date('Ymd', strtotime($saefi['report_date']))."</reactionstartdate>";
+                    } else {
+                        echo "<reactionstartdateformat/>
+                              <reactionstartdate/>";
                     }
-                    echo $onsetf;
-                ?></reactionstartdateformat>
-                <reactionstartdate><?php
-                    if($onsetf == 102) echo date('Ymd', strtotime(implode('-', $saefi['date_of_onset_of_reaction'])));
-                    if($onsetf == 602) echo $saefi['date_of_onset_of_reaction']['year'];
-                    if($onsetf == 610) echo $saefi['date_of_onset_of_reaction']['year'].$saefi['date_of_onset_of_reaction']['month'];
-                ?></reactionstartdate>
+
+                ?>
                 <reactionenddateformat/>
                 <reactionenddate/>
                 <reactionduration/>
@@ -226,19 +227,20 @@
                               'Recovering' => 2, 
                               'Not yet recovered' => 4, 
                               'Fatal' => 5, 
-                              'Unknown' => 6];
-                if (!empty($saefi['outcome'])) echo $outcomes[$saefi['outcome']];
+                              'Unknown' => 6,
+                              'Died' => 5,
+                              'Disabled' => 4,
+                              'Recovered completely' => 1,
+                             ];
+                if (!empty($saefi['status_on_date'])) echo $outcomes[$saefi['status_on_date']];
                 ?></reactionoutcome>
             </reaction>
-            <?php foreach ($saefi['saefi_list_of_drugs'] as $saefiListOfDrug): ?>
+            <?php foreach ($saefi['aefi_list_of_vaccines'] as $saefiListOfDrug): ?>
             <drug>
-                <drugcharacterization><?php
-                    if ($saefiListOfDrug['suspected_drug'] == 1) echo 1 ;
-                    else echo 2;
-                ?></drugcharacterization>
-                <medicinalproduct><?php echo $saefiListOfDrug['brand_name']; ?></medicinalproduct>
+                <drugcharacterization/>
+                <medicinalproduct><?php echo $saefiListOfDrug['vaccine_name']; ?></medicinalproduct>
                 <obtaindrugcountry/>
-                <drugbatchnumb/>
+                <drugbatchnumb><?php echo $saefiListOfDrug['batch_number']; ?></drugbatchnumb>
                 <drugauthorizationnumb/>
                 <drugauthorizationcountry/>
                 <drugauthorizationholder/>
@@ -254,8 +256,8 @@
                 <drugintervaldosageunitnumb/>
                 <drugintervaldosagedefinition/>
                 <drugcumulativedosagenumb/>
-                <drugcumulativedosageunit/>
-                <drugdosagetext/>
+                <drugcumulativedosageunit/>                
+                <drugdosagetext><?php echo $saefiListOfDrug['dosage']; ?></drugdosagetext>
                 <drugdosageform/>
                 <drugadministrationroute><?php
                     if(!empty($saefiListOfDrug['route_id'])) {
@@ -269,8 +271,8 @@
                 <reactiongestationperiodunit/>
                 <drugindicationmeddraversion/>
                 <drugindication><?php echo $saefiListOfDrug['indication']; ?></drugindication>
-                <drugstartdateformat><?php if (!empty($saefiListOfDrug['start_date'])) echo 102; ?></drugstartdateformat>
-                <drugstartdate><?php if (!empty($saefiListOfDrug['start_date'])) echo date('Ymd', strtotime($saefiListOfDrug['start_date']))?></drugstartdate>
+                <drugstartdateformat><?php if (!empty($saefiListOfDrug['vaccination_date'])) echo 102; ?></drugstartdateformat>
+                <drugstartdate><?php if (!empty($saefiListOfDrug['vaccination_date'])) echo date('Ymd', strtotime($saefiListOfDrug['vaccination_date']))?></drugstartdate>
                 <drugstartperiod/>
                 <drugstartperiodunit/>
                 <druglastperiod/>
@@ -295,7 +297,7 @@
                     if (!empty($saefi['action_taken'])) echo $actions[strtolower($saefi['action_taken'])];
                 ?></actiondrug>
                 <drugrecurreadministration/>
-                <drugadditional/>
+                <drugadditional><?php echo $saefiListOfDrug['diluent_batch_number']; ?></drugadditional>
                 <activesubstance>
                     <activesubstancename><?php echo $saefiListOfDrug['drug_name']; ?></activesubstancename>
                 </activesubstance>
@@ -316,8 +318,8 @@
             </drug>
             <?php  endforeach; ?>
             <summary>
-                <narrativeincludeclinical><?php echo $saefi['description_of_reaction']; ?></narrativeincludeclinical>
-                <reportercomment><?php echo $saefi['lab_test_results']; ?></reportercomment>
+                <narrativeincludeclinical><?php echo $saefi['signs_symptoms']; ?></narrativeincludeclinical>
+                <reportercomment><?php echo $saefi['relevant_findings']; ?></reportercomment>
                 <senderdiagnosismeddraversion>WHO-ART</senderdiagnosismeddraversion>
                 <senderdiagnosis><?php echo $saefi['past_drug_therapy']; ?></senderdiagnosis>
                 <sendercomment/>

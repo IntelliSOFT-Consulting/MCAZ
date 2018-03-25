@@ -56,14 +56,15 @@ class AdrsBaseController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews']
+            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrListOfDrugs.Doses', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews', 'Reviews.Users']
         ];
         $query = $this->Adrs
             ->find('search', ['search' => $this->request->query])
             ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
+        $users = $this->Adrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
-        $this->set(compact('designations', 'query', 'doses'));
+        $this->set(compact('designations', 'query', 'doses', 'users'));
         $this->set('adrs', $this->paginate($query));
 
         $_designations = $designations->toArray();

@@ -57,7 +57,7 @@ $this->start('sidebar'); ?>
                     ?>
                 </td>
                 <td><?= h($sadr->modified) ?></td>         
-                <?php if(!in_array("VigiBase", Hash::extract($sadr->report_stages, '{n}.stage'))) { ?>       
+                <?php //if(!in_array("VigiBase", Hash::extract($sadr->report_stages, '{n}.stage'))) { ?>       
                 <td>
                     <?php if($sadr->submitted == 2 && empty($sadr->messageid)) {                                        
                            echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']); 
@@ -66,28 +66,28 @@ $this->start('sidebar'); ?>
                           }
                     ?>
                 </td>
-                <?php } else { echo "<td></td>"; } ?>
+                <?php //} else { echo "<td></td>"; } ?>
                 <td>
                     <?php if($sadr->submitted == 2) {                                        
                           echo  $this->Html->link('<span class="label label-primary"> E2B</span>', ['action' => 'e2b', $sadr->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']); 
                             }
                     ?>
-                   <span class="label label-primary">                     
-                     <?= $this->Html->link('View', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'style' => 'color: white;'])
+                                        
+                     <?= $this->Html->link('<span class="label label-primary">View</span>', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'style' => 'color: white;'])
                      ?>
-                    </span>  &nbsp;
-                   <span class="label label-primary">                     
-                     <?= $this->Html->link('PDF', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status, '_ext' => 'pdf'], ['escape' => false, 'style' => 'color: white;'])
+                                        
+                     <?= $this->Html->link('<span class="label label-primary">PDF</span>', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status, '_ext' => 'pdf'], ['escape' => false, 'style' => 'color: white;'])
                      ?>
-                    </span>  <br>
-                    <?php if($sadr->submitted == 2 && $sadr->status != 'Archived') {                                        
+
+                    <?php if($sadr->submitted == 2 && $sadr->status != 'Archived') { 
+                      echo "&nbsp;";                                       
                           echo  $this->Form->postLink('<span class="label label-default"> Archive</span>', ['action' => 'archive', $sadr->id, 'prefix' => $prefix], ['escape' => false, 'class' => 'label-link', 'confirm' => __('Are you sure you want to archive report {0}?', $sadr->reference_number)]); 
                             }
                     ?>
                     <?php if($sadr->submitted == 0) { ?>
-                    <span class="label label-danger">                     
-                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $sadr->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sadr->id), 'class' => 'label-link']) ?>
-                    </span> 
+                                         
+                     <?= $this->Form->postLink('<span class="label label-danger">Delete</span> ', ['action' => 'delete', $sadr->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sadr->id), 'class' => 'label-link', 'escape' => false]) ?>
+                    
                     <?php } ?>               
                 </td>
             </tr>

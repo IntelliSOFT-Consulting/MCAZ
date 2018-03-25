@@ -3,6 +3,9 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+use Cake\Http\Client;
+use Cake\Core\Configure;
+use Cake\Log\Log;
 use Cake\Utility\Hash;
 use Cake\View\Helper\HtmlHelper; 
 
@@ -155,12 +158,78 @@ class AdrsController extends AppController
         $this->set('_serialize', ['adr']);
     }
 
+    public function vigibase($id = null) {
+        $adr = $this->Adrs->get($id, [
+            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments']
+        ]); 
+
+        // create a builder (hint: new ViewBuilder() constructor works too)
+        $builder = $this->viewBuilder();
+
+        // configure as needed
+        $builder->setLayout(false);
+        $builder->template('Adrs/xml/e2b');
+
+        // create a view instance
+        $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
+        $view = $builder->build(compact('aefi', 'designations'));
+
+        // render to a variable
+        $payload = $view->render();
+        
+        $http = new Client();
+
+        //$payload = $this->VigibaseApi->aefi_e2b($adr, $doses, $routes);
+        //Log::write('debug', 'Payload :: '.$payload);
+        $umc = $http->post(Configure::read('vigi_post_url'), 
+            (string)$payload,
+            ['headers' => Configure::read('vigi_headers')]);  
+
+        if ($umc->isOK()) {
+            $messageid = $umc->json;
+
+            $vadr = $this->Adrs->get($id, [
+                'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments']
+            ]); 
+            $stage1  = $this->Adrs->ReportStages->newEntity();
+            $stage1->model = 'Adrs';
+            $stage1->stage = 'VigiBase';
+            $stage1->description = 'Stage 9';
+            $stage1->stage_date = date("Y-m-d H:i:s");
+            $vadr->report_stages = [$stage1];
+            $vadr->messageid = $messageid['MessageId'];
+            $vadr->status = 'VigiBase';
+            $this->Adrs->save($vadr);
+
+            $this->set([
+                    'umc' => $umc->json, 
+                    'status' => 'Successfull integration with vigibase', 
+                    '_serialize' => ['umc', 'status']]);
+        } else {
+            $this->response->body('Failure');
+            $this->response->statusCode($umc->getStatusCode());
+            $this->set([
+                'umc' => $umc->json, 
+                'status' => 'Failed', 
+                '_serialize' => ['umc', 'status']]);
+            return;
+        }
+    }
+
     public function e2b($id = null)
     {
         $adr = $this->Adrs->get($id, [
             'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments']
         ]);        
         
+        $stage1  = $this->Adrs->ReportStages->newEntity();
+        $stage1->model = 'Adrs';
+        $stage1->stage = 'VigiBase';
+        $stage1->description = 'Stage 9';
+        $stage1->stage_date = date("Y-m-d H:i:s");
+        $adr->report_stages = [$stage1];
+        $adr->status = 'VigiBase';
+        $this->Adrs->save($adr);
 
         $designations = $this->Adrs->Designations->find('list',array('order'=>'Designations.name ASC'));
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list', ['keyField' => 'id', 'valueField' => 'icsr_code']);

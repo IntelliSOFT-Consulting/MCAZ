@@ -1,7 +1,11 @@
-<?php $this->start('sidebar'); ?>
+<?php 
+use Cake\Utility\Hash;
+$this->start('sidebar'); ?>
   <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
+<?=     $this->Html->script('jquery/vigibase', ['block' => true]); ?>
+<?=     $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
 
 <h1 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> SAEFIS
     :: <small style="font-size: small;"><i class="fa fa-search-plus" aria-hidden="true"></i> Search, 
@@ -32,6 +36,7 @@
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th> 
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -45,16 +50,25 @@
                 <td><?= h($saefi->status) ?></td>
                 <td><?= h($saefi->modified) ?></td>
                 <td>
-                   <span class="label label-primary"><?php
-                   echo ($saefi->submitted == 2) ?  $this->Html->link('E2B', ['action' => 'e2b', $saefi->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']) : ''; ?></span>
-                   <span class="label label-primary">                     
-                     <?= $this->Html->link('View', ['action' => 'view', $saefi->id, 'prefix' => $prefix], ['escape' => false, 'style' => 'color: white;'])
+                    <?php if($saefi->submitted == 2 && empty($saefi->messageid)) {                                        
+                           echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $saefi->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']); 
+                          } elseif (!empty($saefi->messageid)) {
+                            echo $saefi->messageid;
+                          }
+                    ?>
+                </td>
+                <td>
+                    <?php
+                    echo ($saefi->submitted == 2) ?  $this->Html->link('<span class="label label-primary">E2B</span>', ['action' => 'e2b', $saefi->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']) : ''; 
+                    ?>
+                                      
+                     <?= $this->Html->link('<span class="label label-primary">View</span>', ['action' => 'view', $saefi->id, 'prefix' => $prefix], ['escape' => false, 'style' => 'color: white;'])
                      ?>
-                    </span> &nbsp;
-                   <span class="label label-primary">                    
-                     <?= $this->Html->link('PDF', ['action' => 'view', $saefi->id, 'prefix' => $prefix, 'status' => $saefi->status, '_ext' => 'pdf'], ['escape' => false, 'class' => 'label-link'])
+
+                                       
+                     <?= $this->Html->link('<span class="label label-primary">PDF</span>', ['action' => 'view', $saefi->id, 'prefix' => $prefix, 'status' => $saefi->status, '_ext' => 'pdf'], ['escape' => false, 'class' => 'label-link'])
                      ?>
-                   </span>
+                   
                      <br>
                     <?php if($saefi->submitted == 2 && $saefi->status != 'Archived') {                                        
                           echo  $this->Form->postLink('<span class="label label-default"> Archive</span>', ['action' => 'archive', $saefi->id, 'prefix' => $prefix], ['escape' => false, 'class' => 'label-link', 'confirm' => __('Are you sure you want to archive report {0}?', $saefi->reference_number)]); 

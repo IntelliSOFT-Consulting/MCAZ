@@ -33,7 +33,7 @@ class AefisBaseController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 'Committees', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments']
+            'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiCausalities.Users', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 'Committees', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments']
         ];
 
 
@@ -41,8 +41,9 @@ class AefisBaseController extends AppController
             ->find('search', ['search' => $this->request->query])
             ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
+        $users = $this->Aefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
-        $this->set(compact('provinces', 'designations', 'query'));
+        $this->set(compact('provinces', 'designations', 'query', 'users'));
         $this->set('aefis', $this->paginate($query));
 
         $_provinces = $provinces->toArray();

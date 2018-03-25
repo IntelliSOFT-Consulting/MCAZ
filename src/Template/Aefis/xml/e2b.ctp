@@ -64,19 +64,32 @@
             if ($aefi['designation_id'] == 1 || $aefi['designation_id'] == 2 || $aefi['designation_id'] == 3 ) {
                 echo 1;
             } else { echo 2;}
-        ?></medicallyconfirm>
+        ?></medicallyconfirm>        
+        <reportduplicate>
+            <duplicatesource></duplicatesource>
+            <duplicatenumb>ZW-MCAZ-<?php
+                echo $aefi['reference_number'];
+            ?></duplicatenumb>
+        </reportduplicate>
         <?php $arr = preg_split("/[\s]+/", $aefi['reporter_name']); ?>
         <primarysource>
             <reportergivename><?php if (isset($arr[0])) echo $arr[0]; ?></reportergivename>
             <reporterfamilyname><?php if (isset($arr[1])) echo $arr[1].' '; if (isset($arr[2])) echo $arr[2];  ?></reporterfamilyname>
-            <reporterorganization><?php echo $aefi['institution_code']; ?></reporterorganization>
+            <reporterorganization><?php echo $aefi['name_of_vaccination_center']; ?></reporterorganization>
             <reporterdepartment/>
             <reporterstreet/>
             <reportercity/>
             <reporterstate/>
             <reporterpostcode/>
             <reportercountry>ZW</reportercountry>
-            <qualification><?php echo $aefi['designation_id']; ?></qualification>
+            <qualification>
+                <?php 
+                    $desg = [1 => 1, 2 => 1, 3 => 3, 4 => 2, 5 => 3, 6 => 2, 7 => 3, 8 => 1, 9 => 1, 10 => 1, 11 => 1, 12 => 1, 
+                             13 => 1, 14 => 1, 15 => 1, 16 => 1, 17 => 1, 18 => 1, 19 => 3, 20 => 1, 21 => 5, 22 => 5, 23 => 3, 
+                          ];
+                    echo $desg[($aefi['designation_id']) ?? 3]; 
+                ?>
+            </qualification>
             <literaturereference/>
             <studyname/>
             <sponsorstudynumb/>
@@ -160,9 +173,23 @@
                     echo '<patientbirthdate/>';
                     echo "\n";
                 }
-                ?>
-            <patientonsetage/>
-            <patientonsetageunit/>
+            ?>
+
+            <?php
+                if (!empty($aefi->age_at_onset_years)) {
+                    echo "<patientonsetage>".$aefi->age_at_onset_years."</patientonsetage>";
+                    echo "<patientonsetageunit>801</patientonsetageunit>";
+                } elseif (!empty($aefi->age_at_onset_months)) {
+                    echo "<patientonsetage>".$aefi->age_at_onset_months."</patientonsetage>";
+                    echo "<patientonsetageunit>802</patientonsetageunit>";
+                } elseif (!empty($aefi->age_at_onset_days)) {
+                    echo "<patientonsetage>".$aefi->age_at_onset_days."</patientonsetage>";
+                    echo "<patientonsetageunit>804</patientonsetageunit>";
+                } else {
+                    echo "<patientonsetage/>";
+                    echo "<patientonsetageunit/>";
+                }
+            ?>
             <gestationperiod/>
             <gestationperiodunit/>
             <patientagegroup/>
@@ -182,7 +209,8 @@
                 <patientautopsyyesno/>
             </patientdeath>
             <reaction>
-                <primarysourcereaction><?php 
+                <primarysourcereaction>
+                    <?php 
                     if($aefi['ae_severe_local_reaction']) echo 'Severe, ';
                     if($aefi['ae_seizures']) echo 'Seizures, ';
                     if($aefi['ae_abscess']) echo 'Abscess, ';
@@ -196,31 +224,25 @@
                     if($aefi['ae_febrile']) echo 'febrile, ';
                     if($aefi['ae_beyond_joint']) echo 'beyond, ';
                     if($aefi['ae_afebrile']) echo 'afebrile, '; 
-                    ?>
+                    ?>                 
                 </primarysourcereaction>
                 <reactionmeddraversionllt>WHO-ART</reactionmeddraversionllt>
                 <reactionmeddrallt/>
                 <reactionmeddraversionpt/>
                 <reactionmeddrapt/>
                 <termhighlighted/>
-                <reactionstartdateformat><?php
-                    $onsetf = 102;
-                    // $a = explode('-', $aefi->date_of_birth);
-                    // $aefi->date_of_birth = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
-                    if (empty($aefi['date_of_birth']['day']) && empty($aefi['date_of_birth']['month'])) {
-                        $onsetf = 602;
-                    } else if (empty($aefi['date_of_birth']['day']) && !empty($aefi['date_of_birth']['month'])) {
-                        $onsetf = 610;
-                    } else if (!empty($aefi['date_of_birth']['day']) && empty($aefi['date_of_birth']['month'])) {
-                        $onsetf = 602;
+                <?php
+
+                    if (!empty($aefi['aefi_date'])) {
+                        echo "<reactionstartdateformat>102</reactionstartdateformat>";
+                        echo "<reactionstartdate>".date('Ymd', strtotime($aefi['aefi_date']))."</reactionstartdate>";
+                    } else {
+                        echo "<reactionstartdateformat/>
+                              <reactionstartdate/>";
                     }
-                    echo $onsetf;
-                ?></reactionstartdateformat>
-                <reactionstartdate><?php
-                    if($onsetf == 102) echo date('Ymd', strtotime(implode('-', $aefi['date_of_birth'])));
-                    if($onsetf == 602) echo $aefi['date_of_birth']['year'];
-                    if($onsetf == 610) echo $aefi['date_of_birth']['year'].$aefi['date_of_birth']['month'];
-                ?></reactionstartdate>
+
+                ?>
+                
                 <reactionenddateformat/>
                 <reactionenddate/>
                 <reactionduration/>
@@ -231,9 +253,11 @@
                 <reactionlasttimeunit/>
                 <reactionoutcome><?php
                 $outcomes =  ['Recovered' => 1, 
+                              'Recovered with sequelae' => 1, 
                               'Recovering' => 2, 
-                              'Not yet recovered' => 4, 
+                              'Not Recovered' => 4, 
                               'Fatal' => 5, 
+                              'Died' => 5, 
                               'Unknown' => 6];
                 if (!empty($aefi['outcome'])) echo $outcomes[$aefi['outcome']];
                 ?></reactionoutcome>
@@ -243,7 +267,7 @@
                 <drugcharacterization/>
                 <medicinalproduct><?php echo $aefiListOfVaccine['vaccine_name']; ?></medicinalproduct>
                 <obtaindrugcountry/>
-                <drugbatchnumb/>
+                <drugbatchnumb><?php echo $aefiListOfVaccine['batch_number']; ?></drugbatchnumb>
                 <drugauthorizationnumb/>
                 <drugauthorizationcountry/>
                 <drugauthorizationholder/>
@@ -254,7 +278,7 @@
                 <drugintervaldosagedefinition/>
                 <drugcumulativedosagenumb/>
                 <drugcumulativedosageunit/>
-                <drugdosagetext/>
+                <drugdosagetext><?php echo $aefiListOfVaccine['dosage']; ?></drugdosagetext>
                 <drugdosageform/>
                 <drugadministrationroute/>
                 <drugparadministration/>
@@ -274,7 +298,7 @@
                 <drugtreatmentdurationunit/>
                 <actiondrug/>
                 <drugrecurreadministration/>
-                <drugadditional/>
+                <drugadditional><?php echo $aefiListOfVaccine['diluent_batch_number']; ?></drugadditional>
                 <activesubstance>
                     <activesubstancename><?php echo $aefiListOfVaccine['vaccine_name']; ?></activesubstancename>
                 </activesubstance>

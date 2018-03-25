@@ -1,7 +1,11 @@
-<?php $this->start('sidebar'); ?>
+<?php 
+use Cake\Utility\Hash;
+$this->start('sidebar'); ?>
   <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
+<?=     $this->Html->script('jquery/vigibase', ['block' => true]); ?>
+<?=     $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
 
 <h1 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> SAE
     :: <small style="font-size: small;"><i class="fa fa-search-plus" aria-hidden="true"></i> Search, 
@@ -31,6 +35,7 @@
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th> 
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -42,6 +47,14 @@
                       echo ($adr->submitted == 2) ? $this->Html->link($adr->reference_number, ['action' => 'view', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']) : $adr->created ; ?></td>
                 <td><?= h($adr->status) ?></td>
                 <td><?= h($adr->modified) ?></td>
+                <td>
+                    <?php if($adr->submitted == 2 && empty($adr->messageid)) {                                        
+                           echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $adr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']); 
+                          } elseif (!empty($adr->messageid)) {
+                            echo $adr->messageid;
+                          }
+                    ?>
+                </td>
                 <td>
                    <span class="label label-primary"><?php
                    echo ($adr->submitted == 2) ?  $this->Html->link('E2B', ['action' => 'e2b', $adr->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']) : ''; ?></span>

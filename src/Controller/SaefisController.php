@@ -3,6 +3,9 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+use Cake\Http\Client;
+use Cake\Core\Configure;
+use Cake\Log\Log;
 use Cake\Utility\Hash;
 use Cake\View\Helper\HtmlHelper; 
 
@@ -102,12 +105,78 @@ class SaefisController extends AppController
         $this->set('_serialize', ['saefi', 'designations']);
     }
 
+    public function vigibase($id = null) {
+        $saefi = $this->Saefis->get($id, [
+            'contain' => ['AefiListOfVaccines', 'Attachments']
+        ]); 
+
+        // create a builder (hint: new ViewBuilder() constructor works too)
+        $builder = $this->viewBuilder();
+
+        // configure as needed
+        $builder->setLayout(false);
+        $builder->template('Saefis/xml/e2b');
+
+        // create a view instance
+        $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
+        $view = $builder->build(compact('aefi', 'designations'));
+
+        // render to a variable
+        $payload = $view->render();
+        
+        $http = new Client();
+
+        //$payload = $this->VigibaseApi->aefi_e2b($saefi, $doses, $routes);
+        //Log::write('debug', 'Payload :: '.$payload);
+        $umc = $http->post(Configure::read('vigi_post_url'), 
+            (string)$payload,
+            ['headers' => Configure::read('vigi_headers')]);  
+
+        if ($umc->isOK()) {
+            $messageid = $umc->json;
+
+            $vaefi = $this->Saefis->get($id, [
+                'contain' => ['AefiListOfVaccines', 'Attachments']
+            ]); 
+            $stage1  = $this->Saefis->ReportStages->newEntity();
+            $stage1->model = 'Saefis';
+            $stage1->stage = 'VigiBase';
+            $stage1->description = 'Stage 9';
+            $stage1->stage_date = date("Y-m-d H:i:s");
+            $vaefi->report_stages = [$stage1];
+            $vaefi->messageid = $messageid['MessageId'];
+            $vaefi->status = 'VigiBase';
+            $this->Saefis->save($vaefi);
+
+            $this->set([
+                    'umc' => $umc->json, 
+                    'status' => 'Successfull integration with vigibase', 
+                    '_serialize' => ['umc', 'status']]);
+        } else {
+            $this->response->body('Failure');
+            $this->response->statusCode($umc->getStatusCode());
+            $this->set([
+                'umc' => $umc->json, 
+                'status' => 'Failed', 
+                '_serialize' => ['umc', 'status']]);
+            return;
+        }
+    }
+
     public function e2b($id = null)
     {
         $saefi = $this->Saefis->get($id, [
-            'contain' => ['SaefiListOfVaccines',  'Attachments', 'Reports']
+            'contain' => ['AefiListOfVaccines',  'Attachments', 'Reports']
         ]);        
         
+        $stage1  = $this->Saefis->ReportStages->newEntity();
+        $stage1->model = 'Saefis';
+        $stage1->stage = 'VigiBase';
+        $stage1->description = 'Stage 9';
+        $stage1->stage_date = date("Y-m-d H:i:s");
+        $saefi->report_stages = [$stage1];
+        $saefi->status = 'VigiBase';
+        $this->Saefis->save($saefi);
 
         $designations = $this->Saefis->Designations->find('list',array('order'=>'Designations.name ASC'));
         $this->set(compact('saefi', 'designations'));

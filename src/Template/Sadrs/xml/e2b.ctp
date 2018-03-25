@@ -76,7 +76,14 @@
             <reporterstate/>
             <reporterpostcode/>
             <reportercountry>ZW</reportercountry>
-            <qualification><?php echo $sadr['designation_id']; ?></qualification>
+            <qualification>
+                <?php 
+                    $desg = [1 => 1, 2 => 1, 3 => 3, 4 => 2, 5 => 3, 6 => 2, 7 => 3, 8 => 1, 9 => 1, 10 => 1, 11 => 1, 12 => 1, 
+                             13 => 1, 14 => 1, 15 => 1, 16 => 1, 17 => 1, 18 => 1, 19 => 3, 20 => 1, 21 => 5, 22 => 5, 23 => 3, 
+                          ];
+                    echo $desg[($sadr['designation_id']) ?? 3]; 
+                ?>
+            </qualification>
             <literaturereference/>
             <studyname/>
             <sponsorstudynumb/>

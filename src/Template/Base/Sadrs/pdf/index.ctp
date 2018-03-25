@@ -1,3 +1,6 @@
+<?php
+  use Cake\Utility\Hash;
+?>
 
 <div class="row">
     <div class="col-xs-12">
@@ -15,11 +18,12 @@
             <tr>
                 <th scope="col">Reference #</th>
                 <th scope="col">Patient Initials</th>
+                <th scope="col">Patient Details</th>
                 <th scope="col">ADR Summary</th>
                 <th scope="col">Medical History</th>
                 <th scope="col">Suspected Drug(s)</th>
                 <th scope="col">Clinical Findings</th>    
-                <th scope="col">Causality Assessment</th>    
+                <th scope="col">ADR Listing in Summary</th>    
             </tr>
         </thead>
         <tbody>
@@ -28,22 +32,32 @@
                 <td><?=  $sadr->reference_number ?></td>
                 <td><?=  $sadr->patient_name ?></td>
                 <td>
+                  <?php echo "Age: ".$sadr->date_of_birth ?><br>
+                  <?php echo "Gender: ".$sadr->gender ?><br>
+                  <?php echo "Weight: ".$sadr->weight ?>
+                </td>
+                <td>
                   <?php echo "Onset: ".$sadr->date_of_onset_of_reaction." to ".$sadr->date_of_end_of_reaction; ?><br>
                   <?php echo "Outcome: ".$sadr->outcome; ?><br>
                   <?= h($sadr->description_of_reaction) ?></td>
                 <td><?= h($sadr->medical_history) ?></td>       
                 <td>
                     <?php foreach($sadr->sadr_list_of_drugs as $list_of_drug): ?>    
-                      <p><?= $list_of_drug->drug_name.' - '.$list_of_drug->brand_name ?></p>        
+                      <?php $kdose = (isset($list_of_drug->dose->name)) ? $list_of_drug->dose->name : '' ;?>  
+                      <p><?= $list_of_drug->drug_name.' - '.$list_of_drug->brand_name.'-'.$kdose ?></p>        
                       <p><?= $list_of_drug->start_date.' - '.$list_of_drug->stop_date ?></p>        
                     <?php endforeach; ?>
                 </td>
-                <td><?= h($sadr->lab_test_results) ?></td>  
-                <td><?= $sadr->action_taken ?>; <?= $sadr->outcome ?>; <?= $sadr->relatedness ?>; </td>
+                <td>
+                  <?= h($sadr->past_drug_therapy) ?><br>
+                  <?= h($sadr->lab_test_results) ?>                  
+                </td>  
+                <td><?= "Action Taken: ".$sadr->action_taken ?><br><?= "Relatedness: ".$sadr->relatedness ?> </td>
             </tr>
               <?php foreach ($sadr->reviews as $review): ?>
+                <?php if($review->chosen == 1) { ?>
                 <tr>
-                  <td colspan="3">
+                  <td colspan="2">
                     <p><b>Literature Review</b></p>
                     <?= $review->literature_review ?>
                   </td>
@@ -55,7 +69,20 @@
                     <p><b>References</b></p>
                     <?= $review->references_text ?>
                   </td>
+                  <td colspan="2">
+                    <p><b>Signatures</b></p>
+                    <p><?php          
+                        echo ($review->signature) ? "<img src='".$this->Url->build(substr($review->user->dir, 8) . '/' . $review->user->file, true)."' style='width: 30%;' alt=''>" : '';
+                        ?>
+                    </p>
+                    <p>
+                      <?php          
+                        echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$sadr->assigned_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$sadr->assigned_by], true)."' style='width: 30%;' alt=''>";
+                      ?>                        
+                    </p>
+                  </td>
                 </tr>
+                <?php } ?>
               <?php endforeach; ?>
             <?php endforeach; ?>
         </tbody>

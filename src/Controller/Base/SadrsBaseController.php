@@ -59,9 +59,7 @@ class SadrsBaseController extends AppController
     public function index()
     {
         $this->paginate = [
-            // 'contain' => ['Users', 'Designations', 'Reviews']
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'RequestReporters', 'RequestEvaluators', 'Committees', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments', 'ReportStages']
-            // 'contain' => []
+            'contain' => ['SadrListOfDrugs', 'SadrListOfDrugs.Doses', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'Reviews.Users', 'RequestReporters', 'RequestEvaluators', 'Committees', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments', 'ReportStages']
         ];
         /*// $sadrs = $this->paginate($this->Sadrs,['finder' => ['status' => $id]]);
         if($this->request->getQuery('status')) {$sadrs = $this->paginate($this->Sadrs->find('all')->where(['status' => $this->request->getQuery('status'), 'ifnull(report_type,-1) !=' => 'FollowUp']), ['order' => ['Sadrs.id' => 'desc']]); }
@@ -71,12 +69,13 @@ class SadrsBaseController extends AppController
             // Use the plugins 'search' custom finder and pass in the
             // processed query params
             ->find('search', ['search' => $this->request->query])
-            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
+            ->where(['Sadrs.status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
             // You can add extra things to the query if you need to
             //->where([['ifnull(report_type,-1) !=' => 'FollowUp']]);
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
+        $users = $this->Sadrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
-        $this->set(compact('provinces', 'designations', 'query'));
+        $this->set(compact('provinces', 'designations', 'query', 'users'));
         $this->set('sadrs', $this->paginate($query));
 
         // $this->set(compact('sadrs'));
