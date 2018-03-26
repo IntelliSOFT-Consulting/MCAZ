@@ -81,9 +81,9 @@
                 ?>
             </qualification>
             <literaturereference/>
-            <studyname/>
-            <sponsorstudynumb/>
-            <observestudytype/>
+            <studyname><?php echo $adr->study_title; ?></studyname>
+            <sponsorstudynumb><?php echo (isset($adr->mcaz_protocol_number)) ? $adr->mcaz_protocol_number : $adr->mrcz_protocol_number; ?></sponsorstudynumb>
+            <observestudytype>1</observestudytype>
         </primarysource>
         <sender>
             <sendertype>3</sendertype>

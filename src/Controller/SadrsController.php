@@ -21,7 +21,7 @@ class SadrsController extends AppController
 {
     public function initialize() {
        parent::initialize();
-       $this->Auth->allow(['vichipase']);       
+       // $this->Auth->allow(['vichipase']);       
        $this->loadComponent('VigibaseApi');
        $this->loadComponent('Search.Prg', ['actions' => ['index']]);
     }
