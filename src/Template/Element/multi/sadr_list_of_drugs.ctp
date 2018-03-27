@@ -64,7 +64,7 @@
                         ?>
                     </td>
                     <td><?php echo $this->Form->control('sadr_list_of_drugs.'.$i.'.dose', ['label' => false, 
-                           'type' => 'text', 'templates' => ($editable) ? 'table_form': 'view_form_table' ]); ?></td>
+                           'type' => 'number', 'templates' => ($editable) ? 'table_form': 'view_form_table' ]); ?></td>
                     <td>
                         <?php
                             echo $this->Form->control('sadr_list_of_drugs.'.$i.'.dose_id', ['label' => false, 'options' => $doses, 'templates' => ($editable) ? 'table_form': 'view_form_table' , 'empty' => true]);

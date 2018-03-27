@@ -94,7 +94,7 @@ $(function() {
                 <input class="form-control autoComblete" name="sadr_list_of_drugs[{i}][brand_name]" id="sadr-list-of-drugs-{i}-brand-name" type="text"> </td>\
             <td>\
                 <input class="form-control" name="sadr_list_of_drugs[{i}][batch_number]" maxlength="255" id="sadr-list-of-drugs-{i}-batch-number" type="text"> </td>\
-            <td><input class="form-control" name="sadr_list_of_drugs[{i}][dose]" id="sadr-list-of-drugs-{i}-dose" type="text"> </td>\
+            <td><input class="form-control" name="sadr_list_of_drugs[{i}][dose]" id="sadr-list-of-drugs-{i}-dose" type="number"> </td>\
             <td>\
                  <select class="form-control" name="sadr_list_of_drugs[{i}][dose_id]" id="sadr-list-of-drugs-{i}-dose-id"></select>    </td>\
             <td> <select class="form-control" name="sadr_list_of_drugs[{i}][route_id]" id="sadr-list-of-drugs-{i}-route-id"></select>  </td>\
