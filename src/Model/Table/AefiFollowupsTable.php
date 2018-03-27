@@ -24,6 +24,16 @@ class AefiFollowupsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Duplicatable.Duplicatable', [
+            'contain' => ['AefiListOfVaccines', 'Attachments'],
+            'remove' => ['created', 'modified', 'aefi_list_of_vaccines.created',  'attachments.created',
+                          'aefi_list_of_vaccines.modified',  'attachments.modified'],
+            'set' => [
+                'report_type' => 'FollowUp',
+                'status' => 'Unsubmitted',
+                'submitted' => 0
+            ]        
+        ]);
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'

@@ -318,7 +318,7 @@ class AefisController extends AppController
               //submit to mcaz button
               $aefi->submitted_date = date("Y-m-d H:i:s");
               $aefi->status = 'Submitted';//($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
-              $aefi->reference_number = 'AEFI'.$aefi->id.'/'.$aefi->created->i18nFormat('yyyy');
+              $aefi->reference_number = (($aefi->reference_number)) ?? 'AEFI'.$aefi->id.'/'.$aefi->created->i18nFormat('yyyy');
               if ($this->Aefis->save($aefi, ['validate' => false])) {
                 $this->Flash->success(__('Report '.$aefi->reference_number.' has been successfully submitted to MCAZ for review.'));               
 ;
@@ -326,7 +326,8 @@ class AefisController extends AppController
                 $this->loadModel('Queue.QueuedJobs');    
                 $data = [
                     'email_address' => $aefi->reporter_email, 'user_id' => $this->Auth->user('id'),
-                    'type' => 'applicant_submit_aefi_email', 'model' => 'Aefis', 'foreign_key' => $aefi->id,
+                    'type' => ($aefi->report_type == 'FollowUp') ? 'applicant_submit_aefi_followup_email' : 'applicant_submit_aefi_email', 
+                    'model' => 'Aefis', 'foreign_key' => $aefi->id,
                     'vars' =>  $aefi->toArray()
                 ];                
                 $html = new HtmlHelper(new \Cake\View\View());
@@ -335,17 +336,17 @@ class AefisController extends AppController
                 $data['vars']['name'] = $aefi->reporter_name;
                 //notify applicant
                 $this->QueuedJobs->createJob('GenericEmail', $data);
-                $data['type'] = 'applicant_submit_aefi_notification';
+                $data['type'] = ($aefi->report_type == 'FollowUp') ? 'applicant_submit_aefi_followup_notification' : 'applicant_submit_aefi_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
                 //notify managers
                 $managers = $this->Aefis->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
                 foreach ($managers as $manager) {
                     $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Aefis', 'foreign_key' => $aefi->id,
                       'vars' =>  $aefi->toArray()];
-                    $data['type'] = 'manager_submit_aefi_email';
+                    $data['type'] = ($aefi->report_type == 'FollowUp') ? 'manager_submit_aefi_followup_email' : 'manager_submit_aefi_email';
                     $data['vars']['name'] = $manager->name;
                     $this->QueuedJobs->createJob('GenericEmail', $data);
-                    $data['type'] = 'manager_submit_aefi_notification';
+                    $data['type'] = ($aefi->report_type == 'FollowUp') ? 'manager_submit_aefi_followup_notification' : 'manager_submit_aefi_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
                 return $this->redirect(['action' => 'view', $aefi->id]);
@@ -380,6 +381,28 @@ class AefisController extends AppController
         $this->set(compact('aefi', 'designations', 'provinces'));
         $this->set('_serialize', ['aefi']);
 
+    }
+
+
+    public function aefiFollowup($id) {
+        $this->loadModel('AefiFollowups');
+        $orig_aefi = $this->Aefis->get($id, ['contain' => []]);
+        
+        $aefi = $this->AefiFollowups->duplicateEntity($id);
+        $aefi->aefi_id = $id;        
+        $aefi->user_id = $this->Auth->user('id'); //the report is reassigned to the user
+
+        if ($this->Aefis->save($aefi, ['validate' => false])) {            
+            $query = $this->Aefis->query();
+            $query->update()
+                ->set(['report_type' => 'Initial'])
+                ->where(['id' => $orig_aefi->id])
+                ->execute();
+            $this->Flash->success(__('A follow-up report for the AEFI has been created. make changes and submit.'));
+            return $this->redirect(['action' => 'edit', $aefi->id]);
+        }
+        $this->Flash->error(__('A follow-up report for the AEFI Report could not be created. Please, try again.'));
+        return $this->redirect($this->referer());        
     }
 
     public function followup($id = null, $fid = null)

@@ -172,7 +172,7 @@ class AdrsController extends AppController
 
         // create a view instance
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
-        $view = $builder->build(compact('aefi', 'designations'));
+        $view = $builder->build(compact('adr', 'designations'));
 
         // render to a variable
         $payload = $view->render();
@@ -337,13 +337,14 @@ class AdrsController extends AppController
               //submit to mcaz button
               $adr->submitted_date = date("Y-m-d H:i:s");
               $adr->status = 'Submitted';//($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
-              $adr->reference_number = 'SAE'.$adr->id.'/'.$adr->created->i18nFormat('yyyy');
+              $adr->reference_number = (($adr->reference_number)) ?? 'SAE'.$adr->id.'/'.$adr->created->i18nFormat('yyyy');
               if ($this->Adrs->save($adr, ['validate' => false])) {
                 $this->Flash->success(__('Report '.$adr->reference_number.' has been successfully submitted to MCAZ for review.'));                //send email and notification
                 $this->loadModel('Queue.QueuedJobs');    
                 $data = [
                     'email_address' => $adr->reporter_email, 'user_id' => $this->Auth->user('id'),
-                    'type' => 'applicant_submit_adr_email', 'model' => 'Adrs', 'foreign_key' => $adr->id,
+                    'type' => ($adr->report_type == 'FollowUp') ? 'applicant_submit_adr_followup_email' : 'applicant_submit_adr_email', 
+                    'model' => 'Adrs', 'foreign_key' => $adr->id,
                     'vars' =>  $adr->toArray()
                 ];
                 $html = new HtmlHelper(new \Cake\View\View());
@@ -352,17 +353,17 @@ class AdrsController extends AppController
                 $data['vars']['name'] = $adr->reporter_name;
                 //notify applicant
                 $this->QueuedJobs->createJob('GenericEmail', $data);
-                $data['type'] = 'applicant_submit_adr_notification';
+                $data['type'] = ($adr->report_type == 'FollowUp') ? 'applicant_submit_adr_followup_notification' : 'applicant_submit_adr_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
                 //notify managers
                 $managers = $this->Adrs->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
                 foreach ($managers as $manager) {
                     $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Adrs', 'foreign_key' => $adr->id,
                       'vars' =>  $adr->toArray()];
-                    $data['type'] = 'manager_submit_adr_email';
+                    $data['type'] = ($adr->report_type == 'FollowUp') ? 'manager_submit_adr_followup_email' : 'manager_submit_adr_email';
                     $data['vars']['name'] = $manager->name;
                     $this->QueuedJobs->createJob('GenericEmail', $data);
-                    $data['type'] = 'manager_submit_adr_notification';
+                    $data['type'] = ($adr->report_type == 'FollowUp') ? 'manager_submit_adr_followup_notification' : 'manager_submit_adr_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
                 return $this->redirect(['action' => 'view', $adr->id]);
@@ -394,6 +395,27 @@ class AdrsController extends AppController
         $this->set(compact('adr', 'users', 'designations', 'doses', 'routes', 'frequencies'));
         // $this->set(compact('adr', 'users', 'designations'));
         $this->set('_serialize', ['adr']);
+    }
+
+    public function adrFollowup($id) {
+        $this->loadModel('AdrFollowups');
+        $orig_adr = $this->Adrs->get($id, ['contain' => []]);
+
+        $adr = $this->AdrFollowups->duplicateEntity($id);
+        $adr->adr_id = $id;        
+        $adr->user_id = $this->Auth->user('id'); //the report is reassigned to the user
+
+        if ($this->Adrs->save($adr, ['validate' => false])) {            
+            $query = $this->Adrs->query();
+            $query->update()
+                ->set(['report_type' => 'Initial'])
+                ->where(['id' => $orig_adr->id])
+                ->execute();
+            $this->Flash->success(__('A follow-up report for the SAE report has been created. make changes and submit.'));
+            return $this->redirect(['action' => 'edit', $adr->id]);
+        }
+        $this->Flash->error(__('A follow-up report for the SAE Report could not be created. Please, try again.'));
+        return $this->redirect($this->referer());        
     }
 
     /**

@@ -101,8 +101,9 @@ class SaefisController extends AppController
             ]);
         }
         $designations = $this->Saefis->Designations->find('list',array('order'=>'Designations.name ASC'));
-        $this->set(compact('saefi', 'designations'));
-        $this->set('_serialize', ['saefi', 'designations']);
+        $provinces = $this->Saefis->Provinces->find('list', ['limit' => 200]);
+        $this->set(compact('saefi', 'designations', 'provinces'));
+        $this->set('_serialize', ['saefi', 'designations', 'provinces']);
     }
 
     public function vigibase($id = null) {
@@ -119,7 +120,7 @@ class SaefisController extends AppController
 
         // create a view instance
         $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
-        $view = $builder->build(compact('aefi', 'designations'));
+        $view = $builder->build(compact('saefi', 'designations'));
 
         // render to a variable
         $payload = $view->render();
@@ -275,7 +276,7 @@ class SaefisController extends AppController
               //submit to mcaz button
               $saefi->submitted_date = date("Y-m-d H:i:s");
               $saefi->status = 'Submitted';//($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
-              $saefi->reference_number = 'SAEFI'.$saefi->id.'/'.$saefi->created->i18nFormat('yyyy');
+              $saefi->reference_number = (($saefi->reference_number)) ?? 'SAEFI'.$saefi->id.'/'.$saefi->created->i18nFormat('yyyy');
               if ($this->Saefis->save($saefi, ['validate' => false])) {
                 $this->Flash->success(__('Report '.$saefi->reference_number.' has been successfully submitted to MCAZ for review.'));                
 
@@ -283,7 +284,8 @@ class SaefisController extends AppController
                 $this->loadModel('Queue.QueuedJobs');    
                 $data = [
                     'email_address' => $saefi->reporter_email, 'user_id' => $this->Auth->user('id'),
-                    'type' => 'applicant_submit_saefi_email', 'model' => 'Saefis', 'foreign_key' => $saefi->id,
+                    'type' => ($saefi->report_type == 'FollowUp') ? 'applicant_submit_saefi_followup_email' : 'applicant_submit_saefi_email', 
+                    'model' => 'Saefis', 'foreign_key' => $saefi->id,
                     'vars' =>  $saefi->toArray()
                 ];
                 $html = new HtmlHelper(new \Cake\View\View());
@@ -292,17 +294,17 @@ class SaefisController extends AppController
                 $data['vars']['name'] = $saefi->reporter_name;
                 //notify applicant
                 $this->QueuedJobs->createJob('GenericEmail', $data);
-                $data['type'] = 'applicant_submit_saefi_notification';
+                $data['type'] = ($saefi->report_type == 'FollowUp') ? 'applicant_submit_saefi_followup_notification' : 'applicant_submit_saefi_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
                 //notify managers
                 $managers = $this->Saefis->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
                 foreach ($managers as $manager) {
                     $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Saefis', 'foreign_key' => $saefi->id,
                       'vars' =>  $saefi->toArray()];
-                    $data['type'] = 'manager_submit_saefi_email';
+                    $data['type'] = ($saefi->report_type == 'FollowUp') ? 'manager_submit_saefi_followup_email' : 'manager_submit_saefi_email';
                     $data['vars']['name'] = $manager->name;
                     $this->QueuedJobs->createJob('GenericEmail', $data);
-                    $data['type'] = 'manager_submit_saefi_notification';
+                    $data['type'] = ($saefi->report_type == 'FollowUp') ? 'manager_submit_saefi_followup_notification' : 'manager_submit_saefi_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
                 return $this->redirect(['action' => 'view', $saefi->id]);
@@ -329,6 +331,28 @@ class SaefisController extends AppController
         $provinces = $this->Saefis->Provinces->find('list', ['limit' => 200]);
         $this->set(compact('saefi', 'designations', 'provinces'));
         $this->set('_serialize', ['saefi']);
+    }
+
+
+    public function saefiFollowup($id) {
+        $this->loadModel('SaefiFollowups');
+        $orig_saefi = $this->Saefis->get($id, ['contain' => []]);
+
+        $saefi = $this->SaefiFollowups->duplicateEntity($id);
+        $saefi->saefi_id = $id;        
+        $saefi->user_id = $this->Auth->user('id'); //the report is reassigned to the user
+
+        if ($this->Saefis->save($saefi, ['validate' => false])) {            
+            $query = $this->Saefis->query();
+            $query->update()
+                ->set(['report_type' => 'Initial'])
+                ->where(['id' => $orig_saefi->id])
+                ->execute();
+            $this->Flash->success(__('A follow-up report for the AEFI Investigation has been created. make changes and submit.'));
+            return $this->redirect(['action' => 'edit', $saefi->id]);
+        }
+        $this->Flash->error(__('A follow-up report for the AEFI Investigation Report could not be created. Please, try again.'));
+        return $this->redirect($this->referer());        
     }
 
     /**

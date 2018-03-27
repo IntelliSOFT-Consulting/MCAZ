@@ -21,7 +21,9 @@
 <div class="tab-content">
   <div role="tabpanel" class="tab-pane active" id="report">
 	<?php echo $this->Html->link('<button class="btn btn-primary"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF </button>', ['controller' => 'Sadrs', 'action' => 'view', '_ext' => 'pdf', $sadr->id], ['escape' => false]); ?>
-  <?php echo $this->Html->link('<button class="btn btn-success"> <i class="fa fa-plus" aria-hidden="true"></i> Create Followup Report </button>', ['controller' => 'Sadrs', 'action' => 'followup', $sadr->id], ['escape' => false]); ?>
+  <?php 
+      echo $this->Html->link('<button class="btn btn-success"> <i class="fa fa-plus" aria-hidden="true"></i> Create Followup Report </button>', ['controller' => 'Sadrs', 'action' => 'sadrFollowup', $sadr->id], ['escape' => false]); 
+  ?>
 <?php $this->end(); ?>
 
 <?php $this->start('endjs'); ?>
@@ -40,7 +42,7 @@
 
 <?php $this->start('followups');  ?>
     <hr>
-    <h2 class="text-center"><u>Follow Ups Section</u></h2>
+    <!-- <h2 class="text-center"><u>Follow Ups Section</u></h2> -->
    <?= $this->element('sadrs/view_followups') ?>
 <?php $this->end() ?>
 

@@ -46,6 +46,16 @@ class SadrFollowupsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Duplicatable.Duplicatable', [
+            'contain' => ['SadrListOfDrugs', 'Attachments'],
+            'remove' =>  ['created', 'modified', 'sadr_list_of_drugs.created',  'attachments.created', 'messageid', 'copied',
+                          'sadr_list_of_drugs.modified',  'attachments.modified'],
+            'set' => [
+                'report_type' => 'FollowUp',
+                'status' => 'Unsubmitted',
+                'submitted' => 0
+            ]
+        ]);
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'

@@ -20,7 +20,7 @@
 <div class="tab-content">
   <div role="tabpanel" class="tab-pane active" id="report">
   	<?php echo $this->Html->link('<button class="btn btn-primary"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF </button>', ['controller' => 'Aefis', 'action' => 'view', '_ext' => 'pdf', $aefi->id], ['escape' => false]); ?>
-	<?php echo $this->Html->link('<button class="btn btn-success"> <i class="fa fa-plus" aria-hidden="true"></i> Create Followup Report </button>', ['controller' => 'Aefis', 'action' => 'followup', $aefi->id], ['escape' => false]); ?>
+	<?php echo $this->Html->link('<button class="btn btn-success"> <i class="fa fa-plus" aria-hidden="true"></i> Create Followup Report </button>', ['controller' => 'Aefis', 'action' => 'aefiFollowup', $aefi->id], ['escape' => false]); ?>
 <?php $this->end(); ?>
 
 <?php $this->start('followups');  ?>

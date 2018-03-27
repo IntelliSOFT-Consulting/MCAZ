@@ -13,11 +13,11 @@
 <?= $this->Form->create(null, ['valueSources' => 'query', 'templates' => 'clear_form']) ?>
 <div class="well">
     <div class="row">
-      <p class="btn-zangu"><a class="btn btn-default" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      <p class="btn-zangu"><a class="btn btn-default" role="button" data-toggle="collapse" href="#collapseExampleSae" aria-expanded="false" aria-controls="collapseExampleSae">
                       <i class="fa fa-search" aria-hidden="true"></i> Search
                     </a></p>
 
-      <div class="collapse" id="collapseExample">
+      <div class="collapse" id="collapseExampleSae">
 
       <div class="col-md-10">
         <h5 class="text-center"><small><em>Use wildcard <span class="sterix fa fa-asterisk" aria-hidden="true"></span> to match any character e.g. saefi4* to match saefi4/2017, saefi49/2018 etc.</em></small></h5>

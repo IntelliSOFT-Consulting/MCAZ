@@ -22,6 +22,7 @@
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name_of_institution') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('report_type', 'Type') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col"></th>
             </tr>
@@ -37,6 +38,7 @@
                 </td>
                 <td><?= h($sadr->name_of_institution) ?></td>
                 <td><?= h($sadr->status) ?></td>
+                <td><?= h($sadr->report_type) ?></td>
                 <td><?= h($sadr->modified) ?></td>
                 <td>
                    <span class="label label-primary">                     

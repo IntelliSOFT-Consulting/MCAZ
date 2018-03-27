@@ -499,14 +499,15 @@ class SadrsController extends AppController
               //submit to mcaz button
               $sadr->submitted_date = date("Y-m-d H:i:s");
               $sadr->status = 'Submitted';//($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
-              $sadr->reference_number = 'ADR'.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy');
+              $sadr->reference_number = (($sadr->reference_number)) ?? 'ADR'.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy');
               if ($this->Sadrs->save($sadr, ['validate' => false])) {
                 $this->Flash->success(__('Report '.$sadr->reference_number.' has been successfully submitted to MCAZ for review.'));
                 //send email and notification
                 $this->loadModel('Queue.QueuedJobs');    
                 $data = [
                     'email_address' => $sadr->reporter_email, 'user_id' => $this->Auth->user('id'),
-                    'type' => 'applicant_submit_sadr_email', 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
+                    'type' => ($sadr->report_type == 'FollowUp') ? 'applicant_submit_sadr_followup_email' : 'applicant_submit_sadr_email' , 
+                    'model' => 'Sadrs', 'foreign_key' => $sadr->id,
                     'vars' =>  $sadr->toArray()
                 ]; 
                 $html = new HtmlHelper(new \Cake\View\View());
@@ -515,7 +516,7 @@ class SadrsController extends AppController
                 $data['vars']['name'] = $sadr->reporter_name;
                 //notify applicant
                 $this->QueuedJobs->createJob('GenericEmail', $data);
-                $data['type'] = 'applicant_submit_sadr_notification';
+                $data['type'] = ($sadr->report_type == 'FollowUp') ? 'applicant_submit_sadr_followup_notification' : 'applicant_submit_sadr_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
                 //notify managers
                 $managers = $this->Sadrs->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
@@ -523,9 +524,9 @@ class SadrsController extends AppController
                     $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
                             'vars' =>  $sadr->toArray()];
                     $data['vars']['name'] = $manager->name;
-                    $data['type'] = 'manager_submit_sadr_email';
+                    $data['type'] = ($sadr->report_type == 'FollowUp') ? 'manager_submit_sadr_followup_email' : 'manager_submit_sadr_email';
                     $this->QueuedJobs->createJob('GenericEmail', $data);
-                    $data['type'] = 'manager_submit_sadr_notification';
+                    $data['type'] = ($sadr->report_type == 'FollowUp') ? 'manager_submit_sadr_followup_notification' : 'manager_submit_sadr_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
                 //
@@ -558,6 +559,31 @@ class SadrsController extends AppController
         $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list');
         $this->set(compact('sadr', 'designations', 'provinces', 'doses', 'routes', 'frequencies'));
         $this->set('_serialize', ['sadr', 'provinces']);
+    }
+
+    public function sadrFollowup($id) {
+        $this->loadModel('SadrFollowups');
+        $orig_sadr = $this->Sadrs->get($id, ['contain' => []]);
+        
+        /*if ($orig_sadr->copied === 'old copy') {
+            $this->Flash->success(__('An editable copy of the report is already available.'));
+            return $this->redirect(['action' => 'edit', $orig_sadr['sadr']['id']]);
+        }*/
+        $sadr = $this->SadrFollowups->duplicateEntity($id);
+        $sadr->sadr_id = $id;        
+        $sadr->user_id = $this->Auth->user('id'); //the report is reassigned to the user
+
+        if ($this->Sadrs->save($sadr, ['validate' => false])) {            
+            $query = $this->Sadrs->query();
+            $query->update()
+                ->set(['report_type' => 'Initial'])
+                ->where(['id' => $orig_sadr->id])
+                ->execute();
+            $this->Flash->success(__('A follow-up report for the ADR has been created. make changes and submit.'));
+            return $this->redirect(['action' => 'edit', $sadr->id]);
+        }
+        $this->Flash->error(__('A follow-up report for the ADR Report could not be created. Please, try again.'));
+        return $this->redirect($this->referer());        
     }
 
     public function followup($id = null, $fid = null)

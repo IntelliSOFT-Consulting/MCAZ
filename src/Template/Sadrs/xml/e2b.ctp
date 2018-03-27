@@ -244,7 +244,7 @@
             <?php foreach ($sadr['sadr_list_of_drugs'] as $sadrListOfDrug): ?>
             <drug>
                 <drugcharacterization><?php
-                    if ($sadrListOfDrug['suspected_drug'] == 1) echo 1 ;
+                    if ($sadrListOfDrug['suspected_drug']) echo 1 ;
                     else echo 2;
                 ?></drugcharacterization>
                 <medicinalproduct><?php echo $sadrListOfDrug['brand_name']; ?></medicinalproduct>

@@ -48,7 +48,7 @@ function getChoice(sel){
     <div class="col-xs-12">
       <?= $this->Form->create($saefi, ['type' => 'file']) ?>
           <div class="row">
-            <div class="col-xs-12"><h5 class="text-center">MCAZ Reference Number: <strong><?= ($saefi->submitted == 2) ? $saefi->reference_number : $saefi->created->i18nFormat('dd-MM-yyyy HH:mm:ss') ; ?></strong></h5></div>         
+            <div class="col-xs-12"><h5 class="text-center">MCAZ Reference Number: <strong><?= ($saefi->reference_number) ? $saefi->reference_number : $saefi->created->i18nFormat('dd-MM-yyyy HH:mm:ss') ; ?></strong></h5></div>         
           </div>
 
           <h4>Section A:  <span class="text-center">Basic Details </span></h4>

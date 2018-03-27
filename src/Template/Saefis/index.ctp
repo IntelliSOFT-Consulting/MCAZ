@@ -19,6 +19,7 @@
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('basic_details') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('report_type', 'Type') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col">Actions</th>
             </tr>
@@ -34,6 +35,7 @@
                       </td>
                 <td><?= h($saefi->basic_details) ?></td>
                 <td><?= h($saefi->status) ?></td>
+                <td><?= h($saefi->report_type) ?></td>
                 <td><?= h($saefi->modified) ?></td>
                 <td>                    
                    <span class="label label-primary">                     

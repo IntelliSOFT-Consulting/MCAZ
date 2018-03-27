@@ -17,6 +17,7 @@
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('report_type', 'Type') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col">Actions</th>
             </tr>
@@ -31,6 +32,7 @@
                         $this->Html->link($aefi->created, ['action' => 'edit', $aefi->id, 'status' => $aefi->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?>
                 </td>
                 <td><?= h($aefi->status) ?></td>
+                <td><?= h($aefi->report_type) ?></td>
                 <td><?= h($aefi->modified) ?></td>
                 <td>                    
                    <span class="label label-primary">                     
