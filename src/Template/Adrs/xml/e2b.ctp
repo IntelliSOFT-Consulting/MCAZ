@@ -207,21 +207,29 @@
                 <reactionlasttimeunit/>
                 <reactionoutcome/>
             </reaction>
-            <?php foreach ($adr['adr_list_of_drugs'] as $saefiListOfDrug): ?>
+            <?php foreach ($adr['adr_list_of_drugs'] as $adrListOfDrug): ?>
             <drug>
-                <drugcharacterization/>
-                <medicinalproduct><?php echo $saefiListOfDrug['drug_name']; ?></medicinalproduct>
+                <drugcharacterization><?php
+                    if(strtolower($adrListOfDrug['relationship_to_sae']) == 'definitely related') { echo 1; }
+                    elseif(strtolower($adrListOfDrug['relationship_to_sae']) == 'probably related') { echo 1; }
+                    elseif(strtolower($adrListOfDrug['relationship_to_sae']) == 'probably not related') { echo 2; }
+                    elseif(strtolower($adrListOfDrug['relationship_to_sae']) == 'possibly related') { echo 1; }
+                    elseif(strtolower($adrListOfDrug['relationship_to_sae']) == 'not related') { echo 2; }
+                    elseif(strtolower($adrListOfDrug['relationship_to_sae']) == 'pending') { echo 2; }
+                    else { echo 2; }
+                ?></drugcharacterization>
+                <medicinalproduct><?php echo $adrListOfDrug['drug_name']; ?></medicinalproduct>
                 <obtaindrugcountry/>
                 <drugbatchnumb/>
                 <drugauthorizationnumb/>
                 <drugauthorizationcountry/>
                 <drugauthorizationholder/>
-                <drugstructuredosagenumb><?php echo $saefiListOfDrug['dosage']; ?></drugstructuredosagenumb>
+                <drugstructuredosagenumb><?php echo $adrListOfDrug['dosage']; ?></drugstructuredosagenumb>
                 <drugstructuredosageunit><?php
-                    if(!empty($saefiListOfDrug['dose_id'])) {
+                    if(!empty($adrListOfDrug['dose_id'])) {
                         $result = $doses->all();
                         $data = $result->toArray();
-                        echo $data[$saefiListOfDrug['dose_id']];
+                        echo $data[$adrListOfDrug['dose_id']];
                     };
                 ?></drugstructuredosageunit>
                 <drugseparatedosagenumb/>
@@ -232,19 +240,19 @@
                 <drugdosagetext/>
                 <drugdosageform/>
                 <drugadministrationroute><?php
-                    if(!empty($saefiListOfDrug['route_id'])) {
+                    if(!empty($adrListOfDrug['route_id'])) {
                         $result = $routes->all();
                         $data = $result->toArray();
-                        echo $data[$saefiListOfDrug['route_id']];
+                        echo $data[$adrListOfDrug['route_id']];
                     };
                 ?></drugadministrationroute>
                 <drugparadministration/>
                 <reactiongestationperiod/>
                 <reactiongestationperiodunit/>
                 <drugindicationmeddraversion/>
-                <drugindication><?php echo $saefiListOfDrug['indication']; ?></drugindication>
-                <drugstartdateformat><?php if (!empty($saefiListOfDrug['start_date'])) echo 102; ?></drugstartdateformat>
-                <drugstartdate><?php if (!empty($saefiListOfDrug['start_date'])) echo date('Ymd', strtotime($saefiListOfDrug['start_date']))?></drugstartdate>
+                <drugindication><?php echo $adrListOfDrug['indication']; ?></drugindication>
+                <drugstartdateformat><?php if (!empty($adrListOfDrug['start_date'])) echo 102; ?></drugstartdateformat>
+                <drugstartdate><?php if (!empty($adrListOfDrug['start_date'])) echo date('Ymd', strtotime($adrListOfDrug['start_date']))?></drugstartdate>
                 <drugstartperiod/>
                 <drugstartperiodunit/>
                 <druglastperiod/>
@@ -257,7 +265,7 @@
                 <drugrecurreadministration/>
                 <drugadditional/>
                 <activesubstance>
-                    <activesubstancename><?php echo $saefiListOfDrug['drug_name']; ?></activesubstancename>
+                    <activesubstancename><?php echo $adrListOfDrug['drug_name']; ?></activesubstancename>
                 </activesubstance>
                 <drugreactionrelatedness>
                     <drugreactionassesmeddraversion>WHO-ART</drugreactionassesmeddraversion>
@@ -265,11 +273,12 @@
                     <drugassessmentsource/>
                     <drugassessmentmethod>WHO causality</drugassessmentmethod>
                     <drugresult><?php
-                            if(strtolower($saefiListOfDrug['relationship_to_sae']) == 'Definitely related') echo 'Definitely related';
-                            if(strtolower($saefiListOfDrug['relationship_to_sae']) == 'Probably related') echo 'Probably related';
-                            if(strtolower($saefiListOfDrug['relationship_to_sae']) == 'Possibly related') echo 'Possibly related';
-                            if(strtolower($saefiListOfDrug['relationship_to_sae']) == 'Not related') echo 'Not related';
-                            if(strtolower($saefiListOfDrug['relationship_to_sae']) == 'Pending') echo 'Pending';
+                            if(strtolower($adrListOfDrug['relationship_to_sae']) == 'definitely related') echo 'certain';
+                            if(strtolower($adrListOfDrug['relationship_to_sae']) == 'probably related') echo 'probable/likely';
+                            if(strtolower($adrListOfDrug['relationship_to_sae']) == 'probably not related') echo 'unlikely';
+                            if(strtolower($adrListOfDrug['relationship_to_sae']) == 'possibly related') echo 'possible';
+                            if(strtolower($adrListOfDrug['relationship_to_sae']) == 'not related') echo 'conditional/unclassified';
+                            if(strtolower($adrListOfDrug['relationship_to_sae']) == 'pending') echo 'unassessable/unclassifiable';
                     ?></drugresult>
                 </drugreactionrelatedness>
             </drug>

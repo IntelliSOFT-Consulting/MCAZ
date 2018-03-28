@@ -62,7 +62,7 @@ $(function() {
             <td><input class="form-control" name="adr_list_of_drugs[{i}][id]" id="adr-list-of-drugs-{i}-id" type="hidden"> \
                 <input class="form-control" name="adr_list_of_drugs[{i}][drug_name]" id="adr-list-of-drugs-{i}-drug-name" type="text">  </td>\
             <td>\
-                <input class="form-control" name="adr_list_of_drugs[{i}][dosage]" id="adr-list-of-drugs-{i}-dosage" type="text"> </td>\
+                <input class="form-control" name="adr_list_of_drugs[{i}][dosage]" id="adr-list-of-drugs-{i}-dosage" type="number"> </td>\
             <td>\
                  <select class="form-control" name="adr_list_of_drugs[{i}][dose_id]" id="adr-list-of-drugs-{i}-dose-id"></select>    </td>\
             <td> <select class="form-control" name="adr_list_of_drugs[{i}][route_id]" id="adr-list-of-drugs-{i}-route-id"></select>  </td>\

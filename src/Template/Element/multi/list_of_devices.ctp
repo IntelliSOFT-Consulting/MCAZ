@@ -29,9 +29,9 @@
                                   'templates' => ($editable) ? 'table_form': 'view_form_table' ]);
                         ?>
                     </td>
-                    <td style="width: 5%">
+                    <td style="width: 8%">
                         <?php
-                            echo $this->Form->control('adr_list_of_drugs.0.dosage', ['label' => false, 'templates' => ($editable) ? 'table_form': 'view_form_table' ]);
+                            echo $this->Form->control('adr_list_of_drugs.0.dosage', ['label' => false, 'type' => 'number', 'templates' => ($editable) ? 'table_form': 'view_form_table' ]);
                         ?>
                     </td>                    
                     <td>
