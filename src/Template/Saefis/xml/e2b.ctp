@@ -237,7 +237,10 @@
             </reaction>
             <?php foreach ($saefi['aefi_list_of_vaccines'] as $saefiListOfDrug): ?>
             <drug>
-                <drugcharacterization/>
+                <drugcharacterization><?php
+                    if ($saefiListOfDrug['suspected_drug']) echo 1 ;
+                    else echo 2;
+                ?></drugcharacterization>
                 <medicinalproduct><?php echo $saefiListOfDrug['vaccine_name']; ?></medicinalproduct>
                 <obtaindrugcountry/>
                 <drugbatchnumb><?php echo $saefiListOfDrug['batch_number']; ?></drugbatchnumb>
