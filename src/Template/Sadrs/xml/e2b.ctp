@@ -316,12 +316,12 @@
                     <drugassessmentsource/>
                     <drugassessmentmethod>WHO causality</drugassessmentmethod>
                     <drugresult><?php
-                            if(strtolower($sadr['causality']) == 'certain') echo 'certain';
-                            if(strtolower($sadr['causality']) == 'probable / likely') echo 'probable/likely';
-                            if(strtolower($sadr['causality']) == 'possible') echo 'possible';
-                            if(strtolower($sadr['causality']) == 'unlikely') echo 'unlikely';
-                            if(strtolower($sadr['causality']) == 'conditional / unclassified') echo 'conditional/unclassified';
-                            if(strtolower($sadr['causality']) == 'unassessable / unclassifiable') echo 'unassessable/unclassifiable';
+                            if(strtolower($sadr['relatedness']) == 'certain') echo 'certain';
+                            if(strtolower($sadr['relatedness']) == 'probable / likely') echo 'probable/likely';
+                            if(strtolower($sadr['relatedness']) == 'possible') echo 'possible';
+                            if(strtolower($sadr['relatedness']) == 'unlikely') echo 'unlikely';
+                            if(strtolower($sadr['relatedness']) == 'conditional / unclassified') echo 'conditional/unclassified';
+                            if(strtolower($sadr['relatedness']) == 'unassessable / unclassifiable') echo 'unassessable/unclassifiable';
                     ?></drugresult>
                 </drugreactionrelatedness>
             </drug>
