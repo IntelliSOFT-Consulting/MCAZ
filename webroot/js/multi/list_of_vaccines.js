@@ -83,7 +83,10 @@ $(function() {
             <td>\
               <input class="form-control datetime-field" name="aefi_list_of_vaccines[{i}][diluent_date]" id="aefi-list-of-vaccines-{i}-diluent-date" type="text">   </td>\
             <td>\
-                <button type="button" class="btn btn-default btn-sm remove-vaccine"><i class="fa fa-minus"></i> Remove</button>\
+              <input class="form-control" name="aefi_list_of_vaccines[{i}][suspected_drug]" type="hidden">\
+              <input name="aefi_list_of_vaccines[{i}][suspected_drug]" type="checkbox">                    </td>\
+            <td>\
+                <button type="button" class="btn btn-default btn-sm remove-vaccine"><i class="fa fa-minus"></i> </button>\
             </td>\
           </tr>\
         ';

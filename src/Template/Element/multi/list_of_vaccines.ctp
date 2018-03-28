@@ -19,7 +19,7 @@
                 <thead>
                   <tr>
                     <th colspan="7" style="width: 65%">Vaccine</th>
-                    <th colspan="4">Diluent</th>
+                    <th colspan="5">Diluent</th>
                   </tr>
                   <tr>
                     <th colspan="2" style="width: 20%"> Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
@@ -30,6 +30,7 @@
                     <th style="width: 5%"> Batch/ Lot Number </th>
                     <th > Expiry date </th>
                     <th> Time of reconstitution  </th>
+                    <th colspan="2"> Tick Suspected Vaccine(s) <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -121,6 +122,11 @@
               'formGroup' => ' {{label}}{{input}} ',
           ] : 'view_form_table'
                                 ]);
+                        ?>
+                    </td>
+                    <td>
+                        <?php
+                            echo $this->Form->control('aefi_list_of_vaccines.'.$i.'.suspected_drug', ['label' => false, 'type' => 'checkbox', 'templates' => ($editable) ? 'table_form' : 'view_form_checkbox'])
                         ?>
                     </td>
                     <td>
