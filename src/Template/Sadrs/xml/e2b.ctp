@@ -302,6 +302,7 @@
                         'dose not changed' => 4,
                         'not applicable' => 6,
                         'unknown' => 5,
+                        'medical treatment of adr' => 5
                     );
                     if (!empty($sadr['action_taken'])) echo $actions[strtolower($sadr['action_taken'])];
                 ?></actiondrug>

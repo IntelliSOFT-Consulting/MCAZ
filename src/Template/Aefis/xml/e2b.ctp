@@ -264,7 +264,7 @@
             </reaction>
             <?php foreach ($aefi['aefi_list_of_vaccines'] as $aefiListOfVaccine): ?>
             <drug>
-                <drugcharacterization/>
+                <drugcharacterization>1</drugcharacterization>
                 <medicinalproduct><?php echo $aefiListOfVaccine['vaccine_name']; ?></medicinalproduct>
                 <obtaindrugcountry/>
                 <drugbatchnumb><?php echo $aefiListOfVaccine['batch_number']; ?></drugbatchnumb>
