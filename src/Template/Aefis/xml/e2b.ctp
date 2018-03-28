@@ -227,7 +227,7 @@
                     ?>                 
                 </primarysourcereaction>
                 <reactionmeddraversionllt>WHO-ART</reactionmeddraversionllt>
-                <reactionmeddrallt/>
+                <reactionmeddrallt><?php echo $aefi['description_of_reaction']; ?></reactionmeddrallt>
                 <reactionmeddraversionpt/>
                 <reactionmeddrapt/>
                 <termhighlighted/>
@@ -307,7 +307,7 @@
                 </activesubstance>
                 <drugreactionrelatedness>
                     <drugreactionassesmeddraversion>WHO-ART</drugreactionassesmeddraversion>
-                    <drugreactionasses/>
+                    <drugreactionasses><?php echo $aefi['description_of_reaction']; ?></drugreactionasses>
                     <drugassessmentsource/>
                     <drugassessmentmethod/>
                     <drugresult/>

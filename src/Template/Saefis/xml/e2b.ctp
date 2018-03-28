@@ -199,7 +199,7 @@
             <reaction>
                 <primarysourcereaction><?php echo $saefi['signs_symptoms']; ?></primarysourcereaction>
                 <reactionmeddraversionllt>WHO-ART</reactionmeddraversionllt>
-                <reactionmeddrallt/>
+                <reactionmeddrallt><?php echo $saefi->signs_symptoms; ?></reactionmeddrallt>
                 <reactionmeddraversionpt/>
                 <reactionmeddrapt/>
                 <termhighlighted/>
@@ -306,7 +306,7 @@
                 </activesubstance>
                 <drugreactionrelatedness>
                     <drugreactionassesmeddraversion>WHO-ART</drugreactionassesmeddraversion>
-                    <drugreactionasses/>
+                    <drugreactionasses><?php echo $saefi->signs_symptoms; ?></drugreactionasses>
                     <drugassessmentsource/>
                     <drugassessmentmethod>WHO causality</drugassessmentmethod>
                     <drugresult><?php

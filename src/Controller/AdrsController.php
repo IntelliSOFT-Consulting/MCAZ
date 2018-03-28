@@ -172,7 +172,10 @@ class AdrsController extends AppController
 
         // create a view instance
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
-        $view = $builder->build(compact('adr', 'designations'));
+        $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list', ['keyField' => 'id', 'valueField' => 'icsr_code']);
+        $routes = $this->Adrs->AdrListOfDrugs->Routes->find('list', ['keyField' => 'id', 'valueField' => 'icsr_code']);
+        $frequencies = $this->Adrs->AdrListOfDrugs->Frequencies->find('list');
+        $view = $builder->build(compact('adr', 'designations', 'doses', 'routes', 'frequencies'));
 
         // render to a variable
         $payload = $view->render();
