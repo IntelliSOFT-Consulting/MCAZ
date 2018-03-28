@@ -186,7 +186,7 @@
             <reaction>
                 <primarysourcereaction><?php echo $adr['diagnosis']; ?></primarysourcereaction>
                 <reactionmeddraversionllt>WHO-ART</reactionmeddraversionllt>
-                <reactionmeddrallt/>
+                <reactionmeddrallt><?php echo $adr['diagnosis']; ?></reactionmeddrallt>
                 <reactionmeddraversionpt/>
                 <reactionmeddrapt/>
                 <termhighlighted/>
@@ -269,7 +269,7 @@
                 </activesubstance>
                 <drugreactionrelatedness>
                     <drugreactionassesmeddraversion>WHO-ART</drugreactionassesmeddraversion>
-                    <drugreactionasses/>
+                    <drugreactionasses><?php echo $adr['diagnosis']; ?></drugreactionasses>
                     <drugassessmentsource/>
                     <drugassessmentmethod>WHO causality</drugassessmentmethod>
                     <drugresult><?php

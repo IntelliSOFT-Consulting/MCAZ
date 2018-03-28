@@ -313,7 +313,7 @@
                 </activesubstance>
                 <drugreactionrelatedness>
                     <drugreactionassesmeddraversion>WHO-ART</drugreactionassesmeddraversion>
-                    <drugreactionasses/>
+                    <drugreactionasses><?php echo $sadr['description_of_reaction']; ?></drugreactionasses>
                     <drugassessmentsource/>
                     <drugassessmentmethod>WHO causality</drugassessmentmethod>
                     <drugresult><?php
