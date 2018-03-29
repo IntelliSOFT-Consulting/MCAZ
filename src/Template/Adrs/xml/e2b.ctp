@@ -24,12 +24,12 @@
         <serious><?php
                     echo 1;
             ?></serious>
-        <seriousnessdeath><?= ($adr['sae_type'] == 'Fatal') ? 1 : 0; ?></seriousnessdeath>
-        <seriousnesslifethreatening><?= ($adr['sae_type'] == 'Life-threatening (an actual risk of death at the time of the event).') ? 1 : 0; ?></seriousnesslifethreatening>
-        <seriousnesshospitalization><?= ($adr['sae_type'] == 'Caused or prolonged hospitalization (non-elective).') ? 1 : 0; ?></seriousnesshospitalization>
-        <seriousnessdisabling><?= ($adr['sae_type'] == 'Resulted in persistent or significant disability or incapacity.') ? 1 : 0; ?></seriousnessdisabling>
-        <seriousnesscongenitalanomali><?= ($adr['sae_type'] == 'Congenital-anomaly') ? 1 : 0; ?></seriousnesscongenitalanomali>
-        <seriousnessother><?= ($adr['sae_type'] == 'Any other important medical event.') ? 1 : 0; ?></seriousnessother>
+        <seriousnessdeath><?= ($adr['sae_type'] == 'Fatal') ? 1 : 2; ?></seriousnessdeath>
+        <seriousnesslifethreatening><?= ($adr['sae_type'] == 'Life-threatening (an actual risk of death at the time of the event).') ? 1 : 2; ?></seriousnesslifethreatening>
+        <seriousnesshospitalization><?= ($adr['sae_type'] == 'Caused or prolonged hospitalization (non-elective).') ? 1 : 2; ?></seriousnesshospitalization>
+        <seriousnessdisabling><?= ($adr['sae_type'] == 'Resulted in persistent or significant disability or incapacity.') ? 1 : 2; ?></seriousnessdisabling>
+        <seriousnesscongenitalanomali><?= ($adr['sae_type'] == 'Congenital-anomaly') ? 1 : 2; ?></seriousnesscongenitalanomali>
+        <seriousnessother><?= ($adr['sae_type'] == 'Any other important medical event.') ? 1 : 2; ?></seriousnessother>
         <receivedateformat>102</receivedateformat>
         <receivedate><?php echo date('Ymd', strtotime($adr['created'])); ?></receivedate>
         <receiptdateformat>102</receiptdateformat>
