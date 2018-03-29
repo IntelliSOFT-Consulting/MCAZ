@@ -168,8 +168,22 @@
                     echo "\n";
                 }
                 ?>
-            <patientonsetage/>
-            <patientonsetageunit/>
+
+            <?php
+                if (!empty($sadr->year_of_birth)) {
+                    echo "<patientonsetage>".$sadr->year_of_birth."</patientonsetage>";
+                    echo "<patientonsetageunit>801</patientonsetageunit>";
+                } elseif (!empty($sadr->month_of_birth)) {
+                    echo "<patientonsetage>".$sadr->month_of_birth."</patientonsetage>";
+                    echo "<patientonsetageunit>802</patientonsetageunit>";
+                } elseif (!empty($sadr->day_of_birth)) {
+                    echo "<patientonsetage>".$sadr->day_of_birth."</patientonsetage>";
+                    echo "<patientonsetageunit>804</patientonsetageunit>";
+                } else {
+                    echo "<patientonsetage/>";
+                    echo "<patientonsetageunit/>";
+                }
+            ?>
             <gestationperiod/>
             <gestationperiodunit/>
             <?php
