@@ -176,7 +176,7 @@
           </ul>
         <?php } ?>
     </li>
-    <?php if( $prefix == 'manager') { ?>
+    <?php if( $prefix == 'manager' || $prefix == 'evaluator') { ?>
      <li class="<?=  ($this->request->params['controller'] == 'Users' && $this->request->params['action'] == 'import') ? 'active' : ''; ?>">
       <?= $this->Html->link('<i class="fa fa-upload" aria-hidden="true"></i> &nbsp; IMPORT', ['controller' => 'Users', 'action' => 'imports', 'prefix' => $prefix], array('escape' => false)); ?>
      </li>
