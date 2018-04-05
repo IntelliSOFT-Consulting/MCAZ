@@ -48,6 +48,7 @@ bin/cake acl grant Groups.3 controllers/Aefis
 bin/cake acl grant Groups.3 controllers/Saefis
 bin/cake acl grant Groups.3 controllers/Adrs
 bin/cake acl grant Groups.3 controllers/Sadrs
+bin/cake acl grant Groups.3 controllers/Ce2bs
 bin/cake acl grant Groups.3 controllers/AefiListOfVaccines/delete
 bin/cake acl grant Groups.3 controllers/SaefiListOfVaccines/delete
 bin/cake acl grant Groups.3 controllers/AefiListOfDiluents/delete

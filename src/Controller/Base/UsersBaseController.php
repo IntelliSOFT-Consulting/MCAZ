@@ -24,7 +24,8 @@ class UsersBaseController extends AppController
             'Sadrs' => ['scope' => 'sadr'],
             'Adrs' => ['scope' => 'adr'],
             'Aefis' => ['scope' => 'aefi'],
-            'Saefis' => ['scope' => 'saefi']
+            'Saefis' => ['scope' => 'saefi'],
+            'Ce2bs' => ['scope' => 'ce2b']
         ];
 
     public function initialize() {
@@ -38,6 +39,7 @@ class UsersBaseController extends AppController
         $this->loadModel('Adrs');
         $this->loadModel('Aefis');
         $this->loadModel('Saefis');
+        $this->loadModel('Ce2bs');
         $user = $this->Users->get($this->Auth->user('id'), [
             'contain' => []
         ]);
@@ -56,9 +58,11 @@ class UsersBaseController extends AppController
                                     'fields' => ['Aefis.id', 'Aefis.created', 'Aefis.reference_number']]);
         $saefis = $this->paginate($this->Saefis->find('all')->where(['submitted' => 2, 'status IN' => ['Submitted', 'Manual'], 'IFNULL(copied, "N") !=' => 'old copy']), ['scope' => 'saefi', 'order' => ['Saefis.status' => 'asc', 'Saefis.id' => 'desc'],
                                     'fields' => ['Saefis.id', 'Saefis.created', 'Saefis.reference_number']]);
+        $ce2bs = $this->paginate($this->Ce2bs->find('all')->where(['submitted' => 2, 'status IN' => ['Submitted', 'Manual'], 'IFNULL(copied, "N") !=' => 'old copy']), ['scope' => 'saefi', 'order' => ['Ce2bs.status' => 'asc', 'Ce2bs.id' => 'desc'],
+                                    'fields' => ['Ce2bs.id', 'Ce2bs.created', 'Ce2bs.reference_number']]);
 
         $this->set(compact('sadrs', 'adrs', 'aefis', 'saeifs'));
-        $this->set(compact('saefis'));
+        $this->set(compact('saefis', 'ce2bs'));
         $this->render('/Base/Users/dashboard');
     }
 

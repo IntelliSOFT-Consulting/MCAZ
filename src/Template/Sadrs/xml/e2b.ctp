@@ -61,7 +61,9 @@
         <casenullification/>
         <nullificationreason/>
         <medicallyconfirm><?php
-            if ($sadr['designation_id'] == 1 || $sadr['designation_id'] == 2 || $sadr['designation_id'] == 3 ) {
+            if ($sadr['designation_id'] == 1 || $sadr['designation_id'] == 2 || $sadr['designation_id'] == 3  || $sadr['designation_id'] == 20 ||
+                $sadr['designation_id'] == 15 || $sadr['designation_id'] == 5 || $sadr['designation_id'] == 9 || $sadr['designation_id'] == 7 ||
+                $sadr['designation_id'] == 18 || $sadr['designation_id'] == 11 || $sadr['designation_id'] == 16 || $sadr['designation_id'] == 14) {
                 echo 1;
             } else { echo 2;}
         ?></medicallyconfirm>

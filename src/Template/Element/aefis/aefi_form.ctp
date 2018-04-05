@@ -11,6 +11,8 @@ $editable = $this->fetch('editable');
     echo $this->fetch('actions');
     // pr($aefi)
 ?>
+<?= $this->Flash->render() ?>
+<?php $this->ValidationMessages->display($aefi->errors()) ?>
 
 <div class="<?= $this->fetch('baseClass');?>">
   <div class="row">

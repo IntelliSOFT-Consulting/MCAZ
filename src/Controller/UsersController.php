@@ -23,6 +23,7 @@ class UsersController extends AppController
             'Adrs' => ['scope' => 'adr'],
             'Aefis' => ['scope' => 'aefi'],
             'Saefis' => ['scope' => 'saefi'],
+            'Ce2bs' => ['scope' => 'ce2b'],
             'Notifications' => ['scope' => 'notification'],
         ];
 
@@ -280,6 +281,7 @@ class UsersController extends AppController
         $this->loadModel('Adrs');
         $this->loadModel('Aefis');
         $this->loadModel('Saefis');
+        $this->loadModel('Ce2bs');
         $this->loadModel('Notifications');
         $user = $this->Users->get($this->Auth->user('id'), [
             'contain' => []
@@ -301,10 +303,11 @@ class UsersController extends AppController
                                     'fields' => ['Aefis.id', 'Aefis.created', 'Aefis.reference_number', 'Aefis.submitted']]);
         $saefis = $this->paginate($this->Saefis->findByUserId($this->Auth->user('id')), ['scope' => 'saefi', 'order' => ['Saefis.id' => 'desc'],
                                     'fields' => ['Saefis.id', 'Saefis.created', 'Saefis.reference_number', 'Saefis.submitted']]);
+        $ce2bs = $this->paginate($this->Ce2bs->findByUserId($this->Auth->user('id')), ['scope' => 'ce2b', 'order' => ['Ce2bs.id' => 'desc']]);
         $notifications = $this->paginate($this->Notifications->findByUserId($this->Auth->user('id')), ['scope' => 'notification', 'order' => ['Notification.id' => 'desc'],]);
 
         $this->set(compact('sadrs', 'adrs', 'aefis', 'saeifs'));
-        $this->set(compact('saefis', 'notifications'));
+        $this->set(compact('saefis', 'ce2bs', 'notifications'));
         // $this->set('_serialize', ['sadrs', 'adrs', 'aefis']);
     }
 

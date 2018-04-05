@@ -468,8 +468,12 @@ class SadrsController extends AppController
             return $this->redirect(['action' => 'view', $sadr->id]);
         }
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData(), 
-                        ['validate' => ($this->request->getData('submitted') == 2) ? true : false, ]);
+            $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData(), [
+                'validate' => ($this->request->getData('submitted') == 2) ? true : false, 
+                'associated' => [
+                    'SadrListOfDrugs' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ]
+                ]
+            ]);
             //Attachments
             if (!empty($sadr->attachments)) {
                   for ($i = 0; $i <= count($sadr->attachments)-1; $i++) { 
@@ -500,7 +504,7 @@ class SadrsController extends AppController
               $sadr->submitted_date = date("Y-m-d H:i:s");
               $sadr->status = 'Submitted';//($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
               $sadr->reference_number = (($sadr->reference_number)) ?? 'ADR'.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy');
-              if ($this->Sadrs->save($sadr, ['validate' => false])) {
+              if ($this->Sadrs->save($sadr)) {
                 $this->Flash->success(__('Report '.$sadr->reference_number.' has been successfully submitted to MCAZ for review.'));
                 //send email and notification
                 $this->loadModel('Queue.QueuedJobs');    

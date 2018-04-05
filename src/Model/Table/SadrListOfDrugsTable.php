@@ -76,7 +76,23 @@ class SadrListOfDrugsTable extends Table
 
         $validator
             ->scalar('drug_name')
-            ->allowEmpty('drug_name');
+            ->notEmpty('drug_name', ['message' => 'Generic name required']);
+            
+        $validator
+            ->scalar('dose')
+            ->notEmpty('dose', ['message' => 'Dose required']);
+
+        $validator
+            ->scalar('dose_id')
+            ->notEmpty('dose_id', ['message' => 'Dose required']);
+
+        $validator
+            ->scalar('route_id')
+            ->notEmpty('route_id', ['message' => 'Route required']);
+
+        $validator
+            ->scalar('frequency_id')
+            ->notEmpty('frequency_id', ['message' => 'Frequency required']);
 
         $validator
             ->scalar('brand_name')

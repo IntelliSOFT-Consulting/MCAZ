@@ -135,6 +135,11 @@ class AefisController extends AppController
             'conditions' => ['Aefis.user_id' => $this->Auth->user('id')]
         ]);
 
+        if($aefi->submitted !== 2) {
+            $this->Flash->warning(__('Kindly submit Report '.$aefi->reference_number.' before viewing.'));
+            return $this->redirect(['action' => 'edit', $aefi->id]);
+        }
+
         if(strpos($this->request->url, 'pdf')) {
             $this->viewBuilder()->helpers(['Form' => ['templates' => 'view_form',]]);
             $this->viewBuilder()->options([
@@ -289,8 +294,12 @@ class AefisController extends AppController
             return $this->redirect(['action' => 'view', $aefi->id]);
         }
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData(), 
-                        ['validate' => ($this->request->getData('submitted') == 2) ? true : false, ]);
+            $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData(), [
+                'validate' => ($this->request->getData('submitted') == 2) ? true : false, 
+                'associated' => [
+                    'AefiListOfVaccines' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ]
+                ]
+            ]);
             if (!empty($aefi->attachments)) {
               for ($i = 0; $i <= count($aefi->attachments)-1; $i++) { 
                 $aefi->attachments[$i]->model = 'Aefis';
@@ -319,7 +328,7 @@ class AefisController extends AppController
               $aefi->submitted_date = date("Y-m-d H:i:s");
               $aefi->status = 'Submitted';//($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
               $aefi->reference_number = (($aefi->reference_number)) ?? 'AEFI'.$aefi->id.'/'.$aefi->created->i18nFormat('yyyy');
-              if ($this->Aefis->save($aefi, ['validate' => false])) {
+              if ($this->Aefis->save($aefi)) {
                 $this->Flash->success(__('Report '.$aefi->reference_number.' has been successfully submitted to MCAZ for review.'));               
 ;
                 //send email and notification

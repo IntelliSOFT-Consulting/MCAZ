@@ -128,7 +128,12 @@ class SaefisController extends AppController
             $saefi->submitted_date = date("Y-m-d H:i:s");
             $saefi->status = 'Submitted';
 
-            if ($this->Saefis->save($saefi, ['validate' => false])) {
+            if ($this->Saefis->save($saefi, [
+              'validate' => true,
+              'associated' => [
+                    'AefiListOfVaccines' => ['validate' => true ]
+                ]
+              ])) {
                 //update field
                 $query = $this->Saefis->query();
                 $query->update()

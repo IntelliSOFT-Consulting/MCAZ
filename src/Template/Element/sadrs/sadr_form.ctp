@@ -100,6 +100,9 @@ function getDate(sel){
     echo $this->fetch('actions');
 ?>
 
+  <?= $this->Flash->render() ?>
+  <?php $this->ValidationMessages->display($sadr->errors()) ?>
+
 <div class="<?= $this->fetch('baseClass');?>">
   <div class="row">
     <div class="col-xs-12">
@@ -127,7 +130,7 @@ function getDate(sel){
             <div class="col-xs-6">
               <?php
                   echo $this->Form->control('name_of_institution', 
-                    ['label' => ['text' => 'Clinic/Hospital Name ', 'escape' => false]]);
+                    ['label' => ['text' => 'Clinic/Hospital Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]]);
                   
                   echo $this->Form->control('patient_name', ['label' => 'Patient Initials <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
                   //echo $this->Form->control('date_of_birth');
@@ -168,7 +171,7 @@ function getDate(sel){
             </div>
             <div class="col-xs-6">
               <?php
-                  echo $this->Form->control('institution_code', ['label' => 'Clinic/Hospital Number']);
+                  echo $this->Form->control('institution_code', ['label' => 'Clinic/Hospital Number <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
                   echo $this->Form->control('ip_no', ['label' => 'VCT/OI/TB Number']);
                   echo $this->Form->input('province_id', ['options' => $provinces, 'empty' => true]);
                   echo $this->Form->control('weight', ['type'=>'number','label' => 'Weight (KGs)']);

@@ -42,6 +42,31 @@
                     </ul>
                 </nav>  
                 
+
+                <!-- Company e2bs -->
+                <h3 class="btn-zangu"><?= $this->Html->link('<i class="fa fa-file-code-o" aria-hidden="true"></i> E2B Files', ['controller' => 'Ce2bs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge" style="background-color: #7f7fff;"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Ce2bs']) ?></small></h3>
+                <hr>       
+                <ul class="list-unstyled">
+                  <?php 
+                    $i = 1;
+                    foreach ($ce2bs as $ce2b): ?>
+                  <li><?php 
+                                // echo $i++.'. '.$this->Html->link('<span class="text-success">'.$ce2b->reference_number.' &nbsp; &nbsp;<i class="fa fa-check" aria-hidden="true"></i></span>', ['controller' => 'Ce2bs', 'action' => 'view', $ce2b->id], ['escape' => false]);
+                    echo $i++.'. '.$this->Html->link('<span class="text-success">'.$ce2b->reference_number.' <small class="muted">'.$ce2b->e2b_file.'</small>', ['controller' => 'Ce2bs', 'action' => 'view', $ce2b->id], ['escape' => false]);
+                              
+                   ?></li>
+                  <?php endforeach; ?>
+                </ul>
+                <nav aria-label="Page navigation">
+                    <h6><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total'), 'model' => 'Ce2bs']) ?></small></h6>
+                    <ul class="pagination pagination-sm">
+                        <?= $this->Paginator->first('<< ', ['model' => 'Ce2bs']) ?>
+                        <?= $this->Paginator->prev('< ' , ['model' => 'Ce2bs']) ?>
+                        <?= $this->Paginator->next(' >', ['model' => 'Ce2bs']) ?>
+                        <?= $this->Paginator->last(' >>', ['model' => 'Ce2bs']) ?>
+                    </ul>
+                </nav> 
+
             </div>
             <div class="col-xs-6 col-sm-6 placeholder">
 

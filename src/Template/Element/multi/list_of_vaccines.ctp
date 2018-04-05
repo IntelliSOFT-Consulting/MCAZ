@@ -24,13 +24,20 @@
                   <tr>
                     <th colspan="2" style="width: 20%"> Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
                     <th colspan="2" style="width: 20%"> <h5>Date and Time of Vaccination <span class="sterix fa fa-asterisk" aria-hidden="true"></span><br><small id="helpBlock" class="has-warning">Format dd-mm-yyyy hh24:min</small></h5></th>
-                    <th style="width: 5%"> Dose (1st, 2nd...)</th>
+                    <th style="width: 5%"> Dose (1st, 2nd...) <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
                     <th style="width: 5%"> Batch/Lot number <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
                     <th> Expiry date </th>
                     <th style="width: 5%"> Batch/ Lot Number </th>
                     <th > Expiry date </th>
                     <th> Time of reconstitution  </th>
-                    <th colspan="2"> Tick Suspected Vaccine(s) <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
+                    <th colspan="2"> Tick Suspected Vaccine(s) <span class="sterix fa fa-asterisk" aria-hidden="true"></span>
+                    <?php
+                        echo $this->Form->input('suspected_drug', ['type' => 'hidden', 'templates' => ($editable) ?  'app_form' : ['input' => '']]) ; 
+                        if ($this->Form->isFieldError('suspected_drug')) {
+                            echo "<span style='color: #b50909;'>Select at least one vaccine</span>";
+                        }
+                    ?>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>

@@ -135,6 +135,11 @@ class AdrsController extends AppController
             'conditions' => ['Adrs.user_id' => $this->Auth->user('id')]
         ]);
 
+        if($adr->submitted !== 2) {
+            $this->Flash->warning(__('Kindly submit Report '.$adr->reference_number.' before viewing.'));
+            return $this->redirect(['action' => 'edit', $adr->id]);
+        }
+
         // $this->viewBuilder()->setLayout('pdf/default');
         if(strpos($this->request->url, 'pdf')) {
             $this->viewBuilder()->helpers(['Form' => ['templates' => 'view_form',]]);
@@ -311,8 +316,12 @@ class AdrsController extends AppController
             return $this->redirect(['action' => 'view', $adr->id]);
         }
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $adr = $this->Adrs->patchEntity($adr, $this->request->getData(), 
-                        ['validate' => ($this->request->getData('submitted') == 2) ? true : false, ]);
+            $adr = $this->Adrs->patchEntity($adr, $this->request->getData(), [
+                'validate' => ($this->request->getData('submitted') == 2) ? true : false, 
+                'associated' => [
+                    'AdrListOfDrugs' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false]
+                ]
+            ]);
             if (!empty($adr->attachments)) {
               for ($i = 0; $i <= count($adr->attachments)-1; $i++) { 
                 $adr->attachments[$i]->model = 'Adrs';

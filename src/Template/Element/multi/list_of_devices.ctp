@@ -17,7 +17,14 @@
                     <th colspan="2" > Route and Frequency </th>
                     <th> Date commenced </th>
                     <th> Taking drug at onset of SAE?</th>
-                    <th colspan="2"> Relationship of SAE to drug </th>
+                    <th colspan="2"> Relationship of SAE to drug 
+                    <?php
+                        echo $this->Form->input('suspected_drug', ['type' => 'hidden', 'templates' => ($editable) ?  'app_form' : ['input' => '']]) ; 
+                        if ($this->Form->isFieldError('suspected_drug')) {
+                            echo "<span style='color: #b50909;'>Select at least one suspected drug</span>";
+                        }
+                    ?>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>

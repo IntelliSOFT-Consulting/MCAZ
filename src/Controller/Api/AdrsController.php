@@ -155,7 +155,12 @@ class AdrsController extends AppController
             $adr->submitted_date = date("Y-m-d H:i:s");
             $adr->status = 'Submitted';
 
-            if ($this->Adrs->save($adr, ['validate' => false])) {
+            if ($this->Adrs->save($adr, [
+                'validate' => true, 
+                'associated' => [
+                    'AdrListOfDrugs' => ['validate' => true]
+                ]
+            ])) {
                 //update field
                 $query = $this->Adrs->query();
                 $query->update()

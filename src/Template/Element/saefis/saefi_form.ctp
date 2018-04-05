@@ -10,6 +10,9 @@ $editable = $this->fetch('editable');
 <?php 
     echo $this->fetch('actions');
 ?>
+<?= $this->Flash->render() ?>
+<?php $this->ValidationMessages->display($saefi->errors()) ?>
+
 <script type="text/javascript">
 $(document).ready(function(){
     <?php if($saefi->pregnancy == 'No'){ ?> 
@@ -71,7 +74,7 @@ function getChoice(sel){
             <div class="col-xs-6">
                 <?php
                   echo $this->Form->control('reporter_name', ['label' => 'Name of Investigating Health Worker']);
-                  echo $this->Form->input('designation_id', ['options' => $designations, 'empty' => true]);                 
+                  echo $this->Form->input('designation_id', ['label' => 'Designation <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'options' => $designations, 'empty' => true, 'escape' => false]);                 
               ?>
             </div>
             <div class="col-xs-6">
@@ -123,7 +126,7 @@ function getChoice(sel){
 
           <div class="row"> 
             <div class="col-xs-6"> 
-                <?= $this->Form->control('patient_name', ['label' => 'Patient Name']); ?>
+                <?= $this->Form->control('patient_name', ['label' => 'Patient Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]); ?>
             </div> 
             <div class="col-xs-6"> 
                 <?= $this->Form->control('gender', ['type' => 'radio', 
@@ -462,7 +465,7 @@ function getChoice(sel){
                     echo $this->Form->control('other_sources', [
                          'label' => 'Other sources who provided information (specify):',]);
                     echo $this->Form->control('signs_symptoms', [
-                         'label' => 'Signs and symptoms in chronological order from the time of vaccination:',]);
+                         'label' => 'Signs and symptoms in chronological order from the time of vaccination: <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
                 ?>
             </div>
           </div>

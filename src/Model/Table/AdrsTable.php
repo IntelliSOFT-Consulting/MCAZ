@@ -161,23 +161,23 @@ class AdrsTable extends Table
 
         $validator
             ->scalar('mrcz_protocol_number')
-            ->notEmpty('mrcz_protocol_number');
+            ->notEmpty('mrcz_protocol_number', ['message' => 'Protocol no. required']);
 
         $validator
             ->scalar('mcaz_protocol_number')
-            ->notEmpty('mcaz_protocol_number');
+            ->notEmpty('mcaz_protocol_number', ['message' => 'Protocol no. required']);
 
         $validator
             ->scalar('principal_investigator')
-            ->notEmpty('principal_investigator');
+            ->notEmpty('principal_investigator', ['message' => 'Principal investigator required']);
 
         $validator
             ->scalar('reporter_name')
-            ->notEmpty('reporter_name');
+            ->notEmpty('reporter_name', ['message' => 'Reporter name required']);
 
         $validator
             ->scalar('reporter_email')
-            ->notEmpty('reporter_email');
+            ->notEmpty('reporter_email', ['message' => 'Reporter email required']);
 
         $validator
             ->scalar('reporter_phone')
@@ -185,7 +185,7 @@ class AdrsTable extends Table
 
         $validator
             ->scalar('name_of_institution')
-            ->notEmpty('name_of_institution');
+            ->notEmpty('name_of_institution', ['message' => 'Institution required']);
 
         $validator
             ->scalar('institution_code')
@@ -193,7 +193,7 @@ class AdrsTable extends Table
 
         $validator
             ->scalar('study_title')
-            ->notEmpty('study_title');
+            ->notEmpty('study_title', ['message' => 'Study title required']);
 
         $validator
             ->scalar('study_sponsor')
@@ -221,7 +221,7 @@ class AdrsTable extends Table
 
         $validator
             ->scalar('gender')
-            ->notEmpty('gender');
+            ->notEmpty('gender', ['message' => 'Gender required']);
 
         $validator
             ->scalar('study_week')
@@ -237,7 +237,7 @@ class AdrsTable extends Table
 
         $validator
             ->scalar('sae_type')
-            ->notEmpty('sae_type');
+            ->notEmpty('sae_type', ['message' => 'Report type required']);
 
         $validator
             ->scalar('sae_description')
@@ -291,6 +291,29 @@ class AdrsTable extends Table
             ->scalar('report_to_mcaz')
             ->allowEmpty('report_to_mcaz');
 
+        $validator
+            ->scalar('designation_id')
+            ->notEmpty('designation_id', ['message' => 'Designation required']);
+
+        $validator
+            ->scalar('diagnosis')
+            ->notEmpty('diagnosis', ['message' => 'Diagnosis required']);
+
+        $validator->allowEmpty('suspected_drug', function ($context) {
+            // return !$context['data']['is_taxable'];
+            if (isset($context['data']['adr_list_of_drugs'])) {
+                foreach ($context['data']['adr_list_of_drugs'] as $val){
+                    if (strtolower($val['relationship_to_sae']) == 'definitely related' ||
+                        strtolower($val['relationship_to_sae']) == 'probably related' ||
+                        strtolower($val['relationship_to_sae']) == 'possibly related' ) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }, ['message' => 'Kindly select at least one suspected drug']);
+
+
         // $validator
         //     ->date('report_to_mcaz_date')
         //     ->allowEmpty('report_to_mcaz_date');
@@ -324,10 +347,6 @@ class AdrsTable extends Table
             ->allowEmpty('medical_history');
 
         $validator
-            ->scalar('diagnosis')
-            ->allowEmpty('diagnosis');
-
-        $validator
             ->scalar('immediate_cause')
             ->allowEmpty('immediate_cause');
 
@@ -349,7 +368,7 @@ class AdrsTable extends Table
 
         $validator
             ->scalar('outcome')
-            ->allowEmpty('outcome');
+            ->notEmpty('outcome', ['message' => 'Outcome required']);
 
         $validator
             ->scalar('d1_consent_form')

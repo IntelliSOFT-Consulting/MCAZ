@@ -61,7 +61,9 @@
         <casenullification/>
         <nullificationreason/>
         <medicallyconfirm><?php
-            if ($aefi['designation_id'] == 1 || $aefi['designation_id'] == 2 || $aefi['designation_id'] == 3 ) {
+            if ($aefi['designation_id'] == 1 || $aefi['designation_id'] == 2 || $aefi['designation_id'] == 3  || $aefi['designation_id'] == 20 ||
+                $aefi['designation_id'] == 15 || $aefi['designation_id'] == 5 || $aefi['designation_id'] == 9 || $aefi['designation_id'] == 7 ||
+                $aefi['designation_id'] == 18 || $aefi['designation_id'] == 11 || $aefi['designation_id'] == 16 || $aefi['designation_id'] == 14) {
                 echo 1;
             } else { echo 2;}
         ?></medicallyconfirm>        

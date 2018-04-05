@@ -23,7 +23,15 @@
                     <th> Indication </th>
                     <th> Date Started <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
                     <th> Date Stopped </th>
-                    <th colspan="2"> Tick Suspected Drug(s) <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
+                    <th colspan="2"> Tick Suspected Drug(s) <span class="sterix fa fa-asterisk" aria-hidden="true"></span>
+                    <?php
+                        echo $this->Form->input('suspected_drug', ['type' => 'hidden', 'templates' => ($editable) ?  'app_form' : ['input' => '']]) ; 
+                        if ($this->Form->isFieldError('suspected_drug')) {
+                            // echo $this->Form->error('suspected_drug', 'Select at least one.');
+                            echo "<span style='color: #b50909;'>Select at least one drug</span>";
+                        }
+                    ?>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>

@@ -98,9 +98,9 @@
 
             <li><a href="#" style="text-decoration: underline; padding-left: 15px;">OTHERS</a></li>
 
-            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'UnSubmitted') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Unsubmitted '. $UnSubmitted , ['controller' => 'Applications', 'action' => 'index', 'status' => 'UnSubmitted', 'prefix' => $prefix], array('escape' => false)); ?> </li>
-            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Archived') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Archived '. $Archived , ['controller' => 'Applications', 'action' => 'index', 'status' => 'Archived', 'prefix' => $prefix], array('escape' => false)); ?> </li>
-            <li class="<?=  ($this->request->params['controller'] == 'Applications' && $this->request->params['action'] == 'restore') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-plus" aria-hidden="true"></i> Restore archived <small class="badge badge-sadr pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i></small>', ['controller' => 'Applications', 'action' => 'restore', 'prefix' => $prefix], array('escape' => false)); ?> </li>
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'UnSubmitted') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Unsubmitted '. $UnSubmitted , ['controller' => 'Sadrs', 'action' => 'index', 'status' => 'UnSubmitted', 'prefix' => $prefix], array('escape' => false)); ?> </li>
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Archived') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Archived '. $Archived , ['controller' => 'Sadrs', 'action' => 'index', 'status' => 'Archived', 'prefix' => $prefix], array('escape' => false)); ?> </li>
+            <li class="<?=  ($this->request->params['controller'] == 'Sadrs' && $this->request->params['action'] == 'restore') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-plus" aria-hidden="true"></i> Restore archived <small class="badge badge-sadr pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i></small>', ['controller' => 'Sadrs', 'action' => 'restore', 'prefix' => $prefix], array('escape' => false)); ?> </li>
 
           </ul>     
         <?php } ?>  
@@ -153,6 +153,15 @@
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Presented') ? 'active' : ''; ?>"><?= $this->Html->link('<b>7.</b> PVCT 2 '. $rPresented , ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Presented'], array('escape' => false)); ?> </li>  
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'FinalFeedback') ? 'active' : ''; ?>"><?= $this->Html->link('<b>8.</b> Feedback '. $rFinalFeedback , ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'FinalFeedback'], array('escape' => false)); ?> </li> 
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'VigiBase') ? 'active' : ''; ?>"><?= $this->Html->link('<b>9.</b> VigiBase '. $rVigiBase , ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'VigiBase'], array('escape' => false)); ?> </li>   
+          </ul>
+        <?php } ?>
+    </li>
+    <li class="<?=  ($this->request->params['controller'] == 'Ce2bs') ? 'active' : ''; ?>">
+      <?= $this->Html->link('<i class="fa fa-file-code-o" aria-hidden="true"></i> &nbsp; Company E2B ', ['controller' => 'Ce2bs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
+      <?php if (($prefix == 'manager' || $prefix == 'evaluator') && $this->request->params['controller'] == 'Ce2bs' ) { ?>
+          <ul class="nav van-<?= $prefix ?>">
+            <li><a href="#" style="text-decoration: underline; padding-left: 15px;">REPORT STAGES</a></li>
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Submitted') ? 'active' : ''; ?>"><?= $this->Html->link('<b>1.</b> Submitted ' , ['controller' => 'Ce2bs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Submitted'], array('escape' => false)); ?> </li>
           </ul>
         <?php } ?>
     </li>

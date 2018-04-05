@@ -56,8 +56,10 @@
         <duplicate/>
         <casenullification/>
         <nullificationreason/>
-        <medicallyconfirm><?php
-            if ($adr['designation_id'] == 1 || $adr['designation_id'] == 2 || $adr['designation_id'] == 3 ) {
+        <medicallyconfirm><?php            
+            if ($adr['designation_id'] == 1 || $adr['designation_id'] == 2 || $adr['designation_id'] == 3  || $adr['designation_id'] == 20 ||
+                $adr['designation_id'] == 15 || $adr['designation_id'] == 5 || $adr['designation_id'] == 9 || $adr['designation_id'] == 7 ||
+                $adr['designation_id'] == 18 || $adr['designation_id'] == 11 || $adr['designation_id'] == 16 || $adr['designation_id'] == 14) {
                 echo 1;
             } else { echo 2;}
         ?></medicallyconfirm>

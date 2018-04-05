@@ -91,6 +91,11 @@ class SaefisController extends AppController
             'conditions' => ['Saefis.user_id' => $this->Auth->user('id')]
         ]);
 
+        if($saefi->submitted !== 2) {
+            $this->Flash->warning(__('Kindly submit Report '.$saefi->reference_number.' before viewing.'));
+            return $this->redirect(['action' => 'edit', $saefi->id]);
+        }
+
         if(strpos($this->request->url, 'pdf')) {
             $this->viewBuilder()->helpers(['Form' => ['templates' => 'view_form',]]);
             $this->viewBuilder()->options([
@@ -250,8 +255,12 @@ class SaefisController extends AppController
             return $this->redirect(['action' => 'view', $saefi->id]);
         }
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData(), 
-                        ['validate' => ($this->request->getData('submitted') == 2) ? true : false, ]);
+            $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData(), [
+                'validate' => ($this->request->getData('submitted') == 2) ? true : false, 
+                'associated' => [
+                    'AefiListOfVaccines' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ]
+                ]
+            ]);
             $saefi = $this->_fileUploads($saefi);
             
              // debug((string)$saefi);

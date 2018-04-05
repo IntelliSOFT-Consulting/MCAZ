@@ -153,7 +153,12 @@ class AefisController extends AppController
             $aefi->user_id = $this->Auth->user('id');            
             $aefi->submitted_date = date("Y-m-d H:i:s");
             $aefi->status = 'Submitted';
-            if ($this->Aefis->save($aefi, ['validate' => false])) {
+            if ($this->Aefis->save($aefi, [
+                'validate' => true,
+                'associated' => [
+                    'AefiListOfVaccines' => ['validate' => true ]
+                ]
+            ])) {
                 //update field
                 $query = $this->Aefis->query();
                 $query->update()

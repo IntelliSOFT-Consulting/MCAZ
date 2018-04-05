@@ -71,11 +71,11 @@ class AdrListOfDrugsTable extends Table
 
         $validator
             ->scalar('drug_name')
-            ->allowEmpty('drug_name');
+            ->notEmpty('drug_name', ['message' => 'Drug/Device name required']);
 
         $validator
             ->scalar('dosage')
-            ->allowEmpty('dosage');
+            ->notEmpty('dosage', ['message' => 'Dosage required']);
 
         // $validator
         //     ->date('start_date')

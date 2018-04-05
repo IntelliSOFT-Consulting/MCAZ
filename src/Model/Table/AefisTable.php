@@ -188,19 +188,40 @@ class AefisTable extends Table
 
         $validator
             ->scalar('patient_name')
-            ->notEmpty('patient_name');
+            ->notEmpty('patient_name', ['message' => 'Patient name required']);
 
         $validator
             ->scalar('patient_surname')
-            ->notEmpty('patient_surname');
+            ->notEmpty('patient_surname', ['message' => 'Patient surname required']);
 
         $validator
             ->scalar('patient_address')
-            ->notEmpty('patient_address');
+            ->notEmpty('patient_address', ['message' => 'Patient address required']);
 
         $validator
             ->scalar('gender')
-            ->notEmpty('gender');
+            ->notEmpty('gender', ['message' => 'Gender required']);
+
+        $validator
+            ->scalar('dosage')
+            ->notEmpty('dosage', ['message' => 'Dosage required']);
+
+        $validator
+            ->scalar('designation_id')
+            ->notEmpty('designation_id', ['message' => 'Designation required']);
+
+
+        $validator->allowEmpty('suspected_drug', function ($context) {
+            // return !$context['data']['is_taxable'];
+            if (isset($context['data']['aefi_list_of_vaccines'])) {
+                foreach ($context['data']['aefi_list_of_vaccines'] as $val){
+                    if ($val['suspected_drug'] == 1) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }, ['message' => 'Kindly select at least one suspected vaccine']);
 
         // $validator
         //     ->scalar('date_of_birth')
@@ -214,11 +235,11 @@ class AefisTable extends Table
 
         $validator
             ->scalar('reporter_name')
-            ->notEmpty('reporter_name');
+            ->notEmpty('reporter_name', ['message' => 'Reporter name required']);
 
         $validator
             ->scalar('reporter_email')
-            ->notEmpty('reporter_email');
+            ->notEmpty('reporter_email', ['message' => 'Reporter email required']);
 
 
         return $validator;

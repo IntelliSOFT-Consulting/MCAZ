@@ -10,6 +10,8 @@ $editable = $this->fetch('editable');
 <?php 
     echo $this->fetch('actions');
 ?>
+<?= $this->Flash->render() ?>
+<?php $this->ValidationMessages->display($adr->errors()) ?>
 
 <div class="<?= $this->fetch('baseClass');?>">
   <div class="row">
@@ -66,7 +68,7 @@ Please use a separate adverse event reporting form for separate reportable adver
           <div class="row">
             <div class="col-xs-12">
               <?php
-                  echo $this->Form->control('study_title', ['label' => 'Study Title', 'escape' => false]);
+                  echo $this->Form->control('study_title', ['label' => 'Study Title <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
               ?>            
             </div>
             <div class="col-xs-6">
@@ -313,7 +315,7 @@ Please use a separate adverse event reporting form for separate reportable adver
 
           <div class="row">
             <div class="col-xs-12"><?php 
-              echo $this->Form->control('diagnosis', ['label' => '(a) Diagnosis', 'escape' => false, 'templates' => ($editable) ? [ 
+              echo $this->Form->control('diagnosis', ['label' => '(a) Diagnosis <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false, 'templates' => ($editable) ? [ 
                       'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
                       'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']);
               echo $this->Form->control('immediate_cause', ['label' => '(b) Immediate Cause', 'escape' => false, 'templates' => ($editable) ? [ 
