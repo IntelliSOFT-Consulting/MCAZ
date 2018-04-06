@@ -93,6 +93,18 @@ class SadrListOfDrugsTable extends Table
         $validator
             ->scalar('frequency_id')
             ->notEmpty('frequency_id', ['message' => 'Frequency required']);
+/*
+        $validator->notEmpty('start_date', function ($context) {
+            if (isset($context['data']['start_date']) && 
+                strtotime($context['data']['start_date']) < strtotime($context['data']['stop_date'])) {
+                return false;
+            }
+            return false;
+        }, ['message' => 'The start date must be less than the stop date']);*/
+
+        $validator
+            ->scalar('start_date')
+            ->notEmpty('start_date');
 
         $validator
             ->scalar('brand_name')

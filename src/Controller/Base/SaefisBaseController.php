@@ -33,6 +33,7 @@ class SaefisBaseController extends AppController
         ];
         $query = $this->Saefis
             ->find('search', ['search' => $this->request->query])
+            ->order(['created' => 'DESC'])
             ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
         $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
         $provinces = $this->Saefis->Provinces->find('list', ['limit' => 200]);

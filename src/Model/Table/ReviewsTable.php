@@ -52,6 +52,9 @@ class ReviewsTable extends Table
         $this->belongsTo('Adrs', [
             'foreignKey' => 'foreign_key'
         ]);
+        $this->belongsTo('Ce2bs', [
+            'foreignKey' => 'foreign_key'
+        ]);
         /*$this->belongsTo('Aefis', [
             'foreignKey' => 'foreign_key'
         ]);
@@ -83,6 +86,12 @@ class ReviewsTable extends Table
             'foreignKey' => 'foreign_key',
             'dependent' => true,
             'conditions' => array('SaefiComments.model' => 'Saefis'),
+        ]);
+        $this->hasMany('Ce2bComments', [
+            'className' => 'Comments',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Ce2bComments.model' => 'Ce2bs'),
         ]);
     }
 

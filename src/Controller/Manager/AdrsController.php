@@ -65,7 +65,7 @@ class AdrsController extends AdrsBaseController
                 $this->QueuedJobs->createJob('GenericNotification', $data);
                 //end 
                 
-               $this->Flash->success('Evaluator '.$evaluator->name.' assigned AEFI '.$adr->reference_number);
+               $this->Flash->success('Evaluator '.$evaluator->name.' assigned SAE '.$adr->reference_number);
 
                 return $this->redirect($this->referer());
             } else {
@@ -73,7 +73,7 @@ class AdrsController extends AdrsBaseController
                 return $this->redirect($this->referer());
             }
         } else {
-                $this->Flash->error(__('Unknown AEFI Report. Please correct.')); 
+                $this->Flash->error(__('Unknown SAE Report. Please correct.')); 
                 return $this->redirect($this->referer());
         }
     }

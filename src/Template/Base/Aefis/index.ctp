@@ -44,7 +44,8 @@ $this->start('sidebar'); ?>
             <tr>
                 <td><?= $this->Number->format($aefi->id) ?></td>
                 <td><?php
-                      echo ($aefi->submitted == 2) ? $this->Html->link($aefi->reference_number, ['action' => 'view', $aefi->id, 'prefix' => $prefix, 'status' => $aefi->status], ['escape' => false, 'class' => 'btn-zangu']) : $aefi->created ; ?></td>
+                      echo ($aefi->submitted == 2) ? $this->Html->link($aefi->reference_number, ['action' => 'view', $aefi->id, 'prefix' => $prefix, 'status' => $aefi->status], ['escape' => false, 'class' => 'btn-zangu']) : 
+                        $this->Html->link($aefi->created, ['action' => 'edit', $aefi->id, 'prefix' => $prefix, 'status' => $aefi->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>
                 <td><?= h($aefi->name_of_vaccination_center) ?></td>
                 <td><?= h($aefi->status) ?></td>
                 <td><?= h($aefi->modified) ?></td>
@@ -59,10 +60,13 @@ $this->start('sidebar'); ?>
                 <td>
 <span class="label label-primary"><?php
                    echo ($aefi->submitted == 2) ?  $this->Html->link('E2B', ['action' => 'e2b', $aefi->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']) : ''; ?></span>
-                   <span class="label label-primary">                     
-                     <?= $this->Html->link('View', ['action' => 'view', $aefi->id, 'prefix' => $prefix], ['escape' => false, 'style' => 'color: white;'])
-                     ?>
-                    </span>  &nbsp;
+
+                  <?php
+                      echo ($aefi->submitted == 2) ?
+                        $this->Html->link('<span class="label label-primary">View</span>', ['action' => 'view', $aefi->id, 'prefix' => $prefix, 'status' => $aefi->status], ['escape' => false, 'style' => 'color: white;']) :
+                        $this->Html->link('<span class="label label-success">Edit</span>', ['action' => 'view', $aefi->id, 'prefix' => $prefix, 'status' => $aefi->status], ['escape' => false, 'style' => 'color: white;']);
+                  ?>
+
                    <span class="label label-primary">                    
                      <?= $this->Html->link('PDF', ['action' => 'view', $aefi->id, 'prefix' => $prefix, 'status' => $aefi->status, '_ext' => 'pdf'], ['escape' => false, 'class' => 'label-link'])
                      ?>

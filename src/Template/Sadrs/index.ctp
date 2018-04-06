@@ -32,7 +32,7 @@
             <tr>
                 <td><?= $this->Number->format($sadr->id) ?></td>
                 <td><?php
-                      echo ($sadr->submitted == 2) ? 
+                      echo ($sadr->reference_number) ? 
                         $this->Html->link($sadr->reference_number, ['action' => 'view', $sadr->id, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) : 
                         $this->Html->link($sadr->created, ['action' => 'edit', $sadr->id, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?>
                 </td>

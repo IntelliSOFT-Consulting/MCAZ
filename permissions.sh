@@ -11,6 +11,7 @@ bin/cake acl deny  Groups.1 controllers/Sadrs
 bin/cake acl deny  Groups.1 controllers/Aefis
 bin/cake acl deny  Groups.1 controllers/Saefis
 bin/cake acl deny  Groups.1 controllers/Adrs
+bin/cake acl grant Groups.1 controllers/Ce2bs
 bin/cake acl grant Groups.1 controllers/CommitteeDates
 echo "*************** Assign Manager Permissions ********************"
 #Manager permissions
@@ -22,6 +23,7 @@ bin/cake acl grant  Groups.2 controllers/Sadrs
 bin/cake acl grant  Groups.2 controllers/Aefis
 bin/cake acl grant  Groups.2 controllers/Saefis
 bin/cake acl grant  Groups.2 controllers/Adrs
+bin/cake acl grant Groups.2 controllers/Ce2bs
 bin/cake acl grant Groups.2 controllers/Notifications/delete
 bin/cake acl grant Groups.2 controllers/Notifications/adelete
 bin/cake acl grant Groups.2 controllers/Users/profile
@@ -36,6 +38,7 @@ bin/cake acl grant  Groups.4 controllers/Sadrs
 bin/cake acl grant  Groups.4 controllers/Aefis
 bin/cake acl grant  Groups.4 controllers/Saefis
 bin/cake acl grant  Groups.4 controllers/Adrs
+bin/cake acl grant Groups.4 controllers/Ce2bs
 bin/cake acl grant Groups.4 controllers/Notifications/delete
 bin/cake acl grant Groups.4 controllers/Notifications/adelete
 bin/cake acl grant Groups.4 controllers/Users/profile

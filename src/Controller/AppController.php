@@ -65,6 +65,11 @@ class AppController extends Controller
                           'Committees', 'Committees.Users', 'Committees.AdrComments', 'Committees.AdrComments.Attachments', 'ReportStages', 
                           'OriginalAdrs', 'OriginalAdrs.AdrListOfDrugs', 'OriginalAdrs.AdrOtherDrugs', 'OriginalAdrs.Attachments'];
 
+    public $ce2b_contain = ['Attachments', 'RequestReporters', 'RequestEvaluators', 
+                          'Reviews', 'Reviews.Users', 'Reviews.Ce2bComments', 'Reviews.Ce2bComments.Attachments',  
+                          'Committees', 'Committees.Users', 'Committees.Ce2bComments', 'Committees.Ce2bComments.Attachments', 'ReportStages', 
+                          ];
+
     public $components = [
         'Acl' => [
             'className' => 'Acl.Acl'

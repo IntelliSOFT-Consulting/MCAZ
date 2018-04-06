@@ -23,6 +23,7 @@ class CommentsBaseController extends AppController
             $this->loadModel('Adrs');
             $this->loadModel('Aefis');
             $this->loadModel('Saefis');
+            $this->loadModel('Ce2bs');
 
             if ($parm === 'sadrs') {
                 $entity = $this->Sadrs;
@@ -32,6 +33,8 @@ class CommentsBaseController extends AppController
                 $entity = $this->Aefis;
             } elseif ($parm == 'saefis') {
                 $entity = $this->Saefis;
+            } elseif ($parm == 'ce2bs') {
+                $entity = $this->Ce2bs;
             } else {
                 $this->Flash->error(__('Unable to process request. Please, try again.')); 
                 return $this->redirect($this->referer());
@@ -45,7 +48,7 @@ class CommentsBaseController extends AppController
              * If decision is Approved comments/queries should not appear
              * 
              */
-            $pparm = ['adrs' => 'Adrs', 'sadrs' => 'Sadrs', 'aefis' => 'Aefis', 'saefis' => 'Saefis'];
+            $pparm = ['adrs' => 'Adrs', 'sadrs' => 'Sadrs', 'aefis' => 'Aefis', 'saefis' => 'Saefis', 'ce2bs' => 'Ce2bs'];
             $stage1  = $entity->ReportStages->newEntity();
             $stage1->model = $pparm[$parm];
             $stage1->stage = 'Correspondence';
@@ -110,6 +113,7 @@ class CommentsBaseController extends AppController
             $this->loadModel('Adrs');
             $this->loadModel('Aefis');
             $this->loadModel('Saefis');
+            $this->loadModel('Ce2bs');
 
             if ($parm === 'sadrs') {
                 $entity = $this->Sadrs;
@@ -119,6 +123,8 @@ class CommentsBaseController extends AppController
                 $entity = $this->Aefis;
             } elseif ($parm == 'saefis') {
                 $entity = $this->Saefis;
+            } elseif ($parm == 'ce2bs') {
+                $entity = $this->Ce2bs;
             } else {
                 $this->Flash->error(__('Unable to process request. Please, try again.')); 
                 return $this->redirect($this->referer());
@@ -132,7 +138,7 @@ class CommentsBaseController extends AppController
              * Should fire notification to evaluator
              * 
              */
-            $pparm = ['adrs' => 'Adrs', 'sadrs' => 'Sadrs', 'aefis' => 'Aefis', 'saefis' => 'Saefis'];
+            $pparm = ['adrs' => 'Adrs', 'sadrs' => 'Sadrs', 'aefis' => 'Aefis', 'saefis' => 'Saefis', 'ce2bs' => 'Ce2bs'];
 
             if ($this->Comments->save($comment)) {
                 //Send email, notification and message to managers and assigned evaluators

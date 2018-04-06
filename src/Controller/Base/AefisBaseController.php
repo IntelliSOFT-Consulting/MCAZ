@@ -39,6 +39,7 @@ class AefisBaseController extends AppController
 
         $query = $this->Aefis
             ->find('search', ['search' => $this->request->query])
+            ->order(['created' => 'DESC'])
             ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
         $users = $this->Aefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);

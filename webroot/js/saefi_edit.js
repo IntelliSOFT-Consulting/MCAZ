@@ -11,6 +11,7 @@ $(function() {
         showButtonPanel:true, 
         changeMonth:true, 
         changeYear:true, 
+            yearRange: "-100Y:+0",
         showAnim:'show'
       });
 
@@ -20,6 +21,7 @@ $(function() {
         showButtonPanel:true, 
         changeMonth:true, 
         changeYear:true, 
+            yearRange: "-100Y:+0",
         showAnim:'show'
       });
 

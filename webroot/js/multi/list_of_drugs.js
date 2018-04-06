@@ -14,6 +14,7 @@ $(function() {
       showButtonPanel:true, 
       changeMonth:true, 
       changeYear:true, 
+            yearRange: "-100Y:+0",
       showAnim:'show',
       onSelect: function( selectedDate ) {
         var option = this.id == "sadr-list-of-drugs-0-start-date" ? "minDate" : "maxDate",
@@ -35,6 +36,7 @@ $(function() {
         showButtonPanel:true, 
         changeMonth:true, 
         changeYear:true, 
+            yearRange: "-100Y:+0",
         showAnim:'show'
       });
 

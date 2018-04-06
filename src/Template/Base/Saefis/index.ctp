@@ -45,7 +45,8 @@ $this->start('sidebar'); ?>
             <tr>
                 <td><?= $this->Number->format($saefi->id) ?></td>
                 <td><?php
-                      echo ($saefi->submitted == 2) ? $this->Html->link($saefi->reference_number, ['action' => 'view', $saefi->id, 'prefix' => $prefix, 'status' => $saefi->status], ['escape' => false, 'class' => 'btn-zangu']) : $saefi->created ; ?></td>
+                      echo ($saefi->submitted == 2) ? $this->Html->link($saefi->reference_number, ['action' => 'view', $saefi->id, 'prefix' => $prefix, 'status' => $saefi->status], ['escape' => false, 'class' => 'btn-zangu']) : 
+                        $this->Html->link($saefi->created, ['action' => 'edit', $saefi->id, 'prefix' => $prefix, 'status' => $saefi->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>
                 <td><?= h($saefi->reference_number) ?></td>
                 <td><?= h($saefi->status) ?></td>
                 <td><?= h($saefi->modified) ?></td>
@@ -62,7 +63,10 @@ $this->start('sidebar'); ?>
                     echo ($saefi->submitted == 2) ?  $this->Html->link('<span class="label label-primary">E2B</span>', ['action' => 'e2b', $saefi->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']) : ''; 
                     ?>
                                       
-                     <?= $this->Html->link('<span class="label label-primary">View</span>', ['action' => 'view', $saefi->id, 'prefix' => $prefix], ['escape' => false, 'style' => 'color: white;'])
+                    <?php
+                      echo ($saefi->submitted == 2) ?
+                        $this->Html->link('<span class="label label-primary">View</span>', ['action' => 'view', $saefi->id, 'prefix' => $prefix, 'status' => $saefi->status], ['escape' => false, 'style' => 'color: white;']) :
+                        $this->Html->link('<span class="label label-success">Edit</span>', ['action' => 'view', $saefi->id, 'prefix' => $prefix, 'status' => $saefi->status], ['escape' => false, 'style' => 'color: white;']);
                      ?>
 
                                        

@@ -11,6 +11,9 @@
      foreach ($adr_stats as $value) {
         $adr_stat[$value['status']] = $value['count'];
      }
+     foreach ($ce2b_stats as $value) {
+        $ce2b_stat[$value['status']] = $value['count'];
+     }
      // pr($stats);
      $Submitted = isset($stats['Submitted']) ? '<small class="badge badge-sadr pull-right">'. $stats['Submitted'] .'</small>' : '' ;
      $Assigned = isset($stats['Assigned']) ? '<small class="badge badge-sadr pull-right">'. $stats['Assigned'] .'</small>' : '' ;
@@ -72,6 +75,21 @@
      $rFinalFeedback = isset($adr_stat['FinalFeedback']) ? '<small class="badge badge-adr pull-right">'. $adr_stat['FinalFeedback'] .'</small>' : '' ;
      $rVigiBase = isset($adr_stat['VigiBase']) ? '<small class="badge badge-adr pull-right">'. $adr_stat['VigiBase'] .'</small>' : '' ;
      $rDuplicated = isset($adr_stat['Duplicated']) ? '<small class="badge badge-adr pull-right">'. $adr_stat['Duplicated'] .'</small>' : '' ;
+
+     $cSubmitted = isset($ce2b_stat['Submitted']) ? '<small class="badge badge-ce2b pull-right">'. $ce2b_stat['Submitted'] .'</small>' : '' ;
+     $cAssigned = isset($ce2b_stat['Assigned']) ? '<small class="badge badge-ce2b pull-right">'. $ce2b_stat['Assigned'] .'</small>' : '' ;
+     $cEvaluated = isset($ce2b_stat['Evaluated']) ? '<small class="badge badge-ce2b pull-right">'. $ce2b_stat['Evaluated'] .'</small>' : '' ;
+     $cManual = isset($ce2b_stat['Manual']) ? '<small class="badge badge-ce2b pull-right">'. $ce2b_stat['Manual'] .'</small>' : '' ;
+     $cUnSubmitted = isset($ce2b_stat['UnSubmitted']) ? '<small class="badge badge-ce2b pull-right">'. $ce2b_stat['UnSubmitted'] .'</small>' : '' ;
+     $cArchived = isset($ce2b_stat['Archived']) ? '<small class="badge badge-ce2b pull-right">'. $ce2b_stat['Archived'] .'</small>' : '' ;
+     $cCommittee = isset($ce2b_stat['Committee']) ? '<small class="badge badge-ce2b pull-right">'. $ce2b_stat['Committee'] .'</small>' : '' ;
+     $cCorrespondence = isset($ce2b_stat['Correspondence']) ? '<small class="badge badge-ce2b pull-right">'. $ce2b_stat['Correspondence'] .'</small>' : '' ;
+     $cFollowUp = isset($ce2b_stat['FollowUp']) ? '<small class="badge badge-ce2b pull-right">'. $ce2b_stat['FollowUp'] .'</small>' : '' ;
+     $cApplicantResponse = isset($ce2b_stat['ApplicantResponse']) ? '<small class="badge badge-ce2b pull-right">'. $ce2b_stat['ApplicantResponse'] .'</small>' : '' ;
+     $cPresented = isset($ce2b_stat['Presented']) ? '<small class="badge badge-ce2b pull-right">'. $ce2b_stat['Presented'] .'</small>' : '' ;
+     $cFinalFeedback = isset($ce2b_stat['FinalFeedback']) ? '<small class="badge badge-ce2b pull-right">'. $ce2b_stat['FinalFeedback'] .'</small>' : '' ;
+     $cVigiBase = isset($ce2b_stat['VigiBase']) ? '<small class="badge badge-ce2b pull-right">'. $ce2b_stat['VigiBase'] .'</small>' : '' ;
+     $cDuplicated = isset($ce2b_stat['Duplicated']) ? '<small class="badge badge-ce2b pull-right">'. $ce2b_stat['Duplicated'] .'</small>' : '' ;
 
      $ncount = isset($ncount) ? '<small class="badge pull-right">'. $ncount .'</small>' : '' ;
   ?>
@@ -161,7 +179,15 @@
       <?php if (($prefix == 'manager' || $prefix == 'evaluator') && $this->request->params['controller'] == 'Ce2bs' ) { ?>
           <ul class="nav van-<?= $prefix ?>">
             <li><a href="#" style="text-decoration: underline; padding-left: 15px;">REPORT STAGES</a></li>
-            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Submitted') ? 'active' : ''; ?>"><?= $this->Html->link('<b>1.</b> Submitted ' , ['controller' => 'Ce2bs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Submitted'], array('escape' => false)); ?> </li>
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Submitted') ? 'active' : ''; ?>"><?= $this->Html->link('<b>1.</b> Submitted '.$cSubmitted , ['controller' => 'Ce2bs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Submitted'], array('escape' => false)); ?> </li>
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Assigned') ? 'active' : ''; ?>"><?= $this->Html->link('<b>2.</b> Assigned '. $cAssigned , ['controller' => 'Ce2bs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Assigned'], array('escape' => false)); ?> </li>
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Evaluated') ? 'active' : ''; ?>"><?= $this->Html->link('<b>3.</b> Evaluated '. $cEvaluated , ['controller' => 'Ce2bs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Evaluated'], array('escape' => false)); ?> </li>      
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Committee') ? 'active' : ''; ?>"><?= $this->Html->link('<b>4.</b> Committee '. $cCommittee , ['controller' => 'Ce2bs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Committee'], array('escape' => false)); ?> </li>
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Correspondence') ? 'active' : ''; ?>"><?= $this->Html->link('<b>5.</b> Correspondence '. $cCorrespondence , ['controller' => 'Ce2bs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Correspondence'], array('escape' => false)); ?> </li>  
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'ApplicantResponse') ? 'active' : ''; ?>"><?= $this->Html->link('<b>6.</b> Response '. $cApplicantResponse , ['controller' => 'Ce2bs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'ApplicantResponse'], array('escape' => false)); ?> </li>  
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Presented') ? 'active' : ''; ?>"><?= $this->Html->link('<b>7.</b> PVCT 2 '. $cPresented , ['controller' => 'Ce2bs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Presented'], array('escape' => false)); ?> </li>  
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'FinalFeedback') ? 'active' : ''; ?>"><?= $this->Html->link('<b>8.</b> Feedback '. $cFinalFeedback , ['controller' => 'Ce2bs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'FinalFeedback'], array('escape' => false)); ?> </li> 
+            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'VigiBase') ? 'active' : ''; ?>"><?= $this->Html->link('<b>9.</b> VigiBase '. $cVigiBase , ['controller' => 'Ce2bs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'VigiBase'], array('escape' => false)); ?> </li>   
           </ul>
         <?php } ?>
     </li>

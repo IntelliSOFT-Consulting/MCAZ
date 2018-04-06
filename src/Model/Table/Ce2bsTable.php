@@ -41,6 +41,7 @@ class Ce2bsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Search.Search');
         $this->addBehavior('Josegonzalez/Upload.Upload', [
             'e2b_file' => [],
         ]);
@@ -49,12 +50,62 @@ class Ce2bsTable extends Table
             'foreignKey' => 'user_id'
         ]);
 
+        $this->hasMany('ReportStages', [
+            'className' => 'ReportStages',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('ReportStages.model' => 'Ce2bs'),
+        ]);
+
         $this->hasMany('Attachments', [
             'className' => 'Attachments',
             'foreignKey' => 'foreign_key',
             'dependent' => true,
-            'conditions' => array('Attachments.model' => 'Ce2bs', 'Attachments.category' => 'attachments'),
+            'conditions' => array('Attachments.model' => 'Ce2bs'),
         ]);
+        $this->hasMany('Reviews', [
+            'className' => 'Reviews',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Reviews.model' => 'Ce2bs', 'Reviews.category' => 'causality'),
+        ]);
+        $this->hasMany('Committees', [
+            'className' => 'Reviews',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Committees.model' => 'Ce2bs', 'Committees.category' => 'committee'),
+        ]);
+        $this->hasMany('RequestReporters', [
+            'className' => 'Notifications',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('RequestReporters.model' => 'Ce2bs', 'RequestReporters.type' => 'request_reporter_info'),
+        ]);
+        $this->hasMany('RequestEvaluators', [
+            'className' => 'Notifications',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('RequestEvaluators.model' => 'Ce2bs', 'RequestEvaluators.type' => 'request_evaluator_info'),
+        ]);
+
+    }
+
+    /**
+    * @return \Search\Manager
+    */
+    public function searchManager()
+    {
+        $searchManager = $this->behaviors()->Search->searchManager();
+        $searchManager
+            ->value('status')
+            ->like('reference_number')
+            ->compare('created_start', ['operator' => '>=', 'field' => ['created']])
+            ->compare('created_end', ['operator' => '<=', 'field' => ['created']])
+            ->like('company_name') 
+            ->like('e2b_file')
+            ->like('reporter_email');
+
+        return $searchManager;
     }
 
     /**

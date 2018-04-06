@@ -26,6 +26,13 @@
   padding: 4px;
 }
 
+.ce2b_form {
+  background-color: #ffb833;
+  border: 2px solid #3E58A7;
+  border-radius: 4px;
+  padding: 4px;
+}
+
 select.view_select {
         /*for firefox*/
         -moz-appearance: none;
@@ -88,6 +95,9 @@ a.label-link {
 } 
 .badge-adr {
   background-color: #7f7fff;
+} 
+.badge-ce2b {
+  background-color: #ffb833;
 } 
 .muted {
     color: #999999;

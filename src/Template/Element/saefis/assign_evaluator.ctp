@@ -29,7 +29,7 @@ Assign</button>
          <?php echo $this->Form->end() ?>
          <?php     
         	} } else {
-            echo "<br><br><h4 class='text-center'>Assigned to: ".$evaluators->toArray()[$saefi->assigned_to]." on ".$saefi->assigned_date."</h4>";?>
+         ?>
           <br><br><h4 class="text-center">Assigned to: <span 
           <?php if(!in_array("Evaluated", Hash::extract($saefi->report_stages, '{n}.stage'))) { ?>
             id="assigned-to" class="editable"
@@ -51,7 +51,7 @@ Assign</button>
           $i = 0;
           foreach ($saefi['request_evaluators'] as $request_evaluator) {
             $i = $i+1;
-            echo "<p class='text-center'><u>".$i.". Requested by : ".$users->toArray()[$request_evaluator['sender_id']]." on ".$request_evaluator['created']."</u></p>";
+            echo "<p class='text-center'><u>".$i.". Requested by : ".Hash::combine($users->toArray(), '{n}.id', '{n}.name')[$request_evaluator['sender_id']]." on ".$request_evaluator['created']."</u></p>";
             echo "<h4 class='text-center'>Request</h4><p class='text-center'>".$request_evaluator['user_message']."</p>";
           }
         }

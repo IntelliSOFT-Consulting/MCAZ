@@ -46,7 +46,8 @@ $this->start('sidebar'); ?>
             <tr>
                 <td><?= $this->Number->format($sadr->id) ?></td>
                 <td><?php
-                      echo ($sadr->submitted == 2) ? $this->Html->link($sadr->reference_number, ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) : $sadr->created ; ?></td>
+                      echo ($sadr->submitted == 2) ? $this->Html->link($sadr->reference_number, ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) : 
+                        $this->Html->link($sadr->created, ['action' => 'edit', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>
                 <td><?= h($sadr->institution_name) ?></td>
                 <td><?= h($sadr->status) ?></td>                
                 <td>
@@ -73,7 +74,10 @@ $this->start('sidebar'); ?>
                             }
                     ?>
                                         
-                     <?= $this->Html->link('<span class="label label-primary">View</span>', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'style' => 'color: white;'])
+                     <?php
+                      echo ($sadr->submitted == 2) ?
+                        $this->Html->link('<span class="label label-primary">View</span>', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'style' => 'color: white;']) :
+                        $this->Html->link('<span class="label label-success">Edit</span>', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'style' => 'color: white;']);
                      ?>
                                         
                      <?= $this->Html->link('<span class="label label-primary">PDF</span>', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status, '_ext' => 'pdf'], ['escape' => false, 'style' => 'color: white;'])

@@ -44,7 +44,8 @@ $this->start('sidebar'); ?>
             <tr>
                 <td><?= $this->Number->format($adr->id) ?></td>
                 <td><?php
-                      echo ($adr->submitted == 2) ? $this->Html->link($adr->reference_number, ['action' => 'view', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']) : $adr->created ; ?></td>
+                      echo ($adr->submitted == 2) ? $this->Html->link($adr->reference_number, ['action' => 'view', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']) : 
+                        $this->Html->link($adr->created, ['action' => 'edit', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>
                 <td><?= h($adr->status) ?></td>
                 <td><?= h($adr->modified) ?></td>
                 <td>
@@ -58,10 +59,13 @@ $this->start('sidebar'); ?>
                 <td>
                    <span class="label label-primary"><?php
                    echo ($adr->submitted == 2) ?  $this->Html->link('E2B', ['action' => 'e2b', $adr->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']) : ''; ?></span>
-                   <span class="label label-primary">                     
-                     <?= $this->Html->link('View', ['action' => 'view', $adr->id, 'prefix' => $prefix], ['escape' => false, 'style' => 'color: white;'])
-                     ?>
-                    </span>  &nbsp;
+                   
+                    <?php
+                      echo ($adr->submitted == 2) ?
+                        $this->Html->link('<span class="label label-primary">View</span>', ['action' => 'view', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'style' => 'color: white;']) :
+                        $this->Html->link('<span class="label label-success">Edit</span>', ['action' => 'view', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'style' => 'color: white;']);
+                    ?>
+
                    <span class="label label-primary">                    
                      <?= $this->Html->link('PDF', ['action' => 'view', $adr->id, 'prefix' => $prefix, 'status' => $adr->status, '_ext' => 'pdf'], ['escape' => false, 'class' => 'label-link'])
                      ?>

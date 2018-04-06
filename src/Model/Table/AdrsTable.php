@@ -54,6 +54,7 @@ class AdrsTable extends Table
             'remove' => ['created', 'modified', 'adr_list_of_drugs.created',  'attachments.created',
                           'adr_list_of_drugs.modified',  'attachments.modified'],
             'set' => [
+                'submitted' => 2,
                 'copied' => 'new copy'
             ]
         ]);

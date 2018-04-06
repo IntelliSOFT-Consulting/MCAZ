@@ -52,7 +52,7 @@ Assign</button>
           $i = 0;
           foreach ($aefi['request_evaluators'] as $request_evaluator) {
             $i = $i+1;
-            echo "<p class='text-center'><u>".$i.". Requested by : ".Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$request_evaluator['sender_id']]." on ".$request_evaluator['created']."</u></p>";
+            echo "<p class='text-center'><u>".$i.". Requested by : ".Hash::combine($users->toArray(), '{n}.id', '{n}.name')[$request_evaluator['sender_id']]." on ".$request_evaluator['created']."</u></p>";
             echo "<h4 class='text-center'>Request</h4><p class='text-center'>".$request_evaluator['user_message']."</p>";
           }
         }

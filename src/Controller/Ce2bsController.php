@@ -2,9 +2,14 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
+use Cake\Http\Client;
+use Cake\Core\Configure;
 use Cake\Utility\Xml;
 use Cake\Filesystem\File;
 use Cake\Utility\Hash;
+use Cake\View\Helper\HtmlHelper; 
+use Cake\Log\Log;
 
 /**
  * Ce2bs Controller
@@ -38,18 +43,70 @@ class Ce2bsController extends AppController
     public function view($id = null)
     {
         $ce2b = $this->Ce2bs->get($id, [
-            'contain' => []
+            'contain' => $this->ce2b_contain,
+            'conditions' => ['Ce2bs.user_id' => $this->Auth->user('id')]
         ]);
+
+
+        // $this->viewBuilder()->setLayout('pdf/default');
+        if(strpos($this->request->url, 'pdf')) {
+            $this->viewBuilder()->helpers(['Form' => ['templates' => 'view_form',]]);
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'orientation' => 'portrait',
+                    'filename' => $ce2b->reference_number.'.pdf'
+                ]
+            ]);
+        }
 
         $this->set('ce2b', $ce2b);
         $this->set('_serialize', ['ce2b']);
     }
 
-    /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
-     */
+    
+    public function vigibase($id = null) {
+        $ce2b = $this->Ce2bs->get($id, [
+            'contain' => [],
+        ]);
+
+        // render to a variable
+        $payload = $ce2b->e2b_file;
+        
+        $http = new Client();
+
+        //Log::write('debug', 'Payload :: '.$payload);
+        $umc = $http->post(Configure::read('vigi_post_url'), 
+            (string)$payload,
+            ['headers' => Configure::read('vigi_headers')]);  
+
+        if ($umc->isOK()) {
+            $messageid = $umc->json;
+ 
+            $stage1  = $this->Ce2bs->ReportStages->newEntity();
+            $stage1->model = 'Ce2bs';
+            $stage1->stage = 'VigiBase';
+            $stage1->description = 'Stage 9';
+            $stage1->stage_date = date("Y-m-d H:i:s");
+            $ce2b->report_stages = [$stage1];
+            $ce2b->messageid = $messageid['MessageId'];
+            $ce2b->status = 'VigiBase';
+            $this->Ce2bs->save($ce2b);
+
+            $this->set([
+                    'umc' => $umc->json, 
+                    'status' => 'Successfull integration with vigibase', 
+                    '_serialize' => ['umc', 'status']]);
+        } else {
+            $this->response->body('Failure');
+            $this->response->statusCode($umc->getStatusCode());
+            $this->set([
+                'umc' => $umc->json, 
+                'status' => 'Failed', 
+                '_serialize' => ['umc', 'status']]);
+            return;
+        }
+    }
+
     public function add()
     {
         $ce2b = $this->Ce2bs->newEntity();
@@ -75,6 +132,14 @@ class Ce2bsController extends AppController
                 $file = new File($this->request->data['e2b_file']['tmp_name']);
                 $xmlString = $file->read();
                 //End file contents
+
+                //new stage
+                $stage1  = $this->Ce2bs->ReportStages->newEntity();
+                $stage1->model = 'Ce2bs';
+                $stage1->stage = 'Submitted';
+                $stage1->description = 'Stage 1';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $ce2b->report_stages = [$stage1];
 
                 $ce2b->e2b_content = $xmlString;
                 $ref = $this->Ce2bs->find()->count() + 1;
@@ -120,23 +185,4 @@ class Ce2bsController extends AppController
         $this->set('_serialize', ['ce2b']);
     }
 
-    /**
-     * Delete method
-     *
-     * @param string|null $id Cae2b id.
-     * @return \Cake\Http\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $ce2b = $this->Ce2bs->get($id);
-        if ($this->Ce2bs->delete($ce2b)) {
-            $this->Flash->success(__('The ce2b has been deleted.'));
-        } else {
-            $this->Flash->error(__('The ce2b could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
-    }
 }
