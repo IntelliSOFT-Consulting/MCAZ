@@ -53,8 +53,9 @@ $editable = $this->fetch('editable');
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Male' => 'Male', 'Female' => 'Female']]);
 
+                  // debug($this->request->data['date_of_birth']);
                   echo $this->Form->control('date_of_birth', array(
-                    'type' => 'date', 'escape' => false,
+                    'type' => 'date', 'escape' => false, 'default' => null,
                     'label' => 'Date of Birth <span class="sterix fa fa-asterisk" aria-hidden="true"></span>',
                     'templates' => ($editable) ?  ['dateWidget' => '<div class="col-sm-6">{{day}}-{{month}}-{{year}}</div>',
                                     'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',] : [],

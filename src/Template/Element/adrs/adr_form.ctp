@@ -73,7 +73,7 @@ Please use a separate adverse event reporting form for separate reportable adver
             </div>
             <div class="col-xs-6">
               <?php
-                  echo $this->Form->control('date_of_adverse_event', ['label' => 'Date of Adverse Event', 'escape' => false, 'type' => 'text']);
+                  echo $this->Form->control('date_of_adverse_event', ['label' => 'Date of Adverse Event <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false, 'type' => 'text']);
 
                   echo $this->Form->control('study_sponsor', 
                     ['label' => ['text' => 'Study Sponsor', 'escape' => false]]); 
@@ -109,10 +109,10 @@ Please use a separate adverse event reporting form for separate reportable adver
 
                   echo $this->Form->control('date_of_birth', array(
                     'type' => 'date',
-                    'label' => 'Date of Birth',
+                    'label' => 'Date of Birth <span class="sterix fa fa-asterisk" aria-hidden="true"></span>',
                     'templates' => ($editable) ? ['dateWidget' => '<div class="col-sm-6">{{day}}-{{month}}-{{year}}</div>',
                                     'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',] : [],
-                    'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
+                    'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true, 'escape' => false,
                   ));
 
                   echo $this->Form->control('gender', ['type' => 'radio', 

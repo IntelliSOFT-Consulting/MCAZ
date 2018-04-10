@@ -134,9 +134,9 @@ function getDate(sel){
                   
                   echo $this->Form->control('patient_name', ['label' => 'Patient Initials <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
                   //echo $this->Form->control('date_of_birth');
-                   
+                  
                   echo $this->Form->control('date_of_birth', array(
-                    'type' => 'date', 'escape' => false,
+                    'type' => 'date', 'escape' => false, 
                     'label' => 'Date of Birth',
                     'templates' => ($editable) ? ['dateWidget' => '<div class="col-xs-6">{{day}}-{{month}}-{{year}}</div>',
                                    'select' => '<select onchange="getDate(1);" id="{{name}}" name="{{name}}"{{attrs}}>{{content}}</select>',] : [],

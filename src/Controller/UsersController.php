@@ -479,7 +479,92 @@ class UsersController extends AppController
         $this->set(compact('user', 'designations', 'groups'));
         $this->set('_serialize', ['user']);
     }
+    
+    public function imports() {
+        if ($this->request->is('post')) {
 
+            $this->loadModel('Sadrs');
+            $this->loadModel('Adrs');
+            $this->loadModel('Aefis');
+            $this->loadModel('Saefis');
+
+            $this->loadModel('Imports');
+
+            if ($this->request->getData('submitted') === 'sadrs') {
+                $entity = $this->Sadrs;
+                $pre = 'ADR';
+            } elseif ($this->request->getData('submitted') == 'adrs') {
+                $entity = $this->Adrs;
+                $pre = 'SAE';
+            } elseif ($this->request->getData('submitted') == 'aefis') {
+                $entity = $this->Aefis;
+                $pre = 'AEFIS';
+            } elseif ($this->request->getData('submitted') == 'saefis') {
+                $entity = $this->Saefis;
+                $pre = 'SAEFIS';
+            } else {
+                $this->Flash->error(__('Unable to process request. Please, try again.')); 
+                return $this->redirect($this->referer());
+            }
+
+            //Check if file has been loaded before 
+            $import = $this->Imports->findByFilename($this->request->data['sadr_files']['name']);
+            if (!$import->isEmpty()) {
+                $import_dates = implode(', ', Hash::extract($import->toArray(), '{n}.created'));
+                $this->Flash->warning('The file <b>'.$this->request->data['sadr_files']['name'].'</b> has been imported before on '.$import_dates.'. If the file is different, rename the file (e.g. filename_v2) and import it again.', ['escape' => false]);
+                return $this->redirect(['action' => 'imports']);
+            } else {
+                $datum = $this->Imports->newEntity(['filename' => $this->request->data['sadr_files']['name']]);
+                $this->Imports->save($datum);
+            }
+            //
+            //debug($this->request->data);
+            $file = new File($this->request->data['sadr_files']['tmp_name']);
+            $xmlString = $file->read();
+            $xmlArray = Xml::toArray(Xml::build($xmlString, array('return' => 'domdocument')));
+            // debug($xmlArray);
+            // return;
+            if(array_key_exists(0, $xmlArray['response'][$this->request->getData('submitted')])) {
+                // debug("array key exists");
+                $retVal = $xmlArray['response'][$this->request->getData('submitted')];
+            } else {
+                // debug("array key does not exists");
+                $retVal[] = $xmlArray['response'][$this->request->getData('submitted')];
+            } 
+                          
+            // debug(count($xmlArray['response'][$this->request->getData('submitted')]));
+            // debug($retVal);
+            // return;
+            foreach ($retVal as $sadrArr) {       
+                $sadr = $entity->newEntity();
+                if ($this->request->is('post')) {
+                    $this->_attachments();
+                    // debug($sadrArr);
+                    // return;
+                    $sadr = $entity->patchEntity($sadr, $sadrArr, ['validate' => false]);
+                    // debug($sadr->errors());
+                    // return;
+                    $sadr->user_id = $this->Auth->user('id');
+                    $sadr->submitted_date = date("Y-m-d H:i:s");
+                    $sadr->submitted = 2;
+                    if ($entity->save($sadr)) {
+                        //update field
+                        $query = $entity->query();
+                        $query->update()
+                            ->set(['reference_number' => $pre.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy')])
+                            ->where(['id' => $sadr->id])
+                            ->execute();
+                        
+                        $this->Flash->success(__('The '.$pre.'(s) have been imported.'));
+                    } else {                
+                        $this->Flash->error(__('The '.$pre.'(s) could not be imported. Please, try again.'));
+                    }
+                }
+            }
+            //return $this->redirect(['controller' => 'UsersBase', 'action' => 'imports', 'prefix' => 'base']);
+        } 
+        // $this->render('/Base/Users/imports');
+    }
     /**
      * Delete method
      *

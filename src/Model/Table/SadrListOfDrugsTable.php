@@ -93,26 +93,38 @@ class SadrListOfDrugsTable extends Table
         $validator
             ->scalar('frequency_id')
             ->notEmpty('frequency_id', ['message' => 'Frequency required']);
-/*
-        $validator->notEmpty('start_date', function ($context) {
-            if (isset($context['data']['start_date']) && 
-                strtotime($context['data']['start_date']) < strtotime($context['data']['stop_date'])) {
+
+        $validator->add('start_date', 'custom', [
+            'rule' => function ($value, $context) {
+                $stop_date = (!empty($context['data']['stop_date'])) ? strtotime($context['data']['stop_date']) : strtotime('today');
+                if (isset($context['data']['start_date']) && 
+                    strtotime($context['data']['start_date']) <= $stop_date ) {
+                    return true;
+                }
                 return false;
-            }
-            return false;
-        }, ['message' => 'The start date must be less than the stop date']);*/
+            },
+            'message' => 'Drug start date must be less than or equal to drug stop date'
+        ]);
+
+        /*$validator
+            ->date('start_date', 'dmy', ['message' => 'Kindly enter the drug start date in the format dd-mm-yyyy e.g. 22-03-2018'])
+            ->notEmpty('start_date', ['message' => 'Kindly enter the drug start date']);*/
 
         $validator
-            ->scalar('start_date')
-            ->notEmpty('start_date');
+            ->add('start_date', 'start-date', ['rule' => ['date', 'dmy'], 'message' => 'Kindly enter the drug start date in the format dd-mm-yyyy e.g. 22-03-2018'])
+            ->allowEmpty('start_date');
+
+        $validator
+            ->add('stop_date', 'stop-date', ['rule' => ['date', 'dmy'], 'message' => 'Kindly enter the drug stop date in the format dd-mm-yyyy e.g. 22-03-2018'])
+            ->allowEmpty('stop_date');
+
+        /*$validator
+            ->date('stop_date', 'dmy', ['message' => 'Kindly enter the drug stop date in the format dd-mm-yyyy e.g. 22-03-2018'])
+            ->allowEmpty('stop_date');*/
 
         $validator
             ->scalar('brand_name')
             ->allowEmpty('brand_name');
-
-        $validator
-            ->scalar('dose')
-            ->allowEmpty('dose');
 
         /*
             --Enable date validation later
@@ -123,13 +135,6 @@ class SadrListOfDrugsTable extends Table
             ->requirePresence('demo_example_date', 'create')
             ->notEmpty('factura_fecha');
         */
-        // $validator
-        //     ->date('start_date')
-        //     ->allowEmpty('start_date');
-
-        // $validator
-        //     ->date('stop_date')
-        //     ->allowEmpty('stop_date');
 
         $validator
             ->scalar('indication')

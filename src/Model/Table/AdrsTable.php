@@ -200,9 +200,9 @@ class AdrsTable extends Table
             ->scalar('study_sponsor')
             ->allowEmpty('study_sponsor');
 
-        // $validator
-        //     ->date('date_of_adverse_event')
-        //     ->allowEmpty('date_of_adverse_event');
+        $validator
+            ->add('date_of_adverse_event', 'doae-req', ['rule' => ['date', 'dmy'], 'message' => 'Kindly enter the date of adverse event in the format dd-mm-yyyy e.g. 22-03-2018'])
+            ->notEmpty('date_of_adverse_event');
 
         $validator
             ->scalar('participant_number')
@@ -314,6 +314,62 @@ class AdrsTable extends Table
             return false;
         }, ['message' => 'Kindly select at least one suspected drug']);
 
+
+        //Age at onset values
+        //date of birth or onset
+        $validator
+            ->allowEmpty('date_of_birth')
+            ->add('date_of_birth', 'dob-or-door', [
+                'rule' => function ($value, $context) {                    
+                    $dob = ($value == '--') ? null : $value;
+                    if(!$dob) return false;
+                    return true;
+            }, 'message' => 'Date of birth required'
+            ])
+            //date of birth: year of birth required
+            ->add('date_of_birth', 'dob-select-year', [
+               'rule' => function ($value, $context) {          
+                $dob = (($value)) ?? '--';
+                $a = explode('-', $dob);
+                if($value != '--')
+                    if($a[2] < (date('Y')-120) || $a[2] > date('Y')) return false;
+                return true;
+            }, 'message' => 'Year of birth required']);
+
+        //date of birth less than date of adverse event
+        $validator->add('date_of_birth', 'dob-less-doae', [
+            'rule' => function ($value, $context) {
+                //Normalize dob and door
+                $dob = (($value)) ?? '--';
+                $a = explode('-', $dob);
+                $a[0] = (empty($a[0])) ? '01' : $a[0]; 
+                $a[1] = (empty($a[1])) ? '01' : $a[1]; 
+                $dob = implode('-', $a); 
+
+                return strtotime($dob) <= strtotime($context['data']['date_of_adverse_event']);
+
+            }, 'message' => 'Date of birth must less than or equal to date of onset of reaction'
+        ]);
+        //date of birth less than drug start dates
+        $validator->add('date_of_birth', 'dob-less-drug-dates', [
+            'rule' => function ($value, $context) {
+                //Normalize dob and door
+                $dob = (($value)) ?? '--';
+                $a = explode('-', $dob);
+                $a[0] = (empty($a[0])) ? '01' : $a[0]; 
+                $a[1] = (empty($a[1])) ? '01' : $a[1]; 
+                $dob = implode('-', $a); 
+
+                if (isset($context['data']['adr_list_of_drugs'])) {
+                    foreach ($context['data']['adr_list_of_drugs'] as $val){
+                        if (strtotime($dob) > strtotime($val['start_date'])) return false;
+                    }
+                }
+                
+                return true;
+
+            }, 'message' => 'Date of birth must less than drug start date'
+        ]);
 
         // $validator
         //     ->date('report_to_mcaz_date')

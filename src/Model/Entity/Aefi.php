@@ -59,4 +59,11 @@ class Aefi extends Entity
     protected $_accessible = [
         '*' => true
     ];
+    
+    protected function _getDateOfBirth($dob)
+    {  
+        $a = explode('-', (empty($dob) ? '--' : $dob));
+        return array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
+    }
+
 }

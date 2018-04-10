@@ -212,6 +212,53 @@ class SaefisTable extends Table
             return false;
         }, ['message' => 'Kindly select at least one suspected vaccine']);
 
+         //Age at onset values
+        $validator
+            ->scalar('age_at_onset_years')
+            ->allowEmpty('age_at_onset_years')
+            ->add('age_at_onset_years', 'year-range', [
+                'rule' => function ($value, $context) { 
+                    return (($value > 0 && $value < 140));
+                }, 'message' => 'Year at onset must be between 1 and 140']);
+            
+        $validator
+            ->allowEmpty('age_at_onset_months')
+            ->add('age_at_onset_months', 'month-range', [
+                'rule' => function ($value, $context) {
+                    return $value > 0 && $value < 1280;
+                }, 'message' => 'Months at onset must be between than 1 and 1280']);
+
+        $validator
+            ->allowEmpty('age_at_onset_days')
+            ->add('age_at_onset_days', 'days-range', [
+                'rule' => function ($value, $context) {
+                    return $value > 0 && $value < 613200;
+            }, 'message' => 'Days at onset must be between 1 and 613200']);
+
+        //date of birth or onset
+        $validator
+            ->allowEmpty('date_of_birth')
+            ->add('date_of_birth', 'dob-or-door', [
+                'rule' => function ($value, $context) {                    
+                    $dob = ($value == '--') ? null : $value;
+                    if(!$dob && empty($context['data']['age_at_onset_years'])) return false;
+                    if($dob && !empty($context['data']['age_at_onset_years'])) return false;
+                    return true;
+            }, 'message' => 'Date of birth OR age at onset required'
+            ]);
+
+        $validator->add('date_of_birth', 'dob-less-vaccine-dates', [
+            'rule' => function ($value, $context) {
+                if (isset($context['data']['aefi_list_of_vaccines'])) {
+                    foreach ($context['data']['aefi_list_of_vaccines'] as $val){
+                        if (strtotime($value) > strtotime($val['vaccination_date'])) return false;
+                    }
+                }
+                
+                return true;
+
+            }, 'message' => 'Date of birth must less than vaccine date'
+        ]);
 
         return $validator;
     }

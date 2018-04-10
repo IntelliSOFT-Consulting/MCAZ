@@ -30,7 +30,7 @@ $(function() {
     reloadStuff();
     function reloadStuff(){
       //console.log('reload stuff called!!');
-      var dates2 = $('.date-pick-from, .date-pick-to').datepicker({
+      var dates2 = $('.date-pick-from, .date-pick-to, .date-pick-field').datepicker({
         minDate:"-100Y", maxDate:"-0D", 
         dateFormat:'dd-mm-yy', 
         showButtonPanel:true, 

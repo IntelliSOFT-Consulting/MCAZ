@@ -133,7 +133,7 @@
                     <td>
                       <?php
                           echo $this->Form->control('sadr_list_of_drugs.'.$i.'.start_date', [
-                            'label' => false, 'type' => 'text',
+                            'label' => false, 'type' => 'text', 'class' => 'datepickers',
                             'templates' => 'dates_form'
                             ]);
                         ?>

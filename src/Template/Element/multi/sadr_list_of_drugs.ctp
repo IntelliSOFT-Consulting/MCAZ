@@ -90,15 +90,15 @@
                     <td>
                       <?php
                           echo $this->Form->control('sadr_list_of_drugs.'.$i.'.start_date', [
-                            'label' => false, 'type' => 'text',
-                            'templates' => ($editable) ? 'table_form': 'view_form_table' 
+                            'label' => false, 'type' => 'text', 
+                            'templates' => ($editable) ? 'dates_form': 'view_form_table' 
                             ]);
                         ?>
                     </td>
                     <td>
                         <?php
                             echo $this->Form->control('sadr_list_of_drugs.'.$i.'.stop_date', ['label' => false, 'type' => 'text',
-                            'templates' => ($editable) ? 'table_form': 'view_form_table' 
+                            'templates' => ($editable) ? 'dates_form': 'view_form_table' 
                             ]);
                         ?>
                     </td>

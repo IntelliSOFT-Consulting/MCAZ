@@ -216,43 +216,149 @@ class SadrsTable extends Table
 
         $validator
             ->scalar('patient_name')
-            ->notEmpty('patient_name');   
+            ->notEmpty('patient_name', ['message' => 'Patient Initials required!']);   
 
-        //We shall revisit!!
+        //Age at onset values
         $validator
-            ->scalar('date_of_birth')
-            ->notEmpty('date_of_birth')
-            ->add('date_of_birth', [
-                    'length' => [
-                        'rule' => ['minLength', 3],
-                        'message' => 'Please select at least year of birth.',
-                    ]
-                ]);
+            ->scalar('year_of_birth')
+            ->allowEmpty('year_of_birth')
+            ->add('year_of_birth', 'year-range', [
+                'rule' => function ($value, $context) { 
+                    return (($value > 0 && $value < 140));
+                }, 'message' => 'Year at onset must be between 1 and 140']);
+            
+        $validator
+            ->allowEmpty('month_of_birth')
+            ->add('month_of_birth', 'month-range', [
+                'rule' => function ($value, $context) {
+                    return $value > 0 && $value < 1280;
+                }, 'message' => 'Months at onset must be between than 1 and 1280']);
+
+        $validator
+            ->allowEmpty('day_of_birth')
+            ->add('day_of_birth', 'days-range', [
+                'rule' => function ($value, $context) {
+                    return $value > 0 && $value < 613200;
+            }, 'message' => 'Days at onset must be between 1 and 613200']);
+
+        //date of birth or onset
+        $validator
+            ->allowEmpty('date_of_birth')
+            ->add('date_of_birth', 'dob-or-door', [
+                'rule' => function ($value, $context) {                    
+                    $dob = ($value == '--') ? null : $value;
+                    if(!$dob && empty($context['data']['year_of_birth'])) return false;
+                    if($dob && !empty($context['data']['year_of_birth'])) return false;
+                    return true;
+            }, 'message' => 'Date of birth OR age at onset required'
+            ])
+            //date of birth: year of birth required
+            ->add('date_of_birth', 'dob-select-year', [
+               'rule' => function ($value, $context) {          
+                $dob = (($value)) ?? '--';
+                $a = explode('-', $dob);
+                if($value != '--')
+                    if($a[2] < (date('Y')-120) || $a[2] > date('Y')) return false;
+                return true;
+            }, 'message' => 'Year of birth required']);
+
+        //date of onset of reaction: year of reaction required
+        $validator
+            ->add('date_of_onset_of_reaction', 'door-select-year', [
+                'rule' => function ($value, $context) {
+                $door = (($value)) ?? '--';
+                $a = explode('-', $door);
+                if ($a[2] > (date('Y')-120) && $a[2] <= date('Y')) return true;
+                return false;
+            }, 'message' => 'Year of onset of reaction required']);
+        //date of birth less than date of onset of reaction
+        $validator->add('date_of_birth', 'dob-less-door', [
+            'rule' => function ($value, $context) {
+                //Normalize dob and door
+                $dob = (($value)) ?? '--';
+                $a = explode('-', $dob);
+                $a[0] = (empty($a[0])) ? '01' : $a[0]; 
+                $a[1] = (empty($a[1])) ? '01' : $a[1]; 
+                $dob = implode('-', $a); 
+
+                $door = (($context['data']['date_of_onset_of_reaction'])) ?? '--';
+                $b = explode('-', $door);
+                $b[0] = (empty($b[0])) ? '01' : $b[0]; 
+                $b[1] = (empty($b[1])) ? '01' : $b[1];
+                $door = implode('-', $b); 
+
+                return strtotime($dob) <= strtotime($door);
+
+            }, 'message' => 'Date of birth must less than or equal to date of onset of reaction'
+        ]);
+        //date of birth less than drug start dates
+        $validator->add('date_of_birth', 'dob-less-drug-dates', [
+            'rule' => function ($value, $context) {
+                //Normalize dob and door
+                $dob = (($value)) ?? '--';
+                $a = explode('-', $dob);
+                $a[0] = (empty($a[0])) ? '01' : $a[0]; 
+                $a[1] = (empty($a[1])) ? '01' : $a[1]; 
+                $dob = implode('-', $a); 
+
+                if (isset($context['data']['sadr_list_of_drugs'])) {
+                    foreach ($context['data']['sadr_list_of_drugs'] as $val){
+                        if (strtotime($dob) > strtotime($val['start_date'])) return false;
+                    }
+                }
+                
+                return true;
+
+            }, 'message' => 'Date of birth must less than drug start date'
+        ]);
+        //date of onset of reaction must be less than reaction end date
+        $validator->add('date_of_onset_of_reaction', 'door-less-doer', [
+            'rule' => function ($value, $context) {
+                //Normalize dob and door
+                if(isset($context['data']['date_of_end_of_reaction']) &&
+                   $context['data']['date_of_end_of_reaction'] != '--' &&
+                   !empty($context['data']['date_of_end_of_reaction'])) {                    
+                    $doer = (($context['data']['date_of_end_of_reaction'])) ?? '--';
+                    $a = explode('-', $doer);
+                    $a[0] = (empty($a[0])) ? '01' : $a[0]; 
+                    $a[1] = (empty($a[1])) ? '01' : $a[1]; 
+                    $a[2] = (empty($a[2])) ? date('Y') : $a[2]; 
+                    $doer = implode('-', $a); 
+
+                    $door = (($value)) ?? '--';
+                    $b = explode('-', $door);
+                    $b[0] = (empty($b[0])) ? '01' : $b[0]; 
+                    $b[1] = (empty($b[1])) ? '01' : $b[1];
+                    $door = implode('-', $b); 
+                    // debug($door);
+                    // debug($doer);
+                    return strtotime($door) <= strtotime($doer);
+                }
+                return true;
+
+            }, 'message' => 'Date of onset of reaction must less than or equal to date of end of reaction'
+        ]);
+
 
         $validator
             ->scalar('gender')
-            ->notEmpty('gender');
-
-        // $validator
-        //     ->scalar('date_of_onset_of_reaction')
-        //     ->notEmpty('date_of_onset_of_reaction')
-        //     ->add('date_of_onset_of_reaction', [
-        //             'length' => [
-        //                 'rule' => ['minLength', 3],
-        //                 'message' => 'Please select date of onset of the reaction.',
-        //             ]
-        //         ]);
+            ->notEmpty('gender', ['message' => 'Gender required!']);
 
         $validator
             ->scalar('description_of_reaction')
-            ->notEmpty('description_of_reaction');
+            ->notEmpty('description_of_reaction', ['message' => 'Description of reaction required']);
 
         $validator
             ->scalar('severity')
-            ->notEmpty('severity');
+            ->notEmpty('severity', ['message' => 'Severity required!']);
+            
         $validator
             ->scalar('outcome')
-            ->notEmpty('outcome');
+            ->notEmpty('outcome', ['message' => 'Outcome required!']);
+
+        $validator
+            ->scalar('action_taken')
+            ->notEmpty('action_taken', ['message' => 'Action taken required!']);
 
         return $validator;
     }

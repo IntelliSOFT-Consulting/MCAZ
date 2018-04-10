@@ -36,14 +36,6 @@ class AefisController extends AppController
                 if (isset($this->request->data['date_of_birth'])) {
                     $this->request->data['date_of_birth'] = implode('-', $this->request->data['date_of_birth']);
                 } 
-                //date_of_onset_of_reaction
-                if (isset($this->request->data['date_of_onset_of_reaction'])) {
-                    $this->request->data['date_of_onset_of_reaction'] = implode('-', $this->request->data['date_of_onset_of_reaction']);
-                }
-                //date_of_end_of_reaction
-                if (isset($this->request->data['date_of_end_of_reaction'])) {
-                    $this->request->data['date_of_end_of_reaction'] = implode('-', $this->request->data['date_of_end_of_reaction']);
-                }
             }
         }
     }
@@ -379,12 +371,17 @@ class AefisController extends AppController
         }
 
         //format dates
-        if (!empty($aefi->date_of_birth)) {
+        /*if (!empty($aefi->date_of_birth)) {
             if(empty($aefi->date_of_birth)) $aefi->date_of_birth = '--';
             $a = explode('-', $aefi->date_of_birth);
             $aefi->date_of_birth = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
-        }
-
+        }*/
+        if (isset($this->request->data['date_of_birth'])) {
+            if(!is_array($this->request->data['date_of_birth'])) {
+                $dob = explode('-', ($this->request->data['date_of_birth']) ?? '--');
+                $this->request->data['date_of_birth'] =  array('day'=> $dob[0],'month'=> $dob[1],'year'=> $dob[2]);
+            } 
+        } 
         $designations = $this->Aefis->Designations->find('list',array('order'=>'Designations.name ASC'));
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
         $this->set(compact('aefi', 'designations', 'provinces'));
