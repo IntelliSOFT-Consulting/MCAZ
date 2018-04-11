@@ -42,11 +42,11 @@ class Sadr extends Entity
         '*' => true,
     ];
 
-    protected function _getDateOfBirth($dob)
+/*    protected function _getDateOfBirth($dob)
     {  
         $a = explode('-', (empty($dob) ? '--' : $dob));
         return array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
-    }
+    }*/
 
     /*protected function _setDateOfBirth($dob)
     {

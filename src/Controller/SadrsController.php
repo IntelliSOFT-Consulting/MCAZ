@@ -497,6 +497,7 @@ class SadrsController extends AppController
             // debug($this->request->data);
             if ($sadr->submitted == 1) {
               //save changes button
+                // debug($sadr); return;
               if ($this->Sadrs->save($sadr, ['validate' => false])) {
                 $this->Flash->success(__('The changes to the Report  have been saved.'));
                 return $this->redirect(['action' => 'edit', $sadr->id]);
