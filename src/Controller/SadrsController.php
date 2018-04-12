@@ -437,36 +437,24 @@ class SadrsController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    private function format_dates($sadr) {
+     private function format_dates($sadr) {
         //format dates
-        if (isset($this->request->data['date_of_birth'])) {
-            if(!is_array($this->request->data['date_of_birth'])) {
-                $dob = explode('-', ($this->request->data['date_of_birth']) ?? '--');
-                $this->request->data['date_of_birth'] =  array('day'=> $dob[0],'month'=> $dob[1],'year'=> $dob[2]);
-            } 
-        } /*else {
-            //get from entity if available else instantiate to null
-            if($sadr->date_of_birth){
-                $dob = explode('-', ($sadr->date_of_birth) ?? '--');
-                $this->request->data['date_of_birth'] =  array('day'=> $dob[0],'month'=> $dob[1],'year'=> $dob[2]);
-            } else {
-                $this->request->data['date_of_birth'] = ['day' => null, 'month' => null, 'year' => null];
-            }
-        }*/
-        //date_of_onset_of_reaction
-        if (isset($this->request->data['date_of_onset_of_reaction'])) {
-            if(!is_array($this->request->data['date_of_onset_of_reaction'])) {
-                $dob = explode('-', ($this->request->data['date_of_onset_of_reaction']) ?? '--');
-                $this->request->data['date_of_onset_of_reaction'] =  array('day'=> $dob[0],'month'=> $dob[1],'year'=> $dob[2]);
-            } 
+        if (!empty($sadr->date_of_birth)) {
+            if(empty($sadr->date_of_birth)) $sadr->date_of_birth = '--';
+            $a = explode('-', $sadr->date_of_birth);
+            $sadr->date_of_birth = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
         } 
-        //date_of_end_of_reaction
-        if (isset($this->request->data['date_of_end_of_reaction'])) {
-            if(!is_array($this->request->data['date_of_end_of_reaction'])) {
-                $dob = explode('-', ($this->request->data['date_of_end_of_reaction']) ?? '--');
-                $this->request->data['date_of_end_of_reaction'] =  array('day'=> $dob[0],'month'=> $dob[1],'year'=> $dob[2]);
-            } 
-        } 
+        if (!empty($sadr->date_of_onset_of_reaction)) {
+            if(empty($sadr->date_of_onset_of_reaction)) $sadr->date_of_onset_of_reaction = '--';
+            $a = explode('-', $sadr->date_of_onset_of_reaction);
+            $sadr->date_of_onset_of_reaction = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
+        }
+        if (!empty($sadr->date_of_end_of_reaction)) {
+            if(empty($sadr->date_of_end_of_reaction)) $sadr->date_of_end_of_reaction = '--';
+            $a = explode('-', $sadr->date_of_end_of_reaction);
+            $sadr->date_of_end_of_reaction = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
+        }        
+        return $sadr;
     }
 
     public function edit($id = null)
@@ -568,7 +556,9 @@ class SadrsController extends AppController
 
         }
         
-        $this->format_dates($sadr);
+        $errors = $sadr->getErrors();
+        $sadr = $this->format_dates($sadr);
+        $sadr->setErrors($errors);
 
         $designations = $this->Sadrs->Designations->find('list', array('order'=>'Designations.name ASC'));
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);

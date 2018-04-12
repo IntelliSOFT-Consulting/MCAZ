@@ -6,7 +6,7 @@ $(function() {
 
     //console.log("well and truely started");
     //$( "#sadr-list-of-drugs-0-start-date" ).datepicker();
-    //Hapa Kazi tu
+    /*/Hapa Kazi tu
     var dates = $( "#sadr-list-of-drugs-0-start-date, #sadr-list-of-drugs-0-stop-date" ).datepicker({
       minDate:"-100Y", 
       maxDate:"-0D", 
@@ -25,7 +25,7 @@ $(function() {
             selectedDate, instance.settings );
         dates.not( this ).datepicker( "option", option, date );
       }
-    }); 
+    });*/ 
     
     reloadStuff();
     function reloadStuff(){

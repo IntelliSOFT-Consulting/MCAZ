@@ -279,11 +279,13 @@ class AdrsController extends AppController
      */
     private function format_dates($adr) {
         //format dates
+        $errors = $adr->getErrors();
         if (!empty($adr->date_of_birth)) {
             if(empty($adr->date_of_birth)) $adr->date_of_birth = '--';
             $a = explode('-', $adr->date_of_birth);
             $adr->date_of_birth = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
         }     
+        $adr->setErrors($errors);
         return $adr;
     }
 
@@ -381,12 +383,7 @@ class AdrsController extends AppController
         }
         
 
-        if (isset($this->request->data['date_of_birth'])) {
-            if(!is_array($this->request->data['date_of_birth'])) {
-                $dob = explode('-', ($this->request->data['date_of_birth']) ?? '--');
-                $this->request->data['date_of_birth'] =  array('day'=> $dob[0],'month'=> $dob[1],'year'=> $dob[2]);
-            } 
-        } 
+        $adr = $this->format_dates($adr);
 
         $users = $this->Adrs->Users->find('list', ['limit' => 200]);
         $designations = $this->Adrs->Designations->find('list',array('order'=>'Designations.name ASC'));

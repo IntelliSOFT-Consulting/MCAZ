@@ -370,18 +370,16 @@ class AefisController extends AppController
 
         }
 
+
+        $errors = $aefi->getErrors();
         //format dates
-        /*if (!empty($aefi->date_of_birth)) {
+        if (!empty($aefi->date_of_birth)) {
             if(empty($aefi->date_of_birth)) $aefi->date_of_birth = '--';
             $a = explode('-', $aefi->date_of_birth);
             $aefi->date_of_birth = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
-        }*/
-        if (isset($this->request->data['date_of_birth'])) {
-            if(!is_array($this->request->data['date_of_birth'])) {
-                $dob = explode('-', ($this->request->data['date_of_birth']) ?? '--');
-                $this->request->data['date_of_birth'] =  array('day'=> $dob[0],'month'=> $dob[1],'year'=> $dob[2]);
-            } 
-        } 
+        }
+        $aefi->setErrors($errors);
+
         $designations = $this->Aefis->Designations->find('list',array('order'=>'Designations.name ASC'));
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
         $this->set(compact('aefi', 'designations', 'provinces'));

@@ -9,7 +9,7 @@
 <div class="well">
   <div class="row">
     <div class="col-md-3 text-center">
-      <button name="submitted" value="2" id="aefiSaveChanges" class="btn btn-primary active" type="submit" formnovalidate="formnovalidate">
+      <button name="submitted" value="1" id="aefiSaveChanges" class="btn btn-primary active" type="submit" formnovalidate="formnovalidate">
         <span class="fa fa-edit" aria-hidden="true"></span> Save changes
       </button>
     </div>
