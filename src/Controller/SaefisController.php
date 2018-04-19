@@ -227,7 +227,7 @@ class SaefisController extends AppController
      */
     protected function _fileUploads($saefi) {
         // attachments
-        if (!empty($this->request->data['attachments'][0]['file'])) {
+        if (!isset($this->request->data['attachments'][0]['file'])) {
           for ($i = 0; $i <= count($saefi->attachments)-1; $i++) { 
             $saefi->attachments[$i]->model = 'Applications';
             $saefi->attachments[$i]->category = 'attachments';
@@ -235,7 +235,7 @@ class SaefisController extends AppController
         }
 
         // reports
-        if (!empty($this->request->data['reports'][0]['file'])) {
+        if (!isset($this->request->data['reports'][0]['file'])) {
           for ($i = 0; $i <= count($saefi->reports)-1; $i++) { 
             $saefi->reports[$i]->model = 'Saefis';
             $saefi->reports[$i]->category = 'reports';
