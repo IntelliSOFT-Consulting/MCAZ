@@ -15,7 +15,7 @@ class WhoDrugsController extends AppController
 
     public function initialize() {
        parent::initialize();
-       $this->Auth->allow(['index', 'drugName']);       
+       $this->Auth->allow(['drugName']);       
     }
     
     public function drugName($query = null) {

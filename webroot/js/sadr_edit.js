@@ -1,5 +1,46 @@
 $(document).ready(function() {
-        
+    /*var Textarea = Textcomplete.editors.Textarea;
+    var textareaElement = document.getElementById('description-of-reaction')
+    console.log(textareaElement);
+    var editor = new Textarea(textareaElement);
+    var textcomplete = new Textcomplete(editor, {
+      dropdown: {
+        maxCount: Infinity
+      }
+    })
+    textcomplete.register([{
+      // Emoji strategy
+      match: /(^|\s):(\w+)$/,
+      search: function (term, callback) {
+        callback(emojis.filter(emoji => { return emoji.startsWith(term); }));
+      },
+      replace: function (value) {
+        return '$1:' + value + ': ';
+      }
+    }]);*/
+
+    var cache1 = {},    lastXhr1;
+    $( "#description-of-reaction" ).autocomplete({
+        source: function( request, response ) {
+            var term = request.term;
+            if ( term in cache1 ) {
+                response( cache1[ term ] );
+                return;
+            }
+
+            lastXhr1 = $.getJSON( "/meddras/terminology.json", request, function( data, status, xhr ) {
+                cache1[ term ] = data;
+                if ( xhr === lastXhr1 ) {
+                    response( data );
+                }
+            });
+        },
+        select: function( event, ui ) {
+            $( "#description-of-reaction" ).val( ui.item.label );
+            return false;
+        }
+    });
+
     var cache2 = {},    lastXhr;
     $( "#name-of-institution" ).autocomplete({
         source: function( request, response ) {

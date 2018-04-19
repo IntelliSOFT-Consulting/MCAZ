@@ -5,9 +5,39 @@
  */
 // debug($sadr);
 // debug($this->request->data);
+  // $this->Html->script('comments/suggest/jquery.a-tools-1.4.1', ['block' => true]);
+  // $this->Html->script('comments/suggest/jquery.asuggest', ['block' => true]);
+  $this->Html->script('comments/textcomplete/dist/textcomplete', ['block' => true]);
   $this->Html->script('sadr_edit', ['block' => true]);
   $editable = $this->fetch('editable');
 ?>
+<script>
+  var emojis = {}
+  /**
+   * @callback GitHubEmojiAPICallback
+   * @param {Object} resp
+   * @prop {Object} resp.meta
+   * @prop {Object} resp.data
+   * @see https://developer.github.com/v3/emojis/
+   * @example
+   * callback({
+   *   "meta": {
+   *     "Content-Type": "application/javascript; charset=utf-8",
+   *     ...
+   *   },
+   *   "data": {
+   *     "+1": "https://assets-cdn.github.com/images/icons/emoji/unicode/1f44d.png?v5",
+   *     ...
+   *   }
+   * })
+   */
+  var GitHubEmojiAPICallback = function(resp) {
+      window.emojis = resp.data;
+  };
+
+  </script>
+  <script src="https://api.github.com/emojis?callback=GitHubEmojiAPICallback"></script>
+    
 <script type="text/javascript">
 $(document).ready(function(){
     <?php if($sadr->severity == 'No'){ ?> 

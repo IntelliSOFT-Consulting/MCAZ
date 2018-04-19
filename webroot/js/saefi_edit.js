@@ -1,4 +1,27 @@
 $(function() {
+
+    var cache1 = {},    lastXhr1;
+    $( "#signs-symptoms" ).autocomplete({
+        source: function( request, response ) {
+            var term = request.term;
+            if ( term in cache1 ) {
+                response( cache1[ term ] );
+                return;
+            }
+
+            lastXhr1 = $.getJSON( "/meddras/terminology.json", request, function( data, status, xhr ) {
+                cache1[ term ] = data;
+                if ( xhr === lastXhr1 ) {
+                    response( data );
+                }
+            });
+        },
+        select: function( event, ui ) {
+            $( "#signs-symptoms" ).val( ui.item.label );
+            return false;
+        }
+    });
+
     $('#autopsy-done-date, #died-date, #symptom-date, #person-date').datetimepicker({
         //minDate:"-100Y", 
         maxDate:"0",

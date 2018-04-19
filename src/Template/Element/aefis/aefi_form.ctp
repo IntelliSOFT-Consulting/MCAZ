@@ -188,7 +188,7 @@ $editable = $this->fetch('editable');
                     'templates' => ($editable) ? [ 
                       'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
                       'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
-                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="7" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',] : 'view_form_text']);
+                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="3" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',] : 'view_form_text']);
 
                   echo $this->Form->control('treatment_provided', ['type' => 'radio', 
                      'label' => '<b>Treatment provided</b>', 'escape' => false,

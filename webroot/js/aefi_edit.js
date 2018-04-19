@@ -1,4 +1,27 @@
 $(function() {
+
+    var cache1 = {},    lastXhr1;
+    $( "#description-of-reaction" ).autocomplete({
+        source: function( request, response ) {
+            var term = request.term;
+            if ( term in cache1 ) {
+                response( cache1[ term ] );
+                return;
+            }
+
+            lastXhr1 = $.getJSON( "/meddras/terminology.json", request, function( data, status, xhr ) {
+                cache1[ term ] = data;
+                if ( xhr === lastXhr1 ) {
+                    response( data );
+                }
+            });
+        },
+        select: function( event, ui ) {
+            $( "#description-of-reaction" ).val( ui.item.label );
+            return false;
+        }
+    });
+    
     $('#aefi-date').datetimepicker({
         format: 'd-m-Y H:i'
       });
