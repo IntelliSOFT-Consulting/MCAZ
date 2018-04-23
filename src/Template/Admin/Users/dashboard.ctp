@@ -73,6 +73,16 @@
             echo $this->Html->link('<i class="fa fa-hospital-o" aria-hidden="true"></i> &nbsp; Facilities', ['controller' => 'Facilities', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
           ?>
         </li>
+        <li class="list-group-item">
+          <?php
+            echo $this->Html->link('<i class="fa fa-stethoscope" aria-hidden="true"></i> &nbsp; WHO Drugs', ['controller' => 'WhoDrugs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
+          ?>
+        </li>
+        <li class="list-group-item">
+          <?php
+            echo $this->Html->link('<i class="fa fa-medkit" aria-hidden="true"></i> &nbsp; MedDRA Low Level Terms (LLTs)', ['controller' => 'Meddras', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
+          ?>
+        </li>
       </ul>
     </div>
   </div>

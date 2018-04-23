@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Controller\AppController;
 
@@ -15,33 +15,28 @@ class MeddrasController extends AppController
 
     public function initialize() {
        parent::initialize();
-       $this->Auth->allow(['terminology']);       
+       $this->loadComponent('Search.Prg', ['actions' => ['index']]);
     }
     
-    public function terminology($query = null) {
-        $llts = $this->Meddras->find('all', ['fields' => ['terminology']])->distinct()
-                ->where(['terminology LIKE' => '%'.$this->request->getQuery('term').'%'])
-                ->limit(10); 
-        
-        $codes = array();
-        foreach ($llts as $key => $value) {
-            $codes[] = array('value' => $value['terminology'], 'label' => $value['terminology']);
-        }
-        $this->set('codes', $codes);
-        $this->set('_serialize', 'codes');
-    }
-
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|void
-     */
     public function index()
     {
-        $meddras = $this->paginate($this->Meddras);
+        $this->paginate = [
+            'contain' => [],
+            'fields' => ['id', 'terminology']
+        ];
 
-        $this->set(compact('meddras'));
-        $this->set('_serialize', ['meddras']);
+        $query = $this->Meddras
+            ->find('search', ['search' => $this->request->query]);
+
+        $this->set('meddras', $this->paginate($query));
+
+        if ($this->request->params['_ext'] === 'csv') {
+            $_serialize = 'query';
+            $_header = ['id', 'terminology'];
+            $_extract = ['id', 'terminology'];
+
+            $this->set(compact('query', '_serialize', '_header', '_extract'));
+        }
     }
 
     /**

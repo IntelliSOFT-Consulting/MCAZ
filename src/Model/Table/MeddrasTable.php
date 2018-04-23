@@ -37,6 +37,16 @@ class MeddrasTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Search.Search');
+    }
+
+    public function searchManager()
+    {
+        $searchManager = $this->behaviors()->Search->searchManager();
+        $searchManager
+            ->like('name', ['field' => ['terminology']]);
+
+        return $searchManager;
     }
 
     /**

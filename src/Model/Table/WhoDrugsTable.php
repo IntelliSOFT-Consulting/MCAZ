@@ -37,6 +37,20 @@ class WhoDrugsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Search.Search');
+    }
+
+
+    /**
+    * @return \Search\Manager
+    */
+    public function searchManager()
+    {
+        $searchManager = $this->behaviors()->Search->searchManager();
+        $searchManager
+            ->like('name', ['field' => ['drug_name']]);
+
+        return $searchManager;
     }
 
     /**
