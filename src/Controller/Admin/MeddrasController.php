@@ -61,6 +61,50 @@ class MeddrasController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
+
+    public function import()
+    {
+        if ($this->request->is('post')) {
+            //confirm file is .csv and correct format
+            //insert records without checking duplicates
+            //run query to delete duplicates on drug names
+            
+            $this->loadModel('Imports');
+            $entity = $this->Meddras;
+            
+            //Check if file has been loaded before 
+            $import = $this->Imports->findByFilename($this->request->data['terminology_files']['name']);
+            if (!$import->isEmpty()) {
+                $import_dates = implode(', ', Hash::extract($import->toArray(), '{n}.created'));
+                $this->Flash->warning('The file <b>'.$this->request->data['terminology_files']['name'].'</b> has been imported before on '.$import_dates.'. If the file is different, rename the file (e.g. filename_v2) and import it again.', ['escape' => false]);
+                return $this->redirect(['action' => 'imports']);
+            } else {
+                $datum = $this->Imports->newEntity(['filename' => $this->request->data['terminology_files']['name']]);
+                $this->Imports->save($datum);
+            }
+            //
+            //debug($this->request->data);
+            // $file = new File($this->request->data['terminology_files']['tmp_name']);
+            $handle = fopen($this->request->data['terminology_files']['tmp_name'], "r");
+            $data = [];
+            while (($line = fgetcsv($handle)) !== FALSE) {
+                $data[] = ['terminology' => $line[0]];
+            }
+            
+            $entities = $this->Meddras->newEntities($data);
+            if($this->Meddras->saveMany($entities)) {                
+                $this->Flash->success('Inserted '.count($data).' medDRA terminologies');
+                // debug($result);            
+
+                $this->loadModel('Queue.QueuedJobs');    
+                $this->QueuedJobs->createJob('ImportTerminologies');
+            } else {
+                $this->Flash->error(__('The drug(s) could not be imported. Please, try again.'));
+            }
+            
+        } 
+    }
+
     public function add()
     {
         $meddra = $this->Meddras->newEntity();

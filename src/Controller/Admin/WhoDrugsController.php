@@ -5,7 +5,6 @@ use App\Controller\AppController;
 use Cake\Validation\Validation;
 use Cake\Event\Event;
 use Cake\Log\Log;
-use Cake\Auth\DefaultPasswordHasher;
 
 /**
  * WhoDrugs Controller
@@ -71,6 +70,49 @@ class WhoDrugsController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
+    public function import()
+    {
+        if ($this->request->is('post')) {
+            //confirm file is .csv and correct format
+            //insert records without checking duplicates
+            //run query to delete duplicates on drug names
+            
+            $this->loadModel('Imports');
+            $entity = $this->WhoDrugs;
+            
+            //Check if file has been loaded before 
+            $import = $this->Imports->findByFilename($this->request->data['drug_files']['name']);
+            if (!$import->isEmpty()) {
+                $import_dates = implode(', ', Hash::extract($import->toArray(), '{n}.created'));
+                $this->Flash->warning('The file <b>'.$this->request->data['drug_files']['name'].'</b> has been imported before on '.$import_dates.'. If the file is different, rename the file (e.g. filename_v2) and import it again.', ['escape' => false]);
+                return $this->redirect(['action' => 'imports']);
+            } else {
+                $datum = $this->Imports->newEntity(['filename' => $this->request->data['drug_files']['name']]);
+                $this->Imports->save($datum);
+            }
+            //
+            //debug($this->request->data);
+            // $file = new File($this->request->data['drug_files']['tmp_name']);
+            $handle = fopen($this->request->data['drug_files']['tmp_name'], "r");
+            $data = [];
+            while (($line = fgetcsv($handle)) !== FALSE) {
+                $data[] = ['drug_name' => $line[0]];
+            }
+            
+            $entities = $this->WhoDrugs->newEntities($data);
+            if($this->WhoDrugs->saveMany($entities)) {                
+                $this->Flash->success('Inserted '.count($data).' drugs');
+                // debug($result);            
+
+                $this->loadModel('Queue.QueuedJobs');    
+                $this->QueuedJobs->createJob('ImportDrugs');
+            } else {
+                $this->Flash->error(__('The drug(s) could not be imported. Please, try again.'));
+            }
+            
+        } 
+    }
+
     public function add()
     {
         $whoDrug = $this->WhoDrugs->newEntity();

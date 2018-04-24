@@ -93,8 +93,8 @@
                 <td><?= $meddra->id ?></td>
                 <td><?= h($meddra->terminology) ?></td>
                 <td>
-                    <?= $this->Html->link('<span class="label label-primary">View</span>', ['controller' => 'WhoDrugs', 'action' => 'view', $meddra->id, 'prefix' => $prefix], array('escape' => false));  ?>
-                    <?= $this->Html->link('<span class="label label-success">Edit</span>', ['controller' => 'WhoDrugs', 'action' => 'edit', $meddra->id, 'prefix' => $prefix], array('escape' => false));  ?>          
+                    <?= $this->Html->link('<span class="label label-primary">View</span>', ['controller' => 'Meddras', 'action' => 'view', $meddra->id, 'prefix' => $prefix], array('escape' => false));  ?>
+                    <?= $this->Html->link('<span class="label label-success">Edit</span>', ['controller' => 'Meddras', 'action' => 'edit', $meddra->id, 'prefix' => $prefix], array('escape' => false));  ?>          
 
                 </td>
             </tr>

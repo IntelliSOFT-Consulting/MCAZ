@@ -27,7 +27,7 @@
      <hr>
       <div class="form-group"> 
         <div class="col-sm-offset-2 col-sm-10"> 
-          <button type="submit" class="btn btn-primary active" id="login"><i class="fa fa-save" aria-hidden="true"></i> Add</button>
+          <button type="submit" class="btn btn-success active" id="login"><i class="fa fa-save" aria-hidden="true"></i> Update</button>
         </div> 
     </div>
      <?= $this->Form->end() ?>

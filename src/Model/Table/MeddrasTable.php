@@ -70,10 +70,10 @@ class MeddrasTable extends Table
             ->scalar('description')
             ->allowEmpty('description');
 
-        $validator
+        /*$validator
             ->dateTime('deleted')
             ->requirePresence('deleted', 'create')
-            ->notEmpty('deleted');
+            ->notEmpty('deleted');*/
 
         return $validator;
     }

@@ -253,11 +253,23 @@
           <?php
             echo $this->Html->link('<i class="fa fa-stethoscope" aria-hidden="true"></i> &nbsp; WHO Drugs', ['controller' => 'WhoDrugs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
           ?>
+          <?php if ($this->request->params['controller'] === 'WhoDrugs') { ?>
+          <ul class="nav van-<?= $prefix ?>">
+            <li class="<?= ($this->request->params['action'] == 'import') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Import Drugs', ['controller' => 'WhoDrugs', 'action' => 'import', 'prefix' => $prefix], array('escape' => false)); ?> 
+            </li>
+          </ul>
+        <?php } ?>
     </li>
     <li class="<?=  ($this->request->params['controller'] == 'Meddras') ? 'active' : ''; ?>">
           <?php
             echo $this->Html->link('<i class="fa fa-medkit" aria-hidden="true"></i> &nbsp; MedDRA LLTs', ['controller' => 'Meddras', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
           ?>
+          <?php if ($this->request->params['controller'] === 'Meddras') { ?>
+          <ul class="nav van-<?= $prefix ?>">
+            <li class="<?= ($this->request->params['action'] == 'import') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Import Drugs', ['controller' => 'Meddras', 'action' => 'import', 'prefix' => $prefix], array('escape' => false)); ?> 
+            </li>
+          </ul>
+        <?php } ?>
     </li>
     <?php }; ?>
     <li class="<?=  ($this->request->params['controller'] == 'Feedbacks') ? 'active' : ''; ?>">
