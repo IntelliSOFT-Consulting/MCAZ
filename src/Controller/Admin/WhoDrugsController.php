@@ -5,6 +5,7 @@ use App\Controller\AppController;
 use Cake\Validation\Validation;
 use Cake\Event\Event;
 use Cake\Log\Log;
+use Cake\Utility\Hash;
 
 /**
  * WhoDrugs Controller
@@ -76,6 +77,11 @@ class WhoDrugsController extends AppController
             //confirm file is .csv and correct format
             //insert records without checking duplicates
             //run query to delete duplicates on drug names
+
+            if ($this->request->data['drug_files']['type'] !== 'text/csv') {
+                $this->Flash->error('Only csv files with the drug name as the first column allowed');
+                return $this->redirect(['action' => 'import']);
+            }
             
             $this->loadModel('Imports');
             $entity = $this->WhoDrugs;
@@ -85,13 +91,13 @@ class WhoDrugsController extends AppController
             if (!$import->isEmpty()) {
                 $import_dates = implode(', ', Hash::extract($import->toArray(), '{n}.created'));
                 $this->Flash->warning('The file <b>'.$this->request->data['drug_files']['name'].'</b> has been imported before on '.$import_dates.'. If the file is different, rename the file (e.g. filename_v2) and import it again.', ['escape' => false]);
-                return $this->redirect(['action' => 'imports']);
+                return $this->redirect(['action' => 'import']);
             } else {
                 $datum = $this->Imports->newEntity(['filename' => $this->request->data['drug_files']['name']]);
                 $this->Imports->save($datum);
             }
             //
-            //debug($this->request->data);
+            // debug($this->request->data); return;
             // $file = new File($this->request->data['drug_files']['tmp_name']);
             $handle = fopen($this->request->data['drug_files']['tmp_name'], "r");
             $data = [];

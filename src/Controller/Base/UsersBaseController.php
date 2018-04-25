@@ -106,6 +106,11 @@ class UsersBaseController extends AppController
     public function imports() {
         if ($this->request->is('post')) {
 
+            if ($this->request->data['sadr_files']['type'] !== 'text/xml') {
+                $this->Flash->error('Only xml files in the MCAZ format allowed');
+                return $this->redirect(['action' => 'imports']);
+            }
+
             $this->loadModel('Sadrs');
             $this->loadModel('Adrs');
             $this->loadModel('Aefis');
@@ -147,6 +152,12 @@ class UsersBaseController extends AppController
             $xmlArray = Xml::toArray(Xml::build($xmlString, array('return' => 'domdocument')));
             // debug($xmlArray);
             // return;
+
+            if(!isset($xmlArray['response'])) {                
+                $this->Flash->error('The file is not a recognized MCAZ format.');
+                return $this->redirect(['action' => 'imports']);
+            }
+
             if(array_key_exists(0, $xmlArray['response'][$this->request->getData('submitted')])) {
                 // debug("array key exists");
                 $retVal = $xmlArray['response'][$this->request->getData('submitted')];
@@ -164,7 +175,7 @@ class UsersBaseController extends AppController
                     $this->_attachments();
                     // debug($sadrArr);
                     // return;
-                    $sadr = $entity->patchEntity($sadr, $sadrArr, ['validate' => false]);
+                    $sadr = $entity->patchEntity($sadr, $sadrArr, ['validate' => true]);
                     // debug($sadr->errors());
                     // return;
                     $sadr->user_id = $this->Auth->user('id');

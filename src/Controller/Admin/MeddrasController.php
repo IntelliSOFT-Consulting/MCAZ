@@ -2,6 +2,7 @@
 namespace App\Controller\Admin;
 
 use App\Controller\AppController;
+use Cake\Utility\Hash;
 
 /**
  * Meddras Controller
@@ -69,6 +70,11 @@ class MeddrasController extends AppController
             //insert records without checking duplicates
             //run query to delete duplicates on drug names
             
+            if ($this->request->data['terminology_files']['type'] !== 'text/csv') {
+                $this->Flash->error('Only csv files with the medDRA LLT as the first column allowed');
+                return $this->redirect(['action' => 'import']);
+            }
+
             $this->loadModel('Imports');
             $entity = $this->Meddras;
             
@@ -77,7 +83,7 @@ class MeddrasController extends AppController
             if (!$import->isEmpty()) {
                 $import_dates = implode(', ', Hash::extract($import->toArray(), '{n}.created'));
                 $this->Flash->warning('The file <b>'.$this->request->data['terminology_files']['name'].'</b> has been imported before on '.$import_dates.'. If the file is different, rename the file (e.g. filename_v2) and import it again.', ['escape' => false]);
-                return $this->redirect(['action' => 'imports']);
+                return $this->redirect(['action' => 'import']);
             } else {
                 $datum = $this->Imports->newEntity(['filename' => $this->request->data['terminology_files']['name']]);
                 $this->Imports->save($datum);

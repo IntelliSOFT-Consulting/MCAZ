@@ -117,7 +117,8 @@ class SadrListOfDrugsController extends AppController
     {
         //TODO: Write code to ensure $this->request->data['sadr_id'] belongs to user and is not submitted and also belongs to sadr being edited
         $this->request->allowMethod(['post', 'delete']);
-        $sadrListOfDrug = $this->SadrListOfDrugs->get($this->request->data['id']);
+        $sadrListOfDrug = $this->SadrListOfDrugs->get($this->request->data['id'], ['contain' => ['Sadrs' => ['fields' => 'user_id']]]);
+        $this->set('_serialize', ['sadrListOfDrug']); return;
         if ($this->SadrListOfDrugs->delete($sadrListOfDrug)) {
             //$this->Flash->success(__('The sadr list of drug has been deleted.'));
             $sadrListOfDrug['message'] = 'success';
