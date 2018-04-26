@@ -5,7 +5,7 @@
 <div class="row">
 <h1 class="page-header"> Import CSV medDRA LLT terminology list</h1> 
 
-<h6> e.g. <small> <br> cough<br> stomach ache<br> </small></h6>
+<h6> Only terminology required e.g. <small> <br> cough<br> stomach ache<br> </small></h6>
 
     <div class="col-sm-12">
       <h4><i class="fa fa-file" aria-hidden="true"></i> Terminology list Import</h4>

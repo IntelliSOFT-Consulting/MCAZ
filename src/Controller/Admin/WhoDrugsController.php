@@ -39,7 +39,6 @@ class WhoDrugsController extends AppController
         $query = $this->WhoDrugs
             ->find('search', ['search' => $this->request->query]);
 
-        $this->set('whoDrugs', $this->paginate($query));
 
         if ($this->request->params['_ext'] === 'csv') {
             $_serialize = 'query';
@@ -48,6 +47,7 @@ class WhoDrugsController extends AppController
 
             $this->set(compact('query', '_serialize', '_header', '_extract'));
         }
+        $this->set('whoDrugs', $this->paginate($query));
     }
     /**
      * View method

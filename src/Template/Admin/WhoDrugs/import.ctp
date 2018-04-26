@@ -5,7 +5,7 @@
 <div class="row">
 <h1 class="page-header"> Import CSV drug list</h1> 
 
-<h6> e.g. <small> <br> panadol<br> lamiduvine<br> </small></h6>
+<h6> Only drug name column required e.g. <small> <br> panadol<br> lamiduvine<br> </small></h6>
 
     <div class="col-sm-12">
       <h4><i class="fa fa-file" aria-hidden="true"></i> WHO Drug list Import</h4>

@@ -116,3 +116,5 @@
 2018-04-24 15:34:21 Info: job GenericEmail, id 108 (pid 12744)
 2018-04-24 15:35:59 Info: job ImportDrugs, id 399 (pid 12801)
 2018-04-24 16:30:03 Info: job ImportTerminologies, id 400 (pid 15506)
+2018-04-26 16:52:59 Info: job GenericEmail, id 402 (pid 9664)
+2018-04-26 16:53:10 Info: job GenericEmail, id 403 (pid 9664)

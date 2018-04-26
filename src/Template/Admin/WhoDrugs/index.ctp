@@ -96,6 +96,10 @@
                     <?= $this->Html->link('<span class="label label-primary">View</span>', ['controller' => 'WhoDrugs', 'action' => 'view', $whoDrug->id, 'prefix' => $prefix], array('escape' => false));  ?>
                     <?= $this->Html->link('<span class="label label-success">Edit</span>', ['controller' => 'WhoDrugs', 'action' => 'edit', $whoDrug->id, 'prefix' => $prefix], array('escape' => false));  ?>          
 
+                    <span class="label label-danger">                     
+                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $whoDrug->id], ['confirm' => __('Are you sure you want to delete # {0}?', $whoDrug->id), 'class' => 'label-link']) ?>
+                    </span>  
+
                 </td>
             </tr>
             <?php endforeach; ?>

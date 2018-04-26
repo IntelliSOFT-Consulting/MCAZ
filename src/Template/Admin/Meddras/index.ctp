@@ -94,7 +94,11 @@
                 <td><?= h($meddra->terminology) ?></td>
                 <td>
                     <?= $this->Html->link('<span class="label label-primary">View</span>', ['controller' => 'Meddras', 'action' => 'view', $meddra->id, 'prefix' => $prefix], array('escape' => false));  ?>
-                    <?= $this->Html->link('<span class="label label-success">Edit</span>', ['controller' => 'Meddras', 'action' => 'edit', $meddra->id, 'prefix' => $prefix], array('escape' => false));  ?>          
+                    <?= $this->Html->link('<span class="label label-success">Edit</span>', ['controller' => 'Meddras', 'action' => 'edit', $meddra->id, 'prefix' => $prefix], array('escape' => false));  ?>   
+
+                    <span class="label label-danger">                     
+                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $meddra->id], ['confirm' => __('Are you sure you want to delete # {0}?', $meddra->id), 'class' => 'label-link']) ?>
+                    </span>        
 
                 </td>
             </tr>
