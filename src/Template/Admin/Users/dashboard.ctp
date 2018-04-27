@@ -73,7 +73,7 @@
             echo $this->Html->link('<i class="fa fa-hospital-o" aria-hidden="true"></i> &nbsp; Facilities', ['controller' => 'Facilities', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
           ?>
         </li>
-        <li class="list-group-item list-group-item-danger">
+        <li class="list-group-item list-group-item-warning">
           <?php
             echo $this->Html->link('<i class="fa fa-stethoscope" aria-hidden="true"></i> &nbsp; WHO Drugs', ['controller' => 'WhoDrugs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
           ?>
@@ -88,7 +88,7 @@
             echo $this->Html->link('<i class="fa fa-medkit" aria-hidden="true"></i> &nbsp; MedDRA Low Level Terms <small class="muted">(LLTs)</small>', ['controller' => 'Meddras', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
           ?>
         </li>
-        <li class="list-group-item list-group-item-warning">
+        <li class="list-group-item list-group-item-info">
           <?php
             echo $this->Html->link('<i class="fa fa-upload" aria-hidden="true"></i> &nbsp; Upload MedDRA Low Level Terms <small class="muted">(LLTs)</small>', ['controller' => 'Meddras', 'action' => 'import', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); 
           ?>

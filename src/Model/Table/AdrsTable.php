@@ -92,6 +92,12 @@ class AdrsTable extends Table
             'dependent' => true,
             'conditions' => array('Attachments.model' => 'Adrs', 'Attachments.category' => 'attachments'),
         ]);
+        $this->hasMany('Reminders', [
+            'className' => 'Reminders',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Reminders.model' => 'Adrs'),
+        ]);
 
         
         $this->hasMany('Reviews', [

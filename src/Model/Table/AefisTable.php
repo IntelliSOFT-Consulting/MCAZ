@@ -101,6 +101,12 @@ class AefisTable extends Table
             'dependent' => true,
             'conditions' => array('Attachments.model' => 'Aefis', 'Attachments.category' => 'attachments'),
         ]);
+        $this->hasMany('Reminders', [
+            'className' => 'Reminders',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Reminders.model' => 'Aefis'),
+        ]);
 
         $this->hasMany('Reviews', [
             'className' => 'Reviews',

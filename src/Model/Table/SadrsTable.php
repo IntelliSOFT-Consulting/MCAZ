@@ -93,6 +93,12 @@ class SadrsTable extends Table
             'dependent' => true,
             'conditions' => array('Attachments.model' => 'Sadrs', 'Attachments.category' => 'attachments'),
         ]);
+        $this->hasMany('Reminders', [
+            'className' => 'Reminders',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Reminders.model' => 'Sadrs'),
+        ]);
         $this->hasMany('Reviews', [
             'className' => 'Reviews',
             'foreignKey' => 'foreign_key',

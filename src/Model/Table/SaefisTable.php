@@ -109,6 +109,12 @@ class SaefisTable extends Table
             'dependent' => true,
             'conditions' => array('Reports.model' => 'Saefis', 'Reports.category' => 'reports'),
         ]);
+        $this->hasMany('Reminders', [
+            'className' => 'Reminders',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Reminders.model' => 'Saefis'),
+        ]);
 
 
         $this->hasMany('Reviews', [

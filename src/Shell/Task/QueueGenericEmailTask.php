@@ -55,6 +55,11 @@ class QueueGenericEmailTask extends QueueTask {
         $file = new File(WWW_ROOT. 'img' . DS . 'html' . DS . 'mcaz_logo.html');
         $data['vars']['mcaz_logo'] = $file->read();
 
+        //add cc if present in data vars
+        if (isset($data['vars']['cc'])) {
+            $this->Email->cc($data['vars']['cc']);
+        }
+
         return (bool)$this->Email->send(Text::insert($message['content'], $data['vars']));
         } else {
                 Log::write('debug', "Null email");
