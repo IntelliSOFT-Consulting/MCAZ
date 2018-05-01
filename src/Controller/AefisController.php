@@ -289,7 +289,8 @@ class AefisController extends AppController
             $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData(), [
                 'validate' => ($this->request->getData('submitted') == 2) ? true : false, 
                 'associated' => [
-                    'AefiListOfVaccines' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ]
+                    'AefiListOfVaccines' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ],
+                    'Attachments' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ]
                 ]
             ]);
             if (!empty($aefi->attachments)) {

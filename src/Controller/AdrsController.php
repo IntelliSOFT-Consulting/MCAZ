@@ -303,7 +303,8 @@ class AdrsController extends AppController
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData(), [
                 'validate' => ($this->request->getData('submitted') == 2) ? true : false, 
                 'associated' => [
-                    'AdrListOfDrugs' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false]
+                    'AdrListOfDrugs' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false],
+                    'Attachments' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ]
                 ]
             ]);
             if (!empty($adr->attachments)) {

@@ -50,8 +50,12 @@
                   <tr>
                     <td><?= $i+1; ?></td>
                     <td><p class="text-info text-left"><?php
-                             echo $this->Form->input('attachments.'.$i.'.id', ['templates' => 'table_form']);
+                          echo $this->Form->input('attachments.'.$i.'.id', ['templates' => 'table_form']);
+                          if (is_array($att[$i]['file'])) {
+                             echo $this->Form->control('attachments.'.$i.'.file', ['label' => false, 'type' => 'file', 'templates' => ($editable) ? 'table_form' : 'view_form_table' ]);
+                          } else {
                              echo $this->Html->link($att[$i]->file, substr($att[$i]->dir, 8) . '/' . $att[$i]->file, ['fullBase' => true]);
+                          }
                         ?></p>
                     </td>
                     <td>

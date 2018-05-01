@@ -258,7 +258,8 @@ class SaefisController extends AppController
             $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData(), [
                 'validate' => ($this->request->getData('submitted') == 2) ? true : false, 
                 'associated' => [
-                    'AefiListOfVaccines' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ]
+                    'AefiListOfVaccines' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ],
+                    'Attachments' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ]
                 ]
             ]);
             $saefi = $this->_fileUploads($saefi);
