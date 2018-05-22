@@ -266,3 +266,5 @@ Plugin::load('CsvView');
 
 Plugin::load('Captcha', ['routes' => true, 'bootstrap' => true]);
 Plugin::load('Duplicatable');
+
+Plugin::load('DatabaseLog', ['routes' => true, 'bootstrap' => true]);

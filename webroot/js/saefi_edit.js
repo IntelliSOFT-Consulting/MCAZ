@@ -1,5 +1,27 @@
 $(function() {
 
+    var cache10 = {},    lastXhr10;
+    $( "#description-of-reaction" ).autocomplete({
+        source: function( request, response ) {
+            var term = request.term;
+            if ( term in cache10 ) {
+                response( cache10[ term ] );
+                return;
+            }
+
+            lastXhr10 = $.getJSON( "/aefis/reports.json", request, function( data, status, xhr ) {
+                cache10[ term ] = data;
+                if ( xhr === lastXhr10 ) {
+                    response( data );
+                }
+            });
+        },
+        select: function( event, ui ) {
+            $( "#description-of-reaction" ).val( ui.item.label );
+            return false;
+        }
+    });
+
     var cache1 = {},    lastXhr1;
     $( "#signs-symptoms" ).autocomplete({
         source: function( request, response ) {

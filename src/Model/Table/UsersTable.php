@@ -57,7 +57,7 @@ class UsersTable extends Table
         $this->addBehavior('Josegonzalez/Upload.Upload', [
             'file' => [],
         ]);
-
+                
         $this->belongsTo('Designations', [
             'foreignKey' => 'designation_id'
         ]);

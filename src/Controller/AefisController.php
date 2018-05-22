@@ -23,6 +23,19 @@ class AefisController extends AppController
        //$this->Auth->allow(['add', 'edit']);     
        $this->loadComponent('Search.Prg', ['actions' => ['index']]);  
     }
+    
+    public function reports($query = null) {
+        $llts = $this->Aefis->find('all', ['fields' => ['reference_number', 'name_of_vaccination_center']])->distinct()
+                ->where(['reference_number LIKE' => '%'.$this->request->getQuery('term').'%'])
+                ->limit(10); 
+        
+        $codes = array();
+        foreach ($llts as $key => $value) {
+            $codes[] = array('value' => $value['reference_number'], 'label' => $value['reference_number']);
+        }
+        $this->set('codes', $codes);
+        $this->set('_serialize', 'codes');
+    }
 
     /**
      * BeforeFilter method
