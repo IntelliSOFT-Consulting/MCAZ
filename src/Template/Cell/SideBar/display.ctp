@@ -94,7 +94,7 @@
      $ncount = isset($ncount) ? '<small class="badge pull-right">'. $ncount .'</small>' : '' ;
   ?>
   <ul class="nav nav-sidebar nav-<?= $prefix ?>">
-    <li class="<?=  ($this->request->params['action'] == 'dashboard') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-home" aria-hidden="true"></i> &nbsp; Overview', ['controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix], array('escape' => false)); ?>      
+    <li class="<?=  ($this->request->params['action'] == 'dashboard') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-home" aria-hidden="true"></i> &nbsp; Overview', ['controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix, 'plugin' => false], array('escape' => false)); ?>      
     </li>
 
         <!-- Manager or evaluator -->
@@ -213,7 +213,7 @@
     </li>
     <?php if( $prefix == 'manager' || $prefix == 'evaluator') { ?>
      <li class="<?=  ($this->request->params['controller'] == 'Users' && $this->request->params['action'] == 'import') ? 'active' : ''; ?>">
-      <?= $this->Html->link('<i class="fa fa-upload" aria-hidden="true"></i> &nbsp; IMPORT', ['controller' => 'Users', 'action' => 'imports', 'prefix' => $prefix], array('escape' => false)); ?>
+      <?= $this->Html->link('<i class="fa fa-upload" aria-hidden="true"></i> &nbsp; IMPORT', ['controller' => 'Users', 'action' => 'imports', 'prefix' => $prefix, 'plugin' => false], array('escape' => false)); ?>
      </li>
     <?php }; ?>
 
@@ -224,7 +224,7 @@
         ?>
         <?php if (($this->request->params['action'] === 'calendar') or in_array('calendar', $this->request->getParam('pass'))) { ?>
             <ul class="nav van-<?= $prefix ?>">
-              <li class="<?= ($this->request->params['controller'] == 'Sites') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Edit page ', ['controller' => 'Sites', 'action' => 'calendar', 'prefix' => $prefix], array('escape' => false)); ?> 
+              <li class="<?= ($this->request->params['controller'] == 'Sites') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Edit page ', ['controller' => 'Sites', 'action' => 'calendar', 'prefix' => $prefix, 'plugin' => false], array('escape' => false)); ?> 
               </li>
             </ul>
         <?php } ?>
@@ -232,41 +232,41 @@
     
     <?php if( $prefix == 'admin') { ?>
      <li class="<?=  ($this->request->params['controller'] == 'Users' && $this->request->params['action'] != 'dashboard') ? 'active' : ''; ?>">
-      <?= $this->Html->link('<i class="fa fa-users" aria-hidden="true"></i> &nbsp; USERS', ['controller' => 'Users', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
+      <?= $this->Html->link('<i class="fa fa-users" aria-hidden="true"></i> &nbsp; USERS', ['controller' => 'Users', 'action' => 'index', 'prefix' => $prefix, 'plugin' => false], array('escape' => false)); ?>
     </li>
     <li class="<?=  ($this->request->params['controller'] == 'Messages') ? 'active' : ''; ?>">
           <?php
-            echo $this->Html->link('<i class="fa fa-file-code-o" aria-hidden="true"></i> &nbsp; Message Templates', ['controller' => 'Messages', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+            echo $this->Html->link('<i class="fa fa-file-code-o" aria-hidden="true"></i> &nbsp; Message Templates', ['controller' => 'Messages', 'action' => 'index', 'prefix' => $prefix, 'plugin' => false], array('escape' => false)); 
           ?>
     </li>
     <li class="<?=  ($this->request->params['controller'] == 'Sites') ? 'active' : ''; ?>">
           <?php
-            echo $this->Html->link('<i class="fa fa-code" aria-hidden="true"></i> &nbsp; Front end Pages', ['controller' => 'Sites', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+            echo $this->Html->link('<i class="fa fa-code" aria-hidden="true"></i> &nbsp; Front end Pages', ['controller' => 'Sites', 'action' => 'index', 'prefix' => $prefix, 'plugin' => false], array('escape' => false)); 
           ?>
     </li>
     <li class="<?=  ($this->request->params['controller'] == 'Facilities') ? 'active' : ''; ?>">
           <?php
-            echo $this->Html->link('<i class="fa fa-hospital-o" aria-hidden="true"></i> &nbsp; Facilities', ['controller' => 'Facilities', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+            echo $this->Html->link('<i class="fa fa-hospital-o" aria-hidden="true"></i> &nbsp; Facilities', ['controller' => 'Facilities', 'action' => 'index', 'prefix' => $prefix, 'plugin' => false], array('escape' => false)); 
           ?>
     </li>
     <li class="<?=  ($this->request->params['controller'] == 'WhoDrugs') ? 'active' : ''; ?>">
           <?php
-            echo $this->Html->link('<i class="fa fa-stethoscope" aria-hidden="true"></i> &nbsp; WHO Drugs', ['controller' => 'WhoDrugs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+            echo $this->Html->link('<i class="fa fa-stethoscope" aria-hidden="true"></i> &nbsp; WHO Drugs', ['controller' => 'WhoDrugs', 'action' => 'index', 'prefix' => $prefix, 'plugin' => false], array('escape' => false)); 
           ?>
           <?php if ($this->request->params['controller'] === 'WhoDrugs') { ?>
           <ul class="nav van-<?= $prefix ?>">
-            <li class="<?= ($this->request->params['action'] == 'import') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Import Drugs', ['controller' => 'WhoDrugs', 'action' => 'import', 'prefix' => $prefix], array('escape' => false)); ?> 
+            <li class="<?= ($this->request->params['action'] == 'import') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Import Drugs', ['controller' => 'WhoDrugs', 'action' => 'import', 'prefix' => $prefix, 'plugin' => false], array('escape' => false)); ?> 
             </li>
           </ul>
         <?php } ?>
     </li>
     <li class="<?=  ($this->request->params['controller'] == 'Meddras') ? 'active' : ''; ?>">
           <?php
-            echo $this->Html->link('<i class="fa fa-medkit" aria-hidden="true"></i> &nbsp; MedDRA LLTs', ['controller' => 'Meddras', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+            echo $this->Html->link('<i class="fa fa-medkit" aria-hidden="true"></i> &nbsp; MedDRA LLTs', ['controller' => 'Meddras', 'action' => 'index', 'prefix' => $prefix, 'plugin' => false], array('escape' => false)); 
           ?>
           <?php if ($this->request->params['controller'] === 'Meddras') { ?>
           <ul class="nav van-<?= $prefix ?>">
-            <li class="<?= ($this->request->params['action'] == 'import') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Import Drugs', ['controller' => 'Meddras', 'action' => 'import', 'prefix' => $prefix], array('escape' => false)); ?> 
+            <li class="<?= ($this->request->params['action'] == 'import') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Import Drugs', ['controller' => 'Meddras', 'action' => 'import', 'prefix' => $prefix, 'plugin' => false], array('escape' => false)); ?> 
             </li>
           </ul>
         <?php } ?>
@@ -280,10 +280,10 @@
     <?php }; ?>
     <li class="<?=  ($this->request->params['controller'] == 'Feedbacks') ? 'active' : ''; ?>">
           <?php
-            echo $this->Html->link('<i class="fa fa-comment-o" aria-hidden="true"></i> &nbsp; USER FEEDBACK', ['controller' => 'Feedbacks', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); 
+            echo $this->Html->link('<i class="fa fa-comment-o" aria-hidden="true"></i> &nbsp; USER FEEDBACK', ['controller' => 'Feedbacks', 'action' => 'index', 'prefix' => $prefix, 'plugin' => false], array('escape' => false)); 
           ?>
     </li>
     <li class="<?=  ($this->request->params['controller'] == 'Notifications') ? 'active' : ''; ?>">
-      <?= $this->Html->link('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> &nbsp; ALERTS'.$ncount, ['controller' => 'Notifications', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
+      <?= $this->Html->link('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> &nbsp; ALERTS'.$ncount, ['controller' => 'Notifications', 'action' => 'index', 'prefix' => $prefix, 'plugin' => false], array('escape' => false)); ?>
     </li>
   </ul>
