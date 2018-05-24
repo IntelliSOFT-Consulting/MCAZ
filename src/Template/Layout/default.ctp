@@ -96,25 +96,25 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
                           array('escape' => false));                    
                     } else {
                         echo $this->Html->link('<i class="fa fa-home"></i> Home',
-                            array('controller' => 'Pages', 'action' =>  'home', 'prefix' => false) , array('escape' => false));
+                            array('controller' => 'Pages', 'action' =>  'home', 'prefix' => false, 'plugin' => false ) , array('escape' => false));
                     }
                 ?>
         </li>
         <li class="<?php echo $this->fetch('News') ?>">
             <?= $this->Html->link('<i class="fa fa-bullhorn"></i> News', 
-                ['controller' => 'Pages', 'action' =>  'news', 'prefix' => false] , ['escape' => false]); ?>
+                ['controller' => 'Pages', 'action' =>  'news', 'prefix' => false, 'plugin' => false ] , ['escape' => false]); ?>
         </li>
         <li class="<?php echo $this->fetch('Faqs') ?>">
             <?= $this->Html->link('<i class="fa fa-question-circle"></i> FAQs', 
-                ['controller' => 'Pages', 'action' =>  'faqs', 'prefix' => false] , ['escape' => false]); ?>
+                ['controller' => 'Pages', 'action' =>  'faqs', 'prefix' => false, 'plugin' => false ] , ['escape' => false]); ?>
         </li>
         <li class="<?php echo $this->fetch('Reports') ?>">
             <?= $this->Html->link('<i class="fa fa-bar-chart"></i> Reports', 
-                ['controller' => 'Reports', 'action' =>  'publicReports', 'prefix' => false] , ['escape' => false]); ?>
+                ['controller' => 'Reports', 'action' =>  'publicReports', 'prefix' => false, 'plugin' => false ] , ['escape' => false]); ?>
         </li>
         <li class="<?php echo $this->fetch('Contactus') ?>">
             <?= $this->Html->link('<i class="fa fa-envelope-o"></i> Feedback', 
-                ['controller' => 'Feedbacks', 'action' =>  'add', 'prefix' => false] , ['escape' => false]); ?>
+                ['controller' => 'Feedbacks', 'action' =>  'add', 'prefix' => false, 'plugin' => false ] , ['escape' => false]); ?>
         </li>
       </ul>
 
