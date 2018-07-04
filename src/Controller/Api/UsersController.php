@@ -5,6 +5,7 @@ use Cake\Event\Event;
 use Cake\Network\Exception\UnauthorizedException;
 use Cake\Utility\Security;
 use Firebase\JWT\JWT;
+use Cake\View\Helper\HtmlHelper; 
 
 class UsersController extends AppController
 {
@@ -134,5 +135,47 @@ class UsersController extends AppController
             ],
             '_serialize' => ['success', 'user', 'data']
         ]);
+    }
+
+    public function forgotPassword() {
+        if ($this->request->is('post')) {
+            $user = $this->Users->findByEmail($this->request->getData('email'))->first();
+            if ($user) {
+                $query = $this->Users->query();
+                $query->update()
+                    ->set(['forgot_password' => 1])
+                    ->where(['id' => $user->id])
+                    ->execute();
+
+                //Send registration confirm email
+                $this->loadModel('Queue.QueuedJobs'); 
+                $data = [
+                    'email_address' => $user->email, 'user_id' => $user->id, 'type' => 'forgot_password_email', 'model' => 'Users', 
+                    'foreign_key' => $user->id, 'vars' =>  $user->toArray()                
+                ]; 
+                $html = new HtmlHelper(new \Cake\View\View());
+                $data['vars']['name'] = (isset($user->name)) ? $user->name : 'Sir/Madam' ;
+                $data['vars']['new_password'] = date('smiYhd', strtotime($user->created));
+                $data['vars']['pv_site'] = $html->link('MCAZ PV website', ['controller' => 'Pages', 'action' => 'home', '_full' => true]);
+                $data['vars']['reset_password_link'] = $html->link('Reset Password', ['controller' => 'Users', 'action' => 'resetPassword', $user->activation_key, 
+                                          '_full' => true]);
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                
+                $this->set([
+                'message' => 'Click on link sent on email to activate the new email', 
+                'user' => $user->toArray(),
+                '_serialize' => ['message', 'user']]);
+
+                return;
+
+            } else {
+                $this->response->body('Failure');
+                $this->response->statusCode(403);
+                $this->set([
+                    'message' => 'Unable send forgot password email!!', 
+                    '_serialize' => ['message']]);
+                return; 
+            }
+        }
     }
 }
