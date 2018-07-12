@@ -69,4 +69,4 @@ bin/cake acl grant Groups.3 controllers/Notifications/index
 bin/cake acl grant Groups.3 controllers/Notifications/view
 bin/cake acl grant Groups.3 controllers/Comments
 
-sudo chmod -R 777 .
+# sudo chmod -R 777 .
