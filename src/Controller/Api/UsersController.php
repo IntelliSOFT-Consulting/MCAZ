@@ -156,9 +156,8 @@ class UsersController extends AppController
                 $html = new HtmlHelper(new \Cake\View\View());
                 $data['vars']['name'] = (isset($user->name)) ? $user->name : 'Sir/Madam' ;
                 $data['vars']['new_password'] = date('smiYhd', strtotime($user->created));
-                $data['vars']['pv_site'] = $html->link('MCAZ PV website', ['controller' => 'Pages', 'action' => 'home', '_full' => true]);
-                $data['vars']['reset_password_link'] = $html->link('Reset Password', ['controller' => 'Users', 'action' => 'resetPassword', $user->activation_key, 
-                                          '_full' => true]);
+                $data['vars']['pv_site'] = $html->link('MCAZ PV website', ['controller' => 'Pages', 'action' => 'home', 'prefix' => false, '_full' => true]);
+                $data['vars']['reset_password_link'] = $html->link('Reset Password', ['controller' => 'Users', 'action' => 'resetPassword', $user->activation_key, 'prefix' => false, '_full' => true]);
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 
                 $this->set([
