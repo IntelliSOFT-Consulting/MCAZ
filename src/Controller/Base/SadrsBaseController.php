@@ -59,7 +59,7 @@ class SadrsBaseController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['SadrListOfDrugs', 'SadrListOfDrugs.Doses', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'Reviews.Users', 'RequestReporters', 'RequestEvaluators', 'Committees', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments', 'ReportStages']
+            'contain' => ['SadrListOfDrugs', 'SadrListOfDrugs.Doses', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'Reviews.Users', 'RequestReporters', 'RequestEvaluators', 'Committees', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments', 'ReportStages', 'Reactions']
         ];
         /*// $sadrs = $this->paginate($this->Sadrs,['finder' => ['status' => $id]]);
         if($this->request->getQuery('status')) {$sadrs = $this->paginate($this->Sadrs->find('all')->where(['status' => $this->request->getQuery('status'), 'ifnull(report_type,-1) !=' => 'FollowUp']), ['order' => ['Sadrs.id' => 'desc']]); }
@@ -586,11 +586,19 @@ class SadrsBaseController extends AppController
             return $this->redirect(['action' => 'edit', $orig_sadr['sadr']['id']]);
         }
         $sadr = $this->Sadrs->get($id, [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'Reactions']
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
+            $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData(), [
+                'validate' => ($this->request->getData('submitted') == 2) ? true : false, 
+                'associated' => [
+                    'Reactions' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ],
+                    'SadrListOfDrugs' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ],
+                    'Attachments' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ]
+                ]
+            ]);
+            //Attachments
             if (!empty($sadr->attachments)) {
                   for ($i = 0; $i <= count($sadr->attachments)-1; $i++) { 
                     $sadr->attachments[$i]->model = 'Sadrs';
@@ -608,7 +616,7 @@ class SadrsBaseController extends AppController
               }
             } elseif ($sadr->submitted == 2) {
               //submit to mcaz button
-              if ($this->Sadrs->save($sadr, ['validate' => false])) {
+              if ($this->Sadrs->save($sadr)) {
                 $this->Flash->success(__('Report '.$sadr->reference_number.' has been successfully submitted to MCAZ for review.'));
                 return $this->redirect(['action' => 'view', $sadr->id]);
               } else {

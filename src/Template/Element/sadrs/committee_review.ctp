@@ -17,6 +17,18 @@
                       
                         <form>
                           <div class="form-group">
+                            <label class="control-label">Drug Name</label>
+                            <div>
+                              <p class="form-control-static"><?= $committee_review->drug_name ?></p>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label">Reaction </label>
+                            <div>
+                              <p class="form-control-static"><?= $committee_review->reaction_name ?></p>
+                            </div>
+                          </div>
+                          <div class="form-group">
                             <label class="control-label">Internal MCAZ Comments</label>
                             <div>
                               <p class="form-control-static"><?= $committee_review->comments ?></p>
@@ -30,6 +42,12 @@
                           </div> 
                           <div class="form-group">
                             <label class="control-label">Committee Decision:</label>
+                            <div>
+                            <p class="form-control-static"><?= $committee_review['causality_decision'] ?></p>
+                            </div> 
+                          </div> 
+                          <div class="form-group">
+                            <label class="control-label">Status:</label>
                             <div>
                             <p class="form-control-static"><?= $committee_review['status'] ?></p>
                             </div> 
@@ -74,7 +92,33 @@
           echo $this->Form->create($sadr, ['type' => 'file', 'url' => ['action' => 'committee-review']]);
            ?>
             <div class="row">
-              <div class="col-xs-12"><h5 class="text-center">Committee Report</h5></div>
+              <div class="col-xs-12"><h4 class="text-center">Committee Report</h4></div>
+
+              <div class="row">
+                <div class="col-xs-3"> </div>
+                <div class="col-xs-1 control-label">
+                  <label class="pull-right">Drug </label>
+                </div>
+                <div class="col-xs-3">
+                  <?= $this->Form->control('committees.100.drug_name', ['type' => 'select', 'label' => false, 
+                      'options' => Hash::combine($sadr->toArray(), 'sadr_list_of_drugs.{n}.drug_name', 'sadr_list_of_drugs.{n}.drug_name'), 
+                      'templates' => 'table_form']);?>
+                </div>
+                <div class="col-xs-1 control-label">
+                      <label>Reaction </label>
+                </div>
+                <div class="col-xs-3">
+                  <?php
+                   $reactions = Hash::combine($sadr->toArray(), 'reactions.{n}.reaction_name', 'reactions.{n}.reaction_name');
+                   $reactions[$sadr->description_of_reaction] = $sadr->description_of_reaction;
+                   // print_r($reactions);
+                   echo $this->Form->control('committees.100.reaction_name', ['type' => 'select', 'label' => false, 
+                      'options' => $reactions, 
+                      'templates' => 'table_form']);?>
+                </div>
+                <div class="col-xs-1"> </div>
+              </div>
+              <br>
               <div class="col-xs-12">
 	          	<?php
                     echo $this->Form->control('sadr_pr_id', ['type' => 'hidden', 'value' => $sadr->id, 'escape' => false, 'templates' => 'table_form']);
@@ -83,7 +127,14 @@
                     echo $this->Form->control('committees.100.literature_review', ['escape' => false, 'templates' => 'app_form', 'label' => 'Reporter Visible Comments']);
 
                     echo $this->Form->control('committees.100.status', ['type' => 'radio', 
-                               'label' => '<b>Committee Decision</b> <a onclick="$(\'input[name=committees\\\[100\\\]\\\[status\\\]]\').removeAttr(\'checked\');" class="tiptip"  data-original-title="clear!!">
+                               'label' => '<b>Causality Decision</b> <a onclick="$(\'input[name=committees\\\['.$ekey.'\\\]\\\[status\\\]]\').removeAttr(\'checked\');" class="tiptip"  data-original-title="clear!!">
+                <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>', 'escape' => false,
+                               'templates' => 'radio_form',
+                               'options' => [
+                                  'Known' => 'Known', 
+                                  'Unknown' => 'Unknown']]);
+                    echo $this->Form->control('committees.100.causality_decision', ['type' => 'radio', 
+                               'label' => '<b>Committee Decision</b> <a onclick="$(\'input[name=committees\\\[100\\\]\\\[causality_decision\\\]]\').removeAttr(\'checked\');" class="tiptip"  data-original-title="clear!!">
                 <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>', 'escape' => false,
                                'templates' => 'radio_form',
                                'options' => [
@@ -104,7 +155,7 @@
             </div>
             <div class="form-group"> 
                 <div class="col-sm-offset-4 col-sm-8"> 
-                  <button type="submit" class="btn btn-primary active" id="registerUser"><i class="fa fa-plus" aria-hidden="true"></i> Review</button>
+                  <button type="submit" class="btn btn-primary active" id="registerUser"><i class="fa fa-plus" aria-hidden="true"></i> Submit</button>
                 </div> 
               </div>
          <?php          

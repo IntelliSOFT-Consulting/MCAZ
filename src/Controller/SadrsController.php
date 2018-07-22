@@ -132,7 +132,7 @@ class SadrsController extends AppController
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'RequestReporters', 'RequestEvaluators', 'Committees', 
                           'Committees.Users', 'Committees.SadrComments', 'Committees.SadrComments.Attachments', 'ReportStages',
                           'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
-                          'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments',
+                          'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments', 'Reactions'
                           ],
             'conditions' => ['Sadrs.user_id' => $this->Auth->user('id')]
         ]);        
@@ -236,7 +236,7 @@ class SadrsController extends AppController
     public function e2b($id = null)
     {
         $sadr = $this->Sadrs->get($id, [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'ReportStages']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'ReportStages', 'Reactions']
         ]);        
         
         $stage1  = $this->Sadrs->ReportStages->newEntity();
@@ -266,7 +266,7 @@ class SadrsController extends AppController
 
     public function vigibase($id = null) {
         $sadr = $this->Sadrs->get($id, [
-            'contain' => ['SadrListOfDrugs', 'Attachments', 'ReportStages']
+            'contain' => ['SadrListOfDrugs', 'Attachments', 'ReportStages', 'Reactions']
         ]);
 
         // create a builder (hint: new ViewBuilder() constructor works too)
@@ -460,7 +460,7 @@ class SadrsController extends AppController
     public function edit($id = null)
     {
         $sadr = $this->Sadrs->get($id, [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'ReportStages'],
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'ReportStages', 'Reactions'],
             'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
         if ($sadr->submitted == 2) {
@@ -471,6 +471,7 @@ class SadrsController extends AppController
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData(), [
                 'validate' => ($this->request->getData('submitted') == 2) ? true : false, 
                 'associated' => [
+                    'Reactions' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ],
                     'SadrListOfDrugs' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ],
                     'Attachments' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ]
                 ]

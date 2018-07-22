@@ -51,7 +51,7 @@
             if($aefi_causality->user_id != $this->request->session()->read('Auth.User.id') && $aefi->signature != 1) { 
                 $template = $this->Form->getTemplates();
                 $this->Form->resetTemplates();
-                echo $this->Form->postLink('<span class="label label-success">Attach signature?</span>', 
+                echo $this->Form->postLink('<span class="label label-success">Approve the Evaluator’s review?</span>', 
                     ['action' => 'attachSignature', $aefi_causality->id, 'prefix' => $prefix], 
                     ['escape' => false, 'confirm' => 'Are you sure you want to attach your signature to assessment?', 'class' => 'label-link']);
                 $this->Form->setTemplates($template);                              
@@ -572,9 +572,6 @@
                 <?= $aefi_causality->conclude_reason?>
               </p>
 
-              <p> With available evidence, we could <b>NOT</b> classify the case because:
-                <?= $aefi_causality->conclude_inability?>
-              </p>
             </div>
         </div>
 

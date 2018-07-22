@@ -184,11 +184,11 @@ $editable = $this->fetch('editable');
           <div class="row">
             <div class="col-xs-12">
               <?php
-                  echo $this->Form->control('description_of_reaction', ['label' => 'Describe AEFI (Signs and symptoms)',  
+                  echo $this->Form->control('description_of_reaction', ['label' => 'Describe AEFI (Signs and symptoms) <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
                     'templates' => ($editable) ? [ 
                       'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
                       'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
-                      'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="3" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',] : 'view_form_text']);
+                      'textarea' => '<div class="col-sm-offset-1 col-sm-9"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',] : 'view_form_text']);
 
                   echo $this->Form->control('treatment_provided', ['type' => 'radio', 
                      'label' => '<b>Treatment provided</b>', 'escape' => false,

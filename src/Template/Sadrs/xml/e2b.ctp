@@ -257,6 +257,50 @@
                 if (!empty($sadr['outcome'])) echo $outcomes[$sadr['outcome']];
                 ?></reactionoutcome>
             </reaction>
+            <?php foreach ($sadr['reactions'] as $reaction): ?>
+                <reaction>
+                    <primarysourcereaction><?php echo $reaction['reaction_name']; ?></primarysourcereaction>
+                    <reactionmeddraversionllt>WHO-ART</reactionmeddraversionllt>
+                    <reactionmeddrallt><?php echo $sadr['reaction_name']; ?></reactionmeddrallt>
+                    <reactionmeddraversionpt/>
+                    <reactionmeddrapt/>
+                    <termhighlighted/>
+                    <reactionstartdateformat><?php
+                        $onsetf = 102;
+                        $a = explode('-', $sadr->date_of_onset_of_reaction);
+                        $sadr->date_of_onset_of_reaction = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
+                        if (empty($sadr['date_of_onset_of_reaction']['day']) && empty($sadr['date_of_onset_of_reaction']['month'])) {
+                            $onsetf = 602;
+                        } else if (empty($sadr['date_of_onset_of_reaction']['day']) && !empty($sadr['date_of_onset_of_reaction']['month'])) {
+                            $onsetf = 610;
+                        } else if (!empty($sadr['date_of_onset_of_reaction']['day']) && empty($sadr['date_of_onset_of_reaction']['month'])) {
+                            $onsetf = 602;
+                        }
+                        echo $onsetf;
+                    ?></reactionstartdateformat>
+                    <reactionstartdate><?php
+                        if($onsetf == 102) echo date('Ymd', strtotime(implode('-', $sadr['date_of_onset_of_reaction'])));
+                        if($onsetf == 602) echo $sadr['date_of_onset_of_reaction']['year'];
+                        if($onsetf == 610) echo $sadr['date_of_onset_of_reaction']['year'].$sadr['date_of_onset_of_reaction']['month'];
+                    ?></reactionstartdate>
+                    <reactionenddateformat/>
+                    <reactionenddate/>
+                    <reactionduration/>
+                    <reactiondurationunit/>
+                    <reactionfirsttime/>
+                    <reactionfirsttimeunit/>
+                    <reactionlasttime/>
+                    <reactionlasttimeunit/>
+                    <reactionoutcome><?php
+                    $outcomes =  ['Recovered' => 1, 
+                                  'Recovering' => 2, 
+                                  'Not yet recovered' => 4, 
+                                  'Fatal' => 5, 
+                                  'Unknown' => 6];
+                    if (!empty($sadr['outcome'])) echo $outcomes[$sadr['outcome']];
+                    ?></reactionoutcome>
+                </reaction>
+            <?php  endforeach; ?>
             <?php foreach ($sadr['sadr_list_of_drugs'] as $sadrListOfDrug): ?>
             <drug>
                 <drugcharacterization><?php

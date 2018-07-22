@@ -44,7 +44,7 @@ class AppController extends Controller
                           'Committees', 'Committees.Users', 'Committees.SadrComments', 'Committees.SadrComments.Attachments', 
                           'ReportStages',
                           'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
-                          'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments',
+                          'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments', 'Reactions'
                           ];
                           
     public $aefi_contain = ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 

@@ -209,6 +209,10 @@ class AefisTable extends Table
             ->notEmpty('gender', ['message' => 'Gender required']);
 
         $validator
+            ->scalar('description_of_reaction')
+            ->notEmpty('description_of_reaction', ['message' => 'Description of reaction required']);
+            
+        $validator
             ->scalar('dosage')
             ->notEmpty('dosage', ['message' => 'Dosage required']);
 

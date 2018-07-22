@@ -30,6 +30,16 @@ bin/cake acl grant Groups.2 controllers/Users/profile
 bin/cake acl grant Groups.2 controllers/Users/edit
 bin/cake acl grant Groups.2 controllers/Users/dashboard
 bin/cake acl grant Groups.2 controllers/CommitteeDates
+bin/cake acl grant Groups.2 controllers/AefiListOfVaccines/delete
+bin/cake acl grant Groups.2 controllers/SaefiListOfVaccines/delete
+bin/cake acl grant Groups.2 controllers/AefiListOfDiluents/delete
+bin/cake acl grant Groups.2 controllers/AdrListOfDrugs/delete
+bin/cake acl grant Groups.2 controllers/AdrOtherDrugs/delete
+bin/cake acl grant Groups.2 controllers/Reactions/delete
+bin/cake acl grant Groups.2 controllers/SadrListOfDrugs/delete
+bin/cake acl grant Groups.2 controllers/SadrOtherDrugs/delete
+bin/cake acl grant Groups.2 controllers/Notifications/index
+bin/cake acl grant Groups.2 controllers/Notifications/view
 echo "*************** Assign Evaluator Permissions *******************"
 bin/cake acl deny Groups.4 controllers
 bin/cake acl grant Groups.4 controllers/Reports
@@ -45,6 +55,16 @@ bin/cake acl grant Groups.4 controllers/Users/profile
 bin/cake acl grant Groups.4 controllers/Users/edit
 bin/cake acl grant Groups.4 controllers/Users/dashboard
 bin/cake acl grant Groups.4 controllers/CommitteeDates
+bin/cake acl grant Groups.4 controllers/AefiListOfVaccines/delete
+bin/cake acl grant Groups.4 controllers/SaefiListOfVaccines/delete
+bin/cake acl grant Groups.4 controllers/AefiListOfDiluents/delete
+bin/cake acl grant Groups.4 controllers/AdrListOfDrugs/delete
+bin/cake acl grant Groups.4 controllers/AdrOtherDrugs/delete
+bin/cake acl grant Groups.4 controllers/Reactions/delete
+bin/cake acl grant Groups.4 controllers/SadrListOfDrugs/delete
+bin/cake acl grant Groups.4 controllers/SadrOtherDrugs/delete
+bin/cake acl grant Groups.4 controllers/Notifications/index
+bin/cake acl grant Groups.4 controllers/Notifications/view
 #end Managers
 echo "*************** Assign Users Permissions ***********************"
 bin/cake acl grant Groups.3 controllers/Aefis
@@ -61,6 +81,7 @@ bin/cake acl grant Groups.3 controllers/Users/profile
 bin/cake acl grant Groups.3 controllers/Users/edit
 bin/cake acl grant Groups.3 controllers/Users/dashboard
 bin/cake acl grant Groups.3 controllers/Users/home
+bin/cake acl grant Groups.3 controllers/Reactions/delete
 bin/cake acl grant Groups.3 controllers/SadrListOfDrugs/delete
 bin/cake acl grant Groups.3 controllers/SadrOtherDrugs/delete
 bin/cake acl grant Groups.3 controllers/Notifications/delete

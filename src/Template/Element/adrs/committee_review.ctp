@@ -101,7 +101,7 @@
             </div>
             <div class="form-group"> 
                 <div class="col-sm-offset-4 col-sm-8"> 
-                  <button type="submit" class="btn btn-primary active" id="registerUser"><i class="fa fa-plus" aria-hidden="true"></i> Review</button>
+                  <button type="submit" class="btn btn-primary active" id="registerUser"><i class="fa fa-plus" aria-hidden="true"></i> Submit</button>
                 </div> 
               </div>
          <?php           

@@ -583,7 +583,7 @@
       <div class="col-xs-6">
         <?php          
           // if ($prefix == 'manager') {                  
-          //     echo $this->Form->control('aefi_causalities.'.$ekey.'.signature', ['type' => 'checkbox', 'label' => 'Attach signature', 'escape' => false, 'templates' => 'app_form']);
+          //     echo $this->Form->control('aefi_causalities.'.$ekey.'.signature', ['type' => 'checkbox', 'label' => 'Approve the Evaluator’s review', 'escape' => false, 'templates' => 'app_form']);
           // } else {
               echo "<div class='control-label'><label>Signature<label></div>";
               echo $this->Form->control('aefi_causalities.'.$ekey.'.signature', ['type' => 'hidden', 'value' => 1, 'templates' => 'table_form']);
@@ -603,7 +603,7 @@
       <div class="form-group"> 
         <div class="col-xs-12"> 
           <p class="text-center">
-            <button type="submit" class="btn btn-success btn-lg active text-center" id="registerUser" onclick="return confirm('Save?');"><i class="fa fa-save" aria-hidden="true"></i> Save review</button>
+            <button type="submit" class="btn btn-success btn-lg active text-center" id="registerUser" onclick="return confirm('Save?');"><i class="fa fa-save" aria-hidden="true"></i> Submit</button>
           </p>
         </div> 
       </div>

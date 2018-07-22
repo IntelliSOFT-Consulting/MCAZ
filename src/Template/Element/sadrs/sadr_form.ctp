@@ -262,8 +262,10 @@ function getDate(sel){
           </div> -->
 
           <div class="row">
-            <div class="col-xs-8"><?= $this->Form->control('description_of_reaction', ['label' => 'Description of ADR <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]); ?></div>
-            <div class="col-xs-4"></div>
+            <div class="col-xs-8"><?= $this->Form->control('description_of_reaction', ['label' => 'Description of ADR <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'type' => 'text', 'escape' => false]); ?>
+              <?php echo $this->element('multi/reactions', ['editable' => $editable]);?></div>
+            <div class="col-xs-4"><h5 class="controls pull-left"><b> </b><small>Other Reactions?
+        <button title="add reaction" id="addReactionDetail" class="btn btn-primary btn-xs multiple_reactions" type="button">Add Reaction</button></small><b></b></h5></div>
           </div>
 
           <div class="row">

@@ -222,9 +222,9 @@
                     if($aefi['ae_thrombocytopenia']) echo 'Thrombocytopenia, ';
                     if($aefi['ae_anaphylaxis']) echo 'Anaphylaxis, ';
                     if($aefi['ae_fever']) echo 'Fever, ';
-                    if($aefi['ae_3days']) echo '>3 days, ';
+                    if($aefi['ae_3days']) echo 'Severe local reaction > 3 days, ';
                     if($aefi['ae_febrile']) echo 'febrile, ';
-                    if($aefi['ae_beyond_joint']) echo 'beyond, ';
+                    if($aefi['ae_beyond_joint']) echo 'Severe local reaction beyond nearest joint, ';
                     if($aefi['ae_afebrile']) echo 'afebrile, '; 
                     ?>                 
                 </primarysourcereaction>

@@ -646,7 +646,7 @@
       <div class="row">
         <div class="col-xs-6">
           <?php
-            echo $this->Form->control('aefi_causalities.'.$ikey.'.signature', ['type' => 'checkbox', 'label' => 'Attach signature', 'escape' => false, 'templates' => 'app_form']);
+            echo $this->Form->control('aefi_causalities.'.$ikey.'.signature', ['type' => 'checkbox', 'label' => 'Approve the Evaluator’s review', 'escape' => false, 'templates' => 'app_form']);
           ?>
         </div>
         <div class="col-xs-4">

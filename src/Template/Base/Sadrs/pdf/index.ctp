@@ -23,7 +23,7 @@
                 <th scope="col">Medical History</th>
                 <th scope="col">Suspected Drug(s)</th>
                 <th scope="col">Clinical Findings</th>    
-                <th scope="col">ADR Listing in Summary</th>    
+                <th scope="col">ADR Listing in Summary of Product Characteristics</th>    
             </tr>
         </thead>
         <tbody>
@@ -39,7 +39,13 @@
                 <td>
                   <?php echo "Onset: ".$sadr->date_of_onset_of_reaction." to ".$sadr->date_of_end_of_reaction; ?><br>
                   <?php echo "Outcome: ".$sadr->outcome; ?><br>
-                  <?= h($sadr->description_of_reaction) ?></td>
+                  <?= h($sadr->description_of_reaction) ?>
+
+                <?php foreach ($sadr->reactions as $reaction): ?>
+                  <p><?= $reaction->reaction_name ?></p>
+                <?php endforeach; ?>
+                <?= "Action Taken: ".$sadr->action_taken ?>
+                </td>
                 <td><?= h($sadr->medical_history) ?></td>       
                 <td>
                     <?php foreach($sadr->sadr_list_of_drugs as $list_of_drug): ?>    
@@ -52,37 +58,29 @@
                   <?= h($sadr->past_drug_therapy) ?><br>
                   <?= h($sadr->lab_test_results) ?>                  
                 </td>  
-                <td><?= "Action Taken: ".$sadr->action_taken ?><br><?= "Relatedness: ".$sadr->relatedness ?> </td>
+                <td>
+                  <?php foreach ($sadr->reviews as $review): ?> 
+                    <?= $review->status ?><br>
+                  <?php endforeach; ?>
+                </td>
             </tr>
               <?php foreach ($sadr->reviews as $review): ?>
-                <?php if($review->chosen == 1) { ?>
+                <?php //if($review->chosen == 1) { ?>
                 <tr>
                   <td colspan="2">
                     <p><b>Literature Review</b></p>
                     <?= $review->literature_review ?>
                   </td>
-                  <td colspan="2">
-                    <p><b>Comments</b></p>
-                    <?= $review->comments ?>
+                  <td colspan="3">
+                    <p><b>Recommended Causality Assessment</b></p>
+                    <?= $review->causality_decision ?>
                   </td>
-                  <td colspan="2">
+                  <td colspan="3">
                     <p><b>References</b></p>
                     <?= $review->references_text ?>
                   </td>
-                  <td colspan="2">
-                    <p><b>Signatures</b></p>
-                    <p><?php          
-                        echo ($review->signature) ? "<img src='".$this->Url->build(substr($review->user->dir, 8) . '/' . $review->user->file, true)."' style='width: 30%;' alt=''>" : '';
-                        ?>
-                    </p>
-                    <p>
-                      <?php          
-                        echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$sadr->assigned_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$sadr->assigned_by], true)."' style='width: 30%;' alt=''>";
-                      ?>                        
-                    </p>
-                  </td>
                 </tr>
-                <?php } ?>
+                <?php //} ?>
               <?php endforeach; ?>
             <?php endforeach; ?>
         </tbody>
