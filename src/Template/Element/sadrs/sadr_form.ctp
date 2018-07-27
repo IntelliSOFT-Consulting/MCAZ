@@ -7,7 +7,7 @@
 // debug($this->request->data);
   // $this->Html->script('comments/suggest/jquery.a-tools-1.4.1', ['block' => true]);
   // $this->Html->script('comments/suggest/jquery.asuggest', ['block' => true]);
-  $this->Html->script('comments/textcomplete/dist/textcomplete', ['block' => true]);
+  // $this->Html->script('comments/textcomplete/dist/textcomplete', ['block' => true]);
   $this->Html->script('sadr_edit', ['block' => true]);
   $editable = $this->fetch('editable');
 ?>

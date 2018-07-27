@@ -216,7 +216,7 @@ should be submitted as follow up report</td></tr>
                             } elseif($review->user_id != $this->request->session()->read('Auth.User.id') && $sadr->signature != 1) { 
                                 $template = $this->Form->getTemplates();
                                 $this->Form->resetTemplates();
-                                echo $this->Form->postLink('<span class="label label-info">Attach signature?</span>', 
+                                echo $this->Form->postLink('<span class="label label-info">Approve the Evaluators’ review?</span>', 
                                   ['action' => 'attachSignature', $review->id, 'prefix' => $prefix], 
                                   ['escape' => false, 'confirm' => 'Are you sure you want to attach your signature to assessment?', 'class' => 'label-link']);
                                 $this->Form->setTemplates($template);                              
@@ -312,7 +312,7 @@ should be submitted as follow up report</td></tr>
               <div class="col-xs-6">
                 <?php
                   // if ($prefix == 'manager') {                  
-                  //     echo $this->Form->control('reviews.'.$ekey.'.signature', ['type' => 'checkbox', 'label' => 'Attach signature', 'escape' => false, 'templates' => 'app_form']);
+                  //     echo $this->Form->control('reviews.'.$ekey.'.signature', ['type' => 'checkbox', 'label' => 'Approve the Evaluators’ review', 'escape' => false, 'templates' => 'app_form']);
                   // } else {
                       echo "<div class='control-label'><label>Signature<label></div>";
                       echo $this->Form->control('reviews.'.$ekey.'.signature', ['type' => 'hidden', 'value' => 1, 'templates' => 'table_form']);
