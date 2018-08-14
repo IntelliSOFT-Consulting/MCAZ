@@ -59,8 +59,8 @@ class SadrsTable extends Table
                           'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
                           'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments',
                           ],
-            'remove' =>  ['created', 'modified', 'sadr_list_of_drugs.created',  'reactions.created',  'attachments.created',
-                          'sadr_list_of_drugs.modified',  'reactions.modified',  'attachments.modified'],
+            'remove' =>  ['created', 'modified', 'sadr_list_of_drugs.created', 'attachments.created',
+                          'sadr_list_of_drugs.modified',  'attachments.modified'],
             'set' => [
                 'copied' => 'new copy'
             ]
