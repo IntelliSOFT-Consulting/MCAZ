@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-xs-12">
 
-        <h3 class="text-center">Number vaccinated for each antigen at session site. Attach record if available. 
+        <h4 class="text-center">Number vaccinated for each antigen at session site. Attach record if available. 
         <button <?= ($editable) ? '' : 'disabled=""' ?> type="button" class="btn btn-primary btn-sm" id="<?= ($editable) ? 'addSaefiVaccine' : 'disabledadd' ?>">
                           Add <i class="fa fa-plus"></i>
         </button></h4>

@@ -1,6 +1,6 @@
 <?php
   use Cake\Utility\Hash;
-  $this->extend('/Element/adrs/adr_form');
+  $this->extend('/Element/adrs/adr_view');
   $this->assign('editable', false);
   $this->assign('baseClass', 'adr_form');
   $this->Html->css('bootstrap/bootstrap.vertical-tabs', ['block' => true]);

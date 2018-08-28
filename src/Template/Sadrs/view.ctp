@@ -1,6 +1,6 @@
 <?php
   use Cake\Utility\Hash;
-  $this->extend('/Element/sadrs/sadr_form');
+  $this->extend('/Element/sadrs/sadr_view');
   $this->assign('editable', false);
   $this->assign('baseClass', 'sadr_form');
   $this->Html->css('bootstrap/bootstrap.vertical-tabs', ['block' => true]);

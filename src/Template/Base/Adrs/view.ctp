@@ -4,7 +4,7 @@
 
 
 <?php
-  $this->extend('/Element/adrs/adr_form');
+  $this->extend('/Element/adrs/adr_view');
   $this->assign('baseClass', 'adr_form');
   $this->assign('editable', false);
 ?>

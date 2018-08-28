@@ -1,5 +1,5 @@
 <?php
-  $this->extend('/Element/aefis/aefi_form');
+  $this->extend('/Element/aefis/aefi_view');
   $this->assign('editable', false);
   $this->assign('baseClass', 'aefi_form');
   $this->Html->css('bootstrap/bootstrap.vertical-tabs', ['block' => true]);

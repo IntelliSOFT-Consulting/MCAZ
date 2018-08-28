@@ -46,7 +46,7 @@
                      <?= $this->Html->link('PDF', ['action' => 'view', $saefi->id, 'prefix' => $prefix, 'status' => $saefi->status, '_ext' => 'pdf'], ['escape' => false, 'class' => 'label-link'])
                      ?>
                     </span>  &nbsp;
-                    <?php if($saefi->submitted == 0) { ?>
+                    <?php if($saefi->submitted == 0 or $saefi->submitted == 1) { ?>
                     <span class="label label-danger">                     
                      <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $saefi->id], ['confirm' => __('Are you sure you want to delete # {0}?', $saefi->id), 'class' => 'label-link']) ?>
                     </span> 

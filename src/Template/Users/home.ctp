@@ -23,7 +23,7 @@
             foreach ($sadrs as $sadr): ?>
           <li><?php 
                   if($sadr->submitted == 2) {
-                    echo $i++.'. '.$this->Html->link('<span class="text-success">'.$sadr->reference_number.' &nbsp; &nbsp;<i class="fa fa-check" aria-hidden="true"></i></span>', ['controller' => 'Sadrs', 'action' => 'view', $sadr->id], ['escape' => false]);
+                    echo $i++.'. '.$this->Html->link('<span class="text-success">'.$sadr->reference_number.' - '.$sadr->report_type.' &nbsp;<i class="fa fa-check" aria-hidden="true"></i></span>', ['controller' => 'Sadrs', 'action' => 'view', $sadr->id], ['escape' => false]);
                   } else {
                     echo $i++.'. '.$this->Html->link(h($sadr->created->i18nFormat('dd-MM-yyyy HH:mm')).' &nbsp; &nbsp;<i class="fa fa-pencil" aria-hidden="true"></i>', ['controller' => 'Sadrs', 'action' => 'edit', $sadr->id], ['escape' => false]);
                   }
@@ -52,7 +52,7 @@
             foreach ($adrs as $adr): ?>
           <li><?php 
                       if($adr->submitted == 2) {
-                        echo $i++.'. '.$this->Html->link('<span class="text-success">'.$adr->reference_number.' &nbsp; &nbsp;<i class="fa fa-check" aria-hidden="true"></i></span>', ['controller' => 'Adrs', 'action' => 'view', $adr->id], ['escape' => false]);
+                        echo $i++.'. '.$this->Html->link('<span class="text-success">'.$adr->reference_number.' - '.$adr->report_type.' &nbsp;<i class="fa fa-check" aria-hidden="true"></i></span>', ['controller' => 'Adrs', 'action' => 'view', $adr->id], ['escape' => false]);
                       } else {
                         echo $i++.'. '.$this->Html->link(h($adr->created->i18nFormat('dd-MM-yyyy HH:mm')).' &nbsp; &nbsp;<i class="fa fa-pencil" aria-hidden="true"></i>', ['controller' => 'Adrs', 'action' => 'edit', $adr->id], ['escape' => false]);
                       }
@@ -108,7 +108,7 @@
             foreach ($aefis as $aefi): ?>
           <li><?php 
                   if($aefi->submitted == 2) {
-                    echo $i++.'. '.$this->Html->link('<span class="text-success">'.$aefi->reference_number.' &nbsp; &nbsp;<i class="fa fa-check" aria-hidden="true"></i></span>', ['controller' => 'Aefis', 'action' => 'view', $aefi->id], ['escape' => false]);
+                    echo $i++.'. '.$this->Html->link('<span class="text-success">'.$aefi->reference_number.' - '.$aefi->report_type.' &nbsp;<i class="fa fa-check" aria-hidden="true"></i></span>', ['controller' => 'Aefis', 'action' => 'view', $aefi->id], ['escape' => false]);
                   } else {
                     echo $i++.'. '.$this->Html->link(h($aefi->created->i18nFormat('dd-MM-yyyy HH:mm')).' &nbsp; &nbsp;<i class="fa fa-pencil" aria-hidden="true"></i>', ['controller' => 'Aefis', 'action' => 'edit', $aefi->id], ['escape' => false]);
                   }
@@ -137,7 +137,7 @@
             foreach ($saefis as $saefi): ?>
           <li><?php 
                   if($saefi->submitted == 2) {
-                    echo $i++.'. '.$this->Html->link('<span class="text-success">'.$saefi->reference_number.' &nbsp; &nbsp;<i class="fa fa-check" aria-hidden="true"></i></span>', ['controller' => 'Saefis', 'action' => 'view', $saefi->id], ['escape' => false]);
+                    echo $i++.'. '.$this->Html->link('<span class="text-success">'.$saefi->reference_number.' - '.$saefi->report_type.' &nbsp;<i class="fa fa-check" aria-hidden="true"></i></span>', ['controller' => 'Saefis', 'action' => 'view', $saefi->id], ['escape' => false]);
                   } else {
                     echo $i++.'. '.$this->Html->link(h($saefi->created->i18nFormat('dd-MM-yyyy HH:mm')).' &nbsp; &nbsp;<i class="fa fa-pencil" aria-hidden="true"></i>', ['controller' => 'Saefis', 'action' => 'edit', $saefi->id], ['escape' => false]);
                   }

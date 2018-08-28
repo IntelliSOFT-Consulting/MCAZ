@@ -5,6 +5,10 @@
   padding: 4px;
 }
 
+.table > tbody > tr > th, .table > tbody > tr > td {
+  border-top: none;
+}
+
 .aefi_form {
   background-color: #FF92C9;
   border: 2px solid #3E58A7;

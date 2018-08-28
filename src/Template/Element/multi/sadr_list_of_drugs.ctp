@@ -25,9 +25,9 @@
                     <th> Date Stopped </th>
                     <th colspan="2"> Tick Suspected Drug(s) <span class="sterix fa fa-asterisk" aria-hidden="true"></span>
                     <?php
-                        echo $this->Form->input('suspected_drug', ['type' => 'hidden', 'templates' => ($editable) ?  'app_form' : ['input' => '']]) ; 
-                        if ($this->Form->isFieldError('suspected_drug')) {
-                            // echo $this->Form->error('suspected_drug', 'Select at least one.');
+                        echo $this->Form->input('suspected_drugy', ['type' => 'hidden', 'templates' => ($editable) ?  'app_form' : ['input' => '']]) ; 
+                        if ($this->Form->isFieldError('suspected_drugy')) {
+                            // echo $this->Form->error('suspected_drugy', 'Select at least one.');
                             echo "<span style='color: #b50909;'>Select at least one drug</span>";
                         }
                     ?>
@@ -104,7 +104,9 @@
                     </td>
                     <td>
                         <?php
-                            echo $this->Form->control('sadr_list_of_drugs.'.$i.'.suspected_drug', ['label' => false, 'type' => 'checkbox', 'templates' => ($editable) ? 'table_form' : 'view_form_checkbox'])
+                            echo $this->Form->control('sadr_list_of_drugs.'.$i.'.suspected_drug', ['label' => false, 'type' => 'checkbox', 
+                                //'templates' => ($editable) ? 'table_form' : 'view_form_checkbox'
+                        ])
                         ?>
                     </td>
                     <td>

@@ -51,18 +51,20 @@ class UsersBaseController extends AppController
         // pr($user);
 
         $sadrs = $this->paginate($this->Sadrs->find('all')->where(['submitted' => 2, 'status IN' => ['Submitted', 'Manual'], 'IFNULL(copied, "N") !=' => 'old copy']), ['scope' => 'sadr', 'order' => ['Sadrs.status' => 'asc', 'Sadrs.id' => 'desc'],
-                                    'fields' => ['Sadrs.id', 'Sadrs.created', 'Sadrs.reference_number', 'Sadrs.submitted']]);
+                                    'fields' => ['Sadrs.id', 'Sadrs.created', 'Sadrs.reference_number', 'Sadrs.submitted', 'Sadrs.assigned_to']]);
         $adrs = $this->paginate($this->Adrs->find('all')->where(['submitted' => 2, 'status IN' => ['Submitted', 'Manual'], 'IFNULL(copied, "N") !=' => 'old copy']), ['scope' => 'adr', 'order' => ['Adrs.status' => 'asc', 'Adrs.id' => 'desc'],
-                                    'fields' => ['Adrs.id', 'Adrs.created', 'Adrs.reference_number']]);
+                                    'fields' => ['Adrs.id', 'Adrs.created', 'Adrs.reference_number', 'Adrs.assigned_to']]);
         $aefis = $this->paginate($this->Aefis->find('all')->where(['submitted' => 2, 'status IN' => ['Submitted', 'Manual'], 'IFNULL(copied, "N") !=' => 'old copy']), ['scope' => 'aefi', 'order' => ['Aefis.status' => 'asc', 'Aefis.id' => 'desc'],
-                                    'fields' => ['Aefis.id', 'Aefis.created', 'Aefis.reference_number']]);
+                                    'fields' => ['Aefis.id', 'Aefis.created', 'Aefis.reference_number', 'Aefis.assigned_to']]);
         $saefis = $this->paginate($this->Saefis->find('all')->where(['submitted' => 2, 'status IN' => ['Submitted', 'Manual'], 'IFNULL(copied, "N") !=' => 'old copy']), ['scope' => 'saefi', 'order' => ['Saefis.status' => 'asc', 'Saefis.id' => 'desc'],
-                                    'fields' => ['Saefis.id', 'Saefis.created', 'Saefis.reference_number']]);
+                                    'fields' => ['Saefis.id', 'Saefis.created', 'Saefis.reference_number', 'Saefis.assigned_to']]);
         $ce2bs = $this->paginate($this->Ce2bs->find('all')->where(['submitted' => 2, 'status IN' => ['Submitted', 'Manual'], 'IFNULL(copied, "N") !=' => 'old copy']), ['scope' => 'saefi', 'order' => ['Ce2bs.status' => 'asc', 'Ce2bs.id' => 'desc'],
-                                    'fields' => ['Ce2bs.id', 'Ce2bs.created', 'Ce2bs.reference_number']]);
+                                    'fields' => ['Ce2bs.id', 'Ce2bs.created', 'Ce2bs.reference_number', 'Ce2bs.assigned_to']]);
+
+        $evaluators = $this->Sadrs->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
 
         $this->set(compact('sadrs', 'adrs', 'aefis', 'saeifs'));
-        $this->set(compact('saefis', 'ce2bs'));
+        $this->set(compact('saefis', 'ce2bs', 'evaluators'));
         $this->render('/Base/Users/dashboard');
     }
 

@@ -485,6 +485,7 @@ class SadrsController extends AppController
                 }
             // debug((string)$sadr);
             // debug($this->request->data);
+            // return;
             if ($sadr->submitted == 1) {
               //save changes button
                 // debug($sadr); return;
@@ -711,7 +712,7 @@ class SadrsController extends AppController
 
         $this->request->allowMethod(['post', 'delete', 'get']);
         $sadr = $this->Sadrs->get($id);
-        if ($sadr->user_id == $this->Auth->user('id') && $sadr->submitted == 0) {
+        if ($sadr->user_id == $this->Auth->user('id') && ($sadr->submitted == 0 or $sadr->submitted == 1)) {
             if ($this->Sadrs->delete($sadr)) {
                 $this->Flash->success(__('The sadr has been deleted.'));
             } else {

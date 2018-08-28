@@ -376,7 +376,7 @@ class SaefisController extends AppController
     {
         $this->request->allowMethod(['post', 'delete', 'get']);
         $saefi = $this->Saefis->get($id);
-        if ($saefi->user_id == $this->Auth->user('id') && $saefi->submitted == 0) {
+        if ($saefi->user_id == $this->Auth->user('id') && ($saefi->submitted == 0 or $saefi->submitted == 1)) {
           if ($this->Saefis->delete($saefi)) {
               $this->Flash->success(__('The saefi has been deleted.'));
           } else {

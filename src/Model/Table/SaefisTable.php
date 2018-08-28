@@ -210,7 +210,7 @@ class SaefisTable extends Table
             // return !$context['data']['is_taxable'];
             if (isset($context['data']['aefi_list_of_vaccines'])) {
                 foreach ($context['data']['aefi_list_of_vaccines'] as $val){
-                    if ($val['suspected_drug'] == 1) {
+                    if ($val['suspected_drug']) {
                         return true;
                     }
                 }

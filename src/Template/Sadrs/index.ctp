@@ -49,7 +49,7 @@
                      <?= $this->Html->link('PDF', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status, '_ext' => 'pdf'], ['escape' => false, 'class' => 'label-link'])
                      ?>
                     </span>  &nbsp;
-                    <?php if($sadr->submitted == 0) { ?>
+                    <?php if($sadr->submitted == 0 or $sadr->submitted == 1) { ?>
                     <span class="label label-danger">                     
                      <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $sadr->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sadr->id), 'class' => 'label-link']) ?>
                     </span> 

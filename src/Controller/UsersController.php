@@ -299,13 +299,13 @@ class UsersController extends AppController
         // pr($user);
 
         $sadrs = $this->paginate($this->Sadrs->findByUserId($this->Auth->user('id')), ['scope' => 'sadr', 'order' => ['Sadrs.id' => 'desc'],
-                                    'fields' => ['Sadrs.id', 'Sadrs.created', 'Sadrs.reference_number', 'Sadrs.submitted']]);
+                                    'fields' => ['Sadrs.id', 'Sadrs.created', 'Sadrs.reference_number', 'Sadrs.submitted', 'Sadrs.report_type']]);
         $adrs = $this->paginate($this->Adrs->findByUserId($this->Auth->user('id')), ['scope' => 'adr', 'order' => ['Adrs.id' => 'desc'],
-                                    'fields' => ['Adrs.id', 'Adrs.created', 'Adrs.reference_number', 'Adrs.submitted']]);
+                                    'fields' => ['Adrs.id', 'Adrs.created', 'Adrs.reference_number', 'Adrs.submitted', 'Adrs.report_type']]);
         $aefis = $this->paginate($this->Aefis->findByUserId($this->Auth->user('id')), ['scope' => 'aefi', 'order' => ['Aefis.id' => 'desc'],
-                                    'fields' => ['Aefis.id', 'Aefis.created', 'Aefis.reference_number', 'Aefis.submitted']]);
+                                    'fields' => ['Aefis.id', 'Aefis.created', 'Aefis.reference_number', 'Aefis.submitted', 'Aefis.report_type']]);
         $saefis = $this->paginate($this->Saefis->findByUserId($this->Auth->user('id')), ['scope' => 'saefi', 'order' => ['Saefis.id' => 'desc'],
-                                    'fields' => ['Saefis.id', 'Saefis.created', 'Saefis.reference_number', 'Saefis.submitted']]);
+                                    'fields' => ['Saefis.id', 'Saefis.created', 'Saefis.reference_number', 'Saefis.submitted', 'Saefis.report_type']]);
         $ce2bs = $this->paginate($this->Ce2bs->findByUserId($this->Auth->user('id')), ['scope' => 'ce2b', 'order' => ['Ce2bs.id' => 'desc']]);
         $notifications = $this->paginate($this->Notifications->findByUserId($this->Auth->user('id')), ['scope' => 'notification', 'order' => ['Notification.id' => 'desc'],]);
 
@@ -339,21 +339,22 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
-        $user = $this->Users->get($id, [
-            'contain' => []
-        ]);
+        return $this->redirect(['action' => 'profile']);
+        // $user = $this->Users->get($id, [
+        //     'contain' => []
+        // ]);
 
-        //Send registration confirm email
-        $this->loadModel('Queue.QueuedJobs'); 
-        $data = [
-            'email_address' => $user->email, 'user_id' => $user->id, 'type' => 'registration_email', 'model' => 'Users', 
-            'foreign_key' => $user->id, 'vars' =>  $user->toArray()                
-        ]; 
-        $html = new HtmlHelper(new \Cake\View\View());
-        $data['vars']['pv_site'] = $html->link('MCAZ PV website', ['controller' => 'Pages', 'action' => 'home', '_full' => true]);
-        $data['vars']['activation_link'] = $html->link('ACTIVATE', ['controller' => 'Users', 'action' => 'activate', $user->activation_key, 
-                                  '_full' => true]);
-        $this->QueuedJobs->createJob('GenericEmail', $data);
+        // //Send registration confirm email
+        // $this->loadModel('Queue.QueuedJobs'); 
+        // $data = [
+        //     'email_address' => $user->email, 'user_id' => $user->id, 'type' => 'registration_email', 'model' => 'Users', 
+        //     'foreign_key' => $user->id, 'vars' =>  $user->toArray()                
+        // ]; 
+        // $html = new HtmlHelper(new \Cake\View\View());
+        // $data['vars']['pv_site'] = $html->link('MCAZ PV website', ['controller' => 'Pages', 'action' => 'home', '_full' => true]);
+        // $data['vars']['activation_link'] = $html->link('ACTIVATE', ['controller' => 'Users', 'action' => 'activate', $user->activation_key, 
+        //                           '_full' => true]);
+        // $this->QueuedJobs->createJob('GenericEmail', $data);
 
         //
                 // $this->loadModel('Queue.QueuedJobs');
@@ -384,8 +385,8 @@ class UsersController extends AppController
         // Log::write('debug', 'End queue manenos');
         //end
 
-        $this->set('user', $user);
-        $this->set('_serialize', ['user']);
+        // $this->set('user', $user);
+        // $this->set('_serialize', ['user']);
     }
 
     public function profile()

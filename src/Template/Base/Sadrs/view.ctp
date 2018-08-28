@@ -3,7 +3,7 @@
 <?php $this->end(); ?>
 
 <?php
-  $this->extend('/Element/sadrs/sadr_form');
+  $this->extend('/Element/sadrs/sadr_view');
   $this->assign('editable', false);
   $this->assign('baseClass', 'sadr_form');
   $this->Html->script('jquery/assign_evaluator', ['block' => true]);

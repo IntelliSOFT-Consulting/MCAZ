@@ -191,15 +191,15 @@ class SadrsTable extends Table
             ->notEmpty('institution_code', ['message' => 'Please enter the institution code']);
 
         /*$validator
-            ->allowEmpty('suspected_drug')
-            ->add('suspected_drug', 'custom', [
+            ->allowEmpty('suspected_drugy')
+            ->add('suspected_drugy', 'custom', [
             'rule' => function ($value, $context) {
                 // Custom logic that returns true/false
                 if (isset($context['data']['sadr_list_of_drugs'])) {
                     foreach ($context['data']['sadr_list_of_drugs'] as $val){
                         if ($val['suspected_drug'] == 1) {
                             //$this->data['Sadr']['list'] = 1;
-                            $context['data']['suspected_drug'] = 1;
+                            $context['data']['suspected_drugy'] = 1;
                             return true;
                         }
                     }
@@ -209,13 +209,13 @@ class SadrsTable extends Table
             'message' => 'Kindly select at least one suspected drug'
         ]);*/
 
-        $validator->allowEmpty('suspected_drug', function ($context) {
+        $validator->allowEmpty('suspected_drugy', function ($context) {
             // return !$context['data']['is_taxable'];
             if (isset($context['data']['sadr_list_of_drugs'])) {
                 foreach ($context['data']['sadr_list_of_drugs'] as $val){
-                    if ($val['suspected_drug'] == 1) {
+                    if ($val['suspected_drug']) {
                         //$this->data['Sadr']['list'] = 1;
-                        $context['data']['suspected_drug'] = 1;
+                        $context['data']['suspected_drugy'] = 1;
                         return true;
                     }
                 }

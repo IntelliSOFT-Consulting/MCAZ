@@ -428,7 +428,7 @@ class AdrsController extends AppController
     {
         $this->request->allowMethod(['post', 'delete', 'get']);
         $adr = $this->Adrs->get($id);
-        if ($adr->user_id == $this->Auth->user('id') && $adr->submitted == 0) {
+        if ($adr->user_id == $this->Auth->user('id') && ($adr->submitted == 0 or $adr->submitted == 1)) {
           if ($this->Adrs->delete($adr)) {
               $this->Flash->success(__('The adr has been deleted.'));
           } else {

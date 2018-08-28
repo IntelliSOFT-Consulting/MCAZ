@@ -3,7 +3,7 @@
 <?php $this->end(); ?>
 
 <?php
-  $this->extend('/Element/saefis/saefi_form');
+  $this->extend('/Element/saefis/saefi_view');
   $this->assign('baseClass', 'saefi_form');
   $this->assign('editable', false);
 ?>
