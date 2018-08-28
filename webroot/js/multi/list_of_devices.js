@@ -32,6 +32,25 @@ $(function() {
         format: 'd-m-Y H:i'
       });
 
+      var cached = {}, lastXhr3;
+      $( ".autoComblete" ).autocomplete({
+        source: function( request, response ) {
+          var term = request.term;
+          if ( term in cached ) {
+            response( cached[ term ] );
+            return;
+          }
+
+          lastXhr3 = $.getJSON( "/who-drugs/drug-name.json", request, function( data, status, xhr ) {
+            cached[ term ] = data;
+            if ( xhr === lastXhr3 ) {
+              response( data );
+            }
+          });
+        }
+      });
+
+      $('[data-toggle="tooltip"]').tooltip({delay: { "show": 5, "hide": 5 }});
     }
 
 
@@ -61,9 +80,9 @@ $(function() {
           <tr>\
             <td>{i2}</td>\
             <td><input class="form-control" name="adr_list_of_drugs[{i}][id]" id="adr-list-of-drugs-{i}-id" type="hidden"> \
-                <input class="form-control" name="adr_list_of_drugs[{i}][drug_name]" id="adr-list-of-drugs-{i}-drug-name" type="text">  </td>\
+                <input class="form-control autoComblete" data-toggle="tooltip" data-placement="bottom" title="Enter free text if not in list" name="adr_list_of_drugs[{i}][drug_name]" id="adr-list-of-drugs-{i}-drug-name" type="text">  </td>\
             <td>\
-                <input class="form-control" name="adr_list_of_drugs[{i}][dosage]" id="adr-list-of-drugs-{i}-dosage" type="number"> </td>\
+                <input class="form-control" name="adr_list_of_drugs[{i}][dosage]" id="adr-list-of-drugs-{i}-dosage" type="text"> </td>\
             <td>\
                  <select class="form-control" name="adr_list_of_drugs[{i}][dose_id]" id="adr-list-of-drugs-{i}-dose-id"></select>    </td>\
             <td> <select class="form-control" name="adr_list_of_drugs[{i}][route_id]" id="adr-list-of-drugs-{i}-route-id"></select>  </td>\

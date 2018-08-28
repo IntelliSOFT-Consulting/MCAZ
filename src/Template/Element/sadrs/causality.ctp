@@ -167,17 +167,17 @@ should be submitted as follow up report</td></tr>
                             </div> 
                           </div> 
                           <div class="form-group">
-                            <label class="control-label">Causality Decision:</label>
-                            <div>
-                            <p class="form-control-static"><?= $review['causality_decision'] ?></p>
-                            </div> 
-                          </div>
-                          <div class="form-group">
                             <label class="control-label">Status:</label>
                             <div>
                             <p class="form-control-static"><?= $review['status'] ?></p>
                             </div> 
                           </div> 
+                          <div class="form-group">
+                            <label class="control-label">Causality Decision:</label>
+                            <div>
+                            <p class="form-control-static"><?= $review['causality_decision'] ?></p>
+                            </div> 
+                          </div>
                           <div class="form-group">
                             <label class="control-label">File</label>
                             <div class="">
@@ -286,7 +286,7 @@ should be submitted as follow up report</td></tr>
                     echo $this->Form->control('reviews.'.$ekey.'.comments', ['escape' => false, 'templates' => 'app_form']);
                     echo $this->Form->control('reviews.'.$ekey.'.references_text', ['escape' => false, 'templates' => 'app_form']);
                     echo $this->Form->control('reviews.'.$ekey.'.status', ['type' => 'radio', 
-                               'label' => '<b>Causality Decision</b> <a onclick="$(\'input[name=reviews\\\['.$ekey.'\\\]\\\[status\\\]]\').removeAttr(\'checked\');" class="tiptip"  data-original-title="clear!!">
+                               'label' => '<b>Status</b> <a onclick="$(\'input[name=reviews\\\['.$ekey.'\\\]\\\[status\\\]]\').removeAttr(\'checked\');" class="tiptip"  data-original-title="clear!!">
                 <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>', 'escape' => false,
                                'templates' => 'radio_form',
                                'options' => [

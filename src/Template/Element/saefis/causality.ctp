@@ -103,7 +103,7 @@
       </div>
       <div class="col-xs-3">
         <?= $this->Form->control('aefi_causalities.'.$ekey.'.primary_vaccine', ['type' => 'select', 'label' => false, 
-            'options' => Hash::combine($saefi->toArray(), 'saefi_list_of_vaccines.{n}.vaccine_name', 'saefi_list_of_vaccines.{n}.vaccine_name'), 
+            'options' => Hash::combine($saefi->toArray(), 'aefi_list_of_vaccines.{n}.vaccine_name', 'aefi_list_of_vaccines.{n}.vaccine_name'), 
             'templates' => 'table_form']);?>
       </div>
       <div class="col-xs-3">
@@ -247,7 +247,7 @@
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.prescribing_error', ['type' => 'radio', 
                      'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['prescribing_error'] ?? $saefi['prescribing_error'],
                      'templates' => 'radio_form',
-                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
+                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown', 'Not applicable' => 'Not applicable']]); ?>
                      </div>
                               </td>
                               <td>
@@ -262,7 +262,7 @@
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.vaccine_unsterile', ['type' => 'radio', 
                      'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_unsterile'] ?? $saefi['vaccine_unsterile'],
                      'templates' => 'radio_form',
-                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
+                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown', 'Not applicable' => 'Not applicable']]); ?>
                      </div>
                               </td>
                               <td>
@@ -276,7 +276,7 @@
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.vaccine_condition', ['type' => 'radio', 
                      'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_condition'] ?? $saefi['vaccine_condition'],
                      'templates' => 'radio_form' ,
-                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
+                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown', 'Not applicable' => 'Not applicable']]); ?>
                      </div>
                               </td>
                               <td>
@@ -290,7 +290,7 @@
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.vaccine_reconstitution', ['type' => 'radio', 
                      'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_reconstitution'] ?? $saefi['vaccine_reconstitution'],
                      'templates' => 'radio_form' ,
-                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
+                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown', 'Not applicable' => 'Not applicable']]); ?>
                      </div>
                               </td>
                               <td>
@@ -304,7 +304,7 @@
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.vaccine_handling', ['type' => 'radio', 
                      'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_handling'] ?? $saefi['vaccine_handling'],
                      'templates' => 'radio_form' ,
-                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
+                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown', 'Not applicable' => 'Not applicable']]); ?>
                      </div>
                               </td>
                               <td>
@@ -318,7 +318,7 @@
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.vaccine_administered', ['type' => 'radio', 
                      'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_administered'] ?? 'Unable to assess',
                      'templates' => 'radio_form' ,
-                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
+                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown', 'Not applicable' => 'Not applicable']]); ?>
                      </div>
                               </td>
                               <td>
@@ -574,6 +574,10 @@
 
         <p> With available evidence, we could <b>NOT</b> classify the case because:
           <?= $this->Form->control('aefi_causalities.'.$ekey.'.conclude_inability', ['label' => false, 'templates' => 'table_form'])?>
+        </p>
+        
+        <p> <strong class="text-center">References</strong>
+          <?= $this->Form->control('aefi_causalities.'.$ekey.'.references_text', ['label' => false, 'templates' => 'table_form'])?>
         </p>
       </div>
     </div>

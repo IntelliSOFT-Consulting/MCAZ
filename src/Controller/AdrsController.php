@@ -304,6 +304,8 @@ class AdrsController extends AppController
                 'validate' => ($this->request->getData('submitted') == 2) ? true : false, 
                 'associated' => [
                     'AdrListOfDrugs' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false],
+                    'AdrOtherDrugs' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false],
+                    'AdrLabTests' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false],
                     'Attachments' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ]
                 ]
             ]);

@@ -1,7 +1,7 @@
 <?php //echo $this->element('sadrs/reporter_view');?>
 
 <?php
-  $this->extend('/Element/sadrs/sadr_form');
+  $this->extend('/Element/sadrs/sadr_view');
   $this->assign('globalEd', true);
   $this->assign('baseClass', 'sadr_form');
   $this->Html->script('jquery/assign_evaluator', ['block' => true]);

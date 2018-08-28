@@ -36,8 +36,9 @@ class SaefisBaseController extends AppController
             ->order(['created' => 'DESC'])
             ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
         $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
+        $users = $this->Saefis->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $provinces = $this->Saefis->Provinces->find('list', ['limit' => 200]);
-        $this->set(compact('designations', 'provinces'));
+        $this->set(compact('designations', 'provinces', 'users'));
         $this->set('saefis', $this->paginate($query));
 
         $_designations = $designations->toArray();

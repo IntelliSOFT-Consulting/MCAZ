@@ -74,7 +74,7 @@ class SadrsBaseController extends AppController
             // You can add extra things to the query if you need to
             //->where([['ifnull(report_type,-1) !=' => 'FollowUp']]);
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
-        $users = $this->Sadrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        $users = $this->Sadrs->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
         $this->set(compact('provinces', 'designations', 'query', 'users'));
         $this->set('sadrs', $this->paginate($query));

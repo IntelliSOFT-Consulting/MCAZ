@@ -118,24 +118,24 @@
       </div>
       <div class="col-xs-3">
           <?php 
-              //echo $this->Form->control('aefi_causalities.'.$ekey.'.causality_question', ['label' => false, 'templates' => 'table_form']);
-              $reactions[$aefi->description_of_reaction] = $aefi->description_of_reaction;
-              if($aefi['ae_severe_local_reaction']) $reactions['Severe'] = 'Severe';
-              if($aefi['ae_seizures']) $reactions['Seizures'] = 'Seizures';
-              if($aefi['ae_abscess']) $reactions['Abscess'] = 'Abscess' ;
-              if($aefi['ae_sepsis']) $reactions['Sepsis'] = 'Sepsis' ;
-              if($aefi['ae_encephalopathy']) $reactions['Encephalopathy'] = 'Encephalopathy' ;
-              if($aefi['ae_toxic_shock']) $reactions['Toxic'] = 'Toxic' ;
-              if($aefi['ae_thrombocytopenia']) $reactions['Thrombocytopenia'] = 'Thrombocytopenia' ;
-              if($aefi['ae_anaphylaxis']) $reactions['Anaphylaxis'] = 'Anaphylaxis' ;
-              if($aefi['ae_fever']) $reactions['Fever'] = 'Fever' ;
-              if($aefi['ae_3days']) $reactions['Severe local reaction > 3 days'] = 'Severe local reaction > 3 days' ;
-              if($aefi['ae_febrile']) $reactions['febrile'] = 'febrile';
-              if($aefi['ae_beyond_joint']) $reactions['Severe local reaction beyond nearest joint'] = 'Severe local reaction beyond nearest joint';
-              if($aefi['ae_afebrile']) $reactions['afebrile'] = 'afebrile'; 
-              echo $this->Form->control('aefi_causalities.'.$ekey.'.causality_question', ['type' => 'select', 'label' => false, 
-                      'options' => $reactions, 
-                      'templates' => 'table_form']);
+              echo $this->Form->control('aefi_causalities.'.$ekey.'.causality_question', ['label' => false, 'templates' => 'table_form']);
+              // $reactions[$aefi->description_of_reaction] = $aefi->description_of_reaction;
+              // if($aefi['ae_severe_local_reaction']) $reactions['Severe'] = 'Severe';
+              // if($aefi['ae_seizures']) $reactions['Seizures'] = 'Seizures';
+              // if($aefi['ae_abscess']) $reactions['Abscess'] = 'Abscess' ;
+              // if($aefi['ae_sepsis']) $reactions['Sepsis'] = 'Sepsis' ;
+              // if($aefi['ae_encephalopathy']) $reactions['Encephalopathy'] = 'Encephalopathy' ;
+              // if($aefi['ae_toxic_shock']) $reactions['Toxic'] = 'Toxic' ;
+              // if($aefi['ae_thrombocytopenia']) $reactions['Thrombocytopenia'] = 'Thrombocytopenia' ;
+              // if($aefi['ae_anaphylaxis']) $reactions['Anaphylaxis'] = 'Anaphylaxis' ;
+              // if($aefi['ae_fever']) $reactions['Fever'] = 'Fever' ;
+              // if($aefi['ae_3days']) $reactions['Severe local reaction > 3 days'] = 'Severe local reaction > 3 days' ;
+              // if($aefi['ae_febrile']) $reactions['febrile'] = 'febrile';
+              // if($aefi['ae_beyond_joint']) $reactions['Severe local reaction beyond nearest joint'] = 'Severe local reaction beyond nearest joint';
+              // if($aefi['ae_afebrile']) $reactions['afebrile'] = 'afebrile'; 
+              // echo $this->Form->control('aefi_causalities.'.$ekey.'.causality_question', ['type' => 'select', 'label' => false, 
+              //         'options' => $reactions, 
+              //         'templates' => 'table_form']);
           ?>
       </div>
       <div class="col-xs-2">
@@ -271,7 +271,7 @@
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.prescribing_error', ['type' => 'radio', 
                      'label' => false, 'value' => $aefi['aefi_causalities'][$ekey]['prescribing_error'] ?? $aefi['prescribing_error'],
                      'templates' => 'radio_form',
-                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
+                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown', 'Not applicable' => 'Not applicable']]); ?>
                      </div>
                               </td>
                               <td>
@@ -286,7 +286,7 @@
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.vaccine_unsterile', ['type' => 'radio', 
                      'label' => false, 'value' => $aefi['aefi_causalities'][$ekey]['vaccine_unsterile'] ?? $aefi['vaccine_unsterile'],
                      'templates' => 'radio_form',
-                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
+                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown', 'Not applicable' => 'Not applicable']]); ?>
                      </div>
                               </td>
                               <td>
@@ -300,7 +300,7 @@
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.vaccine_condition', ['type' => 'radio', 
                      'label' => false, 'value' => $aefi['aefi_causalities'][$ekey]['vaccine_condition'] ?? $aefi['vaccine_condition'],
                      'templates' => 'radio_form' ,
-                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
+                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown', 'Not applicable' => 'Not applicable']]); ?>
                      </div>
                               </td>
                               <td>
@@ -314,7 +314,7 @@
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.vaccine_reconstitution', ['type' => 'radio', 
                      'label' => false, 'value' => $aefi['aefi_causalities'][$ekey]['vaccine_reconstitution'] ?? $aefi['vaccine_reconstitution'],
                      'templates' => 'radio_form' ,
-                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
+                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown', 'Not applicable' => 'Not applicable']]); ?>
                      </div>
                               </td>
                               <td>
@@ -328,7 +328,7 @@
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.vaccine_handling', ['type' => 'radio', 
                      'label' => false, 'value' => $aefi['aefi_causalities'][$ekey]['vaccine_handling'] ?? $aefi['vaccine_handling'],
                      'templates' => 'radio_form' ,
-                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
+                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown', 'Not applicable' => 'Not applicable']]); ?>
                      </div>
                               </td>
                               <td>
@@ -342,7 +342,7 @@
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.vaccine_administered', ['type' => 'radio', 
                      'label' => false, 'value' => $aefi['aefi_causalities'][$ekey]['vaccine_administered'] ?? 'Unable to assess',
                      'templates' => 'radio_form' ,
-                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unable to assess' => 'Unable to assess']]); ?>
+                     'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown', 'Not applicable' => 'Not applicable']]); ?>
                      </div>
                               </td>
                               <td>
@@ -514,7 +514,7 @@
       <div id="collapseExampleTwo">
         <div class="well">
           <?php 
-            echo $this->Html->image('causality_algorithm.png', ['alt' => 'Causality Algorithm', 'width' => '826']); 
+            echo $this->Html->image('causality_new.png', ['alt' => 'Causality Algorithm', 'width' => '826']); 
             echo $this->Form->control('aefi_causalities.'.$ekey.'.causality_notes', ['label' => 'Notes for step 3:', 'templates' => 'app_form']);
           ?>
         </div>
@@ -595,7 +595,9 @@
           <?= $this->Form->control('aefi_causalities.'.$ekey.'.conclude', ['label' => false, 'templates' => 'app_form']) ?> because:
           <?= $this->Form->control('aefi_causalities.'.$ekey.'.conclude_reason', ['label' => false, 'templates' => 'table_form'])?>
         </p>
-
+        <p> <strong class="text-center">References</strong>
+          <?= $this->Form->control('aefi_causalities.'.$ekey.'.references_text', ['label' => false, 'templates' => 'table_form'])?>
+        </p>
       </div>
     </div>
 

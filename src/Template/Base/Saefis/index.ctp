@@ -42,13 +42,14 @@ $this->start('sidebar'); ?>
         </thead>
         <tbody>
             <?php foreach ($saefis as $saefi): ?>
+            <?php $a = ($saefi['assigned_to']) ? '<small class="muted">'.$users->toArray()[$saefi['assigned_to']].'</small>' : '<small class="muted">Unassigned</small>';?>
             <tr>
                 <td><?= $this->Number->format($saefi->id) ?></td>
                 <td><?php
                       echo ($saefi->submitted == 2) ? $this->Html->link($saefi->reference_number, ['action' => 'view', $saefi->id, 'prefix' => $prefix, 'status' => $saefi->status], ['escape' => false, 'class' => 'btn-zangu']) : 
                         $this->Html->link($saefi->created, ['action' => 'edit', $saefi->id, 'prefix' => $prefix, 'status' => $saefi->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>
                 <td><?= h($saefi->reference_number) ?></td>
-                <td><?= h($saefi->status) ?></td>
+                <td><?= h($saefi->status) ?><br><?= $a ?></td>
                 <td><?= h($saefi->modified) ?></td>
                 <td>
                     <?php if($saefi->submitted == 2 && empty($saefi->messageid)) {                                        

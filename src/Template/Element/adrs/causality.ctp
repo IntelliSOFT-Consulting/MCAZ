@@ -50,6 +50,18 @@
                             </div> 
                           </div> 
                           <div class="form-group">
+                            <label class="control-label">Status:</label>
+                            <div>
+                            <p class="form-control-static"><?= $review['status'] ?></p>
+                            </div> 
+                          </div> 
+                          <div class="form-group">
+                            <label class="control-label">Causality Decision:</label>
+                            <div>
+                            <p class="form-control-static"><?= $review['causality_decision'] ?></p>
+                            </div> 
+                          </div>
+                          <div class="form-group">
                             <label class="control-label">File</label>
                             <div class="">
                               <p class="form-control-static text-info text-left"><?php
@@ -133,6 +145,24 @@
                     echo $this->Form->control('reviews.'.$ekey.'.literature_review', ['escape' => false, 'templates' => 'app_form']);
                     echo $this->Form->control('reviews.'.$ekey.'.comments', ['escape' => false, 'templates' => 'app_form']);
                     echo $this->Form->control('reviews.'.$ekey.'.references_text', ['escape' => false, 'templates' => 'app_form']);
+                    echo $this->Form->control('reviews.'.$ekey.'.status', ['type' => 'radio', 
+                               'label' => '<b>Status</b> <a onclick="$(\'input[name=reviews\\\['.$ekey.'\\\]\\\[status\\\]]\').removeAttr(\'checked\');" class="tiptip"  data-original-title="clear!!">
+                <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>', 'escape' => false,
+                               'templates' => 'radio_form',
+                               'options' => [
+                                  'Known' => 'Known', 
+                                  'Unknown' => 'Unknown']]);
+                    echo $this->Form->control('reviews.'.$ekey.'.causality_decision', ['type' => 'radio', 
+                               'label' => '<b>Causality Decision</b> <a onclick="$(\'input[name=reviews\\\['.$ekey.'\\\]\\\[causality_decision\\\]]\').removeAttr(\'checked\');" class="tiptip"  data-original-title="clear!!">
+                <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>', 'escape' => false,
+                               'templates' => 'radio_form',
+                               'options' => [
+                                  'Certain' => 'Certain', 
+                                  'Probable' => 'Probable', 
+                                  'Possible' => 'Possible', 
+                                  'Unlikely' => 'Unlikely',
+                                  'Conditional/Unclassified' => 'Conditional/Unclassified',
+                                  'Unassessable/Unclassifiable' => 'Unassessable/Unclassifiable']]);
 	            ?>
          	    </div>          
             </div>

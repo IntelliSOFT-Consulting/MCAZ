@@ -41,12 +41,13 @@ $this->start('sidebar'); ?>
         </thead>
         <tbody>
             <?php foreach ($adrs as $adr): ?>
+            <?php $a = ($adr['assigned_to']) ? '<small class="muted">'.$users->toArray()[$adr['assigned_to']].'</small>' : '<small class="muted">Unassigned</small>';?>
             <tr>
                 <td><?= $this->Number->format($adr->id) ?></td>
                 <td><?php
                       echo ($adr->submitted == 2) ? $this->Html->link($adr->reference_number, ['action' => 'view', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']) : 
                         $this->Html->link($adr->created, ['action' => 'edit', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>
-                <td><?= h($adr->status) ?></td>
+                <td><?= h($adr->status) ?><br><?= $a ?></td>
                 <td><?= h($adr->modified) ?></td>
                 <td>
                     <?php if($adr->submitted == 2 && empty($adr->messageid)) {                                        

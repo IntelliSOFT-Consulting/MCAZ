@@ -54,7 +54,7 @@
                              echo $this->Form->input('sadr_list_of_drugs.'.$i.'.id', ['templates' => ($editable) ?  'app_form' : ['input' => '']])  ;
                              echo $this->Form->control('sadr_list_of_drugs.'.$i.'.drug_name', ['label' => false,
                                   'templates' => ($editable) ? 
-                                        ['input' => '<input class="form-control autoComblete" type="{{type}}" name="{{name}}"{{attrs}}/>',
+                                        ['input' => '<input class="form-control autoComblete" data-toggle="tooltip" data-placement="bottom" title="Enter free text if not in list" type="{{type}}" name="{{name}}"{{attrs}}/>',
                                          'formGroup' => ' {{label}}{{input}} '] 
                                         : 'view_form_table' ]);
                         ?>
@@ -72,7 +72,7 @@
                         ?>
                     </td>
                     <td><?php echo $this->Form->control('sadr_list_of_drugs.'.$i.'.dose', ['label' => false, 
-                           'type' => 'number', 'templates' => ($editable) ? 'table_form': 'view_form_table' ]); ?></td>
+                           'type' => 'text', 'templates' => ($editable) ? 'table_form': 'view_form_table' ]); ?></td>
                     <td>
                         <?php
                             echo $this->Form->control('sadr_list_of_drugs.'.$i.'.dose_id', ['label' => false, 'options' => $doses, 'templates' => ($editable) ? 'table_form': 'view_form_table' , 'empty' => true]);

@@ -38,21 +38,6 @@ class AdrListOfDrug extends Entity
      * @var array
      */
     protected $_accessible = [
-        'adr_id' => true,
-        'drug_name' => true,
-        'dosage' => true,
-        'dose_id' => true,
-        'route_id' => true,
-        'frequency_id' => true,
-        'start_date' => true,
-        'stop_date' => true,
-        'taking_drug' => true,
-        'relationship_to_sae' => true,
-        'created' => true,
-        'modified' => true,
-        'adr' => true,
-        'dose' => true,
-        'route' => true,
-        'frequency' => true
+        '*' => true,
     ];
 }

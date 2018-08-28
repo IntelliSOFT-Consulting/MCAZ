@@ -306,7 +306,8 @@ class AdrsTable extends Table
             ->scalar('diagnosis')
             ->notEmpty('diagnosis', ['message' => 'Diagnosis required']);
 
-        $validator->allowEmpty('suspected_drug', function ($context) {
+        //removed need to have suspected drug
+        /*$validator->allowEmpty('suspected_drug', function ($context) {
             // return !$context['data']['is_taxable'];
             if (isset($context['data']['adr_list_of_drugs'])) {
                 foreach ($context['data']['adr_list_of_drugs'] as $val){
@@ -318,7 +319,7 @@ class AdrsTable extends Table
                 }
             }
             return false;
-        }, ['message' => 'Kindly select at least one suspected drug']);
+        }, ['message' => 'Kindly select at least one suspected drug']);*/
 
 
         //Age at onset values
@@ -368,13 +369,13 @@ class AdrsTable extends Table
 
                 if (isset($context['data']['adr_list_of_drugs'])) {
                     foreach ($context['data']['adr_list_of_drugs'] as $val){
-                        if (strtotime($dob) > strtotime($val['start_date'])) return false;
+                        if (strtotime($dob) > strtotime( ($val['start_date']) ? $val['start_date'] : "now" )) return false;
                     }
                 }
                 
                 return true;
 
-            }, 'message' => 'Date of birth must less than drug start date'
+            }, 'message' => 'Date of birth must be greater than drug start date'
         ]);
 
         // $validator

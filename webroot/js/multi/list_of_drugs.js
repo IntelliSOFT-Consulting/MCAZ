@@ -58,6 +58,7 @@ $(function() {
         }
       });
       
+      $('[data-toggle="tooltip"]').tooltip({trigger:"hover", delay: { "hide": 500 }});
     }
 
     // incremental development
@@ -91,12 +92,12 @@ $(function() {
           <tr>\
             <td>{i2}</td>\
             <td><input class="form-control" name="sadr_list_of_drugs[{i}][id]" id="sadr-list-of-drugs-{i}-id" type="hidden"> \
-                <input class="form-control autoComblete" name="sadr_list_of_drugs[{i}][drug_name]" id="sadr-list-of-drugs-{i}-drug-name" type="text">  </td>\
+                <input class="form-control autoComblete" data-toggle="tooltip" data-placement="bottom" title="Enter free text if not in list" name="sadr_list_of_drugs[{i}][drug_name]" id="sadr-list-of-drugs-{i}-drug-name" type="text">  </td>\
             <td>\
-                <input class="form-control autoComblete" name="sadr_list_of_drugs[{i}][brand_name]" id="sadr-list-of-drugs-{i}-brand-name" type="text"> </td>\
+                <input class="form-control autoComblete" data-toggle="tooltip" data-placement="bottom" title="Enter free text if not in list" name="sadr_list_of_drugs[{i}][brand_name]" id="sadr-list-of-drugs-{i}-brand-name" type="text"> </td>\
             <td>\
                 <input class="form-control" name="sadr_list_of_drugs[{i}][batch_number]" maxlength="255" id="sadr-list-of-drugs-{i}-batch-number" type="text"> </td>\
-            <td><input class="form-control" name="sadr_list_of_drugs[{i}][dose]" id="sadr-list-of-drugs-{i}-dose" type="number"> </td>\
+            <td><input class="form-control" name="sadr_list_of_drugs[{i}][dose]" id="sadr-list-of-drugs-{i}-dose" type="text"> </td>\
             <td>\
                  <select class="form-control" name="sadr_list_of_drugs[{i}][dose_id]" id="sadr-list-of-drugs-{i}-dose-id"></select>    </td>\
             <td> <select class="form-control" name="sadr_list_of_drugs[{i}][route_id]" id="sadr-list-of-drugs-{i}-route-id"></select>  </td>\

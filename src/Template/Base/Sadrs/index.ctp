@@ -43,13 +43,14 @@ $this->start('sidebar'); ?>
         </thead>
         <tbody>
             <?php foreach ($sadrs as $sadr): ?>
+            <?php $a = ($sadr['assigned_to']) ? '<small class="muted">'.$users->toArray()[$sadr['assigned_to']].'</small>' : '<small class="muted">Unassigned</small>';?>
             <tr>
                 <td><?= $this->Number->format($sadr->id) ?></td>
                 <td><?php
                       echo ($sadr->submitted == 2) ? $this->Html->link($sadr->reference_number, ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) : 
                         $this->Html->link($sadr->created, ['action' => 'edit', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>
                 <td><?= h($sadr->institution_name) ?></td>
-                <td><?= h($sadr->status) ?></td>                
+                <td><?= h($sadr->status) ?><br><?= $a ?></td>                
                 <td>
                     <?php 
                         foreach ($sadr->report_stages as $application_stage) {
