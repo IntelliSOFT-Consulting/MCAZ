@@ -92,6 +92,12 @@ class AefisBaseController extends AppController
             $this->set(compact('query', '_serialize', '_header', '_extract'));
         }
         if ($this->request->params['_ext'] === 'pdf') {
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'orientation' => 'landscape',
+                    'filename' => 'AEFIS_'.date('d-m-Y').'.pdf'
+                ]
+            ]);
             $this->render('/Base/Aefis/pdf/index');
         } else {
             $this->render('/Base/Aefis/index');

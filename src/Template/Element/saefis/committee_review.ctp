@@ -1,5 +1,7 @@
 <?php
   use Cake\Utility\Hash;
+  $checked = '<i class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp;';
+  $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;';
 ?>
 
  <?php foreach ($saefi->committees as $committee_review) {  ?>
@@ -31,7 +33,24 @@
                           <div class="form-group">
                             <label class="control-label">Committee Decision:</label>
                             <div>
-                            <p class="form-control-static"><?= $committee_review['status'] ?></p>
+                              <p><strong>A. Consistent with causal associatioin to Immunization</strong></p>
+                              <p class="form-control-static"><?= ($committee_review->consistent_i) ? $checked : $nChecked; ?> A1. Vaccine product-related reaction (As per published literature) </p>
+                              <p class="form-control-static"><?= ($committee_review->consistent_ii) ? $checked : $nChecked; ?> A2. Vaccine quality defect-related reaction</p>
+                              <p class="form-control-static"><?= ($committee_review->consistent_iii) ? $checked : $nChecked; ?> A3. Immunization error-related reaction </p>
+                              <p class="form-control-static"><?= ($committee_review->consistent_iv) ? $checked : $nChecked; ?> A4. Immunization anxiety-related reaction <b>(ITSR**)</b> </p>
+
+                              <p><strong>B. Indeterminate</strong></p>
+                              <p class="form-control-static"><?= ($committee_review->indeterminate_i) ? $checked : $nChecked; ?> B1. *Temporal relationship is consistent but there is insufficient definitive evidence for vaccine causing event (may be new vaccine-linked event) </p>
+                              <p class="form-control-static"><?= ($committee_review->indeterminate_ii) ? $checked : $nChecked; ?> B2. Reviewing factors result in conflicting trends of consistency and inconsistency with causal association to immunization </p>
+
+                              <p><strong>C. Inconsistent with causal association to immunization</strong></p>
+                              <p class="form-control-static"><?= ($committee_review->inconsistent) ? $checked : $nChecked; ?> C. Coincidental Underlying or emerging condition(s), or conditions caused by exposure to something other than vaccine </p>
+
+                              <p><strong>Adequate information not available</strong></p>
+                              <p class="form-control-static"><?= ($committee_review->unclassifiable) ? $checked : $nChecked; ?> Unclassifiable </p>
+                              <p class="form-control-static"><strong>Specify the additional information required for classification:</strong><br>
+                                  <?= $committee_review->unclassifiable_specify ?>
+                              </p>
                             </div> 
                           </div> 
                           <div class="form-group">
@@ -81,25 +100,88 @@
 	                  echo $this->Form->control('committees.100.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
                     echo $this->Form->control('committees.100.comments', ['escape' => false, 'templates' => 'app_form', 'label' => 'Internal MCAZ Comments']);
                     echo $this->Form->control('committees.100.literature_review', ['escape' => false, 'templates' => 'app_form', 'label' => 'Reporter Visible Comments']);
-                    echo $this->Form->control('committees.100.status', ['type' => 'radio', 
-                               'label' => '<b>Committee Decision</b> <a onclick="$(\'input[name=committees\\\[100\\\]\\\[status\\\]]\').removeAttr(\'checked\');" class="tiptip"  data-original-title="clear!!">
-                <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>', 'escape' => false,
-                               'templates' => 'radio_form',
-                               'options' => [
-                                  'Certain' => 'Certain', 
-                                  'Probable' => 'Probable', 
-                                  'Possible' => 'Possible', 
-                                  'Unlikely' => 'Unlikely',
-                                  'Conditional/Unclassified' => 'Conditional/Unclassified',
-                                  'Unassessable/Unclassifiable' => 'Unassessable/Unclassifiable']]);
+                //     echo $this->Form->control('committees.100.status', ['type' => 'radio', 
+                //                'label' => '<b>Committee Decision</b> <a onclick="$(\'input[name=committees\\\[100\\\]\\\[status\\\]]\').removeAttr(\'checked\');" class="tiptip"  data-original-title="clear!!">
+                // <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>', 'escape' => false,
+                //                'templates' => 'radio_form',
+                //                'options' => [
+                //                   'Certain' => 'Certain', 
+                //                   'Probable' => 'Probable', 
+                //                   'Possible' => 'Possible', 
+                //                   'Unlikely' => 'Unlikely',
+                //                   'Conditional/Unclassified' => 'Conditional/Unclassified',
+                //                   'Unassessable/Unclassifiable' => 'Unassessable/Unclassifiable']]);
 
+              //       echo $this->Form->control('committees.100.outcome_date', ['type' => 'text', 'class' => 'datepickers', 'templates' => [
+              // 'label' => '<div class="col-xs-4 control-label"><label {{attrs}}>{{text}}</label></div>',
+              // 'input' => '<div class="col-xs-6"><input type="{{type}}" name="{{name}}" {{attrs}} /></div>',]]);
+
+              //       echo $this->Form->control('committees.100.file', ['type' => 'file','label' => 'Attach report (if available)', 'escape' => false, 'templates' => 'app_form']);
+	            ?>
+         	    </div>   
+              <div class="col-xs-12">                
+                <div class="row">
+                  <div class="col-xs-1">
+                    <label>Adequate information available</label>
+                  </div>
+                  <div class="col-xs-4 c1">
+                    <div class="well" style="background-color: #FECCFF">
+                      <p><strong>A. Consistent with causal associatioin to Immunization</strong></p>
+                      <?php
+                        echo $this->Form->control('committees.100.consistent_i', ['type' => 'checkbox', 'label' => 'A1. Vaccine product-related reaction (As per published literature)', 'templates' => 'checkbox_formV2']);   
+                        echo $this->Form->control('committees.100.consistent_ii', ['type' => 'checkbox', 'label' => 'A2. Vaccine quality defect-related reaction', 
+                          'templates' => 'checkbox_formV2']);        
+                        echo $this->Form->control('committees.100.consistent_iii', ['type' => 'checkbox', 'label' => 'A3. Immunization error-related reaction', 
+                          'templates' => 'checkbox_formV2']);        
+                        echo $this->Form->control('committees.100.consistent_iv', ['type' => 'checkbox', 'label' => 'A4. Immunization anxiety-related reaction <br> <b>(ITSR**)</b>', 'escape' => false,
+                          'templates' => 'checkbox_formV2']);               
+                      ?>
+                    </div>
+                  </div>
+                  <div class="col-xs-4 c2">
+                    <div class="well" style="background-color: #FFFFCD">
+                      <p><strong>B. Indeterminate</strong></p>
+                      <?php
+                        echo $this->Form->control('committees.100.indeterminate_i', ['type' => 'checkbox', 'label' => 'B1. *Temporal relationship is consistent but there is insufficient definitive evidence for vaccine causing event (may be new vaccine-linked event)', 
+                          //'checked' => $aefi['committees'][$ekey]['indeterminate'] ?? true,
+                          'templates' => 'checkbox_formV2']);   
+                        echo $this->Form->control('committees.100.indeterminate_ii', ['type' => 'checkbox', 'label' => 'B2. Reviewing factors result in conflicting trends of consistency and inconsistency with causal association to immunization', 'templates' => 'checkbox_formV2']);               
+                      ?>
+                    </div>        
+                  </div>
+                  <div class="col-xs-3 c3">
+                    <div class="well" style="background-color: #CDFFCC"> 
+                      <p><strong>C. Inconsistent with causal association to immunization</strong></p>         
+                      <?php
+                        echo $this->Form->control('committees.100.inconsistent', ['type' => 'checkbox', 'label' => 'C. Coincidental Underlying or emerging condition(s), or conditions caused by exposure to something other than vaccine', 'templates' => 'checkbox_formV2']);                   
+                      ?>
+                    </div>          
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-xs-1">
+                    <label>Adequate information not available</label>
+                  </div>
+                  <div class="col-xs-11 c4">
+                    <div class="well" style="background-color: #8EB4E3"> 
+                      <?php
+                        echo $this->Form->control('committees.100.unclassifiable', ['type' => 'checkbox', 'label' => '<b>Unclassifiable</b>', 'escape' => false, 'templates' => 'checkbox_formV2']);                   
+                        echo $this->Form->control('committees.100.unclassifiable_specify', ['label' => 'Specify the additional information required for classification:', 'templates' => 'app_form']);                   
+                      ?>
+                    </div>  
+                  </div>
+                </div>
+              </div>  
+              <div class="col-xs-12">
+                <?php                
                     echo $this->Form->control('committees.100.outcome_date', ['type' => 'text', 'class' => 'datepickers', 'templates' => [
               'label' => '<div class="col-xs-4 control-label"><label {{attrs}}>{{text}}</label></div>',
               'input' => '<div class="col-xs-6"><input type="{{type}}" name="{{name}}" {{attrs}} /></div>',]]);
 
                     echo $this->Form->control('committees.100.file', ['type' => 'file','label' => 'Attach report (if available)', 'escape' => false, 'templates' => 'app_form']);
-	            ?>
-         	    </div>          
+                ?>
+              </div>         
             </div>
             <div class="form-group"> 
                 <div class="col-sm-offset-4 col-sm-8"> 
