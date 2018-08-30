@@ -41,7 +41,7 @@ $this->start('sidebar'); ?>
         </thead>
         <tbody>
             <?php foreach ($aefis as $aefi): ?>
-            <?php $a = ($aefi['assigned_to']) ? '<small class="muted">'.$users->toArray()[$aefi['assigned_to']].'</small>' : '<small class="muted">Unassigned</small>';?>
+            <?php $a = ($aefi['assigned_to']) ? '<small class="muted">'.Hash::combine($users->toArray(), '{n}.id', '{n}.name')[$aefi->assigned_to].'</small>' : '<small class="muted">Unassigned</small>';?>
             <tr>
                 <td><?= $this->Number->format($aefi->id) ?></td>
                 <td><?php

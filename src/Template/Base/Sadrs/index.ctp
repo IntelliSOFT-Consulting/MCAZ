@@ -43,7 +43,7 @@ $this->start('sidebar'); ?>
         </thead>
         <tbody>
             <?php foreach ($sadrs as $sadr): ?>
-            <?php $a = ($sadr['assigned_to']) ? '<small class="muted">'.$users->toArray()[$sadr['assigned_to']].'</small>' : '<small class="muted">Unassigned</small>';?>
+            <?php $a = ($sadr['assigned_to']) ? '<small class="muted">'.Hash::combine($users->toArray(), '{n}.id', '{n}.name')[$sadr->assigned_to].'</small>' : '<small class="muted">Unassigned</small>';?>
             <tr>
                 <td><?= $this->Number->format($sadr->id) ?></td>
                 <td><?php

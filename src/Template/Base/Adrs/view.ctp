@@ -38,7 +38,7 @@
     <div role="tabpanel" class="tab-pane active" id="report">
     <br>
     <?php 
-    echo $this->Html->link('<button class="btn btn-primary"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF </button>', ['action' => 'view', '_ext' => 'pdf', 'prefix' => false, $adr->id], ['escape' => false]); 
+    echo $this->Html->link('<button class="btn btn-primary"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF </button>', ['action' => 'view', '_ext' => 'pdf', 'prefix' => $prefix, $adr->id], ['escape' => false]); 
     echo "&nbsp;";
     if($adr->copied === 'new copy') {
         echo $this->Html->link('<button class="btn btn-success"> <i class="fa fa-edit" aria-hidden="true"></i> Edit copy </button>', ['action' => 'edit', $adr->id], ['escape' => false]); 

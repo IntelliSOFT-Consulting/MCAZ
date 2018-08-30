@@ -41,7 +41,8 @@ $this->start('sidebar'); ?>
         </thead>
         <tbody>
             <?php foreach ($adrs as $adr): ?>
-            <?php $a = ($adr['assigned_to']) ? '<small class="muted">'.$users->toArray()[$adr['assigned_to']].'</small>' : '<small class="muted">Unassigned</small>';?>
+            <?php $a = ($adr['assigned_to']) ? '<small class="muted">'.Hash::combine($users->toArray(), '{n}.id', '{n}.name')[$adr->assigned_to].'</small>' : '<small class="muted">Unassigned</small>';?>
+
             <tr>
                 <td><?= $this->Number->format($adr->id) ?></td>
                 <td><?php

@@ -61,6 +61,7 @@
               <?php foreach ($aefi->aefi_causalities as $causality): ?>
                 <?php if($causality->chosen == 1) { ?>
                 <tr>
+                  <td></td>
                   <td colspan="2">
                     <p><b>Classificication</b></p>
                     <?php if($causality->consistent_i) echo "A1. Vaccine product-related reaction (As per published literature) <br>"; ?>

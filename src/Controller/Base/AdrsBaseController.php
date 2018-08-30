@@ -63,7 +63,7 @@ class AdrsBaseController extends AppController
             ->order(['created' => 'DESC'])
             ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
-        $users = $this->Adrs->Users->find('list', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        $users = $this->Adrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
         $this->set(compact('designations', 'query', 'doses', 'users'));
         $this->set('adrs', $this->paginate($query));
