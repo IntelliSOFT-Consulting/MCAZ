@@ -262,7 +262,7 @@ class AefisBaseController extends AppController
                 $aefi->report_stages = [$stage1];
                 $aefi->status = 'Evaluated';
             }
-
+            
             //Notification should be sent to manager and assigned_to evaluator if exists
             if ($this->Aefis->save($aefi)) {
                 //Send email and message (if present!!!) to evaluator
