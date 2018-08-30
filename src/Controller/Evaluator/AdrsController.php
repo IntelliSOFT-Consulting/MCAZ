@@ -15,5 +15,13 @@ use App\Controller\Base\AdrsBaseController;
  */
 class AdrsController extends AdrsBaseController
 {
-
+   
+    public function view($id = null) {
+        parent::view($id);
+        $ladr = $this->Adrs->get($id);
+        if (!empty($ladr->assigned_to) && $this->Auth->user('id') != $ladr->assigned_to) {
+            $this->Flash->error('You have not been assigned the report for review!');
+            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator']);
+        }
+    }
 }
