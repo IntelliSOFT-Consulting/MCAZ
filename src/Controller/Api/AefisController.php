@@ -3,6 +3,8 @@ namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
 use Cake\Event\Event;
+use Cake\Utility\Hash;
+use Cake\View\Helper\HtmlHelper; 
 
 /**
  * Aefis Controller
@@ -144,19 +146,29 @@ class AefisController extends AppController
         }        
     }
 
-    public function add()
-    {
+    public function add() {
         $aefi = $this->Aefis->newEntity();
         if ($this->request->is('post')) {
             $this->_attachments();
-            $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
+            $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData(),[
+                'associated' => ['AefiListOfVaccines', 'Attachments', 'ReportStages']
+            ]);
+                //new stage
+                $stage1  = $this->Aefis->ReportStages->newEntity();
+                $stage1->model = 'Aefis';
+                $stage1->stage = 'Submitted';
+                $stage1->description = 'Stage 1';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $aefi->report_stages = [$stage1];
+
             $aefi->user_id = $this->Auth->user('id');            
             $aefi->submitted_date = date("Y-m-d H:i:s");
             $aefi->status = 'Submitted';
             if ($this->Aefis->save($aefi, [
                 'validate' => true,
                 'associated' => [
-                    'AefiListOfVaccines' => ['validate' => true ]
+                    'AefiListOfVaccines' => ['validate' => true ],
+                    'Attachments' => ['validate' => false ]
                 ]
             ])) {
                 //update field
@@ -167,8 +179,38 @@ class AefisController extends AppController
                     ->execute();
                 //
                 $aefi = $this->Aefis->get($aefi->id, [
-                    'contain' => ['AefiListOfVaccines', 'AefiListOfDiluents', 'Attachments']
+                    'contain' => ['AefiListOfVaccines', 'Attachments']
                 ]);
+
+                //send email and notification
+                $this->loadModel('Queue.QueuedJobs');    
+                $data = [
+                    'email_address' => $aefi->reporter_email, 'user_id' => $this->Auth->user('id'),
+                    'type' => ($aefi->report_type == 'FollowUp') ? 'applicant_submit_aefi_followup_email' : 'applicant_submit_aefi_email', 
+                    'model' => 'Aefis', 'foreign_key' => $aefi->id,
+                    'vars' =>  $aefi->toArray()
+                ];                
+                $html = new HtmlHelper(new \Cake\View\View());
+                $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'Aefis', 'action' => 'view', $aefi->id, '_ext' => 'pdf',  
+                                          '_full' => true]);
+                $data['vars']['name'] = $aefi->reporter_name;
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = ($aefi->report_type == 'FollowUp') ? 'applicant_submit_aefi_followup_notification' : 'applicant_submit_aefi_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                //notify managers
+                $managers = $this->Aefis->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
+                foreach ($managers as $manager) {
+                    $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Aefis', 'foreign_key' => $aefi->id,
+                      'vars' =>  $aefi->toArray()];
+                    $data['type'] = ($aefi->report_type == 'FollowUp') ? 'manager_submit_aefi_followup_email' : 'manager_submit_aefi_email';
+                    $data['vars']['name'] = $manager->name;
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = ($aefi->report_type == 'FollowUp') ? 'manager_submit_aefi_followup_notification' : 'manager_submit_aefi_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+                //end
+
                 $this->set(compact('aefi'));
                 $this->set('_serialize', ['aefi']);
             } else {

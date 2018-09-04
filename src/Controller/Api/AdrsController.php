@@ -3,6 +3,8 @@ namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
 use Cake\Event\Event;
+use Cake\Utility\Hash;
+use Cake\View\Helper\HtmlHelper; 
 
 /**
  * Adrs Controller
@@ -150,7 +152,18 @@ class AdrsController extends AppController
         $adr = $this->Adrs->newEntity();
         if ($this->request->is('post')) {
             $this->_attachments();
-            $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
+            $adr = $this->Adrs->patchEntity($adr, $this->request->getData(),[
+                'associated' => ['AdrListOfDrugs', 'AdrOtherDrugs', 'AdrLabTests', 'Attachments', 'ReportStages']
+            ]);
+
+                //new stage
+                $stage1  = $this->Adrs->ReportStages->newEntity();
+                $stage1->model = 'Adrs';
+                $stage1->stage = 'Submitted';
+                $stage1->description = 'Stage 1';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $adr->report_stages = [$stage1];
+
             $adr->user_id = $this->Auth->user('id');
             $adr->submitted_date = date("Y-m-d H:i:s");
             $adr->status = 'Submitted';
@@ -171,6 +184,36 @@ class AdrsController extends AppController
                 $adr = $this->Adrs->get($adr->id, [
                     'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments']
                 ]);
+
+                //send email and notification
+                $this->loadModel('Queue.QueuedJobs');    
+                $data = [
+                    'email_address' => $adr->reporter_email, 'user_id' => $this->Auth->user('id'),
+                    'type' => ($adr->report_type == 'FollowUp') ? 'applicant_submit_adr_followup_email' : 'applicant_submit_adr_email', 
+                    'model' => 'Adrs', 'foreign_key' => $adr->id,
+                    'vars' =>  $adr->toArray()
+                ];
+                $html = new HtmlHelper(new \Cake\View\View());
+                $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'Adrs', 'action' => 'view', $adr->id, '_ext' => 'pdf',  
+                                          '_full' => true]);
+                $data['vars']['name'] = $adr->reporter_name;
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = ($adr->report_type == 'FollowUp') ? 'applicant_submit_adr_followup_notification' : 'applicant_submit_adr_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                //notify managers
+                $managers = $this->Adrs->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
+                foreach ($managers as $manager) {
+                    $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Adrs', 'foreign_key' => $adr->id,
+                      'vars' =>  $adr->toArray()];
+                    $data['type'] = ($adr->report_type == 'FollowUp') ? 'manager_submit_adr_followup_email' : 'manager_submit_adr_email';
+                    $data['vars']['name'] = $manager->name;
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = ($adr->report_type == 'FollowUp') ? 'manager_submit_adr_followup_notification' : 'manager_submit_adr_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+                //
+                
                 $this->set(compact('adr'));
                 $this->set('_serialize', ['adr']);
             } else {

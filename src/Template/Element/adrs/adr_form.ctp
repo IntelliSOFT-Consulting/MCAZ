@@ -59,7 +59,7 @@ Please use a separate adverse event reporting form for separate reportable adver
             </div>      
             <div class="col-xs-6">
               <?php
-                echo $this->Form->control('name_of_institution', ['label' => 'Institution']);
+                echo $this->Form->control('name_of_institution', ['label' => 'Institution <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
               ?>
             </div>      
            

@@ -3,6 +3,8 @@ namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
 use Cake\Event\Event;
+use Cake\Utility\Hash;
+use Cake\View\Helper\HtmlHelper; 
 
 /**
  * Saefis Controller
@@ -123,7 +125,18 @@ class SaefisController extends AppController
         $saefi = $this->Saefis->newEntity();
         if ($this->request->is('post')) {
             $this->_attachments();
-            $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
+            $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData(),[
+              'associated' => ['SaefiListOfVaccines', 'AefiListOfVaccines',  'Attachments', 'Reports', 'ReportStages']
+            ]);
+
+                //new stage
+                $stage1  = $this->Saefis->ReportStages->newEntity();
+                $stage1->model = 'Saefis';
+                $stage1->stage = 'Submitted';
+                $stage1->description = 'Stage 1';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $saefi->report_stages = [$stage1];
+
             $saefi->user_id = $this->Auth->user('id');
             $saefi->submitted_date = date("Y-m-d H:i:s");
             $saefi->status = 'Submitted';
@@ -144,6 +157,35 @@ class SaefisController extends AppController
                 $saefi = $this->Saefis->get($saefi->id, [
                     'contain' => ['SaefiListOfVaccines', 'Attachments']
                 ]);
+                
+                //send email and notification
+                $this->loadModel('Queue.QueuedJobs');    
+                $data = [
+                    'email_address' => $saefi->reporter_email, 'user_id' => $this->Auth->user('id'),
+                    'type' => ($saefi->report_type == 'FollowUp') ? 'applicant_submit_saefi_followup_email' : 'applicant_submit_saefi_email', 
+                    'model' => 'Saefis', 'foreign_key' => $saefi->id,
+                    'vars' =>  $saefi->toArray()
+                ];
+                $html = new HtmlHelper(new \Cake\View\View());
+                $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'Saefis', 'action' => 'view', $saefi->id, '_ext' => 'pdf',  
+                                          '_full' => true]);
+                $data['vars']['name'] = $saefi->reporter_name;
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = ($saefi->report_type == 'FollowUp') ? 'applicant_submit_saefi_followup_notification' : 'applicant_submit_saefi_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                //notify managers
+                $managers = $this->Saefis->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
+                foreach ($managers as $manager) {
+                    $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Saefis', 'foreign_key' => $saefi->id,
+                      'vars' =>  $saefi->toArray()];
+                    $data['type'] = ($saefi->report_type == 'FollowUp') ? 'manager_submit_saefi_followup_email' : 'manager_submit_saefi_email';
+                    $data['vars']['name'] = $manager->name;
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = ($saefi->report_type == 'FollowUp') ? 'manager_submit_saefi_followup_notification' : 'manager_submit_saefi_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+
                 $this->set(compact('saefi'));
                 $this->set('_serialize', ['saefi']);                
             } else {

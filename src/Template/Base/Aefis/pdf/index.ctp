@@ -14,18 +14,16 @@
     
 <div class="table-responsive">
     <table class="table table-striped table-bordered">
-        <thead>
             <tr>
-                <th>#</th>
-                <th scope="col">Reference #</th>
-                <th scope="col">Patient Details</th>
-                <th scope="col">AEFI </th>
-                <th scope="col">Suspected Vaccine(s)</th>
-                <th scope="col">Batch No. <br> and Expiry date</th>
-                <th scope="col">Clinical Findings</th>
-                <th scope="col">Management & Outcome</th>
+                <th><b>#</b></th>
+                <th scope="col"><b>Reference #</b></th>
+                <th scope="col"><b>Patient Details</b></th>
+                <th scope="col"><b>AEFI </b></th>
+                <th scope="col"><b>Suspected Vaccine(s)</b></th>
+                <th scope="col"><b>Batch No. <br> and Expiry date</b></th>
+                <th scope="col"><b>Clinical Findings</b></th>
+                <th scope="col"><b>Management & Outcome</b></th>
             </tr>
-        </thead>
         <tbody>
             <?php $i = 0; ?>
             <?php foreach ($query as $aefi): ?>

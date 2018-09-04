@@ -55,7 +55,7 @@ Please use a separate adverse event reporting form for separate reportable adver
             </div>      
             <div class="col-xs-6">
               <table class="table table-condensed vertical-table">
-                <tr><th><label>Institution </label></th>
+                <tr><th><label>Institution <span class="sterix fa fa-asterisk" aria-hidden="true"></span> </label></th>
                     <td><?= $adr->name_of_institution ?></td>
                 </tr>
               </table>  

@@ -18,6 +18,16 @@ $(document).ready(function() {
         return '$1:' + value + ': ';
       }
     }]);*/
+
+
+    $('#year_of_birth, #month_of_birth, #day_of_birth').each(function() {
+      if ($(this).val()) {
+        $('select[id^="date_of_birth"]').each(function () {
+                $(this).val('');
+        });
+      }
+    });
+
      $('#year_of_birth, #month_of_birth, #day_of_birth').on('keypress', function (e) {
 
          if(e.which != 13){

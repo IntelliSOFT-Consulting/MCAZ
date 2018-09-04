@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 use App\Controller\Api\AppController;
 use Cake\Event\Event;
 use Cake\Utility\Hash;
+use Cake\View\Helper\HtmlHelper; 
 
 /**
  * Sadrs Controller
@@ -158,7 +159,18 @@ class SadrsController extends AppController
         $sadr = $this->Sadrs->newEntity();
         if ($this->request->is('post')) {
             $this->_attachments();
-            $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
+            $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData(),[
+                'associated' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'ReportStages', 'Reactions']
+            ]);
+
+                //new stage
+                $stage1  = $this->Sadrs->ReportStages->newEntity();
+                $stage1->model = 'Sadrs';
+                $stage1->stage = 'Submitted';
+                $stage1->description = 'Stage 1';
+                $stage1->stage_date = date("Y-m-d H:i:s");
+                $sadr->report_stages = [$stage1];
+
             $sadr->user_id = $this->Auth->user('id');
             $sadr->submitted_date = date("Y-m-d H:i:s");
             $sadr->status = 'Submitted';
@@ -175,6 +187,36 @@ class SadrsController extends AppController
                 $sadr = $this->Sadrs->get($sadr->id, [
                     'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
                 ]);
+
+                //send email and notification
+                $this->loadModel('Queue.QueuedJobs');    
+                $data = [
+                    'email_address' => $sadr->reporter_email, 'user_id' => $this->Auth->user('id'),
+                    'type' => ($sadr->report_type == 'FollowUp') ? 'applicant_submit_sadr_followup_email' : 'applicant_submit_sadr_email' , 
+                    'model' => 'Sadrs', 'foreign_key' => $sadr->id,
+                    'vars' =>  $sadr->toArray()
+                ]; 
+                $html = new HtmlHelper(new \Cake\View\View());
+                $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'Sadrs', 'action' => 'view', $sadr->id, '_ext' => 'pdf',  
+                                          '_full' => true]);
+                $data['vars']['name'] = $sadr->reporter_name;
+                //notify applicant
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $data['type'] = ($sadr->report_type == 'FollowUp') ? 'applicant_submit_sadr_followup_notification' : 'applicant_submit_sadr_notification';
+                $this->QueuedJobs->createJob('GenericNotification', $data);
+                //notify managers
+                $managers = $this->Sadrs->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
+                foreach ($managers as $manager) {
+                    $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
+                            'vars' =>  $sadr->toArray()];
+                    $data['vars']['name'] = $manager->name;
+                    $data['type'] = ($sadr->report_type == 'FollowUp') ? 'manager_submit_sadr_followup_email' : 'manager_submit_sadr_email';
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = ($sadr->report_type == 'FollowUp') ? 'manager_submit_sadr_followup_notification' : 'manager_submit_sadr_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                }
+                //
+                
                 $this->set(compact('sadr'));
                 $this->set('_serialize', ['sadr']);
             } else {

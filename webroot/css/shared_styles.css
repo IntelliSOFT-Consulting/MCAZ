@@ -9,6 +9,10 @@
   border-top: none;
 }
 
+.table  thead { display: table-header-group }
+.table  tfoot { display: table-row-group }
+.table  tr { page-break-inside: avoid }
+
 .aefi_form {
   background-color: #FF92C9;
   border: 2px solid #3E58A7;
