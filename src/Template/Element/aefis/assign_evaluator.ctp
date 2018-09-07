@@ -39,7 +39,7 @@ Assign</button>
             data-name="assigned_to"
             data-title="Change evaluator"
           <?php } ?>
-          class='text-center'> <?= $evaluators->toArray()[$aefi->assigned_to] ?></span> on <?= $aefi->assigned_date ?></h4>
+          class='text-center'> <?= $this->cell('Signature::index', [$aefi->assigned_to]) ?></span> on <?= $aefi->assigned_date ?></h4>
       <?php
         	}
      	?>
@@ -65,7 +65,7 @@ Assign</button>
                 //$i = count($aefi['request_evaluators']);
            ?>
             <div class="row">
-              <div class="col-xs-12"><h5 class="text-center">Send request to evaluator <?= $evaluators->toArray()[$aefi->assigned_to]?> for more information</h5></div>
+              <div class="col-xs-12"><h5 class="text-center">Send request to evaluator <?= $this->cell('Signature::index', [$aefi->assigned_to]) ?> for more information</h5></div>
               <div class="col-xs-12">
               <?php
                     echo $this->Form->control('aefi_pr_id', ['type' => 'hidden', 'value' => $aefi->id, 'escape' => false, 'templates' => 'table_form']);

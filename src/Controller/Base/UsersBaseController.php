@@ -61,10 +61,10 @@ class UsersBaseController extends AppController
         $ce2bs = $this->paginate($this->Ce2bs->find('all')->where(['submitted' => 2, 'status NOT IN' => ['UnSubmitted'], 'IFNULL(copied, "N") !=' => 'old copy']), ['scope' => 'saefi', 'order' => ['Ce2bs.status' => 'asc', 'Ce2bs.id' => 'desc'],
                                     'fields' => ['Ce2bs.id', 'Ce2bs.created', 'Ce2bs.reference_number', 'Ce2bs.assigned_to']]);
 
-        $evaluators = $this->Sadrs->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
+        // $evaluators = $this->Sadrs->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
 
         $this->set(compact('sadrs', 'adrs', 'aefis', 'saeifs'));
-        $this->set(compact('saefis', 'ce2bs', 'evaluators'));
+        $this->set(compact('saefis', 'ce2bs'));
         $this->render('/Base/Users/dashboard');
     }
 

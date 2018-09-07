@@ -22,7 +22,25 @@ class SignatureCell extends Cell
      *
      * @return void
      */
-    public function display()
-    {
+    public function display($id)
+    {        
+        $this->loadModel('Users');
+        $user = $this->Users->get($id, [
+            'contain' => []
+        ]);
+
+        $this->set('user', $user);
+
+    }
+
+    public function index($id)
+    {        
+        $this->loadModel('Users');
+        $user = $this->Users->get($id, [
+            'contain' => []
+        ]);
+
+        $this->set('user', $user);
+
     }
 }
