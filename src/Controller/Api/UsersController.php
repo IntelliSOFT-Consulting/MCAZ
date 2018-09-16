@@ -56,6 +56,7 @@ class UsersController extends AppController
             }
 
             $user->group_id = 3;
+            $user->is_active = 0; // force inactive 0 for new registrations
             // $user->activation_key = (new DefaultPasswordHasher)->hash($user->email);            
             if ($this->Users->save($user)) {
                 $user->activation_key = $this->Util->generateXOR($user->id);
@@ -119,6 +120,9 @@ class UsersController extends AppController
         $user = $this->Auth->identify();
         if (!$user) {
             throw new UnauthorizedException('Invalid username or password');
+        }
+        if ($user->group_id != 3) {
+            throw new UnauthorizedException('Invalid user type. Only reporters can log in.');
         }
 
         $this->set([

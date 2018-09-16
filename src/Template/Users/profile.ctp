@@ -35,10 +35,10 @@
      <dt scope="row"><?= __('Institution Code') ?></dt>
         <dd><?= h($user->institution_code) ?></dd>
         <?php 
-        if($this->request->session()->read('Auth.User.group_id') != 3) {                    
+       if($this->request->session()->read('Auth.User.group_id') != 3) {                    
         ?> 
      <dt scope="row"><?= __('Signature') ?></dt>
-        <dd><?php echo "<img src='".$this->Url->build(substr($user->dir, 8) . '/' . $user->file, true)."' style='width: 70%;' alt=''>"; ?></dd>
+        <dd><?php echo ($user->file) ? "<img src='".$this->Url->build(substr($user->dir, 8) . '/' . $user->file, true)."' style='width: 70%;' alt=''>" : "<p class='text-warning'><code>".$this->Html->link('Upload!!', ['controller' => 'Users', 'action' => 'edit', $user->id], array('escape' => false))."</code></p>"; ?></dd>
         <?php } ?>
     </dl>
     <hr>
