@@ -37,7 +37,7 @@ $(function() {
 function causality_assessment() {
     //Builiding Rules      
     // console.log("I was called!!");
-    var red1 = red2 = red3 = green = blue = purple1 = purple2 = purple3 = purple4 = false;
+    var brown = red1 = red2 = red3 = green = blue = purple1 = purple2 = purple3 = purple4 = false;
     //brown
     $(".r1 :radio").each(function(){
       if($(this).is(":checked")) {
@@ -100,7 +100,7 @@ function causality_assessment() {
     });
 
     //Rules/Paths
-    $("#collapseExampleTwo").removeClass("stages-view");
+    $("#collapseExampleTwo").find("*").removeClass("stages-view");
     if(brown) {
       $(".causality-form input[id$='-inconsistent']").prop('checked', true); 
       $("#step1, #step1u, #step1a").addClass("stages-view");
@@ -163,7 +163,7 @@ function causality_assessment() {
 
     //No-> No -> Yes
     function fnNn() {      
-      $("#step1, #step1n, #step2, #step2n, #step3").addClass("stages-view");
+      $("#step1, #step1n, #step2, #step2n").addClass("stages-view");
     }
     if(!brown && (!purple1 && !purple2 && !purple3 && !purple4) && green) {
       $(".causality-form input[id$='-inconsistent']").prop('checked', true); 
