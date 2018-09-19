@@ -192,7 +192,7 @@ class AefisController extends AppController
                 ];                
                 $html = new HtmlHelper(new \Cake\View\View());
                 $data['vars']['pdf_link'] = $html->link('Download', ['controller' => 'Aefis', 'action' => 'view', $aefi->id, '_ext' => 'pdf',  
-                                          '_full' => true]);
+                                          '_full' => true, 'prefix' => false]);
                 $data['vars']['name'] = $aefi->reporter_name;
                 //notify applicant
                 $this->QueuedJobs->createJob('GenericEmail', $data);

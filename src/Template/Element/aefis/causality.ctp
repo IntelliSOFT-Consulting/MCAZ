@@ -2,7 +2,6 @@
   use Cake\Utility\Hash; 
   $this->Html->script('causality', ['block' => true]);
 ?>
-<!-- <div class="ctr-groups"> -->
   <br>
 <?php if($this->request->params['_ext'] != 'pdf') { ?>
   <div class="amend-form">
@@ -23,7 +22,6 @@
     </div>
   </div>
 <?php } ?>
-<!-- </div> -->
 
   <div class="row">
     <div class="col-xs-12"><h3 class="text-center text-success">Causality Assessment</h3><hr>

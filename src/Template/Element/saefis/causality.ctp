@@ -482,23 +482,165 @@
     <h4 class="text-warning" style="text-decoration-line: underline;">Step 3 (Algorithm) review all steps and <i class="fa fa-check" aria-hidden="true"></i>
  all the appropriate boxes</h4>
 
-    <div class="col-xs-12">
+    <!-- <div class="col-xs-12"> -->
       <!-- <p>insert causality assessment table here... collapsible. Collapsed by default</p> -->
-      <a class="btn btn-info" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="true" aria-controls="collapseExample">
+      <a class="btn btn-info" role="button" data-toggle="collapse" href="#collapseExampleTwo" aria-expanded="true" aria-controls="collapseExampleTwo">
          Causality Algorithm
       </a>
-      <div class="collapseTwo" id="collapseExampleTwo">
-        <div class="well">
+      <div id="collapseExampleTwo">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-2" id="step1a">
+              <div class="stages text-center">
+                <span class="stages-on bg-green">I. A. Inconsistent causal association to immunization</span>
+              </div>
+            </div>
+            <div class="col-xs-2 col-xs-offset-3" id="step4a">
+              <div class="stages text-center">
+                <span class="stages-on bg-green">III. A. Inconsistent causal association to immunization</span>
+              </div>              
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-2" id="step1u">              
+              <div class="text-center yes1"><span class="arrow"><i class="fa fa-long-arrow-up fa-4" aria-hidden="true"></i></span> Yes</div>
+            </div>
+            <div class="col-xs-2 col-xs-offset-3" id="step4y">
+              <div class="text-center yes2"><span class="arrow"><i class="fa fa-long-arrow-up fa-4" aria-hidden="true"></i></span> Yes</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-2">
+              <div class="row">
+                <div class="col-xs-9" id="step1">
+                  <div class="stages text-center">
+                    <span class="stages-on bg-brown">I. Is there strong evidence for other causes? </span>                    
+                  </div>
+                </div>
+                <div class="col-xs-3" id="step1n">
+                  <div class="text-center yes2"><span class="arrow"><i class="fa fa-long-arrow-right fa-4" aria-hidden="true"></i></span> </div> 
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-2" id="step2">              
+              <div class="stages text-center">
+                <span class="stages-on bg-blue1">II. Is there a known causal association with the vaccine/ vaccination</span>
+              </div>
+            </div>
+            <div class="col-xs-1" id="step2n">
+              <div class="stages text-center">
+                 <div class="text-center yes2"><span class="arrow"><i class="fa fa-long-arrow-right fa-4" aria-hidden="true"></i></span> </div> 
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="row">
+                <div class="col-xs-9" id="step4">
+                  <div class="stages text-center">
+                    <span class="stages-on bg-green-dark">III. Is there a strong evidence against a causal association</span>                   
+                  </div>
+                </div>
+                <div class="col-xs-3" id="step4n">
+                  <div class="text-center yes2"><span class="arrow"><i class="fa fa-long-arrow-right fa-4" aria-hidden="true"></i></span> </div> 
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-2" id="step5">              
+              <div class="stages text-center">
+                <span class="stages-on bg-red">IV. Review other qualifying factors</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-2 col-xs-offset-2" id="step2y">              
+              <div class="stages text-center">
+                 <div class="text-center yes2"><span class="arrow"><i class="fa fa-long-arrow-down fa-4" aria-hidden="true"></i> Yes</span> </div> 
+              </div>
+            </div>
+            <div class="col-xs-2 col-xs-offset-1" id="step3ni">
+              <div class="stages text-center">
+                 <div class="text-center yes2"><span class="arrow"><i class="fa fa-long-arrow-up fa-4" aria-hidden="true"></i></span> </div> 
+              </div>       
+            </div>
+            <div class="col-xs-2" id="step5n">
+              <div class="stages text-center">
+                 <div class="text-center yes2"><span class="arrow"><i class="fa fa-long-arrow-down fa-4" aria-hidden="true"></i></span> </div> 
+              </div>       
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-2 col-xs-offset-2" id="step3">
+              <div class="stages text-center">
+                <span class="stages-on bg-blue2">II(Time). Was the event within the time window of the increased risk</span>
+              </div>
+            </div>
+            <div class="col-xs-1">
+              <div class="stages text-center" id="step3n">
+                <div class="text-center yes2"><span class="arrow"><i class="fa fa-minus fa-4" aria-hidden="true"></i></span> No</div>
+              </div>              
+            </div>
+            <div class="col-xs-2 col-xs-offset-2" id="step6">
+              <div class="stages text-center">
+                <span class="stages-on bg-green-light">Is the event classifiable</span>
+              </div>
+            </div>
+            <div class="col-xs-1" id="step6n">
+              <div class="stages text-center">
+                <div class="text-center yes2"><span class="arrow"><i class="fa fa-long-arrow-right fa-4" aria-hidden="true"></i> </span>No </div>
+              </div>              
+            </div>
+            <div class="col-xs-2" id="step7">
+              <div class="stages text-center">
+                <span class="stages-on bg-blue3">IV D. Unclassifiable</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-2 col-xs-offset-2" id="step3y">              
+              <div class="stages text-center">
+                 <div class="text-center yes2"><span class="arrow"><i class="fa fa-long-arrow-down fa-4" aria-hidden="true"></i> Yes</span> </div> 
+              </div>
+            </div>
+            <div class="col-xs-2 col-xs-offset-3" id="step6y">
+              <div class="stages text-center">
+                 <div class="text-center yes2"><span class="arrow"><i class="fa fa-long-arrow-down fa-4" aria-hidden="true"></i> Yes</span> </div> 
+              </div>       
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-2 col-xs-offset-2" id="step3a">              
+              <div class="stages text-center">
+                <span class="stages-on bg-pink">II A. Consistent causal association to immunization</span>
+              </div>
+            </div>
+            <div class="col-xs-2 col-xs-offset-1" id="step8">              
+              <div class="stages text-center">
+                <span class="stages-on bg-pink">IV A. Consistent causal association to immunization</span>
+              </div>
+            </div>
+            <div class="col-xs-2">              
+              <div class="stages text-center" id="step9">
+                <span class="stages-on bg-yellow">IV B. Indeterminate</span>
+              </div>
+            </div>
+            <div class="col-xs-2">              
+              <div class="stages text-center" id="step10">
+                <span class="stages-on bg-green">IV. C. Inconsistent causal association to immunization</span>
+              </div>
+            </div>
+          </div>
+          <br>
           <?php 
-            echo $this->Html->image('causality_algorithm.png', ['alt' => 'Causality Algorithm', 'width' => '826']); 
+            // echo $this->Html->image('causality_algorithm.png', ['alt' => 'Causality Algorithm', 'width' => '826']); 
             echo $this->Form->control('aefi_causalities.'.$ekey.'.causality_notes', ['label' => 'Notes for step 3:', 'templates' => 'app_form']);
           ?>
         </div>
       </div>
-    </div>
+    <!-- </div> -->
     <br>
     <hr>
     <br>
+
+    
 
     <h4 class="text-warning" style="text-decoration-line: underline;">Step 4 (Classification) <i class="fa fa-check" aria-hidden="true"></i> all boxes that apply</h4>
 
