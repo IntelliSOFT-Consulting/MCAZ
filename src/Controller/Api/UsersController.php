@@ -121,7 +121,7 @@ class UsersController extends AppController
         if (!$user) {
             throw new UnauthorizedException('Invalid username or password');
         }
-        if ($user->group_id != 3) {
+        if ($user['group_id'] != 3) {
             throw new UnauthorizedException('Invalid user type. Only reporters can log in.');
         }
 
