@@ -29,7 +29,7 @@ $(function() {
             <td>\
                 <textarea name="attachments[{i}][description]" id="attachments-{i}-description" rows="1" cols="30"></textarea> </td>\
             <td>\
-                <button type="button" class="btn btn-default btn-sm remove-attachment"><i class="fa fa-minus"></i> Remove</button>\
+                <button type="button" class="btn btn-danger btn-sm remove-attachment"><i class="fa fa-minus"></i> Remove</button>\
             </td>\
           </tr>\        ';
 

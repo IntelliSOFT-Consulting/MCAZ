@@ -111,7 +111,7 @@ $(function() {
               <input class="form-control" name="sadr_list_of_drugs[{i}][suspected_drug]" type="hidden">\
               <input name="sadr_list_of_drugs[{i}][suspected_drug]" type="checkbox">                    </td>\
             <td>\
-                <button type="button" class="btn btn-default btn-sm remove-row"><i class="fa fa-minus"></i> Remove</button>\
+                <button type="button" class="btn btn-danger btn-sm remove-row"><i class="fa fa-minus"></i> Remove</button>\
             </td>\
           </tr>\
         ';

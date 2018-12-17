@@ -262,7 +262,9 @@ class AefisTable extends Table
             ->add('date_of_birth', 'dob-or-door', [
                 'rule' => function ($value, $context) {                    
                     $dob = ($value == '--') ? null : $value;
-                    if(!$dob && empty($context['data']['age_at_onset_years'])) return false;
+                    if(!$dob && empty($context['data']['age_at_onset_years']) 
+                             && empty($context['data']['age_at_onset_months']) 
+                             && empty($context['data']['age_at_onset_days'])) return false;
                     if($dob && !empty($context['data']['age_at_onset_years'])) return false;
                     return true;
             }, 'message' => 'Date of birth OR age at onset required'
@@ -305,6 +307,27 @@ class AefisTable extends Table
             ->scalar('reporter_email')
             ->notEmpty('reporter_email', ['message' => 'Reporter email required']);
 
+        $validator
+            ->allowEmpty('district_receive_date')
+            ->add('district_receive_date', 'drd-or-dip', [
+                'rule' => function ($value, $context) {     
+                    if (isset($context['data']['investigation_date'])) {
+                        if (strtotime($value) > strtotime($context['data']['investigation_date'])) return false;
+                    }
+                    return true;
+                }, 'message' => 'Date report received at district level must be before date investigation planned'
+            ]);
+
+        $validator
+            ->allowEmpty('investigation_date')
+            ->add('investigation_date', 'drd-or-dip', [
+                'rule' => function ($value, $context) {     
+                    if (isset($context['data']['district_receive_date'])) {
+                        if (strtotime($value) < strtotime($context['data']['district_receive_date'])) return false;
+                    }
+                    return true;
+                }, 'message' => 'Date investigation planned must be after date report receieved'
+            ]);
 
         return $validator;
     }

@@ -25,13 +25,13 @@ class AefisController extends AppController
     }
     
     public function reports($query = null) {
-        $llts = $this->Aefis->find('all', ['fields' => ['reference_number', 'name_of_vaccination_center']])->distinct()
-                ->where(['reference_number LIKE' => '%'.$this->request->getQuery('term').'%'])
+        $llts = $this->Aefis->find('all', ['fields' => ['reference_number', 'id']])->distinct()
+                ->where(['user_id' => $this->Auth->user('id'),'reference_number LIKE' => '%'.$this->request->getQuery('term').'%'])
                 ->limit(10); 
         
         $codes = array();
         foreach ($llts as $key => $value) {
-            $codes[] = array('value' => $value['reference_number'], 'label' => $value['reference_number']);
+            $codes[] = array('value' => $value['reference_number'], 'label' => $value['reference_number'], 'dist' => $value['id']);
         }
         $this->set('codes', $codes);
         $this->set('_serialize', 'codes');

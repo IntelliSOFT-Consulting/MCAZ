@@ -266,6 +266,39 @@ class SaefisTable extends Table
             }, 'message' => 'Date of birth must less than vaccine date'
         ]);
 
+        $validator
+            ->allowEmpty('report_date')
+            ->add('report_date', 'drd-or-dip', [
+                'rule' => function ($value, $context) {     
+                    if (isset($context['data']['start_date'])) {
+                        if (strtotime($value) > strtotime($context['data']['start_date'])) return false;
+                    }
+                    return true;
+                }, 'message' => 'Date AEFI reported must be before date investigation started'
+            ]);
+
+        $validator
+            ->allowEmpty('start_date')
+            ->add('start_date', 'drd-or-dip', [
+                'rule' => function ($value, $context) {     
+                    if (isset($context['data']['report_date'])) {
+                        if (strtotime($value) < strtotime($context['data']['report_date'])) return false;
+                    }
+                    return true;
+                }, 'message' => 'Date investigation started must be after date AEFI reported'
+            ]);
+            
+        $validator
+            ->allowEmpty('symptom_date')
+            ->add('symptom_date', 'drd-or-dip', [
+                'rule' => function ($value, $context) {     
+                    if (isset($context['data']['complete_date'])) {
+                        if (strtotime($value) > strtotime($context['data']['complete_date'])) return false;
+                    }
+                    return true;
+                }, 'message' => 'Date and time of 1st key symptom should be before the date and time the report is completed'
+            ]);
+
         return $validator;
     }
 

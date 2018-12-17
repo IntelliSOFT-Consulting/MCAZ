@@ -313,6 +313,11 @@ function getDate(sel){
           </div>
 
           <div class="row">
+            <div class="col-xs-12"><?= $this->Form->control('any_other_information', ['label' => 'Any other information']); ?>              
+            </div>
+          </div>
+
+          <div class="row">
             <div class="col-xs-12"><h4 class="text-center">Current Medication</h4></div>
           </div>
           

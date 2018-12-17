@@ -118,7 +118,7 @@ Please use a separate adverse event reporting form for separate reportable adver
                   echo $this->Form->control('gender', ['type' => 'radio', 
                      'label' => '<b>Gender <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
-                       'options' => ['Male' => 'Male', 'Female' => 'Female']]);
+                       'options' => ['Male' => 'Male', 'Female' => 'Female', 'Unknown' => 'Unknown']]);
 
                   echo $this->Form->control('study_week', 
                     ['label' => ['text' => 'Study Week', 'escape' => false]]);

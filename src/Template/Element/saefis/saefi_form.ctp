@@ -132,7 +132,7 @@ function getChoice(sel){
                 <?= $this->Form->control('gender', ['type' => 'radio', 
                      'label' => '<b>Gender</b> <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
-                     'options' => ['Male' => 'Male', 'Female' => 'Female']]);
+                     'options' => ['Male' => 'Male', 'Female' => 'Female', 'Unknown' => 'Unknown']]);
                 ?>
             </div> 
           </div>

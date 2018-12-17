@@ -98,7 +98,7 @@ $(function() {
             <td>\
              <select class="form-control" name="adr_list_of_drugs[{i}][relationship_to_sae]" id="adr-list-of-drugs-{i}-relationship-to-sae"></select> \
             <td>\
-                <button type="button" class="btn btn-default btn-sm remove-device"><i class="fa fa-minus"></i> </button>\
+                <button type="button" class="btn btn-danger btn-sm remove-device"><i class="fa fa-minus"></i> </button>\
             </td>\
           </tr>\        ';
 

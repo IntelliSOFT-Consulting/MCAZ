@@ -90,7 +90,7 @@
                         ?>
                     </td>
                     <td>
-                        <button <?= ($globalEd) ? 'disabled=""' : '' ?> type="button" class="btn btn-default btn-sm remove-row"  value="<?php if (isset($followup['sadr_list_of_drugs'][$i]['id'])) { echo $followup['sadr_list_of_drugs'][$i]['id']; } ?>" >
+                        <button <?= ($globalEd) ? 'disabled=""' : '' ?> type="button" class="btn btn-danger btn-sm remove-row"  value="<?php if (isset($followup['sadr_list_of_drugs'][$i]['id'])) { echo $followup['sadr_list_of_drugs'][$i]['id']; } ?>" >
                           <i class="fa fa-minus"></i>
                         </button>
                     </td>

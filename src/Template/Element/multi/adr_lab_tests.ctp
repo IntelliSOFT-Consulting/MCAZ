@@ -74,7 +74,7 @@
                         ?>
                     </td>
                     <td>
-                        <button <?= ($editable) ? '' : 'disabled=""' ?> type="button" class="btn btn-default btn-sm remove-lab-test"  value="<?php if (isset($adr['adr_lab_tests'][$i]['id'])) { echo $adr['adr_lab_tests'][$i]['id']; } ?>" >
+                        <button <?= ($editable) ? '' : 'disabled=""' ?> type="button" class="btn btn-danger btn-sm remove-lab-test"  value="<?php if (isset($adr['adr_lab_tests'][$i]['id'])) { echo $adr['adr_lab_tests'][$i]['id']; } ?>" >
                           <i class="fa fa-minus"></i>
                         </button>
                     </td>

@@ -256,7 +256,9 @@ class SadrsTable extends Table
             ->add('date_of_birth', 'dob-or-door', [
                 'rule' => function ($value, $context) {                    
                     $dob = ($value == '--') ? null : $value;
-                    if(!$dob && empty($context['data']['year_of_birth'])) return false;
+                    if(!$dob && empty($context['data']['year_of_birth']) 
+                             && empty($context['data']['month_of_birth']) 
+                             && empty($context['data']['day_of_birth'])) return false;
                     if($dob && !empty($context['data']['year_of_birth'])) return false;
                     return true;
             }, 'message' => 'Date of birth OR age at onset required'

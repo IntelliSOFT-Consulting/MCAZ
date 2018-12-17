@@ -156,7 +156,7 @@
                         ?>
                     </td>
                     <td>
-                        <button <?= ($editable) ? '' : 'disabled=""' ?> type="button" class="btn btn-default btn-sm remove-device"  value="<?php if (isset($adr['adr_list_of_drugs'][$i]['id'])) { echo $adr['adr_list_of_drugs'][$i]['id']; } ?>" >
+                        <button <?= ($editable) ? '' : 'disabled=""' ?> type="button" class="btn btn-danger btn-sm remove-device"  value="<?php if (isset($adr['adr_list_of_drugs'][$i]['id'])) { echo $adr['adr_list_of_drugs'][$i]['id']; } ?>" >
                           <i class="fa fa-minus"></i>
                         </button>
                     </td>

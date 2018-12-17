@@ -86,7 +86,7 @@ $(function() {
               <input class="form-control" name="aefi_list_of_vaccines[{i}][suspected_drug]" type="hidden">\
               <input name="aefi_list_of_vaccines[{i}][suspected_drug]" type="checkbox">                    </td>\
             <td>\
-                <button type="button" class="btn btn-default btn-sm remove-vaccine"><i class="fa fa-minus"></i> </button>\
+                <button type="button" class="btn btn-danger btn-sm remove-vaccine"><i class="fa fa-minus"></i> </button>\
             </td>\
           </tr>\
         ';
