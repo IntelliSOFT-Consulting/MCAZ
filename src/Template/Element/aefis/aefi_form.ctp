@@ -209,6 +209,7 @@ $editable = $this->fetch('editable');
                      'label' => '<b>If yes,</b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Death' => 'Death', 'Life threatening' => 'Life threatening', 'Disability' => 'Disability', 'Hospitalization' => 'Hospitalization', 'Congenital anomaly' => 'Congenital anomaly']]);
+                  echo $this->Form->control('other_reason', ['label' => 'Other medically important reason']);
               ?>
             </div>
           </div>
