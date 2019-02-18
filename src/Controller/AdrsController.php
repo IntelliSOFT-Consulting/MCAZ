@@ -336,7 +336,8 @@ class AdrsController extends AppController
               //submit to mcaz button
               $adr->submitted_date = date("Y-m-d H:i:s");
               $adr->status = 'Submitted';//($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
-              $adr->reference_number = (($adr->reference_number)) ?? 'SAE'.$adr->id.'/'.$adr->created->i18nFormat('yyyy');
+              $count = $this->Adrs->find('all', ['conditions' => ['date_format(Adrs.created,"%Y")' => date("Y")]])->count() + 1;
+              $adr->reference_number = (($adr->reference_number)) ?? 'SAE'.$count.'/'.$adr->created->i18nFormat('yyyy');
               if ($this->Adrs->save($adr, ['validate' => false])) {
                 $this->Flash->success(__('Report '.$adr->reference_number.' has been successfully submitted to MCAZ for review.'));                //send email and notification
                 $this->loadModel('Queue.QueuedJobs');    

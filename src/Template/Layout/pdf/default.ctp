@@ -43,6 +43,7 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
     <!-- jquery UI -->
     <?= $this->Html->css('jquery-ui.min', ['fullBase' => true]) ?>
     <?= $this->Html->css('bootstrap/jumbotron', ['fullBase' => true]) ?>
+    <?= $this->Html->css('shared_styles', ['fullBase' => true]) ?>
 </head>
  <body>
 

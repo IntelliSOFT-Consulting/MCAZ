@@ -458,7 +458,7 @@ class SadrsController extends AppController
     }
 
     public function edit($id = null)
-    {
+    {        
         $sadr = $this->Sadrs->get($id, [
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'ReportStages', 'Reactions'],
             'conditions' => ['user_id' => $this->Auth->user('id')]
@@ -507,7 +507,8 @@ class SadrsController extends AppController
               //submit to mcaz button
               $sadr->submitted_date = date("Y-m-d H:i:s");
               $sadr->status = 'Submitted';//($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
-              $sadr->reference_number = (($sadr->reference_number)) ?? 'ADR'.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy');
+              $count = $this->Sadrs->find('all', ['conditions' => ['date_format(Sadrs.created,"%Y")' => date("Y")]])->count() + 1;
+              $sadr->reference_number = (($sadr->reference_number)) ?? 'ADR'.$count.'/'.$sadr->created->i18nFormat('yyyy');
               // debug($sadr); return;
               if ($this->Sadrs->save($sadr)) {
                 $this->Flash->success(__('Report '.$sadr->reference_number.' has been successfully submitted to MCAZ for review.'));
