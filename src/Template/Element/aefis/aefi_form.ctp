@@ -51,7 +51,7 @@ $editable = $this->fetch('editable');
                   echo $this->Form->control('gender', ['type' => 'radio', 
                      'label' => '<b>Gender</b> <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
-                     'options' => ['Male' => 'Male', 'Female' => 'Female']]);
+                     'options' => ['Male' => 'Male', 'Female' => 'Female', 'Unknown' => 'Unknown']]);
 
                   echo $this->Form->control('date_of_birth', array(
                     'type' => 'date', 'escape' => false, 'default' => null,
@@ -209,6 +209,7 @@ $editable = $this->fetch('editable');
                      'label' => '<b>If yes,</b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Death' => 'Death', 'Life threatening' => 'Life threatening', 'Disability' => 'Disability', 'Hospitalization' => 'Hospitalization', 'Congenital anomaly' => 'Congenital anomaly']]);
+                  echo $this->Form->control('other_reason', ['label' => 'Other medically important reason']);
               ?>
             </div>
           </div>

@@ -69,6 +69,24 @@ $(function() {
         }
     });
 
+    if ($('#outcome').find('option:selected').text() != 'Died') {
+        $('#died-date').prop('disabled', true);
+        $( "input[name='autopsy']" ).prop('disabled', true);
+    }
+    $('#outcome').change(function () {
+        if ($(this).find('option:selected').text() != 'Died') {
+            $('#died-date').prop('disabled', true);
+            $( "input[name='autopsy']" ).prop('disabled', true);
+        } else {
+            $('#died-date').prop('disabled', false);
+            $( "input[name='autopsy']" ).prop('disabled', false);
+        }
+    });
+
+    $("#ae-afebrile, #ae-febrile").click(function(){
+        $("#ae-afebrile, #ae-febrile").not(this).attr("checked",false); 
+    });
+
     //active for admins
     //https://stackoverflow.com/questions/18999501/bootstrap-3-keep-selected-tab-on-page-refresh
     $('a[data-toggle="tab"]').click(function (e) {

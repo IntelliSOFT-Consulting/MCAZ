@@ -1,7 +1,7 @@
 $(function() {
 
     var cache10 = {},    lastXhr10;
-    $( "#description-of-reaction" ).autocomplete({
+    $( "#aefi-report-ref" ).autocomplete({
         source: function( request, response ) {
             var term = request.term;
             if ( term in cache10 ) {
@@ -17,7 +17,44 @@ $(function() {
             });
         },
         select: function( event, ui ) {
-            $( "#description-of-reaction" ).val( ui.item.label );
+            $( "#aefi-report-ref" ).val( ui.item.label );
+            //populate fields based on selection
+            $.getJSON("/aefis/view/"+ui.item.dist+".json", {id: ui.item.dist})
+              .done(function( json ) {
+                // console.log( "JSON Data: " + json.aefi.reference_number );
+                $( "#province-id" ).val( json.aefi.province_id );
+                $( "#designation-id" ).val( json.aefi.designation_id );
+                $( "#district" ).val( json.aefi.reporter_district );
+                $( "#name-of-vaccination-site" ).val( json.aefi.name_of_vaccination_center );
+                $( "#reporter-name" ).val( json.aefi.reporter_name );
+                $( "#telephone" ).val( json.aefi.reporter_phone );
+                $( "#mobile" ).val( json.aefi.reporter_phone );
+                $( "#patient-name" ).val( json.aefi.patient_name+' '+json.aefi.patient_surname );
+                $("input[name='gender'][value='"+json.aefi.gender+"']").prop('checked', true);
+                $( "#patient-address" ).val( json.aefi.patient_address );
+                $( "#age-at-onset-years" ).val( json.aefi.age_at_onset_years );
+                $( "#age-at-onset-months" ).val( json.aefi.age_at_onset_months );
+                $( "#age-at-onset-days" ).val( json.aefi.age_at_onset_days );
+                // console.log(json.aefi.aefi_list_of_vaccines.length)
+                var i;
+                for (i = 0; i < json.aefi.aefi_list_of_vaccines.length; i++) {
+                  $('#addAefiVaccine').click();
+                  // console.log(json.aefi.aefi_list_of_vaccines[i].vaccine_name);
+                  $( '#aefi-list-of-vaccines-'+i+'-vaccine-name' ).val( json.aefi.aefi_list_of_vaccines[i].vaccine_name );
+                  $( '#aefi-list-of-vaccines-'+i+'-vaccination-date' ).val( json.aefi.aefi_list_of_vaccines[i].vaccination_date );
+                  $( '#aefi-list-of-vaccines-'+i+'-vaccination-time' ).val( json.aefi.aefi_list_of_vaccines[i].vaccination_time );
+                  $( '#aefi-list-of-vaccines-'+i+'-dosage' ).val( json.aefi.aefi_list_of_vaccines[i].dosage );
+                  $( '#aefi-list-of-vaccines-'+i+'-batch-number' ).val( json.aefi.aefi_list_of_vaccines[i].batch_number );
+                  $( '#aefi-list-of-vaccines-'+i+'-expiry-date' ).val( json.aefi.aefi_list_of_vaccines[i].expiry_date );
+                  $( '#aefi-list-of-vaccines-'+i+'-diluent-batch-number' ).val( json.aefi.aefi_list_of_vaccines[i].diluent_batch_number );
+                  $( '#aefi-list-of-vaccines-'+i+'-diluent-expiry-date' ).val( json.aefi.aefi_list_of_vaccines[i].diluent_expiry_date );
+                  $( '#aefi-list-of-vaccines-'+i+'-diluent-date' ).val( json.aefi.aefi_list_of_vaccines[i].diluent_date );
+                  // $( '#aefi-list-of-vaccines-'+i+'-suspected-drug' ).val( json.aefi.aefi_list_of_vaccines[i].suspected_drug );
+                  if(json.aefi.aefi_list_of_vaccines[i].suspected_drug) {
+                    $("input[name='aefi_list_of_vaccines["+i+"][suspected_drug]']").prop('checked', true);
+                  }
+                }
+              });
             return false;
         }
     });

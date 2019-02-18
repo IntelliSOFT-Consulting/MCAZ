@@ -64,7 +64,7 @@
                         ?>
                     </td>                    
                     <td>
-                        <button <?= ($editable) ? '' : 'disabled=""' ?> type="button" class="btn btn-default btn-sm remove-attachment"  value="<?php if (isset($att[$i]['id'])) { echo $att[$i]['id']; } ?>" >
+                        <button <?= ($editable) ? '' : 'disabled=""' ?> type="button" class="btn btn-danger btn-sm remove-attachment"  value="<?php if (isset($att[$i]['id'])) { echo $att[$i]['id']; } ?>" >
                           <i class="fa fa-minus"></i>
                         </button>
                     </td>

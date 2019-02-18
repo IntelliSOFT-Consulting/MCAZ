@@ -137,7 +137,7 @@
                         ?>
                     </td>
                     <td>
-                        <button <?= ($editable) ? '' : 'disabled=""'  ?>  type="button" class="btn btn-default btn-sm remove-vaccine"  value="<?php if (isset($aefi['aefi_list_of_vaccines'][$i]['id'])) { echo $aefi['aefi_list_of_vaccines'][$i]['id']; } ?>" >
+                        <button <?= ($editable) ? '' : 'disabled=""'  ?>  type="button" class="btn btn-danger btn-sm remove-vaccine"  value="<?php if (isset($aefi['aefi_list_of_vaccines'][$i]['id'])) { echo $aefi['aefi_list_of_vaccines'][$i]['id']; } ?>" >
                           <i class="fa fa-minus"></i>
                         </button>
                     </td>

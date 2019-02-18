@@ -59,7 +59,7 @@ $(function() {
             <td>\
               <input class="form-control date-pick-field" name="adr_lab_tests[{i}][lab_value_date]" id="adr-lab-tests-{i}-lab-value-date" type="text">   </td>\
             <td>\
-                <button type="button" class="btn btn-default btn-sm remove-lab-test"><i class="fa fa-minus"></i> Remove</button>\
+                <button type="button" class="btn btn-danger btn-sm remove-lab-test"><i class="fa fa-minus"></i> Remove</button>\
             </td>\
           </tr>\        ';
 

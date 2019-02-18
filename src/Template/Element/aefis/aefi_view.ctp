@@ -220,6 +220,9 @@
                 <tr><th><label>If yes,</label></th>
                     <td><?= $aefi->serious_yes ?></td>
                 </tr>
+                <tr><th><label>Other medically important reason</label></th>
+                    <td><?= $aefi->other_reason ?></td>
+                </tr>
               </table>
             </div>
           </div>

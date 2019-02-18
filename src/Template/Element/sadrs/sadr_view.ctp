@@ -166,6 +166,16 @@
           </div>
 
           <div class="row">
+            <div class="col-xs-12">
+              <table class="table table-condensed vertical-table">
+                <tr><th><label>Laboratory test Results</label></th>
+                    <td><?= $sadr->any_other_information ?></td>
+                </tr>
+              </table>           
+            </div>
+          </div>
+
+          <div class="row">
             <div class="col-xs-12"><h4 class="text-center">Current Medication</h4></div>
           </div>
           
