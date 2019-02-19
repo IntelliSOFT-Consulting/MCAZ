@@ -20,7 +20,7 @@
                 </button>
               </div>
               <div class="col-md-3 text-center">
-                <button name="submitted" value="-1" id="adrCancel" class="btn btn-default active" type="submit"
+                <button name="submitted" value="-1" id="adrCancel" class="btn btn-default active" type="submit" formnovalidate="formnovalidate"
                         onclick="return confirm('Are you sure you wish to cancel the report?');"
                 >
                   <span class="fa fa-close" aria-hidden="true"></span> Cancel

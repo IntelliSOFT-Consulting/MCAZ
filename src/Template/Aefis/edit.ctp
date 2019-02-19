@@ -14,7 +14,7 @@
       </button>
     </div>
     <div class="col-md-3 text-center">
-      <button name="submitted" value="2" id="aefiSubmit" class="btn btn-success active" type="submit"
+      <button name="submitted" value="2" id="aefiSubmit" class="btn btn-success active" type="submit" formnovalidate="formnovalidate"
               onclick="return confirm('Are you sure you wish to submit the form to MCAZ? You will not be able to edit it later.');"
       >
         <span class="fa fa-send" aria-hidden="true"></span> Submit to MCAZ
