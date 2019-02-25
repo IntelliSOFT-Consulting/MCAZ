@@ -234,7 +234,7 @@ class UsersController extends AppController
             if ($user) {
                 $query = $this->Users->query();
                 $query->update()
-                    ->set(['forgot_password' => 1])
+                    ->set(['forgot_password' => 1, 'last_password' => Time::now()])
                     ->where(['id' => $user->id])
                     ->execute();
 

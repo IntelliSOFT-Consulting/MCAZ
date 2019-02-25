@@ -6,6 +6,7 @@ use Cake\Validation\Validation;
 use Cake\Event\Event;
 use Cake\Log\Log;
 use Cake\Auth\DefaultPasswordHasher;
+use Cake\I18n\Time;
 
 /**
  * Users Controller
@@ -149,7 +150,7 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
-        $fieldList = ['Users.id', 'Users.name', 'Users.email', 'Users.username', 'Users.group_id', 'Users.phone_no',
+        $fieldList = ['Users.id', 'Users.name', 'Users.email', 'Users.username', 'Users.group_id', 'Users.phone_no', 'Users.last_password',
                       'Users.name_of_institution', 'Users.institution_address', 'Users.institution_code', 'Users.designation_id', 
                       'Users.is_active', 'Users.deactivated', 'Users.is_admin'];
 
@@ -157,6 +158,7 @@ class UsersController extends AppController
             'fields' => $fieldList,
             'contain' => []
         ]);
+        $user->last_password = Time::now();
         if ($this->request->is(['patch', 'post', 'put'])) {   
             if (empty($this->request->data['password'])) {
                 unset($this->request->data['password']);
