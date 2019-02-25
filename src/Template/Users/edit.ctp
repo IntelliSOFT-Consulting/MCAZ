@@ -55,6 +55,7 @@
                 echo $this->Form->control('name_of_institution');
                 echo $this->Form->control('institution_address');
                 echo $this->Form->control('institution_code');
+                echo $this->Form->control('province_id', ['empty' => true]);
                 echo $this->Form->control('designation_id', ['options' => $designations, 'empty' => true]);     
             ?>
         </div><!--/span-->

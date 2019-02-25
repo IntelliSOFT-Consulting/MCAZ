@@ -7,6 +7,8 @@ use Cake\Event\Event;
 use Cake\Log\Log;
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\View\Helper\HtmlHelper; 
+use Cake\Core\Configure;
+use Cake\I18n\Time;
 
 /**
  * Users Controller
@@ -76,11 +78,15 @@ class UsersController extends AppController
 
                 $this->log($user['email'].' logged in at '.date('d-m-Y H:i:s'), 'info', 'dblog');
 
+                $date = new \DateTime(Configure::read('password_expire_timeout'));
                 if($user['is_active'] == 0) {
                 $this->Flash->error('Your account is not activated! If you have just registered, please click the activation link sent to your email. Remember to check you spam folder too!');
                     $this->redirect($this->Auth->logout());
                 } elseif ($user['deactivated'] == 1) {
                     $this->Flash->error('Your account has been deactivated! Please contact MCAZ.');
+                    $this->redirect($this->Auth->logout());
+                } elseif ($user['last_password'] <= $date->modify('-2 days')) {
+                    $this->Flash->error('Your password has expired. Click on forgot password to create new password.');
                     $this->redirect($this->Auth->logout());
                 }
 
@@ -179,7 +185,8 @@ class UsersController extends AppController
             }
         }
         $designations = $this->Users->Designations->find('list', ['limit' => 200, 'order' => ['name' => 'ASC']]);
-        $this->set(compact('user', 'designations'));
+        $provinces = $this->Users->Provinces->find('list', ['limit' => 200, 'order' => ['province_name' => 'ASC']]);
+        $this->set(compact('user', 'designations', 'provinces'));
         $this->set('_serialize', ['user']);
     }
 
@@ -402,8 +409,13 @@ class UsersController extends AppController
             debug($this->request->getData('old_password'));
             debug($this->request->getData('password'));*/
             if ((new DefaultPasswordHasher)->check($this->request->getData('old_password'), $user->password)) {
+                /*if((new DefaultPasswordHasher)->hash($this->request->getData('old_password')) === $user->password) {
+                    $this->Flash->error(__('The new password is same as the old. Kindly create new password.'));
+                    return $this->redirect(['action' => 'profile']);
+                }*/
                 $user = $this->Users->patchEntity($user, $this->request->getData());
-                // debug($user);
+                $user->last_password = Time::now();
+                // debug($user);                
                 if ($this->Users->save($user)) {
                     $this->Flash->success(__('Your password has been updated.'));
                     return $this->redirect(['action' => 'profile']);
@@ -455,7 +467,7 @@ class UsersController extends AppController
     {
         $user = $this->Users->get($id, [
             'contain' => [],
-            'fields' => ['id' , 'designation_id' , 'username' , 'name' , 'email' , 'name_of_institution' , 'file', 'dir',
+            'fields' => ['id' , 'designation_id', 'province_id', 'username' , 'name' , 'email' , 'name_of_institution' , 'file', 'dir',
                                 'institution_address' , 'institution_code' , 'institution_contact' , 'phone_no', 'group_id' ]
         ]);
         if ($this->Auth->user('group_id') != 1 && $this->Auth->user('id') != $id) {
@@ -466,7 +478,7 @@ class UsersController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             // debug($this->request->getData())
             $user = $this->Users->patchEntity($user, $this->request->getData(), [
-                'fieldList' => ['id' , 'designation_id' , 'username' , 'name' , 'email' , 'name_of_institution' , 'file',
+                'fieldList' => ['id' , 'designation_id', 'province_id', 'username' , 'name' , 'email' , 'name_of_institution' , 'file',
                                 'institution_address' , 'institution_code' , 'institution_contact' , 'phone_no' ]
             ]);
             // debug($this->request->getData());
@@ -478,9 +490,9 @@ class UsersController extends AppController
             $this->Flash->error(__('The details could not be saved. Please, try again.'));
         }
         $designations = $this->Users->Designations->find('list', ['limit' => 200]);
-        //$counties = $this->Users->Counties->find('list', ['limit' => 200]);
+        $provinces = $this->Users->Provinces->find('list', ['limit' => 200, 'order' => ['province_name' => 'ASC']]);
         $groups = $this->Users->Groups->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'designations', 'groups'));
+        $this->set(compact('user', 'designations', 'provinces', 'groups'));
         $this->set('_serialize', ['user']);
     }
     

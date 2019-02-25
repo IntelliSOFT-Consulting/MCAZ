@@ -61,9 +61,9 @@ class UsersTable extends Table
         $this->belongsTo('Designations', [
             'foreignKey' => 'designation_id'
         ]);
-        // $this->belongsTo('Counties', [
-        //     'foreignKey' => 'county_id'
-        // ]);
+        $this->belongsTo('Provinces', [
+            'foreignKey' => 'province_id'
+        ]);
         $this->belongsTo('Groups', [
             'foreignKey' => 'group_id',
             'joinType' => 'INNER'
@@ -77,6 +77,14 @@ class UsersTable extends Table
         $this->hasMany('Sadrs', [
             'foreignKey' => 'user_id'
         ]);
+
+        $this->hasMany('Reminders', [
+            'className' => 'Reminders',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Reminders.model' => 'Users'),
+        ]);
+
         $this->hasMany('Adrs', [
             'foreignKey' => 'user_id'
         ]);

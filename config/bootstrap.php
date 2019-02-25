@@ -73,6 +73,7 @@ try {
 } catch (\Exception $e) {
     exit($e->getMessage() . "\n");
 }
+Configure::write('password_expire_timeout', '-6 months');
 
 /*
  * Load an environment local configuration file.

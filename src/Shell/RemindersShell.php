@@ -4,6 +4,7 @@ namespace App\Shell;
 use Cake\Console\Shell;
 use Cake\View\Helper\HtmlHelper; 
 use Cake\I18n\Time;
+use Cake\Core\Configure;
 
 class RemindersShell extends Shell
 {
@@ -14,6 +15,7 @@ class RemindersShell extends Shell
         $this->loadModel('Saefis');
         $this->loadModel('Sadrs');
         $this->loadModel('Adrs');
+        $this->loadModel('Users');
         $this->loadModel('Queue.QueuedJobs');
     }
 
@@ -277,6 +279,35 @@ class RemindersShell extends Shell
                 $rem->reminder_type = 'evaluator_sae_reminder_email';
                 $adr->reminders = [$rem];
                 $this->Adrs->save($adr);
+            }            
+        }
+
+        //USERS
+        $users = $this->Users->find('all')
+            ->contain([])
+            ->where(['ifnull(Users.deactivated, 0) =' => 0, 'Users.last_password <=' => new \DateTime(Configure::read('password_expire_timeout'))
+                    ])
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Users.id', 'Reminders.reminder_type' => 'change_password_reminder_email']);
+            });
+        foreach ($users as $user) { 
+            if (!empty($user->email)) {
+                $data = [
+                    'email_address' => $user->email, 'user_id' => $user->id,
+                    'type' => 'change_password_reminder_email', 
+                    'model' => 'Users', 'foreign_key' => $user->id,
+                    'vars' =>  $user->toArray()
+                ];  
+                $html = new HtmlHelper(new \Cake\View\View());
+                $data['vars']['change_link'] = $html->link('Change', ['controller' => 'Users', 'action' => 'profile', '_full' => true]);
+                $data['vars']['name'] = (($user->name)) ?? $user->email;
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Users->Reminders->newEntity();
+                $rem->user_id = $user->id;
+                $rem->model = 'Users';
+                $rem->reminder_type = 'change_password_reminder_email';
+                $user->reminders = [$rem];
+                $this->Users->save($user);
             }            
         }
     }
