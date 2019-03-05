@@ -30,7 +30,7 @@
                 echo $this->Form->control('institution_code');
                 echo $this->Form->control('province_id', ['empty' => true]);
                 echo $this->Form->control('designation_id', ['options' => $designations, 'empty' => true]);
-                //echo $this->Form->control('ward');                
+                echo $this->Form->control('district');                
                 //echo $this->Form->control('forgot_password');
                 //echo $this->Form->control('initial_email');
                 //echo $this->Form->control('is_active');
