@@ -170,7 +170,7 @@ function getChoice(sel){
           </div>
 
           <div>
-            <button name="submitted" value="1" id="saefiSaveChanges" class="btn btn-primary btn-sm" type="submit" formnovalidate="formnovalidate">
+            <button name="submitted" value="1" id="saefiSaveChanges0" class="btn btn-primary btn-sm" type="submit" formnovalidate="formnovalidate">
                   <span class="fa fa-edit" aria-hidden="true"></span> Save changes
             </button>  
           </div>
@@ -209,6 +209,12 @@ function getChoice(sel){
                   echo $this->Form->control('autopsy_planned_date', ['label' => 'If yes, date:', 'type' => 'text']); 
               ?>
             </div>
+          </div>
+
+          <div>
+            <button name="submitted" value="1" id="saefiSaveChanges0" class="btn btn-primary btn-sm" type="submit" formnovalidate="formnovalidate">
+                  <span class="fa fa-edit" aria-hidden="true"></span> Save changes
+            </button>  
           </div>
 
           <hr>
@@ -437,6 +443,14 @@ function getChoice(sel){
                       <?= $this->Form->control('delivery_procedure_specify', [
                          'label' => 'If complication, specify',]); ?> 
             </div>
+          </div>
+
+
+
+          <div>
+            <button name="submitted" value="1" id="saefiSaveChanges3" class="btn btn-primary btn-sm" type="submit" formnovalidate="formnovalidate">
+                  <span class="fa fa-edit" aria-hidden="true"></span> Save changes
+            </button>  
           </div>
 
           <h4>Section C Details of first examination** of serious AEFI case</h4>
@@ -770,6 +784,13 @@ function getChoice(sel){
                       </tbody>
                   </table>
               </div>
+          </div>
+
+
+          <div>
+            <button name="submitted" value="1" id="saefiSaveChanges5" class="btn btn-primary btn-sm" type="submit" formnovalidate="formnovalidate">
+                  <span class="fa fa-edit" aria-hidden="true"></span> Save changes
+            </button>  
           </div>
 
         <h4>
