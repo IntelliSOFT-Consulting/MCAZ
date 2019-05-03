@@ -286,7 +286,8 @@ class SaefisController extends AppController
               //submit to mcaz button
               $saefi->submitted_date = date("Y-m-d H:i:s");
               $saefi->status = 'Submitted';//($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
-              $count = $this->Saefis->find('all', ['conditions' => ['date_format(Saefis.created,"%Y")' => date("Y")]])->count() + 1;
+              $var = (date("Y") == 2019) ? 27 : 1;
+              $count = $this->Saefis->find('all', ['conditions' => ['date_format(Saefis.created,"%Y")' => date("Y")]])->count() + $var;
               $saefi->reference_number = (($saefi->reference_number)) ?? 'SAEFI'.$count.'/'.$saefi->created->i18nFormat('yyyy');
               if ($this->Saefis->save($saefi, ['validate' => false])) {
                 $this->Flash->success(__('Report '.$saefi->reference_number.' has been successfully submitted to MCAZ for review.'));                

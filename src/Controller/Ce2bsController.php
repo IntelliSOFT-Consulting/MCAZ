@@ -142,7 +142,9 @@ class Ce2bsController extends AppController
                 $ce2b->report_stages = [$stage1];
 
                 $ce2b->e2b_content = $xmlString;
-                $ref = $this->Ce2bs->find()->count() + 1;
+                $var = (date("Y") == 2019) ? 28 : 1;
+                // $ref = $this->Ce2bs->find()->count() + 1;
+                $ref = $this->Ce2bs->find('all', ['conditions' => ['date_format(Ce2bs.created,"%Y")' => date("Y")]])->count() + $var;
                 $ce2b->reference_number = (($ce2b->reference_number)) ?? 'CE2B'.$ref.'/'.date('Y');
                 if ($this->Ce2bs->save($ce2b)) {
 
