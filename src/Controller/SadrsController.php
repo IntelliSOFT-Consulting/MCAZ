@@ -508,7 +508,7 @@ class SadrsController extends AppController
               $sadr->submitted_date = date("Y-m-d H:i:s");
               $sadr->status = 'Submitted';//($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
               $var = (date("Y") == 2019) ? 52 : 1;
-              $count = $this->Sadrs->find('all', ['conditions' => ['date_format(Sadrs.created,"%Y")' => date("Y"), 'Sadrs.reference_number !=' => null]])->count() + $var;
+              $count = $this->Sadrs->find('all', ['conditions' => ['date_format(Sadrs.created,"%Y")' => date("Y"), 'Sadrs.reference_number IS NOT' => null]])->count() + $var;
               $sadr->reference_number = (($sadr->reference_number)) ?? 'ADR'.$count.'/'.$sadr->created->i18nFormat('yyyy');
               // debug($sadr); return;
               if ($this->Sadrs->save($sadr)) {
