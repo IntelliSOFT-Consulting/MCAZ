@@ -4,7 +4,7 @@
     processIsolation="false"
     stopOnFailure="false"
     syntaxCheck="false"
-    bootstrap="./tests/bootstrap.php"
+    bootstrap="tests/bootstrap.php"
     >
     <php>
         <ini name="memory_limit" value="-1"/>
@@ -13,16 +13,15 @@
 
     <!-- Add any additional test suites you want to run here -->
     <testsuites>
-        <testsuite name="CsvView Test Suite">
-            <directory>./tests/TestCase</directory>
+        <testsuite name="csv-view">
+            <directory>tests/TestCase/</directory>
         </testsuite>
     </testsuites>
 
     <!-- Setup a listener for fixtures -->
     <listeners>
         <listener
-        class="\Cake\TestSuite\Fixture\FixtureInjector"
-        file="./vendor/cakephp/cakephp/src/TestSuite/Fixture/FixtureInjector.php">
+        class="\Cake\TestSuite\Fixture\FixtureInjector">
             <arguments>
                 <object class="\Cake\TestSuite\Fixture\FixtureManager" />
             </arguments>
@@ -31,8 +30,8 @@
 
     <filter>
         <whitelist>
-            <directory suffix=".php">./src/</directory>
-            <directory suffix=".ctp">./src/</directory>
+            <directory suffix=".php">src/</directory>
+            <directory suffix=".ctp">src/</directory>
         </whitelist>
     </filter>
 

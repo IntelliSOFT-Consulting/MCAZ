@@ -1,6 +1,6 @@
 # CakePHP Chronos
 
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.txt)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 [![Build Status](https://img.shields.io/travis/cakephp/chronos/master.svg?style=flat-square)](https://travis-ci.org/cakephp/chronos)
 [![Coverage Status](https://img.shields.io/coveralls/cakephp/chronos/master.svg?style=flat-square)](https://coveralls.io/r/cakephp/chronos?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/cakephp/chronos.svg?style=flat-square)](https://packagist.org/packages/cakephp/chronos)
@@ -140,8 +140,8 @@ a mutable variant of `Date`.
 
 # Documentation
 
-A more descriptive documentation can be found at [book.cakephp.org/3.0/en/chronos.html](http://book.cakephp.org/3.0/en/chronos.html).
+A more descriptive documentation can be found at [book.cakephp.org/chronos/1.x/en/](https://book.cakephp.org/chronos/1.x/en/).
 
 # API Documentation
 
-API documentation can be found on [api.cakephp.org/chronos](http://api.cakephp.org/chronos).
+API documentation can be found on [api.cakephp.org/chronos](https://api.cakephp.org/chronos).

@@ -55,7 +55,7 @@ class UsersTable extends Table
         $this->addBehavior('Acl.Acl', ['type' => 'requester']);
         $this->addBehavior('Search.Search');
         $this->addBehavior('Josegonzalez/Upload.Upload', [
-            'file' => [],
+            'file' => ['path' => 'webroot{DS}files{DS}{model}{DS}{field}{DS}{time}{DS}'],
         ]);
                 
         $this->belongsTo('Designations', [

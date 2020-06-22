@@ -207,7 +207,8 @@ should be submitted as follow up report</td></tr>
                               </div>
                               <div>
                                 <h4 class="form-control-static text-info text-left"><?php          
-                                  echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$sadr->assigned_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$sadr->assigned_by], true)."' style='width: 30%;' alt=''>";
+                                  // echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$sadr->assigned_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$sadr->assigned_by], true)."' style='width: 30%;' alt=''>";
+                                  echo $this->cell('Signature', [$review->reviewed_by]);
                                 ?></h4>
                               </div>
                             </div>                          

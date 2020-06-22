@@ -18,6 +18,7 @@ return [
         'Migrations' => $baseDir . '/vendor/cakephp/migrations/',
         'Queue' => $baseDir . '/vendor/dereuromark/cakephp-queue/',
         'Search' => $baseDir . '/vendor/friendsofcake/search/',
-        'SoftDelete' => $baseDir . '/vendor/pgbi/cakephp3-soft-delete/'
+        'SoftDelete' => $baseDir . '/vendor/pgbi/cakephp3-soft-delete/',
+        'WyriHaximus/TwigView' => $baseDir . '/vendor/wyrihaximus/twig-view/'
     ]
 ];

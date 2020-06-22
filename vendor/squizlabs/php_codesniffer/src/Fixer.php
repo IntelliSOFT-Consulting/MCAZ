@@ -52,7 +52,7 @@ class Fixer
      *
      * @var array<int, string>
      */
-    private $tokens = array();
+    private $tokens = [];
 
     /**
      * A list of tokens that have already been fixed.
@@ -62,7 +62,7 @@ class Fixer
      *
      * @var int[]
      */
-    private $fixedTokens = array();
+    private $fixedTokens = [];
 
     /**
      * The last value of each fixed token.
@@ -72,7 +72,7 @@ class Fixer
      *
      * @var array<int, string>
      */
-    private $oldTokenValues = array();
+    private $oldTokenValues = [];
 
     /**
      * A list of tokens that have been fixed during a changeset.
@@ -82,7 +82,7 @@ class Fixer
      *
      * @var array
      */
-    private $changeset = array();
+    private $changeset = [];
 
     /**
      * Is there an open changeset.
@@ -117,10 +117,10 @@ class Fixer
     {
         $this->currentFile = $phpcsFile;
         $this->numFixes    = 0;
-        $this->fixedTokens = array();
+        $this->fixedTokens = [];
 
         $tokens       = $phpcsFile->getTokens();
-        $this->tokens = array();
+        $this->tokens = [];
         foreach ($tokens as $index => $token) {
             if (isset($token['orig_content']) === true) {
                 $this->tokens[$index] = $token['orig_content'];
@@ -143,11 +143,6 @@ class Fixer
         if ($fixable === 0) {
             // Nothing to fix.
             return false;
-        }
-
-        $stdin = false;
-        if (empty($this->currentFile->config->files) === true) {
-            $stdin = true;
         }
 
         $this->enabled = true;
@@ -270,7 +265,7 @@ class Fixer
             $diffLines = explode("\n", $diff);
         }
 
-        $diff = array();
+        $diff = [];
         foreach ($diffLines as $line) {
             if (isset($line[0]) === true) {
                 switch ($line[0]) {
@@ -356,7 +351,7 @@ class Fixer
         }
 
         if (PHP_CODESNIFFER_VERBOSITY > 1) {
-            $bt    = debug_backtrace();
+            $bt    = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
             $sniff = $bt[1]['class'];
             $line  = $bt[0]['line'];
 
@@ -365,7 +360,7 @@ class Fixer
             ob_start();
         }
 
-        $this->changeset   = array();
+        $this->changeset   = [];
         $this->inChangeset = true;
 
     }//end beginChangeset()
@@ -385,7 +380,7 @@ class Fixer
         $this->inChangeset = false;
 
         $success = true;
-        $applied = array();
+        $applied = [];
         foreach ($this->changeset as $stackPtr => $content) {
             $success = $this->replaceToken($stackPtr, $content);
             if ($success === false) {
@@ -413,7 +408,7 @@ class Fixer
             ob_start();
         }
 
-        $this->changeset = array();
+        $this->changeset = [];
 
     }//end endChangeset()
 
@@ -447,7 +442,7 @@ class Fixer
                 ob_start();
             }
 
-            $this->changeset = array();
+            $this->changeset = [];
         }//end if
 
     }//end rollbackChangeset()
@@ -485,7 +480,7 @@ class Fixer
         }
 
         if (PHP_CODESNIFFER_VERBOSITY > 1) {
-            $bt = debug_backtrace();
+            $bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
             if ($bt[1]['class'] === 'PHP_CodeSniffer\Fixer') {
                 $sniff = $bt[2]['class'];
                 $line  = $bt[1]['line'];
@@ -519,11 +514,11 @@ class Fixer
         }
 
         if (isset($this->oldTokenValues[$stackPtr]) === false) {
-            $this->oldTokenValues[$stackPtr] = array(
-                                                'curr' => $content,
-                                                'prev' => $this->tokens[$stackPtr],
-                                                'loop' => $this->loops,
-                                               );
+            $this->oldTokenValues[$stackPtr] = [
+                'curr' => $content,
+                'prev' => $this->tokens[$stackPtr],
+                'loop' => $this->loops,
+            ];
         } else {
             if ($this->oldTokenValues[$stackPtr]['prev'] === $content
                 && $this->oldTokenValues[$stackPtr]['loop'] === ($this->loops - 1)
@@ -597,7 +592,7 @@ class Fixer
         }
 
         if (PHP_CODESNIFFER_VERBOSITY > 1) {
-            $bt = debug_backtrace();
+            $bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
             if ($bt[1]['class'] === 'PHP_CodeSniffer\Fixer') {
                 $sniff = $bt[2]['class'];
                 $line  = $bt[1]['line'];
@@ -643,7 +638,7 @@ class Fixer
      *
      * @param int $stackPtr The position of the token in the token stack.
      * @param int $start    The first character to keep.
-     * @param int $length   The number of chacters to keep. If NULL, the content of
+     * @param int $length   The number of characters to keep. If NULL, the content of
      *                      the token from $start to the end of the content is kept.
      *
      * @return bool If the change was accepted.

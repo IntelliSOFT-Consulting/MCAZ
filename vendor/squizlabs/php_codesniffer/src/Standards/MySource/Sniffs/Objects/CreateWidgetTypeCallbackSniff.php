@@ -21,7 +21,7 @@ class CreateWidgetTypeCallbackSniff implements Sniff
      *
      * @var array
      */
-    public $supportedTokenizers = array('JS');
+    public $supportedTokenizers = ['JS'];
 
 
     /**
@@ -31,7 +31,7 @@ class CreateWidgetTypeCallbackSniff implements Sniff
      */
     public function register()
     {
-        return array(T_OBJECT);
+        return [T_OBJECT];
 
     }//end register()
 
@@ -60,7 +60,7 @@ class CreateWidgetTypeCallbackSniff implements Sniff
             return;
         }
 
-        $function = $phpcsFile->findNext(array(T_WHITESPACE, T_COLON), ($create + 1), null, true);
+        $function = $phpcsFile->findNext([T_WHITESPACE, T_COLON], ($create + 1), null, true);
         if ($tokens[$function]['code'] !== T_FUNCTION
             && $tokens[$function]['code'] !== T_CLOSURE
         ) {
@@ -141,8 +141,9 @@ class CreateWidgetTypeCallbackSniff implements Sniff
 
                 // Note that we use this endBracket down further when checking
                 // for a RETURN statement.
-                $endBracket = end($tokens[$i]['nested_parenthesis']);
-                $bracket    = key($tokens[$i]['nested_parenthesis']);
+                $nestedParens = $tokens[$i]['nested_parenthesis'];
+                $endBracket   = end($nestedParens);
+                $bracket      = key($nestedParens);
 
                 $prev = $phpcsFile->findPrevious(
                     Tokens::$emptyTokens,

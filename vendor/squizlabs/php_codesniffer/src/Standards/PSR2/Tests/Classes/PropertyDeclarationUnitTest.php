@@ -25,13 +25,18 @@ class PropertyDeclarationUnitTest extends AbstractSniffUnitTest
      */
     public function getErrorList()
     {
-        return array(
-                7  => 1,
-                9  => 2,
-                10 => 1,
-                16 => 1,
-                17 => 1,
-               );
+        return [
+            7  => 1,
+            9  => 2,
+            10 => 1,
+            11 => 1,
+            17 => 1,
+            18 => 1,
+            23 => 1,
+            38 => 1,
+            41 => 1,
+            42 => 1,
+        ];
 
     }//end getErrorList()
 
@@ -46,11 +51,11 @@ class PropertyDeclarationUnitTest extends AbstractSniffUnitTest
      */
     public function getWarningList()
     {
-        return array(
-                12 => 1,
-                13 => 1,
-                14 => 1,
-               );
+        return [
+            13 => 1,
+            14 => 1,
+            15 => 1,
+        ];
 
     }//end getWarningList()
 

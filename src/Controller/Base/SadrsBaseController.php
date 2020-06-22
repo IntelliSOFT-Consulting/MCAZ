@@ -653,7 +653,7 @@ class SadrsBaseController extends AppController
     public function attachSignature($id = null) {
         $review = $this->Sadrs->Reviews->get($id, ['contain' => ['Sadrs']]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $review = $this->Sadrs->Reviews->patchEntity($review, ['chosen' => 1, 'sadr' => ['signature' => 1]], ['associated' => ['Sadrs']]);
+            $review = $this->Sadrs->Reviews->patchEntity($review, ['chosen' => 1, 'reviewed_by' => $this->Auth->user('id'), 'sadr' => ['signature' => 1]], ['associated' => ['Sadrs']]);
             if ($this->Sadrs->Reviews->save($review)) {
                 $this->Flash->success('Signature successfully attached to review');
                 return $this->redirect($this->referer());

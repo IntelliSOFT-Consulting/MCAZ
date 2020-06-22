@@ -115,8 +115,6 @@ class SelectBoxWidget extends BasicWidget
 
         $options = $this->_renderContent($data);
         $name = $data['name'];
-        $tbt = $data['val'];
-        $opts = $data['options'];
         unset($data['name'], $data['options'], $data['empty'], $data['val'], $data['escape']);
         if (isset($data['disabled']) && is_array($data['disabled'])) {
             unset($data['disabled']);
@@ -133,7 +131,6 @@ class SelectBoxWidget extends BasicWidget
             'name' => $name,
             'templateVars' => $data['templateVars'],
             'attrs' => $attrs,
-            'value' =>  $tbt,
             'content' => implode('', $options),
         ]);
     }

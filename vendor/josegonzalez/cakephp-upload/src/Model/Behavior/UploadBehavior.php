@@ -16,6 +16,9 @@ use UnexpectedValueException;
 
 class UploadBehavior extends Behavior
 {
+    private $protectedFieldNames = [
+        'priority',
+    ];
 
     /**
      * Initialize hook
@@ -34,15 +37,15 @@ class UploadBehavior extends Behavior
             }
         }
 
-        $this->config($configs);
-        $this->config('className', null);
+        $this->setConfig($configs);
+        $this->setConfig('className', null);
 
         Type::map('upload.file', 'Josegonzalez\Upload\Database\Type\FileType');
-        $schema = $this->_table->schema();
-        foreach (array_keys($this->config()) as $field) {
-            $schema->columnType($field, 'upload.file');
+        $schema = $this->_table->getSchema();
+        foreach (array_keys($this->getConfig()) as $field) {
+            $schema->setColumnType($field, 'upload.file');
         }
-        $this->_table->schema($schema);
+        $this->_table->setSchema($schema);
     }
 
     /**
@@ -55,9 +58,9 @@ class UploadBehavior extends Behavior
      */
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
     {
-        $validator = $this->_table->validator();
+        $validator = $this->_table->getValidator();
         $dataArray = $data->getArrayCopy();
-        foreach (array_keys($this->config()) as $field) {
+        foreach (array_keys($this->getConfig(null, [])) as $field) {
             if (!$validator->isEmptyAllowed($field, false)) {
                 continue;
             }
@@ -79,11 +82,15 @@ class UploadBehavior extends Behavior
      */
     public function beforeSave(Event $event, Entity $entity, ArrayObject $options)
     {
-        foreach ($this->config() as $field => $settings) {
+        foreach ($this->getConfig(null, []) as $field => $settings) {
+            if (in_array($field, $this->protectedFieldNames)) {
+                continue;
+            }
+
             if (Hash::get((array)$entity->get($field), 'error') !== UPLOAD_ERR_OK) {
                 if (Hash::get($settings, 'restoreValueOnFailure', true)) {
                     $entity->set($field, $entity->getOriginal($field));
-                    $entity->dirty($field, false);
+                    $entity->setDirty($field, false);
                 }
                 continue;
             }
@@ -119,8 +126,10 @@ class UploadBehavior extends Behavior
      */
     public function afterDelete(Event $event, Entity $entity, ArrayObject $options)
     {
-        foreach ($this->config() as $field => $settings) {
-            if (Hash::get($settings, 'keepFilesOnDelete', true)) {
+        $result = true;
+
+        foreach ($this->getConfig(null, []) as $field => $settings) {
+            if (in_array($field, $this->protectedFieldNames) || Hash::get($settings, 'keepFilesOnDelete', true)) {
                 continue;
             }
 
@@ -141,10 +150,12 @@ class UploadBehavior extends Behavior
             $writer = $this->getWriter($entity, [], $field, $settings);
             $success = $writer->delete($files);
 
-            if ((new Collection($success))->contains(false)) {
-                return false;
+            if ($result && (new Collection($success))->contains(false)) {
+                $result = false;
             }
         }
+
+        return $result;
     }
 
     /**

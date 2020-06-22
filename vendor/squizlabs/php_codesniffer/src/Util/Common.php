@@ -9,9 +9,6 @@
 
 namespace PHP_CodeSniffer\Util;
 
-use PHP_CodeSniffer\Config;
-use PHP_CodeSniffer\Exceptions\RuntimeException;
-
 class Common
 {
 
@@ -20,17 +17,17 @@ class Common
      *
      * @var string[]
      */
-    public static $allowedTypes = array(
-                                   'array',
-                                   'boolean',
-                                   'float',
-                                   'integer',
-                                   'mixed',
-                                   'object',
-                                   'string',
-                                   'resource',
-                                   'callable',
-                                  );
+    public static $allowedTypes = [
+        'array',
+        'boolean',
+        'float',
+        'integer',
+        'mixed',
+        'object',
+        'string',
+        'resource',
+        'callable',
+    ];
 
 
     /**
@@ -68,6 +65,11 @@ class Common
             if ($homeDir !== false) {
                 $path = $homeDir.substr($path, 1);
             }
+        }
+
+        // Check for process substitution.
+        if (strpos($path, '/dev/fd') === 0) {
+            return str_replace('/dev/fd', 'php://fd', $path);
         }
 
         // No extra work needed if this is not a phar file.
@@ -151,6 +153,65 @@ class Common
 
 
     /**
+     * Check if STDIN is a TTY.
+     *
+     * @return boolean
+     */
+    public static function isStdinATTY()
+    {
+        // The check is slow (especially calling `tty`) so we static
+        // cache the result.
+        static $isTTY = null;
+
+        if ($isTTY !== null) {
+            return $isTTY;
+        }
+
+        if (defined('STDIN') === false) {
+            return false;
+        }
+
+        // If PHP has the POSIX extensions we will use them.
+        if (function_exists('posix_isatty') === true) {
+            $isTTY = (posix_isatty(STDIN) === true);
+            return $isTTY;
+        }
+
+        // Next try is detecting whether we have `tty` installed and use that.
+        if (defined('PHP_WINDOWS_VERSION_PLATFORM') === true) {
+            $devnull = 'NUL';
+            $which   = 'where';
+        } else {
+            $devnull = '/dev/null';
+            $which   = 'which';
+        }
+
+        $tty = trim(shell_exec("$which tty 2> $devnull"));
+        if (empty($tty) === false) {
+            exec("tty -s 2> $devnull", $output, $returnValue);
+            $isTTY = ($returnValue === 0);
+            return $isTTY;
+        }
+
+        // Finally we will use fstat.  The solution borrowed from
+        // https://stackoverflow.com/questions/11327367/detect-if-a-php-script-is-being-run-interactively-or-not
+        // This doesn't work on Mingw/Cygwin/... using Mintty but they
+        // have `tty` installed.
+        $type = [
+            'S_IFMT'  => 0170000,
+            'S_IFIFO' => 0010000,
+        ];
+
+        $stat  = fstat(STDIN);
+        $mode  = ($stat['mode'] & $type['S_IFMT']);
+        $isTTY = ($mode !== $type['S_IFIFO']);
+
+        return $isTTY;
+
+    }//end isStdinATTY()
+
+
+    /**
      * Prepares token content for output to screen.
      *
      * Replaces invisible characters so they are visible. On non-Windows
@@ -162,34 +223,34 @@ class Common
      *
      * @return string
      */
-    public static function prepareForOutput($content, $exclude=array())
+    public static function prepareForOutput($content, $exclude=[])
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            if (in_array("\r", $exclude) === false) {
+            if (in_array("\r", $exclude, true) === false) {
                 $content = str_replace("\r", '\r', $content);
             }
 
-            if (in_array("\n", $exclude) === false) {
+            if (in_array("\n", $exclude, true) === false) {
                 $content = str_replace("\n", '\n', $content);
             }
 
-            if (in_array("\t", $exclude) === false) {
+            if (in_array("\t", $exclude, true) === false) {
                 $content = str_replace("\t", '\t', $content);
             }
         } else {
-            if (in_array("\r", $exclude) === false) {
+            if (in_array("\r", $exclude, true) === false) {
                 $content = str_replace("\r", "\033[30;1m\\r\033[0m", $content);
             }
 
-            if (in_array("\n", $exclude) === false) {
+            if (in_array("\n", $exclude, true) === false) {
                 $content = str_replace("\n", "\033[30;1m\\n\033[0m", $content);
             }
 
-            if (in_array("\t", $exclude) === false) {
+            if (in_array("\t", $exclude, true) === false) {
                 $content = str_replace("\t", "\033[30;1m\\t\033[0m", $content);
             }
 
-            if (in_array(' ', $exclude) === false) {
+            if (in_array(' ', $exclude, true) === false) {
                 $content = str_replace(' ', "\033[30;1m·\033[0m", $content);
             }
         }//end if
@@ -323,9 +384,9 @@ class Common
 
 
     /**
-     * Returns a valid variable type for param/var tag.
+     * Returns a valid variable type for param/var tags.
      *
-     * If type is not one of the standard type, it must be a custom type.
+     * If type is not one of the standard types, it must be a custom type.
      * Returns the correct type name suggestion if type name is invalid.
      *
      * @param string $varType The variable type to process.
@@ -338,7 +399,7 @@ class Common
             return '';
         }
 
-        if (in_array($varType, self::$allowedTypes) === true) {
+        if (in_array($varType, self::$allowedTypes, true) === true) {
             return $varType;
         } else {
             $lowerVarType = strtolower($varType);
@@ -361,7 +422,7 @@ class Common
             if (strpos($lowerVarType, 'array(') !== false) {
                 // Valid array declaration:
                 // array, array(type), array(type1 => type2).
-                $matches = array();
+                $matches = [];
                 $pattern = '/^array\(\s*([^\s^=^>]*)(\s*=>\s*(.*))?\s*\)/i';
                 if (preg_match($pattern, $varType, $matches) !== 0) {
                     $type1 = '';
@@ -384,7 +445,7 @@ class Common
                 } else {
                     return 'array';
                 }//end if
-            } else if (in_array($lowerVarType, self::$allowedTypes) === true) {
+            } else if (in_array($lowerVarType, self::$allowedTypes, true) === true) {
                 // A valid type, but not lower cased.
                 return $lowerVarType;
             } else {

@@ -21,7 +21,7 @@ class SadrsController extends AppController
 {
     public function initialize() {
        parent::initialize();
-       // $this->Auth->allow(['vichipase']);       
+        $this->Auth->allow(['vichipase']);       
        $this->loadComponent('VigibaseApi');
        $this->loadComponent('Search.Prg', ['actions' => ['index']]);
     }
@@ -57,6 +57,7 @@ class SadrsController extends AppController
 
     public function index()
     {
+		    //Log::write('debug', 'sadrs count = '.$this->Sadrs->find()->select(['Sadrs.reference_number'])->distinct(['Sadrs.reference_number'])->where(['date_format(Sadrs.created,"%Y")' => date("Y"), 'Sadrs.reference_number IS NOT' => null])->count());
         $this->paginate = [
             // 'contain' => ['Users', 'Designations', 'Reviews']
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'RequestReporters', 'RequestEvaluators', 'Committees', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments', 'ReportStages']
@@ -167,7 +168,15 @@ class SadrsController extends AppController
     }
 
     public function vichipase() {
-        $sadr = $this->Sadrs->get(2, [
+    	 $var = (date("Y") == 2019) ? 52 : 1;
+              //$count = $this->Sadrs->find('all', ['fields' => 'DISTINCT Sadrs.reference_number', 'conditions' => ['date_format(Sadrs.created,"%Y")' => date("Y"), 'Sadrs.reference_number IS NOT' => null]])->count() + $var;
+              $count = $this->Sadrs->find()->select(['Sadrs.reference_number'])->distinct(['Sadrs.reference_number'])->where(['date_format(Sadrs.created,"%Y")' => date("Y"), 'Sadrs.reference_number IS NOT' => null])->count() + $var;
+    	//debug($count);
+    echo $count;
+       
+$this->layout = false;
+$this->render(false);
+       /* $sadr = $this->Sadrs->get(2, [
             'contain' => ['SadrListOfDrugs', 'Attachments', 'ReportStages']
         ]);
 
@@ -198,11 +207,7 @@ class SadrsController extends AppController
             $messageid = $umc->json;
             // Log::write('error', $messageid['MessageId']); 
 
-            /*$query = $this->Sadrs->query();
-            $query->update()
-                    ->set(['messageid' => $messageid['MessageId'], 'status' => 'VigiBase'])
-                    ->where(['id' => $sadr->id])
-                    ->execute();*/
+            
             $stage1  = $this->Sadrs->ReportStages->newEntity();
             $stage1->model = 'Sadrs';
             $stage1->stage = 'VigiBase';
@@ -229,7 +234,7 @@ class SadrsController extends AppController
         }
 
         debug($output);
-
+		*/
 
     }
 
@@ -508,7 +513,8 @@ class SadrsController extends AppController
               $sadr->submitted_date = date("Y-m-d H:i:s");
               $sadr->status = 'Submitted';//($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
               $var = (date("Y") == 2019) ? 52 : 1;
-              $count = $this->Sadrs->find('all', ['conditions' => ['date_format(Sadrs.created,"%Y")' => date("Y"), 'Sadrs.reference_number IS NOT' => null]])->count() + $var;
+              //$count = $this->Sadrs->find('all', ['fields' => 'DISTINCT Sadrs.reference_number', 'conditions' => ['date_format(Sadrs.created,"%Y")' => date("Y"), 'Sadrs.reference_number IS NOT' => null]])->count() + $var;
+              $count = $this->Sadrs->find()->select(['reference_number'])->distinct()->where(['date_format(Sadrs.created,"%Y")' => date("Y"), 'reference_number IS NOT' => null])->count() + $var;
               $sadr->reference_number = (($sadr->reference_number)) ?? 'ADR'.$count.'/'.$sadr->created->i18nFormat('yyyy');
               // debug($sadr); return;
               if ($this->Sadrs->save($sadr)) {

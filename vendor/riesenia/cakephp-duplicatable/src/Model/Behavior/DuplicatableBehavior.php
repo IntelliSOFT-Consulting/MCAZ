@@ -6,8 +6,6 @@ use Cake\ORM\Association;
 use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Association\BelongsToMany;
 use Cake\ORM\Behavior;
-use Cake\ORM\TableRegistry;
-use Cake\Utility\Hash;
 
 /**
  * Behavior for duplicating entities (including related entities)
@@ -48,7 +46,7 @@ class DuplicatableBehavior extends Behavior
      */
     public function duplicate($id)
     {
-        return $this->_table->save($this->duplicateEntity($id), $this->config('saveOptions') + ['associated' => $this->config('contain')]);
+        return $this->_table->save($this->duplicateEntity($id), $this->getConfig('saveOptions') + ['associated' => $this->getConfig('contain')]);
     }
 
     /**
@@ -70,23 +68,23 @@ class DuplicatableBehavior extends Behavior
             $query = $query->contain($contain);
         }
 
-        $entity = $query->where([$this->_table->alias() . '.id' => $id])->firstOrFail();
+        $entity = $query->where([$this->_table->getAlias() . '.' . $this->_table->getPrimaryKey() => $id])->firstOrFail();
 
         // process entity
-        foreach ($this->config('contain') as $contain) {
+        foreach ($this->getConfig('contain') as $contain) {
             $parts = explode('.', $contain);
             $this->_drillDownAssoc($entity, $this->_table, $parts);
         }
 
         $this->_modifyEntity($entity, $this->_table);
 
-        foreach ($this->config('remove') as $field) {
+        foreach ($this->getConfig('remove') as $field) {
             $parts = explode('.', $field);
             $this->_drillDownEntity('remove', $entity, $parts);
         }
 
         foreach (['set', 'prepend', 'append'] as $action) {
-            foreach ($this->config($action) as $field => $value) {
+            foreach ($this->getConfig($action) as $field => $value) {
                 $parts = explode('.', $field);
                 $this->_drillDownEntity($action, $entity, $parts, $value);
             }
@@ -103,14 +101,14 @@ class DuplicatableBehavior extends Behavior
      */
     protected function _getFinder($assocPath = null)
     {
-        $finders = $this->config('finder');
+        $finders = $this->getConfig('finder');
 
         if (!is_array($finders)) {
             $finders = [$finders];
         }
 
         // for backward compatibility
-        if ($this->config('includeTranslations')) {
+        if ($this->getConfig('includeTranslations')) {
             $finders[] = 'translations';
         }
 
@@ -150,7 +148,7 @@ class DuplicatableBehavior extends Behavior
     protected function _getContain()
     {
         $contain = [];
-        foreach ($this->config('contain') as $assocPath) {
+        foreach ($this->getConfig('contain') as $assocPath) {
             $finders = $this->_getFinder($assocPath);
             if ($finders === ['all']) {
                 $contain[] = $assocPath;
@@ -182,11 +180,11 @@ class DuplicatableBehavior extends Behavior
             unset($entity->_joinData);
         } else {
             // unset primary key
-            unset($entity->{$object->primaryKey()});
+            unset($entity->{$object->getPrimaryKey()});
 
             // unset foreign key
             if ($object instanceof Association) {
-                unset($entity->{$object->foreignKey()});
+                unset($entity->{$object->getPrimaryKey()});
             }
         }
 
@@ -212,7 +210,7 @@ class DuplicatableBehavior extends Behavior
     protected function _drillDownAssoc(EntityInterface $entity, $object, array $parts)
     {
         $assocName = array_shift($parts);
-        $prop = $object->{$assocName}->property();
+        $prop = $object->{$assocName}->getProperty();
         $associated = $entity->{$prop};
 
         if (empty($associated) || $object->{$assocName} instanceof BelongsTo) {
@@ -294,7 +292,7 @@ class DuplicatableBehavior extends Behavior
                 break;
 
             case 'set':
-                if (is_callable($value)) {
+                if (!is_string($value) && is_callable($value)) {
                     $value = $value($entity);
                 }
                 $entity->set($prop, $value);

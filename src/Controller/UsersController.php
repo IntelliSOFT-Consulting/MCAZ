@@ -303,7 +303,8 @@ class UsersController extends AppController
             // 'Adrs' => ['scope' => 'adr']
         ];
 
-        // pr($user);
+        // pr($this->Sadrs->find()->select(['reference_number'])->distinct(['reference_number'])->where(['date_format(Sadrs.created,"%Y")' => date("Y"), 'Sadrs.reference_number IS NOT' => null])->count());
+        // pr($this->Sadrs->find()->select(['reference_number'])->distinct()->where(['date_format(Sadrs.created,"%Y")' => date("Y"), 'Sadrs.reference_number IS NOT' => null])->count());
 
         $sadrs = $this->paginate($this->Sadrs->findByUserId($this->Auth->user('id')), ['scope' => 'sadr', 'order' => ['Sadrs.id' => 'desc'],
                                     'fields' => ['Sadrs.id', 'Sadrs.created', 'Sadrs.reference_number', 'Sadrs.submitted', 'Sadrs.report_type']]);

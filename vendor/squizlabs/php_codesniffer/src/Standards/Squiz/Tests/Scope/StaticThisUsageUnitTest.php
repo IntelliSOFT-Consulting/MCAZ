@@ -25,11 +25,16 @@ class StaticThisUsageUnitTest extends AbstractSniffUnitTest
      */
     public function getErrorList()
     {
-        return array(
-                7 => 1,
-                8 => 1,
-                9 => 1,
-               );
+        return [
+            7  => 1,
+            8  => 1,
+            9  => 1,
+            14 => 1,
+            20 => 1,
+            61 => 1,
+            69 => 1,
+            76 => 1,
+        ];
 
     }//end getErrorList()
 
@@ -44,7 +49,7 @@ class StaticThisUsageUnitTest extends AbstractSniffUnitTest
      */
     public function getWarningList()
     {
-        return array();
+        return [];
 
     }//end getWarningList()
 

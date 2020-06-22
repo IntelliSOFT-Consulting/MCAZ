@@ -29,14 +29,17 @@ class ClosingTagUnitTest extends AbstractSniffUnitTest
     {
         switch ($testFile) {
         case 'ClosingTagUnitTest.1.inc':
-            return array(11 => 1);
+            return [11 => 1];
 
         case 'ClosingTagUnitTest.4.inc':
         case 'ClosingTagUnitTest.5.inc':
-            return array(1 => 1);
+            return [1 => 1];
+
+        case 'ClosingTagUnitTest.6.inc':
+            return [5 => 1];
 
         default:
-            return array();
+            return [];
         }
 
     }//end getErrorList()
@@ -52,7 +55,7 @@ class ClosingTagUnitTest extends AbstractSniffUnitTest
      */
     public function getWarningList()
     {
-        return array();
+        return [];
 
     }//end getWarningList()
 
