@@ -289,7 +289,7 @@ class SaefisController extends AppController
               $var = (date("Y") == 2019) ? 27 : 1;
               //$count = $this->Saefis->find('all', ['conditions' => ['date_format(Saefis.created,"%Y")' => date("Y"), 'Saefis.reference_number IS NOT' => null]])->count() + $var;
               $count = $this->Saefis->find()->select(['reference_number'])->distinct()->where(['date_format(Saefis.created,"%Y")' => date("Y"), 'reference_number IS NOT' => null])->count() + $var;
-              $saefi->reference_number = (($saefi->reference_number)) ?? 'SAEFI'.$count.'/'.$saefi->created->i18nFormat('yyyy');
+              $saefi->reference_number = (($saefi->reference_number)) ?? 'SAEFI'.$count.'/'.date('Y');
               if ($this->Saefis->save($saefi, ['validate' => false])) {
                 $this->Flash->success(__('Report '.$saefi->reference_number.' has been successfully submitted to MCAZ for review.'));                
 

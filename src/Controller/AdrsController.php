@@ -339,7 +339,7 @@ class AdrsController extends AppController
               //$count = $this->Adrs->find('all', ['conditions' => ['date_format(Adrs.created,"%Y")' => date("Y"), 'Adrs.reference_number IS NOT' => null]])->count() + 1;
               $var = (date("Y") == 2019) ? 10 : 1;
               $count = $this->Adrs->find()->select(['reference_number'])->distinct()->where(['date_format(Adrs.created,"%Y")' => date("Y"), 'reference_number IS NOT' => null])->count() + $var;
-              $adr->reference_number = (($adr->reference_number)) ?? 'SAE'.$count.'/'.$adr->created->i18nFormat('yyyy');
+              $adr->reference_number = (($adr->reference_number)) ?? 'SAE'.$count.'/'.$date('Y');
               if ($this->Adrs->save($adr, ['validate' => false])) {
                 $this->Flash->success(__('Report '.$adr->reference_number.' has been successfully submitted to MCAZ for review.'));                //send email and notification
                 $this->loadModel('Queue.QueuedJobs');    

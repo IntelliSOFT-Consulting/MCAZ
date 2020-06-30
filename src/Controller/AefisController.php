@@ -336,7 +336,7 @@ class AefisController extends AppController
               $var = (date("Y") == 2019) ? 27 : 1;
               //$count = $this->Aefis->find('all', ['conditions' => ['date_format(Aefis.created,"%Y")' => date("Y"), 'Aefis.reference_number IS NOT' => null]])->count() + $var;
               $count = $this->Aefis->find()->select(['reference_number'])->distinct()->where(['date_format(Aefis.created,"%Y")' => date("Y"), 'reference_number IS NOT' => null])->count() + $var;
-              $aefi->reference_number = (($aefi->reference_number)) ?? 'AEFI'.$count.'/'.$aefi->created->i18nFormat('yyyy');
+              $aefi->reference_number = (($aefi->reference_number)) ?? 'AEFI'.$count.'/'.date('Y');
               if ($this->Aefis->save($aefi)) {
                 $this->Flash->success(__('Report '.$aefi->reference_number.' has been successfully submitted to MCAZ for review.'));               
 ;
