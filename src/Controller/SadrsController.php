@@ -514,10 +514,17 @@ $this->render(false);
               $sadr->status = 'Submitted';//($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
               $var = (date("Y") == 2019) ? 52 : 1;
               //$count = $this->Sadrs->find('all', ['fields' => 'DISTINCT Sadrs.reference_number', 'conditions' => ['date_format(Sadrs.created,"%Y")' => date("Y"), 'Sadrs.reference_number IS NOT' => null]])->count() + $var;
-              $count = $this->Sadrs->find()->select(['reference_number'])->distinct()->where(['date_format(Sadrs.modified,"%Y")' => date("Y"), 'reference_number IS NOT' => null])->count() + $var;
-              $sadr->reference_number = (($sadr->reference_number)) ?? 'ADR'.$count.'/'.date('Y');
+              // $count = $this->Sadrs->find()->select(['reference_number'])->distinct()->where(['date_format(Sadrs.modified,"%Y")' => date("Y"), 'reference_number IS NOT' => null])->count() + $var;
+              // $sadr->reference_number = (($sadr->reference_number)) ?? 'ADR'.$count.'/'.date('Y');
               // debug($sadr); return;
               if ($this->Sadrs->save($sadr)) {
+                //New method to update reference number
+                $refid = $this->Sadrs->Refids->newEntity(['foreign_key' => $sadr->id, 'model' => 'Sadrs', 'year' => date('Y')]);
+                $this->Sadrs->Refids->save($refid);
+                $refid = $this->Sadrs->Refids->get($refid->id);
+                $sadr->reference_number = (($sadr->reference_number)) ?? 'ADR'.$refid->refid.'/'.$refid->year;
+                $this->Sadrs->save($sadr);
+                //
                 $this->Flash->success(__('Report '.$sadr->reference_number.' has been successfully submitted to MCAZ for review.'));
                 //send email and notification
                 $this->loadModel('Queue.QueuedJobs');    

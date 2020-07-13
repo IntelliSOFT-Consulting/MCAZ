@@ -108,6 +108,13 @@ class AefisTable extends Table
             'conditions' => array('Reminders.model' => 'Aefis'),
         ]);
 
+        $this->hasMany('Refids', [
+            'className' => 'Refids',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Refids.model' => 'Aefis'),
+        ]);
+
         $this->hasMany('Reviews', [
             'className' => 'Reviews',
             'foreignKey' => 'foreign_key',

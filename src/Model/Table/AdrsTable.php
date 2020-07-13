@@ -99,6 +99,13 @@ class AdrsTable extends Table
             'conditions' => array('Reminders.model' => 'Adrs'),
         ]);
 
+
+        $this->hasMany('Refids', [
+            'className' => 'Refids',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Refids.model' => 'Adrs'),
+        ]);
         
         $this->hasMany('Reviews', [
             'className' => 'Reviews',

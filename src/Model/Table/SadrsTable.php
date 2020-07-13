@@ -99,6 +99,12 @@ class SadrsTable extends Table
             'dependent' => true,
             'conditions' => array('Reminders.model' => 'Sadrs'),
         ]);
+        $this->hasMany('Refids', [
+            'className' => 'Refids',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Refids.model' => 'Sadrs'),
+        ]);
         $this->hasMany('Reviews', [
             'className' => 'Reviews',
             'foreignKey' => 'foreign_key',

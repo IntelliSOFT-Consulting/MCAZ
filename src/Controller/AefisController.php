@@ -335,11 +335,17 @@ class AefisController extends AppController
               $aefi->status = 'Submitted';//($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
               $var = (date("Y") == 2019) ? 27 : 1;
               //$count = $this->Aefis->find('all', ['conditions' => ['date_format(Aefis.created,"%Y")' => date("Y"), 'Aefis.reference_number IS NOT' => null]])->count() + $var;
-              $count = $this->Aefis->find()->select(['reference_number'])->distinct()->where(['date_format(Aefis.created,"%Y")' => date("Y"), 'reference_number IS NOT' => null])->count() + $var;
-              $aefi->reference_number = (($aefi->reference_number)) ?? 'AEFI'.$count.'/'.date('Y');
+              // $count = $this->Aefis->find()->select(['reference_number'])->distinct()->where(['date_format(Aefis.created,"%Y")' => date("Y"), 'reference_number IS NOT' => null])->count() + $var;
+              // $aefi->reference_number = (($aefi->reference_number)) ?? 'AEFI'.$count.'/'.date('Y');
               if ($this->Aefis->save($aefi)) {
-                $this->Flash->success(__('Report '.$aefi->reference_number.' has been successfully submitted to MCAZ for review.'));               
-;
+                //New method to update reference number
+                $refid = $this->Aefis->Refids->newEntity(['foreign_key' => $aefi->id, 'model' => 'Aefis', 'year' => date('Y')]);
+                $this->Aefis->Refids->save($refid);
+                $refid = $this->Aefis->Refids->get($refid->id);
+                $aefi->reference_number = (($aefi->reference_number)) ?? 'AEFI'.$refid->refid.'/'.$refid->year;
+                $this->Aefis->save($aefi);
+                //
+                $this->Flash->success(__('Report '.$aefi->reference_number.' has been successfully submitted to MCAZ for review.')); 
                 //send email and notification
                 $this->loadModel('Queue.QueuedJobs');    
                 $data = [

@@ -288,9 +288,16 @@ class SaefisController extends AppController
               $saefi->status = 'Submitted';//($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
               $var = (date("Y") == 2019) ? 27 : 1;
               //$count = $this->Saefis->find('all', ['conditions' => ['date_format(Saefis.created,"%Y")' => date("Y"), 'Saefis.reference_number IS NOT' => null]])->count() + $var;
-              $count = $this->Saefis->find()->select(['reference_number'])->distinct()->where(['date_format(Saefis.created,"%Y")' => date("Y"), 'reference_number IS NOT' => null])->count() + $var;
-              $saefi->reference_number = (($saefi->reference_number)) ?? 'SAEFI'.$count.'/'.date('Y');
+              // $count = $this->Saefis->find()->select(['reference_number'])->distinct()->where(['date_format(Saefis.created,"%Y")' => date("Y"), 'reference_number IS NOT' => null])->count() + $var;
+              // $saefi->reference_number = (($saefi->reference_number)) ?? 'SAEFI'.$count.'/'.date('Y');
               if ($this->Saefis->save($saefi, ['validate' => false])) {
+                //New method to update reference number
+                $refid = $this->Saefis->Refids->newEntity(['foreign_key' => $saefi->id, 'model' => 'Saefis', 'year' => date('Y')]);
+                $this->Saefis->Refids->save($refid);
+                $refid = $this->Saefis->Refids->get($refid->id);
+                $saefi->reference_number = (($saefi->reference_number)) ?? 'SAEFI'.$refid->refid.'/'.$refid->year;
+                $this->Saefis->save($saefi);
+                //
                 $this->Flash->success(__('Report '.$saefi->reference_number.' has been successfully submitted to MCAZ for review.'));                
 
                 //send email and notification

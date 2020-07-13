@@ -41,6 +41,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
     <?php if($sadr->severity == 'No'){ ?> 
+      $("#severity-reason").val('');
       $("#choice-severity").hide();
     <?php } ?>
     
@@ -52,6 +53,7 @@ function getChoice(sel){
       if(type=="Yes"){
           $("#choice-severity").show('slow');
       }else{
+          $("#severity-reason").val('');
           $("#choice-severity").hide();
       }
 }

@@ -116,6 +116,12 @@ class SaefisTable extends Table
             'conditions' => array('Reminders.model' => 'Saefis'),
         ]);
 
+        $this->hasMany('Refids', [
+            'className' => 'Refids',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Refids.model' => 'Saefis'),
+        ]);
 
         $this->hasMany('Reviews', [
             'className' => 'Reviews',

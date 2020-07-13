@@ -337,10 +337,18 @@ class AdrsController extends AppController
               $adr->submitted_date = date("Y-m-d H:i:s");
               $adr->status = 'Submitted';//($this->Auth->user('is_admin')) ? 'Manual' : 'Submitted';
               //$count = $this->Adrs->find('all', ['conditions' => ['date_format(Adrs.created,"%Y")' => date("Y"), 'Adrs.reference_number IS NOT' => null]])->count() + 1;
-              $var = (date("Y") == 2019) ? 10 : 1;
-              $count = $this->Adrs->find()->select(['reference_number'])->distinct()->where(['date_format(Adrs.created,"%Y")' => date("Y"), 'reference_number IS NOT' => null])->count() + $var;
-              $adr->reference_number = (($adr->reference_number)) ?? 'SAE'.$count.'/'.$date('Y');
+              // $var = (date("Y") == 2019) ? 10 : 1;
+              // $count = $this->Adrs->find()->select(['reference_number'])->distinct()->where(['date_format(Adrs.created,"%Y")' => date("Y"), 'reference_number IS NOT' => null])->count() + $var;
+              // $adr->reference_number = (($adr->reference_number)) ?? 'SAE'.$count.'/'.$date('Y');
               if ($this->Adrs->save($adr, ['validate' => false])) {
+                //New method to update reference number
+                $refid = $this->Adrs->Refids->newEntity(['foreign_key' => $adr->id, 'model' => 'Adrs', 'year' => date('Y')]);
+                $this->Adrs->Refids->save($refid);
+                $refid = $this->Adrs->Refids->get($refid->id);
+                $adr->reference_number = (($adr->reference_number)) ?? 'SAE'.$refid->refid.'/'.$refid->year;
+                $this->Adrs->save($adr);
+                //
+
                 $this->Flash->success(__('Report '.$adr->reference_number.' has been successfully submitted to MCAZ for review.'));                //send email and notification
                 $this->loadModel('Queue.QueuedJobs');    
                 $data = [
