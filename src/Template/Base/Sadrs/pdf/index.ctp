@@ -82,6 +82,12 @@
                 </tr>
                 <?php //} ?>
               <?php endforeach; ?>
+              <tr>
+                <td colspan="2">Manager:</td>
+                <td colspan="2"><?php echo (!empty($sadr->assigned_by)) ? $this->cell('Signature', [$sadr->assigned_by]) : ''; ?></td>
+                <td colspan="2">Evaluator:</td>
+                <td colspan="2"><?php echo (!empty($sadr->assigned_to)) ? $this->cell('Signature', [$sadr->assigned_to]) : ''; ?></td>
+              </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
