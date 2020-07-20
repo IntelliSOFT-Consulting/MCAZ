@@ -82,15 +82,16 @@
                 </tr>
                 <?php //} ?>
               <?php endforeach; ?>
-              <?php /*?>
-              <tr>
-                <td colspan="2">Manager:</td>
-                <td colspan="2"><?php echo (!empty($sadr->assigned_by)) ? $this->cell('Signature', [$sadr->assigned_by]) : ''; ?></td>
-                <td colspan="2">Evaluator:</td>
-                <td colspan="2"><?php echo (!empty($sadr->assigned_to)) ? $this->cell('Signature', [$sadr->assigned_to]) : ''; ?></td>
-              </tr>
-              <?php */ ?>
             <?php endforeach; ?>
+            <?php /**/?>
+              <tr>
+                <td colspan="2"></td>
+                <td colspan="2"><?php  //(!empty($sadr->assigned_by)) ? echo $this->cell('Muhuri', [$sadr->assigned_by]) : ''; ?>                  
+                </td>
+                <td colspan="2">Evaluator:</td>
+                <td colspan="2"><?php echo ($review->signature) ? "<img src='".$this->Url->build(substr($this->request->session()->read('Auth.User.dir'), 8) . '/' . $this->request->session()->read('Auth.User.file'), true)."' style='width: 30%;' alt=''>" : ''; ?></td>
+              </tr>
+            <?php /**/ ?>
         </tbody>
     </table>
 </div>
