@@ -175,11 +175,18 @@ class AdrsController extends AppController
                 ]
             ])) {
                 //update field
-                $query = $this->Adrs->query();
-                $query->update()
-                    ->set(['reference_number' => 'SAE'.$adr->id.'/'.$adr->created->i18nFormat('yyyy')])
-                    ->where(['id' => $adr->id])
-                    ->execute();
+                // $query = $this->Adrs->query();
+                // $query->update()
+                //     ->set(['reference_number' => 'SAE'.$adr->id.'/'.$adr->created->i18nFormat('yyyy')])
+                //     ->where(['id' => $adr->id])
+                //     ->execute();
+                //
+                //New method to update reference number
+                $refid = $this->Adrs->Refids->newEntity(['foreign_key' => $adr->id, 'model' => 'Adrs', 'year' => date('Y')]);
+                $this->Adrs->Refids->save($refid);
+                $refid = $this->Adrs->Refids->get($refid->id);
+                $adr->reference_number = (($adr->reference_number)) ?? 'SAE'.$refid->refid.'/'.$refid->year;
+                $this->Adrs->save($adr);
                 //
                 $adr = $this->Adrs->get($adr->id, [
                     'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments']

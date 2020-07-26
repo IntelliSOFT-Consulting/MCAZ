@@ -178,12 +178,20 @@ class SadrsController extends AppController
                 'associated' => [ 'SadrListOfDrugs' => ['validate' => true ]]
             ])) {
                 //update field
-                $query = $this->Sadrs->query();
-                $query->update()
-                    ->set(['reference_number' => 'ADR'.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy')])
-                    ->where(['id' => $sadr->id])
-                    ->execute();
+                // $query = $this->Sadrs->query();
+                // $query->update()
+                //     ->set(['reference_number' => 'ADR'.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy')])
+                //     ->where(['id' => $sadr->id])
+                //     ->execute();
                 //
+                //New method to update reference number
+                $refid = $this->Sadrs->Refids->newEntity(['foreign_key' => $sadr->id, 'model' => 'Sadrs', 'year' => date('Y')]);
+                $this->Sadrs->Refids->save($refid);
+                $refid = $this->Sadrs->Refids->get($refid->id);
+                $sadr->reference_number = (($sadr->reference_number)) ?? 'ADR'.$refid->refid.'/'.$refid->year;
+                $this->Sadrs->save($sadr);
+                //
+                
                 $sadr = $this->Sadrs->get($sadr->id, [
                     'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments']
                 ]);

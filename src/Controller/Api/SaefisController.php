@@ -148,11 +148,18 @@ class SaefisController extends AppController
                 ]
               ])) {
                 //update field
-                $query = $this->Saefis->query();
-                $query->update()
-                    ->set(['reference_number' => 'SAEFI'.$saefi->id.'/'.$saefi->created->i18nFormat('yyyy')])
-                    ->where(['id' => $saefi->id])
-                    ->execute();
+                // $query = $this->Saefis->query();
+                // $query->update()
+                //     ->set(['reference_number' => 'SAEFI'.$saefi->id.'/'.$saefi->created->i18nFormat('yyyy')])
+                //     ->where(['id' => $saefi->id])
+                //     ->execute();
+                //
+                //New method to update reference number
+                $refid = $this->Saefis->Refids->newEntity(['foreign_key' => $saefi->id, 'model' => 'Saefis', 'year' => date('Y')]);
+                $this->Saefis->Refids->save($refid);
+                $refid = $this->Saefis->Refids->get($refid->id);
+                $saefi->reference_number = (($saefi->reference_number)) ?? 'SAEFI'.$refid->refid.'/'.$refid->year;
+                $this->Saefis->save($saefi);
                 //
                 $saefi = $this->Saefis->get($saefi->id, [
                     'contain' => ['SaefiListOfVaccines', 'Attachments']
