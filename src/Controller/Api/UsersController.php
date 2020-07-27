@@ -85,7 +85,7 @@ class UsersController extends AppController
                 $data['vars']['name'] = (isset($user->name)) ? $user->name : 'Sir/Madam' ;
                 $data['vars']['pv_site'] = $html->link('MCAZ PV website', ['controller' => 'Pages', 'action' => 'home', '_full' => true]);
                 $data['vars']['activation_link'] = $html->link('ACTIVATE', ['controller' => 'Users', 'action' => 'activate', $user->activation_key, 
-                                          '_full' => true]);
+                                          '_full' => true, 'prefix' => false]);
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 //Send registration notification
                 $data['type'] = 'registration_notification';
