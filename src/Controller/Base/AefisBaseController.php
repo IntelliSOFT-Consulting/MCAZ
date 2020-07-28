@@ -582,7 +582,7 @@ class AefisBaseController extends AppController
             } elseif ($aefi->submitted == -1) {
                //cancel button              
                 $this->Flash->success(__('Cancel form successful. You may continue editing report later'));
-                return $this->redirect(['controller' => 'Users','action' => 'home']);
+                return $this->redirect(['controller' => 'Users','action' => 'dashboard']);
 
            } else {
               if ($this->Aefis->save($aefi, ['validate' => false])) {

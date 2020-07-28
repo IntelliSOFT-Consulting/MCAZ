@@ -625,7 +625,7 @@ class SadrsBaseController extends AppController
             } elseif ($sadr->submitted == -1) {
                //cancel button              
                 $this->Flash->success(__('Cancel form successful. You may continue editing the report later'));
-                return $this->redirect(['controller' => 'Users','action' => 'home']);
+                return $this->redirect(['controller' => 'Users','action' => 'dashboard']);
 
            } else {
               if ($this->Sadrs->save($sadr, ['validate' => false])) {

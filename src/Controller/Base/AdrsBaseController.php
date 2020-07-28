@@ -614,7 +614,7 @@ class AdrsBaseController extends AppController
             } elseif ($adr->submitted == -1) {
                //cancel button              
                 $this->Flash->success(__('Cancel form successful. You may continue editing report later'));
-                return $this->redirect(['controller' => 'Users','action' => 'home']);
+                return $this->redirect(['controller' => 'Users','action' => 'dashboard']);
 
            } else {
               if ($this->Adrs->save($adr, ['validate' => false])) {
