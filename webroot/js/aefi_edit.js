@@ -22,6 +22,21 @@ $(function() {
         }
     });
     
+    // $("#serious-no").click(function(){
+    //     // console.log('atim?');
+    //     $('input[name="serious_yes"]').attr('disabled', this.checked)
+    // });
+    // if($("#serious-no").is(':checked')){ $('input[name="serious_yes"]').prop('disabled',true); }
+    $('input[name="serious"]').click(function(){ 
+        if ($(this).val() == 'No') {
+            $('input[name="serious_yes"]').attr('disabled', this.checked).attr('checked', !this.checked);
+        } else {
+            $('input[name="serious_yes"]').attr('disabled', false);
+        }
+    });
+    if($('input[name="serious"][value="No"]').is(':checked')){ $('input[name="serious_yes"]').attr('disabled', true).attr('checked', false); }
+
+
     $('#aefi-date').datetimepicker({
         format: 'd-m-Y H:i'
       });

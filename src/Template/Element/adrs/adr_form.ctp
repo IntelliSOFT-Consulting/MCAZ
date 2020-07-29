@@ -138,7 +138,7 @@ Please use a separate adverse event reporting form for separate reportable adver
             <div class="col-xs-6">
               <?php
                   echo $this->Form->control('adverse_event_type', ['type' => 'radio', 
-                     'label' => '<b>1. What type of adverse event is this?</b>', 'escape' => false,
+                     'label' => '<b>1. What type of adverse event is this? <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                        'options' => ['AE' => 'AE', 'SAE' => 'SAE', 'Death' => 'Death']]);
 

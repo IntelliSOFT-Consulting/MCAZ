@@ -14,19 +14,18 @@
     
 <div class="table-responsive">
     <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">Reference #</th>
-                <th scope="col">Patient Initials</th>
-                <th scope="col">Patient Details</th>
-                <th scope="col">ADR Summary</th>
-                <th scope="col">Medical History</th>
-                <th scope="col">Suspected Drug(s)</th>
-                <th scope="col">Clinical Findings</th>    
-                <th scope="col">ADR Listing in Summary of Product Characteristics</th>    
-            </tr>
-        </thead>
         <tbody>
+            <tr>
+                <td scope="col"><b>Reference #</b></td>
+                <td scope="col"><b>Patient Initials</b></td>
+                <td scope="col"><b>Patient Details</b></td>
+                <td scope="col"><b>ADR Summary</b></td>
+                <td scope="col"><b>Medical History</b></td>
+                <td scope="col"><b>Suspected Drug(s)</b></td>
+                <td scope="col"><b>Clinical Findings</b></td>    
+                <td scope="col"><b>ADR Listing in Summary of Product Characteristics</b></td>    
+            </tr>
+        
             <?php foreach ($query as $sadr): ?>
             <tr>
                 <td><?=  $sadr->reference_number ?></td>
@@ -83,7 +82,7 @@
                 <?php //} ?>
               <?php endforeach; ?>
             <?php endforeach; ?>
-            <?php /**/?>
+            <?php if($prefix == 'evaluator'){ ?>
               <tr>
                 <td colspan="2"></td>
                 <td colspan="2"><?php  //(!empty($sadr->assigned_by)) ? echo $this->cell('Muhuri', [$sadr->assigned_by]) : ''; ?>                  
@@ -91,7 +90,7 @@
                 <td colspan="2">Evaluator:</td>
                 <td colspan="2"><?php echo ($prefix == 'evaluator') ? "<img src='".$this->Url->build(substr($this->request->session()->read('Auth.User.dir'), 8) . '/' . $this->request->session()->read('Auth.User.file'), true)."' style='width: 30%;' alt=''>" : ''; ?></td>
               </tr>
-            <?php /**/ ?>
+            <?php } ?>
         </tbody>
     </table>
 </div>

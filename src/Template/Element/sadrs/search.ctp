@@ -134,7 +134,7 @@
                                     'Conditional / Unclassified' => 'Conditional / Unclassified',
                                     'Unassessable / Unclassifiable,' => 'Unassessable / Unclassifiable,',]]);
                         ?>
-                        <a onclick="$('#severity-reason').val('');" class="tiptip"  data-original-title="clear!!">
+                        <a onclick="$('#relatedness').val('');" class="tiptip"  data-original-title="clear!!">
                          <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                          <br>
                          <small class="text-warning">Relatedness to ADR</small>

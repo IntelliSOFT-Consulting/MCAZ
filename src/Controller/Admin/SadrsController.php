@@ -61,7 +61,8 @@ class SadrsController extends AppController
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
         $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
         $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list');
-        $this->set(compact('sadr', 'users', 'designations', 'doses', 'routes', 'frequencies'));
+        $editable = false;
+        $this->set(compact('sadr', 'users', 'designations', 'doses', 'routes', 'frequencies', 'editable'));
         $this->set('_serialize', ['sadr']);
         // $this->set('sadr', $sadr);
         // $this->set('_serialize', ['sadr']);
