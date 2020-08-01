@@ -44,7 +44,7 @@ class AefisController extends AppController
         ]);
 
         if(strpos($this->request->url, 'pdf')) {
-            $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
+            $this->view$editable = false;Builder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
             $this->viewBuilder()->options([
                 'pdfConfig' => [
                     'orientation' => 'portrait',
@@ -54,7 +54,8 @@ class AefisController extends AppController
         }
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
-        $this->set(compact('aefi', 'designations', 'provinces'));
+        $editable = false;
+        $this->set(compact('aefi', 'designations', 'provinces', 'editable'));
         $this->set('_serialize', ['aefi', 'designations', 'provinces']);
     }
 

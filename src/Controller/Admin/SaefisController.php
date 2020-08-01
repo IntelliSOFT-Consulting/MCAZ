@@ -56,7 +56,8 @@ class SaefisController extends AppController
             ]);
         }
         $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
-        $this->set(compact('saefi', 'designations'));
+        $editable = false;
+        $this->set(compact('saefi', 'designations', 'editable'));
         $this->set('_serialize', ['saefi', 'designations']);
     }
 

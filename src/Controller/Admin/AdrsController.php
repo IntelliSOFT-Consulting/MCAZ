@@ -53,13 +53,14 @@ class AdrsController extends AppController
                 ]
             ]);
         }
-        
+        $editable = false;
         
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
         $routes = $this->Adrs->AdrListOfDrugs->Routes->find('list');
         $frequencies = $this->Adrs->AdrListOfDrugs->Frequencies->find('list');
-        $this->set(compact('adr', 'designations', 'doses', 'routes', 'frequencies'));
+        $editable = false;
+        $this->set(compact('adr', 'designations', 'doses', 'routes', 'frequencies', 'editable'));
         $this->set('_serialize', ['adr']);
 
         $this->set('adr', $adr);
