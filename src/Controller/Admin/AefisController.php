@@ -44,7 +44,7 @@ class AefisController extends AppController
         ]);
 
         if(strpos($this->request->url, 'pdf')) {
-            $this->view$editable = false;Builder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
+            $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
             $this->viewBuilder()->options([
                 'pdfConfig' => [
                     'orientation' => 'portrait',
