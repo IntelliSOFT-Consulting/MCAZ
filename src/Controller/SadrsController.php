@@ -463,7 +463,7 @@ $this->render(false);
     }
 
     public function edit($id = null)
-    {        
+    {
         $sadr = $this->Sadrs->get($id, [
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'ReportStages', 'Reactions'],
             'conditions' => ['user_id' => $this->Auth->user('id')]
@@ -519,11 +519,13 @@ $this->render(false);
               // debug($sadr); return;
               if ($this->Sadrs->save($sadr)) {
                 //New method to update reference number
-                $refid = $this->Sadrs->Refids->newEntity(['foreign_key' => $sadr->id, 'model' => 'Sadrs', 'year' => date('Y')]);
-                $this->Sadrs->Refids->save($refid);
-                $refid = $this->Sadrs->Refids->get($refid->id);
-                $sadr->reference_number = (($sadr->reference_number)) ?? 'ADR'.$refid->refid.'/'.$refid->year;
-                $this->Sadrs->save($sadr);
+                if(empty($sadr->reference_number)) {
+                    $refid = $this->Sadrs->Refids->newEntity(['foreign_key' => $sadr->id, 'model' => 'Sadrs', 'year' => date('Y')]);
+                    $this->Sadrs->Refids->save($refid);
+                    $refid = $this->Sadrs->Refids->get($refid->id);
+                    $sadr->reference_number = (($sadr->reference_number)) ?? 'ADR'.$refid->refid.'/'.$refid->year;
+                    $this->Sadrs->save($sadr);                    
+                }
                 //
                 $this->Flash->success(__('Report '.$sadr->reference_number.' has been successfully submitted to MCAZ for review.'));
                 //send email and notification

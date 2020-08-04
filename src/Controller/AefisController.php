@@ -339,11 +339,13 @@ class AefisController extends AppController
               // $aefi->reference_number = (($aefi->reference_number)) ?? 'AEFI'.$count.'/'.date('Y');
               if ($this->Aefis->save($aefi)) {
                 //New method to update reference number
-                $refid = $this->Aefis->Refids->newEntity(['foreign_key' => $aefi->id, 'model' => 'Aefis', 'year' => date('Y')]);
-                $this->Aefis->Refids->save($refid);
-                $refid = $this->Aefis->Refids->get($refid->id);
-                $aefi->reference_number = (($aefi->reference_number)) ?? 'AEFI'.$refid->refid.'/'.$refid->year;
-                $this->Aefis->save($aefi);
+                if(empty($aefi->reference_number)) {
+                    $refid = $this->Aefis->Refids->newEntity(['foreign_key' => $aefi->id, 'model' => 'Aefis', 'year' => date('Y')]);
+                    $this->Aefis->Refids->save($refid);
+                    $refid = $this->Aefis->Refids->get($refid->id);
+                    $aefi->reference_number = (($aefi->reference_number)) ?? 'AEFI'.$refid->refid.'/'.$refid->year;
+                    $this->Aefis->save($aefi);
+                }
                 //
                 $this->Flash->success(__('Report '.$aefi->reference_number.' has been successfully submitted to MCAZ for review.')); 
                 //send email and notification

@@ -342,11 +342,13 @@ class AdrsController extends AppController
               // $adr->reference_number = (($adr->reference_number)) ?? 'SAE'.$count.'/'.$date('Y');
               if ($this->Adrs->save($adr, ['validate' => false])) {
                 //New method to update reference number
-                $refid = $this->Adrs->Refids->newEntity(['foreign_key' => $adr->id, 'model' => 'Adrs', 'year' => date('Y')]);
-                $this->Adrs->Refids->save($refid);
-                $refid = $this->Adrs->Refids->get($refid->id);
-                $adr->reference_number = (($adr->reference_number)) ?? 'SAE'.$refid->refid.'/'.$refid->year;
-                $this->Adrs->save($adr);
+                if(empty($adr->reference_number)) {
+                    $refid = $this->Adrs->Refids->newEntity(['foreign_key' => $adr->id, 'model' => 'Adrs', 'year' => date('Y')]);
+                    $this->Adrs->Refids->save($refid);
+                    $refid = $this->Adrs->Refids->get($refid->id);
+                    $adr->reference_number = (($adr->reference_number)) ?? 'SAE'.$refid->refid.'/'.$refid->year;
+                    $this->Adrs->save($adr);
+                }
                 //
 
                 $this->Flash->success(__('Report '.$adr->reference_number.' has been successfully submitted to MCAZ for review.'));                //send email and notification

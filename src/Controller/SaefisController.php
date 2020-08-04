@@ -292,11 +292,13 @@ class SaefisController extends AppController
               // $saefi->reference_number = (($saefi->reference_number)) ?? 'SAEFI'.$count.'/'.date('Y');
               if ($this->Saefis->save($saefi, ['validate' => false])) {
                 //New method to update reference number
-                $refid = $this->Saefis->Refids->newEntity(['foreign_key' => $saefi->id, 'model' => 'Saefis', 'year' => date('Y')]);
-                $this->Saefis->Refids->save($refid);
-                $refid = $this->Saefis->Refids->get($refid->id);
-                $saefi->reference_number = (($saefi->reference_number)) ?? 'SAEFI'.$refid->refid.'/'.$refid->year;
-                $this->Saefis->save($saefi);
+                if(empty($saefi->reference_number)) {
+                    $refid = $this->Saefis->Refids->newEntity(['foreign_key' => $saefi->id, 'model' => 'Saefis', 'year' => date('Y')]);
+                    $this->Saefis->Refids->save($refid);
+                    $refid = $this->Saefis->Refids->get($refid->id);
+                    $saefi->reference_number = (($saefi->reference_number)) ?? 'SAEFI'.$refid->refid.'/'.$refid->year;
+                    $this->Saefis->save($saefi);
+                }
                 //
                 $this->Flash->success(__('Report '.$saefi->reference_number.' has been successfully submitted to MCAZ for review.'));                
 
