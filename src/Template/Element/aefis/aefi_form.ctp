@@ -77,7 +77,7 @@ $editable = $this->fetch('editable');
             <div class="col-xs-6">
               <?php
                   echo $this->Form->control('reporter_name', ['label' => 'Reporter\'s name <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape'=> false]);
-                  echo $this->Form->input('designation_id', ['options' => $designations, 'empty' => true]);
+                  echo $this->Form->input('designation_id', ['options' => $designations, 'empty' => true, 'label' => 'Designation <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
                   echo $this->Form->control('reporter_institution', ['label' => 'Reporter Institution']);
                   echo $this->Form->control('reporter_department', ['label' => 'Department']);
                   echo $this->Form->control('reporter_address', ['label' => 'Address']);

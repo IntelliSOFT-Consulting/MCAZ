@@ -26,18 +26,20 @@ $this->start('sidebar'); ?>
     </ul>
 </div>
 <p><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of <b>{{count}}</b> total')]) ?></small></p>
-    
+    <?php
+      // debug(array_unique(Hash::combine($sadrs->toArray(), '{n}.reviews.{n}.user[group_id=2].file', '{n}.reviews.{n}.user[group_id=2].dir')));
+    ?>
 <div class="table-responsive">
     <table class="table table-striped table-bordered">
         <thead>
-            <tr>
+            <tr>must be an array
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('institution_name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
                 <th scope="col">Stages</th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>                
-                <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th> 
+                <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th>must be an array 
                 <th scope="col"></th>
             </tr>
         </thead>

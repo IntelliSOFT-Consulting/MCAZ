@@ -69,7 +69,7 @@ class SadrsBaseController extends AppController
             // Use the plugins 'search' custom finder and pass in the
             // processed query params
             ->find('search', ['search' => $this->request->query])
-            ->order(['created' => 'DESC'])
+            // ->order(['created' => 'DESC'])
             ->where(['Sadrs.status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
             // You can add extra things to the query if you need to
             //->where([['ifnull(report_type,-1) !=' => 'FollowUp']]);

@@ -256,11 +256,11 @@ class AdrsController extends AppController
           $adr->reporter_phone = $this->Auth->user('phone_no');
           $adr->reporter_name = $this->Auth->user('name');
             if ($this->Adrs->save($adr, ['validate' => false])) {
-                $this->Flash->success(__('The adr has been saved.'));
+                $this->Flash->success(__('The SAE has been saved.'));
 
                 return $this->redirect(['action' => 'edit', $adr->id]);
             }
-            $this->Flash->error(__('The adr could not be saved. Please, try again.'));
+            $this->Flash->error(__('The SAE could not be saved. Please, try again.'));
         }
         $users = $this->Adrs->Users->find('list', ['limit' => 200]);
         $designations = $this->Adrs->Designations->find('list',array('order'=>'Designations.name ASC'));

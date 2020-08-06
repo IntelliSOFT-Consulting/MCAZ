@@ -84,8 +84,14 @@
             <?php endforeach; ?>
             <?php if($prefix == 'evaluator'){ ?>
               <tr>
-                <td colspan="2"></td>
-                <td colspan="2"><?php  //(!empty($sadr->assigned_by)) ? echo $this->cell('Muhuri', [$sadr->assigned_by]) : ''; ?>                  
+                <td colspan="2">Managers:</td>
+                <td colspan="2">
+                  <?php 
+                    $regs = array_unique(Hash::combine($sadrs->toArray(), '{n}.reviews.{n}.user[group_id=2].file', '{n}.reviews.{n}.user[group_id=2].dir'));
+                    foreach ($regs as $file => $dir) {
+                      echo "<img src='".$this->Url->build(substr($dir, 8) . '/' . $file, true)."' style='width: 30%;' alt=''>";
+                    }
+                  ?>                  
                 </td>
                 <td colspan="2">Evaluator:</td>
                 <td colspan="2"><?php echo ($prefix == 'evaluator') ? "<img src='".$this->Url->build(substr($this->request->session()->read('Auth.User.dir'), 8) . '/' . $this->request->session()->read('Auth.User.file'), true)."' style='width: 30%;' alt=''>" : ''; ?></td>
