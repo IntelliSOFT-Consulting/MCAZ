@@ -349,6 +349,7 @@ class SadrsController extends AppController
                     foreach ($managers as $manager) {
                         $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
                                  'vars' =>  $sadr->toArray()];
+                        $data['vars']['name'] = $manager->name;
                         $data['type'] = 'manager_submit_sadr_followup_email';
                         $this->QueuedJobs->createJob('GenericEmail', $data);
                         $data['type'] = 'manager_submit_sadr_followup_notification';
