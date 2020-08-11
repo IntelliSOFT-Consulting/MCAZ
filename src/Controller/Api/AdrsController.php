@@ -171,7 +171,8 @@ class AdrsController extends AppController
             if ($this->Adrs->save($adr, [
                 'validate' => true, 
                 'associated' => [
-                    'AdrListOfDrugs' => ['validate' => true]
+                    'AdrListOfDrugs' => ['validate' => true],
+                    'ReportStages' => ['validate' => false],
                 ]
             ])) {
                 //update field

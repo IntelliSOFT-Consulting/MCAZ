@@ -144,7 +144,8 @@ class SaefisController extends AppController
             if ($this->Saefis->save($saefi, [
               'validate' => true,
               'associated' => [
-                    'AefiListOfVaccines' => ['validate' => true ]
+                    'AefiListOfVaccines' => ['validate' => true ],
+                    'ReportStages' => ['validate' => false ],
                 ]
               ])) {
                 //update field

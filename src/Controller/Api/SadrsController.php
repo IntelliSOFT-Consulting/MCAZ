@@ -175,7 +175,10 @@ class SadrsController extends AppController
             $sadr->submitted_date = date("Y-m-d H:i:s");
             $sadr->status = 'Submitted';
             if ($this->Sadrs->save($sadr, ['validate' => true, 
-                'associated' => [ 'SadrListOfDrugs' => ['validate' => true ]]
+                'associated' => [
+                    'SadrListOfDrugs' => ['validate' => true ],
+                    'ReportStages' => ['validate' => false ],
+                ]
             ])) {
                 //update field
                 // $query = $this->Sadrs->query();

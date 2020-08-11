@@ -168,7 +168,8 @@ class AefisController extends AppController
                 'validate' => true,
                 'associated' => [
                     'AefiListOfVaccines' => ['validate' => true ],
-                    'Attachments' => ['validate' => false ]
+                    'Attachments' => ['validate' => false ],
+                    'ReportStages' => ['validate' => false ],
                 ]
             ])) {
                 //update field
