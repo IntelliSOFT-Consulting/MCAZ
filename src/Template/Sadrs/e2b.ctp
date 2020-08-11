@@ -28,7 +28,7 @@
             ?></serious>
         <seriousnessdeath><?= if($sadr['severity_reason'] == 'Death') ? 1 : 0; ?></seriousnessdeath>
         <seriousnesslifethreatening><?= if($sadr['severity_reason'] == 'Life-threatening') ? 1 : 0; ?></seriousnesslifethreatening>
-        <seriousnesshospitalization><?= if($sadr['severity_reason'] == 'Hospitalizaion/Prolonged') ? 1 : 0; ?></seriousnesshospitalization>
+        <seriousnesshospitalization><?= if($sadr['severity_reason'] == 'Hospitalization/Prolonged') ? 1 : 0; ?></seriousnesshospitalization>
         <seriousnessdisabling><?= if($sadr['severity_reason'] == 'Disabling') ? 1 : 0; ?></seriousnessdisabling>
         <seriousnesscongenitalanomali><?= if($sadr['severity_reason'] == 'Congenital-anomaly') ? 1 : 0; ?></seriousnesscongenitalanomali>
         <seriousnessother><?= if($sadr['severity_reason'] == 'Other Medically Important Reason') ? 1 : 0; ?></seriousnessother>

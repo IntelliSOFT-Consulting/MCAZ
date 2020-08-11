@@ -420,7 +420,7 @@ class ReportsController extends AppController
         $sadr_stats = $this->Sadrs->find('all')->select([ //'amr' => 'severity_reason',
                                                           'count' => $this->Sadrs->find('all')->func()->count('*')
                                                         ])
-                                                ->where(['severity_reason IS ' => 'Hospitalizaion/Prolonged',])
+                                                ->where(['severity_reason IS ' => 'Hospitalization/Prolonged',])
                                                 //->group('amr')
                                                 ->hydrate(false);
         $aefi_stats = $this->Aefis->find('all')->select([ //'amr' => 'serious_yes',
@@ -485,7 +485,7 @@ class ReportsController extends AppController
         $sadr_stats = $this->Sadrs->find('all')->select([ 'year' => 'date_format(created,"%Y")',
                                                           'count' => $this->Sadrs->find('all')->func()->count('*')
                                                         ])
-                                                ->where(['severity_reason IS ' => 'Hospitalizaion/Prolonged',])
+                                                ->where(['severity_reason IS ' => 'Hospitalization/Prolonged',])
                                                 ->group('year')
                                                 ->hydrate(false);
         foreach ($sadr_stats->toArray() as $key => $value) {

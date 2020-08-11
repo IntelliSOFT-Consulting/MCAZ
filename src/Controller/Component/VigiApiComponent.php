@@ -165,7 +165,7 @@ class VigibaseApiComponent extends Component
         <serious>'.(($sadr['severity'] == 'Yes') ? 1 : 2).'</serious>
         <seriousnessdeath>'.(($sadr['severity_reason'] == 'Death') ? 1 : 2).'</seriousnessdeath>
         <seriousnesslifethreatening>'.(($sadr['severity_reason'] == 'Life-threatening') ? 1 : 2).'</seriousnesslifethreatening>
-        <seriousnesshospitalization>'.($sadr['severity_reason'] == 'Hospitalizaion/Prolonged') ? 1 : 2).'</seriousnesshospitalization>
+        <seriousnesshospitalization>'.($sadr['severity_reason'] == 'Hospitalization/Prolonged') ? 1 : 2).'</seriousnesshospitalization>
         <seriousnessdisabling>'.(($sadr['severity_reason'] == 'Disabling') ? 1 : 2).'</seriousnessdisabling>
         <seriousnesscongenitalanomali>'.(($sadr['severity_reason'] == 'Congenital-anomaly') ? 1 : 2;).'</seriousnesscongenitalanomali>
         <seriousnessother>'.(($sadr['severity_reason'] == 'Other Medically Important Reason') ? 1 : 2).'</seriousnessother>

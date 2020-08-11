@@ -72,7 +72,7 @@
                         <?php
                             echo $this->Form->control('severity_reason', 
                                 ['type' => 'select', 'label' => false, 'templates' => 'clear_form', 'empty' => true,
-                                  'options' => ['Death' => 'Death', 'Life-threatening' => 'Life-threatening', 'Hospitalizaion/Prolonged' => 'Hospitalizaion/Prolonged', 'Disabling' => 'Disabling', 'Congenital-anomaly' => 'Congenital-anomaly',  'Other Medically Important Reason' => 'Other Medically Important Reason']]);
+                                  'options' => ['Death' => 'Death', 'Life-threatening' => 'Life-threatening', 'Hospitalization/Prolonged' => 'Hospitalization/Prolonged', 'Disabling' => 'Disabling', 'Congenital-anomaly' => 'Congenital-anomaly',  'Other Medically Important Reason' => 'Other Medically Important Reason']]);
                         ?>
                         <a onclick="$('#severity-reason').val('');" class="tiptip"  data-original-title="clear!!">
                          <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>

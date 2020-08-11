@@ -28,7 +28,7 @@
             ?></serious>
         <seriousnessdeath><?= ($aefi['serious_yes'] == 'Death') ? 1 : 0; ?></seriousnessdeath>
         <seriousnesslifethreatening><?= ($aefi['serious_yes'] == 'Life threatening') ? 1 : 0; ?></seriousnesslifethreatening>
-        <seriousnesshospitalization><?= ($aefi['serious_yes'] == 'Hospitalizaion') ? 1 : 0; ?></seriousnesshospitalization>
+        <seriousnesshospitalization><?= ($aefi['serious_yes'] == 'Hospitalization') ? 1 : 0; ?></seriousnesshospitalization>
         <seriousnessdisabling><?= ($aefi['serious_yes'] == 'Disabling') ? 1 : 0; ?></seriousnessdisabling>
         <seriousnesscongenitalanomali><?= ($aefi['serious_yes'] == 'Congenital anomaly') ? 1 : 0; ?></seriousnesscongenitalanomali>
         <seriousnessother><?= ($aefi['serious_yes'] == 'Other Medically Important Reason') ? 1 : 0; ?></seriousnessother>

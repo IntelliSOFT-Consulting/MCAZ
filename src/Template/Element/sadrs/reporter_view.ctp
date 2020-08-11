@@ -145,7 +145,7 @@
                     'type' => 'textarea', 'type' => 'textarea', 'label' => 'Reason for Seriousness',
                     //'type' => 'textarea', 'type' => 'textarea', 'label' => '<b>Serious: <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
                     'templates' => 'radio_form', 'empty' => true,
-                    'options' => ['Death' => 'Death', 'Life-threatening' => 'Life-threatening', 'Hospitalizaion/Prolonged' => 'Hospitalizaion/Prolonged', 'Disabling' => 'Disabling', 
+                    'options' => ['Death' => 'Death', 'Life-threatening' => 'Life-threatening', 'Hospitalization/Prolonged' => 'Hospitalization/Prolonged', 'Disabling' => 'Disabling', 
                                       'Congenital-anomaly' => 'Congenital-anomaly', 
                                               'Other Medically Important Reason' => 'Other Medically Important Reason']]); ?></div>
               <div class="col-xs-4">
