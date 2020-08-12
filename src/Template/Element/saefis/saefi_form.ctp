@@ -575,7 +575,7 @@ function getChoice(sel){
                 <br/>
                 <p><b>In case of multidose vials, was the vaccine given</b></p>
                 <div class="col-xs-12">
-                <?= $this->Form->control('when_vaccinated', ['type' => 'radio', 
+                <?= $this->Form->control('vaccine_given', ['type' => 'radio', 
                          'label' => false, 
                          'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
                          'options' => ['within the first few doses of the vial administered' => 'within the first few doses of the vial administered', 'within the last doses of the vial administered' => 'within the last doses of the vial administered', 'Unknown' => 'Unknown']]); 

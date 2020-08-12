@@ -613,16 +613,20 @@
         <div class="row">
             <div class="col-xs-12">
                 <p><b>a) When was the patient vaccinated:</b> <b style="color: green;">(select answer below and respond to ALL questions)</b></p>
-                <div class="col-xs-12">  
+                <div class="col-xs-12"> 
+                  <table class="table table-condensed vertical-table">
+                          <tr><th> </th>
+                              <td><?= $saefi->when_vaccinated ?></td>
+                          </tr>
+                  </table>  
                 </div>
-                <br/>
                 <br/>
                 <br/>
                 <p><b>In case of multidose vials, was the vaccine given</b></p>
                 <div class="col-xs-12">             
                       <table class="table table-condensed vertical-table">
                           <tr><th> </th>
-                              <td><?= $saefi->when_vaccinated ?></td>
+                              <td><?= $saefi->vaccine_given ?></td>
                           </tr>
                       </table> 
                 </div>
