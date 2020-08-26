@@ -174,9 +174,26 @@ class SadrsTable extends Table
             ->like('reporter_name')
             ->like('reporter_email')
             ->value('designation_id')
+            ->add('drug_name', 'Search.Callback', [
+                'callback' => function ($query, $args, $filter) {
+                    $drug_name = $args['drug_name'];
+                    $query->matching('SadrListOfDrugs', function ($q) use($drug_name) {
+                        return $q->where(['SadrListOfDrugs.drug_name LIKE' => '%'.$drug_name.'%']);
+                    });
+                }
+            ])
+            // ->Finder('drug_name', ['finder' => 'byDrugName'])
             ->like('patient_name');
 
         return $searchManager;
+    }
+
+    public function findByDrugName(Query $query, array $options)
+    {
+        $drug_name = $options['drug_name'];
+        $query->matching('SadrListOfDrugs', function ($q) use($drug_name) {
+            return $q->where(['SadrListOfDrugs.drug_name LIKE' => '%'.$drug_name.'%']);
+        });
     }
 
     /**

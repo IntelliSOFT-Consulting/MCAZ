@@ -47,7 +47,7 @@
                             echo $this->Form->control('description_of_reaction', 
                                 ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Description of Reaction*']);
                         ?>
-                    </td>          
+                    </td> 
                     <td>
                         <?php
                             echo $this->Form->control('name_of_institution', 
@@ -78,7 +78,7 @@
         <table class="table">
             <tbody>           
                 <tr>                    
-                    <td colspan="2"> 
+                    <td> 
                         <?php
                             echo $this->Form->control('severity_reason', 
                                 ['type' => 'select', 'label' => false, 'templates' => 'clear_form', 'empty' => true,
@@ -88,6 +88,12 @@
                          <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                          <br>
                          <small class="text-warning">Reason for seriousness</small>
+                    </td>                    
+                    <td>
+                        <?php
+                            echo $this->Form->control('drug_name', 
+                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Medicine*']);
+                        ?>
                     </td>
                     <td> 
                         <?php

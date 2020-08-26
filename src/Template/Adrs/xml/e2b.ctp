@@ -187,7 +187,7 @@
             </patientdeath>
             <reaction>
                 <primarysourcereaction><?php echo $adr['diagnosis']; ?></primarysourcereaction>
-                <reactionmeddraversionllt>WHO-ART</reactionmeddraversionllt>
+                <reactionmeddraversionllt>23</reactionmeddraversionllt>
                 <reactionmeddrallt><?php echo $adr['diagnosis']; ?></reactionmeddrallt>
                 <reactionmeddraversionpt/>
                 <reactionmeddrapt/>

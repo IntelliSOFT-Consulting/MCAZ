@@ -167,6 +167,18 @@ should be submitted as follow up report</td></tr>
                             </div> 
                           </div> 
                           <div class="form-group">
+                            <label class="control-label">Medical History:</label>
+                            <div>
+                            <p class="form-control-static"><?= $review['medical_history'] ?></p>
+                            </div> 
+                          </div> 
+                          <div class="form-group">
+                            <label class="control-label">Clinical Findings:</label>
+                            <div>
+                            <p class="form-control-static"><?= $review['clinical_findings'] ?></p>
+                            </div> 
+                          </div> 
+                          <div class="form-group">
                             <label class="control-label">Status:</label>
                             <div>
                             <p class="form-control-static"><?= $review['status'] ?></p>
@@ -286,6 +298,8 @@ should be submitted as follow up report</td></tr>
                     echo $this->Form->control('reviews.'.$ekey.'.literature_review', ['escape' => false, 'templates' => 'app_form']);
                     echo $this->Form->control('reviews.'.$ekey.'.comments', ['escape' => false, 'templates' => 'app_form']);
                     echo $this->Form->control('reviews.'.$ekey.'.references_text', ['escape' => false, 'templates' => 'app_form']);
+                    echo $this->Form->control('reviews.'.$ekey.'.medical_history', ['escape' => false, 'templates' => 'app_form']);
+                    echo $this->Form->control('reviews.'.$ekey.'.clinical_findings', ['escape' => false, 'templates' => 'app_form']);
                     echo $this->Form->control('reviews.'.$ekey.'.status', ['type' => 'radio', 
                                'label' => '<b>Status</b> <a onclick="$(\'input[name=reviews\\\['.$ekey.'\\\]\\\[status\\\]]\').removeAttr(\'checked\');" class="tiptip"  data-original-title="clear!!">
                 <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>', 'escape' => false,

@@ -45,7 +45,11 @@
                 <?php endforeach; ?>
                 <?= "Action Taken: ".$sadr->action_taken ?>
                 </td>
-                <td><?= h($sadr->medical_history) ?></td>       
+                <td>
+                  <?php foreach ($sadr->reviews as $review): ?> 
+                    <?= $review->medical_history ?><br>
+                  <?php endforeach; ?>
+                </td>       
                 <td>
                     <?php foreach($sadr->sadr_list_of_drugs as $list_of_drug): ?>    
                       <?php $kdose = (isset($list_of_drug->dose->name)) ? $list_of_drug->dose->name : '' ;?>  
@@ -55,7 +59,10 @@
                 </td>
                 <td>
                   <?= h($sadr->past_drug_therapy) ?><br>
-                  <?= h($sadr->lab_test_results) ?>                  
+                  <?= h($sadr->lab_test_results) ?> <br>
+                  <?php foreach ($sadr->reviews as $review): ?> 
+                    <?= $review->clinical_findings ?><br>
+                  <?php endforeach; ?>              
                 </td>  
                 <td>
                   <?php foreach ($sadr->reviews as $review): ?> 
