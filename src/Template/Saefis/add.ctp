@@ -26,18 +26,18 @@
         <div class="row">
         <div class="col-md-6">
           <?php
-            //echo $this->Form->control('reporter_name', ['label' => 'Reporter name']);
+            echo $this->Form->control('aefis', ['label' => 'Initial AEFI:', 'type' => 'select', 'options' => $aefis, 'empty' => true]);
             echo $this->Form->control('reporter_email', ['label' => 'Reporter email','value'=>$this->request->session()->read('Auth.User.email')]);
           ?>
         </div><!--/span-->
         <div class="col-md-6">
-          <?php
-            //echo $this->Form->input('designation_id', ['options' => $designations, 'empty' => true]);
+          <?php            
+            // echo $this->Form->control('reporter_email', ['label' => 'Reporter email','value'=>$this->request->session()->read('Auth.User.email')]);
 
           ?>
         </div><!--/span-->
       </div><!--/row-->
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Create')) ?>
     <?= $this->Form->end() ?>
   </div>
 </div>

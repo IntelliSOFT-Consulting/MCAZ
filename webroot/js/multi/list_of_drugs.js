@@ -70,7 +70,7 @@ $(function() {
           var intId = 0;
         }
         //var intId = $("#listofdrugsform tr").length - 1;
-        if ($('#listofdrugsform tr').length < 15) {            
+        if ($('#listofdrugsform tr').length < 25) {            
             trVar = $.parseHTML(constructLODTr(intId));
             
             $(trVar).find('[name*="dose_id"]').append($("#doses-holder> option").clone()).val('');

@@ -199,7 +199,19 @@ class SaefisController extends AppController
     {
         $saefi = $this->Saefis->newEntity();
         if ($this->request->is('post')) {
-            $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
+            if($this->request->getData('aefis')) {
+                $this->loadModel('Aefis');
+                $aefi = $this->Aefis->get($this->request->getData('aefis'));
+                $saefi->aefi_report_ref = $aefi->reference_number;
+                $saefi->name_of_vaccination_site = $aefi->name_of_vaccination_center;
+                $saefi = $this->Saefis->patchEntity($saefi, $aefi->toArray());
+                $saefi->submitted = 0;
+                $saefi->reference_number = null;
+                $saefi->submitted_date = null;
+                $saefi->status = 'UnSubmitted';
+            } else {
+                $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
+            }
             $saefi->user_id = $this->Auth->user('id');
             $saefi->designation_id = $this->Auth->user('designation_id');
             $saefi->mobile = $this->Auth->user('phone_no');
@@ -213,8 +225,10 @@ class SaefisController extends AppController
             $this->Flash->error(__('The saefi could not be saved. Please, try again.'));
         }
         $users = $this->Saefis->Users->find('list', ['limit' => 200]);
-        $designations = $this->Saefis->Designations->find('list',array('order'=>'Designations.name ASC'));
-        $this->set(compact('saefi', 'users', 'designations'));
+        // $designations = $this->Saefis->Designations->find('list',array('order'=>'Designations.name ASC'));
+        $this->loadModel('Aefis'); 
+        $aefis = $this->Aefis->find('list', ['keyField' => 'id', 'valueField' => 'reference_number', 'conditions' => ['Aefis.user_id' => $this->Auth->user('id'), 'Aefis.submitted' => 2]]);
+        $this->set(compact('saefi', 'users', 'designations', 'aefis'));
         $this->set('_serialize', ['saefi']);
     }
 
