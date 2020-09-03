@@ -205,6 +205,7 @@ class SaefisController extends AppController
                 $saefi->aefi_report_ref = $aefi->reference_number;
                 $saefi->name_of_vaccination_site = $aefi->name_of_vaccination_center;
                 $saefi = $this->Saefis->patchEntity($saefi, $aefi->toArray());
+                $saefi->id = null;
                 $saefi->submitted = 0;
                 $saefi->reference_number = null;
                 $saefi->submitted_date = null;
