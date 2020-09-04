@@ -48,7 +48,7 @@ $(function() {
       }
         
       //var intId = $("#listOfVaccinesTable tr").length - 1;
-      if ($('#listOfVaccinesTable tbody tr').length < 25) {            
+      if ($('#listOfVaccinesTable tbody tr').length < 101) {            
           trVar = $.parseHTML(constructLOVTr(intId));
           $("#listOfVaccinesTable tbody").append(trVar);
       } else {

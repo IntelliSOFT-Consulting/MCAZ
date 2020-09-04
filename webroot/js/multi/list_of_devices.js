@@ -62,7 +62,7 @@ $(function() {
         var intId = 0;
       }
         
-      if ($('#listOfDevicesTable tbody tr').length < 25) {            
+      if ($('#listOfDevicesTable tbody tr').length < 101) {            
           trVar = $.parseHTML(constructALODTr(intId));
           $(trVar).find('[name*="dose_id"]').append($("#adr-list-of-drugs-0-dose-id > option").clone()).val('');
           $(trVar).find('[name*="route_id"]').append($("#adr-list-of-drugs-0-route-id > option").clone()).val('');

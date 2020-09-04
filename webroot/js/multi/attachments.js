@@ -11,7 +11,7 @@ $(function() {
         var intId = 0;
       }
         
-      if ($('#attachmentsTable tbody tr').length < 10) {            
+      if ($('#attachmentsTable tbody tr').length < 21) {            
           trVar = $.parseHTML(constructATTr(intId));
           $("#attachmentsTable tbody").append(trVar);
       } else {

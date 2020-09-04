@@ -43,7 +43,7 @@ $(function() {
     $("#addListOfDrugFollowup").click(function() {
         var intId = parseInt($("#listofdrugsformfollowup tr:last").find('td:first').text())
         //var intId = $("#listofdrugsformfollowup tr").length - 1;
-        if ($('#listofdrugsformfollowup tr').length < 15) {            
+        if ($('#listofdrugsformfollowup tr').length < 101) {            
             trVar = $.parseHTML(constructLODTr(intId));
             var $options = $("#sadr-list-of-drugs-0-dose-id > option").clone();
             $(trVar).find('[name*="dose_id"]').append($("#sadr-list-of-drugs-0-dose-id > option").clone()).val('');
