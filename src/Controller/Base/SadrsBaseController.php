@@ -121,6 +121,7 @@ class SadrsBaseController extends AppController
         }
 
         if ($this->request->params['_ext'] === 'pdf') {
+            $query->where([['Sadrs.active' => '1']]);
             $this->render('/Base/Sadrs/pdf/index');
         } else {
             $this->render('/Base/Sadrs/index');
@@ -143,16 +144,19 @@ class SadrsBaseController extends AppController
     }
     public function restoreDeleted($id = null)
     {
-
         $this->request->allowMethod(['post', 'delete', 'get']);
         $sadr = $this->Sadrs->get($id, ['withDeleted']);
-        if ($this->Sadrs->restore($sadr)) {
-            $this->Flash->success(__('The ADR has been restored.'));
+        if ($this->request->getData('purpose') == 'active') {
+            $sadr->active = $this->request->getData('value');
+            $this->Sadrs->save($sadr);
         } else {
-            $this->Flash->error(__('The ADR could not be restored. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'restore']);
+            if ($this->Sadrs->restore($sadr)) {
+                $this->Flash->success(__('The ADR has been restored.'));
+            } else {
+                $this->Flash->error(__('The ADR could not be restored. Please, try again.'));
+            }
+            return $this->redirect(['action' => 'restore']);
+        }        
     }
     /**
      * View method

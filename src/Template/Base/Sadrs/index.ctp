@@ -6,6 +6,8 @@ $this->start('sidebar'); ?>
 
 <?=     $this->Html->script('jquery/vigibase', ['block' => true]); ?>
 <?=     $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
+<?=     $this->Html->script('jquery/readmore', ['block' => true]); ?>
+<?=     $this->Html->script('jquery/sadr_index', ['block' => true]); ?>
 
 <?php //pr($sadrs) ?>
 <h1 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> ADRS
@@ -47,18 +49,26 @@ $this->start('sidebar'); ?>
             <?php foreach ($sadrs as $sadr): ?>
             <?php $a = ($sadr['assigned_to']) ? '<small class="muted">'.Hash::combine($users->toArray(), '{n}.id', '{n}.name')[$sadr->assigned_to].'</small>' : '<small class="muted">Unassigned</small>';?>
             <tr>
-                <td><?= $this->Number->format($sadr->id) ?></td>
+                <td>
+                  <?php
+                    // echo $this->Number->format($sadr->id); 
+                    echo $this->Form->control('active'.$sadr->id, ['label' => '.'.$sadr->id, 'type' => 'checkbox', 'templates' => ($prefix == 'manager' || $prefix == 'evaluator') ? '' : 'view_form_checkbox', 
+                      'checked' => $sadr->active, 'hiddenField' => false ])
+                  ?> 
+                </td>
                 <td><?php
                       echo ($sadr->submitted == 2) ? $this->Html->link($sadr->reference_number, ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) : 
                         $this->Html->link($sadr->created, ['action' => 'edit', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>
                 <td><?= h($sadr->institution_name) ?></td>
                 <td><?= h($sadr->status) ?><br><?= $a ?></td>                
                 <td>
-                    <?php 
-                        foreach ($sadr->report_stages as $application_stage) {
-                            echo "<p>".$application_stage->stage." - ".$application_stage->description." - ".h($application_stage->created)."</p>";
-                        }
-                    ?>
+                    <div class="readmore">
+                      <?php 
+                          foreach ($sadr->report_stages as $application_stage) {
+                              echo "<p>".$application_stage->stage." - ".$application_stage->description." - ".h($application_stage->created)."</p>";
+                          }
+                      ?>
+                    </div>
                 </td>
                 <td><?= h($sadr->modified) ?></td>         
                 <?php //if(!in_array("VigiBase", Hash::extract($sadr->report_stages, '{n}.stage'))) { ?>       
