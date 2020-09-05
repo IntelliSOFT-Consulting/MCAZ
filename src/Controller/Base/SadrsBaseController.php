@@ -82,10 +82,6 @@ class SadrsBaseController extends AppController
         $users = $this->Sadrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
         $this->set(compact('provinces', 'designations', 'query', 'users'));
-        if ($this->request->params['_ext'] === 'pdf') {
-            $this->paginate['limit'] = 250;
-            $this->paginate['maxLimit'] = 250;
-        }
         $this->set('sadrs', $this->paginate($query));
 
         // $this->set(compact('sadrs'));
