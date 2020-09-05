@@ -15,6 +15,11 @@ use Cake\Utility\Hash;
 class AefisBaseController extends AppController
 {
 
+    public $paginate = [
+        'limit' => 25,
+        'maxLimit' => 100
+    ];
+
     public function initialize()
     {
         parent::initialize();
@@ -45,6 +50,10 @@ class AefisBaseController extends AppController
         $users = $this->Aefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
         $this->set(compact('provinces', 'designations', 'query', 'users'));
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->paginate['limit'] = 250;
+            $this->paginate['maxLimit'] = 250;
+        }
         $this->set('aefis', $this->paginate($query));
 
         $_provinces = $provinces->toArray();
@@ -91,7 +100,8 @@ class AefisBaseController extends AppController
 
             $this->set(compact('query', '_serialize', '_header', '_extract'));
         }
-        if ($this->request->params['_ext'] === 'pdf') {
+        if ($this->request->params['_ext'] === 'pdf') {            
+            $query->where([['Aefis.active' => '1']]);
             $this->viewBuilder()->options([
                 'pdfConfig' => [
                     'orientation' => 'landscape',
@@ -121,12 +131,16 @@ class AefisBaseController extends AppController
 
         $this->request->allowMethod(['post', 'delete', 'get']);
         $aefi = $this->Aefis->get($id, ['withDeleted']);
-        if ($this->Aefis->restore($aefi)) {
-            $this->Flash->success(__('The AEFI has been restored.'));
+        if ($this->request->getData('purpose') == 'active') {
+            $aefi->active = $this->request->getData('value');
+            $this->Aefis->save($aefi);
         } else {
-            $this->Flash->error(__('The AEFI could not be restored. Please, try again.'));
+            if ($this->Aefis->restore($aefi)) {
+                $this->Flash->success(__('The AEFI has been restored.'));
+            } else {
+                $this->Flash->error(__('The AEFI could not be restored. Please, try again.'));
+            }
         }
-
         return $this->redirect(['action' => 'restore']);
     }
 

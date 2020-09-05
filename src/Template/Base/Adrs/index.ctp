@@ -6,6 +6,8 @@ $this->start('sidebar'); ?>
 
 <?=     $this->Html->script('jquery/vigibase', ['block' => true]); ?>
 <?=     $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
+<?=     $this->Html->script('jquery/readmore', ['block' => true]); ?>
+<?=     $this->Html->script('jquery/adr_index', ['block' => true]); ?>
 
 <h1 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> SAE
     :: <small style="font-size: small;"><i class="fa fa-search-plus" aria-hidden="true"></i> Search, 
@@ -44,7 +46,14 @@ $this->start('sidebar'); ?>
             <?php $a = ($adr['assigned_to']) ? '<small class="muted">'.Hash::combine($users->toArray(), '{n}.id', '{n}.name')[$adr->assigned_to].'</small>' : '<small class="muted">Unassigned</small>';?>
 
             <tr>
-                <td><?= $this->Number->format($adr->id) ?></td>
+                <td><?php
+                  //$this->Number->format($adr->id) 
+                    echo $this->Form->control('active'.$adr->id, ['label' => '.'.$adr->id, 'type' => 'checkbox', 
+                      'data-url' => $this->Url->build(['action' => 'restoreDeleted', $adr->id, '_ext' => 'json']), 
+                      'templates' => ($prefix == 'manager' || $prefix == 'evaluator') ? '' : 'view_form_checkbox', 
+                      'checked' => $adr->active, 'hiddenField' => false ]);
+                      ?>                      
+                </td>
                 <td><?php
                       echo ($adr->submitted == 2) ? $this->Html->link($adr->reference_number, ['action' => 'view', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']) : 
                         $this->Html->link($adr->created, ['action' => 'edit', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>

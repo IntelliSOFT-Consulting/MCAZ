@@ -6,6 +6,8 @@ $this->start('sidebar'); ?>
 
 <?=     $this->Html->script('jquery/vigibase', ['block' => true]); ?>
 <?=     $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
+<?=     $this->Html->script('jquery/readmore', ['block' => true]); ?>
+<?=     $this->Html->script('jquery/aefi_index', ['block' => true]); ?>
 
 <h1 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> AEFIS
     :: <small style="font-size: small;"><i class="fa fa-search-plus" aria-hidden="true"></i> Search, 
@@ -44,7 +46,14 @@ $this->start('sidebar'); ?>
             <?php foreach ($aefis as $aefi): ?>
             <?php $a = ($aefi['assigned_to']) ? '<small class="muted">'.Hash::combine($users->toArray(), '{n}.id', '{n}.name')[$aefi->assigned_to].'</small>' : '<small class="muted">Unassigned</small>';?>
             <tr>
-                <td><?= $this->Number->format($aefi->id) ?></td>
+                <td><?php
+                  // $this->Number->format($aefi->id) 
+                    echo $this->Form->control('active'.$aefi->id, ['label' => '.'.$aefi->id, 'type' => 'checkbox', 
+                      'data-url' => $this->Url->build(['action' => 'restoreDeleted', $aefi->id, '_ext' => 'json']), 
+                      'templates' => ($prefix == 'manager' || $prefix == 'evaluator') ? '' : 'view_form_checkbox', 
+                      'checked' => $aefi->active, 'hiddenField' => false ]);
+                ?>                    
+                </td>
                 <td><?php
                       echo ($aefi->submitted == 2) ? $this->Html->link($aefi->reference_number, ['action' => 'view', $aefi->id, 'prefix' => $prefix, 'status' => $aefi->status], ['escape' => false, 'class' => 'btn-zangu']) : 
                         $this->Html->link($aefi->created, ['action' => 'edit', $aefi->id, 'prefix' => $prefix, 'status' => $aefi->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>

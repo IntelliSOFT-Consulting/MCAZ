@@ -55,7 +55,7 @@ $this->start('sidebar'); ?>
                     echo $this->Form->control('active'.$sadr->id, ['label' => '.'.$sadr->id, 'type' => 'checkbox', 
                       'data-url' => $this->Url->build(['action' => 'restoreDeleted', $sadr->id, '_ext' => 'json']), 
                       'templates' => ($prefix == 'manager' || $prefix == 'evaluator') ? '' : 'view_form_checkbox', 
-                      'checked' => $sadr->active, 'hiddenField' => false ])
+                      'checked' => $sadr->active, 'hiddenField' => false ]);
                   ?> 
                 </td>
                 <td><?php

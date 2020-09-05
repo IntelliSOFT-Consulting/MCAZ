@@ -14,6 +14,11 @@ use Cake\Utility\Hash;
  */
 class SaefisBaseController extends AppController
 {
+    public $paginate = [
+        'limit' => 25,
+        'maxLimit' => 100
+    ];
+
     public function initialize() {
        parent::initialize();
        //$this->Auth->allow(['add', 'edit']);   
@@ -39,6 +44,10 @@ class SaefisBaseController extends AppController
         $users = $this->Saefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $provinces = $this->Saefis->Provinces->find('list', ['limit' => 200]);
         $this->set(compact('designations', 'provinces', 'users'));
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->paginate['limit'] = 250;
+            $this->paginate['maxLimit'] = 250;
+        }
         $this->set('saefis', $this->paginate($query));
 
         $_designations = $designations->toArray();
@@ -95,10 +104,15 @@ class SaefisBaseController extends AppController
 
         $this->request->allowMethod(['post', 'delete', 'get']);
         $saefi = $this->Saefis->get($id, ['withDeleted']);
-        if ($this->Saefis->restore($saefi)) {
-            $this->Flash->success(__('The SAEFI has been restored.'));
+        if ($this->request->getData('purpose') == 'active') {
+            $saefi->active = $this->request->getData('value');
+            $this->Saefis->save($saefi);
         } else {
-            $this->Flash->error(__('The SAEFI could not be restored. Please, try again.'));
+            if ($this->Saefis->restore($saefi)) {
+                $this->Flash->success(__('The SAEFI has been restored.'));
+            } else {
+                $this->Flash->error(__('The SAEFI could not be restored. Please, try again.'));
+            }
         }
 
         return $this->redirect(['action' => 'restore']);

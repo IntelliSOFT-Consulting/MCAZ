@@ -6,6 +6,8 @@ $this->start('sidebar'); ?>
 
 <?=     $this->Html->script('jquery/vigibase', ['block' => true]); ?>
 <?=     $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
+<?=     $this->Html->script('jquery/readmore', ['block' => true]); ?>
+<?=     $this->Html->script('jquery/saefi_index', ['block' => true]); ?>
 
 <h1 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> SAEFIS
     :: <small style="font-size: small;"><i class="fa fa-search-plus" aria-hidden="true"></i> Search, 
@@ -44,7 +46,14 @@ $this->start('sidebar'); ?>
             <?php foreach ($saefis as $saefi): ?>
             <?php $a = ($saefi['assigned_to']) ? '<small class="muted">'.Hash::combine($users->toArray(), '{n}.id', '{n}.name')[$saefi->assigned_to].'</small>' : '<small class="muted">Unassigned</small>';?>
             <tr>
-                <td><?= $this->Number->format($saefi->id) ?></td>
+                <td><?php
+                  // $this->Number->format($saefi->id) 
+                  echo $this->Form->control('active'.$saefi->id, ['label' => '.'.$saefi->id, 'type' => 'checkbox', 
+                      'data-url' => $this->Url->build(['action' => 'restoreDeleted', $saefi->id, '_ext' => 'json']), 
+                      'templates' => ($prefix == 'manager' || $prefix == 'evaluator') ? '' : 'view_form_checkbox', 
+                      'checked' => $saefi->active, 'hiddenField' => false ]);
+                  ?>                    
+                </td>
                 <td><?php
                       echo ($saefi->submitted == 2) ? $this->Html->link($saefi->reference_number, ['action' => 'view', $saefi->id, 'prefix' => $prefix, 'status' => $saefi->status], ['escape' => false, 'class' => 'btn-zangu']) : 
                         $this->Html->link($saefi->created, ['action' => 'edit', $saefi->id, 'prefix' => $prefix, 'status' => $saefi->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>

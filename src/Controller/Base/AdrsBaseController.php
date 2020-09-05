@@ -15,6 +15,11 @@ use Cake\Utility\Hash;
 class AdrsBaseController extends AppController
 {
 
+    public $paginate = [
+        'limit' => 25,
+        'maxLimit' => 100
+    ];
+
     public function initialize() {
        parent::initialize();
        //$this->Auth->allow(['add', 'edit']);   
@@ -66,6 +71,10 @@ class AdrsBaseController extends AppController
         $users = $this->Adrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
         $this->set(compact('designations', 'query', 'doses', 'users'));
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->paginate['limit'] = 250;
+            $this->paginate['maxLimit'] = 250;
+        }
         $this->set('adrs', $this->paginate($query));
 
         $_designations = $designations->toArray();
@@ -121,7 +130,8 @@ class AdrsBaseController extends AppController
 
 
         if(strpos($this->request->url, 'pdf')) {
-            // $this->viewBuilder()->setLayout('pdf/default');
+            // $this->viewBuilder()->setLayout('pdf/default');            
+            $query->where([['Adrs.active' => '1']]);
             $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
             $this->viewBuilder()->options([
                 'pdfConfig' => [
@@ -154,10 +164,15 @@ class AdrsBaseController extends AppController
 
         $this->request->allowMethod(['post', 'delete', 'get']);
         $adr = $this->Adrs->get($id, ['withDeleted']);
-        if ($this->Adrs->restore($adr)) {
-            $this->Flash->success(__('The SAE has been restored.'));
+        if ($this->request->getData('purpose') == 'active') {
+            $adr->active = $this->request->getData('value');
+            $this->Adrs->save($adr);
         } else {
-            $this->Flash->error(__('The SAE could not be restored. Please, try again.'));
+            if ($this->Adrs->restore($adr)) {
+                $this->Flash->success(__('The SAE has been restored.'));
+            } else {
+                $this->Flash->error(__('The SAE could not be restored. Please, try again.'));
+            }
         }
 
         return $this->redirect(['action' => 'restore']);
