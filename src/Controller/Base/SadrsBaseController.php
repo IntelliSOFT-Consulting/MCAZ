@@ -82,7 +82,11 @@ class SadrsBaseController extends AppController
         $users = $this->Sadrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
         $this->set(compact('provinces', 'designations', 'query', 'users'));
-        $this->set('sadrs', $this->paginate($query));
+        if ($this->request->params['_ext'] === 'pdf') {
+            $this->set('sadrs', $query->contain($this->paginate['contain']));
+        } else {
+            $this->set('sadrs', $this->paginate($query));
+        }        
 
         // $this->set(compact('sadrs'));
         // $this->set('_serialize', ['sadrs']);
@@ -127,7 +131,6 @@ class SadrsBaseController extends AppController
 
         if ($this->request->params['_ext'] === 'pdf') {
             $query->where([['Sadrs.active' => '1']]);
-            $this->set('sadrs', $query);
             $this->render('/Base/Sadrs/pdf/index');
         } else {
             $this->render('/Base/Sadrs/index');
