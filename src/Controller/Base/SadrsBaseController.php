@@ -131,6 +131,7 @@ class SadrsBaseController extends AppController
 
         if ($this->request->params['_ext'] === 'pdf') {
             $query->where([['Sadrs.active' => '1']]);
+            $this->set('sadrs', $query);
             $this->render('/Base/Sadrs/pdf/index');
         } else {
             $this->render('/Base/Sadrs/index');
