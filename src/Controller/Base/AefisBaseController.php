@@ -51,10 +51,10 @@ class AefisBaseController extends AppController
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
         $this->set(compact('provinces', 'designations', 'query', 'users'));
         if ($this->request->params['_ext'] === 'pdf') {
-            $this->paginate['limit'] = 250;
-            $this->paginate['maxLimit'] = 250;
+            $this->set('aefis', $query->contain($this->paginate['contain']));
+        } else {
+            $this->set('aefis', $this->paginate($query));
         }
-        $this->set('aefis', $this->paginate($query));
 
         $_provinces = $provinces->toArray();
         $_designations = $designations->toArray();

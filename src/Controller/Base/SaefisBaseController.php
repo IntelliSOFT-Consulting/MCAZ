@@ -44,10 +44,7 @@ class SaefisBaseController extends AppController
         $users = $this->Saefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $provinces = $this->Saefis->Provinces->find('list', ['limit' => 200]);
         $this->set(compact('designations', 'provinces', 'users'));
-        if ($this->request->params['_ext'] === 'pdf') {
-            $this->paginate['limit'] = 250;
-            $this->paginate['maxLimit'] = 250;
-        }
+        
         $this->set('saefis', $this->paginate($query));
 
         $_designations = $designations->toArray();

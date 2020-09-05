@@ -72,10 +72,10 @@ class AdrsBaseController extends AppController
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
         $this->set(compact('designations', 'query', 'doses', 'users'));
         if ($this->request->params['_ext'] === 'pdf') {
-            $this->paginate['limit'] = 250;
-            $this->paginate['maxLimit'] = 250;
+            $this->set('adrs', $query->contain($this->paginate['contain']));
+        } else {
+            $this->set('adrs', $this->paginate($query));
         }
-        $this->set('adrs', $this->paginate($query));
 
         $_designations = $designations->toArray();
         if ($this->request->params['_ext'] === 'csv') {
