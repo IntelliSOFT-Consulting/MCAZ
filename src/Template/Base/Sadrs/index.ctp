@@ -52,7 +52,9 @@ $this->start('sidebar'); ?>
                 <td>
                   <?php
                     // echo $this->Number->format($sadr->id); 
-                    echo $this->Form->control('active'.$sadr->id, ['label' => '.'.$sadr->id, 'type' => 'checkbox', 'templates' => ($prefix == 'manager' || $prefix == 'evaluator') ? '' : 'view_form_checkbox', 
+                    echo $this->Form->control('active'.$sadr->id, ['label' => '.'.$sadr->id, 'type' => 'checkbox', 
+                      'data-url' => $this->Url->build(['action' => 'restoreDeleted', $sadr->id, '_ext' => 'json']), 
+                      'templates' => ($prefix == 'manager' || $prefix == 'evaluator') ? '' : 'view_form_checkbox', 
                       'checked' => $sadr->active, 'hiddenField' => false ])
                   ?> 
                 </td>

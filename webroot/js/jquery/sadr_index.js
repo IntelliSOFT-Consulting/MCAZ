@@ -12,11 +12,11 @@ $(function() {
         } else {
           val = 0;
         }
-        var id =  $(this).attr('id').replace('active', '0');
+        // var id =  $(this).attr('id').replace('active', '0');
         $.ajax({
               async:true,
               type: 'POST',
-              url: '/manager/sadrs/restore-deleted/'+id+'.json',
+              url: $(this).attr('data-url'),
               data:{'purpose': 'active', 'value': val},
               success: function (data) {
                   // $('#registrationModal').modal('hide') 
