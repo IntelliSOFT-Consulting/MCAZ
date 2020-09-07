@@ -87,6 +87,9 @@
                 <tr><th><label>Date of onset of Reaction <span class="sterix fa fa-asterisk" aria-hidden="true"></span></label></th>
                     <td><?= $sadr->date_of_onset_of_reaction ?></td>
                 </tr>
+                <tr><th><label>Did reaction occur in utero?</label></th>
+                    <td><?= ($sadr->in_utero) ? $checked : $nChecked; ?></td>
+                </tr>
               </table>  
             </div>
             <div class="col-xs-6">

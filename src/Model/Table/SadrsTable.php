@@ -321,6 +321,7 @@ class SadrsTable extends Table
                 $b[1] = (empty($b[1])) ? '01' : $b[1];
                 $door = implode('-', $b); 
 
+                if($context['data']['in_utero']) return strtotime($dob) <= strtotime("+240 day", strtotime($door)); // can be before birth
                 return strtotime($dob) <= strtotime($door);
 
             }, 'message' => 'Date of birth must less than or equal to date of onset of reaction'
@@ -337,7 +338,7 @@ class SadrsTable extends Table
 
                 if (isset($context['data']['sadr_list_of_drugs'])) {
                     foreach ($context['data']['sadr_list_of_drugs'] as $val){
-                        if (strtotime($dob) > strtotime($val['start_date'])) return false;
+                        if (strtotime($dob) > strtotime($val['start_date']) && empty($context['data']['in_utero'])) return false;
                     }
                 }
                 

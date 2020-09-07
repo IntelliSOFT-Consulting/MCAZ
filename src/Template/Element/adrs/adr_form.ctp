@@ -247,6 +247,9 @@ Please use a separate adverse event reporting form for separate reportable adver
                      'label' => '<b>7) Is the drug/device investigational</b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                        'options' => ['Yes' => 'Yes', 'No' => 'No']]);
+
+
+              echo $this->Form->control('in_utero', array('type' => 'checkbox', 'templates' => 'checkbox_form', 'label' => 'Did reaction occur in utero?'));
             ?></div>
           </div>    
 

@@ -360,6 +360,7 @@ class AdrsTable extends Table
                 $a[1] = (empty($a[1])) ? '01' : $a[1]; 
                 $dob = implode('-', $a); 
 
+                if($context['data']['in_utero']) return strtotime($dob) <= strtotime("+240 day", strtotime($context['data']['date_of_adverse_event'])); // can be before birth
                 return strtotime($dob) <= strtotime($context['data']['date_of_adverse_event']);
 
             }, 'message' => 'Date of birth must less than or equal to date of onset of reaction'
@@ -376,7 +377,7 @@ class AdrsTable extends Table
 
                 if (isset($context['data']['adr_list_of_drugs'])) {
                     foreach ($context['data']['adr_list_of_drugs'] as $val){
-                        if (strtotime($dob) > strtotime( ($val['start_date']) ? $val['start_date'] : "now" )) return false;
+                        if (strtotime($dob) > strtotime( ($val['start_date']) ? $val['start_date'] : "now" )  && empty($context['data']['in_utero'])) return false;
                     }
                 }
                 

@@ -231,6 +231,9 @@ Please use a separate adverse event reporting form for separate reportable adver
                 <tr><th><label><b>7) Is the drug/device investigational</b> </label></th>
                     <td><?= $adr->drug_investigational ?></td>
                 </tr>
+                <tr><th><label>Did reaction occur in utero?</label></th>
+                    <td><?= ($adr->in_utero) ? $checked : $nChecked; ?></td>
+                </tr>
               </table>  
             </div>
           </div>    

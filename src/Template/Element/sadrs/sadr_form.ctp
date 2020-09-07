@@ -232,6 +232,8 @@ function getDate(sel){
                                    'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',] : [],
                     'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
                   ));
+
+                  echo $this->Form->control('in_utero', array('type' => 'checkbox', 'templates' => 'checkbox_form', 'label' => 'Did reaction occur in utero?'));
               ?>
             </div>
             <div class="col-xs-6">
