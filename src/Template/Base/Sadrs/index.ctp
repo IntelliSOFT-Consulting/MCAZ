@@ -35,7 +35,13 @@ $this->start('sidebar'); ?>
     <table class="table table-striped table-bordered">
         <thead>
             <tr>must be an array
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col">
+                  <div class="input checkbox">
+                      <label for="selectall"><input type="checkbox" name="selectall" value="1" checked="checked" id="selectall">
+                        <?= $this->Paginator->sort('id') ?>
+                      </label>
+                  </div>            
+                </th>
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('institution_name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>

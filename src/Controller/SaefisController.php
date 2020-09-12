@@ -201,15 +201,28 @@ class SaefisController extends AppController
         if ($this->request->is('post')) {
             if($this->request->getData('aefis')) {
                 $this->loadModel('Aefis');
-                $aefi = $this->Aefis->get($this->request->getData('aefis'));
+                $aefi = $this->Aefis->get($this->request->getData('aefis'), ['contain' => ['AefiListOfVaccines']]);
                 $saefi->aefi_report_ref = $aefi->reference_number;
                 $saefi->name_of_vaccination_site = $aefi->name_of_vaccination_center;
-                $saefi = $this->Saefis->patchEntity($saefi, $aefi->toArray());
-                $saefi->id = null;
+                $data = Hash::remove($aefi->toArray(), 'id');
+                $data = Hash::remove($data, 'aefi_list_of_vaccines.{n}.id');
+                $data = Hash::remove($data, 'aefi_list_of_vaccines.{n}.aefi_id');
+                $data = Hash::remove($data, 'aefi_list_of_vaccines.{n}.saefi_id');
+                $data = Hash::remove($data, 'aefi_list_of_vaccines.{n}.created');
+                $data = Hash::remove($data, 'aefi_list_of_vaccines.{n}.modified');
+                
+                // return;
+                // if(!empty($data['aefi_list_of_vaccines'])) {
+                //     $data['saefi_list_of_vaccines'] = $data['aefi_list_of_vaccines'];
+                //     unset($data['aefi_list_of_vaccines']);
+                // }
+                
+                $saefi = $this->Saefis->patchEntity($saefi, $data);
+                // $saefi->id = null;
                 $saefi->submitted = 0;
-                $saefi->reference_number = null;
                 $saefi->submitted_date = null;
                 $saefi->status = 'UnSubmitted';
+                // debug($saefi); return;
             } else {
                 $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
             }

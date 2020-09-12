@@ -33,7 +33,13 @@ $this->start('sidebar'); ?>
     <table class="table table-striped table-bordered mytable">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col">
+                  <div class="input checkbox">
+                      <label for="selectall"><input type="checkbox" name="selectall" value="1" checked="checked" id="selectall">
+                        <?= $this->Paginator->sort('id') ?>
+                      </label>
+                  </div>            
+                </th>
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name_of_vaccination_center') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>

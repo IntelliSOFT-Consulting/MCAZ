@@ -29,4 +29,8 @@ $(function() {
               },
           });
     });
+
+    $('#selectall').click(function() {
+        $("input[name^='active']").trigger("click"); 
+    });
 });
