@@ -26,7 +26,7 @@
           <hr>
           <h1 class="page-header">E2B FILE</h1>
 
-        <div class="ce2b_form">
+        <div class="ce2b_formd">
           <div class="row">
             <div class="col-md-6">
               <dl class="dl-horizontal">
@@ -54,19 +54,22 @@
                 $xml = (Xml::toArray(Xml::build($ce2b->e2b_content)));
                 $arr = Hash::flatten($xml);
               ?>
-                <table>
+                <table class="table table-striped">
+                  <thead>
+                    <th>Label</th>
+                    <th>Value</th>
+                    <th>Help</th>
+                  </thead>
                   <tbody>
                     <?php
                       foreach ($arr as $key => $value) {
                         if(!empty($value)) {
                           // Load an application cell
-                          $cell = $this->cell('E2b', [$key]);
+                          $cell = $this->cell('E2b', [$key, $value]);
+                          echo $cell;
+                        } 
+                      } 
                     ?>
-                    <tr>
-                      <td width="30%;"><?= $cell ?></td>
-                      <td><?= $value ?></td>
-                    </tr>
-                    <?php } } ?>
                   </tbody>
                 </table>
 

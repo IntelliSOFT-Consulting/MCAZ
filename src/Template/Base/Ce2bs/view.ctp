@@ -1,4 +1,6 @@
 <?php
+  use Cake\Utility\Hash;
+  use Cake\Utility\Xml;
 $this->Html->script('adr_edit', ['block' => true]);
 $this->Html->css('combo-box', ['block' => true]);
 ?>
@@ -46,7 +48,7 @@ $this->Html->css('combo-box', ['block' => true]);
   <hr>
   <h1 class="page-header">E2B FILE</h1>
 
-  <div class="ce2b_form">
+  <div class="ce2b_formd">
     <div class="row">
       <div class="col-xs-6">
         <dl class="dl-horizontal">
@@ -71,7 +73,31 @@ $this->Html->css('combo-box', ['block' => true]);
       <div class="col-xs-12">
         <h1>E2B Content</h1>
         
-        <div id="mydiv"><?= h($ce2b->e2b_content) ?></div>
+        
+              <div id="mydiv"><?php
+                $xml = (Xml::toArray(Xml::build($ce2b->e2b_content)));
+                $arr = Hash::flatten($xml);
+              ?>
+                <table class="table table-striped">
+                  <thead>
+                    <th>Label</th>
+                    <th>Value</th>
+                    <th>Help</th>
+                  </thead>
+                  <tbody>
+                    <?php
+                      foreach ($arr as $key => $value) {
+                        if(!empty($value)) {
+                          // Load an application cell
+                          $cell = $this->cell('E2b', [$key, $value]);
+                          echo $cell;
+                        } 
+                      } 
+                    ?>
+                  </tbody>
+                </table>
+
+              </div>
       </div>
     </div>
 
@@ -108,7 +134,7 @@ $this->Html->css('combo-box', ['block' => true]);
     }
 
 
-    xml_raw = $('#mydiv').text();
+    /*xml_raw = $('#mydiv').text();
 
     xml_formatted = formatXml(xml_raw);
 
@@ -119,7 +145,7 @@ $this->Html->css('combo-box', ['block' => true]);
     mydiv.innerHTML = xml_escaped;
 
     // document.body.appendChild(mydiv);
-    $('#mydiv').replaceWith(mydiv);
+    $('#mydiv').replaceWith(mydiv);*/
     </script>
   </div>
 

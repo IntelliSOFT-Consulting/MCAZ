@@ -72,7 +72,7 @@ class SadrsController extends AppController
             // processed query params
             ->find('search', ['search' => $this->request->query])
             // You can add extra things to the query if you need to
-            ->where([['user_id' => $this->Auth->user('id')]]);
+            ->where([['OR' => ['Sadrs.user_id' => $this->Auth->user('id'), 'Sadrs.name_of_institution' => $this->Auth->user('name_of_institution')]]]);
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
         $this->set(compact('provinces', 'designations'));
@@ -135,7 +135,7 @@ class SadrsController extends AppController
                           'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
                           'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments', 'Reactions'
                           ],
-            'conditions' => ['Sadrs.user_id' => $this->Auth->user('id')]
+            'conditions' => ['OR' => ['Sadrs.user_id' => $this->Auth->user('id'), 'Sadrs.name_of_institution' => $this->Auth->user('name_of_institution')]]
         ]);        
 
         if($sadr->submitted !== 2) {

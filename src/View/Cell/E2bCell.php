@@ -23,17 +23,28 @@ class E2bCell extends Cell
      *
      * @return void
      */
-    public function display($node)
+    public function display($key, $value)
     {        
         Configure::load('e2b_map', 'default');
         $faute = Configure::read('faute');
         // $nodejs = substr($node, strrpos($node, '.') + 1);
         // debug($nodejs);
-        $e = explode('.', $node);
+        $e = explode('.', $key);
         $s = '';
+        $h = '';
         foreach ($e as $a) {
-            $s .= (isset($faute[$a]) ? $faute[$a] : $a);
+            $s .= (isset($faute[$a]) ? $faute[$a]['label'] : $a);
+            // $h .= (isset($faute[$a]) ? $faute[$a]['help'] : '');
+            if (isset($faute[$a])) {
+                if (is_array($faute[$a]['help'])) {
+                    $h .= (isset($faute[$a]['help'][$value]) ? $faute[$a]['help'][$value] : '');
+                } else {
+                    $h .= $faute[$a]['help'];
+                }
+            }
         }
         $this->set('nodejs', $s);
+        $this->set('value', $value);
+        $this->set('help', $h);
     }
 }
