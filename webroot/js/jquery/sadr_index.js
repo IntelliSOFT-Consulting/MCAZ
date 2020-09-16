@@ -31,6 +31,9 @@ $(function() {
     });
 
     $('#selectall').click(function() {
-        $("input[name^='active']").trigger("click"); 
+        // $("input[name^='active']").trigger("click"); 
+        $("input[name^='active']").each(function() {
+            if($(this).is(':checked') != $('#selectall').is(':checked')) { $(this).trigger("click"); }
+        }); 
     });
 });
