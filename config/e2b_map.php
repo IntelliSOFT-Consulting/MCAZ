@@ -14,6 +14,12 @@ $q = ['1' => 'Physician',
 '3' => 'Other Health Professional',
 '4' => 'Lawyer',
 '5' => 'Consumer or other non-health professional'];
+$r = ['1' => 'recovered/resolved',
+'2' => 'recovering/resolving',
+'3' => 'not recovered/not resolved',
+'4' => 'recovered/resolved with sequelae',
+'5' => 'fatal',
+'6' => 'unknown'];
 
 return ['faute' => [
     'ichicsr' => ['label' => '&nbsp;&nbsp;&nbsp;&nbsp;', 'help' => ''],
@@ -78,6 +84,7 @@ return ['faute' => [
     'duplicatesource' => ['label' => 'Source(s) of the case identifier', 'help' => ''],
     'duplicatenumb' => ['label' => 'Case identifiers', 'help' => ''],
     'linkreportnumb' => ['label' => 'Identification number of the report which is', 'help' => ''],
+    'medicallyconfirm' => ['label' => 'Was the case medically confirmed, if not initially from health professional?', 'help' => $y],
     'reportercountry' => ['label' => 'Reporter country code', 'help' => ''],
     'casenullification' => ['label' => 'Report nullification', 'help' => '1=Yes'],
     'nullificationreason' => ['label' => 'Reason for nullification', 'help' => ''],
@@ -114,13 +121,7 @@ return ['faute' => [
 '203' => 'Format CCYYMMDDHHMM',
 '610' => 'Format CCYYMM',
 '602' => 'Format CCYY']],
-    'reactionenddateformat' => ['label' => 'Date of end of reaction/event', 'help' => '102 - Format
-CCYYMMDD,
-203 - Format
-CCYYMMDDHHMM,
-610 - Format CCYYMM,
-602 - Format CCYY
-'],
+    'reactionenddateformat' => ['label' => 'Date of end of reaction/event', 'help' => $f],
     'reactionenddate' => ['label' => 'Date of end of reaction/event', 'help' => ''],
     'reactionduration' => ['label' => 'Duration of reaction/event', 'help' => ''],
     'reactiondurationunit' => ['label' => 'Duration of reaction/event', 'help' => ['801' => 'Year',
@@ -134,6 +135,7 @@ CCYYMMDDHHMM,
     'reactionlasttime' => ['label' => 'Time interval between last dose and start of reaction/event', 'help' => ''],
     'reactionstartdate' => ['label' => 'Date of start of reaction/event', 'help' => ''],
     'reactionenddate' => ['label' => 'Date of end of reaction/event', 'help' => ''],
+    'reactionoutcome' => ['label' => 'Outcome of reaction/event at the time of last observation', 'help' => $r],
     'drugcharacterization' => ['label' => 'Characterization of drug role', 'help' => '1=Suspect,
 2=Concomitant,
 3=Interacting
