@@ -192,7 +192,7 @@
             </patientdeath>
             <reaction>
                 <primarysourcereaction><?php echo $sadr['description_of_reaction']; ?></primarysourcereaction>
-                <reactionmeddraversionllt>WHO-ART</reactionmeddraversionllt>
+                <reactionmeddraversionllt>23.0</reactionmeddraversionllt>
                 <reactionmeddrallt/>
                 <reactionmeddraversionpt/>
                 <reactionmeddrapt/>

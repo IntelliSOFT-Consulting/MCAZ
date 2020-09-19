@@ -58,7 +58,9 @@ class Ce2bsController extends AppController
                 ]
             ]);
         }
-
+        $xml = (Xml::toArray(Xml::build($ce2b->e2b_content)));
+        $arr = Hash::flatten($xml);
+        $this->set('arr', $arr);
         $this->set('ce2b', $ce2b);
         // $this->set('e2b_content', Xml::toArray(Xml::build($ce2b->e2b_content)));
         $this->set('_serialize', ['ce2b']);

@@ -50,10 +50,7 @@
             <div class="col-xs-12">
               <h1>E2B Content</h1>
               
-              <div id="mydiv"><?php
-                $xml = (Xml::toArray(Xml::build($ce2b->e2b_content)));
-                $arr = Hash::flatten($xml);
-              ?>
+              <div id="mydiv">
                 <table class="table table-striped">
                   <thead>
                     <th>Label</th>

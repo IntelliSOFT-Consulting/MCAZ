@@ -32,6 +32,18 @@
                       
                         <form>
                           <div class="form-group">
+                            <label class="control-label">Drug Name</label>
+                            <div>
+                              <p class="form-control-static"><?= $review->drug_name ?></p>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label">Reaction </label>
+                            <div>
+                              <p class="form-control-static"><?= $review->reaction_name ?></p>
+                            </div>
+                          </div>
+                          <div class="form-group">
                             <label class="control-label">Literature Review</label>
                             <div>
                               <p class="form-control-static"><?= $review->literature_review ?></p>
@@ -49,6 +61,30 @@
                             <p class="form-control-static"><?= $review['references_text'] ?></p>
                             </div> 
                           </div> 
+                          <div class="form-group">
+                            <label class="control-label">Medical History:</label>
+                            <div>
+                            <p class="form-control-static"><?= $review['medical_history'] ?></p>
+                            </div> 
+                          </div> 
+                          <div class="form-group">
+                            <label class="control-label">Clinical Findings:</label>
+                            <div>
+                            <p class="form-control-static"><?= $review['clinical_findings'] ?></p>
+                            </div> 
+                          </div> 
+                          <div class="form-group">
+                            <label class="control-label">Status:</label>
+                            <div>
+                            <p class="form-control-static"><?= $review['status'] ?></p>
+                            </div> 
+                          </div> 
+                          <div class="form-group">
+                            <label class="control-label">Causality Decision:</label>
+                            <div>
+                            <p class="form-control-static"><?= $review['causality_decision'] ?></p>
+                            </div> 
+                          </div>
                           <div class="form-group">
                             <label class="control-label">File</label>
                             <div class="">
@@ -126,6 +162,40 @@
            ?>
             <div class="row">
               <div class="col-xs-12"><h5 class="text-center">Causality Assessment</h5></div>
+              <div class="row">
+                <div class="col-xs-3"> </div>
+                <div class="col-xs-1 control-label">
+                  <label class="pull-right">Drug </label>
+                </div>
+                <div class="col-xs-3">
+                  <?php
+                    $drugs = [];
+                    $reactions = [];
+                    foreach ($arr as $d => $e) {
+                      if (strpos($d, 'primarysourcereaction') !== false) {
+                        $reactions[$e] = $e;
+                      }
+                      if (strpos($d, 'activesubstancename') !== false) {
+                        $drugs[$e] = $e;
+                      }
+                    }
+                  ?>
+                  <?= $this->Form->control('reviews.'.$ekey.'.drug_name', ['type' => 'select', 'label' => false, 
+                      'options' => $drugs, 
+                      'templates' => 'table_form']);?>
+                </div>
+                <div class="col-xs-1 control-label">
+                      <label>Reaction </label>
+                </div>
+                <div class="col-xs-3">
+                  <?php                   
+                   echo $this->Form->control('reviews.'.$ekey.'.reaction_name', ['type' => 'select', 'label' => false, 
+                      'options' => $reactions, 
+                      'templates' => 'table_form']);?>
+                </div>
+                <div class="col-xs-1"> </div>
+              </div>
+              <br>
               <div class="col-xs-12">
 	          	<?php
                     echo $this->Form->control('ce2b_pr_id', ['type' => 'hidden', 'value' => $ce2b->id, 'escape' => false, 'templates' => 'table_form']);
@@ -133,6 +203,26 @@
                     echo $this->Form->control('reviews.'.$ekey.'.literature_review', ['escape' => false, 'templates' => 'app_form']);
                     echo $this->Form->control('reviews.'.$ekey.'.comments', ['escape' => false, 'templates' => 'app_form']);
                     echo $this->Form->control('reviews.'.$ekey.'.references_text', ['escape' => false, 'templates' => 'app_form']);
+                    echo $this->Form->control('reviews.'.$ekey.'.medical_history', ['escape' => false, 'templates' => 'app_form']);
+                    echo $this->Form->control('reviews.'.$ekey.'.clinical_findings', ['escape' => false, 'templates' => 'app_form']);
+                    echo $this->Form->control('reviews.'.$ekey.'.status', ['type' => 'radio', 
+                               'label' => '<b>Status</b> <a onclick="$(\'input[name=reviews\\\['.$ekey.'\\\]\\\[status\\\]]\').removeAttr(\'checked\');" class="tiptip"  data-original-title="clear!!">
+                <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>', 'escape' => false,
+                               'templates' => 'radio_form',
+                               'options' => [
+                                  'Known' => 'Known', 
+                                  'Unknown' => 'Unknown']]);
+                    echo $this->Form->control('reviews.'.$ekey.'.causality_decision', ['type' => 'radio', 
+                               'label' => '<b>Causality Decision</b> <a onclick="$(\'input[name=reviews\\\['.$ekey.'\\\]\\\[causality_decision\\\]]\').removeAttr(\'checked\');" class="tiptip"  data-original-title="clear!!">
+                <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>', 'escape' => false,
+                               'templates' => 'radio_form',
+                               'options' => [
+                                  'Certain' => 'Certain', 
+                                  'Probable' => 'Probable', 
+                                  'Possible' => 'Possible', 
+                                  'Unlikely' => 'Unlikely',
+                                  'Conditional/Unclassified' => 'Conditional/Unclassified',
+                                  'Unassessable/Unclassifiable' => 'Unassessable/Unclassifiable']]);
 	            ?>
          	    </div>          
             </div>
