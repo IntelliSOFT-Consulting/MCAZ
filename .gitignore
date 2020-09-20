@@ -1,6 +1,7 @@
 # CakePHP specific files #
 ##########################
 /config/app.php
+/config/vigibase_api.php
 /config/.env
 /tmp/*
 /logs/*

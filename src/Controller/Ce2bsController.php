@@ -10,6 +10,8 @@ use Cake\Filesystem\File;
 use Cake\Utility\Hash;
 use Cake\View\Helper\HtmlHelper; 
 use Cake\Log\Log;
+use Cake\Core\Exception\Exception;
+use Cake\Core\Exception\PDOException;
 
 /**
  * Ce2bs Controller
@@ -58,7 +60,21 @@ class Ce2bsController extends AppController
                 ]
             ]);
         }
-        $xml = (Xml::toArray(Xml::build($ce2b->e2b_content)));
+        try {
+            $xml = (Xml::toArray(Xml::build($ce2b->e2b_content)));
+        } 
+        /*catch (\XmlException $e) {
+            $this->Flash->error('Not a valid E2B file. '.$e->getMessage());
+            return $this->redirect(['action' => 'index']);
+        } catch (\Exception $e) {
+            $this->Flash->error('Not a valid E2B file. '.$e->getMessage());
+            return $this->redirect(['action' => 'index']);
+        } */ 
+        catch (\Cake\Utility\Exception\XmlException $e) {
+            $this->Flash->error('Not a valid E2B file. '.$e->getMessage());
+            return $this->redirect(['action' => 'index']);
+        }
+        
         $arr = Hash::flatten($xml);
         $this->set('arr', $arr);
         $this->set('ce2b', $ce2b);
@@ -144,21 +160,32 @@ class Ce2bsController extends AppController
                 $stage1->stage_date = date("Y-m-d H:i:s");
                 $ce2b->report_stages = [$stage1];
 
+                try {
+                    $xmlObject = Xml::build($xmlString); // Here will throw an exception
+                } catch (\Cake\Utility\Exception\XmlException $e) {
+                    $this->Flash->error('Not a valid E2B file. '.$e->getMessage());
+                    return $this->redirect(['action' => 'add']);
+                }
                 $ce2b->e2b_content = $xmlString;
                 $var = (date("Y") == 2019) ? 28 : 1;
                 // $ref = $this->Ce2bs->find()->count() + 1;
                 //$ref = $this->Ce2bs->find('all', ['conditions' => ['date_format(Ce2bs.created,"%Y")' => date("Y"), 'Ce2bs.reference_number IS NOT' => null]])->count() + $var;
                 $ref = $this->Ce2bs->find()->select(['Ce2bs.reference_number'])->distinct(['Ce2bs.reference_number'])->where(['date_format(Ce2bs.created,"%Y")' => date("Y"), 'Ce2bs.reference_number IS NOT' => null])->count() + $var;
                 $ce2b->reference_number = (($ce2b->reference_number)) ?? 'CE2B'.$ref.'/'.date('Y');
-                if ($this->Ce2bs->save($ce2b)) {
+                try {                    
+                    if ($this->Ce2bs->save($ce2b)) {
+                        $datum = $this->Imports->newEntity(['filename' => $this->request->data['e2b_file']['name']]);
+                        $this->Imports->save($datum);
 
-                    $datum = $this->Imports->newEntity(['filename' => $this->request->data['e2b_file']['name']]);
-                    $this->Imports->save($datum);
+                        $this->Flash->success(__('The E2B File has been saved.'));
 
-                    $this->Flash->success(__('The E2B File has been saved.'));
-
-                    return $this->redirect(['action' => 'index']);
-                }
+                        return $this->redirect(['action' => 'index']);
+                    }
+                } catch (\PDOException $e) {                    
+                    $this->Flash->error('The E2B File was not saved. '.$e->getMessage());
+                    return $this->redirect(['action' => 'add']);
+                } 
+                
                 $this->Flash->error(__('The E2B File could not be saved. Please, try again.'));
             }
         }
