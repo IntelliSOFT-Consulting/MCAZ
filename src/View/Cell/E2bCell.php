@@ -24,7 +24,7 @@ class E2bCell extends Cell
      * @return void
      */
     public function display($key, $value)
-    {        
+    {
         Configure::load('e2b_map', 'default');
         $faute = Configure::read('faute');
         // $nodejs = substr($node, strrpos($node, '.') + 1);

@@ -89,7 +89,8 @@ class Ce2bsController extends AppController
         ]);
 
         // render to a variable
-        $payload = $ce2b->e2b_file;
+        $payload = $ce2b->e2b_content;
+        //$matches = $eggs->xpath('//drugresult');
         
         $http = new Client();
 

@@ -241,7 +241,7 @@ $this->render(false);
     public function e2b($id = null)
     {
         $sadr = $this->Sadrs->get($id, [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'ReportStages', 'Reactions']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'ReportStages', 'Reactions', 'Reviews']
         ]);        
         
         $stage1  = $this->Sadrs->ReportStages->newEntity();

@@ -376,14 +376,30 @@
                     <drugreactionasses><?php echo $sadr['description_of_reaction']; ?></drugreactionasses>
                     <drugassessmentsource/>
                     <drugassessmentmethod>WHO causality</drugassessmentmethod>
-                    <drugresult><?php
+                    <drugresult>
+                    <?php
+                        $f = false;
+                        foreach ($sadr['reviews'] as $review) {
+                            if ($review['drug_name'] == $sadrListOfDrug['drug_name'] && !empty($review['causality_decision'])) {
+                                $f = true;
+                                if(strtolower($review['causality_decision']) == 'certain') echo 'certain';
+                                if(strtolower($review['causality_decision']) == 'probable') echo 'probable/likely';
+                                if(strtolower($review['causality_decision']) == 'possible') echo 'possible';
+                                if(strtolower($review['causality_decision']) == 'unlikely') echo 'unlikely';
+                                if(strtolower($review['causality_decision']) == 'conditional/unclassified') echo 'conditional/unclassified';
+                                if(strtolower($review['causality_decision']) == 'unassessable/unclassifiable') echo 'unassessable/unclassifiable';
+                            }
+                        }
+                        if (!$f) {
                             if(strtolower($sadr['relatedness']) == 'certain') echo 'certain';
                             if(strtolower($sadr['relatedness']) == 'probable / likely') echo 'probable/likely';
                             if(strtolower($sadr['relatedness']) == 'possible') echo 'possible';
                             if(strtolower($sadr['relatedness']) == 'unlikely') echo 'unlikely';
                             if(strtolower($sadr['relatedness']) == 'conditional / unclassified') echo 'conditional/unclassified';
                             if(strtolower($sadr['relatedness']) == 'unassessable / unclassifiable') echo 'unassessable/unclassifiable';
-                    ?></drugresult>
+                        }                            
+                    ?>
+                    </drugresult>
                 </drugreactionrelatedness>
             </drug>
             <?php  endforeach; ?>
