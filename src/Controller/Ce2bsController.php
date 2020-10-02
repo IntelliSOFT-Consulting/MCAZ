@@ -167,7 +167,7 @@ class Ce2bsController extends AppController
                     $this->Flash->error('Not a valid E2B file. '.$e->getMessage());
                     return $this->redirect(['action' => 'add']);
                 }
-                $ce2b->e2b_content = $xmlString;
+                $ce2b->e2b_content = iconv(mb_detect_encoding($xmlString, mb_detect_order(), true), "UTF-8", $xmlString); //iconv(mb_detect_encoding($xmlString), "UTF-8", $xmlString);
                 $var = (date("Y") == 2019) ? 28 : 1;
                 // $ref = $this->Ce2bs->find()->count() + 1;
                 //$ref = $this->Ce2bs->find('all', ['conditions' => ['date_format(Ce2bs.created,"%Y")' => date("Y"), 'Ce2bs.reference_number IS NOT' => null]])->count() + $var;

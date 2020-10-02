@@ -222,6 +222,11 @@ class SaefisController extends AppController
                 $saefi->submitted = 0;
                 $saefi->submitted_date = null;
                 $saefi->status = 'UnSubmitted';
+                $saefi->patient_name = $aefi->patient_name.' '.$aefi->patient_surname;
+                $saefi->signs_symptoms = $aefi->description_of_reaction;
+                $saefi->autopsy_done = $aefi->autopsy;
+                $saefi->aefi_date = $aefi->symptom_date;
+                $saefi->report_date = $aefi->notification_date;
                 // debug($saefi); return;
             } else {
                 $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());

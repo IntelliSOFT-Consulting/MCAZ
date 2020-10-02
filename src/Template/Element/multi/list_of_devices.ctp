@@ -152,6 +152,7 @@
                               'type' => 'select', 'options' => [
                                 'Definitely related' => 'Definitely related', 
                                 'Probably related' => 'Probably related', 
+                                'Probably not related' => 'Probably not related',
                                 'Possibly related' => 'Possibly related', 'Not related' => 'Not related', 'Pending' => 'Pending'], 'templates' => ($editable) ? 'table_form': 'view_form_table'  ,'empty' => true]);
                         ?>
                     </td>
