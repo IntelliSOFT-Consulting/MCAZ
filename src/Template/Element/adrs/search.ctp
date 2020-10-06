@@ -127,7 +127,7 @@
                      </td>
                 </tr>
                 <tr>
-                    <td colspan="2">
+                    <td>
                         <?php
                             echo $this->Form->control('designation_id', 
                                 ['label' => false, 'templates' => 'clear_form', 'options' => $designations, 'placeholder' => '*Province*',
@@ -137,7 +137,13 @@
                          <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                          <br>
                          <small class="text-warning">Designations</small>
-                     </td>
+                    </td>               
+                    <td>
+                        <?php
+                            echo $this->Form->control('drug_name', 
+                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Medicine*']);
+                        ?>
+                    </td>
                     <td>
                         <?php
                             echo $this->Form->control('participant_number', 

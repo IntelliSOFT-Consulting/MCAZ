@@ -156,6 +156,14 @@ class AdrsTable extends Table
             ->like('outcome')
             ->like('reporter_email')
             ->value('designation_id')
+            ->add('drug_name', 'Search.Callback', [
+                'callback' => function ($query, $args, $filter) {
+                    $drug_name = $args['drug_name'];
+                    $query->matching('AdrListOfDrugs', function ($q) use($drug_name) {
+                        return $q->where(['AdrListOfDrugs.drug_name LIKE' => '%'.$drug_name.'%']);
+                    });
+                }
+            ])
             ->like('participant_number');
 
         return $searchManager;

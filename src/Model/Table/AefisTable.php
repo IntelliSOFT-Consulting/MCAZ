@@ -182,6 +182,14 @@ class AefisTable extends Table
             ->like('reporter_name')
             ->like('reporter_email')
             ->value('designation_id')
+            ->add('vaccine_name', 'Search.Callback', [
+                'callback' => function ($query, $args, $filter) {
+                    $vaccine_name = $args['vaccine_name'];
+                    $query->matching('AefiListOfVaccines', function ($q) use($vaccine_name) {
+                        return $q->where(['AefiListOfVaccines.vaccine_name LIKE' => '%'.$vaccine_name.'%']);
+                    });
+                }
+            ])
             ->like('patient_name', ['field' => ['patient_name', 'patient_surname']]);
 
         return $searchManager;

@@ -7,6 +7,23 @@
 // pr($sadrs);
 ?>
 
+<?php if($prefix == 'institution') { ?>
+  <h3 class="btn-zangu">
+    <?php
+              echo $this->Html->link('<i class="fa fa-users" aria-hidden="true"></i> '.$this->request->session()->read('Auth.User.name_of_institution').':: manage users', ['controller' => 'Users', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu'));
+              // echo $this->Html->image("img/user_group.ico", [
+              //     "alt" => "Brownies",
+              //     'url' => ['controller' => 'Users', 'action' => 'index', 'prefix' => $prefix]
+              // ]);
+
+    // echo $this->Html->link($this->Html->image('user_group.ico').' Manage '.$this->request->session()->read('Auth.User.name_of_institution'),
+    //                      ['controller' => 'Users', 'action' => 'index', 'prefix' => $prefix],
+    //                      array('escape' => false));
+    ?>
+</h3>
+  <hr>
+<?php } ?>
+
 <div class="row">
     <div class="col-md-4">
       <div style="min-height: 320px">

@@ -79,6 +79,11 @@ Router::prefix('manager', function ($routes) {
 
     $routes->fallbacks(DashedRoute::class);
 });
+Router::prefix('institution', function ($routes) {
+    $routes->connect('/', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => 'institution']);
+
+    $routes->fallbacks(DashedRoute::class);
+});
 Router::prefix('evaluator', function ($routes) {
     $routes->connect('/', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => 'evaluator']);
 

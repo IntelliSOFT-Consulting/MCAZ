@@ -4,7 +4,7 @@ bin/cake cache clear_all
 echo "*************** Assign Admin Permissions  *******************"
 #Admin permissions
 bin/cake acl grant Groups.1 controllers
-bin/cake acl grant Groups.2 controllers/Admin
+bin/cake acl grant Groups.1 controllers/Admin
 bin/cake acl deny Groups.1 controllers/Manager
 bin/cake acl deny Groups.1 controllers/Evaluator
 bin/cake acl deny  Groups.1 controllers/Sadrs
@@ -40,6 +40,31 @@ bin/cake acl grant Groups.2 controllers/SadrListOfDrugs/delete
 bin/cake acl grant Groups.2 controllers/SadrOtherDrugs/delete
 bin/cake acl grant Groups.2 controllers/Notifications/index
 bin/cake acl grant Groups.2 controllers/Notifications/view
+echo "*************** Assign Institution Manager Permissions ********************"
+#Institution Manager permissions
+bin/cake acl grant Groups.5 controllers/Institution
+bin/cake acl grant Groups.5 controllers/Aefis
+bin/cake acl grant Groups.5 controllers/Saefis
+bin/cake acl grant Groups.5 controllers/Adrs
+bin/cake acl grant Groups.5 controllers/Sadrs
+bin/cake acl grant Groups.5 controllers/Ce2bs
+bin/cake acl grant Groups.5 controllers/AefiListOfVaccines/delete
+bin/cake acl grant Groups.5 controllers/SaefiListOfVaccines/delete
+bin/cake acl grant Groups.5 controllers/AefiListOfDiluents/delete
+bin/cake acl grant Groups.5 controllers/AdrListOfDrugs/delete
+bin/cake acl grant Groups.5 controllers/AdrOtherDrugs/delete
+bin/cake acl grant Groups.5 controllers/Users/profile
+bin/cake acl grant Groups.5 controllers/Users/edit
+bin/cake acl grant Groups.5 controllers/Users/dashboard
+bin/cake acl grant Groups.5 controllers/Users/home
+bin/cake acl grant Groups.5 controllers/Reactions/delete
+bin/cake acl grant Groups.5 controllers/SadrListOfDrugs/delete
+bin/cake acl grant Groups.5 controllers/SadrOtherDrugs/delete
+bin/cake acl grant Groups.5 controllers/Notifications/delete
+bin/cake acl grant Groups.5 controllers/Notifications/adelete
+bin/cake acl grant Groups.5 controllers/Notifications/index
+bin/cake acl grant Groups.5 controllers/Notifications/view
+bin/cake acl grant Groups.5 controllers/Comments
 echo "*************** Assign Evaluator Permissions *******************"
 bin/cake acl deny Groups.4 controllers
 bin/cake acl grant Groups.4 controllers/Reports

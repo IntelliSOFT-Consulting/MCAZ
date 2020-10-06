@@ -156,7 +156,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">
+                    <td>
                         <?php
                             echo $this->Form->control('designation_id', 
                                 ['label' => false, 'templates' => 'clear_form', 'options' => $designations, 
@@ -166,7 +166,13 @@
                          <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                          <br>
                          <small class="text-warning">Designations</small>
-                     </td>
+                    </td>
+                    <td>
+                        <?php
+                            echo $this->Form->control('vaccine_name', 
+                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Vaccine*']);
+                        ?>                      
+                    </td>
                     <td>
                         <?php
                             echo $this->Form->control('patient_name', 

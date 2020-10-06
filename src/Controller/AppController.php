@@ -181,6 +181,7 @@ class AppController extends Controller
         if($this->request->session()->read('Auth.User.group_id') == 1) {$prefix = 'admin';} 
         if ($this->request->session()->read('Auth.User.group_id') == 2) { $prefix = 'manager'; }
         if ($this->request->session()->read('Auth.User.group_id') == 4) { $prefix = 'evaluator'; }
+        if ($this->request->session()->read('Auth.User.group_id') == 5) { $prefix = 'institution'; }
         $this->set(['prefix'=> $prefix]);
     }
 }
