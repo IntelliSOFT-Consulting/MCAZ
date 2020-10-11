@@ -82,7 +82,7 @@ class SadrsBaseController extends AppController
         $users = $this->Sadrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
         $this->set(compact('provinces', 'designations', 'query', 'users'));
-        if ($this->request->params['_ext'] === 'pdf') {
+        if ($this->request->params['_ext'] === 'pdf' || $this->request->params['_ext'] === 'csv') {
             $this->set('sadrs', $query->contain($this->paginate['contain']));
         } else {
             $this->set('sadrs', $this->paginate($query));
