@@ -258,11 +258,11 @@ class SaefisController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    protected function _fileUploads($saefi) {
+    public function _fileUploads($saefi) {
         // attachments
         if (!isset($this->request->data['attachments'][0]['file'])) {
           for ($i = 0; $i <= count($saefi->attachments)-1; $i++) { 
-            $saefi->attachments[$i]->model = 'Applications';
+            $saefi->attachments[$i]->model = 'Saefis';
             $saefi->attachments[$i]->category = 'attachments';
           }
         }
@@ -292,12 +292,27 @@ class SaefisController extends AppController
                 'validate' => ($this->request->getData('submitted') == 2) ? true : false, 
                 'associated' => [
                     'AefiListOfVaccines' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ],
-                    'Attachments' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ]
+                    'Attachments' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ],
+                    'Reports' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ]
                 ]
             ]);
-            $saefi = $this->_fileUploads($saefi);
+            // $saefi = $this->_fileUploads($saefi);
+            if (!empty($saefi->attachments)) {
+              for ($i = 0; $i <= count($saefi->attachments)-1; $i++) { 
+                $saefi->attachments[$i]->model = 'Saefis';
+                $saefi->attachments[$i]->category = 'attachments';
+              }
+            }
+
+            if (!empty($saefi->reports)) {
+              for ($i = 0; $i <= count($saefi->reports)-1; $i++) { 
+                $saefi->reports[$i]->model = 'Saefis';
+                $saefi->reports[$i]->category = 'reports';
+              }
+            }
             
              // debug((string)$saefi);
+             // return;
              // debug($this->request->data);
 
             if ($saefi->submitted == 1) {
