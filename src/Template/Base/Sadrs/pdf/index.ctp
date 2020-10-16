@@ -75,7 +75,7 @@
                 <tr>
                   <td colspan="2">
                     <p><b>Literature Review</b></p>
-                    <?= $review->literature_review ?>
+                    <div style="word-wrap: break-word; word-break: break-all;"><?= $review->literature_review ?></div>
                   </td>
                   <td colspan="3">
                     <p><b>Recommended Causality Assessment</b></p>
@@ -83,7 +83,7 @@
                   </td>
                   <td colspan="3">
                     <p><b>References</b></p>
-                    <?= $review->references_text ?>
+                    <div style="word-wrap: break-word; word-break: break-all;"><?= $review->references_text ?></div>
                   </td>
                 </tr>
                 <?php //} ?>

@@ -133,7 +133,8 @@ class SadrsBaseController extends AppController
             $query->where([['Sadrs.active' => '1']]);
             $this->render('/Base/Sadrs/pdf/index');
         } else {
-            $this->render('/Base/Sadrs/index');
+            // $this->render('/Base/Sadrs/index');
+            $this->render('/Base/Sadrs/pdf/index');
         }
     }
 
