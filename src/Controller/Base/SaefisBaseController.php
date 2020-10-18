@@ -45,7 +45,11 @@ class SaefisBaseController extends AppController
         $provinces = $this->Saefis->Provinces->find('list', ['limit' => 200]);
         $this->set(compact('designations', 'provinces', 'users'));
         
-        $this->set('saefis', $this->paginate($query));
+        if ($this->request->params['_ext'] === 'pdf' || $this->request->params['_ext'] === 'csv') {
+            $this->set('saefis', $query->contain($this->paginate['contain']));
+        } else {
+            $this->set('saefis', $this->paginate($query));
+        }
 
         $_designations = $designations->toArray();
         $_provinces = $provinces->toArray();

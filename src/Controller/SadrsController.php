@@ -76,7 +76,11 @@ class SadrsController extends AppController
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
         $this->set(compact('provinces', 'designations'));
-        $this->set('sadrs', $this->paginate($query));
+        if ($this->request->params['_ext'] === 'pdf' || $this->request->params['_ext'] === 'csv') {
+            $this->set('sadrs', $query->contain($this->paginate['contain']));
+        } else {
+            $this->set('sadrs', $this->paginate($query));
+        }
 
         // $this->set(compact('sadrs'));
         // $this->set('_serialize', ['sadrs']);

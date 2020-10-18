@@ -56,7 +56,11 @@ class AdrsController extends AppController
             ->where([['user_id' => $this->Auth->user('id')]]);
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
         $this->set(compact('designations'));
-        $this->set('adrs', $this->paginate($query));
+        if ($this->request->params['_ext'] === 'pdf' || $this->request->params['_ext'] === 'csv') {
+            $this->set('adrs', $query->contain($this->paginate['contain']));
+        } else {
+            $this->set('adrs', $this->paginate($query->contain($this->paginate['contain'])));
+        }
 
         $_designations = $designations->toArray();
         if ($this->request->params['_ext'] === 'csv') {

@@ -38,7 +38,11 @@ class SaefisController extends AppController
             ->where([['user_id' => $this->Auth->user('id')]]);
         $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
         $this->set(compact('designations'));
-        $this->set('saefis', $this->paginate($query));
+        if ($this->request->params['_ext'] === 'pdf' || $this->request->params['_ext'] === 'csv') {
+            $this->set('saefis', $query->contain($this->paginate['contain']));
+        } else {
+            $this->set('saefis', $this->paginate($query));
+        }
 
         $_designations = $designations->toArray();
         if ($this->request->params['_ext'] === 'csv') {
@@ -292,8 +296,10 @@ class SaefisController extends AppController
                 'validate' => ($this->request->getData('submitted') == 2) ? true : false, 
                 'associated' => [
                     'AefiListOfVaccines' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ],
+                    'SaefiListOfVaccines' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ],
                     'Attachments' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ],
-                    'Reports' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ]
+                    'Reports' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ],
+                    'ReportStages' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ]
                 ]
             ]);
             // $saefi = $this->_fileUploads($saefi);

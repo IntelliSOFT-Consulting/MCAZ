@@ -111,7 +111,7 @@
                         <a onclick="$('#sae-type').val('');" class="tiptip"  data-original-title="clear!!">
                          <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                          <br>
-                         <small class="text-warning">SAE type</small>
+                         <small class="text-warning">Adverse Event</small>
                     </td>
                 </tr>
                 <tr>
@@ -168,6 +168,14 @@
                         <?php
                             echo $this->Form->control('reporter_email', 
                                 ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Reporter\'s email*']);
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">                        
+                        <?php
+                            echo $this->Form->control('diagnosis', 
+                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Diagnosis*']);
                         ?>
                     </td>
                 </tr>

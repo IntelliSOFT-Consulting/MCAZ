@@ -24,10 +24,10 @@ $(function() {
         var trWrapper = '\
           <tr>\
             <td>{i2}</td>\
-            <td><input class="form-control" name="saefi_list_of_vaccines[{i}][id]" id="aefi-list-of-vaccines-{i}-id" type="hidden"> \
-                <input class="form-control" name="saefi_list_of_vaccines[{i}][vaccine_name]" id="aefi-list-of-vaccines-{i}-vaccine-name" type="text">  </td>\
+            <td><input class="form-control" name="saefi_list_of_vaccines[{i}][id]" id="saefi-list-of-vaccines-{i}-id" type="hidden"> \
+                <input class="form-control" name="saefi_list_of_vaccines[{i}][vaccine_name]" id="saefi-list-of-vaccines-{i}-vaccine-name" type="text">  </td>\
             <td>\
-                <input class="form-control" name="saefi_list_of_vaccines[{i}][vaccination_doses]" id="aefi-list-of-vaccines-{i}-vaccination-doses" type="number"> </td>\
+                <input class="form-control" name="saefi_list_of_vaccines[{i}][vaccination_doses]" id="saefi-list-of-vaccines-{i}-vaccination-doses" type="number"> </td>\
             <td>\
                 <button type="button" class="btn btn-danger btn-sm remove-vaccination"><i class="fa fa-minus"></i> Remove</button>\
             </td>\

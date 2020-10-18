@@ -39,7 +39,11 @@ class Ce2bsBaseController extends AppController
             ->where(['IFNULL(copied, "N") !=' => 'old copy']);
         $users = $this->Ce2bs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $this->set(compact('query', 'users'));
-        $this->set('ce2bs', $this->paginate($query));
+        if ($this->request->params['_ext'] === 'pdf' || $this->request->params['_ext'] === 'csv') {
+            $this->set('ce2bs', $query->contain($this->paginate['contain']));
+        } else {
+            $this->set('ce2bs', $this->paginate($query));
+        } 
 
         if ($this->request->params['_ext'] === 'csv') {
             $_serialize = 'query';
@@ -70,7 +74,7 @@ class Ce2bsBaseController extends AppController
             $this->set(compact('query', '_serialize', '_header', '_extract'));
         }
 
-        if(strpos($this->request->url, 'pdf')) {
+        /*if(strpos($this->request->url, 'pdf')) {
             $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
             $this->viewBuilder()->options([
                 'pdfConfig' => [
@@ -78,7 +82,7 @@ class Ce2bsBaseController extends AppController
                     'filename' => 'summary_ce2bs.pdf'
                 ]
             ]);
-        }
+        }*/
 
         if ($this->request->params['_ext'] === 'pdf') {
             $this->render('/Base/Ce2bs/pdf/index');

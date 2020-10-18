@@ -80,12 +80,13 @@
                 <tr>
                     <td colspan="3"> 
                         <?php
+                        echo "<label>Seizures &nbsp;</label>";
                       echo $this->Form->control('ae_afebrile', ['type' => 'checkbox', 'label' => 'afebrile', 'templates' => 'clear_form_checkbox', 'hiddenField' => false ]);
                       echo $this->Form->control('ae_febrile', ['type' => 'checkbox', 'label' => 'febrile', 'templates' => 'clear_form_checkbox', 'hiddenField' => false ]);
+                        echo "<label>&nbsp; Severe local reaction &nbsp;</label>";
                       echo $this->Form->control('ae_3days', ['type' => 'checkbox', 'label' => '>3 days', 'templates' => 'clear_form_checkbox', 'hiddenField' => false ]);
-
                       echo $this->Form->control('ae_beyond_joint', ['type' => 'checkbox', 'label' => 'beyond nearest joint', 'templates' => 'clear_form_checkbox', 'hiddenField' => false ]);
-
+                        echo "<br/>";
                       echo $this->Form->control('ae_encephalopathy', ['type' => 'checkbox', 'label' => 'Encephalopathy', 'templates' => 'clear_form_checkbox', 'hiddenField' => false ]);
                       echo $this->Form->control('ae_abscess', ['type' => 'checkbox', 'label' => 'Abscess', 'templates' => 'clear_form_checkbox', 'hiddenField' => false ]);
                       echo $this->Form->control('ae_sepsis', ['type' => 'checkbox', 'label' => 'Sepsis', 'templates' => 'clear_form_checkbox', 'hiddenField' => false ]);

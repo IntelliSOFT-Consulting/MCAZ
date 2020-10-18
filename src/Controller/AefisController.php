@@ -71,7 +71,11 @@ class AefisController extends AppController
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
         $this->set(compact('provinces', 'designations'));
-        $this->set('aefis', $this->paginate($query));
+        if ($this->request->params['_ext'] === 'pdf' || $this->request->params['_ext'] === 'csv') {
+            $this->set('aefis', $query->contain($this->paginate['contain']));
+        } else {
+            $this->set('aefis', $this->paginate($query));
+        }
 
         $_provinces = $provinces->toArray();
         $_designations = $designations->toArray();

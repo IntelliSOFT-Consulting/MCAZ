@@ -158,6 +158,9 @@
               <table class="table table-condensed vertical-table">
                 <tr><th></th> <td><?= ($aefi->ae_afebrile) ? $checked : $nChecked; ?><label> afebrile</label></td></tr>
                 <tr><th></th> <td><?= ($aefi->ae_febrile) ? $checked : $nChecked; ?><label> febrile</label></td></tr>
+              </table>
+              <label>Severe local reaction</label>
+              <table class="table table-condensed vertical-table">
                 <tr><th></th> <td><?= ($aefi->ae_3days) ? $checked : $nChecked; ?><label> >3 days</label></td></tr>
                 <tr><th></th> <td><?= ($aefi->ae_beyond_joint) ? $checked : $nChecked; ?><label> beyond nearest joint</label></td></tr>
               </table>  

@@ -137,6 +137,14 @@
 
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="3">                        
+                        <?php
+                            echo $this->Form->control('diagnosis', 
+                                ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Diagnosis*']);
+                        ?>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

@@ -156,6 +156,7 @@ class AdrsTable extends Table
             ->like('outcome')
             ->like('reporter_email')
             ->value('designation_id')
+            ->like('diagnosis')
             ->add('drug_name', 'Search.Callback', [
                 'callback' => function ($query, $args, $filter) {
                     $drug_name = $args['drug_name'];
