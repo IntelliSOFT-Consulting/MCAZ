@@ -16,14 +16,14 @@
     <table class="table table-striped table-bordered">
         <tbody>
             <tr>
-                <td scope="col"><b>Reference #</b></td>
-                <td scope="col"><b>Patient Initials</b></td>
-                <td scope="col"><b>Patient Details</b></td>
-                <td scope="col"><b>ADR Summary</b></td>
-                <td scope="col"><b>Medical History</b></td>
-                <td scope="col"><b>Suspected Drug(s)</b></td>
-                <td scope="col"><b>Clinical Findings</b></td>    
-                <td scope="col"><b>ADR Listing in Summary of Product Characteristics</b></td>    
+                <td scope="col" width="10%"><b>Reference #</b></td>
+                <td scope="col" width="10%"><b>Patient Initials</b></td>
+                <td scope="col" width="10%"><b>Patient Details</b></td>
+                <td scope="col" width="15%"><b>ADR Summary</b></td>
+                <td scope="col" width="10%"><b>Medical History</b></td>
+                <td scope="col" width="15%"><b>Suspected Drug(s)</b></td>
+                <td scope="col" width="15%"><b>Clinical Findings</b></td>    
+                <td scope="col" width="15%"><b>ADR Listing in Summary of Product Characteristics</b></td>    
             </tr>
         
             <?php foreach ($query as $sadr): ?>
