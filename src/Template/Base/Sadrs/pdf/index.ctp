@@ -55,18 +55,22 @@
                   </div>
                 </td>       
                 <td>
+                  <div style="word-wrap: break-word; word-break: break-all;">
                     <?php foreach($sadr->sadr_list_of_drugs as $list_of_drug): ?>    
                       <?php $kdose = (isset($list_of_drug->dose->name)) ? $list_of_drug->dose->name : '' ;?>  
                       <p><?= $list_of_drug->drug_name.' - '.$list_of_drug->brand_name.'-'.$kdose ?></p>        
                       <p><?= $list_of_drug->start_date.' - '.$list_of_drug->stop_date ?></p>        
                     <?php endforeach; ?>
+                  </div>
                 </td>
                 <td>
-                  <?= h($sadr->past_drug_therapy) ?><br>
-                  <?= h($sadr->lab_test_results) ?> <br>
-                  <?php foreach ($sadr->reviews as $review): ?> 
-                    <?= $review->clinical_findings ?><br>
-                  <?php endforeach; ?>              
+                  <div style="word-wrap: break-word; word-break: break-all;">
+                    <?= h($sadr->past_drug_therapy) ?><br>
+                    <?= h($sadr->lab_test_results) ?> <br>
+                    <?php foreach ($sadr->reviews as $review): ?> 
+                      <?= $review->clinical_findings ?><br>
+                    <?php endforeach; ?>              
+                  </div>
                 </td>  
                 <td>
                   <?php foreach ($sadr->reviews as $review): ?> 
