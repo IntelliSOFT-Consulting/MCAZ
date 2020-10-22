@@ -1,3 +1,6 @@
+
+table, img, blockquote {page-break-inside: avoid;}
+
 .sadr_form {
   background-color: #71C7A0;
   border: 2px solid #3E58A7;
