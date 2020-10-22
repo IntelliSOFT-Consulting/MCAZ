@@ -81,11 +81,11 @@
               <?php foreach ($sadr->reviews as $review): ?>
                 <?php //if($review->chosen == 1) { ?>
                 <tr>
-                  <td colspan="2">
+                  <td colspan="3">
                     <p><b>Literature Review</b></p>
                     <div style="word-wrap: break-word; word-break: break-all;"><?= $review->literature_review ?></div>
                   </td>
-                  <td colspan="3">
+                  <td colspan="2">
                     <p><b>Recommended Causality Assessment</b></p>
                     <?= $review->causality_decision ?>
                   </td>
