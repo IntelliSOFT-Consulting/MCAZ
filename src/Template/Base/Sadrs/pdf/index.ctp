@@ -36,9 +36,11 @@
                   <?php echo "Weight: ".$sadr->weight ?>
                 </td>
                 <td>
-                  <?php echo "Onset: ".$sadr->date_of_onset_of_reaction." to ".$sadr->date_of_end_of_reaction; ?><br>
-                  <?php echo "Outcome: ".$sadr->outcome; ?><br>
-                  <?= h($sadr->description_of_reaction) ?>
+                  <div style="word-wrap: break-word; word-break: break-all;">
+                    <?php echo "Onset: ".$sadr->date_of_onset_of_reaction." to ".$sadr->date_of_end_of_reaction; ?><br>
+                    <?php echo "Outcome: ".$sadr->outcome; ?><br>
+                    <?= h($sadr->description_of_reaction) ?>
+                  </div>
 
                 <?php foreach ($sadr->reactions as $reaction): ?>
                   <p><?= $reaction->reaction_name ?></p>
@@ -46,9 +48,11 @@
                 <?= "Action Taken: ".$sadr->action_taken ?>
                 </td>
                 <td>
-                  <?php foreach ($sadr->reviews as $review): ?> 
-                    <?= $review->medical_history ?><br>
-                  <?php endforeach; ?>
+                  <div style="word-wrap: break-word; word-break: break-all;">
+                    <?php foreach ($sadr->reviews as $review): ?> 
+                      <?= $review->medical_history ?><br>
+                    <?php endforeach; ?>
+                  </div>
                 </td>       
                 <td>
                     <?php foreach($sadr->sadr_list_of_drugs as $list_of_drug): ?>    
