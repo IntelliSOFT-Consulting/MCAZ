@@ -18,9 +18,9 @@
             <tr>
                 <td scope="col" width="10%"><b>Reference #</b></td>
                 <td scope="col" width="10%"><b>Patient Initials</b></td>
-                <td scope="col" width="10%"><b>Patient Details</b></td>
-                <td scope="col" width="15%"><b>ADR Summary</b></td>
-                <td scope="col" width="10%"><b>Medical History</b></td>
+                <td scope="col" width="15%"><b>Patient Details</b></td>
+                <td scope="col" width="13%"><b>ADR Summary</b></td>
+                <td scope="col" width="7%"><b>Medical History</b></td>
                 <td scope="col" width="15%"><b>Suspected Drug(s)</b></td>
                 <td scope="col" width="15%"><b>Clinical Findings</b></td>    
                 <td scope="col" width="15%"><b>ADR Listing in Summary of Product Characteristics</b></td>    

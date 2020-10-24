@@ -34,7 +34,7 @@ $this->start('sidebar'); ?>
 <div class="table-responsive">
     <table class="table table-striped table-bordered">
         <thead>
-            <tr>must be an array
+            <tr>
                 <th scope="col">
                   <div class="input checkbox">
                       <label for="selectall"><input type="checkbox" name="selectall" value="1" checked="checked" id="selectall">
@@ -47,7 +47,7 @@ $this->start('sidebar'); ?>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
                 <th scope="col">Stages</th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>                
-                <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th>must be an array 
+                <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th>
                 <th scope="col"></th>
             </tr>
         </thead>

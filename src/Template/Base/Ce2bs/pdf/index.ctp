@@ -17,14 +17,14 @@
     <table class="table table-striped table-bordered">
         <tbody>
             <tr>
-                <td scope="col"><b>Reference #</b></td>
-                <td scope="col"><b>Patient Initials</b></td>
-                <td scope="col"><b>Patient Details</b></td>
-                <td scope="col"><b>ADR Summary</b></td>
-                <td scope="col"><b>Medical History</b></td>
-                <td scope="col"><b>Suspected Drug(s)</b></td>
-                <td scope="col"><b>Clinical Findings</b></td>    
-                <td scope="col"><b>ADR Listing in Summary of Product Characteristics</b></td>    
+                <td scope="col" width="10%"><b>Reference #</b></td>
+                <td scope="col" width="10%"><b>Patient Initials</b></td>
+                <td scope="col" width="10%"><b>Patient Details</b></td>
+                <td scope="col" width="15%"><b>ADR Summary</b></td>
+                <td scope="col" width="10%"><b>Medical History</b></td>
+                <td scope="col" width="15%"><b>Suspected Drug(s)</b></td>
+                <td scope="col" width="17%"><b>Clinical Findings</b></td>    
+                <td scope="col" width="13%"><b>ADR Listing in Summary of Product Characteristics</b></td>    
             </tr>
         
             <?php foreach ($query as $ce2b): ?>
@@ -91,11 +91,11 @@
               <?php foreach ($ce2b->reviews as $review): ?>
                 <?php //if($review->chosen == 1) { ?>
                 <tr>
-                  <td colspan="2">
+                  <td colspan="3">
                     <p><b>Literature Review</b></p>
                     <div style="word-wrap: break-word; word-break: break-all;"><?= $review->literature_review ?></div>
                   </td>
-                  <td colspan="3">
+                  <td colspan="2">
                     <p><b>Recommended Causality Assessment</b></p>
                     <?= $review->causality_decision ?>
                   </td>

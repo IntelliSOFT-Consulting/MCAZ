@@ -1,9 +1,13 @@
-<?php $this->start('sidebar'); ?>
+<?php 
+use Cake\Utility\Hash;
+$this->start('sidebar'); ?>
   <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
 <?=     $this->Html->script('jquery/vigibase', ['block' => true]); ?>
 <?=     $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
+<?=     $this->Html->script('jquery/readmore', ['block' => true]); ?>
+<?=     $this->Html->script('jquery/ce2b_index', ['block' => true]); ?>
 
 <?= $this->Html->link('<i class="fa fa-plus" aria-hidden="true"></i> Ce2bs', ['controller' => 'Ce2bs', 'action' => 'Add', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn btn-primary')); ?> &nbsp;
 
@@ -27,11 +31,17 @@
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
+                <th scope="col">
+                  <div class="input checkbox">
+                      <label for="selectall"><input type="checkbox" name="selectall" value="1" checked="checked" id="selectall">
+                        <?= $this->Paginator->sort('id') ?>
+                      </label>
+                  </div>            
+                </th>
+                <th scope="col" width="10%"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('company_name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('e2b_file') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('comment') ?></th>
+                <th scope="col" width="15%"><?= $this->Paginator->sort('e2b_file') ?></th>
+                <th scope="col" width="20%"><?= $this->Paginator->sort('comment') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th> 
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col">Actions</th>
@@ -40,7 +50,14 @@
         <tbody>
             <?php foreach ($ce2bs as $ce2b): ?>
             <tr>
-                <td><?= $this->Number->format($ce2b->id) ?></td>
+                <td>
+                  <?php
+                    echo $this->Form->control('active'.$ce2b->id, ['label' => '.'.$ce2b->id, 'type' => 'checkbox', 
+                      'data-url' => $this->Url->build(['action' => 'restoreDeleted', $ce2b->id, '_ext' => 'json']), 
+                      'templates' => ($prefix == 'manager' || $prefix == 'evaluator') ? '' : 'view_form_checkbox', 
+                      'checked' => $ce2b->active, 'hiddenField' => false ]);
+                  ?> 
+                </td>
                 <td>
                 <?php
                   echo $this->Html->link($ce2b->reference_number, ['action' => 'view', $ce2b->id, 'prefix' => $prefix, 'status' => $ce2b->status], ['escape' => false, 'class' => 'btn-zangu']); 

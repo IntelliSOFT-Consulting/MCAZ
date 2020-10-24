@@ -85,12 +85,41 @@ class Ce2bsBaseController extends AppController
         }*/
 
         if ($this->request->params['_ext'] === 'pdf') {
+            $query->where([['Ce2bs.active' => '1']]);
             $this->render('/Base/Ce2bs/pdf/index');
         } else {
             $this->render('/Base/Ce2bs/index');
         }
     }
 
+
+    public function restore() {
+        $this->paginate = [
+            'contain' => []
+        ];
+        
+        $query = $this->Ce2bs
+            ->find('search', ['search' => $this->request->query, 'withDeleted'])
+            ->where(['deleted IS NOT' =>  null]);
+            
+        $this->set('sadrs', $this->paginate($query));
+    }
+    public function restoreDeleted($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete', 'get']);
+        $ce2b = $this->Ce2bs->get($id, ['withDeleted']);
+        if ($this->request->getData('purpose') == 'active') {
+            $ce2b->active = $this->request->getData('value');
+            $this->Ce2bs->save($ce2b);
+        } else {
+            if ($this->Ce2bs->restore($ce2b)) {
+                $this->Flash->success(__('The CE2B report has been restored.'));
+            } else {
+                $this->Flash->error(__('The CE2B report could not be restored. Please, try again.'));
+            }
+            return $this->redirect(['action' => 'restore']);
+        }        
+    }
     /**
      * View method
      *

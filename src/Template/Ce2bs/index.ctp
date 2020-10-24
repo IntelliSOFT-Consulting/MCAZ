@@ -23,13 +23,13 @@
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('company_name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('e2b_file') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('comment') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col">Actions</th>
+                <th scope="col" width="10%"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col" width="10%"><?= $this->Paginator->sort('reference_number') ?></th>
+                <th scope="col" width="10%"><?= $this->Paginator->sort('company_name') ?></th>
+                <th scope="col" width="15%"><?= $this->Paginator->sort('e2b_file') ?></th>
+                <th scope="col" width="25%"><?= $this->Paginator->sort('comment') ?></th>
+                <th scope="col" width="10%"><?= $this->Paginator->sort('created') ?></th>
+                <th scope="col" width="10%">Actions</th>
             </tr>
         </thead>
         <tbody>
