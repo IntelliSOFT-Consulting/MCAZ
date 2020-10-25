@@ -71,7 +71,10 @@ $this->start('sidebar'); ?>
                         <br><?= h($ce2b->status) ?><br><?= $a ?>
                     </div>
                 </td>
-                <td><?= h($ce2b->comment) ?></td>
+                <td>
+                    <div style="word-wrap: break-word; word-break: break-all;"><?= h($ce2b->comment) ?>                        
+                    </div>
+                </td>
                 <td>
                     <?php if(empty($ce2b->messageid)) {                                        
                            echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $ce2b->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']); 
