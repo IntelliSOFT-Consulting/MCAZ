@@ -15,14 +15,14 @@
 <div class="table-responsive">
     <table class="table table-striped table-bordered">
             <tr>
-                <th><b>#</b></th>
-                <th scope="col"><b>Reference #</b></th>
-                <th scope="col"><b>Patient Details</b></th>
-                <th scope="col"><b>AEFI </b></th>
-                <th scope="col"><b>Suspected Vaccine(s)</b></th>
-                <th scope="col"><b>Batch No. <br> and Expiry date</b></th>
-                <th scope="col"><b>Clinical Findings</b></th>
-                <th scope="col"><b>Management & Outcome</b></th>
+                <th width="5%"><b>#</b></th>
+                <th scope="col" width="10%"><b>Reference #</b></th>
+                <th scope="col" width="10%"><b>Patient Details</b></th>
+                <th scope="col" width="25%"><b>AEFI </b></th>
+                <th scope="col" width="10%"><b>Suspected Vaccine(s)</b></th>
+                <th scope="col" width="10%"><b>Batch No. <br> and Expiry date</b></th>
+                <th scope="col" width="20%"><b>Clinical Findings</b></th>
+                <th scope="col" width="10%"><b>Management & Outcome</b></th>
             </tr>
         <tbody>
             <?php $i = 0; ?>
