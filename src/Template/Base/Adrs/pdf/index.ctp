@@ -15,19 +15,17 @@
  
 <div class="table-responsive">
     <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">Pariticipant ID</th>
-                <th scope="col">MCAZ REF #</th>
-                <th scope="col">SAE</th>
-                <th scope="col">Suspected Drug(s)</th>
-                <th scope="col">Concomitant  Drug(s)</th>
-                <th scope="col">Clinical Findings</th>    
-                <th scope="col">SAE Management and Outcome</th>    
-                <th scope="col">Causality Assessment</th>    
-            </tr>
-        </thead>
         <tbody>
+            <tr>
+                <td scope="col" width="10%">Pariticipant ID</td>
+                <td scope="col" width="10%">MCAZ REF #</td>
+                <td scope="col" width="10%">SAE</td>
+                <td scope="col" width="15%">Suspected Drug(s)</td>
+                <td scope="col" width="15%">Concomitant  Drug(s)</td>
+                <td scope="col" width="10%">Clinical Findings</td>    
+                <td scope="col" width="20%">SAE Management and Outcome</td>    
+                <td scope="col" width="10%">Causality Assessment</td>    
+            </tr>
             <?php foreach ($query as $adr): ?>
             <tr>
                 <td><?=  $adr->participant_number ?></td>
@@ -73,8 +71,7 @@
                     <p><?php          
                         echo ($review->signature) ? "<img src='".$this->Url->build(substr($review->user->dir, 8) . '/' . $review->user->file, true)."' style='width: 30%;' alt=''>" : '';
                         ?>
-                    </p>
-                    <p>
+                    &nbsp;
                       <?php          
                         echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$adr->assigned_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$adr->assigned_by], true)."' style='width: 30%;' alt=''>";
                       ?>                        

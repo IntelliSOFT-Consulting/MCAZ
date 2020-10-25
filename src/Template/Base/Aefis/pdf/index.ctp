@@ -15,10 +15,10 @@
 <div class="table-responsive">
     <table class="table table-striped table-bordered">
             <tr>
-                <th width="5%"><b>#</b></th>
-                <th scope="col" width="10%"><b>Reference #</b></th>
+                <th width="4%"><b>#</b></th>
+                <th scope="col" width="9%"><b>Reference #</b></th>
                 <th scope="col" width="10%"><b>Patient Details</b></th>
-                <th scope="col" width="25%"><b>AEFI </b></th>
+                <th scope="col" width="27%"><b>AEFI </b></th>
                 <th scope="col" width="10%"><b>Suspected Vaccine(s)</b></th>
                 <th scope="col" width="10%"><b>Batch No. <br> and Expiry date</b></th>
                 <th scope="col" width="20%"><b>Clinical Findings</b></th>
