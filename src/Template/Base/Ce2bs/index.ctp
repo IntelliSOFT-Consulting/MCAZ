@@ -40,7 +40,7 @@ $this->start('sidebar'); ?>
                 </th>
                 <th scope="col" width="10%"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('company_name') ?></th>
-                <th scope="col" width="15%"><?= $this->Paginator->sort('e2b_file') ?></th>
+                <th scope="col" width="20%"><?= $this->Paginator->sort('e2b_file') ?></th>
                 <th scope="col" width="20%"><?= $this->Paginator->sort('comment') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th> 
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
@@ -49,6 +49,7 @@ $this->start('sidebar'); ?>
         </thead>
         <tbody>
             <?php foreach ($ce2bs as $ce2b): ?>
+            <?php $a = ($ce2b['assigned_to']) ? '<small class="muted">'.Hash::combine($users->toArray(), '{n}.id', '{n}.name')[$ce2b->assigned_to].'</small>' : '<small class="muted">Unassigned</small>';?>
             <tr>
                 <td>
                   <?php
@@ -64,7 +65,12 @@ $this->start('sidebar'); ?>
                 ?>
                 </td>
                 <td><?= h($ce2b->company_name) ?></td>
-                <td><?php echo $this->Html->link($ce2b->e2b_file, substr($ce2b->dir, 8) . '/' . $ce2b->e2b_file, ['fullBase' => true, 'download']); ?></td>
+                <td>
+                    <div style="word-wrap: break-word; word-break: break-all;">
+                        <?php echo $this->Html->link($ce2b->e2b_file, substr($ce2b->dir, 8) . '/' . $ce2b->e2b_file, ['fullBase' => true, 'download']); ?>
+                        <br><?= h($ce2b->status) ?><br><?= $a ?>
+                    </div>
+                </td>
                 <td><?= h($ce2b->comment) ?></td>
                 <td>
                     <?php if(empty($ce2b->messageid)) {                                        
