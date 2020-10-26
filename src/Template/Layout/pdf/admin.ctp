@@ -45,13 +45,14 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
     <?= $this->Html->css('bootstrap/jumbotron', ['fullBase' => true]) ?>
     <?= $this->Html->css('shared_styles', ['fullBase' => true]) ?>
     <style type="text/css">
-        html, body {
+        /*html, body {
           overflow-x: hidden;
-        } 
+        }*/ 
         td {
             word-wrap: break-word; 
             word-break: break-all;
         }
+        /*table, img, blockquote {page-break-inside: avoid;}*/
     </style>
 </head>
  <body>
