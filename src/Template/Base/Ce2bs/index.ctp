@@ -26,7 +26,6 @@ $this->start('sidebar'); ?>
     </ul>
 </div>
 <p><small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of <b>{{count}}</b> total')]) ?></small></p>
-
 <div class="table-responsive">
     <table class="table table-striped table-bordered">
         <thead>

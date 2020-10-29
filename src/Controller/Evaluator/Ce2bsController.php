@@ -16,5 +16,12 @@ use App\Controller\Base\Ce2bsBaseController;
 class Ce2bsController extends Ce2bsBaseController
 {
 
-    
+    public function view($id = null) {
+        parent::view($id);
+        $lce2b = $this->Ce2bs->get($id);
+        if ($this->Auth->user('id') != $lce2b->assigned_to) {
+            $this->Flash->error('You have not been assigned the report for review!');
+            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator']);
+        }
+    }
 }

@@ -532,7 +532,7 @@ class Ce2bsBaseController extends AppController
         $this->loadModel('Ce2bs');
         $review = $this->Ce2bs->Reviews->get($id, ['contain' => ['Ce2bs']]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $review = $this->Ce2bs->Reviews->patchEntity($review, ['chosen' => 1, 'ce2b' => ['signature' => 1]], ['associated' => ['Ce2bs']]);
+            $review = $this->Ce2bs->Reviews->patchEntity($review, ['chosen' => 1, 'reviewed_by' => $this->Auth->user('id'), 'ce2b' => ['signature' => 1]], ['associated' => ['Ce2bs']]);
             if ($this->Ce2bs->Reviews->save($review)) {
                 $this->Flash->success('Signature successfully attached to review');
                 return $this->redirect($this->referer());

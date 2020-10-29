@@ -121,6 +121,7 @@
                           <?php 
                             //If the current user did not submit the review and review final submission not yet done
                             } elseif($review->user_id != $this->request->session()->read('Auth.User.id') && $ce2b->signature != 1) { 
+
                                 $template = $this->Form->getTemplates();
                                 $this->Form->resetTemplates();
                                 echo $this->Form->postLink('<span class="label label-info">Approve the Evaluator’s review?</span>', 

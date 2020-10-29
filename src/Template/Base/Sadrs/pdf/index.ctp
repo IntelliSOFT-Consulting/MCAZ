@@ -82,16 +82,16 @@
                 <?php //if($review->chosen == 1) { ?>
                 <tr>
                   <td colspan="3">
-                    <p><b>Literature Review</b></p>
-                    <div style="word-wrap: break-word; word-break: break-all;"><?= $review->literature_review ?></div>
+                    <div style="word-wrap: break-word; word-break: break-all;"><p><b>Literature Review</b></p>
+                    <?= $review->literature_review ?></div>
                   </td>
                   <td colspan="2">
-                    <p><b>Recommended Causality Assessment</b></p>
-                    <?= $review->causality_decision ?>
+                    <div style="word-wrap: break-word; word-break: break-all;"><p><b>Recommended Causality Assessment</b></p>
+                    <?= $review->causality_decision ?></div>
                   </td>
                   <td colspan="3">
-                    <p><b>References</b></p>
-                    <div style="word-wrap: break-word; word-break: break-all;"><?= $review->references_text ?></div>
+                    <div style="word-wrap: break-word; word-break: break-all;"><p><b>References</b></p>
+                    <?= $review->references_text ?></div>
                   </td>
                 </tr>
                 <?php //} ?>
@@ -102,9 +102,13 @@
                 <td colspan="2">Managers:</td>
                 <td colspan="2">
                   <?php 
-                    $regs = array_unique(Hash::combine($sadrs->toArray(), '{n}.reviews.{n}.user[group_id=2].file', '{n}.reviews.{n}.user[group_id=2].dir'));
+                    /*$regs = array_unique(Hash::combine($sadrs->toArray(), '{n}.reviews.{n}.user[group_id=2].file', '{n}.reviews.{n}.user[group_id=2].dir'));
                     foreach ($regs as $file => $dir) {
                       echo "<img src='".$this->Url->build(substr($dir, 8) . '/' . $file, true)."' style='width: 30%;' alt=''>";
+                    }*/
+                    $regs = array_filter(array_unique(Hash::extract($sadrs->toArray(), '{n}.reviews.{n}.reviewed_by')));
+                    foreach ($regs as $file => $dir) {
+                      echo $this->cell('Signature', [$dir]);
                     }
                   ?>                  
                 </td>
