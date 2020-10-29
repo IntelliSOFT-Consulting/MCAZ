@@ -47,10 +47,12 @@ $cakeDescription = 'MCAZ PV: SAE, ADR and AEFI electronic reproting';
     <style type="text/css">
         html, body {
           overflow-x: visible;
+          overflow-wrap: break-word;
         }
         td {
             word-wrap: break-word; 
             word-break: break-all;
+            overflow-wrap: break-word;
         }
         td, h1, h2, h3, p, b, div, i, span, label, ul, li, tr, table { page-break-inside: avoid; }
         /*table, img, blockquote {page-break-inside: avoid;}*/

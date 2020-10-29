@@ -96,6 +96,7 @@
                 </tr>
                 <?php //} ?>
               <?php endforeach; ?>
+              <tr><td colspan="8"></td></tr>
             <?php endforeach; ?>
             <?php if($prefix == 'evaluator'){ ?>
               <tr>
