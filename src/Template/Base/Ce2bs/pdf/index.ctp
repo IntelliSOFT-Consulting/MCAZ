@@ -93,7 +93,7 @@
                 </td>
             </tr>
               <?php foreach ($ce2b->reviews as $review): ?>
-                <?php if($review->chosen == 1) { ?>
+                <?php //if($review->chosen == 1) { ?>
                 <tr>
                   <td colspan="3">
                     <div style="word-wrap: break-word; word-break: break-all;"><p><b>Literature Review</b></p>
@@ -108,7 +108,7 @@
                     <?= $review->references_text ?></div>
                   </td>
                 </tr>
-                <?php } ?>
+                <?php //} ?>
               <?php endforeach; ?>
               <tr><td colspan="8"></td></tr>
             <?php endforeach; ?>
