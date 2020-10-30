@@ -58,18 +58,22 @@
                   <div style="word-wrap: break-word; word-break: break-all;">
                     <?php foreach($sadr->sadr_list_of_drugs as $list_of_drug): ?>    
                       <?php $kdose = (isset($list_of_drug->dose->name)) ? $list_of_drug->dose->name : '' ;?>  
-                      <p><?= $list_of_drug->drug_name.' - '.$list_of_drug->brand_name.'-'.$kdose ?></p>        
-                      <p><?= $list_of_drug->start_date.' - '.$list_of_drug->stop_date ?></p>        
+                      <p><?= $list_of_drug->drug_name.' - '.$list_of_drug->brand_name.'-'.$kdose ?>
+                        <br><small><?= $list_of_drug->start_date.' - '.$list_of_drug->stop_date ?></small>
+                      </p>        
+                              
                     <?php endforeach; ?>
                   </div>
                 </td>
                 <td>
                   <div style="word-wrap: break-word; word-break: break-all;">
+                    <p>
                     <?= h($sadr->past_drug_therapy) ?><br>
                     <?= h($sadr->lab_test_results) ?> <br>
                     <?php foreach ($sadr->reviews as $review): ?> 
                       <?= $review->clinical_findings ?><br>
-                    <?php endforeach; ?>              
+                    <?php endforeach; ?> 
+                    </p>         
                   </div>
                 </td>  
                 <td>
@@ -83,11 +87,11 @@
                 <tr>
                   <td colspan="3">
                     <div style="word-wrap: break-word; word-break: break-all;"><p><b>Literature Review</b></p>
-                    <?= $this->Text->autoParagraph($review->literature_review) ?></div>
+                    <p><?= $this->Text->autoParagraph($review->literature_review) ?></p></div>
                   </td>
                   <td colspan="2">
                     <div style="word-wrap: break-word; word-break: break-all;"><p><b>Recommended Causality Assessment</b></p>
-                    <?= $review->causality_decision ?></div>
+                    <p><?= $review->causality_decision ?></p></div>
                   </td>
                   <td colspan="3">
                     <div style="word-wrap: break-word; word-break: break-all;"><p><b>References</b></p>
