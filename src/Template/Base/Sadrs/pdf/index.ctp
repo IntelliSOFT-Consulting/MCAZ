@@ -83,7 +83,7 @@
                 <tr>
                   <td colspan="3">
                     <div style="word-wrap: break-word; word-break: break-all;"><p><b>Literature Review</b></p>
-                    <?= $review->literature_review ?></div>
+                    <?= $this->Text->autoParagraph($review->literature_review) ?></div>
                   </td>
                   <td colspan="2">
                     <div style="word-wrap: break-word; word-break: break-all;"><p><b>Recommended Causality Assessment</b></p>
@@ -91,12 +91,12 @@
                   </td>
                   <td colspan="3">
                     <div style="word-wrap: break-word; word-break: break-all;"><p><b>References</b></p>
-                    <?= $review->references_text ?></div>
+                    <?= $this->Text->autoParagraph($review->references_text) ?></div>
                   </td>
                 </tr>
                 <?php //} ?>
               <?php endforeach; ?>
-              <tr><td colspan="8"></td></tr>
+              <!-- <tr><td colspan="8"></td></tr> -->
             <?php endforeach; ?>
             <?php if($prefix == 'evaluator'){ ?>
               <tr>
