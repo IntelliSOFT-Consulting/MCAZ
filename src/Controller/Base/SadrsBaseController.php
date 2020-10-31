@@ -131,6 +131,12 @@ class SadrsBaseController extends AppController
 
         if ($this->request->params['_ext'] === 'pdf') {
             $query->where([['Sadrs.active' => '1']]);
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'orientation' => 'landscape',
+                    'filename' => 'AEFIS_'.date('d-m-Y').'.pdf'
+                ]
+            ]);
             $this->render('/Base/Sadrs/pdf/index');
         } else {
             $this->render('/Base/Sadrs/index');

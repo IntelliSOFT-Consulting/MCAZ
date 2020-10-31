@@ -14,17 +14,19 @@
     
 <div class="table-responsive">
     <table class="table table-striped table-bordered">
+
         <tbody>
-            <tr>
-                <td scope="col" width="11%"><b>Reference #</b></td>
-                <td scope="col" width="10%"><b>Patient Initials</b></td>
-                <td scope="col" width="15%"><b>Patient Details</b></td>
-                <td scope="col" width="13%"><b>ADR Summary</b></td>
-                <td scope="col" width="7%"><b>Medical History</b></td>
-                <td scope="col" width="15%"><b>Suspected Drug(s)</b></td>
-                <td scope="col" width="14%"><b>Clinical Findings</b></td>    
-                <td scope="col" width="15%"><b>ADR Listing in Summary of Product Characteristics</b></td>    
-            </tr>
+
+          <tr>
+              <th scope="col" width="11%"><b>Reference #</b></th>
+              <th scope="col" width="10%"><b>Patient Initials</b></th>
+              <th scope="col" width="15%"><b>Patient Details</b></th>
+              <th scope="col" width="13%"><b>ADR Summary</b></th>
+              <th scope="col" width="7%"><b>Medical History</b></th>
+              <th scope="col" width="15%"><b>Suspected Drug(s)</b></th>
+              <th scope="col" width="14%"><b>Clinical Findings</b></th>    
+              <th scope="col" width="15%"><b>ADR Listing in Summary of Product Characteristics</b></th>    
+          </tr>
         
             <?php foreach ($query as $sadr): ?>
             <tr>
