@@ -1,12 +1,36 @@
 <?php
 namespace App\Controller\Institution;
 
+use App\Controller\AppController;
+use Cake\Validation\Validation;
+use Cake\Event\Event;
+use Cake\Log\Log;
+use Cake\Auth\DefaultPasswordHasher;
+use Cake\I18n\Time;
 
-use App\Controller\Base\UsersBaseController;
-
-class UsersController extends UsersBaseController
+/**
+ * Users Controller
+ *
+ * @property \App\Model\Table\UsersTable $Users
+ *
+ * @method \App\Model\Entity\User[] paginate($object = null, array $settings = [])
+ */
+class UsersController extends AppController
 {
-    public function index() {
+    public function initialize() {
+       parent::initialize();
+       $this->loadComponent('Paginator');
+       // $this->Auth->allow('logout', 'activate', 'view');       
+       $this->loadComponent('Search.Prg', ['actions' => ['index']]);
+    }
+
+    /**
+     * Index method
+     *
+     * @return \Cake\Http\Response|void
+     */
+    public function index()
+    {
         $this->paginate = [
             'contain' => ['Designations', 'Groups']
         ];
@@ -31,39 +55,32 @@ class UsersController extends UsersBaseController
             $this->set(compact('query', '_serialize', '_header', '_extract'));
         }
     }
-
-    public function dashboard() {
-        $this->loadModel('Sadrs');
-        $this->loadModel('Adrs');
-        $this->loadModel('Aefis');
-        $this->loadModel('Saefis');
-        $this->loadModel('Ce2bs');
-        $user = $this->Users->get($this->Auth->user('id'), [
-            'contain' => []
+    /**
+     * View method
+     *
+     * @param string|null $id User id.
+     * @return \Cake\Http\Response|void
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function view($id = null)
+    {
+        $user = $this->Users->get($id, [
+            'contain' => ['Designations', 'Groups']
         ]);
 
-        $this->paginate = [
-            'limit' => 5,
-        ];
+        $this->set('user', $user);
+        $this->set('_serialize', ['user']);
+    }
 
-        // pr($user);
+    public function profile()
+    {
+        $user = $this->Users->get($this->Auth->user('id'), [
+            'contain' => ['Designations', 'Groups']
+        ]);
 
-        $sadrs = $this->paginate($this->Sadrs->find('all')->where(['submitted' => 2, 'status NOT IN' => ['UnSubmitted'], 'IFNULL(copied, "N") !=' => 'old copy', 'Sadrs.name_of_institution' => $this->Auth->user('name_of_institution')]), ['scope' => 'sadr', 'order' => ['Sadrs.id' => 'desc'],
-                                    'fields' => ['Sadrs.id', 'Sadrs.created', 'Sadrs.reference_number', 'Sadrs.submitted', 'Sadrs.assigned_to']]);
-        $adrs = $this->paginate($this->Adrs->find('all')->where(['submitted' => 2, 'status IN' => ['Submitted', 'Manual'], 'IFNULL(copied, "N") !=' => 'old copy', 'Adrs.name_of_institution' => $this->Auth->user('name_of_institution')]), ['scope' => 'adr', 'order' => ['Adrs.status' => 'asc', 'Adrs.id' => 'desc'],
-                                    'fields' => ['Adrs.id', 'Adrs.created', 'Adrs.reference_number', 'Adrs.assigned_to']]);
-        $aefis = $this->paginate($this->Aefis->find('all')->where(['submitted' => 2, 'status NOT IN' => ['UnSubmitted'], 'IFNULL(copied, "N") !=' => 'old copy', 'Aefis.reporter_institution' => $this->Auth->user('name_of_institution')]), ['scope' => 'aefi', 'order' => ['Aefis.status' => 'asc', 'Aefis.id' => 'desc'],
-                                    'fields' => ['Aefis.id', 'Aefis.created', 'Aefis.reference_number', 'Aefis.assigned_to']]);
-        $saefis = $this->paginate($this->Saefis->find('all')->where(['submitted' => 2, 'status NOT IN' => ['UnSubmitted'], 'IFNULL(copied, "N") !=' => 'old copy', 'Saefis.name_of_vaccination_site' => $this->Auth->user('name_of_institution')]), ['scope' => 'saefi', 'order' => ['Saefis.status' => 'asc', 'Saefis.id' => 'desc'],
-                                    'fields' => ['Saefis.id', 'Saefis.created', 'Saefis.reference_number', 'Saefis.assigned_to']]);
-        $ce2bs = $this->paginate($this->Ce2bs->find('all')->where(['submitted' => 2, 'status NOT IN' => ['UnSubmitted'], 'IFNULL(copied, "N") !=' => 'old copy', 'Ce2bs.company_name' => $this->Auth->user('name_of_institution')]), ['scope' => 'ce2b', 'order' => ['Ce2bs.status' => 'asc', 'Ce2bs.id' => 'desc'],
-                                    'fields' => ['Ce2bs.id', 'Ce2bs.created', 'Ce2bs.reference_number', 'Ce2bs.assigned_to', 'Ce2bs.e2b_file']]);
+        $this->set('user', $user);
+        $this->set('_serialize', ['user']);
 
-        // $evaluators = $this->Sadrs->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
-
-        $this->set(compact('sadrs', 'adrs', 'aefis', 'saeifs'));
-        $this->set(compact('saefis', 'ce2bs'));
-        $this->render('/Base/Users/dashboard');
     }
 
     public function deactivate($id = null)
@@ -113,4 +130,5 @@ class UsersController extends UsersBaseController
             }
         }
     }
+ 
 }

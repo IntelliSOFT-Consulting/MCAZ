@@ -48,6 +48,8 @@ class UsersController extends AppController
             return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator', 'plugin' => false]);
         } elseif ($this->request->session()->read('Auth.User.group_id') == 3) {
             return $this->redirect(['controller' => 'Users', 'action' => 'home', 'prefix' => false, 'plugin' => false]);
+        } elseif ($this->request->session()->read('Auth.User.group_id') == 5) {
+            return $this->redirect(['controller' => 'Users', 'action' => 'home', 'prefix' => false, 'plugin' => false]);
         }
     }
 
@@ -98,6 +100,8 @@ class UsersController extends AppController
                     } elseif ($user['group_id'] == 2) {
                         return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'manager', 'plugin' => false]);
                     } elseif ($user['group_id'] == 4) {
+                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator', 'plugin' => false]);
+                    } elseif ($user['group_id'] == 5) {
                         return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator', 'plugin' => false]);
                     }  
                 }  

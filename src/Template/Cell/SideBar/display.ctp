@@ -192,6 +192,8 @@
         <?php } ?>
     </li>
     <?php } ?>
+
+    <?php if($prefix == 'admin' || $prefix == 'manager' || $prefix == 'evaluator') { ?>
     <li class="<?=  ($this->request->params['controller'] === 'Reports') ? 'active' : ''; ?>">
       <?= $this->Html->link('<i class="fa fa-bar-chart" aria-hidden="true"></i> &nbsp;REPORTS', ['controller' => 'Reports', 'action' => 'index', 'prefix' => false, 'plugin' => false ], array('escape' => false)); ?>
       <?php if (($prefix == 'manager' || $prefix == 'evaluator') && ($this->request->params['controller'] === 'Reports')) { ?>
@@ -211,6 +213,8 @@
           </ul>
         <?php } ?>
     </li>
+    <?php } ?>
+
     <?php if( $prefix == 'manager' || $prefix == 'evaluator') { ?>
      <li class="<?=  ($this->request->params['controller'] == 'Users' && $this->request->params['action'] == 'import') ? 'active' : ''; ?>">
       <?= $this->Html->link('<i class="fa fa-upload" aria-hidden="true"></i> &nbsp; IMPORT', ['controller' => 'Users', 'action' => 'imports', 'prefix' => $prefix, 'plugin' => false], array('escape' => false)); ?>
@@ -278,11 +282,13 @@
       ?>
     </li>
     <?php }; ?>
+    <?php if($prefix == 'admin' || $prefix == 'manager' || $prefix == 'evaluator') { ?>
     <li class="<?=  ($this->request->params['controller'] == 'Feedbacks') ? 'active' : ''; ?>">
           <?php
             echo $this->Html->link('<i class="fa fa-comment-o" aria-hidden="true"></i> &nbsp; USER FEEDBACK', ['controller' => 'Feedbacks', 'action' => 'index', 'prefix' => $prefix, 'plugin' => false], array('escape' => false)); 
           ?>
     </li>
+    <?php } ?>
     <li class="<?=  ($this->request->params['controller'] == 'Notifications') ? 'active' : ''; ?>">
       <?= $this->Html->link('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> &nbsp; ALERTS'.$ncount, ['controller' => 'Notifications', 'action' => 'index', 'prefix' => $prefix, 'plugin' => false], array('escape' => false)); ?>
     </li>

@@ -62,6 +62,40 @@
     background-color: #8f7cb6;
 }
 
+.navbar-institution  {
+    background-color: #1e474f;
+}
+.navbar-institution .navbar-brand {
+    color: #fff;
+}
+.navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+}
+
+.nav-institution > li > a:focus, .nav-institution > li > a:hover {
+    text-decoration: none;
+    background-color: #58b5ad;
+}
+.van-institution > li > a:focus, .van-institution > li > a:hover {
+    text-decoration: none;
+    background-color: #58b5ad;
+}
+.van-institution > li > a {
+    padding-left: 27px;
+}
+.nav-institution > .active > a:focus, .nav-institution a:hover {
+    color: #fff;
+    background-color: #58b5ad;
+}
+.nav-institution > .active > a, .nav-institution > .active > a:hover, .nav-institution > .active > a:focus {
+    color: #fff;
+    background-color: #6a5596;
+}
+.van-institution > .active > a, .van-institution > .active > a:hover, .van-institution > .active > a:focus {
+    color: #fff;
+    background-color: #58b5ad;
+}
+
 .navbar-admin {
     background-color: #132639;
 }

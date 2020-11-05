@@ -78,6 +78,7 @@ class SadrsBaseController extends AppController
             ->where(['Sadrs.status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
             // You can add extra things to the query if you need to
             //->where([['ifnull(report_type,-1) !=' => 'FollowUp']]);
+        // if($this->Auth->user('group_id') == 5) $query->where(['Sadrs.name_of_institution' => $this->Auth->user('name_of_institution')]);
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $users = $this->Sadrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
