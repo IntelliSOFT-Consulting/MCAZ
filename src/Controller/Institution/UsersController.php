@@ -63,7 +63,6 @@ class UsersController extends UsersBaseController
 
         $this->set(compact('sadrs', 'adrs', 'aefis', 'saeifs'));
         $this->set(compact('saefis', 'ce2bs'));
-        $this->render('/Base/Users/dashboard');
     }
 
     public function deactivate($id = null)

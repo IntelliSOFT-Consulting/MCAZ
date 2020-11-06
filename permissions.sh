@@ -42,12 +42,8 @@ bin/cake acl grant Groups.2 controllers/Notifications/index
 bin/cake acl grant Groups.2 controllers/Notifications/view
 echo "*************** Assign Institution Manager Permissions ********************"
 #Institution Manager permissions
+bin/cake acl deny Groups.5 controllers
 bin/cake acl grant Groups.5 controllers/Institution
-bin/cake acl grant Groups.5 controllers/Aefis
-bin/cake acl grant Groups.5 controllers/Saefis
-bin/cake acl grant Groups.5 controllers/Adrs
-bin/cake acl grant Groups.5 controllers/Sadrs
-bin/cake acl grant Groups.5 controllers/Ce2bs
 bin/cake acl grant Groups.5 controllers/AefiListOfVaccines/delete
 bin/cake acl grant Groups.5 controllers/SaefiListOfVaccines/delete
 bin/cake acl grant Groups.5 controllers/AefiListOfDiluents/delete

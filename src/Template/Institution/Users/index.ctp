@@ -1,5 +1,5 @@
 
-<?= $this->Html->link('<i class="fa fa-home" aria-hidden="true"></i> Home', ['controller' => 'Users', 'action' => 'home', 'prefix' => false], array('escape' => false, 'class' => 'btn btn-primary')); ?> &nbsp;
+<?= $this->Html->link('<i class="fa fa-home" aria-hidden="true"></i> Home', ['controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn btn-primary')); ?> &nbsp;
 
 
 <?=     $this->Html->script('jquery/admin_users', ['block' => true]); ?>
