@@ -1,0 +1,99 @@
+<?php
+  use Cake\Utility\Hash;
+?>
+
+<div class="row">
+    <div class="col-xs-12">
+      <h3 class="text-center"><span class="text-center"><?= $this->Html->image("mcaz_3.png", ['fullBase' => true, 'style' => 'width: 70%;']); ?></span> <br>
+      PHARMACOVIGILANCE AND CLINICAL TRIALS DIVISION</h3> 
+      <div class="row">
+        <div class="col-xs-12"><h5 class="text-center">ADVERSE EVENT FOLLOWING IMMUNISATION (AEFI) IN-HOUSE REPORT FORM</h5></div>
+      </div>
+    </div>
+  </div>
+    
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Reference #</th>
+                <th scope="col">Patient Details</th>
+                <th scope="col">AEFI </th>
+                <th scope="col">Suspected Vaccine(s)</th>
+                <th scope="col">Batch No. and Expiry date</th>
+                <th scope="col">Clinical Findings</th>
+                <th scope="col">Management & Outcome</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($query as $aefi): ?>
+            <tr>
+                <td><?=  $aefi->reference_number ?></td>
+                <td>
+                  <?=  $aefi->patient_name ?>
+                    <br>
+                  <?php echo "Age: ".$aefi->date_of_birth ?><br>
+                  <?php echo "Gender: ".$aefi->gender ?><br>
+                </td>
+                <td>
+                  <?= h($aefi->description_of_reaction) ?></td>
+                <td>
+                    <?php foreach($aefi->aefi_list_of_vaccines as $list_of_drug): ?>    
+                      <p><?= $list_of_drug->vaccine_name.' - '.$list_of_drug->dosage ?></p>        
+                      <p><?= $list_of_drug->vaccination_date ?></p>        
+                    <?php endforeach; ?>
+                </td>
+                <td>
+                    <?php foreach($aefi->aefi_list_of_vaccines as $list_of_drug): ?>    
+                      <p><?= $list_of_drug->batch_number.' - '.$list_of_drug->expiry_date ?></p>        
+                    <?php endforeach; ?>
+                </td>
+                <td>
+                  <?= h($aefi->past_medical_history) ?>  <br>                
+                  <?= h($aefi->comments) ?>                  
+                </td>  
+                <td><?= "Outcome: ".$aefi->outcome ?> </td>
+            </tr>
+              <?php foreach ($aefi->aefi_causalities as $causality): ?>
+                <?php if($causality->chosen == 1) { ?>
+                <tr>
+                  <td colspan="2">
+                    <p><b>Classificication</b></p>
+                    <?php if($causality->consistent_i) echo "A1. Vaccine product-related reaction (As per published literature) <br>"; ?>
+                    <?php if($causality->consistent_ii) echo "A2. Vaccine quality defect-related reaction <br>"; ?>
+                    <?php if($causality->consistent_iii) echo "A3. Immunization error-related reaction <br>"; ?>
+                    <?php if($causality->consistent_iv) echo "A4. Immunization anxiety-related reaction <br> <b>(ITSR**)</b> <br>"; ?>
+                    <?php if($causality->indeterminate_i) echo "B1. *Temporal relationship is consistent but there is insufficient definitive evidence for vaccine causing event (may be new vaccine-linked event) <br>"; ?>
+                    <?php if($causality->indeterminate_ii) echo "B2. Reviewing factors result in conflicting trends of consistency and inconsistency with causal association to immunization <br>"; ?>
+                    <?php if($causality->inconsistent) echo "C. Coincidental Underlying or emerging condition(s), or conditions caused by exposure to something other than vaccine <br>"; ?>
+                    <?php if($causality->unclassifiable) echo "Unclassifiable <br>"; ?>
+                    <?php if($causality->unclassifiable_specify) echo $causality->unclassifiable_specify; ?>
+                  </td>
+                  <td colspan="3">
+                    <p><b>Summary</b></p>
+                    <p>With available evidence, we could conclude that the claffication is <?= $causality->conclude ?> because 
+                      <?= $causality->conclude_reason ?>. <br> 
+                      <?php if(!empty($causality->conclude_inability)) { ?>
+                      with available evidence, we could NOT classify the case because: <?= $causality->conclude_inability ?>
+                      <?php } ?>
+                    </p>
+                  </td>
+                  <td colspan="2">
+                    <p><b>Signatures</b></p>
+                    <p><?php          
+                        echo ($causality->signature) ? "<img src='".$this->Url->build(substr($causality->user->dir, 8) . '/' . $causality->user->file, true)."' style='width: 30%;' alt=''>" : '';
+                        ?>
+                    </p>
+                    <p>
+                      <?php          
+                        echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$aefi->assigned_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$aefi->assigned_by], true)."' style='width: 30%;' alt=''>";
+                      ?>                        
+                    </p>
+                  </td>
+                </tr>
+                <?php } ?>
+              <?php endforeach; ?>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

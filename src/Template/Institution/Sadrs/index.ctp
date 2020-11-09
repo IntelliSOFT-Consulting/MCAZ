@@ -36,14 +36,10 @@ $this->start('sidebar'); ?>
         <thead>
             <tr>
                 <th scope="col">
-                  <div class="input checkbox">
-                      <label for="selectall"><input type="checkbox" name="selectall" value="1" checked="checked" id="selectall">
-                        <?= $this->Paginator->sort('id') ?>
-                      </label>
-                  </div>            
+                    <?= $this->Paginator->sort('id') ?>       
                 </th>
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('institution_name') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('name_of_institution') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
                 <th scope="col">Stages</th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>            
@@ -56,17 +52,13 @@ $this->start('sidebar'); ?>
             <tr>
                 <td>
                   <?php
-                    // echo $this->Number->format($sadr->id); 
-                    echo $this->Form->control('active'.$sadr->id, ['label' => '.'.$sadr->id, 'type' => 'checkbox', 
-                      'data-url' => $this->Url->build(['action' => 'restoreDeleted', $sadr->id, '_ext' => 'json']), 
-                      'templates' => ($prefix == 'manager' || $prefix == 'evaluator') ? '' : 'view_form_checkbox', 
-                      'checked' => $sadr->active, 'hiddenField' => false ]);
+                    echo $this->Number->format($sadr->id); 
                   ?> 
                 </td>
                 <td><?php
                       echo ($sadr->submitted == 2) ? $this->Html->link($sadr->reference_number, ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) : 
                         $this->Html->link($sadr->created, ['action' => 'edit', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>
-                <td><?= h($sadr->institution_name) ?></td>
+                <td><?= h($sadr->name_of_institution) ?> </td>
                 <td><?= h($sadr->status) ?><br><?= $a ?></td>                
                 <td>
                     <div class="readmore">

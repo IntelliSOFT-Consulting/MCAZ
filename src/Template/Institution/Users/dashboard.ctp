@@ -20,8 +20,7 @@
                 <h3><?= $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> ADRS', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge badge-sadr"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Sadrs']) ?></small></h3>
                 <ul class="list-unstyled">
                   <?php foreach ($sadrs as $sadr): ?>
-                    <?php $a = ($sadr['assigned_to']) ? '<small class="muted">'.$this->cell('Signature::index', [$sadr->assigned_to]).'</small>' : '<small class="muted">Unassigned</small>';?>
-                  <li><?= $this->Html->link($sadr->reference_number.' - '.$a, ['controller' => 'Sadrs', 'action' => 'view', $sadr->id], ['escape' => false]);?>  </li>
+                  <li><?= $this->Html->link($sadr->reference_number, ['controller' => 'Sadrs', 'action' => 'view', $sadr->id], ['escape' => false]);?>  </li>
                   <?php endforeach; ?>
                 </ul>
                 <nav aria-label="Page navigation">
@@ -37,8 +36,7 @@
                 <h3><?= $this->Html->link('<i class="fa fa-file-o" aria-hidden="true"></i> SAES', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge badge-adr"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Adrs']) ?></small></h3>
                 <ul class="list-unstyled">
                   <?php foreach ($adrs as $adr): ?>
-                    <?php $a = ($adr['assigned_to']) ? '<small class="muted">'.$this->cell('Signature::index', [$adr->assigned_to]).'</small>' : '<small class="muted">Unassigned</small>';?>
-                  <li><?= $this->Html->link($adr->reference_number.' - '.$a, ['controller' => 'Adrs', 'action' => 'view', $adr->id], ['escape' => false]);?> </li>
+                  <li><?= $this->Html->link($adr->reference_number, ['controller' => 'Adrs', 'action' => 'view', $adr->id], ['escape' => false]);?> </li>
                   <?php endforeach; ?>
                 </ul>
                 <nav aria-label="Page navigation">
@@ -58,8 +56,7 @@
                 <h3><?= $this->Html->link('<i class="fa fa-file-text-o" aria-hidden="true"></i> AEFI', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge badge-aefi"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Aefis']) ?></small></h3>
                 <ul class="list-unstyled">
                   <?php foreach ($aefis as $aefi): ?>
-                    <?php $a = ($aefi['assigned_to']) ? '<small class="muted">'.$this->cell('Signature::index', [$aefi->assigned_to]).'</small>' : '<small class="muted">Unassigned</small>';?>
-                  <li><?= $this->Html->link($aefi->reference_number.' - '.$a, ['controller' => 'Aefis', 'action' => 'view', $aefi->id], ['escape' => false]);?> </li>
+                  <li><?= $this->Html->link($aefi->reference_number, ['controller' => 'Aefis', 'action' => 'view', $aefi->id], ['escape' => false]);?> </li>
                   <?php endforeach; ?>
                 </ul>
                 <nav aria-label="Page navigation">
@@ -75,8 +72,7 @@
                 <h3><?= $this->Html->link('<i class="fa fa-file-text" aria-hidden="true"></i> SAEFI', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn-zangu')); ?> <small class="badge badge-saefi"><?= $this->Paginator->counter(['format' => __('{{count}}'), 'model' => 'Saefis']) ?></small></h3>
                 <ul class="list-unstyled">
                   <?php foreach ($saefis as $saefi): ?>
-                    <?php $a = ($saefi['assigned_to']) ? '<small class="muted">'.$this->cell('Signature::index', [$saefi->assigned_to]).'</small>' : '<small class="muted">Unassigned</small>';?>
-                  <li><?= $this->Html->link($saefi->reference_number.' - '.$a, ['controller' => 'Saefis', 'action' => 'view', $saefi->id], ['escape' => false]);?> </li>
+                  <li><?= $this->Html->link($saefi->reference_number, ['controller' => 'Saefis', 'action' => 'view', $saefi->id], ['escape' => false]);?> </li>
                   <?php endforeach; ?>
                 </ul>
                 <nav aria-label="Page navigation">
@@ -102,10 +98,9 @@
                   <?php 
                     $i = 1;
                     foreach ($ce2bs as $ce2b): ?>
-                    <?php $a = ($ce2b['assigned_to']) ? '<small class="muted">'.$this->cell('Signature::index', [$ce2b->assigned_to]).'</small>' : '<small class="muted">Unassigned</small>';?>
                   <li><?php 
                                 // echo $i++.'. '.$this->Html->link('<span class="text-success">'.$ce2b->reference_number.' &nbsp; &nbsp;<i class="fa fa-check" aria-hidden="true"></i></span>', ['controller' => 'Ce2bs', 'action' => 'view', $ce2b->id], ['escape' => false]);
-                    echo $i++.'. '.$this->Html->link('<span class="text-success">'.$ce2b->reference_number.' <small class="muted">'.$ce2b->e2b_file.'</small>'.' - '.$a, ['controller' => 'Ce2bs', 'action' => 'view', $ce2b->id], ['escape' => false]);
+                    echo $i++.'. '.$this->Html->link('<span class="text-success">'.$ce2b->reference_number.' <small class="muted">'.$ce2b->e2b_file.'</small>', ['controller' => 'Ce2bs', 'action' => 'view', $ce2b->id], ['escape' => false]);
                               
                    ?></li>
                   <?php endforeach; ?>

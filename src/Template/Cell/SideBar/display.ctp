@@ -193,7 +193,7 @@
     </li>
     <?php } ?>
 
-    <?php if($prefix == 'admin' || $prefix == 'manager' || $prefix == 'evaluator') { ?>
+    <?php if($prefix !== 'institution') { ?>
     <li class="<?=  ($this->request->params['controller'] === 'Reports') ? 'active' : ''; ?>">
       <?= $this->Html->link('<i class="fa fa-bar-chart" aria-hidden="true"></i> &nbsp;REPORTS', ['controller' => 'Reports', 'action' => 'index', 'prefix' => false, 'plugin' => false ], array('escape' => false)); ?>
       <?php if (($prefix == 'manager' || $prefix == 'evaluator') && ($this->request->params['controller'] === 'Reports')) { ?>
@@ -221,6 +221,7 @@
      </li>
     <?php }; ?>
 
+    <?php if($prefix !== 'institution') { ?>
     <li class="<?=  ($this->request->params['controller'] == 'Pages') ? 'active' : ''; ?>">
         <?php
           echo $this->Html->link('<i class="fa fa-calendar"></i> COMMITTEE DATES',
@@ -233,7 +234,14 @@
             </ul>
         <?php } ?>
     </li>
+    <?php }; ?>
     
+    <?php if( $prefix == 'institution') { ?>
+     <li class="<?=  ($this->request->params['controller'] == 'Users' && $this->request->params['action'] != 'dashboard') ? 'active' : ''; ?>">
+      <?= $this->Html->link('<i class="fa fa-users" aria-hidden="true"></i> &nbsp; USERS', ['controller' => 'Users', 'action' => 'index', 'prefix' => $prefix, 'plugin' => false], array('escape' => false)); ?>
+    </li>
+    <?php } ?>
+
     <?php if( $prefix == 'admin') { ?>
      <li class="<?=  ($this->request->params['controller'] == 'Users' && $this->request->params['action'] != 'dashboard') ? 'active' : ''; ?>">
       <?= $this->Html->link('<i class="fa fa-users" aria-hidden="true"></i> &nbsp; USERS', ['controller' => 'Users', 'action' => 'index', 'prefix' => $prefix, 'plugin' => false], array('escape' => false)); ?>

@@ -78,7 +78,9 @@ $cakeDescription = 'MCAZ PV';
           </button>
           <?php
               if($this->request->session()->read('Auth.User')) {
-                  echo $this->Html->link('<i class="fa fa-ravelry" aria-hidden="true"></i> MCAZ PV '.$prefix.' <small>(restricted)</small>',
+                  // debug($this->request->session()->read('Auth.User.name_of_institution'));
+                  $x = ($this->request->session()->read('Auth.User.group_id') == 5) ? $this->request->session()->read('Auth.User.name_of_institution') : 'restricted';
+                  echo $this->Html->link('<i class="fa fa-ravelry" aria-hidden="true"></i> MCAZ PV '.$prefix.' <small>('.$x.')</small>',
                       array('controller' => 'users', 'action' => 'dashboard', 'prefix' => $prefix, 'plugin' => false) , array('escape' => false, 'class' => 'navbar-brand'));                    
               } else {
                   echo $this->Html->link('<i class="fa fa-ravelry" aria-hidden="true"></i> MCAZ PV '.$prefix.' <small>(restricted)</small>',

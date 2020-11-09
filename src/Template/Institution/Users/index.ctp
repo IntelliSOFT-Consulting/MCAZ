@@ -1,4 +1,8 @@
-
+<?php 
+use Cake\Utility\Hash;
+$this->start('sidebar'); ?>
+  <?= $this->cell('SideBar'); ?>
+<?php $this->end(); ?>
 <?= $this->Html->link('<i class="fa fa-home" aria-hidden="true"></i> Home', ['controller' => 'Users', 'action' => 'dashboard', 'prefix' => $prefix], array('escape' => false, 'class' => 'btn btn-primary')); ?> &nbsp;
 
 
