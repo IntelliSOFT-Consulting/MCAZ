@@ -166,6 +166,22 @@ class UsersController extends AppController
                 $data['type'] = 'registration_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
                 //
+                //Send email and notification to institution
+                if (!empty($user->name_of_institution)) {
+                    $institution = $this->Users->find('all', ['conditions' => ['group_id' => 5, 'lower(Users.name_of_institution) LIKE' => strtolower($user->name_of_institution)]])->first();
+                    if(!empty($institution->email)) {
+                        $data = [
+                            'email_address' => $institution->email, 'user_id' => $institution->id, 'type' => 'registration_institution_email', 'model' => 'Users', 
+                            'foreign_key' => $institution->id, 'vars' =>  $institution->toArray()                
+                        ]; 
+                        $data['vars']['name'] = (isset($institution->name)) ? $institution->name : 'Sir/Madam' ;
+                        $this->QueuedJobs->createJob('GenericEmail', $data);
+                        //Send registration notification
+                        $data['type'] = 'registration_institution_notification';
+                        $this->QueuedJobs->createJob('GenericNotification', $data);
+                    }
+                }
+
 
                 $this->Flash->success(__('You have successfully registered. Please click on the link sent to your email address to
                     activate your account. Check your spam folder if you
