@@ -75,6 +75,7 @@ class SiteCell extends Cell
         if($this->request->session()->read('Auth.User.group_id') == 1) {$prefix = 'admin';} 
         elseif ($this->request->session()->read('Auth.User.group_id') == 2) { $prefix = 'manager'; }
         elseif ($this->request->session()->read('Auth.User.group_id') == 4) { $prefix = 'evaluator'; }
+        elseif ($this->request->session()->read('Auth.User.group_id') == 5 { $prefix = 'institution'; }
 
         $this->set(compact('site', 'prefix', 'committee_dates'));
     }

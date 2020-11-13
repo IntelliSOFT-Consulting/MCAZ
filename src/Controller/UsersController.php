@@ -49,7 +49,7 @@ class UsersController extends AppController
         } elseif ($this->request->session()->read('Auth.User.group_id') == 3) {
             return $this->redirect(['controller' => 'Users', 'action' => 'home', 'prefix' => false, 'plugin' => false]);
         } elseif ($this->request->session()->read('Auth.User.group_id') == 5) {
-            return $this->redirect(['controller' => 'Users', 'action' => 'home', 'prefix' => false, 'plugin' => false]);
+            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'institution', 'plugin' => false]);
         }
     }
 
@@ -102,7 +102,7 @@ class UsersController extends AppController
                     } elseif ($user['group_id'] == 4) {
                         return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator', 'plugin' => false]);
                     } elseif ($user['group_id'] == 5) {
-                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator', 'plugin' => false]);
+                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'institution', 'plugin' => false]);
                     }  
                 }  
                 return $this->redirect($this->Auth->redirectUrl());            
