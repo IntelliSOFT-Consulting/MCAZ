@@ -88,7 +88,7 @@
                 <?php //if($review->chosen == 1) { ?>
                 <tr>
                   <td colspan="3">
-                    <div style="word-wrap: break-word; word-break: break-all;"><p><b>Literature Review</b></p>
+                    <div style="word-wrap: break-word; word-break: break-all;"><p><b>Literature Review</b> - <?= $review->drug_name ?></p>
                     <p><?= $this->Text->autoParagraph($review->literature_review) ?></p></div>
                   </td>
                   <td colspan="2">
