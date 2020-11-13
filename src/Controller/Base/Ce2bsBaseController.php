@@ -86,6 +86,12 @@ class Ce2bsBaseController extends AppController
 
         if ($this->request->params['_ext'] === 'pdf') {
             $query->where([['Ce2bs.active' => '1']]);
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'orientation' => 'landscape',
+                    'filename' => 'CE2BS_'.date('d-m-Y').'.pdf'
+                ]
+            ]);
             $this->render('/Base/Ce2bs/pdf/index');
         } else {
             $this->render('/Base/Ce2bs/index');

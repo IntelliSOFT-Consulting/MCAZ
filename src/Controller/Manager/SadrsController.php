@@ -50,7 +50,7 @@ class SadrsController extends SadrsBaseController
                   $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
                 
-                //notify manager                
+                //notify manager
                 $data = ['user_id' => $sadr->assigned_by, 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
                     'vars' =>  $sadr->toArray()];
                 $data['vars']['assigned_to_name'] = $evaluator->name;

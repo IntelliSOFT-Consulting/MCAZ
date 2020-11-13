@@ -90,7 +90,7 @@ class UsersController extends AppController
                 //Send registration notification
                 $data['type'] = 'registration_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
-                //       
+                // 
                 
                 $this->set([
                     'id' => $user->id,
