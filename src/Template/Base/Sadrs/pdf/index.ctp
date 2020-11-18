@@ -38,11 +38,11 @@
                   <?php echo "Weight: ".$sadr->weight ?>
                 </td>
                 <td>
-                  <div style="word-wrap: break-word; word-break: break-all;">
+                  <p  style="page-break-before: always">
                     <?php echo "Onset: ".$sadr->date_of_onset_of_reaction." to ".$sadr->date_of_end_of_reaction; ?><br>
                     <?php echo "Outcome: ".$sadr->outcome; ?><br>
                     <?= h($sadr->description_of_reaction) ?>
-                  </div>
+                  </p>
 
                 <?php foreach ($sadr->reactions as $reaction): ?>
                   <p><?= $reaction->reaction_name ?></p>
@@ -50,25 +50,25 @@
                 <?= "Action Taken: ".$sadr->action_taken ?>
                 </td>
                 <td>
-                  <div style="word-wrap: break-word; word-break: break-all;">
+                  <p style="page-break-before: always">
                     <?php foreach ($sadr->reviews as $review): ?> 
                       <?= $review->medical_history ?><br>
                     <?php endforeach; ?>
-                  </div>
+                  </p>
                 </td>       
                 <td>
-                  <div style="word-wrap: break-word; word-break: break-all;">
+                  <p  style="page-break-before: always">
                     <?php foreach($sadr->sadr_list_of_drugs as $list_of_drug): ?>    
                       <?php $kdose = (isset($list_of_drug->dose->name)) ? $list_of_drug->dose->name : '' ;?>  
-                      <p><?= $list_of_drug->drug_name.' - '.$list_of_drug->brand_name.'-'.$kdose ?>
+                      <p style="page-break-before: always"><?= $list_of_drug->drug_name.' - '.$list_of_drug->brand_name.'-'.$kdose ?>
                         <br><small><?= $list_of_drug->start_date.' - '.$list_of_drug->stop_date ?></small>
                       </p>        
                               
                     <?php endforeach; ?>
-                  </div>
+                  </p>
                 </td>
                 <td>
-                  <div style="word-wrap: break-word; word-break: break-all;">
+                  <p  style="page-break-before: always">
                     <p>
                     <?= h($sadr->past_drug_therapy) ?><br>
                     <?= h($sadr->lab_test_results) ?> <br>
@@ -76,7 +76,7 @@
                       <?= $review->clinical_findings ?><br>
                     <?php endforeach; ?> 
                     </p>         
-                  </div>
+                  </p>
                 </td>  
                 <td>
                   <?php foreach ($sadr->reviews as $review): ?> 
