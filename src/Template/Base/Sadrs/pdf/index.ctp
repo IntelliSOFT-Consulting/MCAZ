@@ -88,16 +88,16 @@
                 <?php //if($review->chosen == 1) { ?>
                 <tr>
                   <td colspan="3">
-                    <div style="word-wrap: break-word; word-break: break-all;"><p><b>Literature Review</b> - <?= $review->drug_name ?></p>
-                    <p><?= $this->Text->autoParagraph($review->literature_review) ?></p></div>
+                    <div style="word-wrap: break-word; word-break: break-all;"><p style="page-break-before: always"><b>Literature Review</b> - <?= $review->drug_name ?></p>
+                    <p style="page-break-before: always"><?= $this->Text->autoParagraph($review->literature_review) ?></p></div>
                   </td>
                   <td colspan="2">
                     <div style="word-wrap: break-word; word-break: break-all;"><p><b>Recommended Causality Assessment</b></p>
-                    <p><?= $review->causality_decision ?></p></div>
+                    <p style="page-break-before: always"><?= $review->causality_decision ?></p></div>
                   </td>
                   <td colspan="3">
                     <div style="word-wrap: break-word; word-break: break-all;"><p><b>References</b></p>
-                    <?= $this->Text->autoParagraph($review->references_text) ?></div>
+                    <p  style="page-break-before: always"><?= $this->Text->autoParagraph($review->references_text) ?></p></div>
                   </td>
                 </tr>
                 <?php //} ?>
