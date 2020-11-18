@@ -92,11 +92,11 @@
                     <p style="page-break-before: always"><?= $this->Text->autoParagraph($review->literature_review) ?></p></div>
                   </td>
                   <td colspan="2">
-                    <div style="word-wrap: break-word; word-break: break-all;"><p><b>Recommended Causality Assessment</b></p>
+                    <div style="word-wrap: break-word; word-break: break-all;"><p style="page-break-before: always"><b>Recommended Causality Assessment</b></p>
                     <p style="page-break-before: always"><?= $review->causality_decision ?></p></div>
                   </td>
                   <td colspan="3">
-                    <div style="word-wrap: break-word; word-break: break-all;"><p><b>References</b></p>
+                    <div style="word-wrap: break-word; word-break: break-all;"><p style="page-break-before: always"><b>References</b></p>
                     <p  style="page-break-before: always"><?= $this->Text->autoParagraph($review->references_text) ?></p></div>
                   </td>
                 </tr>
