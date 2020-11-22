@@ -87,7 +87,7 @@
                 <?php //if($review->chosen == 1) { ?>
                 <tr>
                   <td colspan="3">
-                    <ul>
+                    <ul class="list-unstyled">
                       <li>
                         <p><b>Literature Review</b> - <?= $review->drug_name ?></p>
                       </li>
@@ -97,13 +97,13 @@
                     </ul>
                   </td>
                   <td colspan="2">
-                    <ul>
+                    <ul class="list-unstyled">
                       <li><p><b>Recommended Causality Assessment</b></p></li>
                       <li><p><?= $review->causality_decision ?></p></li>
                     </ul>
                   </td>
                   <td colspan="3">
-                    <ul>
+                    <ul class="list-unstyled">
                       <li>
                         <p><b>References</b></p>
                       </li>
