@@ -55,27 +55,35 @@
                 <?php if($review->chosen == 1) { ?> 
                 <tr>
                   <td colspan="2">
-                    <p><b>Literature Review</b></p>
-                    <?= $review->literature_review ?>
+                    <ul class="list-unstyled">
+                      <li><p><b>Literature Review</b></p></li>
+                      <li><?= $review->literature_review ?></li>
+                    </ul>
                   </td>
                   <td colspan="2">
-                    <p><b>Comments</b></p>
-                    <?= $review->comments ?>
+                    <ul class="list-unstyled">
+                      <li><p><b>Comments</b></p></li>
+                      <li><?= $review->comments ?></li>
+                    </ul>
                   </td>
                   <td colspan="2">
-                    <p><b>References</b></p>
-                    <?= $review->references_text ?>
+                    <ul class="list-unstyled">
+                      <li><p><b>References</b></p></li>
+                      <li><?= $review->references_text ?></li>
+                    </ul>
                   </td>
                   <td colspan="2">
-                    <p><b>Signatures</b></p>
-                    <p><?php          
-                        echo ($review->signature) ? "<img src='".$this->Url->build(substr($review->user->dir, 8) . '/' . $review->user->file, true)."' style='width: 30%;' alt=''>" : '';
-                        ?>
-                    &nbsp;
-                      <?php          
-                        echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$adr->assigned_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$adr->assigned_by], true)."' style='width: 30%;' alt=''>";
-                      ?>                        
-                    </p>
+                    <ul class="list-unstyled">
+                      <li><p><b>Signatures</b></p></li>
+                      <li><p><?php          
+                          echo ($review->signature) ? "<img src='".$this->Url->build(substr($review->user->dir, 8) . '/' . $review->user->file, true)."' style='width: 30%;' alt=''>" : '';
+                          ?>
+                      &nbsp;
+                        <?php          
+                          echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$adr->assigned_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$adr->assigned_by], true)."' style='width: 30%;' alt=''>";
+                        ?>                        
+                      </p></li>
+                    </ul>
                   </td>
                 </tr>
                 <?php } ?>
