@@ -2,6 +2,13 @@
   use Cake\Utility\Hash;
 ?>
 
+<style type="text/css">
+  li{
+    max-width:200px;
+    word-wrap:break-word;
+}
+</style>
+
 <div class="row">
     <div class="col-xs-12">
       <h3 class="text-center"><span class="text-center"><?= $this->Html->image("mcaz_3.png", ['fullBase' => true, 'style' => 'width: 70%;']); ?></span> <br>
