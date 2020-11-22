@@ -12,6 +12,9 @@
     </div>
   </div>
     
+
+  <!-- <div class="table-responsive"> THIS CAUSED PDF PAGE BREAK ISSUES. AVOID!!! -->
+
     <table class="table table-striped table-bordered" style="page-break-inside: avoid;">
 
         <tbody>

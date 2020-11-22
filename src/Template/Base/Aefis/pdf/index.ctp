@@ -12,7 +12,6 @@
     </div>
   </div>
     
-<div class="table-responsive">
     <table class="table table-striped table-bordered">
             <tr>
                 <th width="4%"><b>#</b></th>
@@ -99,4 +98,3 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-</div>
