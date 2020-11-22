@@ -4,8 +4,8 @@
 
 <style type="text/css">
   li{
-    max-width:200px;
     word-wrap:break-word;
+    page-break-inside: avoid;
 }
 </style>
 
@@ -38,12 +38,14 @@
                 <td><?=  $adr->participant_number ?></td>
                 <td><?=  $adr->mcaz_protocol_number ?></td>
                 <td><?= $adr->symptoms ?></td>
-                <td>
+                <td>                  
+                  <ul class="list-unstyled">
                     <?php foreach($adr->adr_list_of_drugs as $list_of_drug): ?> 
                       <?php $kdose = (isset($list_of_drug->dose->name)) ? $list_of_drug->dose->name : '' ;?>   
-                      <p><?= $list_of_drug->drug_name.' - '.$list_of_drug->dosage.' - '.$kdose ?></p>        
-                      <p><?= $list_of_drug->start_date ?></p>        
+                      <li><p><?= $list_of_drug->drug_name.' - '.$list_of_drug->dosage.' - '.$kdose ?></p>  </li>   
+                      <li><p><?= $list_of_drug->start_date ?></p>   </li>
                     <?php endforeach; ?>
+                  </ul>
                 </td>
                 <td>
                     <?php foreach($adr->adr_other_drugs as $adr_other_drug): ?>    
