@@ -12,8 +12,7 @@
     </div>
   </div>
     
-<div class="table-responsive">
-    <table class="table table-striped table-bordered">
+    <table class="table table-striped table-bordered" style="page-break-inside: avoid;">
 
         <tbody>
 
@@ -29,7 +28,7 @@
           </tr>
         
             <?php foreach ($query as $sadr): ?>
-            <tr>
+            <tr style="page-break-inside: avoid;">
                 <td><?=  $sadr->reference_number ?></td>
                 <td><?=  $sadr->patient_name ?></td>
                 <td>
@@ -38,7 +37,7 @@
                   <?php echo "Weight: ".$sadr->weight ?>
                 </td>
                 <td>
-                  <p  style="page-break-before: always">
+                  <p >
                     <?php echo "Onset: ".$sadr->date_of_onset_of_reaction." to ".$sadr->date_of_end_of_reaction; ?><br>
                     <?php echo "Outcome: ".$sadr->outcome; ?><br>
                     <?= h($sadr->description_of_reaction) ?>
@@ -50,17 +49,17 @@
                 <?= "Action Taken: ".$sadr->action_taken ?>
                 </td>
                 <td>
-                  <p style="page-break-before: always">
+                  <p>
                     <?php foreach ($sadr->reviews as $review): ?> 
                       <?= $review->medical_history ?><br>
                     <?php endforeach; ?>
                   </p>
                 </td>       
                 <td>
-                  <p  style="page-break-before: always">
+                  <p >
                     <?php foreach($sadr->sadr_list_of_drugs as $list_of_drug): ?>    
                       <?php $kdose = (isset($list_of_drug->dose->name)) ? $list_of_drug->dose->name : '' ;?>  
-                      <p style="page-break-before: always"><?= $list_of_drug->drug_name.' - '.$list_of_drug->brand_name.'-'.$kdose ?>
+                      <p><?= $list_of_drug->drug_name.' - '.$list_of_drug->brand_name.'-'.$kdose ?>
                         <br><small><?= $list_of_drug->start_date.' - '.$list_of_drug->stop_date ?></small>
                       </p>        
                               
@@ -68,7 +67,7 @@
                   </p>
                 </td>
                 <td>
-                  <p  style="page-break-before: always">
+                  <p >
                     <p>
                     <?= h($sadr->past_drug_therapy) ?><br>
                     <?= h($sadr->lab_test_results) ?> <br>
@@ -88,16 +87,30 @@
                 <?php //if($review->chosen == 1) { ?>
                 <tr>
                   <td colspan="3">
-                    <div style="word-wrap: break-word; word-break: break-all;"><p style="page-break-before: always"><b>Literature Review</b> - <?= $review->drug_name ?></p>
-                    <p style="page-break-before: always"><?= $this->Text->autoParagraph($review->literature_review) ?></p></div>
+                    <ul>
+                      <li>
+                        <p><b>Literature Review</b> - <?= $review->drug_name ?></p>
+                      </li>
+                      <li>
+                        <p><?= $this->Text->autoParagraph($review->literature_review) ?></p>
+                      </li>
+                    </ul>
                   </td>
                   <td colspan="2">
-                    <div style="word-wrap: break-word; word-break: break-all;"><p style="page-break-before: always"><b>Recommended Causality Assessment</b></p>
-                    <p style="page-break-before: always"><?= $review->causality_decision ?></p></div>
+                    <ul>
+                      <li><p><b>Recommended Causality Assessment</b></p></li>
+                      <li><p><?= $review->causality_decision ?></p></li>
+                    </ul>
                   </td>
                   <td colspan="3">
-                    <div style="word-wrap: break-word; word-break: break-all;"><p style="page-break-before: always"><b>References</b></p>
-                    <p  style="page-break-before: always"><?= $this->Text->autoParagraph($review->references_text) ?></p></div>
+                    <ul>
+                      <li>
+                        <p><b>References</b></p>
+                      </li>
+                      <li>
+                        <p><?= $this->Text->autoParagraph($review->references_text) ?></p>
+                      </li>
+                    </ul>
                   </td>
                 </tr>
                 <?php //} ?>
@@ -125,4 +138,3 @@
             <?php } ?>
         </tbody>
     </table>
-</div>
