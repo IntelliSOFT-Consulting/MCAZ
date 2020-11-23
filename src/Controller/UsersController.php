@@ -268,7 +268,7 @@ class UsersController extends AppController
                 $data['vars']['name'] = (isset($user->name)) ? $user->name : 'Sir/Madam' ;
                 $data['vars']['new_password'] = date('smiYhd', strtotime($user->created));
                 $data['vars']['pv_site'] = $html->link('MCAZ PV website', ['controller' => 'Pages', 'action' => 'home', '_full' => true]);
-                $data['vars']['reset_password_link'] = $html->link('Reset Password', ['controller' => 'Users', 'action' => 'resetPassword', $user->activation_key, 
+                $data['vars']['reset_password_link'] = $html->link('Reset Password', ['controller' => 'Users', 'action' => 'resetPassword', $this->Util->generateXOR($user->id), 
                                           '_full' => true]);
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 
@@ -283,7 +283,7 @@ class UsersController extends AppController
 
     public function resetPassword($id = null) {
         //confirm user id hash for authenticity
-        $check = $this->Users->find('all')->where(['activation_key' => $id, 'is_active' => 1])->first();
+        $check = $this->Users->find('all')->where(['id' => $this->Util->reverseXOR($id), 'is_active' => 1])->first();
         if (!$check) {
             $this->Flash->error(__('Could not verify the user. Kindly contact MCAZ.'));
             $this->redirect('/');
