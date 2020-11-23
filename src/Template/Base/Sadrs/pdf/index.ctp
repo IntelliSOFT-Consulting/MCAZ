@@ -18,7 +18,7 @@
     <table class="table table-striped table-bordered" style="page-break-inside: avoid;">
 
         <tbody>
-
+          
           <tr>
               <th scope="col" width="11%"><b>Reference #</b></th>
               <th scope="col" width="10%"><b>Patient Initials</b></th>

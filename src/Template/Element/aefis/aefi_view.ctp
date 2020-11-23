@@ -45,6 +45,9 @@
                 <tr><th><label>Patient's phone number</label></th>
                     <td><?= $aefi->patient_telephone ?></td>
                 </tr>
+                <tr><th><label>Gender</label></th>
+                    <td><?= $aefi->gender ?></td>
+                </tr>
                 <tr><th><label>Date of Birth <span class="sterix fa fa-asterisk" aria-hidden="true"></span></label></th>
                     <td><?= $aefi->date_of_birth ?></td>
                 </tr>

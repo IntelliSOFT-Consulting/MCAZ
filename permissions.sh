@@ -52,7 +52,7 @@ bin/cake acl grant Groups.5 controllers/AdrOtherDrugs/delete
 bin/cake acl grant Groups.5 controllers/Users/profile
 bin/cake acl grant Groups.5 controllers/Users/edit
 bin/cake acl grant Groups.5 controllers/Users/dashboard
-bin/cake acl grant Groups.5 controllers/Users/home
+bin/cake acl deny Groups.5 controllers/Users/home
 bin/cake acl grant Groups.5 controllers/Reactions/delete
 bin/cake acl grant Groups.5 controllers/SadrListOfDrugs/delete
 bin/cake acl grant Groups.5 controllers/SadrOtherDrugs/delete

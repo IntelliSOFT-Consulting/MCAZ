@@ -152,7 +152,8 @@ class AppController extends Controller
         //if admin prefix, redirect to admin
         // $this->viewBuilder()->setLayout('admin');
         if($this->request->getParam('prefix') or $this->request->session()->read('Auth.User.group_id') == 1
-            or $this->request->session()->read('Auth.User.group_id') == 2 or $this->request->session()->read('Auth.User.group_id') == 4) {
+            or $this->request->session()->read('Auth.User.group_id') == 2 or $this->request->session()->read('Auth.User.group_id') == 4 
+            or $this->request->session()->read('Auth.User.group_id') == 5) {
             $this->viewBuilder()->setLayout('admin');
         }
     }    
