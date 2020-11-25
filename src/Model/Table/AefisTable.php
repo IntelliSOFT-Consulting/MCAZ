@@ -207,7 +207,7 @@ class AefisTable extends Table
             ->integer('id')
             ->allowEmpty('id', 'create');
 
-        $validator
+        /*$validator
             ->scalar('patient_name')
             ->notEmpty('patient_name', ['message' => 'Patient name required']);
 
@@ -229,14 +229,14 @@ class AefisTable extends Table
             
         $validator
             ->scalar('dosage')
-            ->notEmpty('dosage', ['message' => 'Dosage required']);
+            ->notEmpty('dosage', ['message' => 'Dosage required']);*/
 
         $validator
             ->scalar('designation_id')
             ->notEmpty('designation_id', ['message' => 'Designation required']);
 
 
-        $validator->allowEmpty('suspected_drug', function ($context) {
+        /*$validator->allowEmpty('suspected_drug', function ($context) {
             // return !$context['data']['is_taxable'];
             if (isset($context['data']['aefi_list_of_vaccines'])) {
                 foreach ($context['data']['aefi_list_of_vaccines'] as $val){
@@ -316,13 +316,13 @@ class AefisTable extends Table
 
         $validator
             ->scalar('reporter_name')
-            ->notEmpty('reporter_name', ['message' => 'Reporter name required']);
+            ->notEmpty('reporter_name', ['message' => 'Reporter name required']);*/
 
-        $validator
+        /*$validator
             ->scalar('reporter_email')
-            ->notEmpty('reporter_email', ['message' => 'Reporter email required']);
+            ->notEmpty('reporter_email', ['message' => 'Reporter email required']);*/
 
-        $validator
+        /*$validator
             ->allowEmpty('district_receive_date')
             ->add('district_receive_date', 'drd-or-dip', [
                 'rule' => function ($value, $context) {     
@@ -342,7 +342,7 @@ class AefisTable extends Table
                     }
                     return true;
                 }, 'message' => 'Date investigation planned must be after date report receieved'
-            ]);
+            ]);*/
 
         return $validator;
     }

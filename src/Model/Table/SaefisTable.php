@@ -188,7 +188,7 @@ class SaefisTable extends Table
             ->integer('id')
             ->allowEmpty('id', 'create');
 
-        $validator
+        /*$validator
             ->scalar('name_of_vaccination_site')
             ->notEmpty('name_of_vaccination_site', ['message' => 'Name of vaccination site required']);
 
@@ -303,7 +303,7 @@ class SaefisTable extends Table
                     }
                     return true;
                 }, 'message' => 'Date and time of 1st key symptom should be before the date and time the report is completed'
-            ]);
+            ]);*/
 
         return $validator;
     }

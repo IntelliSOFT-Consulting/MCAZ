@@ -182,17 +182,17 @@ class AdrsTable extends Table
             ->integer('id')
             ->allowEmpty('id', 'create');
 
-        $validator
-            ->scalar('mrcz_protocol_number')
-            ->notEmpty('mrcz_protocol_number', ['message' => 'Protocol no. required']);
+        // $validator
+        //     ->scalar('mrcz_protocol_number')
+        //     ->notEmpty('mrcz_protocol_number', ['message' => 'Protocol no. required']);
 
-        $validator
-            ->scalar('mcaz_protocol_number')
-            ->notEmpty('mcaz_protocol_number', ['message' => 'Protocol no. required']);
+        // $validator
+        //     ->scalar('mcaz_protocol_number')
+        //     ->notEmpty('mcaz_protocol_number', ['message' => 'Protocol no. required']);
 
-        $validator
-            ->scalar('principal_investigator')
-            ->notEmpty('principal_investigator', ['message' => 'Principal investigator required']);
+        // $validator
+        //     ->scalar('principal_investigator')
+        //     ->notEmpty('principal_investigator', ['message' => 'Principal investigator required']);
 
         $validator
             ->scalar('reporter_name')
@@ -214,37 +214,37 @@ class AdrsTable extends Table
             ->scalar('institution_code')
             ->allowEmpty('institution_code');
 
-        $validator
-            ->scalar('study_title')
-            ->notEmpty('study_title', ['message' => 'Study title required']);
+        // $validator
+        //     ->scalar('study_title')
+        //     ->notEmpty('study_title', ['message' => 'Study title required']);
 
         $validator
             ->scalar('study_sponsor')
             ->allowEmpty('study_sponsor');
 
-        $validator
-            ->add('date_of_adverse_event', 'doae-req', ['rule' => ['date', 'dmy'], 'message' => 'Kindly enter the date of adverse event in the format dd-mm-yyyy e.g. 22-03-2018'])
-            ->notEmpty('date_of_adverse_event');
+        // $validator
+        //     ->add('date_of_adverse_event', 'doae-req', ['rule' => ['date', 'dmy'], 'message' => 'Kindly enter the date of adverse event in the format dd-mm-yyyy e.g. 22-03-2018'])
+        //     ->notEmpty('date_of_adverse_event');
 
         $validator
             ->scalar('participant_number')
             ->allowEmpty('participant_number');
 
-        $validator
-            ->scalar('report_type')
-            ->allowEmpty('report_type');
+        // $validator
+        //     ->scalar('report_type')
+        //     ->allowEmpty('report_type');
 
         // $validator
         //     ->date('date_of_site_awareness')
         //     ->allowEmpty('date_of_site_awareness');
 
-        $validator
-            ->scalar('date_of_birth')
-            ->allowEmpty('date_of_birth');
+        // $validator
+        //     ->scalar('date_of_birth')
+        //     ->allowEmpty('date_of_birth');
 
-        $validator
-            ->scalar('gender')
-            ->notEmpty('gender', ['message' => 'Gender required']);
+        // $validator
+        //     ->scalar('gender')
+        //     ->notEmpty('gender', ['message' => 'Gender required']);
 
         $validator
             ->scalar('study_week')
@@ -318,9 +318,9 @@ class AdrsTable extends Table
             ->scalar('designation_id')
             ->notEmpty('designation_id', ['message' => 'Designation required']);
 
-        $validator
-            ->scalar('diagnosis')
-            ->notEmpty('diagnosis', ['message' => 'Diagnosis required']);
+        // $validator
+        //     ->scalar('diagnosis')
+        //     ->notEmpty('diagnosis', ['message' => 'Diagnosis required']);
 
         //removed need to have suspected drug
         /*$validator->allowEmpty('suspected_drug', function ($context) {
@@ -447,9 +447,9 @@ class AdrsTable extends Table
             ->scalar('management')
             ->allowEmpty('management');
 
-        $validator
-            ->scalar('outcome')
-            ->notEmpty('outcome', ['message' => 'Outcome required']);
+        // $validator
+        //     ->scalar('outcome')
+        //     ->notEmpty('outcome', ['message' => 'Outcome required']);
 
         $validator
             ->scalar('d1_consent_form')

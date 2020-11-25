@@ -30,16 +30,16 @@
           <div class="row">
             <div class="col-xs-6">
               <table class="table table-condensed vertical-table">
-                <tr><th><label>Patient first name <span class="sterix fa fa-asterisk" aria-hidden="true"></span></label></th>
+                <tr><th><label>Patient first name </label></th>
                     <td><?= $aefi->patient_name ?></td>
                 </tr>
-                <tr><th><label>Patient Surname <span class="sterix fa fa-asterisk" aria-hidden="true"></span></label></th>
+                <tr><th><label>Patient Surname </label></th>
                     <td><?= $aefi->patient_surname ?></td>
                 </tr>
                 <tr><th><label>Patient next of Kin</label></th>
                     <td><?= $aefi->patient_next_of_kin ?></td>
                 </tr>
-                <tr><th><label>Patient's physical address <span class="sterix fa fa-asterisk" aria-hidden="true"></span></label></th>
+                <tr><th><label>Patient's physical address </label></th>
                     <td><?= $aefi->patient_address ?></td>
                 </tr>
                 <tr><th><label>Patient's phone number</label></th>
@@ -48,7 +48,7 @@
                 <tr><th><label>Gender</label></th>
                     <td><?= $aefi->gender ?></td>
                 </tr>
-                <tr><th><label>Date of Birth <span class="sterix fa fa-asterisk" aria-hidden="true"></span></label></th>
+                <tr><th><label>Date of Birth </label></th>
                     <td><?= $aefi->date_of_birth ?></td>
                 </tr>
                 <tr><th><label>OR Age at onset:</label></th>
@@ -61,10 +61,10 @@
             </div>
             <div class="col-xs-6">
               <table class="table table-condensed vertical-table">
-                <tr><th><label>Reporter's name <span class="sterix fa fa-asterisk" aria-hidden="true"></span></label></th>
+                <tr><th><label>Reporter's name </label></th>
                     <td><?= $aefi->reporter_name ?></td>
                 </tr>
-                <tr><th><label>Designation</label></th>
+                <tr><th><label>Designation <span class="sterix fa fa-asterisk" aria-hidden="true"></span></label></th>
                     <td><?= ($aefi->designation_id) ? $designations->toArray()[$aefi->designation_id] : '' ?></td>
                 </tr>
                 <tr><th><label>Reporter Institution</label></th>
@@ -95,7 +95,7 @@
           <div class="row">
             <div class="col-xs-12">
               <table class="table table-condensed vertical-table">
-                <tr><th><label>Name of vaccination center <span class="sterix fa fa-asterisk" aria-hidden="true"></span></label></th>
+                <tr><th><label>Name of vaccination center </label></th>
                     <td><?= $aefi->name_of_vaccination_center ?></td>
                 </tr>
               </table>
@@ -111,15 +111,15 @@
                     <th colspan="5">Diluent</th>
                   </tr>
                   <tr>
-                    <th colspan="2" style="width: 20%"> Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
-                    <th colspan="2" style="width: 20%"> <h5>Date and Time of Vaccination <span class="sterix fa fa-asterisk" aria-hidden="true"></span><br><small id="helpBlock" class="has-warning">Format dd-mm-yyyy hh24:min</small></h5></th>
-                    <th style="width: 5%"> Dose (1st, 2nd...) <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
-                    <th style="width: 5%"> Batch/Lot number <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
+                    <th colspan="2" style="width: 20%"> Name </th>
+                    <th colspan="2" style="width: 20%"> <h5>Date and Time of Vaccination <br><small id="helpBlock" class="has-warning">Format dd-mm-yyyy hh24:min</small></h5></th>
+                    <th style="width: 5%"> Dose (1st, 2nd...) </th>
+                    <th style="width: 5%"> Batch/Lot number </th>
                     <th> Expiry date </th>
                     <th style="width: 5%"> Batch/ Lot Number </th>
                     <th > Expiry date </th>
                     <th> Time of reconstitution  </th>
-                    <th> Tick Suspected Vaccine(s) <span class="sterix fa fa-asterisk" aria-hidden="true"></span>
+                    <th> Tick Suspected Vaccine(s) 
                     </th>
                   </tr>
                 </thead>
@@ -155,7 +155,7 @@
 
           <div class="row">
             <div class="col-xs-2">
-              <h4>Adverse Event(s) <span class="sterix fa fa-asterisk" aria-hidden="true"></span>:</h4>
+              <h4>Adverse Event(s) :</h4>
               <label>Seizures</label>
 
               <table class="table table-condensed vertical-table">
@@ -208,7 +208,7 @@
           <div class="row">
             <div class="col-xs-12">
               <table class="table table-condensed vertical-table">
-                <tr><th><label>Describe AEFI (Signs and symptoms) <span class="sterix fa fa-asterisk" aria-hidden="true"></span></label></th>
+                <tr><th><label>Describe AEFI (Signs and symptoms) </label></th>
                     <td><?= $aefi->description_of_reaction ?></td>
                 </tr>
                 <tr><th><label>Treatment provided?</label></th>
@@ -236,7 +236,7 @@
           <div class="row">
             <div class="col-xs-6">
               <table class="table table-condensed vertical-table">
-                <tr><th><label>Outcome <span class="sterix fa fa-asterisk" aria-hidden="true"></span></label></th>
+                <tr><th><label>Outcome </label></th>
                     <td><?= $aefi->outcome ?></td>
                 </tr>
                 <tr><th><label>If died, date of death</label></th>

@@ -52,9 +52,9 @@ Please use a separate adverse event reporting form for separate reportable adver
           <div class="row">
             <div class="col-xs-6">
               <?php
-                  echo $this->Form->control('mrcz_protocol_number', ['label' => 'MRCZ Protocol # <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
+                  echo $this->Form->control('mrcz_protocol_number', ['label' => 'MRCZ Protocol # ', 'escape' => false]);
 
-                  echo $this->Form->control('mcaz_protocol_number', ['label' => 'MCAZ Protocol # <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
+                  echo $this->Form->control('mcaz_protocol_number', ['label' => 'MCAZ Protocol # ', 'escape' => false]);
                   ?>
             </div>      
             <div class="col-xs-6">
@@ -68,12 +68,12 @@ Please use a separate adverse event reporting form for separate reportable adver
           <div class="row">
             <div class="col-xs-12">
               <?php
-                  echo $this->Form->control('study_title', ['label' => 'Study Title <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
+                  echo $this->Form->control('study_title', ['label' => 'Study Title ', 'escape' => false]);
               ?>            
             </div>
             <div class="col-xs-6">
               <?php
-                  echo $this->Form->control('date_of_adverse_event', ['label' => 'Date of Adverse Event <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false, 'type' => 'text']);
+                  echo $this->Form->control('date_of_adverse_event', ['label' => 'Date of Adverse Event', 'escape' => false, 'type' => 'text']);
 
                   echo $this->Form->control('study_sponsor', 
                     ['label' => ['text' => 'Study Sponsor', 'escape' => false]]); 
@@ -85,7 +85,7 @@ Please use a separate adverse event reporting form for separate reportable adver
             <div class="col-xs-6">
               <?php
 
-                  echo $this->Form->control('principal_investigator', ['label' => 'Principal Investigator <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
+                  echo $this->Form->control('principal_investigator', ['label' => 'Principal Investigator ', 'escape' => false]);
 
                   echo $this->Form->control('reporter_name', ['label' => 'Reporter Name', 'escape' => false]);
 
@@ -103,20 +103,20 @@ Please use a separate adverse event reporting form for separate reportable adver
                   echo $this->Form->control('participant_number', ['label' => 'Participant ID', 'escape' => false]);
 
                   echo $this->Form->control('report_type', ['type' => 'radio', 
-                     'label' => '<b>Type of Report <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
+                     'label' => '<b>Type of Report </b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                        'options' => ['Initial' => 'Initial', 'Follow-up' => 'Follow-up', 'Resolution' => 'Resolution']]);
 
                   echo $this->Form->control('date_of_birth', array(
                     'type' => 'date',
-                    'label' => 'Date of Birth <span class="sterix fa fa-asterisk" aria-hidden="true"></span>',
+                    'label' => 'Date of Birth',
                     'templates' => ($editable) ? ['dateWidget' => '<div class="col-sm-6">{{day}}-{{month}}-{{year}}</div>',
                                     'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',] : [],
                     'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true, 'escape' => false,
                   ));
 
                   echo $this->Form->control('gender', ['type' => 'radio', 
-                     'label' => '<b>Gender <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b>', 'escape' => false,
+                     'label' => '<b>Gender</b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                        'options' => ['Male' => 'Male', 'Female' => 'Female', 'Unknown' => 'Unknown']]);
 
@@ -318,7 +318,7 @@ Please use a separate adverse event reporting form for separate reportable adver
 
           <div class="row">
             <div class="col-xs-12"><?php 
-              echo $this->Form->control('diagnosis', ['label' => '(a) Diagnosis <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false, 'templates' => ($editable) ? [ 
+              echo $this->Form->control('diagnosis', ['label' => '(a) Diagnosis ', 'escape' => false, 'templates' => ($editable) ? [ 
                       'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
                       'textarea' => '<div class="col-sm-offset-1 col-sm-11"><textarea class="form-control" rows="2" name="{{name}}"{{attrs}}>{{value}}</textarea></div>'] : 'view_form_text']);
               echo $this->Form->control('immediate_cause', ['label' => '(b) Immediate Cause', 'escape' => false, 'templates' => ($editable) ? [ 
@@ -366,7 +366,7 @@ Please use a separate adverse event reporting form for separate reportable adver
               ?>
               <?=
                   $this->Form->control('outcome', ['type' => 'select', 
-                      'label' => 'Outcome <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'empty' => true, 'escape' => false,
+                      'label' => 'Outcome ', 'empty' => true, 'escape' => false,
                       'templates' => 'radio_form',
                       'options' => ['Recovered' => 'Recovered', 
                   'Recovering' => 'Recovering', 

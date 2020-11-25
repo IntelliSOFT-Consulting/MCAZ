@@ -59,7 +59,7 @@
           <div class="row">
             <div class="col-xs-12">
               <table class="table table-condensed vertical-table">
-                <tr><th><label>Name of vaccination site <span class="sterix fa fa-asterisk" aria-hidden="true"></span> </label></th>
+                <tr><th><label>Name of vaccination site  </label></th>
                     <td><?= $saefi->name_of_vaccination_site ?></td>
                 </tr>
               </table>
@@ -72,7 +72,7 @@
                 <tr><th><label>Name of Investigating Health Worker </label></th>
                     <td><?= $saefi->reporter_name ?></td>
                 </tr>
-                <tr><th><label>Designation <span class="sterix fa fa-asterisk" aria-hidden="true"></span> </label></th>
+                <tr><th><label>Designation  </label></th>
                     <td><?= ($saefi->designation_id) ? $designations->toArray()[$saefi->designation_id] : '' ?>
                     </td>
                 </tr>
@@ -134,14 +134,14 @@
           <div class="row"> 
             <div class="col-xs-6"> 
               <table class="table table-condensed vertical-table">
-                <tr><th><label>Patient Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span> </label></th>
+                <tr><th><label>Patient Name  </label></th>
                     <td><?= $saefi->patient_name ?></td>
                 </tr>
               </table>
             </div> 
             <div class="col-xs-6"> 
               <table class="table table-condensed vertical-table">
-                <tr><th><label>Gender <span class="sterix fa fa-asterisk" aria-hidden="true"></span> </label></th>
+                <tr><th><label>Gender  </label></th>
                     <td><?= $saefi->gender ?></td>
                 </tr>
               </table>
@@ -198,15 +198,15 @@
                     <th colspan="5">Diluent</th>
                   </tr>
                   <tr>
-                    <th colspan="2" style="width: 20%"> Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
-                    <th colspan="2" style="width: 20%"> <h5>Date and Time of Vaccination <span class="sterix fa fa-asterisk" aria-hidden="true"></span><br><small id="helpBlock" class="has-warning">Format dd-mm-yyyy hh24:min</small></h5></th>
-                    <th style="width: 5%"> Dose (1st, 2nd...) <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
-                    <th style="width: 5%"> Batch/Lot number <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
+                    <th colspan="2" style="width: 20%"> Name </th>
+                    <th colspan="2" style="width: 20%"> <h5>Date and Time of Vaccination <br><small id="helpBlock" class="has-warning">Format dd-mm-yyyy hh24:min</small></h5></th>
+                    <th style="width: 5%"> Dose (1st, 2nd...) </th>
+                    <th style="width: 5%"> Batch/Lot number </th>
                     <th> Expiry date </th>
                     <th style="width: 5%"> Batch/ Lot Number </th>
                     <th > Expiry date </th>
                     <th> Time of reconstitution  </th>
-                    <th> Tick Suspected Vaccine(s) <span class="sterix fa fa-asterisk" aria-hidden="true"></span>
+                    <th> Tick Suspected Vaccine(s) 
                     </th>
                   </tr>
                 </thead>
@@ -444,7 +444,7 @@
                   <tr><th><label>Other sources who provided information (specify):</label></th>
                       <td><?= $saefi->other_sources ?></td>
                   </tr>
-                  <tr><th><label>Signs and symptoms in chronological order from the time of vaccination: <span class="sterix fa fa-asterisk" aria-hidden="true"></span></label></th>
+                  <tr><th><label>Signs and symptoms in chronological order from the time of vaccination: </label></th>
                       <td><?= $saefi->signs_symptoms ?></td>
                   </tr>
               </table> 

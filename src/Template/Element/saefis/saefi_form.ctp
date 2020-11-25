@@ -65,7 +65,7 @@ function getChoice(sel){
           <div class="row">
             <div class="col-xs-12">
               <?php
-                  echo $this->Form->control('name_of_vaccination_site', ['label' => 'Name of vaccination site <span class="sterix fa fa-asterisk" aria-hidden="true"></span>','escape' => false]);
+                  echo $this->Form->control('name_of_vaccination_site', ['label' => 'Name of vaccination site ','escape' => false]);
               ?>
             </div>
           </div>
@@ -74,7 +74,7 @@ function getChoice(sel){
             <div class="col-xs-6">
                 <?php
                   echo $this->Form->control('reporter_name', ['label' => 'Name of Investigating Health Worker']);
-                  echo $this->Form->input('designation_id', ['label' => 'Designation <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'options' => $designations, 'empty' => true, 'escape' => false]);                 
+                  echo $this->Form->input('designation_id', ['label' => 'Designation ', 'options' => $designations, 'empty' => true, 'escape' => false]);                 
               ?>
             </div>
             <div class="col-xs-6">
@@ -126,11 +126,11 @@ function getChoice(sel){
 
           <div class="row"> 
             <div class="col-xs-6"> 
-                <?= $this->Form->control('patient_name', ['label' => 'Patient Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]); ?>
+                <?= $this->Form->control('patient_name', ['label' => 'Patient Name ', 'escape' => false]); ?>
             </div> 
             <div class="col-xs-6"> 
                 <?= $this->Form->control('gender', ['type' => 'radio', 
-                     'label' => '<b>Gender</b> <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
+                     'label' => '<b>Gender</b> ', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Male' => 'Male', 'Female' => 'Female', 'Unknown' => 'Unknown']]);
                 ?>
@@ -485,7 +485,7 @@ function getChoice(sel){
                     echo $this->Form->control('other_sources', [
                          'label' => 'Other sources who provided information (specify):',]);
                     echo $this->Form->control('signs_symptoms', [
-                         'label' => 'Signs and symptoms in chronological order from the time of vaccination: <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
+                         'label' => 'Signs and symptoms in chronological order from the time of vaccination: ', 'escape' => false]);
                 ?>
             </div>
           </div>

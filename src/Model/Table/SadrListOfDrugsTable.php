@@ -74,7 +74,7 @@ class SadrListOfDrugsTable extends Table
             ->integer('id')
             ->allowEmpty('id', 'create');
 
-        $validator
+        /*$validator
             ->scalar('drug_name')
             ->notEmpty('drug_name', ['message' => 'Generic name required']);
             
@@ -104,7 +104,7 @@ class SadrListOfDrugsTable extends Table
                 return false;
             },
             'message' => 'Drug start date must be less than or equal to drug stop date'
-        ]);
+        ]);*/
 
         /*$validator
             ->date('start_date', 'dmy', ['message' => 'Kindly enter the drug start date in the format dd-mm-yyyy e.g. 22-03-2018'])

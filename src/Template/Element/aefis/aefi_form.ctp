@@ -39,23 +39,23 @@ $editable = $this->fetch('editable');
             <div class="col-xs-6">
               <?php               
 
-                  echo $this->Form->control('patient_name', ['label' => 'Patient first name <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
+                  echo $this->Form->control('patient_name', ['label' => 'Patient first name ', 'escape' => false]);
 
-                  echo $this->Form->control('patient_surname', ['label' => 'Patient Surname <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
+                  echo $this->Form->control('patient_surname', ['label' => 'Patient Surname ', 'escape' => false]);
 
                   echo $this->Form->control('patient_next_of_kin', ['label' => 'Patient next of Kin', 'escape' => false]);
 
-                  echo $this->Form->control('patient_address', ['label' => 'Patient\'s physical address <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
+                  echo $this->Form->control('patient_address', ['label' => 'Patient\'s physical address ', 'escape' => false]);
 
                   echo $this->Form->control('patient_telephone', ['label' => 'Patient\'s phone number', 'escape' => false]);
                   echo $this->Form->control('gender', ['type' => 'radio', 
-                     'label' => '<b>Gender</b> <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
+                     'label' => '<b>Gender</b> ', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Male' => 'Male', 'Female' => 'Female', 'Unknown' => 'Unknown']]);
 
                   echo $this->Form->control('date_of_birth', array(
                     'type' => 'date', 'escape' => false, 'default' => null,
-                    'label' => 'Date of Birth <span class="sterix fa fa-asterisk" aria-hidden="true"></span>',
+                    'label' => 'Date of Birth ',
                     'templates' => ($editable) ?  ['dateWidget' => '<div class="col-sm-6">{{day}}-{{month}}-{{year}}</div>',
                                     'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',] : [],
                     'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
@@ -76,7 +76,7 @@ $editable = $this->fetch('editable');
             </div>
             <div class="col-xs-6">
               <?php
-                  echo $this->Form->control('reporter_name', ['label' => 'Reporter\'s name <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape'=> false]);
+                  echo $this->Form->control('reporter_name', ['label' => 'Reporter\'s name ', 'escape'=> false]);
                   echo $this->Form->input('designation_id', ['options' => $designations, 'empty' => true, 'label' => 'Designation <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
                   echo $this->Form->control('reporter_institution', ['label' => 'Reporter Institution']);
                   echo $this->Form->control('reporter_department', ['label' => 'Department']);
@@ -93,7 +93,7 @@ $editable = $this->fetch('editable');
           <div class="row">
             <div class="col-xs-12">
               <?php
-                  echo $this->Form->control('name_of_vaccination_center', ['label' => 'Name of vaccination center <span class="sterix fa fa-asterisk" aria-hidden="true"></span>','escape' => false]);
+                  echo $this->Form->control('name_of_vaccination_center', ['label' => 'Name of vaccination center ','escape' => false]);
               ?>
             </div>
           </div>
@@ -104,7 +104,7 @@ $editable = $this->fetch('editable');
 
           <div class="row">
             <div class="col-xs-2">
-              <h4>Adverse Event(s) <span class="sterix fa fa-asterisk" aria-hidden="true"></span>:</h4>
+              <h4>Adverse Event(s) :</h4>
               <?php
                   // echo $this->Form->control('adverse_events', ['label' => 'Adverse event(s):', 'type' => 'select', 'multiple' => true, 'options' => ['Severe local reaction' => 'Severe local reaction', 'Seizures' => 'Seizures', 'Abscess' => 'Abscess']]);
 
@@ -184,7 +184,7 @@ $editable = $this->fetch('editable');
           <div class="row">
             <div class="col-xs-12">
               <?php
-                  echo $this->Form->control('description_of_reaction', ['label' => 'Describe AEFI (Signs and symptoms) <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
+                  echo $this->Form->control('description_of_reaction', ['label' => 'Describe AEFI (Signs and symptoms) ', 'escape' => false,
                     'templates' => ($editable) ? [ 
                       'label' => '<div class="col-sm-offset-1 col-sm-11"><label {{attrs}}>{{text}}</label></div>',
                       'input' => '<input class="form-control" type="{{type}}" name="{{name}}"{{attrs}}/>',
@@ -201,7 +201,7 @@ $editable = $this->fetch('editable');
             <div class="col-xs-12">
               <?php
                   echo $this->Form->control('serious', ['type' => 'radio', 
-                     'label' => '<b>Serious? </b><span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
+                     'label' => '<b>Serious? </b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]);
 
@@ -218,7 +218,7 @@ $editable = $this->fetch('editable');
             <div class="col-xs-6">
               <?php
                   echo $this->Form->control('outcome', ['type' => 'select', 'empty' => true, 
-                     'label' => 'Outcome <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 
+                     'label' => 'Outcome ', 
                      'escape' => false,
                      //'templates' => 'radio_form',
                      'options' => ['Recovering' => 'Recovering', 'Recovered' => 'Recovered', 'Recovered with sequelae' => 'Recovered with sequelae', 'Not Recovered' => 'Not Recovered', 'Died'=>'Died','Unknown' => 'Unknown']]);

@@ -205,13 +205,13 @@ class SadrsTable extends Table
     public function validationDefault(Validator $validator)
     {
 
-        $validator
-            ->scalar('name_of_institution')
-            ->notEmpty('name_of_institution', ['message' => 'Please enter the institution name']);
+        // $validator
+        //     ->scalar('name_of_institution')
+        //     ->notEmpty('name_of_institution', ['message' => 'Please enter the institution name']);
 
-        $validator
-            ->scalar('institution_code')
-            ->notEmpty('institution_code', ['message' => 'Please enter the institution code']);
+        // $validator
+        //     ->scalar('institution_code')
+        //     ->notEmpty('institution_code', ['message' => 'Please enter the institution code']);
 
         /*$validator
             ->allowEmpty('suspected_drugy')
@@ -246,9 +246,9 @@ class SadrsTable extends Table
             return false;
         }, ['message' => 'Kindly select at least one suspected drug']);
 
-        $validator
-            ->scalar('patient_name')
-            ->notEmpty('patient_name', ['message' => 'Patient Initials required!']);   
+        // $validator
+        //     ->scalar('patient_name')
+        //     ->notEmpty('patient_name', ['message' => 'Patient Initials required!']);   
 
         //Age at onset values
         $validator
@@ -297,14 +297,14 @@ class SadrsTable extends Table
             }, 'message' => 'Year of birth required']);
 
         //date of onset of reaction: year of reaction required
-        $validator
+        /*$validator
             ->add('date_of_onset_of_reaction', 'door-select-year', [
                 'rule' => function ($value, $context) {
                 $door = (($value)) ?? '--';
                 $a = explode('-', $door);
                 if ($a[2] > (date('Y')-120) && $a[2] <= date('Y')) return true;
                 return false;
-            }, 'message' => 'Year of onset of reaction required']);
+            }, 'message' => 'Year of onset of reaction required']);*/
         //date of birth less than date of onset of reaction
         $validator->add('date_of_birth', 'dob-less-door', [
             'rule' => function ($value, $context) {
@@ -375,25 +375,25 @@ class SadrsTable extends Table
         ]);
 
 
-        $validator
-            ->scalar('gender')
-            ->notEmpty('gender', ['message' => 'Gender required!']);
+        // $validator
+        //     ->scalar('gender')
+        //     ->notEmpty('gender', ['message' => 'Gender required!']);
 
-        $validator
-            ->scalar('description_of_reaction')
-            ->notEmpty('description_of_reaction', ['message' => 'Description of reaction required']);
+        // $validator
+        //     ->scalar('description_of_reaction')
+        //     ->notEmpty('description_of_reaction', ['message' => 'Description of reaction required']);
 
-        $validator
-            ->scalar('severity')
-            ->notEmpty('severity', ['message' => 'Severity required!']);
+        // $validator
+        //     ->scalar('severity')
+        //     ->notEmpty('severity', ['message' => 'Severity required!']);
             
-        $validator
-            ->scalar('outcome')
-            ->notEmpty('outcome', ['message' => 'Outcome required!']);
+        // $validator
+        //     ->scalar('outcome')
+        //     ->notEmpty('outcome', ['message' => 'Outcome required!']);
 
-        $validator
-            ->scalar('action_taken')
-            ->notEmpty('action_taken', ['message' => 'Action taken required!']);
+        // $validator
+        //     ->scalar('action_taken')
+        //     ->notEmpty('action_taken', ['message' => 'Action taken required!']);
 
         return $validator;
     }

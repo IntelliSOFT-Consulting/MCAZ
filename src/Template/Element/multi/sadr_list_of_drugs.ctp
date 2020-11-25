@@ -15,15 +15,15 @@
             <table id="<?= ($editable) ? 'listofdrugsform' : 'disabledlist'  ?>"  class="table table-bordered table-condensed">
                 <thead>
                   <tr>
-                    <th colspan="2" > Generic Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
+                    <th colspan="2" > Generic Name </th>
                     <th> Brand Name </th>
                     <th> Batch Number</th>
-                    <th colspan="2" > Dose <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
-                    <th colspan="2" > Route and Frequency <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
+                    <th colspan="2" > Dose </th>
+                    <th colspan="2" > Route and Frequency </th>
                     <th> Indication </th>
-                    <th> Date Started <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
+                    <th> Date Started </th>
                     <th> Date Stopped </th>
-                    <th colspan="2"> Tick Suspected Drug(s) <span class="sterix fa fa-asterisk" aria-hidden="true"></span>
+                    <th colspan="2"> Tick Suspected Drug(s) 
                     <?php
                         echo $this->Form->input('suspected_drugy', ['type' => 'hidden', 'templates' => ($editable) ?  'app_form' : ['input' => '']]) ; 
                         if ($this->Form->isFieldError('suspected_drugy')) {

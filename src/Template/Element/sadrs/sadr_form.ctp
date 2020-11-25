@@ -162,9 +162,9 @@ function getDate(sel){
             <div class="col-xs-6">
               <?php
                   echo $this->Form->control('name_of_institution', 
-                    ['label' => ['text' => 'Clinic/Hospital Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]]);
+                    ['label' => ['text' => 'Clinic/Hospital Name', 'escape' => false]]);
                   
-                  echo $this->Form->control('patient_name', ['label' => 'Patient Initials <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
+                  echo $this->Form->control('patient_name', ['label' => 'Patient Initials', 'escape' => false]);
                   //echo $this->Form->control('date_of_birth');
                   
                   echo $this->Form->control('date_of_birth', array(
@@ -203,14 +203,14 @@ function getDate(sel){
             </div>
             <div class="col-xs-6">
               <?php
-                  echo $this->Form->control('institution_code', ['label' => 'Clinic/Hospital Number <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
+                  echo $this->Form->control('institution_code', ['label' => 'Clinic/Hospital Number ', 'escape' => false]);
                   echo $this->Form->control('ip_no', ['label' => 'VCT/OI/TB Number']);
                   echo $this->Form->input('province_id', ['options' => $provinces, 'empty' => true]);
                   echo $this->Form->control('weight', ['type'=>'number','label' => 'Weight (KGs)']);
                   echo $this->Form->control('height', ['type'=>'number','label' => 'Height (cm)']);
                   //TODO: Change styles for view select, radio and checkbox to become silent
                   echo $this->Form->control('gender', ['type' => 'radio', 
-                     'label' => '<b>Gender</b> <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
+                     'label' => '<b>Gender</b> ', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
                      'options' => ['Male' => 'Male', 'Female' => 'Female', 'Unknown' => 'Unknown']]);
               ?>
@@ -227,7 +227,7 @@ function getDate(sel){
                   //$this->Form->control('date_of_onset_of_reaction', ['label' => 'Date of Onset:']); 
                   echo $this->Form->control('date_of_onset_of_reaction', array(
                     'type' => 'date', 'escape' => false,
-                    'label' => 'Date of onset of Reaction <span class="sterix fa fa-asterisk" aria-hidden="true"></span>',
+                    'label' => 'Date of onset of Reaction ',
                     'templates' => ($editable) ? ['dateWidget' => '<div class="col-xs-6">{{day}}-{{month}}-{{year}}</div>',
                                    'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',] : [],
                     'minYear' => date('Y') - 100, 'maxYear' => date('Y'), 'empty' => true,
@@ -266,7 +266,7 @@ function getDate(sel){
           </div> -->
 
           <div class="row">
-            <div class="col-xs-8"><?= $this->Form->control('description_of_reaction', ['label' => 'Description of ADR <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'type' => 'text', 'escape' => false]); ?>
+            <div class="col-xs-8"><?= $this->Form->control('description_of_reaction', ['label' => 'Description of ADR', 'type' => 'text', 'escape' => false]); ?>
               <?php echo $this->element('multi/reactions', ['editable' => $editable]);?></div>
             <div class="col-xs-4"><h5 class="controls pull-left"><b> </b><small>Other Reactions?
         <button title="add reaction" id="addReactionDetail" class="btn btn-primary btn-xs multiple_reactions" type="button">Add Reaction</button></small><b></b></h5></div>
@@ -275,7 +275,7 @@ function getDate(sel){
           <div class="row">
             <div class="col-xs-4">
               <div class="col-xs-4">
-                <b>Serious</b> <span class="sterix fa fa-asterisk" aria-hidden="true"></span>
+                <b>Serious</b> 
               </div>
               <div class="col-xs-8">
               <?php 
@@ -337,7 +337,7 @@ function getDate(sel){
             <div class="col-xs-4">
                 <?=
                   $this->Form->control('action_taken', ['type' => 'select', 
-                      'label' => 'Action Taken: <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'empty' => true, 'escape' => false,
+                      'label' => 'Action Taken: ', 'empty' => true, 'escape' => false,
                       'templates' => 'radio_form',
                       'options' => ['Drug withdrawn' => 'Drug withdrawn',
 'Dose increased' => 'Dose increased',
@@ -351,7 +351,7 @@ function getDate(sel){
             <div class="col-xs-4">
                 <?=
                   $this->Form->control('outcome', ['type' => 'select', 
-                      'label' => 'Outcome <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'empty' => true, 'escape' => false,
+                      'label' => 'Outcome', 'empty' => true, 'escape' => false,
                       'templates' => 'radio_form',
                       'options' => ['Recovered' => 'Recovered', 
                   'Recovering' => 'Recovering', 

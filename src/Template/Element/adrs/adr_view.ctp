@@ -45,10 +45,10 @@ Please use a separate adverse event reporting form for separate reportable adver
           <div class="row">
             <div class="col-xs-6">
               <table class="table table-condensed vertical-table">
-                <tr><th><label>MRCZ Protocol # <span class="sterix fa fa-asterisk" aria-hidden="true"></span> </label></th>
+                <tr><th><label>MRCZ Protocol #  </label></th>
                     <td><?= $adr->mrcz_protocol_number ?></td>
                 </tr>
-                <tr><th><label>MCAZ Protocol # <span class="sterix fa fa-asterisk" aria-hidden="true"></span> </label></th>
+                <tr><th><label>MCAZ Protocol #  </label></th>
                     <td><?= $adr->mcaz_protocol_number ?></td>
                 </tr>
               </table>  
@@ -66,14 +66,14 @@ Please use a separate adverse event reporting form for separate reportable adver
           <div class="row">
             <div class="col-xs-12">
               <table class="table table-condensed vertical-table">
-                <tr><th><label>Study Title <span class="sterix fa fa-asterisk" aria-hidden="true"></span> </label></th>
+                <tr><th><label>Study Title  </label></th>
                     <td><?= $adr->study_title ?></td>
                 </tr>
               </table>          
             </div>
             <div class="col-xs-6">
               <table class="table table-condensed vertical-table">
-                <tr><th><label>Date of Adverse Event <span class="sterix fa fa-asterisk" aria-hidden="true"></span> </label></th>
+                <tr><th><label>Date of Adverse Event  </label></th>
                     <td><?= $adr->date_of_adverse_event ?></td>
                 </tr>
                 <tr><th><label>Study Sponsor </label></th>
@@ -86,7 +86,7 @@ Please use a separate adverse event reporting form for separate reportable adver
           <div class="row">
             <div class="col-xs-6">
               <table class="table table-condensed vertical-table">
-                <tr><th><label>Principal Investigator <span class="sterix fa fa-asterisk" aria-hidden="true"></span> </label></th>
+                <tr><th><label>Principal Investigator  </label></th>
                     <td><?= $adr->principal_investigator ?></td>
                 </tr>
                 <tr><th><label>Reporter Name </label></th>
@@ -108,13 +108,13 @@ Please use a separate adverse event reporting form for separate reportable adver
                 <tr><th><label>Participant ID </label></th>
                     <td><?= $adr->participant_number ?></td>
                 </tr>
-                <tr><th><label><b>Type of Report <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b> </label></th>
+                <tr><th><label><b>Type of Report </b> </label></th>
                     <td><?= $adr->report_type ?></td>
                 </tr>
-                <tr><th><label>Date of Birth <span class="sterix fa fa-asterisk" aria-hidden="true"></span> </label></th>
+                <tr><th><label>Date of Birth </label></th>
                     <td><?= $adr->date_of_birth ?></td>
                 </tr>
-                <tr><th><label><b>Gender <span class="sterix fa fa-asterisk" aria-hidden="true"></span></b> </label></th>
+                <tr><th><label><b>Gender </b> </label></th>
                     <td><?= $adr->gender ?></td>
                 </tr>
                 <tr><th><label>Study Week </label></th>
@@ -402,7 +402,7 @@ Please use a separate adverse event reporting form for separate reportable adver
           <div class="row">
             <div class="col-xs-12">
               <table class="table table-condensed vertical-table">
-                <tr><th><label>(a) Diagnosis <span class="sterix fa fa-asterisk" aria-hidden="true"></span> </label></th>
+                <tr><th><label>(a) Diagnosis  </label></th>
                     <td><?= $adr->diagnosis ?></td>
                 </tr>
                 <tr><th><label>(b) Immediate Cause </label></th>
@@ -485,7 +485,7 @@ Please use a separate adverse event reporting form for separate reportable adver
             </div>
             <div class="col-xs-12">              
               <table class="table table-condensed vertical-table">
-                <tr><th><label>Outcome <span class="sterix fa fa-asterisk" aria-hidden="true"></span> </label></th>
+                <tr><th><label>Outcome  </label></th>
                     <td><?= $adr->outcome ?></td>
                 </tr>
               </table>  

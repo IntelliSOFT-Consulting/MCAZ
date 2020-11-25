@@ -36,10 +36,10 @@
           <div class="row">
             <div class="col-xs-6">
               <table class="table table-condensed vertical-table">
-                <tr><th><label>Clinic/Hospital Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span></label></th>
+                <tr><th><label>Clinic/Hospital Name </label></th>
                     <td><?= $sadr->name_of_institution ?></td>
                 </tr>
-                <tr><th><label>Patient Initials <span class="sterix fa fa-asterisk" aria-hidden="true"></span></label></th>
+                <tr><th><label>Patient Initials</label></th>
                     <td><?= $sadr->patient_name ?></td>
                 </tr>
                 <tr><th><label>Date of Birth</label></th>
@@ -55,7 +55,7 @@
             </div>
             <div class="col-xs-6">
               <table class="table table-condensed vertical-table">
-                <tr><th><label>Clinic/Hospital Number <span class="sterix fa fa-asterisk" aria-hidden="true"></span></label></th>
+                <tr><th><label>Clinic/Hospital Number </label></th>
                     <td><?= $sadr->institution_code ?></td>
                 </tr>
                 <tr><th><label>VCT/OI/TB Number</label></th>
@@ -84,7 +84,7 @@
           <div class="row">
             <div class="col-xs-6">
               <table class="table table-condensed vertical-table">
-                <tr><th><label>Date of onset of Reaction <span class="sterix fa fa-asterisk" aria-hidden="true"></span></label></th>
+                <tr><th><label>Date of onset of Reaction </label></th>
                     <td><?= $sadr->date_of_onset_of_reaction ?></td>
                 </tr>
                 <tr><th><label>Did reaction occur in utero?</label></th>
@@ -104,7 +104,7 @@
           <div class="row">
             <div class="col-xs-8">
               <table class="table table-condensed vertical-table">
-                <tr><th><label>Description of ADR <span class="sterix fa fa-asterisk" aria-hidden="true"></span></label></th>
+                <tr><th><label>Description of ADR </label></th>
                     <td><?= $sadr->description_of_reaction ?></td>
                 </tr>
                 <tr><th></th>
@@ -124,7 +124,7 @@
           <div class="row">
             <div class="col-xs-4">
               <table class="table table-condensed vertical-table">
-                <tr><th><b>Serious</b> <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
+                <tr><th><b>Serious</b> </th>
                     <td><?= $sadr->severity ?></td>
                 </tr>
               </table>   
@@ -238,14 +238,14 @@
           <div class="row">
             <div class="col-xs-4">
               <table class="table table-condensed vertical-table">
-                <tr><th><label>Action Taken: <span class="sterix fa fa-asterisk" aria-hidden="true"></span></label></th>
+                <tr><th><label>Action Taken: </label></th>
                     <td><?= $sadr->action_taken ?></td>
                 </tr>
               </table>  
             </div>
             <div class="col-xs-4">
               <table class="table table-condensed vertical-table">
-                <tr><th><label>Outcome <span class="sterix fa fa-asterisk" aria-hidden="true"></span></label></th>
+                <tr><th><label>Outcome </label></th>
                     <td><?= $sadr->outcome ?></td>
                 </tr>
               </table>  

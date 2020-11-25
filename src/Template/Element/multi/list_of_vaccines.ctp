@@ -22,15 +22,15 @@
                     <th colspan="5">Diluent</th>
                   </tr>
                   <tr>
-                    <th colspan="2" style="width: 20%"> Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
-                    <th colspan="2" style="width: 20%"> <h5>Date and Time of Vaccination <span class="sterix fa fa-asterisk" aria-hidden="true"></span><br><small id="helpBlock" class="has-warning">Format dd-mm-yyyy hh24:min</small></h5></th>
-                    <th style="width: 5%"> Dose (1st, 2nd...) <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
-                    <th style="width: 5%"> Batch/Lot number <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
+                    <th colspan="2" style="width: 20%"> Name </th>
+                    <th colspan="2" style="width: 20%"> <h5>Date and Time of Vaccination <br><small id="helpBlock" class="has-warning">Format dd-mm-yyyy hh24:min</small></h5></th>
+                    <th style="width: 5%"> Dose (1st, 2nd...) </th>
+                    <th style="width: 5%"> Batch/Lot number </th>
                     <th> Expiry date </th>
                     <th style="width: 5%"> Batch/ Lot Number </th>
                     <th > Expiry date </th>
                     <th> Time of reconstitution  </th>
-                    <th colspan="2"> Tick Suspected Vaccine(s) <span class="sterix fa fa-asterisk" aria-hidden="true"></span>
+                    <th colspan="2"> Tick Suspected Vaccine(s) 
                     <?php
                         echo $this->Form->input('suspected_drug', ['type' => 'hidden', 'templates' => ($editable) ?  'app_form' : ['input' => '']]) ; 
                         if ($this->Form->isFieldError('suspected_drug')) {
@@ -164,9 +164,9 @@
             <table id="listOfDiluentsTable"  class="table table-bordered">
                 <thead>
                   <tr>
-                    <th colspan="2" > Name <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
+                    <th colspan="2" > Name </th>
                     <th> Date and Time of reconstitution </th>
-                    <th> Batch/Lot number <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
+                    <th> Batch/Lot number </th>
                     <th colspan="2"> Expiry date </th>
                   </tr>
                 </thead>
