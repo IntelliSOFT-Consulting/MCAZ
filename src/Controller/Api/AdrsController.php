@@ -292,6 +292,85 @@ class AdrsController extends AppController
         $this->set(compact('adr', 'users', 'designations', 'doses', 'routes', 'frequencies'));
         $this->set('_serialize', ['adr']);
     }
+    
+    //TODO: Add notifications to all API Calls
+    public function followup($id = null)
+    {
+        $this->loadModel('AdrFollowups');
+        $id = base64_decode($id);
+        $adr = $this->Adrs->find('all', [
+            'contain' => []
+        ])->where(['reference_number' => $id])->first();
+
+        $followup = $this->AdrFollowups->newEntity() ;
+
+        if(!empty($adr) && $adr->user_id == $this->Auth->user('id')) {
+            if ($this->request->is(['patch', 'post', 'put'])) { 
+                $followup = $this->AdrFollowups->patchEntity($followup, $this->request->getData());
+                $followup->report_type = 'FollowUp';
+                $followup->submitted_date = date("Y-m-d H:i:s");
+                $followup->submitted = 2;
+                $followup->adr_id = $adr->id;
+                //Attachments
+                $this->_attachments();
+                if (!empty($followup->attachments)) {
+                    for ($i = 0; $i <= count($followup->attachments)-1; $i++) { 
+                      $followup->attachments[$i]->model = 'AdrFollowups';
+                      $followup->attachments[$i]->category = 'attachments';
+                    }
+                }
+                //submit to mcaz button
+                $followup->submitted_date = date("Y-m-d H:i:s");
+                
+                //TODO: validate linked data here since validate will be false
+                if ($this->AdrFollowups->save($followup, ['validate' => false])) {
+                    
+                    //send email and notification
+                    $this->loadModel('Queue.QueuedJobs');    
+                    $data = [
+                          'email_address' => $adr->reporter_email, 'user_id' => $this->Auth->user('id'),
+                          'type' => 'applicant_submit_adr_followup_email', 'model' => 'Adrs', 'foreign_key' => $adr->id,
+                          'vars' =>  $adr->toArray()
+                    ];
+                    //notify applicant
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
+                    $data['type'] = 'applicant_submit_adr_followup_notification';
+                    $data['vars']['created'] = $followup->created;
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                    //notify managers
+                    $managers = $this->Adrs->Users->find('all')->where(['group_id IN' => [2, 4]]);
+                    foreach ($managers as $manager) {
+                        $data = ['email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Adrs', 'foreign_key' => $adr->id,
+                                 'vars' =>  $adr->toArray()];
+                        $data['vars']['name'] = $manager->name;
+                        $data['type'] = 'manager_submit_adr_followup_email';
+                        $this->QueuedJobs->createJob('GenericEmail', $data);
+                        $data['type'] = 'manager_submit_adr_followup_notification';
+                        $this->QueuedJobs->createJob('GenericNotification', $data);
+                    }
+                    //
+                     $this->set(compact('followup'));
+                     $this->set('_serialize', ['followup']);
+                } else {
+                    $this->response->body('Failure');
+                $this->response->statusCode(401);
+                $this->set([
+                    'message' => 'Unable to save followup', 
+                    '_serialize' => ['message']]);
+                return;
+                }
+           
+          }
+        } else {
+          $this->response->body('Failure');
+                $this->response->statusCode(403);
+                $this->set([
+                    'message' => 'Report does not exist', 
+                    '_serialize' => ['message']]);
+                return;
+        }
+
+    }
 
     /**
      * Delete method

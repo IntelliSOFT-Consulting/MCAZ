@@ -50,6 +50,7 @@ class AdrsTable extends Table
             'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 
                           'Reviews', 'Reviews.Users', 'Reviews.AdrComments', 'Reviews.AdrComments.Attachments',  
                           'Committees', 'Committees.Users', 'Committees.AdrComments', 'Committees.AdrComments.Attachments', 'ReportStages', 
+                          'AdrFollowups', 'AdrFollowups.AdrListOfDrugs', 'AdrFollowups.AdrOtherDrugs', 'AdrFollowups.Attachments',
                           'OriginalAdrs', 'OriginalAdrs.AdrListOfDrugs', 'OriginalAdrs.AdrOtherDrugs', 'OriginalAdrs.Attachments'],
             'remove' => ['created', 'modified', 'adr_list_of_drugs.created',  'attachments.created',
                           'adr_list_of_drugs.modified',  'attachments.modified'],
@@ -130,6 +131,12 @@ class AdrsTable extends Table
             'foreignKey' => 'foreign_key',
             'dependent' => true,
             'conditions' => array('RequestEvaluators.model' => 'Adrs', 'RequestEvaluators.type' => 'request_evaluator_info'),
+        ]);
+
+        $this->hasMany('AdrFollowups', [
+            'foreignKey' => 'adr_id',
+            'dependent' => true,
+            'conditions' => array('AdrFollowups.report_type' => 'FollowUp'),
         ]);
     }
 
@@ -340,7 +347,7 @@ class AdrsTable extends Table
 
         //Age at onset values
         //date of birth or onset
-        $validator
+        /*$validator
             ->allowEmpty('date_of_birth')
             ->add('date_of_birth', 'dob-or-door', [
                 'rule' => function ($value, $context) {                    
@@ -357,10 +364,10 @@ class AdrsTable extends Table
                 if($value != '--')
                     if($a[2] < (date('Y')-120) || $a[2] > date('Y')) return false;
                 return true;
-            }, 'message' => 'Year of birth required']);
+            }, 'message' => 'Year of birth required']);*/
 
         //date of birth less than date of adverse event
-        $validator->add('date_of_birth', 'dob-less-doae', [
+        /*$validator->add('date_of_birth', 'dob-less-doae', [
             'rule' => function ($value, $context) {
                 //Normalize dob and door
                 $dob = (($value)) ?? '--';
@@ -393,7 +400,7 @@ class AdrsTable extends Table
                 return true;
 
             }, 'message' => 'Date of birth must be greater than drug start date'
-        ]);
+        ]);*/
 
         // $validator
         //     ->date('report_to_mcaz_date')

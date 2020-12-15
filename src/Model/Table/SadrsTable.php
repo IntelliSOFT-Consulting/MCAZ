@@ -232,7 +232,7 @@ class SadrsTable extends Table
             'message' => 'Kindly select at least one suspected drug'
         ]);*/
 
-        $validator->allowEmpty('suspected_drugy', function ($context) {
+        /*$validator->allowEmpty('suspected_drugy', function ($context) {
             // return !$context['data']['is_taxable'];
             if (isset($context['data']['sadr_list_of_drugs'])) {
                 foreach ($context['data']['sadr_list_of_drugs'] as $val){
@@ -244,7 +244,7 @@ class SadrsTable extends Table
                 }
             }
             return false;
-        }, ['message' => 'Kindly select at least one suspected drug']);
+        }, ['message' => 'Kindly select at least one suspected drug']);*/
 
         // $validator
         //     ->scalar('patient_name')
@@ -274,7 +274,7 @@ class SadrsTable extends Table
             }, 'message' => 'Days at onset must be between 1 and 613200']);
 
         //date of birth or onset
-        $validator
+        /*$validator
             ->allowEmpty('date_of_birth')
             ->add('date_of_birth', 'dob-or-door', [
                 'rule' => function ($value, $context) {                    
@@ -294,7 +294,7 @@ class SadrsTable extends Table
                 if($value != '--')
                     if($a[2] < (date('Y')-120) || $a[2] > date('Y')) return false;
                 return true;
-            }, 'message' => 'Year of birth required']);
+            }, 'message' => 'Year of birth required']);*/
 
         //date of onset of reaction: year of reaction required
         /*$validator
