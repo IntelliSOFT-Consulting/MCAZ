@@ -12,8 +12,8 @@
             <table id="<?= ($editable) ? 'listOfDevicesTable' : 'disabledlist'  ?>"  class="table table-bordered table-condensed">
                 <thead>
                   <tr>
-                    <th colspan="2"> Drug/Device/Vaccine</th>
-                    <th colspan="2" style="width: 18%"> Dose </th>
+                    <th colspan="2"> Drug/Device/Vaccine <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
+                    <th colspan="2" style="width: 18%"> Dose <span class="sterix fa fa-asterisk" aria-hidden="true"></span></th>
                     <th colspan="2" > Route and Frequency </th>
                     <th> Date commenced </th>
                     <th> Taking drug at onset of SAE?</th>

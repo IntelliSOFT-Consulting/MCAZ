@@ -266,16 +266,6 @@
                     <reactionmeddrapt/>
                     <termhighlighted/>
                     <reactionstartdateformat><?php
-                        $onsetf = 102;
-                        $a = explode('-', $sadr->date_of_onset_of_reaction);
-                        $sadr->date_of_onset_of_reaction = array('day'=> $a[0],'month'=> $a[1],'year'=> $a[2]);
-                        if (empty($sadr['date_of_onset_of_reaction']['day']) && empty($sadr['date_of_onset_of_reaction']['month'])) {
-                            $onsetf = 602;
-                        } else if (empty($sadr['date_of_onset_of_reaction']['day']) && !empty($sadr['date_of_onset_of_reaction']['month'])) {
-                            $onsetf = 610;
-                        } else if (!empty($sadr['date_of_onset_of_reaction']['day']) && empty($sadr['date_of_onset_of_reaction']['month'])) {
-                            $onsetf = 602;
-                        }
                         echo $onsetf;
                     ?></reactionstartdateformat>
                     <reactionstartdate><?php
@@ -379,6 +369,7 @@
                     <drugresult>
                     <?php
                         $f = false;
+                    if(isset($sadr['reviews'])) {
                         foreach ($sadr['reviews'] as $review) {
                             if ($review['drug_name'] == $sadrListOfDrug['drug_name'] && !empty($review['causality_decision'])) {
                                 $f = true;
@@ -390,6 +381,7 @@
                                 if(strtolower($review['causality_decision']) == 'unassessable/unclassifiable') echo 'unassessable/unclassifiable';
                             }
                         }
+                    }
                         if (!$f) {
                             if(strtolower($sadr['relatedness']) == 'certain') echo 'certain';
                             if(strtolower($sadr['relatedness']) == 'probable / likely') echo 'probable/likely';

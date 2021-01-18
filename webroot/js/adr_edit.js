@@ -21,6 +21,43 @@ $(function() {
         }
     });
 
+    //If not serious disable criteria
+    $('input[name="report_to_mcaz"]').click(function(){ 
+        if ($(this).val() == 'No') {
+            $('input[name="report_to_mcaz_date"]').attr('disabled', this.checked).val('');
+        } else {
+            $('input[name="report_to_mcaz_date"]').attr('disabled', false);
+        }
+    });
+    if($('input[name="report_to_mcaz"][value="No"]').is(':checked')){ $('input[name="report_to_mcaz_date"]').attr('disabled', true).attr('checked', false); }
+
+    $('input[name="report_to_mrcz"]').click(function(){ 
+        if ($(this).val() == 'No') {
+            $('input[name="report_to_mrcz_date"]').attr('disabled', this.checked).val('');
+        } else {
+            $('input[name="report_to_mrcz_date"]').attr('disabled', false);
+        }
+    });
+    if($('input[name="report_to_mrcz"][value="No"]').is(':checked')){ $('input[name="report_to_mrcz_date"]').attr('disabled', true).attr('checked', false); }
+
+    $('input[name="report_to_sponsor"]').click(function(){ 
+        if ($(this).val() == 'No') {
+            $('input[name="report_to_sponsor_date"]').attr('disabled', this.checked).val('');
+        } else {
+            $('input[name="report_to_sponsor_date"]').attr('disabled', false);
+        }
+    });
+    if($('input[name="report_to_sponsor"][value="No"]').is(':checked')){ $('input[name="report_to_sponsor_date"]').attr('disabled', true).attr('checked', false); }
+    
+    $('input[name="report_to_irb"]').click(function(){ 
+        if ($(this).val() == 'No') {
+            $('input[name="report_to_irb_date"]').attr('disabled', this.checked).val('');
+        } else {
+            $('input[name="report_to_irb_date"]').attr('disabled', false);
+        }
+    });
+    if($('input[name="report_to_irb"][value="No"]').is(':checked')){ $('input[name="report_to_irb_date"]').attr('disabled', true).attr('checked', false); }
+
     $('#aefi-date').datetimepicker({
         minDate:"-100Y", maxDate:"+5Y", 
         format: 'd-m-Y H:i'
