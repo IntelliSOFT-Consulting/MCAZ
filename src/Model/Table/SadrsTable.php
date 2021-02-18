@@ -306,7 +306,7 @@ class SadrsTable extends Table
                 return false;
             }, 'message' => 'Year of onset of reaction required']);*/
         //date of birth less than date of onset of reaction
-        $validator->add('date_of_birth', 'dob-less-door', [
+        /*$validator->add('date_of_birth', 'dob-less-door', [
             'rule' => function ($value, $context) {
                 //Normalize dob and door
                 $dob = (($value)) ?? '--';
@@ -325,7 +325,7 @@ class SadrsTable extends Table
                 return strtotime($dob) <= strtotime($door);
 
             }, 'message' => 'Date of birth must less than or equal to date of onset of reaction'
-        ]);
+        ]);*/
         //date of birth less than drug start dates
         $validator->add('date_of_birth', 'dob-less-drug-dates', [
             'rule' => function ($value, $context) {
