@@ -35,7 +35,7 @@
             <?php foreach ($query as $adr): ?>
             <tr>
                 <td><?=  $adr->participant_number ?></td>
-                <td><?=  $adr->mcaz_protocol_number ?></td>
+                <td><?=  $adr->reference_number ?></td>
                 <td><?= $adr->symptoms ?></td>
                 <td>                  
                   <ul class="list-unstyled">
@@ -57,7 +57,13 @@
                   <?= $adr->investigations ?>
                 </td>
                 <td><p><?= $adr->management ?></p><p><?= $adr->outcome ?></p></td>
-                <td><?= h($adr->immediate_cause) ?></td>  
+                <td>
+                  <p>
+                    <?php foreach ($adr->reviews as $review): ?> 
+                      <?= $review->causality_decision ?><br>
+                    <?php endforeach; ?>
+                  </p>
+                </td>  
             </tr>
               <?php foreach ($adr->reviews as $review): ?>
                 <?php if($review->chosen == 1) { ?> 
