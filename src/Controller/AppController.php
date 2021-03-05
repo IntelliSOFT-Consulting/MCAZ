@@ -39,12 +39,12 @@ class AppController extends Controller
      */
     use \Crud\Controller\ControllerTrait;
 
-    public $sadr_contain = ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators',
+    public $sadr_contain = ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Reactions',
                           'Reviews', 'Reviews.Users', 'Reviews.SadrComments', 'Reviews.SadrComments.Attachments',  
                           'Committees', 'Committees.Users', 'Committees.SadrComments', 'Committees.SadrComments.Attachments', 
                           'ReportStages',
                           'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
-                          'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments', 'Reactions'
+                          'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments', 'OriginalSadrs.Reactions'
                           ];
                           
     public $aefi_contain = ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 

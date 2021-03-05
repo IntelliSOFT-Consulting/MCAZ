@@ -115,6 +115,9 @@ class OriginalSadrsTable extends Table
         $this->hasMany('SadrOtherDrugs', [
             'foreignKey' => 'sadr_id'
         ]);
+        $this->hasMany('Reactions', [
+            'foreignKey' => 'sadr_id'
+        ]);
     }
 
     /**
