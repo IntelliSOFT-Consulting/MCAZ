@@ -72,7 +72,8 @@
     </div>
         <?php if($saefi->copied === 'new copy') { ?>        
     <div role="tabpanel" class="tab-pane" id="original">
-        <?php  echo $this->element('saefis/clean') ?>
+        <?php  //echo $this->element('saefis/clean') ?>
+        <?php  echo $this->element('saefis/saefi_view', ['saefi' => $saefi->original_saefi, 'nfetch' => true]) ?>
     </div>
         <?php } ?>
 

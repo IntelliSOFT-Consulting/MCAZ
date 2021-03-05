@@ -78,7 +78,8 @@
     </div>
         <?php if($aefi->copied === 'new copy') { ?>        
     <div role="tabpanel" class="tab-pane" id="original">
-        <?php  echo $this->element('aefis/clean') ?>
+        <?php  //echo $this->element('aefis/clean') ?>
+        <?php  echo $this->element('aefis/aefi_view', ['aefi' => $aefi->original_aefi, 'nfetch' => true]) ?>
     </div>
         <?php } ?>
     <div role="tabpanel" class="tab-pane" id="stages">

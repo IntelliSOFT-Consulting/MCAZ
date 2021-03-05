@@ -79,7 +79,8 @@
     </div>
         <?php if($sadr->copied === 'new copy') { ?>        
     <div role="tabpanel" class="tab-pane" id="original">
-        <?php  echo $this->element('sadrs/clean') ?>
+        <?php  //echo $this->element('sadrs/clean') ?>
+        <?php  echo $this->element('sadrs/sadr_view', ['sadr' => $sadr->original_sadr, 'nfetch' => true]) ?>
     </div>
         <?php } ?>
     <div role="tabpanel" class="tab-pane" id="stages">

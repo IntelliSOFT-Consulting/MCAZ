@@ -1,5 +1,5 @@
 <?php 
-    echo $this->fetch('actions');
+    if(!isset($nfetch)) echo $this->fetch('actions');
     $this->Html->script('sadr_edit', ['block' => true]);
     $checked = '<i class="fa fa-check-square-o" aria-hidden="true"></i> &nbsp;';
     $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;';
