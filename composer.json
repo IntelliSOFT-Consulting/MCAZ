@@ -23,7 +23,7 @@
         "friendsofcake/search": "^4.2",
         "friendsofcake/cakephp-csvview": "~3.0",
         "dereuromark/cakephp-captcha": "^0.1.0",
-        "riesenia/cakephp-duplicatable": "^3.0",
+        "riesenia/cakephp-duplicatable": "3.*",
         "dereuromark/cakephp-databaselog": "^2.4"
     },
     "require-dev": {

@@ -46,7 +46,7 @@ class SaefisTable extends Table
         $this->addBehavior('Search.Search');
         // add Duplicatable behavior
         $this->addBehavior('Duplicatable.Duplicatable', [
-            'contain' => ['SaefiListOfVaccines', 'AefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 
+            'contain' => ['SaefiListOfVaccines', 'AefiListOfVaccines', 'Uploads', 'RequestReporters', 'RequestEvaluators', 'Committees', 
                           'SaefiComments', 'SaefiComments.Attachments',  
                           'Committees.Users', 'Committees.SaefiComments', 'Committees.SaefiComments.Attachments', 
                           'ReportStages', 'AefiCausalities', 'AefiCausalities.Users', 'Reports',
@@ -102,6 +102,12 @@ class SaefisTable extends Table
             'foreignKey' => 'foreign_key',
             'dependent' => true,
             'conditions' => array('Attachments.model' => 'Saefis', 'Attachments.category' => 'attachments'),
+        ]);
+        $this->hasMany('Uploads', [
+            'className' => 'Uploads',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Uploads.model' => 'Saefis', 'Uploads.category' => 'attachments'),
         ]);
         $this->hasMany('Reports', [
             'className' => 'Attachments',

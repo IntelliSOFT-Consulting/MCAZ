@@ -540,7 +540,7 @@ class AefisBaseController extends AppController
         $aefi->aefi_id = $id;        
         $aefi->user_id = $this->Auth->user('id'); //the report is reassigned to the evaluator... the reporter should only have original report
 
-        if ($this->Aefis->save($aefi, ['validate' => false])) {            
+        if ($this->Aefis->save($aefi, ['validate' => false])) { 
             $query = $this->Aefis->query();
             $query->update()
                 ->set(['copied' => 'old copy'])

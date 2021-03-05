@@ -47,7 +47,7 @@ class AdrsTable extends Table
         $this->addBehavior('Timestamp');
         $this->addBehavior('Search.Search');
         $this->addBehavior('Duplicatable.Duplicatable', [
-            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 
+            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Uploads', 'RequestReporters', 'RequestEvaluators', 
                           'Reviews', 'Reviews.Users', 'Reviews.AdrComments', 'Reviews.AdrComments.Attachments',  
                           'Committees', 'Committees.Users', 'Committees.AdrComments', 'Committees.AdrComments.Attachments', 'ReportStages', 
                           'AdrFollowups', 'AdrFollowups.AdrListOfDrugs', 'AdrFollowups.AdrOtherDrugs', 'AdrFollowups.Attachments',
@@ -92,6 +92,12 @@ class AdrsTable extends Table
             'foreignKey' => 'foreign_key',
             'dependent' => true,
             'conditions' => array('Attachments.model' => 'Adrs', 'Attachments.category' => 'attachments'),
+        ]);
+        $this->hasMany('Uploads', [
+            'className' => 'Uploads',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Uploads.model' => 'Adrs', 'Uploads.category' => 'attachments'),
         ]);
         $this->hasMany('Reminders', [
             'className' => 'Reminders',

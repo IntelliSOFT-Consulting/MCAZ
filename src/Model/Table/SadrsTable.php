@@ -52,7 +52,7 @@ class SadrsTable extends Table
         $this->addBehavior('Timestamp');        
         $this->addBehavior('Search.Search');
         $this->addBehavior('Duplicatable.Duplicatable', [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators',
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Uploads', 'RequestReporters', 'RequestEvaluators',
                           'Reviews', 'Reviews.Users', 'Reviews.SadrComments', 'Reviews.SadrComments.Attachments',  
                           'Committees', 'Committees.Users', 'Committees.SadrComments', 'Committees.SadrComments.Attachments', 
                           'ReportStages', 'Reactions',
@@ -92,6 +92,12 @@ class SadrsTable extends Table
             'foreignKey' => 'foreign_key',
             'dependent' => true,
             'conditions' => array('Attachments.model' => 'Sadrs', 'Attachments.category' => 'attachments'),
+        ]);
+        $this->hasMany('Uploads', [
+            'className' => 'Uploads',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Uploads.model' => 'Sadrs', 'Uploads.category' => 'attachments'),
         ]);
         $this->hasMany('Reminders', [
             'className' => 'Reminders',

@@ -579,7 +579,7 @@ class SadrsBaseController extends AppController
             $this->Flash->success(__('An editable copy of the report is already available.'));
             return $this->redirect(['action' => 'edit', $orig_sadr['sadr']['id']]);
         }
-        $sadr = $this->Sadrs->duplicateEntity($id);
+        $sadr = $this->Sadrs->duplicateEntity($id);        
         $sadr->sadr_id = $id;        
         $sadr->user_id = $this->Auth->user('id'); //the report is reassigned to the evaluator... the reporter should only have original report
 

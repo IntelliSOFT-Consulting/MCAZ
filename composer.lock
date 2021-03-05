@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "739fa75d7e9a7d3d0f1c781e58090415",
+    "content-hash": "56e347d54cd86467af756bf56ba97090",
     "packages": [
         {
             "name": "admad/cakephp-jwt-auth",
@@ -1570,16 +1570,16 @@
         },
         {
             "name": "riesenia/cakephp-duplicatable",
-            "version": "v3.1.2",
+            "version": "3.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/riesenia/cakephp-duplicatable.git",
-                "reference": "6ac4f411e1080ec68f4ce4d16a7b648f8aac64da"
+                "reference": "12dc96e84331993c00a1537c98e2a8bce1356b29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/riesenia/cakephp-duplicatable/zipball/6ac4f411e1080ec68f4ce4d16a7b648f8aac64da",
-                "reference": "6ac4f411e1080ec68f4ce4d16a7b648f8aac64da",
+                "url": "https://api.github.com/repos/riesenia/cakephp-duplicatable/zipball/12dc96e84331993c00a1537c98e2a8bce1356b29",
+                "reference": "12dc96e84331993c00a1537c98e2a8bce1356b29",
                 "shasum": ""
             },
             "require": {
@@ -1612,7 +1612,7 @@
                 "duplicate",
                 "orm"
             ],
-            "time": "2018-10-16T20:19:52+00:00"
+            "time": "2020-05-27T15:20:50+00:00"
         },
         {
             "name": "robmorgan/phinx",
@@ -2160,6 +2160,7 @@
                 "psr",
                 "psr-7"
             ],
+            "abandoned": "laminas/laminas-diactoros",
             "time": "2018-09-05T19:29:37+00:00"
         }
     ],

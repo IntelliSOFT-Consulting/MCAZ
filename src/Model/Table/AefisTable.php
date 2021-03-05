@@ -45,14 +45,13 @@ class AefisTable extends Table
         $this->addBehavior('Timestamp');
         $this->addBehavior('Search.Search');
         $this->addBehavior('Duplicatable.Duplicatable', [
-            'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 
+            'contain' => ['AefiListOfVaccines', 'Uploads', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 
                           'AefiCausalities.Users', 'AefiComments', 'AefiComments.Attachments',  
                           'Committees', 'Committees.Users', 'Committees.AefiComments', 'Committees.AefiComments.Attachments', 
                           'ReportStages', 
                           'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments', 
                           'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments'],
-            'remove' => ['created', 'modified', 'aefi_list_of_vaccines.created',  'attachments.created',
-                          'aefi_list_of_vaccines.modified',  'attachments.modified'],
+            'remove' => ['created', 'modified'],
             'set' => [
                 'copied' => 'new copy'
             ]
@@ -100,6 +99,12 @@ class AefisTable extends Table
             'foreignKey' => 'foreign_key',
             'dependent' => true,
             'conditions' => array('Attachments.model' => 'Aefis', 'Attachments.category' => 'attachments'),
+        ]);
+        $this->hasMany('Uploads', [
+            'className' => 'Uploads',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Uploads.model' => 'Aefis', 'Uploads.category' => 'attachments'),
         ]);
         $this->hasMany('Reminders', [
             'className' => 'Reminders',
