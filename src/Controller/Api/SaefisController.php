@@ -32,7 +32,10 @@ class SaefisController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['SaefiListOfVaccines', 'Designations', 'Attachments', 'Reports']
+            'contain' => ['SaefiListOfVaccines', 'Designations', 'Attachments', 'Reports', 'AefiListOfVaccines', 'RequestReporters', 'RequestEvaluators', 'Committees', 
+                          'SaefiComments', 'SaefiComments.Attachments',  
+                          'Committees.Users', 'Committees.SaefiComments', 'Committees.SaefiComments.Attachments', 
+                          'ReportStages', 'AefiCausalities', 'AefiCausalities.Users']
         ];
         $saefis = $this->paginate($this->Saefis->find('all')->where(['user_id' => $this->Auth->user('id')]));
 
