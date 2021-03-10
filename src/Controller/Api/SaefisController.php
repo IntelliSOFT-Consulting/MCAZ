@@ -54,7 +54,10 @@ class SaefisController extends AppController
     {
         $id = base64_decode($id);
         $saefi = $this->Saefis->find('all', [
-            'contain' => ['SaefiListOfVaccines',  'Attachments', 'Reports']
+            'contain' => ['SaefiListOfVaccines', 'Designations', 'Attachments', 'Reports', 'AefiListOfVaccines', 'RequestReporters', 'RequestEvaluators', 'Committees', 
+                          'SaefiComments', 'SaefiComments.Attachments',  
+                          'Committees.Users', 'Committees.SaefiComments', 'Committees.SaefiComments.Attachments', 
+                          'ReportStages', 'AefiCausalities', 'AefiCausalities.Users']
         ])->where(['reference_number' => $id])->first();
 
         if (!empty($saefi)) {
