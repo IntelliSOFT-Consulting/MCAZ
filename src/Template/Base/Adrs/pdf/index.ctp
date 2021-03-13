@@ -36,7 +36,7 @@
             <tr>
                 <td><?=  $adr->participant_number ?></td>
                 <td><?=  $adr->reference_number ?></td>
-                <td><?= $adr->symptoms ?></td>
+                <td><?= $adr->diagnosis ?></td>
                 <td>                  
                   <ul class="list-unstyled">
                     <?php foreach($adr->adr_list_of_drugs as $list_of_drug): ?> 
@@ -53,7 +53,7 @@
                     <?php endforeach; ?>
                 </td>
                 <td>
-                  <?= $adr->diagnosis ?> <br>
+                  <?= $adr->symptoms ?> <br>
                   <?= $adr->investigations ?>
                 </td>
                 <td><p><?= $adr->management ?></p><p><?= $adr->outcome ?></p></td>
