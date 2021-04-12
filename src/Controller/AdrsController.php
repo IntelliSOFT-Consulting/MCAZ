@@ -422,6 +422,7 @@ class AdrsController extends AppController
         $adr = $this->AdrFollowups->duplicateEntity($id);
         $adr->adr_id = $id;        
         $adr->user_id = $this->Auth->user('id'); //the report is reassigned to the user
+        $adr->report_type = 'FollowUp';
 
         if ($this->Adrs->save($adr, ['validate' => false])) {            
             $query = $this->Adrs->query();

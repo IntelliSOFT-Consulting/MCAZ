@@ -64,7 +64,7 @@ $this->start('sidebar'); ?>
                       echo ($saefi->submitted == 2) ? $this->Html->link($saefi->reference_number, ['action' => 'view', $saefi->id, 'prefix' => $prefix, 'status' => $saefi->status], ['escape' => false, 'class' => 'btn-zangu']) : 
                         $this->Html->link($saefi->created, ['action' => 'edit', $saefi->id, 'prefix' => $prefix, 'status' => $saefi->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>
                 <td><?= h($saefi->reference_number) ?></td>
-                <td><?= h($saefi->status) ?><br><?= $a ?></td>
+                <td><?= h($saefi->status) ?><br><?= $a ?><br><?= $saefi->report_type ?></td>
                 <td><?= h($saefi->modified) ?></td>
                 <td>
                     <?php if($saefi->submitted == 2 && empty($saefi->messageid)) {                                        

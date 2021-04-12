@@ -417,6 +417,7 @@ class SaefisController extends AppController
         $saefi = $this->SaefiFollowups->duplicateEntity($id);
         $saefi->saefi_id = $id;        
         $saefi->user_id = $this->Auth->user('id'); //the report is reassigned to the user
+        $saefi->report_type = 'FollowUp';
 
         if ($this->Saefis->save($saefi, ['validate' => false])) {            
             $query = $this->Saefis->query();

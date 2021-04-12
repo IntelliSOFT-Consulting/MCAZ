@@ -275,12 +275,36 @@
                     <drugassessmentsource/>
                     <drugassessmentmethod>WHO causality</drugassessmentmethod>
                     <drugresult><?php
+                            // if(strtolower($adrListOfDrug['relationship_to_sae']) == 'definitely related') echo 'certain';
+                            // if(strtolower($adrListOfDrug['relationship_to_sae']) == 'probably related') echo 'probable/likely';
+                            // if(strtolower($adrListOfDrug['relationship_to_sae']) == 'probably not related') echo 'unlikely';
+                            // if(strtolower($adrListOfDrug['relationship_to_sae']) == 'possibly related') echo 'possible';
+                            // if(strtolower($adrListOfDrug['relationship_to_sae']) == 'not related') echo 'conditional/unclassified';
+                            // if(strtolower($adrListOfDrug['relationship_to_sae']) == 'pending') echo 'unassessable/unclassifiable';
+                        
+                        $f = false;
+                        if(isset($adr['reviews'])) {
+                            foreach ($adr['reviews'] as $review) {
+                                if (!empty($review['causality_decision'])) {
+                                    $f = true;
+                                    if(strtolower($review['causality_decision']) == 'certain') echo 'certain';
+                                    if(strtolower($review['causality_decision']) == 'probable') echo 'probable/likely';
+                                    if(strtolower($review['causality_decision']) == 'possible') echo 'possible';
+                                    if(strtolower($review['causality_decision']) == 'unlikely') echo 'unlikely';
+                                    if(strtolower($review['causality_decision']) == 'conditional/unclassified') echo 'conditional/unclassified';
+                                    if(strtolower($review['causality_decision']) == 'unassessable/unclassifiable') echo 'unassessable/unclassifiable';
+                                }
+                            }
+                        }
+                        if (!$f) {
                             if(strtolower($adrListOfDrug['relationship_to_sae']) == 'definitely related') echo 'certain';
                             if(strtolower($adrListOfDrug['relationship_to_sae']) == 'probably related') echo 'probable/likely';
                             if(strtolower($adrListOfDrug['relationship_to_sae']) == 'probably not related') echo 'unlikely';
                             if(strtolower($adrListOfDrug['relationship_to_sae']) == 'possibly related') echo 'possible';
                             if(strtolower($adrListOfDrug['relationship_to_sae']) == 'not related') echo 'conditional/unclassified';
                             if(strtolower($adrListOfDrug['relationship_to_sae']) == 'pending') echo 'unassessable/unclassifiable';
+                        }                            
+                    
                     ?></drugresult>
                 </drugreactionrelatedness>
             </drug>

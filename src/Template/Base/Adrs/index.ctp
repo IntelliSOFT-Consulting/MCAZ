@@ -63,7 +63,7 @@ $this->start('sidebar'); ?>
                 <td><?php
                       echo ($adr->submitted == 2) ? $this->Html->link($adr->reference_number, ['action' => 'view', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']) : 
                         $this->Html->link($adr->created, ['action' => 'edit', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>
-                <td><?= h($adr->status) ?><br><?= $a ?></td>
+                <td><?= h($adr->status) ?><br><?= $a ?><br><?= $adr->report_type ?></td>
                 <td><?= h($adr->modified) ?></td>
                 <td>
                     <?php if($adr->submitted == 2 && empty($adr->messageid)) {                                        

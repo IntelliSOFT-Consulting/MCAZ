@@ -604,6 +604,7 @@ $this->render(false);
         $sadr = $this->SadrFollowups->duplicateEntity($id);
         $sadr->sadr_id = $id;        
         $sadr->user_id = $this->Auth->user('id'); //the report is reassigned to the user
+        $sadr->report_type = 'FollowUp';
 
         if ($this->Sadrs->save($sadr, ['validate' => false])) {            
             $query = $this->Sadrs->query();

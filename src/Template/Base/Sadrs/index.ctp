@@ -68,7 +68,7 @@ $this->start('sidebar'); ?>
                       echo ($sadr->submitted == 2) ? $this->Html->link($sadr->reference_number, ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) : 
                         $this->Html->link($sadr->created, ['action' => 'edit', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>
                 <td><?= h($sadr->institution_name) ?></td>
-                <td><?= h($sadr->status) ?><br><?= $a ?></td>                
+                <td><?= h($sadr->status) ?><br><?= $a ?><br><?= $sadr->report_type ?></td>                
                 <td>
                     <div class="readmore">
                       <?php 

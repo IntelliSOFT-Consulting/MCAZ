@@ -331,6 +331,8 @@ class SadrsController extends AppController
                 }
                 //submit to mcaz button
                 $followup->submitted_date = date("Y-m-d H:i:s");
+                //!!Important
+                if(isset($followup->id)) unset($followup->id);
                 
                 //TODO: validate linked data here since validate will be false
                 if ($this->SadrFollowups->save($followup, ['validate' => false])) {

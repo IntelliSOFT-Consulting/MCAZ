@@ -64,7 +64,7 @@ $this->start('sidebar'); ?>
                       echo ($aefi->submitted == 2) ? $this->Html->link($aefi->reference_number, ['action' => 'view', $aefi->id, 'prefix' => $prefix, 'status' => $aefi->status], ['escape' => false, 'class' => 'btn-zangu']) : 
                         $this->Html->link($aefi->created, ['action' => 'edit', $aefi->id, 'prefix' => $prefix, 'status' => $aefi->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?></td>
                 <td><?= h($aefi->name_of_vaccination_center) ?></td>
-                <td><?= h($aefi->status) ?><br><?= $a ?></td>
+                <td><?= h($aefi->status) ?><br><?= $a ?><br><?= $aefi->report_type ?></td>
                 <td><?= h($aefi->modified) ?></td>
                 <td>
                     <?php if($aefi->submitted == 2 && empty($aefi->messageid)) {                                        
