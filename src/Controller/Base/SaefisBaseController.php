@@ -34,7 +34,7 @@ class SaefisBaseController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['SaefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews']
+            'contain' => ['AefiListOfVaccines', 'SaefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiCausalities.Users', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews']
         ];
         $query = $this->Saefis
             ->find('search', ['search' => $this->request->query])
@@ -43,7 +43,7 @@ class SaefisBaseController extends AppController
         $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
         $users = $this->Saefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $provinces = $this->Saefis->Provinces->find('list', ['limit' => 200]);
-        $this->set(compact('designations', 'provinces', 'users'));
+        $this->set(compact('designations', 'provinces', 'query', 'users'));
         
         if ($this->request->params['_ext'] === 'pdf' || $this->request->params['_ext'] === 'csv') {
             $this->set('saefis', $query->contain($this->paginate['contain']));
@@ -87,7 +87,19 @@ class SaefisBaseController extends AppController
             $this->set(compact('query', '_serialize', '_header', '_extract'));
         }
 
-        $this->render('/Base/Saefis/index');
+        
+        if ($this->request->params['_ext'] === 'pdf') { 
+            $query->where([['Saefis.active' => '1']]);
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'orientation' => 'landscape',
+                    'filename' => 'SAEFIS_'.date('d-m-Y').'.pdf'
+                ]
+            ]);
+            $this->render('/Base/Saefis/pdf/index');
+        } else {
+            $this->render('/Base/Saefis/index');
+        }
     }
     public function restore() {
         $this->paginate = [

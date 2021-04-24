@@ -81,6 +81,28 @@ $(function() {
         }
     });
 
+    var cache2 = {},    lastXhr2;
+    $( "#final-diagnosis" ).autocomplete({
+        source: function( request, response ) {
+            var term = request.term;
+            if ( term in cache2 ) {
+                response( cache2[ term ] );
+                return;
+            }
+
+            lastXhr2 = $.getJSON( "/meddras/terminology.json", request, function( data, status, xhr ) {
+                cache2[ term ] = data;
+                if ( xhr === lastXhr2 ) {
+                    response( data );
+                }
+            });
+        },
+        select: function( event, ui ) {
+            $( "#final-diagnosis" ).val( ui.item.label );
+            return false;
+        }
+    });
+
     $('#autopsy-done-date, #died-date, #symptom-date, #person-date').datetimepicker({
         //minDate:"-100Y", 
         maxDate:"0",

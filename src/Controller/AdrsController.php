@@ -420,7 +420,8 @@ class AdrsController extends AppController
         $orig_adr = $this->Adrs->get($id, ['contain' => []]);
 
         $adr = $this->AdrFollowups->duplicateEntity($id);
-        $adr->adr_id = $id;        
+        $adr->adr_id = $id;
+        $adr->messageid = null;
         $adr->user_id = $this->Auth->user('id'); //the report is reassigned to the user
         $adr->report_type = 'FollowUp';
 

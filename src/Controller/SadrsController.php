@@ -602,7 +602,8 @@ $this->render(false);
             return $this->redirect(['action' => 'edit', $orig_sadr['sadr']['id']]);
         }*/
         $sadr = $this->SadrFollowups->duplicateEntity($id);
-        $sadr->sadr_id = $id;        
+        $sadr->sadr_id = $id; 
+        $sadr->messageid = null; 
         $sadr->user_id = $this->Auth->user('id'); //the report is reassigned to the user
         $sadr->report_type = 'FollowUp';
 
@@ -646,6 +647,7 @@ $this->render(false);
                 $followup = $this->SadrFollowups->patchEntity($followup, $this->request->getData());
                 $followup->report_type = 'FollowUp';
                 $followup->sadr_id = $sadr->id;
+                $followup->messageid = null;
                 //Attachments
                 if (!empty($followup->attachments)) {
                     for ($i = 0; $i <= count($followup->attachments)-1; $i++) { 

@@ -308,6 +308,7 @@ class AdrsController extends AppController
             if ($this->request->is(['patch', 'post', 'put'])) { 
                 $followup = $this->AdrFollowups->patchEntity($followup, $this->request->getData());
                 $followup->report_type = 'FollowUp';
+                $followup->messageid = null;
                 $followup->submitted_date = date("Y-m-d H:i:s");
                 $followup->submitted = 2;
                 $followup->adr_id = $adr->id;

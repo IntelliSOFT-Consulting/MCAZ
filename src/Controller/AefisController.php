@@ -423,6 +423,7 @@ class AefisController extends AppController
         
         $aefi = $this->AefiFollowups->duplicateEntity($id);
         $aefi->aefi_id = $id;        
+        $aefi->messageid = null;
         $aefi->user_id = $this->Auth->user('id'); //the report is reassigned to the user
         $aefi->report_type = 'FollowUp'; 
 

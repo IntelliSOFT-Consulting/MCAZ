@@ -306,6 +306,7 @@ class AefisController extends AppController
             if ($this->request->is(['patch', 'post', 'put'])) { 
                 $followup = $this->AefiFollowups->patchEntity($followup, $this->request->getData());
                 $followup->report_type = 'FollowUp';
+                $followup->messageid = null;
                 $followup->submitted_date = date("Y-m-d H:i:s");
                 $followup->submitted = 2;
                 $followup->aefi_id = $aefi->id;
