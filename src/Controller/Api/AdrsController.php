@@ -168,7 +168,16 @@ class AdrsController extends AppController
             $adr->submitted_date = date("Y-m-d H:i:s");
             $adr->status = 'Submitted';
 
-            if ($this->Adrs->save($adr, [
+            if(!empty($adr->id)) {
+                $this->response->body('Failure');
+                $this->response->statusCode(403);
+                $this->set([
+                    'errors' => $sadr->errors(), 
+                    'message' => 'Error: only new records without ID here!!', 
+                    '_serialize' => ['errors', 'message']]);
+                return;
+            } 
+            elseif ($this->Adrs->save($adr, [
                 'validate' => true, 
                 'associated' => [
                     'AdrListOfDrugs' => ['validate' => true],

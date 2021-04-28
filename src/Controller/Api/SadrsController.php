@@ -174,7 +174,16 @@ class SadrsController extends AppController
             $sadr->user_id = $this->Auth->user('id');
             $sadr->submitted_date = date("Y-m-d H:i:s");
             $sadr->status = 'Submitted';
-            if ($this->Sadrs->save($sadr, ['validate' => true, 
+            if(!empty($sadr->id)) {
+                $this->response->body('Failure');
+                $this->response->statusCode(403);
+                $this->set([
+                    'errors' => $sadr->errors(), 
+                    'message' => 'Error: only new records without ID here!!', 
+                    '_serialize' => ['errors', 'message']]);
+                return;
+            }
+            elseif ($this->Sadrs->save($sadr, ['validate' => true, 
                 'associated' => [
                     'SadrListOfDrugs' => ['validate' => true ],
                     'ReportStages' => ['validate' => false ],

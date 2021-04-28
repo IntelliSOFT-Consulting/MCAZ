@@ -164,7 +164,16 @@ class AefisController extends AppController
             $aefi->user_id = $this->Auth->user('id');            
             $aefi->submitted_date = date("Y-m-d H:i:s");
             $aefi->status = 'Submitted';
-            if ($this->Aefis->save($aefi, [
+            if(!empty($aefi->id)) {
+                $this->response->body('Failure');
+                $this->response->statusCode(403);
+                $this->set([
+                    'errors' => $sadr->errors(), 
+                    'message' => 'Error: only new records without ID here!!', 
+                    '_serialize' => ['errors', 'message']]);
+                return;
+            } 
+            elseif ($this->Aefis->save($aefi, [
                 'validate' => true,
                 'associated' => [
                     'AefiListOfVaccines' => ['validate' => true ],

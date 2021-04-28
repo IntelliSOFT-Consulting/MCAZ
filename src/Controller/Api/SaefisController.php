@@ -147,7 +147,16 @@ class SaefisController extends AppController
             $saefi->submitted_date = date("Y-m-d H:i:s");
             $saefi->status = 'Submitted';
 
-            if ($this->Saefis->save($saefi, [
+            if(!empty($saefi->id)) {
+                $this->response->body('Failure');
+                $this->response->statusCode(403);
+                $this->set([
+                    'errors' => $sadr->errors(), 
+                    'message' => 'Error: only new records without ID here!!', 
+                    '_serialize' => ['errors', 'message']]);
+                return;
+            } 
+            elseif ($this->Saefis->save($saefi, [
               'validate' => true,
               'associated' => [
                     'AefiListOfVaccines' => ['validate' => true ],

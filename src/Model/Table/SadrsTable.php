@@ -333,25 +333,25 @@ class SadrsTable extends Table
             }, 'message' => 'Date of birth must less than or equal to date of onset of reaction'
         ]);*/
         //date of birth less than drug start dates
-        $validator->add('date_of_birth', 'dob-less-drug-dates', [
-            'rule' => function ($value, $context) {
-                //Normalize dob and door
-                $dob = (($value)) ?? '--';
-                $a = explode('-', $dob);
-                $a[0] = (empty($a[0])) ? '01' : $a[0]; 
-                $a[1] = (empty($a[1])) ? '01' : $a[1]; 
-                $dob = implode('-', $a); 
+        // $validator->add('date_of_birth', 'dob-less-drug-dates', [
+        //     'rule' => function ($value, $context) {
+        //         //Normalize dob and door
+        //         $dob = (($value)) ?? '--';
+        //         $a = explode('-', $dob);
+        //         $a[0] = (empty($a[0])) ? '01' : $a[0]; 
+        //         $a[1] = (empty($a[1])) ? '01' : $a[1]; 
+        //         $dob = implode('-', $a); 
 
-                if (isset($context['data']['sadr_list_of_drugs'])) {
-                    foreach ($context['data']['sadr_list_of_drugs'] as $val){
-                        if (strtotime($dob) > strtotime($val['start_date']) && empty($context['data']['in_utero'])) return false;
-                    }
-                }
+        //         if (isset($context['data']['sadr_list_of_drugs'])) {
+        //             foreach ($context['data']['sadr_list_of_drugs'] as $val){
+        //                 if (strtotime($dob) > strtotime($val['start_date']) && empty($context['data']['in_utero'])) return false;
+        //             }
+        //         }
                 
-                return true;
+        //         return true;
 
-            }, 'message' => 'Date of birth must less than drug start date'
-        ]);
+        //     }, 'message' => 'Date of birth must less than drug start date'
+        // ]);
         //date of onset of reaction must be less than reaction end date
         $validator->add('date_of_onset_of_reaction', 'door-less-doer', [
             'rule' => function ($value, $context) {
