@@ -168,7 +168,7 @@ class AefisController extends AppController
                 $this->response->body('Failure');
                 $this->response->statusCode(403);
                 $this->set([
-                    'errors' => $sadr->errors(), 
+                    'errors' => 'New report error', 
                     'message' => 'Error: only new records without ID here!!', 
                     '_serialize' => ['errors', 'message']]);
                 return;
@@ -314,6 +314,7 @@ class AefisController extends AppController
         if(!empty($aefi) && $aefi->user_id == $this->Auth->user('id')) {
             if ($this->request->is(['patch', 'post', 'put'])) { 
                 $followup = $this->AefiFollowups->patchEntity($followup, $this->request->getData());
+                
                 $followup->report_type = 'FollowUp';
                 $followup->messageid = null;
                 $followup->submitted_date = date("Y-m-d H:i:s");
@@ -362,11 +363,11 @@ class AefisController extends AppController
                      $this->set('_serialize', ['followup']);
                 } else {
                     $this->response->body('Failure');
-                $this->response->statusCode(401);
-                $this->set([
-                    'message' => 'Unable to save followup', 
-                    '_serialize' => ['message']]);
-                return;
+                    $this->response->statusCode(401);
+                    $this->set([
+                        'message' => 'Unable to save followup', 
+                        '_serialize' => ['message']]);
+                    return;
                 }
            
           }

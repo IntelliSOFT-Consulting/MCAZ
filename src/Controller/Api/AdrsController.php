@@ -172,7 +172,7 @@ class AdrsController extends AppController
                 $this->response->body('Failure');
                 $this->response->statusCode(403);
                 $this->set([
-                    'errors' => $sadr->errors(), 
+                    'errors' => 'New report error', 
                     'message' => 'Error: only new records without ID here!!', 
                     '_serialize' => ['errors', 'message']]);
                 return;

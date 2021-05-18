@@ -182,7 +182,7 @@ class SadrsController extends AppController
                     'message' => 'Error: only new records without ID here!!', 
                     '_serialize' => ['errors', 'message']]);
                 return;
-            }
+            } 
             elseif ($this->Sadrs->save($sadr, ['validate' => true, 
                 'associated' => [
                     'SadrListOfDrugs' => ['validate' => true ],
@@ -375,11 +375,11 @@ class SadrsController extends AppController
                      $this->set('_serialize', ['followup']);
                 } else {
                     $this->response->body('Failure');
-                $this->response->statusCode(401);
-                $this->set([
-                    'message' => 'Unable to save followup', 
-                    '_serialize' => ['message']]);
-                return;
+                    $this->response->statusCode(401);
+                    $this->set([
+                        'message' => 'Unable to save followup', 
+                        '_serialize' => ['message']]);
+                    return;
                 }
            
           }

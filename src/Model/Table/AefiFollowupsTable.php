@@ -72,29 +72,29 @@ class AefiFollowupsTable extends Table
             ->integer('id')
             ->allowEmpty('id', 'create');
 
-        $validator
-            ->scalar('patient_name')
-            ->notEmpty('patient_name');
+        // $validator
+        //     ->scalar('patient_name')
+        //     ->notEmpty('patient_name');
 
-        $validator
-            ->scalar('patient_surname')
-            ->notEmpty('patient_surname');
+        // $validator
+        //     ->scalar('patient_surname')
+        //     ->notEmpty('patient_surname');
 
-        $validator
-            ->scalar('patient_address')
-            ->notEmpty('patient_address');
+        // $validator
+        //     ->scalar('patient_address')
+        //     ->notEmpty('patient_address');
 
-        $validator
-            ->scalar('gender')
-            ->notEmpty('gender');
+        // $validator
+        //     ->scalar('gender')
+        //     ->notEmpty('gender');
 
-        $validator
-            ->scalar('reporter_name')
-            ->notEmpty('reporter_name');
+        // $validator
+        //     ->scalar('reporter_name')
+        //     ->notEmpty('reporter_name');
 
-        $validator
-            ->scalar('reporter_email')
-            ->notEmpty('reporter_email');
+        // $validator
+        //     ->scalar('reporter_email')
+        //     ->notEmpty('reporter_email');
 
 
         return $validator;
