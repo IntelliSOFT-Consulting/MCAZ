@@ -148,7 +148,7 @@ class SaefiFollowupsTable extends Table
             ->integer('id')
             ->allowEmpty('id', 'create');
 
-        $validator
+        /*$validator
             ->scalar('name_of_vaccination_site')
             ->notEmpty('name_of_vaccination_site');
 
@@ -582,7 +582,7 @@ class SaefiFollowupsTable extends Table
 
         $validator
             ->scalar('relevant_findings')
-            ->allowEmpty('relevant_findings');
+            ->allowEmpty('relevant_findings');*/
 
         return $validator;
     }
