@@ -311,9 +311,9 @@
             <?php  endforeach; ?>
             <summary>
                 <narrativeincludeclinical><?php echo $adr['immediate_cause']; ?></narrativeincludeclinical>
-                <reportercomment><?php echo $adr['investigations']; ?></reportercomment>
+                <reportercomment><?php echo h($adr['investigations']); ?></reportercomment>
                 <senderdiagnosismeddraversion>WHO-ART</senderdiagnosismeddraversion>
-                <senderdiagnosis><?php echo $adr['diagnosis']; ?></senderdiagnosis>
+                <senderdiagnosis><?php echo h($adr['diagnosis']); ?></senderdiagnosis>
                 <sendercomment/>
             </summary>
         </patient>

@@ -397,9 +397,9 @@
             <?php  endforeach; ?>
             <summary>
                 <narrativeincludeclinical><?php echo $sadr['description_of_reaction']; ?></narrativeincludeclinical>
-                <reportercomment><?php echo $sadr['lab_test_results']; ?></reportercomment>
+                <reportercomment><?php echo h($sadr['lab_test_results']); ?></reportercomment>
                 <senderdiagnosismeddraversion>WHO-ART</senderdiagnosismeddraversion>
-                <senderdiagnosis><?php echo $sadr['past_drug_therapy']; ?></senderdiagnosis>
+                <senderdiagnosis><?php echo h($sadr['past_drug_therapy']); ?></senderdiagnosis>
                 <sendercomment/>
             </summary>
         </patient>

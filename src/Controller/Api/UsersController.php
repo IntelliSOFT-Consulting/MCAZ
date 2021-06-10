@@ -206,7 +206,7 @@ class UsersController extends AppController
                 $this->response->body('Failure');
                 $this->response->statusCode(403);
                 $this->set([
-                    'message' => 'Unable send forgot password email!!', 
+                    'message' => 'Could not verify your email address!!', 
                     '_serialize' => ['message']]);
                 return; 
             }
