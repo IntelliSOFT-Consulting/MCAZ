@@ -178,7 +178,7 @@ class SaefisController extends AppController
                 $this->Saefis->save($saefi);
                 //
                 $saefi = $this->Saefis->get($saefi->id, [
-                    'contain' => ['SaefiListOfVaccines', 'Attachments']
+                    'contain' => ['SaefiListOfVaccines', 'AefiListOfVaccines',  'Attachments', 'Reports']
                 ]);
                 
                 //send email and notification
