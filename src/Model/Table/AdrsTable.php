@@ -271,9 +271,9 @@ class AdrsTable extends Table
             ->scalar('adverse_event_type')
             ->allowEmpty('adverse_event_type');
 
-        $validator
-            ->scalar('sae_type')
-            ->notEmpty('sae_type', ['message' => 'Report type required']);
+        // $validator
+        //     ->scalar('sae_type')
+        //     ->notEmpty('sae_type', ['message' => 'Report type required']);
 
         $validator
             ->scalar('sae_description')
