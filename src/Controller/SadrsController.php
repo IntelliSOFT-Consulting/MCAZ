@@ -72,7 +72,8 @@ class SadrsController extends AppController
             // processed query params
             ->find('search', ['search' => $this->request->query])
             // You can add extra things to the query if you need to
-            ->where([['OR' => ['Sadrs.user_id' => $this->Auth->user('id'), 'Sadrs.name_of_institution' => $this->Auth->user('name_of_institution')]]]);
+            // ->where([['OR' => ['Sadrs.user_id' => $this->Auth->user('id'), 'Sadrs.name_of_institution' => $this->Auth->user('name_of_institution')]]]);
+            ->where([['Sadrs.user_id' => $this->Auth->user('id')]]);
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
         $this->set(compact('provinces', 'designations'));
@@ -139,7 +140,8 @@ class SadrsController extends AppController
                           'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
                           'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments', 'Reactions'
                           ],
-            'conditions' => ['OR' => ['Sadrs.user_id' => $this->Auth->user('id'), 'Sadrs.name_of_institution' => $this->Auth->user('name_of_institution')]]
+            // 'conditions' => ['OR' => ['Sadrs.user_id' => $this->Auth->user('id'), 'Sadrs.name_of_institution' => $this->Auth->user('name_of_institution')]]
+            'conditions' => ['Sadrs.user_id' => $this->Auth->user('id')]
         ]);        
 
         if($sadr->submitted !== 2) {
