@@ -182,6 +182,7 @@ class AdrsController extends AppController
                 'associated' => [
                     'AdrListOfDrugs' => ['validate' => true],
                     'ReportStages' => ['validate' => false],
+                    'Attachments' => ['validate' => false ],
                 ]
             ])) {
                 //update field

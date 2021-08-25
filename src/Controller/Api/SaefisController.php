@@ -161,6 +161,7 @@ class SaefisController extends AppController
               'associated' => [
                     'AefiListOfVaccines' => ['validate' => true ],
                     'ReportStages' => ['validate' => false ],
+                    'Attachments' => ['validate' => false ],
                 ]
               ])) {
                 //update field

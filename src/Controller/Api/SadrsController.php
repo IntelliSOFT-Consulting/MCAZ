@@ -159,6 +159,16 @@ class SadrsController extends AppController
         $sadr = $this->Sadrs->newEntity();
         if ($this->request->is('post')) {
             $this->_attachments();
+                
+                // $this->response->body('Failure');
+                // $this->response->statusCode(403);
+                // $this->set([
+                //     'errors' => $sadr->errors(), 
+                //     'jibu' => $this->request->getData(), 
+                //     'message' => 'Error: only new records without ID here!!', 
+                //     '_serialize' => ['errors', 'message', 'jibu']]);
+                // return;
+
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData(),[
                 'associated' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'ReportStages', 'Reactions']
             ]);
@@ -187,6 +197,7 @@ class SadrsController extends AppController
                 'associated' => [
                     'SadrListOfDrugs' => ['validate' => true ],
                     'ReportStages' => ['validate' => false ],
+                    'Attachments' => ['validate' => false ],
                 ]
             ])) {
                 //update field
