@@ -16,6 +16,7 @@ use Symfony\Component\VarDumper\Caster\Caster;
 use Symfony\Component\VarDumper\Caster\DateCaster;
 use Symfony\Component\VarDumper\Cloner\Stub;
 use Symfony\Component\VarDumper\Test\VarDumperTestTrait;
+use Symfony\Component\VarDumper\Tests\Fixtures\DateTimeChild;
 
 /**
  * @author Dany Maillard <danymaillard93b@gmail.com>
@@ -29,6 +30,10 @@ class DateCasterTest extends TestCase
      */
     public function testDumpDateTime($time, $timezone, $xDate, $xTimestamp)
     {
+        if ((\defined('HHVM_VERSION_ID') || \PHP_VERSION_ID <= 50509) && preg_match('/[-+]\d{2}:\d{2}/', $timezone)) {
+            $this->markTestSkipped('DateTimeZone GMT offsets are supported since 5.5.10. See https://github.com/facebook/hhvm/issues/5875 for HHVM.');
+        }
+
         $date = new \DateTime($time, new \DateTimeZone($timezone));
 
         $xDump = <<<EODUMP
@@ -45,9 +50,13 @@ EODUMP;
      */
     public function testCastDateTime($time, $timezone, $xDate, $xTimestamp, $xInfos)
     {
+        if ((\defined('HHVM_VERSION_ID') || \PHP_VERSION_ID <= 50509) && preg_match('/[-+]\d{2}:\d{2}/', $timezone)) {
+            $this->markTestSkipped('DateTimeZone GMT offsets are supported since 5.5.10. See https://github.com/facebook/hhvm/issues/5875 for HHVM.');
+        }
+
         $stub = new Stub();
         $date = new \DateTime($time, new \DateTimeZone($timezone));
-        $cast = DateCaster::castDateTime($date, ['foo' => 'bar'], $stub, false, 0);
+        $cast = DateCaster::castDateTime($date, Caster::castObject($date, \DateTime::class), $stub, false, 0);
 
         $xDump = <<<EODUMP
 array:1 [
@@ -89,12 +98,46 @@ EODUMP;
         ];
     }
 
+    public function testCastDateTimeWithAdditionalChildProperty()
+    {
+        $stub = new Stub();
+        $date = new DateTimeChild('2020-02-13 00:00:00.123456', new \DateTimeZone('Europe/Paris'));
+        $objectCast = Caster::castObject($date, DateTimeChild::class);
+        $dateCast = DateCaster::castDateTime($date, $objectCast, $stub, false, 0);
+
+        $xDate = '2020-02-13 00:00:00.123456 Europe/Paris (+01:00)';
+        $xInfo = 'Thursday, February 13, 2020%Afrom now';
+        $xDump = <<<EODUMP
+array:2 [
+  "\\x00Symfony\Component\VarDumper\Tests\Fixtures\DateTimeChild\\x00addedProperty" => "foo"
+  "\\x00~\\x00date" => $xDate
+]
+EODUMP;
+
+        $this->assertDumpEquals($xDump, $dateCast);
+
+        $xDump = <<<EODUMP
+Symfony\Component\VarDumper\Caster\ConstStub {
+  +type: 1
+  +class: "$xDate"
+  +value: "%A$xInfo%A"
+  +cut: 0
+  +handle: 0
+  +refCount: 0
+  +position: 0
+  +attr: []
+}
+EODUMP;
+
+        $this->assertDumpMatchesFormat($xDump, $dateCast["\0~\0date"]);
+    }
+
     /**
      * @dataProvider provideIntervals
      */
     public function testDumpInterval($intervalSpec, $ms, $invert, $expected)
     {
-        if ($ms && \PHP_VERSION_ID >= 70200 && version_compare(PHP_VERSION, '7.2.0rc3', '<=')) {
+        if ($ms && \PHP_VERSION_ID >= 70200 && version_compare(\PHP_VERSION, '7.2.0rc3', '<=')) {
             $this->markTestSkipped('Skipped on 7.2 before rc4 because of php bug #75354.');
         }
 
@@ -114,7 +157,7 @@ EODUMP;
      */
     public function testDumpIntervalExcludingVerbosity($intervalSpec, $ms, $invert, $expected)
     {
-        if ($ms && \PHP_VERSION_ID >= 70200 && version_compare(PHP_VERSION, '7.2.0rc3', '<=')) {
+        if ($ms && \PHP_VERSION_ID >= 70200 && version_compare(\PHP_VERSION, '7.2.0rc3', '<=')) {
             $this->markTestSkipped('Skipped on 7.2 before rc4 because of php bug #75354.');
         }
 
@@ -134,7 +177,7 @@ EODUMP;
      */
     public function testCastInterval($intervalSpec, $ms, $invert, $xInterval, $xSeconds)
     {
-        if ($ms && \PHP_VERSION_ID >= 70200 && version_compare(PHP_VERSION, '7.2.0rc3', '<=')) {
+        if ($ms && \PHP_VERSION_ID >= 70200 && version_compare(\PHP_VERSION, '7.2.0rc3', '<=')) {
             $this->markTestSkipped('Skipped on 7.2 before rc4 because of php bug #75354.');
         }
 
@@ -173,32 +216,35 @@ EODUMP;
 
     public function provideIntervals()
     {
+        $i = new \DateInterval('PT0S');
+        $ms = ($withMs = \PHP_VERSION_ID >= 70100 && isset($i->f)) ? '.0' : '';
+
         return [
             ['PT0S', 0, 0, '0s', '0s'],
-            ['PT0S', 0.1, 0, '+ 00:00:00.100', '%is'],
-            ['PT1S', 0, 0, '+ 00:00:01.0', '%is'],
-            ['PT2M', 0, 0, '+ 00:02:00.0', '%is'],
-            ['PT3H', 0, 0, '+ 03:00:00.0', '%ss'],
+            ['PT0S', 0.1, 0, $withMs ? '+ 00:00:00.100' : '0s', '%is'],
+            ['PT1S', 0, 0, '+ 00:00:01'.$ms, '%is'],
+            ['PT2M', 0, 0, '+ 00:02:00'.$ms, '%is'],
+            ['PT3H', 0, 0, '+ 03:00:00'.$ms, '%ss'],
             ['P4D', 0, 0, '+ 4d', '%ss'],
             ['P5M', 0, 0, '+ 5m', null],
             ['P6Y', 0, 0, '+ 6y', null],
-            ['P1Y2M3DT4H5M6S', 0, 0, '+ 1y 2m 3d 04:05:06.0', null],
-            ['PT1M60S', 0, 0, '+ 00:02:00.0', null],
-            ['PT1H60M', 0, 0, '+ 02:00:00.0', null],
+            ['P1Y2M3DT4H5M6S', 0, 0, '+ 1y 2m 3d 04:05:06'.$ms, null],
+            ['PT1M60S', 0, 0, '+ 00:02:00'.$ms, null],
+            ['PT1H60M', 0, 0, '+ 02:00:00'.$ms, null],
             ['P1DT24H', 0, 0, '+ 2d', null],
             ['P1M32D', 0, 0, '+ 1m 32d', null],
 
             ['PT0S', 0, 1, '0s', '0s'],
-            ['PT0S', 0.1, 1, '- 00:00:00.100', '%is'],
-            ['PT1S', 0, 1, '- 00:00:01.0', '%is'],
-            ['PT2M', 0, 1, '- 00:02:00.0', '%is'],
-            ['PT3H', 0, 1, '- 03:00:00.0', '%ss'],
+            ['PT0S', 0.1, 1, $withMs ? '- 00:00:00.100' : '0s', '%is'],
+            ['PT1S', 0, 1, '- 00:00:01'.$ms, '%is'],
+            ['PT2M', 0, 1, '- 00:02:00'.$ms, '%is'],
+            ['PT3H', 0, 1, '- 03:00:00'.$ms, '%ss'],
             ['P4D', 0, 1, '- 4d', '%ss'],
             ['P5M', 0, 1, '- 5m', null],
             ['P6Y', 0, 1, '- 6y', null],
-            ['P1Y2M3DT4H5M6S', 0, 1, '- 1y 2m 3d 04:05:06.0', null],
-            ['PT1M60S', 0, 1, '- 00:02:00.0', null],
-            ['PT1H60M', 0, 1, '- 02:00:00.0', null],
+            ['P1Y2M3DT4H5M6S', 0, 1, '- 1y 2m 3d 04:05:06'.$ms, null],
+            ['PT1M60S', 0, 1, '- 00:02:00'.$ms, null],
+            ['PT1H60M', 0, 1, '- 02:00:00'.$ms, null],
             ['P1DT24H', 0, 1, '- 2d', null],
             ['P1M32D', 0, 1, '- 1m 32d', null],
         ];
@@ -209,6 +255,10 @@ EODUMP;
      */
     public function testDumpTimeZone($timezone, $expected)
     {
+        if ((\defined('HHVM_VERSION_ID') || \PHP_VERSION_ID <= 50509) && !preg_match('/\w+\/\w+/', $timezone)) {
+            $this->markTestSkipped('DateTimeZone GMT offsets are supported since 5.5.10. See https://github.com/facebook/hhvm/issues/5875 for HHVM.');
+        }
+
         $timezone = new \DateTimeZone($timezone);
 
         $xDump = <<<EODUMP
@@ -225,6 +275,10 @@ EODUMP;
      */
     public function testDumpTimeZoneExcludingVerbosity($timezone, $expected)
     {
+        if ((\defined('HHVM_VERSION_ID') || \PHP_VERSION_ID <= 50509) && !preg_match('/\w+\/\w+/', $timezone)) {
+            $this->markTestSkipped('DateTimeZone GMT offsets are supported since 5.5.10. See https://github.com/facebook/hhvm/issues/5875 for HHVM.');
+        }
+
         $timezone = new \DateTimeZone($timezone);
 
         $xDump = <<<EODUMP
@@ -241,6 +295,10 @@ EODUMP;
      */
     public function testCastTimeZone($timezone, $xTimezone, $xRegion)
     {
+        if ((\defined('HHVM_VERSION_ID') || \PHP_VERSION_ID <= 50509) && !preg_match('/\w+\/\w+/', $timezone)) {
+            $this->markTestSkipped('DateTimeZone GMT offsets are supported since 5.5.10. See https://github.com/facebook/hhvm/issues/5875 for HHVM.');
+        }
+
         $timezone = new \DateTimeZone($timezone);
         $stub = new Stub();
 
@@ -302,6 +360,10 @@ EODUMP;
      */
     public function testDumpPeriod($start, $interval, $end, $options, $expected)
     {
+        if (\defined('HHVM_VERSION_ID') || \PHP_VERSION_ID < 50620 || (\PHP_VERSION_ID >= 70000 && \PHP_VERSION_ID < 70005)) {
+            $this->markTestSkipped();
+        }
+
         $p = new \DatePeriod(new \DateTime($start), new \DateInterval($interval), \is_int($end) ? $end : new \DateTime($end), $options);
 
         $xDump = <<<EODUMP
@@ -318,6 +380,10 @@ EODUMP;
      */
     public function testCastPeriod($start, $interval, $end, $options, $xPeriod, $xDates)
     {
+        if (\defined('HHVM_VERSION_ID') || \PHP_VERSION_ID < 50620 || (\PHP_VERSION_ID >= 70000 && \PHP_VERSION_ID < 70005)) {
+            $this->markTestSkipped();
+        }
+
         $p = new \DatePeriod(new \DateTime($start), new \DateInterval($interval), \is_int($end) ? $end : new \DateTime($end), $options);
         $stub = new Stub();
 
@@ -349,6 +415,9 @@ EODUMP;
 
     public function providePeriods()
     {
+        $i = new \DateInterval('PT0S');
+        $ms = \PHP_VERSION_ID >= 70100 && isset($i->f) ? '.0' : '';
+
         $periods = [
             ['2017-01-01', 'P1D', '2017-01-03', 0, 'every + 1d, from 2017-01-01 00:00:00.0 (included) to 2017-01-03 00:00:00.0', '1) 2017-01-01%a2) 2017-01-02'],
             ['2017-01-01', 'P1D', 1, 0, 'every + 1d, from 2017-01-01 00:00:00.0 (included) recurring 2 time/s', '1) 2017-01-01%a2) 2017-01-02'],
@@ -365,8 +434,8 @@ EODUMP;
             ['2017-01-01 01:00:00', 'P1D', '2017-01-03 01:00:00', 0, 'every + 1d, from 2017-01-01 01:00:00.0 (included) to 2017-01-03 01:00:00.0', '1) 2017-01-01 01:00:00.0%a2) 2017-01-02 01:00:00.0'],
             ['2017-01-01 01:00:00', 'P1D', 1, 0, 'every + 1d, from 2017-01-01 01:00:00.0 (included) recurring 2 time/s', '1) 2017-01-01 01:00:00.0%a2) 2017-01-02 01:00:00.0'],
 
-            ['2017-01-01', 'P1DT1H', '2017-01-03', 0, 'every + 1d 01:00:00.0, from 2017-01-01 00:00:00.0 (included) to 2017-01-03 00:00:00.0', '1) 2017-01-01 00:00:00.0%a2) 2017-01-02 01:00:00.0'],
-            ['2017-01-01', 'P1DT1H', 1, 0, 'every + 1d 01:00:00.0, from 2017-01-01 00:00:00.0 (included) recurring 2 time/s', '1) 2017-01-01 00:00:00.0%a2) 2017-01-02 01:00:00.0'],
+            ['2017-01-01', 'P1DT1H', '2017-01-03', 0, "every + 1d 01:00:00$ms, from 2017-01-01 00:00:00.0 (included) to 2017-01-03 00:00:00.0", '1) 2017-01-01 00:00:00.0%a2) 2017-01-02 01:00:00.0'],
+            ['2017-01-01', 'P1DT1H', 1, 0, "every + 1d 01:00:00$ms, from 2017-01-01 00:00:00.0 (included) recurring 2 time/s", '1) 2017-01-01 00:00:00.0%a2) 2017-01-02 01:00:00.0'],
 
             ['2017-01-01', 'P1D', '2017-01-04', \DatePeriod::EXCLUDE_START_DATE, 'every + 1d, from 2017-01-01 00:00:00.0 (excluded) to 2017-01-04 00:00:00.0', '1) 2017-01-02%a2) 2017-01-03'],
             ['2017-01-01', 'P1D', 2, \DatePeriod::EXCLUDE_START_DATE, 'every + 1d, from 2017-01-01 00:00:00.0 (excluded) recurring 2 time/s', '1) 2017-01-02%a2) 2017-01-03'],
@@ -382,7 +451,9 @@ EODUMP;
     private function createInterval($intervalSpec, $ms, $invert)
     {
         $interval = new \DateInterval($intervalSpec);
-        $interval->f = $ms;
+        if (\PHP_VERSION_ID >= 70100 && isset($interval->f)) {
+            $interval->f = $ms;
+        }
         $interval->invert = $invert;
 
         return $interval;

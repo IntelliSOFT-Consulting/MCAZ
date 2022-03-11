@@ -81,9 +81,9 @@ class UsersController extends AppController
             $_header = ['id', 'name', 'username', 'email', 'Group', 'Phone Number', 'name_of_institution', 
                         'institution_address', 'institution_code', 'Designation'];
             $_extract = ['id', 'name', 'username', 'email', 
-                    function ($row) use ($_groups) { return $_groups[$row['group_id']] ?? ''; }, //'Group', 
+                    function ($row) use ($_groups) { return $_groups[$row['group_id']] ?$_groups[$row['group_id']]: ''; }, //'Group', 
                         'phone_no', 'name_of_institution', 'institution_address', 'institution_code',
-                    function ($row) use($_designations) { return $_designations[$row['designation_id']] ?? '' ; }, //designation_id 
+                    function ($row) use($_designations) { return $_designations[$row['designation_id']] ?$_designations[$row['designation_id']]: '' ; }, //designation_id 
             ];
 
             $this->set(compact('query', '_serialize', '_header', '_extract'));

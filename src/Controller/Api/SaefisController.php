@@ -175,7 +175,7 @@ class SaefisController extends AppController
                 $refid = $this->Saefis->Refids->newEntity(['foreign_key' => $saefi->id, 'model' => 'Saefis', 'year' => date('Y')]);
                 $this->Saefis->Refids->save($refid);
                 $refid = $this->Saefis->Refids->get($refid->id);
-                $saefi->reference_number = (($saefi->reference_number)) ?? 'SAEFI'.$refid->refid.'/'.$refid->year;
+                $saefi->reference_number = (($saefi->reference_number)) ?(($saefi->reference_number)): 'SAEFI'.$refid->refid.'/'.$refid->year;
                 $this->Saefis->save($saefi);
                 //
                 $saefi = $this->Saefis->get($saefi->id, [

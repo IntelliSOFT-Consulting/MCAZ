@@ -98,9 +98,9 @@ class SadrsController extends AppController
                 'reviews.system_message', 'reviews.user_message', 
                 'attachments.file'];
             $_extract = ['id', 'user_id', 'sadr_id', 'messageid', 'assigned_to', 'assigned_by', 'assigned_date', 
-                function ($row) use ($_provinces) { return $_provinces[$row['province_id']] ?? ''; }, //provinces
+                function ($row) use ($_provinces) { return $_provinces[$row['province_id']] ? $_provinces[$row['province_id']]: ''; }, //provinces
                 'reference_number', 
-                function ($row) use($_designations) { return $_designations[$row['designation_id']] ?? '' ; }, //designation_id 
+                function ($row) use($_designations) { return $_designations[$row['designation_id']] ? $_designations[$row['designation_id']]: '' ; }, //designation_id 
                 'report_type', 'name_of_institution', 'institution_code', 'institution_name', 'institution_address', 'patient_name', 'ip_no', 'date_of_birth', 'age_group', 'gender', 'weight', 'height', 'date_of_onset_of_reaction', 'date_of_end_of_reaction', 'duration_type', 'duration', 'description_of_reaction', 'severity', 'severity_reason', 'medical_history', 'past_drug_therapy', 'outcome', 'lab_test_results', 'reporter_name', 'reporter_email', 'reporter_phone', 'submitted', 'submitted_date', 'action_taken', 'relatedness', 'status', 'emails', 'active', 'device', 'notified', 'created', 'modified', 
                 function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.drug_name')); }, // 'drug_name', 
                 function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.brand_name')); }, //'.brand_name', 
@@ -295,7 +295,7 @@ $this->render(false);
 
         // render to a variable
         $payload = $view->render();
-        
+        Log::write('debug', 'Payload :: '.$payload);
         $http = new Client();
 
         //$payload = $this->VigibaseApi->sadr_e2b($sadr, $doses, $routes);
@@ -474,6 +474,13 @@ $this->render(false);
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'ReportStages', 'Reactions'],
             'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
+        /*
+        * @Japheth- block unassignned evaluator from editing a copy
+        
+        */
+
+
+
         if ($sadr->submitted == 2) {
             $this->Flash->success(__('Report '.$sadr->reference_number.' already submitted.'));
             return $this->redirect(['action' => 'view', $sadr->id]);
@@ -529,7 +536,7 @@ $this->render(false);
                     $refid = $this->Sadrs->Refids->newEntity(['foreign_key' => $sadr->id, 'model' => 'Sadrs', 'year' => date('Y')]);
                     $this->Sadrs->Refids->save($refid);
                     $refid = $this->Sadrs->Refids->get($refid->id);
-                    $sadr->reference_number = (($sadr->reference_number)) ?? 'ADR'.$refid->refid.'/'.$refid->year;
+                    $sadr->reference_number = (($sadr->reference_number)) ?(($sadr->reference_number)): 'ADR'.$refid->refid.'/'.$refid->year;
                     $this->Sadrs->save($sadr);                    
                 }
                 //

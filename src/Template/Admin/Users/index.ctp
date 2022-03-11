@@ -42,7 +42,8 @@
             <?php foreach ($users as $user): ?>
             <tr>
                 <td><?= $this->Number->format($user->id) ?></td>
-                <td><?= h($user->name) ?></td>
+                <!-- <td><?= h($user->name) ?></td> -->
+                <td><?=preg_replace('/[^A-Za-z0-9\s+]/', '', $user->name);?></td>
                 <td><?= h($user->username) ?></td>
                 <td><?= h($user->email) ?></td>
                 <td><?= h($user->phone_no) ?></td>

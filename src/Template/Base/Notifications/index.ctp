@@ -38,7 +38,7 @@
                 <td><?= $this->Number->format($notification->id) ?></td>
                 <td><?= $notification->user_message ?><br>
                     <?= $notification->system_message ?></td>
-                <td><p class="btn-zangu"><?php if(!empty($notification->model)) echo $this->Html->link((($trns[$notification->model]) ?? $notification->model), ['controller' => $notification->model, 'action' => 'view', $notification->foreign_key], ['class' => 'btn-zangu', 'escape' => false]) ?></p></td>
+                <td><p class="btn-zangu"><?php if(!empty($notification->model)) echo $this->Html->link((($trns[$notification->model]) ?($trns[$notification->model]): $notification->model), ['controller' => $notification->model, 'action' => 'view', $notification->foreign_key], ['class' => 'btn-zangu', 'escape' => false]) ?></p></td>
                 <td><?= h($notification->created) ?></td>
                 <td class="actions">
                     <?= $this->Html->link('<span class="label label-primary">View</span>', ['action' => 'view', $notification->id], array('escape' => false));  ?>

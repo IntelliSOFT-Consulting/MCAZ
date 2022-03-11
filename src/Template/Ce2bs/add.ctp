@@ -20,7 +20,8 @@
           <?php
             echo $this->Form->control('company_name', [
               'label' => 'Company name <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
-              'value' => ($sadr->company_name) ?? $this->request->session()->read('Auth.User.name_of_institution')
+              // 'value' => ($sadr->company_name) ?? $this->request->session()->read('Auth.User.name_of_institution')
+              'value' =>   $this->request->session()->read('Auth.User.name_of_institution')
             ]);
             echo $this->Form->control('user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);
             echo $this->Form->control('comment', ['label' => 'Comment(s)']);
@@ -31,7 +32,8 @@
             ]);
             echo $this->Form->control('reporter_email', [
               'label' => 'Reporter email <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false,
-              'value'=> ($sadr->reporter_email) ?? $this->request->session()->read('Auth.User.email')
+            //  'value'=> ($sadr->reporter_email) ?? $this->request->session()->read('Auth.User.email')
+              'value'=>   $this->request->session()->read('Auth.User.email')
             ]);
           ?>
         </div><!--/span-->

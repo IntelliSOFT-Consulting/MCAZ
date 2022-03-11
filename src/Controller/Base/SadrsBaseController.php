@@ -104,9 +104,20 @@ class SadrsBaseController extends AppController
                 'reviews.system_message', 'reviews.user_message', 
                 'attachments.file'];
             $_extract = ['id', 'user_id', 'sadr_id', 'messageid', 'assigned_to', 'assigned_by', 'assigned_date', 
-                function ($row) use ($_provinces) { return $_provinces[$row['province_id']] ?? ''; }, //provinces
+                function ($row) use ($_provinces) {
+                  //  if (is_null($_provinces[$row['province_id']])) { 
+                        return '';
+                  //  } 
+                   //  return $_provinces[$row['province_id']];
+                     
+                     }, //provinces
                 'reference_number', 
-                function ($row) use($_designations) { return $_designations[$row['designation_id']] ?? '' ; }, //designation_id 
+                function ($row) use($_designations) { 
+                  //  if ($_designations[$row['designation_id']]==='') {
+                        return '';
+                  //  }
+                  //  return $_designations[$row['designation_id']];
+                 }, //designation_id 
                 'report_type', 'name_of_institution', 'institution_code', 'institution_name', 'institution_address', 'patient_name', 'ip_no', 'date_of_birth', 'age_group', 'gender', 'weight', 'height', 'date_of_onset_of_reaction', 'date_of_end_of_reaction', 'duration_type', 'duration', 'description_of_reaction', 'severity', 'severity_reason', 'medical_history', 'past_drug_therapy', 'outcome', 'lab_test_results', 'reporter_name', 'reporter_email', 'reporter_phone', 'submitted', 'submitted_date', 'action_taken', 'relatedness', 'status', 'emails', 'active', 'device', 'notified', 'created', 'modified', 
                 function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.drug_name')); }, // 'drug_name', 
                 function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.brand_name')); }, //'.brand_name', 
@@ -216,8 +227,22 @@ class SadrsBaseController extends AppController
             ]);
         }
         
+        /*
+        @ Japheth
+
+        Get a List of Evaluators plus the current logged in Manager
+
+        */
+        $current_id=$this->Auth->user('id'); 
+        $evaluators = $this->Sadrs->Users
+        ->find('list', ['limit' => 200])
+        ->where(['group_id' => 4])
+        ->orWhere(['id'=>$sadr->assigned_to?$sadr->assigned_to:$current_id]); //use current id if unassigned else assigned user
+         
         
-        $evaluators = $this->Sadrs->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
+        // $evaluators = $this->Sadrs->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);  // Original
+
+
         $users = $this->Sadrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $designations = $this->Sadrs->Designations->find('list',array('order'=>'Designations.name ASC'));
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
@@ -238,6 +263,18 @@ class SadrsBaseController extends AppController
     public function causality() {
         $sadr = $this->Sadrs->get($this->request->getData('sadr_pr_id'), ['contain' => 'ReportStages']);
         if (isset($sadr->id) && $this->request->is('post')) {
+
+              /*
+            @Japheth
+            
+            handle check to block unassigned evaluators from submitting a review
+            */
+
+            if ($this->Auth->user('id') != $sadr->assigned_to) {
+                $this->Flash->error('You have not been assigned the report for review!');
+                return $this->redirect($this->referer());
+            }
+
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
             $sadr->reviews[0]->user_id = $this->Auth->user('id');
             $sadr->reviews[0]->model = 'Sadrs';
@@ -292,13 +329,7 @@ class SadrsBaseController extends AppController
                return $this->redirect($this->referer());
         }
     }
-
-    /*public function requestReporter() {
-        $sadr = $this->Sadrs->get($this->request->getData('sadr_id'), []);
-        debug((string)$sadr);
-        debug($this->request->data);
-    }*/
-
+ 
     public function requestReporter() {
         $sadr = $this->Sadrs->get($this->request->getData('sadr_pk_id'), []);
         if (isset($sadr->id) && $this->request->is('post')) {
@@ -583,6 +614,21 @@ class SadrsBaseController extends AppController
         $sadr->sadr_id = $id;        
         $sadr->user_id = $this->Auth->user('id'); //the report is reassigned to the evaluator... the reporter should only have original report
 
+            /*
+            @ Japheth
+            
+            handle check to block unassigned evaluators from submitting a review
+
+            1st check user role
+            */
+
+            if ($this->Auth->user('group_id')==4){
+            if ($this->Auth->user('id') != $sadr->assigned_to) {
+                $this->Flash->error('You have not been assigned the report, you can only create a copy of assigned reports!');
+                return $this->redirect($this->referer());
+            }
+        }
+
         if ($this->Sadrs->save($sadr, ['validate' => false])) {            
             $query = $this->Sadrs->query();
             $query->update()
@@ -608,7 +654,21 @@ class SadrsBaseController extends AppController
         $sadr = $this->Sadrs->get($id, [
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'Reactions']
         ]);
+        
+        /*
+            @ Japheth
+            
+            handle check to block unassigned evaluators from submitting a review
 
+            1st check user role
+            */
+
+            if ($this->Auth->user('group_id')==4){
+                if ($this->Auth->user('id') != $sadr->assigned_to) {
+                    $this->Flash->error('You have not been assigned the report, you can only create a copy of assigned reports!');
+                    return $this->redirect($this->referer());
+                }
+            }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData(), [
                 'validate' => ($this->request->getData('submitted') == 2) ? true : false, 

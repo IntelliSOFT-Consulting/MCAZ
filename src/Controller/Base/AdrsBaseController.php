@@ -93,7 +93,7 @@ class AdrsBaseController extends AppController
                 'attachments.file'
             ];
             $_extract = ['id', 'user_id', 'adr_id', 'reference_number', 'assigned_to', 'assigned_by', 'assigned_date', 'mrcz_protocol_number', 'mcaz_protocol_number', 'principal_investigator', 'reporter_name', 'reporter_email',
-            function ($row) use($_designations) { return $_designations[$row['designation_id']] ?? '' ; }, //'designation_id',
+            function ($row) use($_designations) { return $_designations[$row['designation_id']] ?$_designations[$row['designation_id']]: '' ; }, //'designation_id',
             'reporter_phone', 'name_of_institution', 'institution_code', 'study_title', 'study_sponsor', 'date_of_adverse_event', 'participant_number', 'report_type', 'date_of_site_awareness', 'date_of_birth', 'age', 'gender', 'study_week', 'visit_number', 'adverse_event_type', 'sae_type', 'sae_description', 'toxicity_grade', 'previous_events', 'previous_events_number', 'total_saes', 'location_event', 'location_event_specify', 'research_involves', 'research_involves_specify', 'name_of_drug', 'drug_investigational', 'patient_other_drug', 'report_to_mcaz', 'report_to_mcaz_date', 'report_to_mrcz', 'report_to_mrcz_date', 'report_to_sponsor', 'report_to_sponsor_date', 'report_to_irb', 'report_to_irb_date', 'medical_history', 'diagnosis', 'immediate_cause', 'symptoms', 'investigations', 'results', 'management', 'outcome', 'd1_consent_form', 'd2_brochure', 'd3_changes_sae', 'd4_consent_sae', 'changes_explain', 'assess_risk', 'submitted', 'submitted_date', 'status', 'created', 'modified',   
                 function ($row) { return implode('|', Hash::extract($row['adr_list_of_drugs'], '{n}.drug_name')); }, //'.drug_name', 
                 function ($row) { return implode('|', Hash::extract($row['adr_list_of_drugs'], '{n}.dose.name')); }, //'.dose', 
@@ -218,8 +218,12 @@ class AdrsBaseController extends AppController
                 ]
             ]);
         }
-        
-        $evaluators = $this->Adrs->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
+        $curren_id=$this->Auth->user('id'); //@ Japheth
+        $evaluators = $this->Adrs->Users
+        ->find('list', ['limit' => 200])
+        ->where(['group_id' => 4])
+        ->orWhere(['id'=>$curren_id]); //@ Japheth
+
         $users = $this->Adrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
@@ -231,8 +235,6 @@ class AdrsBaseController extends AppController
 
         $this->set('adr', $adr);
         $this->set('_serialize', ['adr']);
-
-
         $this->render('/Base/Adrs/view');
     }
 
@@ -288,6 +290,19 @@ class AdrsBaseController extends AppController
     public function causality() {
         $adr = $this->Adrs->get($this->request->getData('adr_pr_id'), ['contain' => ['ReportStages']]);
         if (isset($adr->id) && $this->request->is('post')) {
+
+            /*
+            @Japheth
+            
+            handle check to block unassigned evaluators from submitting a review
+            check if evaluator accessing the report
+            */
+            if ($this->Auth->user('group_id')==4) {
+            if ($this->Auth->user('id') != $adr->assigned_to) {
+                $this->Flash->error('You have not been assigned the report for review!');
+                return $this->redirect($this->referer());
+            }
+        }
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
             $adr->reviews[0]->user_id = $this->Auth->user('id');
             $adr->reviews[0]->model = 'Adrs';

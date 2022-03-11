@@ -78,7 +78,7 @@ class AdrsController extends AppController
                 'attachments.file'
             ];
             $_extract = ['id', 'user_id', 'adr_id', 'reference_number', 'assigned_to', 'assigned_by', 'assigned_date', 'mrcz_protocol_number', 'mcaz_protocol_number', 'principal_investigator', 'reporter_name', 'reporter_email',
-            function ($row) use($_designations) { return $_designations[$row['designation_id']] ?? '' ; }, //'designation_id',
+            function ($row) use($_designations) { return $_designations[$row['designation_id']] ?$_designations[$row['designation_id']]: '' ; }, //'designation_id',
             'reporter_phone', 'name_of_institution', 'institution_code', 'study_title', 'study_sponsor', 'date_of_adverse_event', 'participant_number', 'report_type', 'date_of_site_awareness', 'date_of_birth', 'age', 'gender', 'study_week', 'visit_number', 'adverse_event_type', 'sae_type', 'sae_description', 'toxicity_grade', 'previous_events', 'previous_events_number', 'total_saes', 'location_event', 'location_event_specify', 'research_involves', 'research_involves_specify', 'name_of_drug', 'drug_investigational', 'patient_other_drug', 'report_to_mcaz', 'report_to_mcaz_date', 'report_to_mrcz', 'report_to_mrcz_date', 'report_to_sponsor', 'report_to_sponsor_date', 'report_to_irb', 'report_to_irb_date', 'medical_history', 'diagnosis', 'immediate_cause', 'symptoms', 'investigations', 'results', 'management', 'outcome', 'd1_consent_form', 'd2_brochure', 'd3_changes_sae', 'd4_consent_sae', 'changes_explain', 'assess_risk', 'submitted', 'submitted_date', 'status', 'created', 'modified',   
                 function ($row) { return implode('|', Hash::extract($row['adr_list_of_drugs'], '{n}.drug_name')); }, //'.drug_name', 
                 function ($row) { return implode('|', Hash::extract($row['adr_list_of_drugs'], '{n}.dose')); }, //'.dose', 
@@ -179,7 +179,7 @@ class AdrsController extends AppController
         $view = $builder->build(compact('adr', 'designations', 'doses', 'routes', 'frequencies'));
 
         // render to a variable
-        $payload = $view->render();
+      echo  $payload = $view->render();
         
         $http = new Client();
 
@@ -350,7 +350,7 @@ class AdrsController extends AppController
                     $refid = $this->Adrs->Refids->newEntity(['foreign_key' => $adr->id, 'model' => 'Adrs', 'year' => date('Y')]);
                     $this->Adrs->Refids->save($refid);
                     $refid = $this->Adrs->Refids->get($refid->id);
-                    $adr->reference_number = (($adr->reference_number)) ?? 'SAE'.$refid->refid.'/'.$refid->year;
+                    $adr->reference_number = (($adr->reference_number)) ?(($adr->reference_number)): 'SAE'.$refid->refid.'/'.$refid->year;
                     $this->Adrs->save($adr);
                 }
                 //

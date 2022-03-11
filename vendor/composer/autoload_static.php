@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
+class ComposerStaticInitca7e985119552728f70ca6504ed3c04e
 {
     public static $files = array (
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
@@ -22,7 +22,7 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         'ede59e3a405fb689cd1cebb7bb1db3fb' => __DIR__ . '/..' . '/cakephp/cakephp/src/Collection/functions.php',
         '90236b492da7ca2983a2ad6e33e4152e' => __DIR__ . '/..' . '/cakephp/cakephp/src/I18n/functions.php',
         'b1fc73705e1bec51cd2b20a32cf1c60a' => __DIR__ . '/..' . '/cakephp/cakephp/src/Utility/bootstrap.php',
-        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
+        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         'e80e30046ea6fdfe12005b11c3d7267e' => __DIR__ . '/..' . '/friendsofcake/crud/aliases.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
@@ -32,10 +32,6 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         'Z' => 
         array (
             'Zend\\Diactoros\\' => 15,
-        ),
-        'X' => 
-        array (
-            'XdgBaseDir\\' => 11,
         ),
         'W' => 
         array (
@@ -47,7 +43,6 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         ),
         'S' => 
         array (
-            'Symfony\\Polyfill\\Php72\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
@@ -91,8 +86,6 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
             'Josegonzalez\\Upload\\Test\\Fixture\\' => 33,
             'Josegonzalez\\Upload\\' => 20,
             'Jasny\\Twig\\' => 11,
-            'JakubOnderka\\PhpConsoleHighlighter\\' => 35,
-            'JakubOnderka\\PhpConsoleColor\\' => 29,
         ),
         'F' => 
         array (
@@ -147,10 +140,6 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         array (
             0 => __DIR__ . '/..' . '/zendframework/zend-diactoros/src',
         ),
-        'XdgBaseDir\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src',
-        ),
         'WyriHaximus\\TwigView\\' => 
         array (
             0 => __DIR__ . '/..' . '/wyrihaximus/twig-view/src',
@@ -158,10 +147,6 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         'Twig\\' => 
         array (
             0 => __DIR__ . '/..' . '/twig/twig/src',
-        ),
-        'Symfony\\Polyfill\\Php72\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-php72',
         ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
@@ -274,14 +259,6 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
         'Jasny\\Twig\\' => 
         array (
             0 => __DIR__ . '/..' . '/jasny/twig-extensions/src',
-        ),
-        'JakubOnderka\\PhpConsoleHighlighter\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src',
-        ),
-        'JakubOnderka\\PhpConsoleColor\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src',
         ),
         'Firebase\\JWT\\' => 
         array (
@@ -453,6 +430,7 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Mobile_Detect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/Mobile_Detect.php',
         'SqlFormatter' => __DIR__ . '/..' . '/jdorn/sql-formatter/lib/SqlFormatter.php',
     );
@@ -460,11 +438,11 @@ class ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitc267fd06dd935f986da0ba1d58619a4e::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitca7e985119552728f70ca6504ed3c04e::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitca7e985119552728f70ca6504ed3c04e::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInitca7e985119552728f70ca6504ed3c04e::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitca7e985119552728f70ca6504ed3c04e::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitca7e985119552728f70ca6504ed3c04e::$classMap;
 
         }, null, ClassLoader::class);
     }

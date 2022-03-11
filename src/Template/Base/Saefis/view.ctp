@@ -15,7 +15,7 @@
       <?= ($saefi->submitted == 2) ? $saefi->reference_number : $saefi->created ?></a></li>
     <?php if($saefi->submitted == 2) { ?>
     <li role="presentation"><a href="#assign" aria-controls="assign" role="tab" data-toggle="tab">
-        <?php 
+      <?php 
             if(empty($saefi->assigned_to)) {
                 echo 'Assign Evaluator';
             } else {

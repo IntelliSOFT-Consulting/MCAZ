@@ -196,7 +196,7 @@ class AdrsController extends AppController
                 $refid = $this->Adrs->Refids->newEntity(['foreign_key' => $adr->id, 'model' => 'Adrs', 'year' => date('Y')]);
                 $this->Adrs->Refids->save($refid);
                 $refid = $this->Adrs->Refids->get($refid->id);
-                $adr->reference_number = (($adr->reference_number)) ?? 'SAE'.$refid->refid.'/'.$refid->year;
+                $adr->reference_number = (($adr->reference_number)) ? (($adr->reference_number)): 'SAE'.$refid->refid.'/'.$refid->year;
                 $this->Adrs->save($adr);
                 //
                 $adr = $this->Adrs->get($adr->id, [

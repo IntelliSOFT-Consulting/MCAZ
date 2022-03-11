@@ -221,7 +221,7 @@ class Ce2bsBaseController extends AppController
                 // $ref = $this->Ce2bs->find()->count() + 1;
                 //$ref = $this->Ce2bs->find('all', ['conditions' => ['date_format(Ce2bs.created,"%Y")' => date("Y"), 'Ce2bs.reference_number IS NOT' => null]])->count() + $var;
                 $ref = $this->Ce2bs->find()->select(['Ce2bs.reference_number'])->distinct(['Ce2bs.reference_number'])->where(['date_format(Ce2bs.created,"%Y")' => date("Y"), 'Ce2bs.reference_number IS NOT' => null])->count() + $var;
-                $ce2b->reference_number = (($ce2b->reference_number)) ?? 'CE2B'.$ref.'/'.date('Y');
+                $ce2b->reference_number = (($ce2b->reference_number)) ? (($ce2b->reference_number)): 'CE2B'.$ref.'/'.date('Y');
                 try {                    
                     if ($this->Ce2bs->save($ce2b)) {
                         $datum = $this->Imports->newEntity(['filename' => $this->request->data['e2b_file']['name']]);
@@ -322,6 +322,18 @@ class Ce2bsBaseController extends AppController
     public function causality() {
         $ce2b = $this->Ce2bs->get($this->request->getData('ce2b_pr_id'), ['contain' => ['ReportStages']]);
         if (isset($ce2b->id) && $this->request->is('post')) {
+       /*
+            @Japheth
+            
+            handle check to block unassigned evaluators from submitting a review
+            */
+
+            if ($this->Auth->user('id') != $ce2b->assigned_to) {
+                $this->Flash->error('You have not been assigned the report for review!');
+                return $this->redirect($this->referer());
+            }
+
+
             $ce2b = $this->Ce2bs->patchEntity($ce2b, $this->request->getData());
             $ce2b->reviews[0]->user_id = $this->Auth->user('id');
             $ce2b->reviews[0]->model = 'Ce2bs';
