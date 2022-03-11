@@ -192,7 +192,7 @@ class AefisController extends AppController
                 $refid = $this->Aefis->Refids->newEntity(['foreign_key' => $aefi->id, 'model' => 'Aefis', 'year' => date('Y')]);
                 $this->Aefis->Refids->save($refid);
                 $refid = $this->Aefis->Refids->get($refid->id);
-                $aefi->reference_number = (($aefi->reference_number)) ?? 'AEFI'.$refid->refid.'/'.$refid->year;
+                $aefi->reference_number = (($aefi->reference_number)) ? (($aefi->reference_number)): 'AEFI'.$refid->refid.'/'.$refid->year;
                 $this->Aefis->save($aefi);
                 //
                 $aefi = $this->Aefis->get($aefi->id, [

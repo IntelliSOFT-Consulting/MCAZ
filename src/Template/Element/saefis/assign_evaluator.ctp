@@ -23,7 +23,7 @@
             <div class="form-group"> 
                 <div class="col-sm-offset-4 col-sm-8"> 
                   <button type="submit" class="btn btn-primary active" id="registerUser"><i class="fa fa-share-square-o" aria-hidden="true"></i>
-Assign</button>
+Assign</button> 
                 </div> 
               </div>
          <?php echo $this->Form->end() ?>

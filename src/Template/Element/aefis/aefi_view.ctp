@@ -160,7 +160,11 @@
               <label>Seizures</label>
 
               <table class="table table-condensed vertical-table">
-                <tr><th></th> <td><?= ($aefi->ae_afebrile) ? $checked : $nChecked; ?><label> afebrile</label></td></tr>
+                <tr>
+                  <th></th>
+                   <td><?= ($aefi->ae_afebrile) ? $checked : $nChecked; ?><label> afebrile</label>
+                  </td>
+                </tr>
                 <tr><th></th> <td><?= ($aefi->ae_febrile) ? $checked : $nChecked; ?><label> febrile</label></td></tr>
               </table>
               <label>Severe local reaction</label>

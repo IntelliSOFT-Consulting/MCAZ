@@ -18,7 +18,11 @@ exports.handler = function(context, event, callback) {
   
 };
 
-  var responses2 = got('https://bongastore.azurewebsites.net/api/HttpTriggerCSharp1?code=PaYtLrUAfgx48EUDebjYEcnrfkMiyLP7DFrcyexAI7gTRNAapNhYpA==', {method: "POST", body: {name: "Les", message: "remuers"}}});
+  var responses2 = got('https://bongastore.azurewebsites.net/api/HttpTriggerCSharp1?code=PaYtLrUAfgx48EUDebjYEcnrfkMiyLP7DFrcyexAI7gTRNAapNhYpA==',
+   {method: "POST",
+    body:
+     {name: "Les", message: "remuers"}
+    });
 
   responses2.then(function(result) {
      console.log('promise fulfilled');

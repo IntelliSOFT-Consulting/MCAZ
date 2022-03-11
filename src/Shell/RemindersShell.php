@@ -42,7 +42,7 @@ class RemindersShell extends Shell
                 ];  
                 $html = new HtmlHelper(new \Cake\View\View());
                 $data['vars']['report_link'] = $html->link('Edit', ['controller' => 'Aefis', 'action' => 'edit', $aefi->id, '_full' => true]);
-                $data['vars']['name'] = (($aefi->reporter_name)) ?? $aefi->reporter_email;
+               // $data['vars']['name'] = (($aefi->reporter_name)) ? $aefi->reporter_email;
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $rem  = $this->Aefis->Reminders->newEntity();
                 $rem->user_id = $aefi->user_id;
@@ -108,7 +108,7 @@ class RemindersShell extends Shell
                 ];  
                 $html = new HtmlHelper(new \Cake\View\View());
                 $data['vars']['report_link'] = $html->link('Edit', ['controller' => 'Saefis', 'action' => 'edit', $saefi->id, '_full' => true]);
-                $data['vars']['name'] = (($saefi->reporter_name)) ?? $saefi->reporter_email;
+              //  $data['vars']['name'] = (($saefi->reporter_name)) ?? $saefi->reporter_email;
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $rem  = $this->Saefis->Reminders->newEntity();
                 $rem->user_id = $saefi->user_id;
@@ -173,7 +173,7 @@ class RemindersShell extends Shell
                 ];  
                 $html = new HtmlHelper(new \Cake\View\View());
                 $data['vars']['report_link'] = $html->link('Edit', ['controller' => 'Sadrs', 'action' => 'edit', $sadr->id, '_full' => true]);
-                $data['vars']['name'] = (($sadr->reporter_name)) ?? $sadr->reporter_email;
+               // $data['vars']['name'] = (($sadr->reporter_name)) ?? $sadr->reporter_email;
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $rem  = $this->Sadrs->Reminders->newEntity();
                 $rem->user_id = $sadr->user_id;
@@ -236,7 +236,7 @@ class RemindersShell extends Shell
                 ];  
                 $html = new HtmlHelper(new \Cake\View\View());
                 $data['vars']['report_link'] = $html->link('Edit', ['controller' => 'Adrs', 'action' => 'edit', $adr->id, '_full' => true]);
-                $data['vars']['name'] = (($adr->reporter_name)) ?? $adr->reporter_email;
+              //  $data['vars']['name'] = (($adr->reporter_name)) ?? $adr->reporter_email;
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $rem  = $this->Adrs->Reminders->newEntity();
                 $rem->user_id = $adr->user_id;
@@ -300,7 +300,7 @@ class RemindersShell extends Shell
                 ];  
                 $html = new HtmlHelper(new \Cake\View\View());
                 $data['vars']['change_link'] = $html->link('Change', ['controller' => 'Users', 'action' => 'profile', '_full' => true]);
-                $data['vars']['name'] = (($user->name)) ?? $user->email;
+             //   $data['vars']['name'] = (($user->name)) ?? $user->email;
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $rem  = $this->Users->Reminders->newEntity();
                 $rem->user_id = $user->id;

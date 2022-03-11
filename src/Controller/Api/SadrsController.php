@@ -211,7 +211,7 @@ class SadrsController extends AppController
                 $refid = $this->Sadrs->Refids->newEntity(['foreign_key' => $sadr->id, 'model' => 'Sadrs', 'year' => date('Y')]);
                 $this->Sadrs->Refids->save($refid);
                 $refid = $this->Sadrs->Refids->get($refid->id);
-                $sadr->reference_number = (($sadr->reference_number)) ?? 'ADR'.$refid->refid.'/'.$refid->year;
+                $sadr->reference_number = (($sadr->reference_number)) ?(($sadr->reference_number)): 'ADR'.$refid->refid.'/'.$refid->year;
                 $this->Sadrs->save($sadr);
                 //
                 

@@ -359,14 +359,14 @@ class SadrsTable extends Table
                 if(isset($context['data']['date_of_end_of_reaction']) &&
                    $context['data']['date_of_end_of_reaction'] != '--' &&
                    !empty($context['data']['date_of_end_of_reaction'])) {                    
-                    $doer = (($context['data']['date_of_end_of_reaction'])) ?? '--';
+                   $doer = (($context['data']['date_of_end_of_reaction'])) ? (($context['data']['date_of_end_of_reaction'])): '--';
                     $a = explode('-', $doer);
                     $a[0] = (empty($a[0])) ? '01' : $a[0]; 
                     $a[1] = (empty($a[1])) ? '01' : $a[1]; 
                     $a[2] = (empty($a[2])) ? date('Y') : $a[2]; 
                     $doer = implode('-', $a); 
 
-                    $door = (($value)) ?? '--';
+                   $door = (($value)) ?(($value)): '--';
                     $b = explode('-', $door);
                     $b[0] = (empty($b[0])) ? '01' : $b[0]; 
                     $b[1] = (empty($b[1])) ? '01' : $b[1];

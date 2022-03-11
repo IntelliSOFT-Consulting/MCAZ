@@ -1,5 +1,6 @@
 <?php
 $baseDir = dirname(dirname(__FILE__));
+
 return [
     'plugins' => [
         'ADmad/JwtAuth' => $baseDir . '/vendor/admad/cakephp-jwt-auth/',
@@ -19,6 +20,6 @@ return [
         'Queue' => $baseDir . '/vendor/dereuromark/cakephp-queue/',
         'Search' => $baseDir . '/vendor/friendsofcake/search/',
         'SoftDelete' => $baseDir . '/vendor/pgbi/cakephp3-soft-delete/',
-        'WyriHaximus/TwigView' => $baseDir . '/vendor/wyrihaximus/twig-view/'
-    ]
+        'WyriHaximus/TwigView' => $baseDir . '/vendor/wyrihaximus/twig-view/',
+    ],
 ];

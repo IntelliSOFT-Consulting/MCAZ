@@ -90,7 +90,8 @@
       <div class="col-xs-4">
         <p><b>Does the diagnosis meet a case definition</b></p>
         <?= $this->Form->control('aefi_causalities.'.$ekey.'.diagnosis_meet', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['diagnosis_meet'] ?? 'Yes',
+                     'label' => false, 
+                     'value' => $saefi['aefi_causalities'][$ekey]['diagnosis_meet'] ?$saefi['aefi_causalities'][$ekey]['diagnosis_meet']:'Yes',
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No']]); ?>
       </div>
@@ -137,7 +138,11 @@
               
               <?php
                   echo $this->Form->control('saefi_pr_id', ['type' => 'hidden', 'value' => $saefi->id, 'escape' => false, 'templates' => 'table_form']);
-                  echo $this->Form->control('causality_pr_id', ['type' => 'hidden', 'value' => (($saefi->evaluations[$ekey]['id']) ?? 100), 'escape' => false, 'templates' => 'table_form']);
+                  echo $this->Form->control('causality_pr_id', [
+                    'type' => 'hidden',
+                     'value' => (($saefi->evaluations[$ekey]['id']) ?($saefi->evaluations[$ekey]['id']):100),
+                      'escape' => false,
+                      'templates' => 'table_form']);
                   echo $this->Form->control('aefi_causalities.'.$ekey.'.id', ['type' => 'hidden', 'escape' => false, 'templates' => 'table_form']);
                   echo $this->Form->control('aefi_causalities.'.$ekey.'.user_id', ['type' => 'hidden', 'value' => $this->request->session()->read('Auth.User.id'), 'templates' => 'table_form']);
               ?>
@@ -154,8 +159,10 @@
                               <td>1. In this patient, does the medical history, clinical examination and/or investigations, confirm another cause for the event?</td>
                               <td>
                                 <div class="col-xs-12 r1">
-                                  <?= $this->Form->control('aefi_causalities.'.$ekey.'.clinical_examination', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['clinical_examination'] ?? 'Unk',
+                                  <?= $this->Form->control('aefi_causalities.'.$ekey.'.clinical_examination', [
+                                    'type' => 'radio',
+                                    'label' => false,
+                                    'value' => $saefi['aefi_causalities'][$ekey]['clinical_examination'] ?$saefi['aefi_causalities'][$ekey]['clinical_examination']: 'Unk',
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unk' => 'Unk']]); ?>
                      </div>
@@ -179,7 +186,7 @@
                               <td>
                                 <div class="col-xs-12 r21">
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.evidence_literature', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['evidence_literature'] ?? 'Unk',
+                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['evidence_literature'] ?$saefi['aefi_causalities'][$ekey]['evidence_literature']: 'Unk',
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unk' => 'Unk']]); ?>
                      </div>
@@ -193,7 +200,7 @@
                               <td>
                                 <div class="col-xs-12 r21">
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.biological_plausibility', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['biological_plausibility'] ?? 'Unk',
+                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['biological_plausibility'] ?$saefi['aefi_causalities'][$ekey]['biological_plausibility']: 'Unk',
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unk' => 'Unk']]); ?>
                      </div>
@@ -207,7 +214,7 @@
                               <td>
                                 <div class="col-xs-12 r21">
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.causal_role', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['causal_role'] ?? 'Unk',
+                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['causal_role'] ? $saefi['aefi_causalities'][$ekey]['causal_role']: 'Unk',
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unk' => 'Unk']]); ?>
                      </div>
@@ -226,7 +233,7 @@
                               <td>
                                 <div class="col-xs-12 r22">
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.vaccine_quality', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_quality'] ?? 'Unk',
+                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_quality'] ? $saefi['aefi_causalities'][$ekey]['vaccine_quality']: 'Unk',
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unk' => 'Unk']]); ?>
                      </div>
@@ -245,7 +252,7 @@
                               <td>
                                 <div class="col-xs-12 r23">
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.prescribing_error', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['prescribing_error'] ?? $saefi['prescribing_error'],
+                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['prescribing_error'] ?$saefi['aefi_causalities'][$ekey]['prescribing_error']: $saefi['prescribing_error'],
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown', 'Not applicable' => 'Not applicable']]); ?>
                      </div>
@@ -260,7 +267,7 @@
                               <td>
                                 <div class="col-xs-12 r23">
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.vaccine_unsterile', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_unsterile'] ?? $saefi['vaccine_unsterile'],
+                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_unsterile'] ? $saefi['aefi_causalities'][$ekey]['vaccine_unsterile']: $saefi['vaccine_unsterile'],
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown', 'Not applicable' => 'Not applicable']]); ?>
                      </div>
@@ -274,7 +281,7 @@
                               <td>
                                 <div class="col-xs-12 r23">
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.vaccine_condition', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_condition'] ?? $saefi['vaccine_condition'],
+                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_condition'] ? $saefi['aefi_causalities'][$ekey]['vaccine_condition']: $saefi['vaccine_condition'],
                      'templates' => 'radio_form' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown', 'Not applicable' => 'Not applicable']]); ?>
                      </div>
@@ -288,7 +295,7 @@
                               <td>
                                 <div class="col-xs-12 r23">
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.vaccine_reconstitution', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_reconstitution'] ?? $saefi['vaccine_reconstitution'],
+                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_reconstitution'] ? $saefi['aefi_causalities'][$ekey]['vaccine_reconstitution'] : $saefi['vaccine_reconstitution'],
                      'templates' => 'radio_form' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown', 'Not applicable' => 'Not applicable']]); ?>
                      </div>
@@ -302,7 +309,7 @@
                               <td>
                                 <div class="col-xs-12 r23">
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.vaccine_handling', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_handling'] ?? $saefi['vaccine_handling'],
+                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_handling'] ? $saefi['aefi_causalities'][$ekey]['vaccine_handling']: $saefi['vaccine_handling'],
                      'templates' => 'radio_form' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown', 'Not applicable' => 'Not applicable']]); ?>
                      </div>
@@ -316,7 +323,7 @@
                               <td>
                                 <div class="col-xs-12 r23">
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.vaccine_administered', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_administered'] ?? 'Unable to assess',
+                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_administered'] ? $saefi['aefi_causalities'][$ekey]['vaccine_administered']: 'Unable to assess',
                      'templates' => 'radio_form' ,
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown', 'Not applicable' => 'Not applicable']]); ?>
                      </div>
@@ -335,7 +342,7 @@
                               <td>
                                 <div class="col-xs-12 r24">
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.vaccine_anxiety', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_anxiety'] ?? 'Unk',
+                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['vaccine_anxiety'] ? $saefi['aefi_causalities'][$ekey]['vaccine_anxiety'] : 'Unk',
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unk' => 'Unk']]); ?>
                      </div>
@@ -354,7 +361,7 @@
                               <td>
                                 <div class="col-xs-12 r3">
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.time_window', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['time_window'] ?? 'Unk',
+                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['time_window'] ? $saefi['aefi_causalities'][$ekey]['time_window']: 'Unk',
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unk' => 'Unk']]); ?>
                      </div>
@@ -373,7 +380,7 @@
                               <td>
                                 <div class="col-xs-12 r4">
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.causal_association', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['causal_association'] ?? 'Unk',
+                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['causal_association'] ?$saefi['aefi_causalities'][$ekey]['causal_association'] : 'Unk',
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unk' => 'Unk']]); ?>
                      </div>
@@ -392,7 +399,7 @@
                               <td>
                                 <div class="col-xs-12 r51">
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.comparable_event', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['comparable_event'] ?? 'Unk',
+                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['comparable_event'] ?$saefi['aefi_causalities'][$ekey]['comparable_event'] : 'Unk',
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unk' => 'Unk']]); ?>
                      </div>
@@ -406,7 +413,7 @@
                               <td>
                                 <div class="col-xs-12 r52">
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.occur_past', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['occur_past'] ?? 'Unk',
+                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['occur_past'] ?$saefi['aefi_causalities'][$ekey]['occur_past']:'Unk',
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unk' => 'Unk']]); ?>
                      </div>
@@ -420,7 +427,7 @@
                               <td>
                                 <div class="col-xs-12 r53">
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.independent_vaccination', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['independent_vaccination'] ?? 'Unk',
+                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['independent_vaccination'] ? $saefi['aefi_causalities'][$ekey]['independent_vaccination']: 'Unk',
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unk' => 'Unk']]); ?>
                      </div>
@@ -434,7 +441,7 @@
                               <td>
                                 <div class="col-xs-12 r53">
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.acute_illness', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['acute_illness'] ?? $saefi['existing_illness'],
+                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['acute_illness'] ?$saefi['aefi_causalities'][$ekey]['acute_illness']: $saefi['existing_illness'],
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']]); ?>
                      </div>
@@ -448,7 +455,7 @@
                               <td>
                                 <div class="col-xs-12 r53">
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.taking_medication', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['taking_medication'] ?? 'Unk',
+                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['taking_medication'] ? $saefi['aefi_causalities'][$ekey]['taking_medication']: 'Unk',
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unk' => 'Unk']]); ?>
                      </div>
@@ -462,7 +469,7 @@
                               <td>
                                 <div class="col-xs-12 r53">
                                   <?= $this->Form->control('aefi_causalities.'.$ekey.'.exposure_risk', ['type' => 'radio', 
-                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['exposure_risk'] ?? 'Unk',
+                     'label' => false, 'value' => $saefi['aefi_causalities'][$ekey]['exposure_risk'] ? $saefi['aefi_causalities'][$ekey]['exposure_risk']: 'Unk',
                      'templates' => 'radio_form',
                      'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unk' => 'Unk']]); ?>
                      </div>

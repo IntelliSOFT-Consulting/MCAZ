@@ -87,7 +87,8 @@ class UsersController extends AppController
                 } elseif ($user['deactivated'] == 1) {
                     $this->Flash->error('Your account has been deactivated! Please contact MCAZ.');
                     $this->redirect($this->Auth->logout());
-                } elseif ($user['last_password'] <= $date->modify('-2 days')) {
+                 }
+                elseif ($user['last_password'] <= $date->modify('-2 days')) {
                     $this->Flash->error('Your password has expired. Click on forgot password to create new password.');
                     $this->redirect($this->Auth->logout());
                 }

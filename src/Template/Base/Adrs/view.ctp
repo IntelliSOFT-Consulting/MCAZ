@@ -20,7 +20,9 @@
             if(empty($adr->assigned_to)) {
                 echo 'Assign Evaluator';
             } else {
+                
                 echo "Assigned to:".$evaluators->toArray()[$adr->assigned_to];
+               
             }
          ?>
     </a></li>
@@ -46,8 +48,7 @@
         echo $this->Html->link('<button class="btn btn-success"> <i class="fa fa-copy" aria-hidden="true"></i> Create clean copy to edit </button>', ['action' => 'clean', 'prefix' => $prefix, $adr->id], ['escape' => false]); 
     }
     ?>
-    <?php if(empty($adr->assigned_to)) { ?>
-        <!-- <button type="button" class="btn btn-info" data-toggle="modal" data-target="#assignModal"><i class="fa fa-share-square-o" aria-hidden="true"></i> Assign Evaluator</button> -->
+    <?php if(empty($adr->assigned_to)) { ?> 
     <?php } else { ?>
         <small><?= '<b>Assigned To</b>:'.$evaluators->toArray()[$adr->assigned_to]?></small>
     <?php }  ?>
