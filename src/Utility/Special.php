@@ -13,7 +13,8 @@ class Special
             '"' => '&#34;',
             "'" => '&#39;',
         );
-
+ 
+        // bind all keys as an array 
         $keys = array_keys($array);
 
         for ($i = 0; $i < count($keys); ++$i) {
