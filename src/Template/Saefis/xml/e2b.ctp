@@ -1,5 +1,5 @@
 <?php
-use  App\Utility\Special;
+use  App\Utility\Special; // include the Utility Class
 echo '<?xml version="1.0" encoding="UTF-8"?>'; echo "\n"; ?>
 <!DOCTYPE ichicsr SYSTEM "http://eudravigilance.ema.europa.eu/dtd/icsr21xml.dtd">
 <ichicsr lang="en">
