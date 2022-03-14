@@ -1,4 +1,6 @@
-<?php echo '<?xml version="1.0" encoding="UTF-8"?>'; echo "\n"; ?>
+<?php
+use  App\Utility\Special; // include the Utility
+echo '<?xml version="1.0" encoding="UTF-8"?>'; echo "\n"; ?>
 <!DOCTYPE ichicsr SYSTEM "http://eudravigilance.ema.europa.eu/dtd/icsr21xml.dtd">
 <ichicsr lang="en">
     <ichicsrmessageheader>
@@ -43,7 +45,7 @@
         ?></additionaldocument>
         <documentlist><?php
             foreach ($saefi['attachments'] as $attachment):
-                echo $attachment['description'].', ';
+                echo Special::escapeWord($attachment['description']).', ';
             endforeach;
         ?></documentlist>
         <fulfillexpeditecriteria><?php
@@ -69,9 +71,9 @@
         </reportduplicate>
         <?php $arr = preg_split("/[\s]+/", $saefi['reporter_name']); ?>
         <primarysource>
-            <reportergivename><?php if (isset($arr[0])) echo $arr[0]; ?></reportergivename>
-            <reporterfamilyname><?php if (isset($arr[1])) echo $arr[1].' '; if (isset($arr[2])) echo $arr[2];  ?></reporterfamilyname>
-            <reporterorganization><?php echo $saefi['name_of_vaccination_site']; ?></reporterorganization>
+            <reportergivename><?php if (isset($arr[0])) echo Special::escapeWord($arr[0]); ?></reportergivename>
+            <reporterfamilyname><?php if (isset($arr[1])) echo Special::escapeWord($arr[1]).' '; if (isset($arr[2])) echo Special::escapeWord($arr[2]);  ?></reporterfamilyname>
+            <reporterorganization><?php echo Special::escapeWord($saefi['name_of_vaccination_site']); ?></reporterorganization>
             <reporterdepartment/>
             <reporterstreet/>
             <reportercity/>
@@ -83,7 +85,11 @@
                     $desg = [1 => 1, 2 => 1, 3 => 3, 4 => 2, 5 => 3, 6 => 2, 7 => 3, 8 => 1, 9 => 1, 10 => 1, 11 => 1, 12 => 1, 
                              13 => 1, 14 => 1, 15 => 1, 16 => 1, 17 => 1, 18 => 1, 19 => 3, 20 => 1, 21 => 5, 22 => 5, 23 => 3, 
                           ];
-                    echo $desg[($saefi['designation_id']) ?? 3]; 
+                          $dr=3;
+                          if ($saefi['designation_id']) {
+                              $dr=$saefi['designation_id'];
+                          }
+                    echo $desg[$dr]; 
                 ?>
             </qualification>
             <literaturereference/>
@@ -134,7 +140,7 @@
             <receiveremailaddress/>
         </receiver>
         <patient>
-            <patientinitial><?php echo $saefi['patient_name']; ?></patientinitial>
+            <patientinitial><?php echo Special::escapeWord($saefi['patient_name']); ?></patientinitial>
             <patientgpmedicalrecordnumb><?php echo $saefi['ip_no']; ?></patientgpmedicalrecordnumb>
             <patientspecialistrecordnumb><?php echo $saefi['ip_no']; ?></patientspecialistrecordnumb>
             <patienthospitalrecordnumb><?php echo $saefi['ip_no']; ?></patienthospitalrecordnumb>
@@ -189,7 +195,7 @@
             ?></patientsex>
             <lastmenstrualdateformat/>
             <patientlastmenstrualdate/>
-            <patientmedicalhistorytext><?php echo $saefi['medical_history']; ?></patientmedicalhistorytext>
+            <patientmedicalhistorytext><?php echo Special::escapeWord($saefi['medical_history']); ?></patientmedicalhistorytext>
             <resultstestsprocedures/>
             <patientdeath>
                 <patientdeathdateformat/>
@@ -197,7 +203,7 @@
                 <patientautopsyyesno/>
             </patientdeath>
             <reaction>
-                <primarysourcereaction><?php echo $saefi['signs_symptoms']; ?></primarysourcereaction>
+                <primarysourcereaction><?php echo Special::escapeWord($saefi['signs_symptoms']); ?></primarysourcereaction>
                 <reactionmeddraversionllt>WHO-ART</reactionmeddraversionllt>
                 <reactionmeddrallt><?php echo $saefi->signs_symptoms; ?></reactionmeddrallt>
                 <reactionmeddraversionpt/>
@@ -302,7 +308,7 @@
                 <drugrecurreadministration/>
                 <drugadditional><?php echo $saefiListOfDrug['diluent_batch_number']; ?></drugadditional>
                 <activesubstance>
-                    <activesubstancename><?php echo $saefiListOfDrug['drug_name']; ?></activesubstancename>
+                    <activesubstancename><?php echo Special::escapeWord($saefiListOfDrug['drug_name']); ?></activesubstancename>
                 </activesubstance>
                 <drugreactionrelatedness>
                     <drugreactionassesmeddraversion>WHO-ART</drugreactionassesmeddraversion>
@@ -321,10 +327,10 @@
             </drug>
             <?php  endforeach; ?>
             <summary>
-                <narrativeincludeclinical><?php echo $saefi['signs_symptoms']; ?></narrativeincludeclinical>
-                <reportercomment><?php echo $saefi['relevant_findings']; ?></reportercomment>
+                <narrativeincludeclinical><?php echo Special::escapeWord($saefi['signs_symptoms']); ?></narrativeincludeclinical>
+                <reportercomment><?php echo Special::escapeWord($saefi['relevant_findings']); ?></reportercomment>
                 <senderdiagnosismeddraversion>WHO-ART</senderdiagnosismeddraversion>
-                <senderdiagnosis><?php echo $saefi['past_drug_therapy']; ?></senderdiagnosis>
+                <senderdiagnosis><?php echo Special::escapeWord($saefi['past_drug_therapy']); ?></senderdiagnosis>
                 <sendercomment/>
             </summary>
         </patient>

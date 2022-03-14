@@ -1,4 +1,6 @@
-<?php echo '<?xml version="1.0" encoding="UTF-8"?>'; echo "\n"; ?>
+<?php 
+use  App\Utility\Special; // include the Utility
+echo '<?xml version="1.0" encoding="UTF-8"?>'; echo "\n"; ?>
 <!DOCTYPE ichicsr SYSTEM "http://eudravigilance.ema.europa.eu/dtd/icsr21xml.dtd">
 <ichicsr lang="en">
     <ichicsrmessageheader>
@@ -24,7 +26,9 @@
         <serious><?php
                 if ($sadr['severity'] == 'Yes') {
                     echo 1;
-                } else { echo 2;}
+                }else {
+                     echo 2;
+                }
             ?></serious>
         <seriousnessdeath><?= ($sadr['severity_reason'] == 'Death') ? 1 : 2; ?></seriousnessdeath>
         <seriousnesslifethreatening><?= ($sadr['severity_reason'] == 'Life-threatening') ? 1 : 2; ?></seriousnesslifethreatening>
@@ -45,7 +49,7 @@
         ?></additionaldocument>
         <documentlist><?php
             foreach ($sadr['attachments'] as $attachment):
-                echo $attachment['description'].'; ';
+                echo Special::escapeWord($attachment['description']).'; ';
             endforeach;
         ?></documentlist>
         <fulfillexpeditecriteria><?php
@@ -69,8 +73,8 @@
         ?></medicallyconfirm>
         <?php $arr = preg_split("/[\s]+/", $sadr['reporter_name']); ?>
         <primarysource>
-            <reportergivename><?php if (isset($arr[0])) echo $arr[0]; ?></reportergivename>
-            <reporterfamilyname><?php if (isset($arr[1])) echo $arr[1].' '; if (isset($arr[2])) echo $arr[2];  ?></reporterfamilyname>
+            <reportergivename><?php if (isset($arr[0])) echo Special::escapeWord($arr[0]); ?></reportergivename>
+            <reporterfamilyname><?php if (isset($arr[1])) echo Special::escapeWord($arr[1]).' '; if (isset($arr[2])) echo Special::escapeWord($arr[2]);  ?></reporterfamilyname>
             <reporterorganization><?php echo $sadr['institution_code']; ?></reporterorganization>
             <reporterdepartment/>
             <reporterstreet/>
@@ -83,7 +87,12 @@
                     $desg = [1 => 1, 2 => 1, 3 => 3, 4 => 2, 5 => 3, 6 => 2, 7 => 3, 8 => 1, 9 => 1, 10 => 1, 11 => 1, 12 => 1, 
                              13 => 1, 14 => 1, 15 => 1, 16 => 1, 17 => 1, 18 => 1, 19 => 3, 20 => 1, 21 => 5, 22 => 5, 23 => 3, 
                           ];
-                    echo $desg[($sadr['designation_id']) ?? 3]; 
+                          $dr=3;
+                          if ($sadr['designation_id']) {
+                              $dr=$sadr['designation_id'];
+                          }
+                   echo $desg[$dr];
+                  
                 ?>
             </qualification>
             <literaturereference/>
@@ -134,7 +143,7 @@
             <receiveremailaddress/>
         </receiver>
         <patient>
-            <patientinitial><?php echo $sadr['patient_name']; ?></patientinitial>
+            <patientinitial><?php echo Special::escapeWord($sadr['patient_name']); ?></patientinitial>
             <patientgpmedicalrecordnumb><?php echo $sadr['ip_no']; ?></patientgpmedicalrecordnumb>
             <patientspecialistrecordnumb><?php echo $sadr['ip_no']; ?></patientspecialistrecordnumb>
             <patienthospitalrecordnumb><?php echo $sadr['ip_no']; ?></patienthospitalrecordnumb>
@@ -202,13 +211,15 @@
             ?>
             <patientweight><?php echo $sadr['weight']; ?></patientweight>
             <patientheight><?php echo round($sadr['height']);?></patientheight>
-            <patientsex><?php
+            <patientsex>
+                <?php
                 if($sadr['gender'] == 'Male') echo 1 ;
                 elseif($sadr['gender'] == 'Female') echo 2 ;
-            ?></patientsex>
+                ?>
+            </patientsex>
             <lastmenstrualdateformat/>
             <patientlastmenstrualdate/>
-            <patientmedicalhistorytext><?php echo $sadr['medical_history']; ?></patientmedicalhistorytext>
+            <patientmedicalhistorytext><?php echo Special::escapeWord($sadr['medical_history']); ?></patientmedicalhistorytext>
             <resultstestsprocedures/>
             <patientdeath>
                 <patientdeathdateformat/>
@@ -216,9 +227,9 @@
                 <patientautopsyyesno/>
             </patientdeath>
             <reaction>
-                <primarysourcereaction><?php echo $sadr['description_of_reaction']; ?></primarysourcereaction>
+                <primarysourcereaction><?php echo Special::escapeWord($sadr['description_of_reaction']); ?></primarysourcereaction>
                 <reactionmeddraversionllt>23</reactionmeddraversionllt>
-                <reactionmeddrallt><?php echo $sadr['description_of_reaction']; ?></reactionmeddrallt>
+                <reactionmeddrallt><?php echo Special::escapeWord($sadr['description_of_reaction']); ?></reactionmeddrallt>
                 <reactionmeddraversionpt/>
                 <reactionmeddrapt/>
                 <termhighlighted/>
@@ -268,11 +279,13 @@
                     <reactionstartdateformat><?php
                         echo $onsetf;
                     ?></reactionstartdateformat>
-                    <reactionstartdate><?php
+                    <reactionstartdate>
+                        <?php
                         if($onsetf == 102) echo date('Ymd', strtotime(implode('-', $sadr['date_of_onset_of_reaction'])));
                         if($onsetf == 602) echo $sadr['date_of_onset_of_reaction']['year'];
                         if($onsetf == 610) echo $sadr['date_of_onset_of_reaction']['year'].$sadr['date_of_onset_of_reaction']['month'];
-                    ?></reactionstartdate>
+                        ?>
+                    </reactionstartdate>
                     <reactionenddateformat/>
                     <reactionenddate/>
                     <reactionduration/>
@@ -297,13 +310,13 @@
                     if ($sadrListOfDrug['suspected_drug']) echo 1 ;
                     else echo 2;
                 ?></drugcharacterization>
-                <medicinalproduct><?php echo $sadrListOfDrug['brand_name']; ?></medicinalproduct>
+                <medicinalproduct><?php echo Special::escapeWord($sadrListOfDrug['brand_name']); ?></medicinalproduct>
                 <obtaindrugcountry/>
                 <drugbatchnumb/>
                 <drugauthorizationnumb/>
                 <drugauthorizationcountry/>
                 <drugauthorizationholder/>
-                <drugstructuredosagenumb><?php echo $sadrListOfDrug['dose']; ?></drugstructuredosagenumb>
+                <drugstructuredosagenumb><?php echo Special::escapeWord($sadrListOfDrug['dose']); ?></drugstructuredosagenumb>
                 <drugstructuredosageunit><?php
                     if(!empty($sadrListOfDrug['dose_id'])) {
                         $result = $doses->all();
@@ -359,11 +372,11 @@
                 <drugrecurreadministration/>
                 <drugadditional/>
                 <activesubstance>
-                    <activesubstancename><?php echo $sadrListOfDrug['drug_name']; ?></activesubstancename>
+                    <activesubstancename><?php echo Special::escapeWord($sadrListOfDrug['drug_name']); ?></activesubstancename>
                 </activesubstance>
                 <drugreactionrelatedness>
                     <drugreactionassesmeddraversion>WHO-ART</drugreactionassesmeddraversion>
-                    <drugreactionasses><?php echo $sadr['description_of_reaction']; ?></drugreactionasses>
+                    <drugreactionasses><?php echo Special::escapeWord($sadr['description_of_reaction']); ?></drugreactionasses>
                     <drugassessmentsource/>
                     <drugassessmentmethod>WHO causality</drugassessmentmethod>
                     <drugresult>
@@ -396,10 +409,10 @@
             </drug>
             <?php  endforeach; ?>
             <summary>
-                <narrativeincludeclinical><?php echo $sadr['description_of_reaction']; ?></narrativeincludeclinical>
-                <reportercomment><?php echo h($sadr['lab_test_results']); ?></reportercomment>
+                <narrativeincludeclinical><?php echo Special::escapeWord($sadr['description_of_reaction']); ?></narrativeincludeclinical>
+                <reportercomment><?php echo Special::escapeWord($sadr['lab_test_results']); ?></reportercomment>
                 <senderdiagnosismeddraversion>WHO-ART</senderdiagnosismeddraversion>
-                <senderdiagnosis><?php echo h($sadr['past_drug_therapy']); ?></senderdiagnosis>
+                <senderdiagnosis><?php echo Special::escapeWord($sadr['past_drug_therapy']); ?></senderdiagnosis>
                 <sendercomment/>
             </summary>
         </patient>
