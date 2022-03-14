@@ -14,7 +14,7 @@ class Special
             "'" => '&#39;',
         );
  
-        // bind all keys as an array 
+        // bind keys as an array   
         $keys = array_keys($array);
 
         for ($i = 0; $i < count($keys); ++$i) {
