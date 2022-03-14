@@ -1,4 +1,6 @@
-<?php echo '<?xml version="1.0" encoding="UTF-8"?>'; echo "\n"; ?>
+<?php 
+use  App\Utility\Special; // include the Utility
+echo '<?xml version="1.0" encoding="UTF-8"?>'; echo "\n"; ?>
 <!DOCTYPE ichicsr SYSTEM "http://eudravigilance.ema.europa.eu/dtd/icsr21xml.dtd">
 <ichicsr lang="en">
     <ichicsrmessageheader>
@@ -43,7 +45,7 @@
         ?></additionaldocument>
         <documentlist><?php
             foreach ($adr['attachments'] as $attachment):
-                echo preg_replace('/[^A-Za-z0-9\s+]/', '',$attachment['description']).', ';
+                echo Special::escapeWord($attachment['description']).', ';
             endforeach;
         ?></documentlist>
         <fulfillexpeditecriteria><?php
@@ -65,9 +67,9 @@
         ?></medicallyconfirm>
         <?php $arr = preg_split("/[\s]+/", $adr['reporter_name']); ?>
         <primarysource>
-            <reportergivename><?php if (isset($arr[0])) echo preg_replace('/[^A-Za-z0-9\s+]/', '',$arr[0]); ?></reportergivename>
-            <reporterfamilyname><?php if (isset($arr[1])) echo preg_replace('/[^A-Za-z0-9\s+]/', '',$arr[1]).' '; if (isset($arr[2])) echo preg_replace('/[^A-Za-z0-9\s+]/', '',$arr[2]);  ?></reporterfamilyname>
-            <reporterorganization><?php echo preg_replace('/[^A-Za-z0-9\s+]/', '',$adr['name_of_institution']); ?></reporterorganization>
+            <reportergivename><?php if (isset($arr[0])) echo Special::escapeWord($arr[0]); ?></reportergivename>
+            <reporterfamilyname><?php if (isset($arr[1])) echo Special::escapeWord($arr[1]).' '; if (isset($arr[2])) echo Special::escapeWord($arr[2]);  ?></reporterfamilyname>
+            <reporterorganization><?php echo Special::escapeWord($adr['name_of_institution']); ?></reporterorganization>
             <reporterdepartment/>
             <reporterstreet/>
             <reportercity/>
@@ -182,7 +184,7 @@
             ?></patientsex>
             <lastmenstrualdateformat/>
             <patientlastmenstrualdate/>
-            <patientmedicalhistorytext><?php echo preg_replace('/[^A-Za-z0-9\s+]/', '',$adr['medical_history']); ?></patientmedicalhistorytext>
+            <patientmedicalhistorytext><?php echo Special::escapeWord($adr['medical_history']); ?></patientmedicalhistorytext>
             <resultstestsprocedures/>
             <patientdeath>
                 <patientdeathdateformat/>
@@ -190,9 +192,9 @@
                 <patientautopsyyesno/>
             </patientdeath>
             <reaction>
-                <primarysourcereaction><?php echo preg_replace('/[^A-Za-z0-9\s+]/', '',$adr['diagnosis']); ?></primarysourcereaction>
+                <primarysourcereaction><?php echo Special::escapeWord($adr['diagnosis']); ?></primarysourcereaction>
                 <reactionmeddraversionllt>23</reactionmeddraversionllt>
-                <reactionmeddrallt><?php echo preg_replace('/[^A-Za-z0-9\s+]/', '',$adr['diagnosis']); ?></reactionmeddrallt>
+                <reactionmeddrallt><?php echo Special::escapeWord($adr['diagnosis']); ?></reactionmeddrallt>
                 <reactionmeddraversionpt/>
                 <reactionmeddrapt/>
                 <termhighlighted/>
@@ -224,7 +226,7 @@
                     elseif(strtolower($adrListOfDrug['relationship_to_sae']) == 'pending') { echo 2; }
                     else { echo 2; }
                 ?></drugcharacterization>
-                <medicinalproduct><?php echo preg_replace('/[^A-Za-z0-9\s+]/', '',$adrListOfDrug['drug_name']); ?></medicinalproduct>
+                <medicinalproduct><?php echo Special::escapeWord($adrListOfDrug['drug_name']); ?></medicinalproduct>
                 <obtaindrugcountry/>
                 <drugbatchnumb/>
                 <drugauthorizationnumb/>
@@ -256,7 +258,7 @@
                 <reactiongestationperiod/>
                 <reactiongestationperiodunit/>
                 <drugindicationmeddraversion/>
-                <drugindication><?php echo preg_replace('/[^A-Za-z0-9\s+]/', '',$adrListOfDrug['indication']); ?></drugindication>
+                <drugindication><?php echo Special::escapeWord($adrListOfDrug['indication']); ?></drugindication>
                 <drugstartdateformat><?php if (!empty($adrListOfDrug['start_date'])) echo 102; ?></drugstartdateformat>
                 <drugstartdate><?php if (!empty($adrListOfDrug['start_date'])) echo date('Ymd', strtotime($adrListOfDrug['start_date']))?></drugstartdate>
                 <drugstartperiod/>
@@ -271,7 +273,7 @@
                 <drugrecurreadministration/>
                 <drugadditional/>
                 <activesubstance>
-                    <activesubstancename><?php echo preg_replace('/[^A-Za-z0-9\s+]/', '',$adrListOfDrug['drug_name']); ?></activesubstancename>
+                    <activesubstancename><?php echo Special::escapeWord($adrListOfDrug['drug_name']); ?></activesubstancename>
                 </activesubstance>
                 <drugreactionrelatedness>
                     <drugreactionassesmeddraversion>WHO-ART</drugreactionassesmeddraversion>
@@ -314,10 +316,10 @@
             </drug>
             <?php  endforeach; ?>
             <summary>
-                <narrativeincludeclinical><?php echo preg_replace('/[^A-Za-z0-9\s+]/', '',$adr['immediate_cause']); ?></narrativeincludeclinical>
-                <reportercomment><?php echo preg_replace('/[^A-Za-z0-9\s+]/', '',$adr['investigations']); ?></reportercomment>
+                <narrativeincludeclinical><?php echo Special::escapeWord($adr['immediate_cause']); ?></narrativeincludeclinical>
+                <reportercomment><?php echo Special::escapeWord($adr['investigations']); ?></reportercomment>
                 <senderdiagnosismeddraversion>WHO-ART</senderdiagnosismeddraversion>
-                <senderdiagnosis><?php echo preg_replace('/[^A-Za-z0-9\s+]/', '',$adr['diagnosis']); ?></senderdiagnosis>
+                <senderdiagnosis><?php echo Special::escapeWord($adr['diagnosis']); ?></senderdiagnosis>
                 <sendercomment/>
             </summary>
         </patient>
