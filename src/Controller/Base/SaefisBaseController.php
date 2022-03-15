@@ -289,6 +289,12 @@ class SaefisBaseController extends AppController
         //debug($this->request->getData());
         $saefi = $this->Saefis->get($this->request->getData('saefi_pr_id'), ['contain' => 'ReportStages']);
         if (isset($saefi->id) && $this->request->is('post')) {
+            // Only Allowed Evaluators
+            
+            if (($this->Auth->user('group_id')==4) && ($this->Auth->user('id') != $saefi->assigned_to)) {
+                $this->Flash->error('You have not been assigned the report for review!');
+                return $this->redirect($this->referer());
+            }
             $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
 
             //new stage only once
@@ -515,6 +521,11 @@ class SaefisBaseController extends AppController
         $saefi->saefi_id = $id;        
         $saefi->user_id = $this->Auth->user('id'); //the report is reassigned to the evaluator... the reporter should only have original report
 
+          // Create a copy if only Allowed
+          if (($this->Auth->user('group_id')==4) && ($this->Auth->user('id') != $saefi->assigned_to)) {
+            $this->Flash->error('You have not been assigned the report, you can only create a copy of assigned reports!');
+            return $this->redirect($this->referer());
+        }
         if ($this->Saefis->save($saefi, ['validate' => false])) {            
             $query = $this->Saefis->query();
             $query->update()
@@ -533,6 +544,11 @@ class SaefisBaseController extends AppController
         $saefi = $this->Saefis->get($id, [
             'contain' => ['SaefiListOfVaccines', 'AefiListOfVaccines', 'Attachments', 'Reports']
         ]);
+  // Option only available to assigned
+  if (($this->Auth->user('group_id')==4) && ($this->Auth->user('id') != $saefi->assigned_to)) {
+    $this->Flash->error('You have not been assigned the report, you can only create a copy of assigned reports!');
+    return $this->redirect($this->referer());
+}
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());

@@ -238,6 +238,11 @@ class SadrsBaseController extends AppController
     public function causality() {
         $sadr = $this->Sadrs->get($this->request->getData('sadr_pr_id'), ['contain' => 'ReportStages']);
         if (isset($sadr->id) && $this->request->is('post')) {
+            // Only Allowed Evaluators
+            if (($this->Auth->user('group_id')==4) && ($this->Auth->user('id') != $sadr->assigned_to)) {
+                $this->Flash->error('You have not been assigned the report for review!');
+                return $this->redirect($this->referer());
+            }
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData());
             $sadr->reviews[0]->user_id = $this->Auth->user('id');
             $sadr->reviews[0]->model = 'Sadrs';
@@ -582,7 +587,12 @@ class SadrsBaseController extends AppController
         $sadr = $this->Sadrs->duplicateEntity($id);        
         $sadr->sadr_id = $id;        
         $sadr->user_id = $this->Auth->user('id'); //the report is reassigned to the evaluator... the reporter should only have original report
-
+       
+         // Create a copy if only Allowed
+        if (($this->Auth->user('group_id')==4) && ($this->Auth->user('id') != $sadr->assigned_to)) {
+            $this->Flash->error('You have not been assigned the report, you can only create a copy of assigned reports!');
+            return $this->redirect($this->referer());
+        }
         if ($this->Sadrs->save($sadr, ['validate' => false])) {            
             $query = $this->Sadrs->query();
             $query->update()
@@ -609,6 +619,11 @@ class SadrsBaseController extends AppController
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'Reactions']
         ]);
 
+        // Option only available to assigned
+        if (($this->Auth->user('group_id')==4) && ($this->Auth->user('id') != $sadr->assigned_to)) {
+            $this->Flash->error('You have not been assigned the report, you can only create a copy of assigned reports!');
+            return $this->redirect($this->referer());
+        }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData(), [
                 'validate' => ($this->request->getData('submitted') == 2) ? true : false, 

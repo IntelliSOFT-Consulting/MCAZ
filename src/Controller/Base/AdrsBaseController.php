@@ -288,6 +288,13 @@ class AdrsBaseController extends AppController
     public function causality() {
         $adr = $this->Adrs->get($this->request->getData('adr_pr_id'), ['contain' => ['ReportStages']]);
         if (isset($adr->id) && $this->request->is('post')) {
+
+            // Only Allowed Evaluators
+            if (($this->Auth->user('group_id')==4) && ($this->Auth->user('id') != $adr->assigned_to)) {
+                $this->Flash->error('You have not been assigned the report for review!');
+                return $this->redirect($this->referer());
+            }
+
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
             $adr->reviews[0]->user_id = $this->Auth->user('id');
             $adr->reviews[0]->model = 'Adrs';
@@ -572,6 +579,11 @@ class AdrsBaseController extends AppController
         $adr->adr_id = $id;        
         $adr->user_id = $this->Auth->user('id'); //the report is reassigned to the evaluator... the reporter should only have original report
 
+          // Create a copy if only Allowed
+          if (($this->Auth->user('group_id')==4) && ($this->Auth->user('id') != $adr->assigned_to)) {
+            $this->Flash->error('You have not been assigned the report, you can only create a copy of assigned reports!');
+            return $this->redirect($this->referer());
+        }
         if ($this->Adrs->save($adr, ['validate' => false])) {            
             $query = $this->Adrs->query();
             $query->update()
@@ -599,6 +611,11 @@ class AdrsBaseController extends AppController
             'contain' => ['AdrListOfDrugs', 'AdrOtherDrugs', 'AdrLabTests', 'Attachments']
         ]);
 
+        // Option only available to assigned
+        if (($this->Auth->user('group_id')==4) && ($this->Auth->user('id') != $adr->assigned_to)) {
+            $this->Flash->error('You have not been assigned the report, you can only create a copy of assigned reports!');
+            return $this->redirect($this->referer());
+        }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
             if (!empty($adr->attachments)) {

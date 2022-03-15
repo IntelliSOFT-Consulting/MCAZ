@@ -322,6 +322,12 @@ class Ce2bsBaseController extends AppController
     public function causality() {
         $ce2b = $this->Ce2bs->get($this->request->getData('ce2b_pr_id'), ['contain' => ['ReportStages']]);
         if (isset($ce2b->id) && $this->request->is('post')) {
+                 
+            // Only Allowed Evaluators
+            if (($this->Auth->user('group_id')==4) && ($this->Auth->user('id') != $ce2b->assigned_to)) {
+                $this->Flash->error('You have not been assigned the report for review!');
+                return $this->redirect($this->referer());
+            }
             $ce2b = $this->Ce2bs->patchEntity($ce2b, $this->request->getData());
             $ce2b->reviews[0]->user_id = $this->Auth->user('id');
             $ce2b->reviews[0]->model = 'Ce2bs';
