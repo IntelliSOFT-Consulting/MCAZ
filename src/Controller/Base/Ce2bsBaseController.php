@@ -159,13 +159,20 @@ class Ce2bsBaseController extends AppController
             ]);
         }
 
+        $current_id=$this->Auth->user('id'); 
+        $assignees = $this->Ce2bs->Users
+        ->find('list', ['limit' => 200])
+        ->where(['group_id' => 4])
+        ->orWhere(['id'=>$ce2b->assigned_to ? $ce2b->assigned_to : $current_id]); //use current id if unassigned else assigned user
+        
+
         $evaluators = $this->Ce2bs->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
         $users = $this->Ce2bs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
 
         $xml = (Xml::toArray(Xml::build($ce2b->e2b_content)));
         $arr = Hash::flatten($xml);
 
-        $this->set(compact('ce2b', 'evaluators', 'users', 'ekey', 'arr'));
+        $this->set(compact('ce2b','assignees', 'evaluators', 'users', 'ekey', 'arr'));
         $this->set('_serialize', ['ce2b']);
         $this->render('/Base/Ce2bs/view');
     }
@@ -221,7 +228,7 @@ class Ce2bsBaseController extends AppController
                 // $ref = $this->Ce2bs->find()->count() + 1;
                 //$ref = $this->Ce2bs->find('all', ['conditions' => ['date_format(Ce2bs.created,"%Y")' => date("Y"), 'Ce2bs.reference_number IS NOT' => null]])->count() + $var;
                 $ref = $this->Ce2bs->find()->select(['Ce2bs.reference_number'])->distinct(['Ce2bs.reference_number'])->where(['date_format(Ce2bs.created,"%Y")' => date("Y"), 'Ce2bs.reference_number IS NOT' => null])->count() + $var;
-                $ce2b->reference_number = (($ce2b->reference_number)) ?? 'CE2B'.$ref.'/'.date('Y');
+                $ce2b->reference_number = (!empty($ce2b->reference_number)) ?$ce2b->reference_number: 'CE2B'.$ref.'/'.date('Y');
                 try {                    
                     if ($this->Ce2bs->save($ce2b)) {
                         $datum = $this->Imports->newEntity(['filename' => $this->request->data['e2b_file']['name']]);

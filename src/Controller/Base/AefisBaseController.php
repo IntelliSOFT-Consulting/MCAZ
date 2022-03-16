@@ -72,9 +72,9 @@ class AefisBaseController extends AppController
                 // 'reviews.system_message', 'reviews.user_message', 
                 'attachments.file'];
             $_extract = ['id',    'user_id',    'aefi_id',    
-                function ($row) use ($_provinces) { return $_provinces[$row['province_id']] ?? ''; }, //provinces    
+                function ($row) use ($_provinces) { return (!empty($_provinces[$row['province_id']])) ?$_provinces[$row['province_id']]: ''; }, //provinces    
                 'reference_number',    'assigned_to',    'assigned_by',    'assigned_date',    'patient_name',    'patient_surname',    'patient_next_of_kin',    'patient_address',    'patient_telephone',    'report_type',    'gender',    'date_of_birth',    'age_at_onset',    'age_at_onset_years',    'age_at_onset_months',    'age_at_onset_days',    'age_at_onset_specify',    'reporter_name',    
-                function ($row) use($_designations) { return $_designations[$row['designation_id']] ?? '' ; }, //designation_id     
+                function ($row) use($_designations) { return (!empty($_designations[$row['designation_id']])) ?$_designations[$row['designation_id']]: '' ; }, //designation_id     
                'reporter_department',    'reporter_address',    'reporter_institution',    'reporter_district',    'reporter_province',    'reporter_phone',    'reporter_email',    'name_of_vaccination_center',    'adverse_events',    'ae_severe_local_reaction',    'ae_seizures',    'ae_abscess',    'ae_sepsis',    'ae_encephalopathy',    'ae_toxic_shock',    'ae_thrombocytopenia',    'ae_anaphylaxis',    'ae_fever',    'ae_3days',    'ae_febrile',    'ae_beyond_joint',    'ae_afebrile',    'ae_other',    'adverse_events_specify',    'aefi_date',
                 'notification_date', 'description_of_reaction',    'treatment_provided',    'serious',    'serious_yes',    'outcome',    'died_date', 
                  'autopsy',    'past_medical_history',    'district_receive_date',  'investigation_needed',    'investigation_date', 'national_receive_date', 
@@ -184,12 +184,18 @@ class AefisBaseController extends AppController
             ]);
         }
 
+        $current_id=$this->Auth->user('id'); 
+        $assignees = $this->Aefis->Users
+        ->find('list', ['limit' => 200])
+        ->where(['group_id' => 4])
+        ->orWhere(['id'=>$aefi->assigned_to ? $aefi->assigned_to : $current_id]); //use current id if unassigned else assigned user
+        
         $evaluators = $this->Aefis->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
         $users = $this->Aefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
-        $this->set(compact('aefi', 'designations', 'provinces', 'evaluators', 'users', 'ekey'));
+        $this->set(compact('aefi','assignees', 'designations', 'provinces', 'evaluators', 'users', 'ekey'));
         $this->set('_serialize', ['aefi', 'designations', 'provinces']);
 
         $this->render('/Base/Aefis/view');

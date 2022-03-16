@@ -104,9 +104,9 @@ class SadrsBaseController extends AppController
                 'reviews.system_message', 'reviews.user_message', 
                 'attachments.file'];
             $_extract = ['id', 'user_id', 'sadr_id', 'messageid', 'assigned_to', 'assigned_by', 'assigned_date', 
-                function ($row) use ($_provinces) { return $_provinces[$row['province_id']] ?? ''; }, //provinces
+                function ($row) use ($_provinces) { return(!empty($_provinces[$row['province_id']])) ?$_provinces[$row['province_id']]: ''; }, //provinces
                 'reference_number', 
-                function ($row) use($_designations) { return $_designations[$row['designation_id']] ?? '' ; }, //designation_id 
+                function ($row) use($_designations) { return (!empty($_designations[$row['designation_id']])) ?$_designations[$row['designation_id']]: '' ; }, //designation_id 
                 'report_type', 'name_of_institution', 'institution_code', 'institution_name', 'institution_address', 'patient_name', 'ip_no', 'date_of_birth', 'age_group', 'gender', 'weight', 'height', 'date_of_onset_of_reaction', 'date_of_end_of_reaction', 'duration_type', 'duration', 'description_of_reaction', 'severity', 'severity_reason', 'medical_history', 'past_drug_therapy', 'outcome', 'lab_test_results', 'reporter_name', 'reporter_email', 'reporter_phone', 'submitted', 'submitted_date', 'action_taken', 'relatedness', 'status', 'emails', 'active', 'device', 'notified', 'created', 'modified', 
                 function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.drug_name')); }, // 'drug_name', 
                 function ($row) { return implode('|', Hash::extract($row['sadr_list_of_drugs'], '{n}.brand_name')); }, //'.brand_name', 
@@ -215,16 +215,23 @@ class SadrsBaseController extends AppController
                 ]
             ]);
         }
-        
-        
-        $evaluators = $this->Sadrs->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
+      
+        $current_id=$this->Auth->user('id'); 
+        $assignees = $this->Sadrs->Users
+        ->find('list', ['limit' => 200])
+        ->where(['group_id' => 4])
+        ->orWhere(['id'=>$sadr->assigned_to?$sadr->assigned_to:$current_id]); //use current id if unassigned else assigned user
+         
+        $evaluators = $this->Sadrs->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);  
+
+
         $users = $this->Sadrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $designations = $this->Sadrs->Designations->find('list',array('order'=>'Designations.name ASC'));
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
         $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
         $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list');
-        $this->set(compact('sadr', 'evaluators', 'users', 'designations', 'provinces', 'doses', 'routes', 'frequencies', 'ekey'));
+        $this->set(compact('sadr','assignees', 'evaluators', 'users', 'designations', 'provinces', 'doses', 'routes', 'frequencies', 'ekey'));
         $this->set('_serialize', ['sadr']);
         
 

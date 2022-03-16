@@ -10,24 +10,48 @@
         if(empty($aefi->assigned_to)) {
           if($prefix == 'manager') {
          ?>
-          <?php echo $this->Form->create($aefi, ['url' => ['action' => 'assign-evaluator']]) ?>
-            <div class="row">
-              <div class="col-xs-12"><h5 class="text-center">Assign report to evaluator for review</h5></div>
-              <div class="col-xs-12">
-	          	<?php
+        <!-- Split Form -->
+        <div class="row">
+            <div class="col-xs-6">                
+                <?php echo $this->Form->create($aefi, ['url' => ['action' => 'assign-evaluator']]) ?>
+                <h5 class="text-center">Assign report to evaluator for review</h5>
+                <?php
 	                  echo $this->Form->control('aefi_pr_id', ['type' => 'hidden', 'value' => $aefi->id, 'escape' => false, 'templates' => 'table_form']);
 	                  echo $this->Form->control('evaluator', ['escape' => false, 'options' => $evaluators, 'templates' => 'app_form']);
 	                  echo $this->Form->control('user_message', ['type' => 'textarea', 'escape' => false, 'templates' => 'app_form']);
 	            ?>
-         	    </div>          
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8">
+                        <button type="submit" class="btn btn-primary active" id="registerUser"><i class="fa fa-share-square-o"
+                                aria-hidden="true"></i>
+                            Assign</button> 
+                    </div>
+
+                  <?php echo $this->Form->end() ?>
+                </div>
             </div>
-            <div class="form-group"> 
-                <div class="col-sm-offset-4 col-sm-8"> 
-                  <button type="submit" class="btn btn-primary active" id="registerUser"><i class="fa fa-share-square-o" aria-hidden="true"></i>
-Assign</button>
-                </div> 
-              </div>
-         <?php echo $this->Form->end() ?>
+            <div class="col-xs-6">
+            <?php echo $this->Form->create($aefi, ['url' => ['action' => 'assign-self']]) ?>
+                <h5 class="text-center">Assign report to Self for review</h5>
+                <?php
+	                  echo $this->Form->control('aefi_pr_id', ['type' => 'hidden', 'value' => $aefi->id, 'escape' => false, 'templates' => 'table_form']); 
+	                  echo $this->Form->control('reminder_note', ['type' => 'textarea', 'escape' => false, 'templates' => 'app_form']);
+	            ?>
+                
+                <div class="form-group">
+         </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8">
+                        <button type="submit" class="btn btn-success active" id="registerUser"><i class="fa fa-user"
+                                aria-hidden="true"></i>
+                            Assign Self</button> 
+                    </div>
+
+                  <?php echo $this->Form->end() ?>
+                </div>
+            </div>
+        </div>
+         
          <?php     
           }	} else {
             ?>
@@ -59,6 +83,7 @@ Assign</button>
         ?>
       </div>
       <hr>
+      
       <?php if(!empty($aefi->assigned_to) && $prefix == 'manager') { 
         ?>
           <?php echo $this->Form->create($aefi, ['url' => ['action' => 'request-evaluator']]);
