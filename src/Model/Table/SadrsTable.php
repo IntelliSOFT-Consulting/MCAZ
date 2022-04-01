@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -34,7 +35,7 @@ use SoftDelete\Model\Table\SoftDeleteTrait;
 class SadrsTable extends Table
 {
     use SoftDeleteTrait;
-    
+
     /**
      * Initialize method
      *
@@ -49,18 +50,21 @@ class SadrsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->addBehavior('Timestamp');        
+        $this->addBehavior('Timestamp');
         $this->addBehavior('Search.Search');
         $this->addBehavior('Duplicatable.Duplicatable', [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Uploads', 'RequestReporters', 'RequestEvaluators',
-                          'Reviews', 'Reviews.Users', 'Reviews.SadrComments', 'Reviews.SadrComments.Attachments',  
-                          'Committees', 'Committees.Users', 'Committees.SadrComments', 'Committees.SadrComments.Attachments', 
-                          'ReportStages', 'Reactions',
-                          'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
-                          'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments',
-                          ],
-            'remove' =>  ['created', 'modified', 'sadr_list_of_drugs.created',  'reactions.created',  'attachments.created',
-                          'sadr_list_of_drugs.modified',  'reactions.modified',  'attachments.modified'],
+            'contain' => [
+                'SadrListOfDrugs', 'SadrOtherDrugs', 'Uploads', 'RequestReporters', 'RequestEvaluators',
+                'Reviews', 'Reviews.Users', 'Reviews.SadrComments', 'Reviews.SadrComments.Attachments',
+                'Committees', 'Committees.Users', 'Committees.SadrComments', 'Committees.SadrComments.Attachments',
+                'ReportStages', 'Reactions',
+                'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
+                'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments',
+            ],
+            'remove' =>  [
+                'created', 'modified', 'sadr_list_of_drugs.created',  'reactions.created',  'attachments.created',
+                'sadr_list_of_drugs.modified',  'reactions.modified',  'attachments.modified'
+            ],
             'set' => [
                 'copied' => 'new copy'
             ]
@@ -159,8 +163,8 @@ class SadrsTable extends Table
     }
 
     /**
-    * @return \Search\Manager
-    */
+     * @return \Search\Manager
+     */
     public function searchManager()
     {
         $searchManager = $this->behaviors()->Search->searchManager();
@@ -183,8 +187,8 @@ class SadrsTable extends Table
             ->add('drug_name', 'Search.Callback', [
                 'callback' => function ($query, $args, $filter) {
                     $drug_name = $args['drug_name'];
-                    $query->matching('SadrListOfDrugs', function ($q) use($drug_name) {
-                        return $q->where(['SadrListOfDrugs.drug_name LIKE' => '%'.$drug_name.'%']);
+                    $query->matching('SadrListOfDrugs', function ($q) use ($drug_name) {
+                        return $q->where(['SadrListOfDrugs.drug_name LIKE' => '%' . $drug_name . '%']);
                     });
                 }
             ])
@@ -197,8 +201,8 @@ class SadrsTable extends Table
     public function findByDrugName(Query $query, array $options)
     {
         $drug_name = $options['drug_name'];
-        $query->matching('SadrListOfDrugs', function ($q) use($drug_name) {
-            return $q->where(['SadrListOfDrugs.drug_name LIKE' => '%'.$drug_name.'%']);
+        $query->matching('SadrListOfDrugs', function ($q) use ($drug_name) {
+            return $q->where(['SadrListOfDrugs.drug_name LIKE' => '%' . $drug_name . '%']);
         });
     }
 
@@ -261,23 +265,26 @@ class SadrsTable extends Table
             ->scalar('year_of_birth')
             ->allowEmpty('year_of_birth')
             ->add('year_of_birth', 'year-range', [
-                'rule' => function ($value, $context) { 
+                'rule' => function ($value, $context) {
                     return (($value > 0 && $value < 140));
-                }, 'message' => 'Year at onset must be between 1 and 140']);
-            
+                }, 'message' => 'Year at onset must be between 1 and 140'
+            ]);
+
         $validator
             ->allowEmpty('month_of_birth')
             ->add('month_of_birth', 'month-range', [
                 'rule' => function ($value, $context) {
                     return $value > 0 && $value < 1280;
-                }, 'message' => 'Months at onset must be between than 1 and 1280']);
+                }, 'message' => 'Months at onset must be between than 1 and 1280'
+            ]);
 
         $validator
             ->allowEmpty('day_of_birth')
             ->add('day_of_birth', 'days-range', [
                 'rule' => function ($value, $context) {
                     return $value > 0 && $value < 613200;
-            }, 'message' => 'Days at onset must be between 1 and 613200']);
+                }, 'message' => 'Days at onset must be between 1 and 613200'
+            ]);
 
         //date of birth or onset
         /*$validator
@@ -347,7 +354,7 @@ class SadrsTable extends Table
         //                 if (strtotime($dob) > strtotime($val['start_date']) && empty($context['data']['in_utero'])) return false;
         //             }
         //         }
-                
+
         //         return true;
 
         //     }, 'message' => 'Date of birth must less than drug start date'
@@ -356,27 +363,28 @@ class SadrsTable extends Table
         $validator->add('date_of_onset_of_reaction', 'door-less-doer', [
             'rule' => function ($value, $context) {
                 //Normalize dob and door
-                if(isset($context['data']['date_of_end_of_reaction']) &&
-                   $context['data']['date_of_end_of_reaction'] != '--' &&
-                   !empty($context['data']['date_of_end_of_reaction'])) {                    
-                    $doer = (($context['data']['date_of_end_of_reaction'])) ?? '--';
+                if (
+                    isset($context['data']['date_of_end_of_reaction']) &&
+                    $context['data']['date_of_end_of_reaction'] != '--' &&
+                    !empty($context['data']['date_of_end_of_reaction'])
+                ) {
+                    $doer = (!empty($context['data']['date_of_end_of_reaction'])) ? $context['data']['date_of_end_of_reaction'] : '--';
                     $a = explode('-', $doer);
-                    $a[0] = (empty($a[0])) ? '01' : $a[0]; 
-                    $a[1] = (empty($a[1])) ? '01' : $a[1]; 
-                    $a[2] = (empty($a[2])) ? date('Y') : $a[2]; 
-                    $doer = implode('-', $a); 
+                    $a[0] = (empty($a[0])) ? '01' : $a[0];
+                    $a[1] = (empty($a[1])) ? '01' : $a[1];
+                    $a[2] = (empty($a[2])) ? date('Y') : $a[2];
+                    $doer = implode('-', $a);
 
-                    $door = (($value)) ?? '--';
+                    $door = (!empty($value)) ? $value : '--';
                     $b = explode('-', $door);
-                    $b[0] = (empty($b[0])) ? '01' : $b[0]; 
+                    $b[0] = (empty($b[0])) ? '01' : $b[0];
                     $b[1] = (empty($b[1])) ? '01' : $b[1];
-                    $door = implode('-', $b); 
+                    $door = implode('-', $b);
                     // debug($door);
                     // debug($doer);
                     return strtotime($door) <= strtotime($doer);
                 }
                 return true;
-
             }, 'message' => 'Date of onset of reaction must less than or equal to date of end of reaction'
         ]);
 
@@ -392,7 +400,7 @@ class SadrsTable extends Table
         // $validator
         //     ->scalar('severity')
         //     ->notEmpty('severity', ['message' => 'Severity required!']);
-            
+
         // $validator
         //     ->scalar('outcome')
         //     ->notEmpty('outcome', ['message' => 'Outcome required!']);

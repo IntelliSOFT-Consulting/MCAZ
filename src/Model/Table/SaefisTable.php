@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -46,13 +47,17 @@ class SaefisTable extends Table
         $this->addBehavior('Search.Search');
         // add Duplicatable behavior
         $this->addBehavior('Duplicatable.Duplicatable', [
-            'contain' => ['SaefiListOfVaccines', 'AefiListOfVaccines', 'Uploads', 'RequestReporters', 'RequestEvaluators', 'Committees', 
-                          'SaefiComments', 'SaefiComments.Attachments',  
-                          'Committees.Users', 'Committees.SaefiComments', 'Committees.SaefiComments.Attachments', 
-                          'ReportStages', 'AefiCausalities', 'AefiCausalities.Users', 'Reports',
-                          'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports'],
-            'remove' => ['created', 'modified', 'saefi_list_of_vaccines.created',  'attachments.created', 'reports.created',
-                          'saefi_list_of_vaccines.modified',  'attachments.modified', 'reports.modified'],
+            'contain' => [
+                'SaefiListOfVaccines', 'AefiListOfVaccines', 'Uploads', 'RequestReporters', 'RequestEvaluators', 'Committees',
+                'SaefiComments', 'SaefiComments.Attachments',
+                'Committees.Users', 'Committees.SaefiComments', 'Committees.SaefiComments.Attachments',
+                'ReportStages', 'AefiCausalities', 'AefiCausalities.Users', 'Reports',
+                'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports'
+            ],
+            'remove' => [
+                'created', 'modified', 'saefi_list_of_vaccines.created',  'attachments.created', 'reports.created',
+                'saefi_list_of_vaccines.modified',  'attachments.modified', 'reports.modified'
+            ],
             // mark invoice as copied
             'set' => [
                 'copied' => 'new copy'
@@ -80,7 +85,7 @@ class SaefisTable extends Table
             'dependent' => true,
             'conditions' => array('SaefiComments.model' => 'Saefis'),
         ]);
-        
+
         $this->hasMany('SaefiListOfVaccines', [
             'foreignKey' => 'saefi_id'
         ]);
@@ -153,12 +158,15 @@ class SaefisTable extends Table
             'dependent' => true,
             'conditions' => array('RequestEvaluators.model' => 'Saefis', 'RequestEvaluators.type' => 'request_evaluator_info'),
         ]);
-
+        // Added section for Reactions
+        $this->hasMany('SaefiReactions', [
+            'foreignKey' => 'saefi_id'
+        ]);
     }
 
     /**
-    * @return \Search\Manager
-    */
+     * @return \Search\Manager
+     */
     public function searchManager()
     {
         $searchManager = $this->behaviors()->Search->searchManager();
