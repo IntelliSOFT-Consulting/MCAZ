@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
@@ -13,16 +14,20 @@ use App\Controller\AppController;
 class MeddrasController extends AppController
 {
 
-    public function initialize() {
-       parent::initialize();
-       $this->Auth->allow(['terminology']);       
+    public function initialize()
+    {
+        parent::initialize();
+        $this->Auth->allow(['terminology']);
     }
-    
-    public function terminology($query = null) {
+
+    public function terminology($query = null)
+    {
         $llts = $this->Meddras->find('all', ['fields' => ['terminology']])->distinct()
-                ->where(['terminology LIKE' => '%'.$this->request->getQuery('term').'%'])
-                ->limit(10); 
-        
+            ->where(['terminology LIKE' => '%' . $this->request->getQuery('term') . '%'])
+            ->limit(100);
+
+        // Adjust limit above to load more
+
         $codes = array();
         foreach ($llts as $key => $value) {
             $codes[] = array('value' => $value['terminology'], 'label' => $value['terminology']);
