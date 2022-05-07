@@ -24,7 +24,7 @@ class MeddrasController extends AppController
     {
         $llts = $this->Meddras->find('all', ['fields' => ['terminology']])->distinct()
             ->where(['terminology LIKE' => '%' . $this->request->getQuery('term') . '%'])
-            ->limit(100);
+            ->limit(50);
 
         // Adjust limit above to load more
 
