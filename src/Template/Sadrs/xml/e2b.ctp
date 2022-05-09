@@ -68,6 +68,7 @@ echo "\n"; ?>
         <authoritynumb>ZW-MCAZ-<?php
                                 echo $sadr['reference_number'];
                                 ?></authoritynumb>
+
         <companynumb />
         <duplicate />
         <casenullification />
