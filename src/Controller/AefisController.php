@@ -74,8 +74,8 @@ class AefisController extends AppController
             ->where([['user_id' => $this->Auth->user('id')]]);
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
-        $adverse =  $this->Meddras->find('list', ['limit' => 200])->select('terminology');
-        $this->set(compact('provinces', 'designations', 'adverse'));
+        // $adverse =  $this->Meddras->find('list', ['limit' => 200])->select('terminology');
+        $this->set(compact('provinces', 'designations'));
         if ($this->request->params['_ext'] === 'pdf' || $this->request->params['_ext'] === 'csv') {
             $this->set('aefis', $query->contain($this->paginate['contain']));
         } else {
@@ -85,7 +85,7 @@ class AefisController extends AppController
         //  dd($adverse);
         $_provinces = $provinces->toArray();
         $_designations = $designations->toArray();
-        $_adverse = $adverse->toArray();
+        //  $_adverse = $adverse->toArray();
 
 
         if ($this->request->params['_ext'] === 'csv') {
@@ -101,7 +101,7 @@ class AefisController extends AppController
                 'request_evaluators.system_message', 'request_evaluators.user_message',
                 'request_reporters.system_message', 'request_reporters.user_message',
                 // 'reviews.system_message', 'reviews.user_message', 
-                'attachments.file', 'adverse_events'
+                'attachments.file'
             ];
             $_extract = [
                 'id',    'user_id',    'aefi_id',
@@ -163,7 +163,7 @@ class AefisController extends AppController
                 function ($row) {
                     return implode('|', Hash::extract($row['attachments'], '{n}.file'));
                 }, //'attachments.file'
-                'adverse_events'
+
             ];
 
             $this->set(compact('query', '_serialize', '_header', '_extract'));
@@ -449,7 +449,7 @@ class AefisController extends AppController
         //     ['id' => 4, 'name' => 'jose'],
         // ];
         //   $results = Hash::extract($users, '{n}.id');
-        $this->set(compact('aefi', 'designations', 'provinces', 'adverse'));
+        $this->set(compact('aefi', 'designations', 'provinces'));
         $this->set('_serialize', ['aefi']);
     }
     public function view($id = null)
