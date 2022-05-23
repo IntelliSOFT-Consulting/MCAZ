@@ -141,4 +141,37 @@ $(function () {
             sadrChart(data, "medicine-index", "Reports By Medicine");
         },
     });
+
+    $.ajax({
+        url: "/reports/public-aefis-per-year.json",
+        type: "GET",
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            sadrChart(data, "aefis-year", "AEFIS Per Year");
+        },
+    });
+
+    $.ajax({
+        url: "/reports/public-sadrs-per-year.json",
+        type: "GET",
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            sadrChart(data, "sadrs-year", "ADRS Per Year");
+        },
+    });
+
+    $.ajax({
+        url: "/reports/public-saefis-per-year.json",
+        type: "GET",
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            sadrChart(data, "saefis-year", "SAEFIS Per Year");
+        },
+    });
 });

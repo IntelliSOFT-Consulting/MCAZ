@@ -19,148 +19,92 @@ class ReportsController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->Auth->allow(['publicReports', 'sadrsPerDesignation', 'aefisPerDesignation', 'saefisPerDesignation', 'adrsPerDesignation', 'perYear', 'perMonth', 'perProvince', 'perInstitution', 'perMedicine']);
+        $this->Auth->allow(['publicReports', 'publicSadrsPerYear', 'publicSaefisPerYear', 'publicAefisPerYear', 'sadrsPerDesignation', 'aefisPerDesignation', 'saefisPerDesignation', 'adrsPerDesignation', 'perYear', 'perMonth', 'perProvince', 'perInstitution', 'perMedicine']);
         $this->loadComponent('Search.Prg', [
             'actions' => ['index']
         ]);
     }
 
     // Added Reports
-    public function perYear()
+    public function publicSadrsPerYear()
     {
         $this->loadModel('Sadrs');
         $sadr_stats = $this->Sadrs->find('all')->select([
-            'Provinces.province_name',
+            'year' => 'date_format(created,"%Y")',
             'count' => $this->Sadrs->find('all')->func()->count('*')
         ])
-            ->where(['province_id IS NOT' => null])
-            ->group('Provinces.province_name')
-            ->contain(['Provinces'])
+            // ->where(['province_id IS NOT' => null])
+            ->group('year')
             ->hydrate(false);
         foreach ($sadr_stats->toArray() as $key => $value) {
             $data[] = [
-                'name' => (!empty($value['province']['province_name'])) ? $value['province']['province_name'] : 'Unknown',
+                'name' => $value['year'],
                 'y' => $value['count']
             ];
         }
         if ($this->request->is('json')) {
             $this->set([
                 'message' => 'Success',
-                'title' => 'Reports per Year',
-                'data' => $data, //Hash::combine($sadr_stats->toArray(), '{n}.province.province_name', '{n}.count'), //$data, 
+                'title' => 'ADR per year',
+                'data' => $data,
                 '_serialize' => ['message', 'data', 'title']
             ]);
             return;
         }
     }
-    public function perMonth()
+    public function publicSaefisPerYear()
     {
-        $this->loadModel('Sadrs');
-        $sadr_stats = $this->Sadrs->find('all')->select([
-            'Provinces.province_name',
-            'count' => $this->Sadrs->find('all')->func()->count('*')
+        $this->loadModel('Saefis');
+        $sadr_stats = $this->Saefis->find('all')->select([
+            'year' => 'date_format(created,"%Y")',
+            'count' => $this->Saefis->find('all')->func()->count('*')
         ])
-            ->where(['province_id IS NOT' => null])
-            ->group('Provinces.province_name')
-            ->contain(['Provinces'])
+            // ->where(['province_id IS NOT' => null])
+            ->group('year')
             ->hydrate(false);
         foreach ($sadr_stats->toArray() as $key => $value) {
             $data[] = [
-                'name' => (!empty($value['province']['province_name'])) ? $value['province']['province_name'] : 'Unknown',
+                'name' => $value['year'],
                 'y' => $value['count']
             ];
         }
         if ($this->request->is('json')) {
             $this->set([
                 'message' => 'Success',
-                'title' => 'Reports per Month',
-                'data' => $data, //Hash::combine($sadr_stats->toArray(), '{n}.province.province_name', '{n}.count'), //$data, 
+                'title' => 'SAE per year',
+                'data' => $data,
                 '_serialize' => ['message', 'data', 'title']
             ]);
             return;
         }
     }
-    public function perProvince()
+    public function publicAefisPerYear()
     {
-        $this->loadModel('Sadrs');
-        $sadr_stats = $this->Sadrs->find('all')->select([
-            'Provinces.province_name',
-            'count' => $this->Sadrs->find('all')->func()->count('*')
+        $this->loadModel('Aefis');
+        $sadr_stats = $this->Aefis->find('all')->select([
+            'year' => 'date_format(created,"%Y")',
+            'count' => $this->Aefis->find('all')->func()->count('*')
         ])
-            ->where(['province_id IS NOT' => null])
-            ->group('Provinces.province_name')
-            ->contain(['Provinces'])
+            // ->where(['province_id IS NOT' => null])
+            ->group('year')
             ->hydrate(false);
         foreach ($sadr_stats->toArray() as $key => $value) {
             $data[] = [
-                'name' => (!empty($value['province']['province_name'])) ? $value['province']['province_name'] : 'Unknown',
+                'name' => $value['year'],
                 'y' => $value['count']
             ];
         }
         if ($this->request->is('json')) {
             $this->set([
                 'message' => 'Success',
-                'title' => 'Reports per Province',
-                'data' => $data, //Hash::combine($sadr_stats->toArray(), '{n}.province.province_name', '{n}.count'), //$data, 
+                'title' => 'AEFI per year',
+                'data' => $data,
                 '_serialize' => ['message', 'data', 'title']
             ]);
             return;
         }
     }
-    public function perInstitution()
-    {
-        $this->loadModel('Sadrs');
-        $sadr_stats = $this->Sadrs->find('all')->select([
-            'Provinces.province_name',
-            'count' => $this->Sadrs->find('all')->func()->count('*')
-        ])
-            ->where(['province_id IS NOT' => null])
-            ->group('Provinces.province_name')
-            ->contain(['Provinces'])
-            ->hydrate(false);
-        foreach ($sadr_stats->toArray() as $key => $value) {
-            $data[] = [
-                'name' => (!empty($value['province']['province_name'])) ? $value['province']['province_name'] : 'Unknown',
-                'y' => $value['count']
-            ];
-        }
-        if ($this->request->is('json')) {
-            $this->set([
-                'message' => 'Success',
-                'title' => 'Reports per Institution',
-                'data' => $data, //Hash::combine($sadr_stats->toArray(), '{n}.province.province_name', '{n}.count'), //$data, 
-                '_serialize' => ['message', 'data', 'title']
-            ]);
-            return;
-        }
-    }
-    public function perMedicine()
-    {
-        $this->loadModel('Sadrs');
-        $sadr_stats = $this->Sadrs->find('all')->select([
-            'Provinces.province_name',
-            'count' => $this->Sadrs->find('all')->func()->count('*')
-        ])
-            ->where(['province_id IS NOT' => null])
-            ->group('Provinces.province_name')
-            ->contain(['Provinces'])
-            ->hydrate(false);
-        foreach ($sadr_stats->toArray() as $key => $value) {
-            $data[] = [
-                'name' => (!empty($value['province']['province_name'])) ? $value['province']['province_name'] : 'Unknown',
-                'y' => $value['count']
-            ];
-        }
-        if ($this->request->is('json')) {
-            $this->set([
-                'message' => 'Success',
-                'title' => 'Reports per Medicine',
-                'data' => $data, //Hash::combine($sadr_stats->toArray(), '{n}.province.province_name', '{n}.count'), //$data, 
-                '_serialize' => ['message', 'data', 'title']
-            ]);
-            return;
-        }
-    }
+
 
     // End of Reports
 
