@@ -19,7 +19,7 @@ class ReportsController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->Auth->allow(['publicReports', 'publicSadrsPerYear', 'publicSaefisPerYear', 'publicAefisPerYear', 'sadrsPerDesignation', 'aefisPerDesignation', 'saefisPerDesignation', 'adrsPerDesignation', 'publicSadrsPerMonth', 'publicSaefisPerMonth', 'publicAefisPerMonth', 'publicAefisPerInstitution', 'publicSadrsPerInstitution']);
+        $this->Auth->allow(['publicReports', 'publicSadrsPerYear', 'publicSaefisPerYear', 'publicAefisPerYear', 'sadrsPerDesignation', 'aefisPerDesignation', 'saefisPerDesignation', 'adrsPerDesignation', 'publicSadrsPerMonth', 'publicSaefisPerMonth', 'publicAefisPerMonth', 'publicAefisPerInstitution', 'publicSadrsPerInstitution', 'sadrsPerMedicine', 'aefisPerMedicine', 'saefisPerMedicine']);
         $this->loadComponent('Search.Prg', [
             'actions' => ['index']
         ]);
@@ -264,6 +264,119 @@ class ReportsController extends AppController
             return;
         }
     }
+    public function sadrsPerMedicine()
+    {
+
+        $this->loadModel('Sadrs');
+        function minor_rand_color()
+        {
+            return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+        }
+        $sadr_stats = $this->Sadrs->find('all')
+            ->select([
+                'drug_name' => 'drug_name',
+                'count' => $this->Sadrs->find('all')->func()->count('*')
+            ])
+            ->join([
+                'table' => 'sadr_list_of_drugs',
+                'alias' => 'f',
+                'type' => 'INNER',
+                'conditions' => 'f.sadr_id = sadrs.id'
+            ])
+            ->group('drug_name')
+            ->hydrate(false);
+
+        foreach ($sadr_stats->toArray() as $key => $value) {
+            $data[] = ['y' => $value['count'], 'name' => $value['drug_name'], 'color' => minor_rand_color()];
+            $columns[] = [$value['drug_name']];
+        }
+        if ($this->request->is('json')) {
+            $this->set([
+                'message' => 'Success',
+                'title' => 'ADR per Medicine',
+                'data' => $data,
+                'columns' => $columns,
+                '_serialize' => ['message', 'data', 'columns', 'title']
+            ]);
+            return;
+        }
+    }
+
+    public function aefisPerMedicine()
+    {
+
+        $this->loadModel('Aefis');
+        function aefi_rand_color()
+        {
+            return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+        }
+        $sadr_stats = $this->Aefis->find('all')
+            ->select([
+                'vaccine_name' => 'vaccine_name',
+                'count' => $this->Aefis->find('all')->func()->count('*')
+            ])
+            ->join([
+                'table' => 'aefi_list_of_vaccines',
+                'alias' => 'f',
+                'type' => 'INNER',
+                'conditions' => 'f.saefi_id = aefis.id'
+            ])
+            ->group('vaccine_name')
+            ->hydrate(false);
+
+        foreach ($sadr_stats->toArray() as $key => $value) {
+            $data[] = ['y' => $value['count'], 'name' => $value['vaccine_name'], 'color' => aefi_rand_color()];
+            $columns[] = [$value['vaccine_name']];
+        }
+        if ($this->request->is('json')) {
+            $this->set([
+                'message' => 'Success',
+                'title' => 'AEFI per Medicine',
+                'data' => $data,
+                'columns' => $columns,
+                '_serialize' => ['message', 'data', 'columns', 'title']
+            ]);
+            return;
+        }
+    }
+
+    public function saefisPerMedicine()
+    {
+
+        $this->loadModel('Saefis');
+        function saefis_rand_color()
+        {
+            return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+        }
+        $sadr_stats = $this->Saefis->find('all')
+            ->select([
+                'vaccine_name' => 'vaccine_name',
+                'count' => $this->Saefis->find('all')->func()->count('*')
+            ])
+            ->join([
+                'table' => 'saefi_list_of_vaccines',
+                'alias' => 'f',
+                'type' => 'INNER',
+                'conditions' => 'f.saefi_id = saefis.id'
+            ])
+            ->group('vaccine_name')
+            ->hydrate(false);
+
+        foreach ($sadr_stats->toArray() as $key => $value) {
+            $data[] = ['y' => $value['count'], 'name' => $value['vaccine_name'], 'color' => saefis_rand_color()];
+            $columns[] = [$value['vaccine_name']];
+        }
+        if ($this->request->is('json')) {
+            $this->set([
+                'message' => 'Success',
+                'title' => 'AEFI per Medicine',
+                'data' => $data,
+                'columns' => $columns,
+                '_serialize' => ['message', 'data', 'columns', 'title']
+            ]);
+            return;
+        }
+    }
 
 
     // End of Reports
@@ -299,6 +412,8 @@ class ReportsController extends AppController
             return;
         }
     }
+
+
     public function aefisPerDesignation()
     {
         $this->loadModel('Aefis');

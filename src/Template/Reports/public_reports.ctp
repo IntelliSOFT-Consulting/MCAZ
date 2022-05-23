@@ -67,13 +67,19 @@
     Medicine
 </h4>
 <div class="row">
-    <div class="col-xs-4 col-sm-4">
+    <div class="col-xs-12 col-sm-12">
         <div id="sadrs-medicine"></div>
     </div>
-    <div class="col-xs-4 col-sm-4">
+
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12">
         <div id="saefis-medicine"></div>
     </div>
-    <div class="col-xs-4 col-sm-4">
+</div>
+<div class="row">
+
+    <div class="col-xs-12 col-sm-12">
         <div id="aefis-medicine"></div>
     </div>
 </div>

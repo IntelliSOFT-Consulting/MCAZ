@@ -232,4 +232,38 @@ $(function () {
             sadrChart(data, "sadrs-institution", "ADR Per Institution");
         },
     });
+
+    // Per Medicine
+
+    $.ajax({
+        url: "/reports/sadrs-per-medicine.json",
+        type: "GET",
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            sadrChart(data, "sadrs-medicine", "ADR Per Medicine");
+        },
+    });
+    $.ajax({
+        url: "/reports/aefis-per-medicine.json",
+        type: "GET",
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            sadrChart(data, "aefis-medicine", "AEFI Per Medicine");
+        },
+    });
+
+    $.ajax({
+        url: "/reports/saefis-per-medicine.json",
+        type: "GET",
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            sadrChart(data, "saefis-medicine", "SAE Per Medicine");
+        },
+    });
 });
