@@ -19,7 +19,7 @@ class ReportsController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->Auth->allow(['publicReports', 'publicSadrsPerYear', 'publicSaefisPerYear', 'publicAefisPerYear', 'sadrsPerDesignation', 'aefisPerDesignation', 'saefisPerDesignation', 'adrsPerDesignation', 'publicSadrsPerMonth', 'publicSaefisPerMonth', 'publicAefisPerMonth', 'perInstitution', 'perMedicine']);
+        $this->Auth->allow(['publicReports', 'publicSadrsPerYear', 'publicSaefisPerYear', 'publicAefisPerYear', 'sadrsPerDesignation', 'aefisPerDesignation', 'saefisPerDesignation', 'adrsPerDesignation', 'publicSadrsPerMonth', 'publicSaefisPerMonth', 'publicAefisPerMonth', 'publicAefisPerInstitution', 'publicSadrsPerInstitution']);
         $this->loadComponent('Search.Prg', [
             'actions' => ['index']
         ]);
@@ -185,6 +185,81 @@ class ReportsController extends AppController
                 'title' => 'AEFI per month',
                 'data' => $data,
                 '_serialize' => ['message', 'data', 'title']
+            ]);
+            return;
+        }
+    }
+
+    public function publicAefisPerInstitution()
+    {
+        $this->loadModel('Aefis');
+        function inner_rand_color()
+        {
+            return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+        }
+        $sadr_stats = $this->Aefis->find('all')
+            ->select([
+                'facility_name' => 'facility_name',
+                'count' => $this->Aefis->find('all')->func()->count('distinct facility_name')
+            ])
+            ->join([
+                'table' => 'facilities',
+                'alias' => 'f',
+                'type' => 'INNER',
+                'conditions' => 'f.facility_name = reporter_institution'
+            ])
+            ->group('facility_name')
+            ->where(['reporter_institution!="" ', 'reporter_institution IS NOT' => null])
+            ->hydrate(false);
+
+        foreach ($sadr_stats->toArray() as $key => $value) {
+            $data[] = ['y' => $value['count'], 'name' => $value['facility_name'], 'color' => inner_rand_color()];
+            $columns[] = [$value['facility_name']];
+        }
+        if ($this->request->is('json')) {
+            $this->set([
+                'message' => 'Success',
+                'title' => 'AEFI by Institution',
+                'data' => $data,
+                'columns' => $columns,
+                '_serialize' => ['message', 'data', 'columns', 'title']
+            ]);
+            return;
+        }
+    }
+    public function publicSadrsPerInstitution()
+    {
+        function outer_rand_color()
+        {
+            return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+        }
+        $this->loadModel('Sadrs');
+        $sadr_stats = $this->Sadrs->find('all')
+            ->select([
+                'facility_name' => 'facility_name',
+                'count' => $this->Sadrs->find('all')->func()->count('distinct facility_name')
+            ])
+            ->join([
+                'table' => 'facilities',
+                'alias' => 'f',
+                'type' => 'INNER',
+                'conditions' => 'f.facility_code = institution_code'
+            ])
+            ->group('facility_name')
+            ->where(['institution_code!="" ', 'institution_code IS NOT' => null])
+            ->hydrate(false);
+
+        foreach ($sadr_stats->toArray() as $key => $value) {
+            $data[] = ['y' => $value['count'], 'name' => $value['facility_name'], 'color' => outer_rand_color()];
+            $columns[] = [$value['facility_name']];
+        }
+        if ($this->request->is('json')) {
+            $this->set([
+                'message' => 'Success',
+                'title' => 'ADR by Institution',
+                'data' => $data,
+                'columns' => $columns,
+                '_serialize' => ['message', 'data', 'columns', 'title']
             ]);
             return;
         }

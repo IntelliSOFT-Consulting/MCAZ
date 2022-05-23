@@ -209,4 +209,27 @@ $(function () {
             sadrChart(data, "saefis-month", "SAE Per Month");
         },
     });
+
+    // Per Institution
+    $.ajax({
+        url: "/reports/public-aefis-per-institution.json",
+        type: "GET",
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            sadrChart(data, "aefis-institution", "AEFI Per Institution");
+        },
+    });
+
+    $.ajax({
+        url: "/reports/public-sadrs-per-institution.json",
+        type: "GET",
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            sadrChart(data, "sadrs-institution", "ADR Per Institution");
+        },
+    });
 });
