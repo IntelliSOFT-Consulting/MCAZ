@@ -19,7 +19,7 @@ class ReportsController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->Auth->allow(['publicReports', 'publicSadrsPerYear', 'publicSaefisPerYear', 'publicAefisPerYear', 'sadrsPerDesignation', 'aefisPerDesignation', 'saefisPerDesignation', 'adrsPerDesignation', 'perYear', 'perMonth', 'perProvince', 'perInstitution', 'perMedicine']);
+        $this->Auth->allow(['publicReports', 'publicSadrsPerYear', 'publicSaefisPerYear', 'publicAefisPerYear', 'sadrsPerDesignation', 'aefisPerDesignation', 'saefisPerDesignation', 'adrsPerDesignation', 'publicSadrsPerMonth', 'publicSaefisPerMonth', 'publicAefisPerMonth', 'perInstitution', 'perMedicine']);
         $this->loadComponent('Search.Prg', [
             'actions' => ['index']
         ]);
@@ -39,7 +39,8 @@ class ReportsController extends AppController
         foreach ($sadr_stats->toArray() as $key => $value) {
             $data[] = [
                 'name' => $value['year'],
-                'y' => $value['count']
+                'y' => $value['count'],
+                'color' => '#7f7fff'
             ];
         }
         if ($this->request->is('json')) {
@@ -58,6 +59,7 @@ class ReportsController extends AppController
         $sadr_stats = $this->Saefis->find('all')->select([
             'year' => 'date_format(created,"%Y")',
             'count' => $this->Saefis->find('all')->func()->count('*')
+
         ])
             // ->where(['province_id IS NOT' => null])
             ->group('year')
@@ -65,7 +67,8 @@ class ReportsController extends AppController
         foreach ($sadr_stats->toArray() as $key => $value) {
             $data[] = [
                 'name' => $value['year'],
-                'y' => $value['count']
+                'y' => $value['count'],
+                'color' => '#71C7A0'
             ];
         }
         if ($this->request->is('json')) {
@@ -91,13 +94,95 @@ class ReportsController extends AppController
         foreach ($sadr_stats->toArray() as $key => $value) {
             $data[] = [
                 'name' => $value['year'],
-                'y' => $value['count']
+                'y' => $value['count'], 'color' => '#ff92c9'
             ];
         }
         if ($this->request->is('json')) {
             $this->set([
                 'message' => 'Success',
                 'title' => 'AEFI per year',
+                'data' => $data,
+                '_serialize' => ['message', 'data', 'title']
+            ]);
+            return;
+        }
+    }
+
+    //Per Month
+    public function publicSadrsPerMonth()
+    {
+        $this->loadModel('Sadrs');
+        $sadr_stats = $this->Sadrs->find('all')->select([
+            'year' => 'date_format(created,"%b")',
+            'count' => $this->Sadrs->find('all')->func()->count('*')
+        ])
+            // ->where(['province_id IS NOT' => null])
+            ->group('year')
+            ->hydrate(false);
+        foreach ($sadr_stats->toArray() as $key => $value) {
+            $data[] = [
+                'name' => $value['year'],
+                'y' => $value['count'],
+                'color' => '#7f7fff'
+            ];
+        }
+        if ($this->request->is('json')) {
+            $this->set([
+                'message' => 'Success',
+                'title' => 'ADR per month',
+                'data' => $data,
+                '_serialize' => ['message', 'data', 'title']
+            ]);
+            return;
+        }
+    }
+    public function publicSaefisPerMonth()
+    {
+        $this->loadModel('Saefis');
+        $sadr_stats = $this->Saefis->find('all')->select([
+            'year' => 'date_format(created,"%b")',
+            'count' => $this->Saefis->find('all')->func()->count('*')
+        ])
+            // ->where(['province_id IS NOT' => null])
+            ->group('year')
+            ->hydrate(false);
+        foreach ($sadr_stats->toArray() as $key => $value) {
+            $data[] = [
+                'name' => $value['year'],
+                'y' => $value['count'],
+                'color' => '#71C7A0'
+            ];
+        }
+        if ($this->request->is('json')) {
+            $this->set([
+                'message' => 'Success',
+                'title' => 'SAE per month',
+                'data' => $data,
+                '_serialize' => ['message', 'data', 'title']
+            ]);
+            return;
+        }
+    }
+    public function publicAefisPerMonth()
+    {
+        $this->loadModel('Aefis');
+        $sadr_stats = $this->Aefis->find('all')->select([
+            'year' => 'date_format(created,"%b")',
+            'count' => $this->Aefis->find('all')->func()->count('*')
+        ])
+            // ->where(['province_id IS NOT' => null])
+            ->group('year')
+            ->hydrate(false);
+        foreach ($sadr_stats->toArray() as $key => $value) {
+            $data[] = [
+                'name' => $value['year'],
+                'y' => $value['count'], 'color' => '#ff92c9'
+            ];
+        }
+        if ($this->request->is('json')) {
+            $this->set([
+                'message' => 'Success',
+                'title' => 'AEFI per month',
                 'data' => $data,
                 '_serialize' => ['message', 'data', 'title']
             ]);

@@ -142,6 +142,7 @@ $(function () {
         },
     });
 
+    // Per Year
     $.ajax({
         url: "/reports/public-aefis-per-year.json",
         type: "GET",
@@ -149,7 +150,7 @@ $(function () {
         dataType: "json",
         success: function (data) {
             console.info(data);
-            sadrChart(data, "aefis-year", "AEFIS Per Year");
+            sadrChart(data, "aefis-year", "AEFI Per Year");
         },
     });
 
@@ -160,7 +161,7 @@ $(function () {
         dataType: "json",
         success: function (data) {
             console.info(data);
-            sadrChart(data, "sadrs-year", "ADRS Per Year");
+            sadrChart(data, "sadrs-year", "ADR Per Year");
         },
     });
 
@@ -171,7 +172,41 @@ $(function () {
         dataType: "json",
         success: function (data) {
             console.info(data);
-            sadrChart(data, "saefis-year", "SAEFIS Per Year");
+            sadrChart(data, "saefis-year", "SAE Per Year");
+        },
+    });
+
+    // Per Month
+    $.ajax({
+        url: "/reports/public-aefis-per-month.json",
+        type: "GET",
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            sadrChart(data, "aefis-month", "AEFI Per Month");
+        },
+    });
+
+    $.ajax({
+        url: "/reports/public-sadrs-per-month.json",
+        type: "GET",
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            sadrChart(data, "sadrs-month", "ADR Per Month");
+        },
+    });
+
+    $.ajax({
+        url: "/reports/public-saefis-per-month.json",
+        type: "GET",
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            sadrChart(data, "saefis-month", "SAE Per Month");
         },
     });
 });

@@ -41,13 +41,13 @@
 </h4>
 <div class="row">
     <div class="col-xs-4 col-sm-4">
-        <div id="sadrs-month-index"></div>
+        <div id="sadrs-month"></div>
     </div>
     <div class="col-xs-4 col-sm-4">
-        <div id="sae-month-index"></div>
+        <div id="saefis-month"></div>
     </div>
     <div class="col-xs-4 col-sm-4">
-        <div id="aefi-month-index"></div>
+        <div id="aefis-month"></div>
     </div>
 </div>
 <h4 class="page-header text-center"><img alt="" src="/img/report.ico" style="width: 37px;">&nbsp; Reports per
