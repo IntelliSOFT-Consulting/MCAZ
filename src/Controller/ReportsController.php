@@ -319,7 +319,7 @@ class ReportsController extends AppController
                 'table' => 'aefi_list_of_vaccines',
                 'alias' => 'f',
                 'type' => 'INNER',
-                'conditions' => 'f.saefi_id = aefis.id'
+                'conditions' => 'f.aefi_id = aefis.id'
             ])
             ->group('vaccine_name')
             ->hydrate(false);
@@ -343,33 +343,33 @@ class ReportsController extends AppController
     public function saefisPerMedicine()
     {
 
-        $this->loadModel('Saefis');
+        $this->loadModel('Adrs');
         function saefis_rand_color()
         {
             return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
         }
-        $sadr_stats = $this->Saefis->find('all')
+        $sadr_stats = $this->Adrs->find('all')
             ->select([
-                'vaccine_name' => 'vaccine_name',
-                'count' => $this->Saefis->find('all')->func()->count('*')
+                'drug_name' => 'drug_name',
+                'count' => $this->Adrs->find('all')->func()->count('*')
             ])
             ->join([
-                'table' => 'saefi_list_of_vaccines',
+                'table' => 'adr_list_of_drugs',
                 'alias' => 'f',
                 'type' => 'INNER',
-                'conditions' => 'f.saefi_id = saefis.id'
+                'conditions' => 'f.adr_id = adrs.id'
             ])
-            ->group('vaccine_name')
+            ->group('drug_name')
             ->hydrate(false);
 
         foreach ($sadr_stats->toArray() as $key => $value) {
-            $data[] = ['y' => $value['count'], 'name' => $value['vaccine_name'], 'color' => saefis_rand_color()];
-            $columns[] = [$value['vaccine_name']];
+            $data[] = ['y' => $value['count'], 'name' => $value['drug_name'], 'color' => saefis_rand_color()];
+            $columns[] = [$value['drug_name']];
         }
         if ($this->request->is('json')) {
             $this->set([
                 'message' => 'Success',
-                'title' => 'AEFI per Medicine',
+                'title' => 'SAE per Medicine',
                 'data' => $data,
                 'columns' => $columns,
                 '_serialize' => ['message', 'data', 'columns', 'title']
