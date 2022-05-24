@@ -20,7 +20,7 @@ class ReportsController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->Auth->allow(['publicReports', 'publicSadrsPerYear', 'publicSaefisPerYear', 'publicAefisPerYear', 'sadrsPerDesignation', 'aefisPerDesignation', 'saefisPerDesignation', 'adrsPerDesignation', 'publicSadrsPerMonth', 'publicSaefisPerMonth', 'publicAefisPerMonth', 'publicAefisPerInstitution', 'publicSadrsPerInstitution', 'sadrsPerMedicine', 'aefisPerMedicine', 'saefisPerMedicine']);
+        $this->Auth->allow(['publicReports',  'publicSadrsPerYear', 'publicSaefisPerYear', 'publicAefisPerYear', 'sadrsPerDesignation', 'aefisPerDesignation', 'saefisPerDesignation', 'adrsPerDesignation', 'publicSadrsPerMonth', 'publicSaefisPerMonth', 'publicAefisPerMonth', 'publicAefisPerInstitution', 'publicSadrsPerInstitution', 'sadrsPerMedicine', 'aefisPerMedicine', 'saefisPerMedicine']);
         $this->loadComponent('Search.Prg', [
             'actions' => ['index']
         ]);
@@ -384,6 +384,19 @@ class ReportsController extends AppController
 
     public function publicReports()
     {
+        $this->loadModel('ReportSettings');
+        try {
+            $report = $this->ReportSettings->get(1, [
+                'contain' => []
+            ]);
+        } catch (Exception $e) {
+            
+        $report = $this->ReportSettings->newEntity();
+        $this->ReportSettings->save($report);
+        }
+        $this->set(compact('report'));
+        $this->set('_serialize', ['report']);
+         
     }
 
     public function sadrsPerDesignation()
@@ -529,6 +542,7 @@ class ReportsController extends AppController
         }
         $this->set(compact('report'));
         $this->set('_serialize', ['report']);
+        
     }
     public function updateSettings($id = null)
     {
