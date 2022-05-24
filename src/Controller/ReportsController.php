@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Utility\Hash;
+use Exception;
 
 /**
  * Adrs Controller
@@ -275,7 +276,7 @@ class ReportsController extends AppController
         $sadr_stats = $this->Sadrs->find('all')
             ->select([
                 'drug_name' => 'drug_name',
-                'count' => $this->Sadrs->find('all')->func()->count('*')
+                'count' => $this->Sadrs->find('all')->func()->count('distinct drug_name')
             ])
             ->join([
                 'table' => 'sadr_list_of_drugs',
@@ -516,19 +517,36 @@ class ReportsController extends AppController
      */
     public function index()
     {
-        //Just render page for now...
-        /*$this->loadModel('Sadrs');
-        $sadr_stats = $this->Sadrs->find('all')->select([ 'Provinces.province_name',
-                                                          'count' => $this->Sadrs->find('all')->func()->count('*')
-                                                        ])
-                                                 ->where(['province_id IS NOT' => null])
-                                                 ->group('Provinces.province_name')
-                                                 ->contain(['Provinces'])
-                                                 ->hydrate(false);
-        $this->set('sadr_stats', $sadr_stats);
-        $this->set('_serialize', ['sadr_stats']);*/
+        $this->loadModel('ReportSettings');
+        try {
+            $report = $this->ReportSettings->get(1, [
+                'contain' => []
+            ]);
+        } catch (Exception $e) {
+            
+        $report = $this->ReportSettings->newEntity();
+        $this->ReportSettings->save($report);
+        }
+        $this->set(compact('report'));
+        $this->set('_serialize', ['report']);
     }
+    public function updateSettings($id = null)
+    {
+        $this->loadModel('ReportSettings');
+        $reportSetting = $this->ReportSettings->get($id, [
+            'contain' => []
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $reportSetting = $this->ReportSettings->patchEntity($reportSetting, $this->request->getData());
+            if ($this->ReportSettings->save($reportSetting)) {
+                $this->Flash->success(__('The report setting has been saved.'));
 
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The report setting could not be saved. Please, try again.'));
+        }
+        $this->set(compact('reportSetting'));
+    }
     /**
      * View method
      *
