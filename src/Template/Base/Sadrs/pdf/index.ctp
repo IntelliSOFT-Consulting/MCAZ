@@ -105,13 +105,24 @@
                       <li><p><?= $review->causality_decision ?></p></li>
                     </ul>
                   </td>
-                  <td colspan="3">
+                  <td colspan="2">
                     <ul class="list-unstyled">
                       <li>
                         <p><b>References</b></p>
                       </li>
                       <li>
                         <p><?= $this->Text->autoParagraph($review->references_text) ?></p>
+                      </li>
+                    </ul>
+                  </td>
+                  <!-- Added Column for Comments -->
+                  <td colspan="2">
+                    <ul class="list-unstyled">
+                      <li>
+                        <p><b>Comments</b></p>
+                      </li>
+                      <li>
+                        <p><?= $review->comments ?></p>
                       </li>
                     </ul>
                   </td>
