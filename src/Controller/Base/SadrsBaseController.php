@@ -135,7 +135,7 @@ class SadrsBaseController extends AppController
             $this->viewBuilder()->options([
                 'pdfConfig' => [
                     'orientation' => 'landscape',
-                    'filename' => 'AEFIS_'.date('d-m-Y').'.pdf'
+                    'filename' => 'ADRS_'.date('d-m-Y').'.pdf'
                 ]
             ]);
             $this->render('/Base/Sadrs/pdf/index');
