@@ -33,7 +33,16 @@
                 <td>
                   <?=  $aefi->patient_name ?>
                     <br>
-                  <?php echo "Age: ".$aefi->date_of_birth ?><br>
+                  <?php  $today = date("Y-m-d");
+                  if(!empty($aefi->date_of_birth)){
+                    $dob=$aefi->date_of_birth;
+                    if($dob!='--'){
+
+                  $diff = date_diff(date_create($dob), date_create($today));
+                  echo 'Age: '.$diff->format('%y');
+                    }else{ 
+                  echo 'Age: '.$aefi->year_of_birth;}}else{
+                  echo "Age: ".$aefi->date_of_birth;} ?><br>
                   <?php echo "Gender: ".$aefi->gender ?><br>
                 </td>
                 <td>
