@@ -84,6 +84,7 @@ $this->start('sidebar'); ?>
               echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $saefi->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']);
             } elseif (!empty($saefi->messageid)) {
               echo $saefi->messageid;
+              echo  $this->Html->link('&nbsp;<span class="label label-warning"> Resend</span>', ['action' => 'vigibase', $saefi->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']);
             }
             ?>
                 </td>
