@@ -108,7 +108,7 @@ class Ce2bsBaseController extends AppController
             ->find('search', ['search' => $this->request->query, 'withDeleted'])
             ->where(['deleted IS NOT' =>  null]);
             
-        $this->set('sadrs', $this->paginate($query));
+        $this->set('ce2bs', $this->paginate($query));
     }
     public function restoreDeleted($id = null)
     {
@@ -580,12 +580,12 @@ class Ce2bsBaseController extends AppController
             ->set(['status' => 'Archived'])
             ->where(['id' => $ce2b->id])
             ->execute();
-        $this->Flash->success(__('The SAE has been archived.'));
+        $this->Flash->success(__('The CE2B has been archived.'));
         //
 
         return $this->redirect(['action' => 'index']);
     }
-
+    
     /**
      * Delete method
      *

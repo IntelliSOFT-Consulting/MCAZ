@@ -192,7 +192,7 @@ class SadrsController extends AppController
             $this->Flash->warning(__('Kindly submit Report ' . $sadr->reference_number . ' before viewing.'));
             return $this->redirect(['action' => 'edit', $sadr->id]);
         }
-
+ 
         if (strpos($this->request->url, 'pdf')) {
             // $this->viewBuilder()->setLayout('pdf/default');
             $this->viewBuilder()->helpers(['Form' => ['templates' => 'view_form',]]);

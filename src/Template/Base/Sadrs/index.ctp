@@ -124,7 +124,7 @@ $this->start('sidebar'); ?>
               echo "&nbsp;";
               echo  $this->Form->postLink('<span class="label label-default"> Archive</span>', ['action' => 'archive', $sadr->id, 'prefix' => $prefix], ['escape' => false, 'class' => 'label-link', 'confirm' => __('Are you sure you want to archive report {0}?', $sadr->reference_number)]);
             }
-            ?>
+            ?> 
                     <?php if ($sadr->submitted == 0) { ?>
 
                     <?= $this->Form->postLink('<span class="label label-danger">Delete</span> ', ['action' => 'delete', $sadr->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sadr->id), 'class' => 'label-link', 'escape' => false]) ?>
