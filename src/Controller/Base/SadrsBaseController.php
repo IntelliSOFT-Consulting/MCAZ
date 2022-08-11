@@ -605,7 +605,7 @@ class SadrsBaseController extends AppController
             $query->update()
                 ->set(['copied' => 'old copy'])
                 ->where(['id' => $orig_sadr->id])
-                ->execute();
+                ->execute(); 
             $this->Flash->success(__('The SADR has been successfully copied. make changes and submit.'));
             return $this->redirect(['action' => 'edit', $sadr->id]);
         }

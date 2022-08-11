@@ -92,6 +92,7 @@ $this->start('sidebar'); ?>
                             echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $ce2b->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']);
                         } elseif (!empty($ce2b->messageid)) {
                             echo $ce2b->messageid;
+                            echo  $this->Html->link('&nbsp;<span class="label label-warning"> Resubmit</span>', ['action' => 'vigibase', $ce2b->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']);
                         }
                         ?>
                 </td>

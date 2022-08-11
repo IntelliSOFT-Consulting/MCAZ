@@ -50,8 +50,7 @@ class AefisController extends AefisBaseController
             }
             
             //notify manager                
-            $data = ['user_id' => $aefi->assigned_by, 'model' => 'Aefis', 'foreign_key' => $aefi->id,
-                'vars' =>  $aefi->toArray()];
+            $data = ['user_id' => $aefi->assigned_by, 'model' => 'Aefis', 'foreign_key' => $aefi->id,'vars' =>  $aefi->toArray()];
             $data['vars']['assigned_to_name'] = $evaluator->name;
             $data['type'] = 'manager_assign_notification';
             $this->QueuedJobs->createJob('GenericNotification', $data);
