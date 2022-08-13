@@ -102,7 +102,7 @@
     </li>
 
         <!-- Manager or evaluator -->
-    <?php if($prefix != 'admin') { ?>
+    <?php if($prefix != 'admin') { ?> 
     <li class="<?=  ($this->request->params['controller'] == 'Sadrs') ? 'active' : ''; ?>">
       <?= $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> &nbsp; ADRS', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
         <?php if (($prefix == 'manager' || $prefix == 'evaluator') && $this->request->params['controller'] == 'Sadrs' ) { ?>

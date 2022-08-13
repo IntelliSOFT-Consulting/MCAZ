@@ -5,7 +5,7 @@ $(function() {
 
     $(".vigibase").click(function(event) {
       event.preventDefault();
-      if(confirm("Are you sure you want to send to VigiBase?")) {          
+      if(confirm("Are you sure you want to send this report to VigiBase?")) {          
           // var frm = $('#frmAssignEvaluator');
           url = $(this).attr("href");
           em = $(this);
@@ -13,7 +13,7 @@ $(function() {
               border: 'none', 
               padding: '15px', 
               backgroundColor: '#000', 
-              '-webkit-border-radius': '10px', 
+              '-webkit-border-radius': '10px',  
               '-moz-border-radius': '10px', 
               opacity: .5, 
               color: '#fff' 
@@ -28,12 +28,14 @@ $(function() {
                   console.log(data, $(this).closest("td"));
                   em.closest("td").empty().html(data.umc.MessageId);
                   $.unblockUI();
+                //   location.reload();
               },
               error: function (data) {
                   //TODO: Remember to remove console.logs during deploy
                   console.log('An error occurred.');
                   console.log(data);
                   $.unblockUI();
+                //   location.reload();
               },
           });
       }

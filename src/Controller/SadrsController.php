@@ -378,7 +378,7 @@ class SadrsController extends AppController
                 'umc' => $umc->json,
                 'status' => 'Successfull integration with vigibase',
                 '_serialize' => ['umc', 'status']
-            ]);
+            ]); 
         } else {
             $this->response->body('Failure');
             $this->response->statusCode($umc->getStatusCode());
