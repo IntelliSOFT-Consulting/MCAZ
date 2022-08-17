@@ -375,10 +375,12 @@ class SadrsController extends AppController
             $this->Sadrs->save($vsadr);
 
             $this->set([
-                'umc' => $umc->json,
+                'umc' => $umc->json, 
                 'status' => 'Successfull integration with vigibase',
                 '_serialize' => ['umc', 'status']
             ]); 
+
+          return $this->redirect($this->referer());
         } else {
             $this->response->body('Failure');
             $this->response->statusCode($umc->getStatusCode());
@@ -387,9 +389,11 @@ class SadrsController extends AppController
                 'status' => 'Failed',
                 '_serialize' => ['umc', 'status']
             ]);
-            return;
+           
+          return $this->redirect($this->referer());
         }
     }
+     
 
     public function vigibaseOld($id = null)
     {

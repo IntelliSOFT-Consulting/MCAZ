@@ -1,7 +1,7 @@
 $(document).ready(function() {
-    $('.initiate').click(function() {
+    $('.confirm').click(function() {
          // return confirm('Are you sure you want to send this report to Vigibase?');
-         if(confirm("Are you sure you want to send this report to Vigibase?")) {          
+         if(confirm("Are you sure you want to resubmit this report to Vigibase?")) {          
             // var frm = $('#frmAssignEvaluator');
             url = $(this).attr("href");
             em = $(this);
@@ -31,9 +31,10 @@ $(document).ready(function() {
                     console.log('An error occurred.');
                     console.log(data);
                     $.unblockUI();
-                    window.location.reload();
+                    window. location.reload();
                 },
             });
         }
     });
+    
 });

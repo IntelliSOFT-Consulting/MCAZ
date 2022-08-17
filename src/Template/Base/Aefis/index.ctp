@@ -5,8 +5,7 @@ use Cake\Utility\Hash;
 $this->start('sidebar'); ?>
 <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
-
-<?= $this->Html->script('jquery/vigibase', ['block' => true]); ?>
+ 
 <?= $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
 <?= $this->Html->script('jquery/readmore', ['block' => true]); ?>
 <?= $this->Html->script('jquery/aefi_index', ['block' => true]); ?>
@@ -81,10 +80,10 @@ $this->start('sidebar'); ?>
                 <td><?= h($aefi->modified) ?></td>
                 <td>
                     <?php if ($aefi->submitted == 2 && empty($aefi->messageid)) {
-              echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $aefi->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']);
+              echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $aefi->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'initiate']);
             } elseif (!empty($aefi->messageid)) {
               echo $aefi->messageid;
-              echo  $this->Html->link('&nbsp;<span class="label label-warning"> Resubmit</span>', ['action' => 'vigibase', $aefi->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']); 
+              echo $this->Html->link('&nbsp;<span class="label label-warning"> Resubmit</span>', ['action' => 'vigibase', $aefi->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'confirm']); 
             }
             ?>
                 </td>

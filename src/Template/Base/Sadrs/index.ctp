@@ -4,9 +4,7 @@ use Cake\Utility\Hash;
 
 $this->start('sidebar'); ?>
 <?= $this->cell('SideBar'); ?>
-<?php $this->end(); ?>
-
-<?= $this->Html->script('jquery/vigibase', ['block' => true]); ?>
+<?php $this->end(); ?>  
 <?= $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
 <?= $this->Html->script('jquery/readmore', ['block' => true]); ?>
 <?= $this->Html->script('jquery/sadr_index', ['block' => true]); ?>
@@ -97,10 +95,10 @@ $this->start('sidebar'); ?>
           ?>
                 <td>
                     <?php if ($sadr->submitted == 2 && empty($sadr->messageid)) {
-              echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']);
+              echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'initiate']);
             } elseif (!empty($sadr->messageid)) {
-               echo $sadr->messageid;
-              echo  $this->Html->link('&nbsp;<span class="label label-warning"> Resubmit</span>', ['action' => 'vigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']);
+              echo $sadr->messageid;
+              echo  $this->Html->link('&nbsp;<span class="label label-warning"> Resubmit</span>', ['action' => 'vigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'confirm']);
             }
             ?>
                 </td>

@@ -168,6 +168,8 @@ class SaefisController extends AppController
                 'status' => 'Successfull integration with vigibase',
                 '_serialize' => ['umc', 'status']
             ]);
+
+          return $this->redirect($this->referer());
         } else {
             $this->response->body('Failure');
             $this->response->statusCode($umc->getStatusCode());
@@ -176,7 +178,8 @@ class SaefisController extends AppController
                 'status' => 'Failed',
                 '_serialize' => ['umc', 'status']
             ]);
-            return;
+            
+          return $this->redirect($this->referer());
         }
     }
 
