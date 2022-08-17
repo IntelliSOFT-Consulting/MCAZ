@@ -528,6 +528,9 @@ class SadrsController extends AppController
 
     public function edit($id = null)
     {
+        return "Hey";
+     
+
         $sadr = $this->Sadrs->get($id, [
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'ReportStages', 'Reactions'],
             'conditions' => ['user_id' => $this->Auth->user('id')]
@@ -657,6 +660,8 @@ class SadrsController extends AppController
 
     public function sadrFollowup($id)
     {
+      
+        
         $this->loadModel('SadrFollowups');
         $orig_sadr = $this->Sadrs->get($id, ['contain' => []]);
 
@@ -686,6 +691,7 @@ class SadrsController extends AppController
 
     public function followup($id = null, $fid = null)
     {
+         
         //Controller for creating follow up report.. should be able to support both new and edit
         $this->loadModel('SadrFollowups');
         $sadr = $this->Sadrs->get($id, [

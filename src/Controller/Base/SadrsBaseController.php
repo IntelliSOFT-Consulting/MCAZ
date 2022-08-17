@@ -195,6 +195,8 @@ class SadrsBaseController extends AppController
             'contain' => $this->sadr_contain, 'withDeleted'
         ]);
 
+        // debug($sadr);
+        // exit;
 
         $ekey = 100;
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -615,6 +617,7 @@ class SadrsBaseController extends AppController
 
     public function edit($id = null)
     {
+         
         //ensure only one 
         $this->loadModel('OriginalSadrs');
         $orig_sadr = $this->OriginalSadrs->get($id, ['contain' => ['Sadrs']]);
@@ -623,8 +626,11 @@ class SadrsBaseController extends AppController
             return $this->redirect(['action' => 'edit', $orig_sadr['sadr']['id']]);
         }
         $sadr = $this->Sadrs->get($id, [
-            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'Reactions']
+            'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'Reactions','OriginalSadrs']
         ]);
+
+        //  debug($sadr);
+        //  exit;
 
         // Option only available to assigned
         if (($this->Auth->user('group_id')==4) && ($this->Auth->user('id') != $sadr->assigned_to)) {
@@ -659,6 +665,25 @@ class SadrsBaseController extends AppController
             } elseif ($sadr->submitted == 2) {
               //submit to mcaz button
               if ($this->Sadrs->save($sadr)) {
+
+                // Update the Original Report
+                $old_copy = $this->Sadrs->get($sadr->original_sadr->id, [
+                    'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'Reactions','OriginalSadrs']
+                ]);
+
+                // debug($old_copy);
+                // exit;
+
+    $update = $this->Sadrs->patchEntity($old_copy, $this->request->getData(), [
+        'validate' => ($this->request->getData('submitted') == 2) ? true : false, 
+        'associated' => [
+            'Reactions' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ], 
+            'Attachments' => ['validate' => ($this->request->getData('submitted') == 2) ? true : false ]
+        ]
+    ]);
+    $this->Sadrs->save($update);
+               
+
                 $this->Flash->success(__('Report '.$sadr->reference_number.' has been successfully submitted to MCAZ for review.'));
                 return $this->redirect(['action' => 'view', $sadr->id]);
               } else {
