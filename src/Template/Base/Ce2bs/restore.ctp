@@ -5,8 +5,7 @@ use Cake\Utility\Hash;
 $this->start('sidebar'); ?>
 <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
-
-<?= $this->Html->script('jquery/vigibase', ['block' => true]); ?>
+ 
 <?= $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
 <?= $this->Html->script('jquery/readmore', ['block' => true]); ?>
 <?= $this->Html->script('jquery/ce2b_index', ['block' => true]); ?>
@@ -89,10 +88,10 @@ $this->start('sidebar'); ?>
                 </td>
                 <td>
                     <?php if (empty($ce2b->messageid)) {
-                            echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $ce2b->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']);
+                            echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $ce2b->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase', 'confirm' => __('Are you sure you want to send report {0}?', $ce2b->reference_number)]);
                         } elseif (!empty($ce2b->messageid)) {
                             echo $ce2b->messageid;
-                            echo  $this->Html->link('&nbsp;<span class="label label-warning"> Resubmit</span>', ['action' => 'vigibase', $ce2b->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']);
+                            echo  $this->Html->link('&nbsp;<span class="label label-warning"> Resubmit</span>', ['action' => 'vigibase', $ce2b->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase', 'confirm' => __('Are you sure you want to resubmit report {0}?', $ce2b->reference_number)]);
                         }
                         ?>
                 </td>
