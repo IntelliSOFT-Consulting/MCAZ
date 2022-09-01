@@ -246,6 +246,77 @@ class AefisController extends AppController
           return $this->redirect($this->referer());
         }
     }
+    public function resubmitvigibase($id = null)
+    {
+        $aefi = $this->Aefis->get($id, [
+            'contain' => ['AefiListOfVaccines', 'Attachments']
+        ]);
+
+        // create a builder (hint: new ViewBuilder() constructor works too)
+        $builder = $this->viewBuilder();
+
+        // configure as needed
+        $builder->setLayout(false);
+        $builder->template('Aefis/xml/e2b');
+
+        // create a view instance
+        $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
+        $view = $builder->build(compact('aefi', 'designations'));
+
+        // render to a variable
+        $payload = $view->render();
+
+        $http = new Client();
+
+        $resubmit=$aefi->resubmit;
+        if(!empty($resubmit)){
+            $resubmit=$resubmit+1;
+        }else{
+            $resubmit=1; 
+        }
+ 
+        $umc = $http->post(
+            Configure::read('vigi_post_url'),
+            (string)$payload,
+            ['headers' => Configure::read('vigi_headers')]
+        );
+
+        if ($umc->isOK()) {
+            $messageid = $umc->json;
+
+            $vaefi = $this->Aefis->get($id, [
+                'contain' => ['AefiListOfVaccines', 'Attachments','ReportStages']
+            ]);
+            $stage1  = $this->Aefis->ReportStages->newEntity();
+            $stage1->model = 'Aefis';
+            $stage1->stage = 'VigiBase Re-Submission '. $resubmit;
+            $stage1->description = 'Stage 10';
+            $stage1->stage_date = date("Y-m-d H:i:s");
+            $vaefi->report_stages = [$stage1];
+            $vaefi->messageid = $messageid['MessageId'];
+            $vaefi->status = 'VigiBase';
+            $vaefi->resubmit=$resubmit;
+            $this->Aefis->save($vaefi);
+
+            $this->set([
+                'umc' => $umc->json,
+                'status' => 'Successfull integration with vigibase',
+                '_serialize' => ['umc', 'status']
+            ]);
+
+          return $this->redirect($this->referer());
+        } else {
+            $this->response->body('Failure');
+            $this->response->statusCode($umc->getStatusCode());
+            $this->set([
+                'umc' => $umc->json,
+                'status' => 'Failed',
+                '_serialize' => ['umc', 'status']
+            ]); 
+
+          return $this->redirect($this->referer());
+        }
+    }
 
     public function e2b($id = null)
     {

@@ -129,7 +129,60 @@ class Ce2bsController extends AppController
                 return $this->redirect($this->referer());
         }
     }
+    public function resubmitvigibase($id = null) {
+        $ce2b = $this->Ce2bs->get($id, [
+            'contain' => [],
+        ]);
 
+        // render to a variable
+        $payload = $ce2b->e2b_content;
+        //$matches = $eggs->xpath('//drugresult');
+
+        $resubmit=$ce2b->resubmit;
+        if(!empty($resubmit)){
+            $resubmit=$resubmit+1;
+        }else{
+            $resubmit=1; 
+        }
+        
+        $http = new Client();
+
+        //Log::write('debug', 'Payload :: '.$payload);
+        $umc = $http->post(Configure::read('vigi_post_url'), 
+            (string)$payload,
+            ['headers' => Configure::read('vigi_headers')]);  
+
+        if ($umc->isOK()) {
+            $messageid = $umc->json;
+ 
+            $stage1  = $this->Ce2bs->ReportStages->newEntity();
+            $stage1->model = 'Ce2bs';
+            $stage1->stage = 'VigiBase Re-Submission '. $resubmit;
+            $stage1->description = 'Stage 10';
+            $stage1->stage_date = date("Y-m-d H:i:s");
+            $ce2b->report_stages = [$stage1];
+            $ce2b->messageid = $messageid['MessageId'];
+            $ce2b->status = 'VigiBase';
+            $ce2b->resubmit=$resubmit;
+            $this->Ce2bs->save($ce2b);
+
+            $this->set([
+                    'umc' => $umc->json, 
+                    'status' => 'Successfull integration with vigibase', 
+                    '_serialize' => ['umc', 'status']]);
+
+          return $this->redirect($this->referer());
+        } else {
+            $this->response->body('Failure');
+            $this->response->statusCode($umc->getStatusCode());
+            $this->set([
+                'umc' => $umc->json, 
+                'status' => 'Failed', 
+                '_serialize' => ['umc', 'status']]);
+         
+                return $this->redirect($this->referer());
+        }
+    }
     public function add()
     {
         $ce2b = $this->Ce2bs->newEntity();

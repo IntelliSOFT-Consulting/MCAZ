@@ -31,7 +31,7 @@ class Ce2bsBaseController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews', 'Reviews.Users']
+            'contain' => ['Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews', 'Reviews.Users','ReportStages']
         ];
         $query = $this->Ce2bs
             ->find('search', ['search' => $this->request->query])

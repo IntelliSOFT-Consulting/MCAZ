@@ -46,6 +46,7 @@ $this->start('sidebar'); ?>
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name_of_vaccination_center') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('stages') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th>
                 <th scope="col">Actions</th>
@@ -77,13 +78,22 @@ $this->start('sidebar'); ?>
                 </td>
                 <td><?= h($aefi->name_of_vaccination_center) ?></td>
                 <td><?= h($aefi->status) ?><br><?= $a ?><br><?= $aefi->report_type ?></td>
+                <td>
+                <div class="readmore">
+                        <?php
+              foreach ($aefi->report_stages as $application_stage) {
+                echo "<p>" . $application_stage->stage . " - " . $application_stage->description . " - " . h($application_stage->created) . "</p>";
+              }
+              ?>
+                    </div>
+                </td>
                 <td><?= h($aefi->modified) ?></td>
                 <td>
                     <?php if ($aefi->submitted == 2 && empty($aefi->messageid)) {
               echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $aefi->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'initiate', 'confirm' => __('Are you sure you want to send report {0}?', $aefi->reference_number)]);
             } elseif (!empty($aefi->messageid)) {
               echo $aefi->messageid;
-              echo $this->Html->link('&nbsp;<span class="label label-warning"> Resubmit</span>', ['action' => 'vigibase', $aefi->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'confirm', 'confirm' => __('Are you sure you want to resubmit report {0}?', $aefi->reference_number)]); 
+              echo $this->Html->link('&nbsp;<span class="label label-warning"> Resubmit<small class="badge badge-aefi pull-right">'.$aefi->resubmit.'</small></span>', ['action' => 'resubmitvigibase', $aefi->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'confirm', 'confirm' => __('Are you sure you want to resubmit report {0}?', $aefi->reference_number)]); 
             }
             ?>
                 </td>

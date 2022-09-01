@@ -51,7 +51,7 @@ class AdrsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews']
+            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews','ReportStages']
         ];
         $query = $this->Adrs
             ->find('search', ['search' => $this->request->query])
@@ -171,8 +171,9 @@ class AdrsController extends AppController
                     return implode('|', Hash::extract($row['attachments'], '{n}.file'));
                 }, //'attachments.file'
             ];
+             
 
-            $this->set(compact('query', '_serialize', '_header', '_extract'));
+//            $this->set(compact('query', '_serialize', '_header', '_extract'));
         }
     }
 
@@ -222,7 +223,7 @@ class AdrsController extends AppController
         $this->set('adr', $adr);
         $this->set('_serialize', ['adr']);
     }
-
+    
     public function vigibase($id = null)
     {
         $adr = $this->Adrs->get($id, [
@@ -292,6 +293,79 @@ class AdrsController extends AppController
         }
     }
 
+    public function resubmitvigibase($id = null)
+    {
+        $adr = $this->Adrs->get($id, [
+            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments','ReportStages']
+        ]);
+
+        // create a builder (hint: new ViewBuilder() constructor works too)
+        $builder = $this->viewBuilder();
+
+        // configure as needed
+        $builder->setLayout(false);
+        $builder->template('Adrs/xml/e2b');
+
+        // create a view instance
+        $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
+        $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list', ['keyField' => 'id', 'valueField' => 'icsr_code']);
+        $routes = $this->Adrs->AdrListOfDrugs->Routes->find('list', ['keyField' => 'id', 'valueField' => 'icsr_code']);
+        $frequencies = $this->Adrs->AdrListOfDrugs->Frequencies->find('list');
+        $view = $builder->build(compact('adr', 'designations', 'doses', 'routes', 'frequencies'));
+
+        // render to a variable
+        $payload = $view->render();
+
+        $http = new Client();
+
+        $resubmit=$adr->resubmit;
+        if(!empty($resubmit)){
+            $resubmit=$resubmit+1;
+        }else{
+            $resubmit=1; 
+        }
+        $umc = $http->post(
+            Configure::read('vigi_post_url'),
+            (string)$payload,
+            ['headers' => Configure::read('vigi_headers')]
+        );
+
+        if ($umc->isOK()) {
+            $messageid = $umc->json;
+
+            $vadr = $this->Adrs->get($id, [
+                'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments','ReportStages']
+            ]);
+            $stage1  = $this->Adrs->ReportStages->newEntity();
+            $stage1->model = 'Adrs';
+            $stage1->stage = 'VigiBase Re-Submission '. $resubmit;
+            $stage1->description = 'Stage 10';
+            $stage1->stage_date = date("Y-m-d H:i:s");
+            $vadr->report_stages = [$stage1];
+            $vadr->messageid = $messageid['MessageId'];
+            $vadr->status = 'VigiBase';
+            $vadr->resubmit=$resubmit;
+            $this->Adrs->save($vadr);
+
+            $this->set([
+                'umc' => $umc->json,
+                'status' => 'Successfull integration with vigibase',
+                '_serialize' => ['umc', 'status']
+            ]);
+
+          return $this->redirect($this->referer());
+        } else {
+            $this->response->body('Failure');
+            $this->response->statusCode($umc->getStatusCode());
+            $this->set([
+                'umc' => $umc->json,
+                'status' => 'Failed',
+                '_serialize' => ['umc', 'status']
+            ]);
+        
+            return $this->redirect($this->referer());
+        }
+    }
     public function e2b($id = null)
     {
         $adr = $this->Adrs->get($id, [

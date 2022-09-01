@@ -44,9 +44,10 @@ $this->start('sidebar'); ?>
                 <th scope="col" width="10%"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('company_name') ?></th>
                 <th scope="col" width="20%"><?= $this->Paginator->sort('e2b_file') ?></th>
+                <th scope="col"  width="20%"><?= $this->Paginator->sort('stages') ?></th>
                 <th scope="col" width="20%"><?= $this->Paginator->sort('comment') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
+                <th scope="col" width="10%"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th>
+                <th scope="col" width="10%"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -83,6 +84,15 @@ $this->start('sidebar'); ?>
                     </div>
                 </td>
                 <td>
+                <div class="readmore">
+                        <?php
+              foreach ($ce2b->report_stages as $application_stage) {
+                echo "<p>" . $application_stage->stage . " - " . $application_stage->description . "</p>";
+              }
+              ?>
+                    </div>
+                </td>
+                <td>
                     <div style="word-wrap: break-word; word-break: break-all;"><?= h($ce2b->comment) ?>
                     </div>
                 </td>
@@ -91,7 +101,7 @@ $this->start('sidebar'); ?>
                             echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $ce2b->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase' ,'confirm' => __('Are you sure you want to send report {0}?', $ce2b->reference_number)]);
                         } elseif (!empty($ce2b->messageid)) {
                             echo $ce2b->messageid;
-                            echo  $this->Html->link('&nbsp;<span class="label label-warning"> Resubmit</span>', ['action' => 'vigibase', $ce2b->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase', 'confirm' => __('Are you sure you want to resubmit report {0}?', $ce2b->reference_number)]);
+                            echo  $this->Html->link('<span class="label label-warning"> Resubmit<small class="badge badge-ce2b pull-right">'.$ce2b->resubmit.'</small></span>', ['action' => 'resubmitvigibase', $ce2b->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase', 'confirm' => __('Are you sure you want to resubmit report {0}?', $ce2b->reference_number)]);
                         }
                         ?>
                 </td>

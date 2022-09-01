@@ -45,6 +45,7 @@ $this->start('sidebar'); ?>
                 </th>
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('stages') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th>
                 <th scope="col">Actions</th>
@@ -76,13 +77,22 @@ $this->start('sidebar'); ?>
                 $this->Html->link($adr->created, ['action' => 'edit', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']); ?>
                 </td>
                 <td><?= h($adr->status) ?><br><?= $a ?><br><?= $adr->report_type ?></td>
+                <td>
+                <div class="readmore">
+                        <?php
+              foreach ($adr->report_stages as $application_stage) {
+                echo "<p>" . $application_stage->stage . " - " . $application_stage->description . " - " . h($application_stage->created) . "</p>";
+              }
+              ?>
+                    </div>
+                </td>
                 <td><?= h($adr->modified) ?></td>
                 <td>
                     <?php if ($adr->submitted == 2 && empty($adr->messageid)) {
               echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $adr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'initiate', 'confirm' => __('Are you sure you want to send report {0}?', $adr->reference_number)]);
             } elseif (!empty($adr->messageid)) {
               echo $adr->messageid;
-              echo  $this->Html->link('&nbsp;<span class="label label-warning"> Resubmit</span>', ['action' => 'vigibase', $adr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'confirm', 'confirm' => __('Are you sure you want to resubmit report {0}?', $adr->reference_number)]);
+              echo  $this->Html->link('&nbsp;<span class="label label-warning"> Resubmit <small class="badge badge-adr pull-right">'.$adr->resubmit.'</small></span>', ['action' => 'resubmitvigibase', $adr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'confirm', 'confirm' => __('Are you sure you want to resubmit report {0}?', $adr->reference_number)]);
             }
             ?>
                 </td>
