@@ -87,6 +87,9 @@ class AefisController extends AppController
         $_designations = $designations->toArray();
         //  $_adverse = $adverse->toArray();
 
+        // debug($this->request->params['_ext']);
+        // exit;
+
 
         if ($this->request->params['_ext'] === 'csv') {
             $_serialize = 'query';
@@ -379,6 +382,7 @@ class AefisController extends AppController
         $this->set('_serialize', ['aefi']);
     }
 
+    
     /**
      * Edit method
      *

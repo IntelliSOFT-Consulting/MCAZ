@@ -257,10 +257,9 @@ if (count($arr1) > 1) {
                             </td>
 
                             <!-- Added -->
-                            <td>
+                           <td>
                                 <?php
-                                echo $this->Form->control(
-                                    'status',
+                                echo $this->Form->control('status',
                                     [
                                         'type' => 'select', 'label' => false, 'templates' => 'clear_form', 'empty' => true,
                                         'options' => [
@@ -274,16 +273,16 @@ if (count($arr1) > 1) {
                                             'Committee' => 'Committee',
                                             'VigiBase' => 'VigiBase',
                                             'FinalFeedback' => 'FinalFeedback',
+                                            'Archived'=>'Archived'
                                         ]
                                     ]
                                 );
                                 ?>
                                 <a onclick="$('#status').val('');" class="tiptip" data-original-title="clear!!">
-                                    <em class="accordion-toggle"><i class="fa fa-window-close-o"
-                                            aria-hidden="true"></i></em></a>
+                                    <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                                 <br>
                                 <small class="text-warning">Evaluation Status</small>
-                            </td>
+                            </td> 
                         </tr>
                     </tbody>
                 </table>
@@ -305,6 +304,7 @@ if (count($arr1) > 1) {
             <a class="btn btn-warning btn-sm btn-block" href="<?= $pdf ?>" style="margin-top: 4px;">
                 <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Summary Report
             </a>
+           
             <?php } ?>
 
             <div class="dropdown" style="margin-top: 14px;">

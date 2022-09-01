@@ -5,10 +5,10 @@ $this->Html->script('jquery/sadr_search', ['block' => true]);
 $arr1 = explode('?', $this->request->getRequestTarget());
 if (count($arr1) > 1) {
     $url = implode('.csv?', explode('?', $this->request->getRequestTarget()));
-    $pdf = implode('.pdf?', explode('?', $this->request->getRequestTarget()));
+    $pdf = implode('.pdf?', explode('?', $this->request->getRequestTarget())); 
 } else {
     $url = implode('.csv?', explode('?', $this->request->getRequestTarget())) . '.csv';
-    $pdf = implode('.pdf?', explode('?', $this->request->getRequestTarget())) . '.pdf';
+    $pdf = implode('.pdf?', explode('?', $this->request->getRequestTarget())) . '.pdf'; 
 }
 ?>
 
@@ -240,8 +240,7 @@ if (count($arr1) > 1) {
                             <!-- Added -->
                             <td>
                                 <?php
-                                echo $this->Form->control(
-                                    'status',
+                                echo $this->Form->control('status',
                                     [
                                         'type' => 'select', 'label' => false, 'templates' => 'clear_form', 'empty' => true,
                                         'options' => [
@@ -286,6 +285,8 @@ if (count($arr1) > 1) {
             <a class="btn btn-warning btn-sm btn-block" href="<?= $pdf ?>" style="margin-top: 4px;">
                 <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Summary Report
             </a>
+             
+           
             <?php } ?>
 
             <div class="dropdown" style="margin-top: 14px;">
