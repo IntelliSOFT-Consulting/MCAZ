@@ -4,7 +4,7 @@ use Cake\Utility\Hash;
 
 $this->start('sidebar'); ?>
 <?= $this->cell('SideBar'); ?>
-<?php $this->end(); ?>  
+<?php $this->end(); ?>
 <?= $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
 <?= $this->Html->script('jquery/readmore', ['block' => true]); ?>
 <?= $this->Html->script('jquery/sadr_index', ['block' => true]); ?>
@@ -39,8 +39,7 @@ $this->start('sidebar'); ?>
             <tr>
                 <th scope="col">
                     <div class="input checkbox">
-                        <label for="selectall"><input type="checkbox" name="selectall" value="1" checked="checked"
-                                id="selectall">
+                        <label for="selectall"><input type="checkbox" name="selectall" value="1" checked="checked" id="selectall">
                             <?= $this->Paginator->sort('id') ?>
                         </label>
                     </div>
@@ -56,81 +55,94 @@ $this->start('sidebar'); ?>
         </thead>
         <tbody>
             <?php foreach ($sadrs as $sadr) : ?>
-            <?php $a = ($sadr['assigned_to']) ? '<small class="muted">' . Hash::combine($users->toArray(), '{n}.id', '{n}.name')[$sadr->assigned_to] . '</small>' : '<small class="muted">Unassigned</small>'; ?>
-            <?php
-        if ($sadr->reporter_email == "dataentry@mcaz.co.zw") {
-          $tr = '#00FFFF';
-        } else {
-          $tr = '';
-        } ?>
-            <tr style="background-color:<?php echo $tr; ?>">
-                <td>
-                    <?php
-            // echo $this->Number->format($sadr->id); 
-            echo $this->Form->control('active' . $sadr->id, [
-              'label' => '.' . $sadr->id, 'type' => 'checkbox',
-              'data-url' => $this->Url->build(['action' => 'restoreDeleted', $sadr->id, '_ext' => 'json']),
-              'templates' => ($prefix == 'manager' || $prefix == 'evaluator') ? '' : 'view_form_checkbox',
-              'checked' => $sadr->active, 'hiddenField' => false
-            ]);
-            ?>
-                </td>
-                <td><?php
-              echo ($sadr->submitted == 2) ? $this->Html->link($sadr->reference_number, ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) :
-                $this->Html->link($sadr->created, ['action' => 'edit', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']); ?>
-                </td>
-                <td><?= h($sadr->institution_name) ?></td>
-                <td><?= h($sadr->status) ?><br><?= $a ?><br><?= $sadr->report_type ?></td>
-                <td>
-                    <div class="readmore">
+                <?php $a = ($sadr['assigned_to']) ? '<small class="muted">' . Hash::combine($users->toArray(), '{n}.id', '{n}.name')[$sadr->assigned_to] . '</small>' : '<small class="muted">Unassigned</small>'; ?>
+                <?php
+                if ($sadr->reporter_email != "dataentry@mcaz.co.zw") {
+                    $tr = '  <i class="fa fa-internet-explorer" aria-hidden="true"></i>';
+                } else {
+                    $tr = '';
+                }
+
+                // check the submission status
+                if ($sadr->resubmit > 0) {
+                    $color = '#0000FF';
+                } else {
+                    $color = '';
+                }
+
+                ?>
+                <tr style="background-color:<?php echo $color; ?>">
+                    <td>
                         <?php
-              foreach ($sadr->report_stages as $application_stage) {
-                echo "<p>" . $application_stage->stage . " - " . $application_stage->description . " - " . h($application_stage->created) . "</p>";
-              }
-              ?>
-                    </div>
-                </td>
-                <td><?= h($sadr->modified) ?></td>
-                <?php //if(!in_array("VigiBase", Hash::extract($sadr->report_stages, '{n}.stage'))) { 
-          ?>
-                <td>
-                    <?php if ($sadr->submitted == 2 && empty($sadr->messageid)) {
-              echo  $this->Html->link('<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'initiate', 'confirm' => __('Are you sure you want to send report {0}?', $sadr->reference_number)]);
-            } elseif (!empty($sadr->messageid)) {
-              echo $sadr->messageid;
-              echo  $this->Html->link('<span class="label label-warning"> Resubmit <small class="badge badge-sadr pull-right">'.$sadr->resubmit.'</small></span>', ['action' => 'resubmitvigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'confirm', 'confirm' => __('Are you sure you want to resubmit report {0}?', $sadr->reference_number)]);
-            }
-            ?>
-                </td>
-                <?php //} else { echo "<td></td>"; } 
-          ?>
-                <td>
-                    <?php if ($sadr->submitted == 2) {
-              echo  $this->Html->link('<span class="label label-primary"> E2B</span>', ['action' => 'e2b', $sadr->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']);
-            }
-            ?>
+                        echo $this->Form->control('active' . $sadr->id, [
+                            'label' => '.' . $sadr->id, 'type' => 'checkbox',
+                            'data-url' => $this->Url->build(['action' => 'restoreDeleted', $sadr->id, '_ext' => 'json']),
+                            'templates' => ($prefix == 'manager' || $prefix == 'evaluator') ? '' : 'view_form_checkbox',
+                            'checked' => $sadr->active, 'hiddenField' => false
+                        ]);
+                        ?>
+                    </td>
+                    <td><?php
+                        echo ($sadr->submitted == 2) ? $this->Html->link($sadr->reference_number, ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) :
+                            $this->Html->link($sadr->created, ['action' => 'edit', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']); 
 
-                    <?php
-            echo ($sadr->submitted == 2) ?
-              $this->Html->link('<span class="label label-primary">View</span>', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'style' => 'color: white;']) :
-              $this->Html->link('<span class="label label-success">Edit</span>', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'style' => 'color: white;']);
-            ?>
+                            echo $tr;                            
+                            
+                            ?>
+                            
+                    </td>
+                    <td><?= h($sadr->institution_name) ?></td>
+                    <td><?= h($sadr->status) ?><br><?= $a ?><br><?= $sadr->report_type ?></td>
+                    <td>
+                        <div class="readmore">
+                            <?php
+                            foreach ($sadr->report_stages as $application_stage) {
+                                echo "<p>" . $application_stage->stage . " - " . $application_stage->description . " - " . h($application_stage->created) . "</p>";
+                            }
+                            ?>
+                        </div>
+                    </td>
+                    <td><?= h($sadr->modified) ?></td>
+                    <?php //if(!in_array("VigiBase", Hash::extract($sadr->report_stages, '{n}.stage'))) { 
+                    ?>
+                    <td>
+                        <?php if ($sadr->submitted == 2 && empty($sadr->messageid)) {
+                            echo  $this->Html->link('<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'initiate', 'confirm' => __('Are you sure you want to send report {0}?', $sadr->reference_number)]);
+                        } elseif (!empty($sadr->messageid)) {
+                            echo $sadr->messageid;
+                            echo  $this->Html->link('<span class="label label-warning"> Resubmit <small class="badge badge-sadr pull-right">' . $sadr->resubmit . '</small></span>', ['action' => 'resubmitvigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'confirm', 'confirm' => __('Are you sure you want to resubmit report {0}?', $sadr->reference_number)]);
+                        }
+                        ?>
+                    </td>
+                    <?php //} else { echo "<td></td>"; } 
+                    ?>
+                    <td>
+                        <?php if ($sadr->submitted == 2) {
+                            echo  $this->Html->link('<span class="label label-primary"> E2B</span>', ['action' => 'e2b', $sadr->id, '_ext' => 'xml', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;']);
+                        }
+                        ?>
 
-                    <?= $this->Html->link('<span class="label label-primary">PDF</span>', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status, '_ext' => 'pdf'], ['escape' => false, 'style' => 'color: white;'])
-            ?>
+                        <?php
+                        echo ($sadr->submitted == 2) ?
+                            $this->Html->link('<span class="label label-primary">View</span>', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'style' => 'color: white;']) :
+                            $this->Html->link('<span class="label label-success">Edit</span>', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'style' => 'color: white;']);
+                        ?>
 
-                    <?php if ($sadr->submitted == 2 && $sadr->status != 'Archived') {
-              echo "&nbsp;";
-              echo  $this->Form->postLink('<span class="label label-default"> Archive</span>', ['action' => 'archive', $sadr->id, 'prefix' => $prefix], ['escape' => false, 'class' => 'label-link', 'confirm' => __('Are you sure you want to archive report {0}?', $sadr->reference_number)]);
-            }
-            ?> 
-                    <?php if ($sadr->submitted == 0) { ?>
+                        <?= $this->Html->link('<span class="label label-primary">PDF</span>', ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status, '_ext' => 'pdf'], ['escape' => false, 'style' => 'color: white;'])
+                        ?>
 
-                    <?= $this->Form->postLink('<span class="label label-danger">Delete</span> ', ['action' => 'delete', $sadr->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sadr->id), 'class' => 'label-link', 'escape' => false]) ?>
+                        <?php if ($sadr->submitted == 2 && $sadr->status != 'Archived') {
+                            echo "&nbsp;";
+                            echo  $this->Form->postLink('<span class="label label-default"> Archive</span>', ['action' => 'archive', $sadr->id, 'prefix' => $prefix], ['escape' => false, 'class' => 'label-link', 'confirm' => __('Are you sure you want to archive report {0}?', $sadr->reference_number)]);
+                        }
+                        ?>
+                        <?php if ($sadr->submitted == 0) { ?>
 
-                    <?php } ?>
-                </td>
-            </tr>
+                            <?= $this->Form->postLink('<span class="label label-danger">Delete</span> ', ['action' => 'delete', $sadr->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sadr->id), 'class' => 'label-link', 'escape' => false]) ?>
+
+                        <?php } ?>
+                    </td>
+                </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
