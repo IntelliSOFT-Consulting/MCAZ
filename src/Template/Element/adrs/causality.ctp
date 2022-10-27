@@ -5,7 +5,12 @@ use Cake\Utility\Hash;
 $checked = '<i class="fa fa-check-square-o" aria-hidden="true"></i>';
 $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i>';
 ?>
+<hr>
+<?php
+    if(($prefix == 'evaluator') && $this->request->session()->read('Auth.User.id') != $adr->assigned_to) { ?>
 
+<p class="page-header">You must be assigned this report to review.</p>
+<?php } else { ?>
 <?php foreach ($adr->reviews as $review) {  ?>
 <div class="row">
     <div class="col-xs-12">
@@ -276,3 +281,5 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i>';
     <?php // } 
   ?>
 </div>
+
+<?php } ?>

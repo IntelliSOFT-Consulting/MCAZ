@@ -5,6 +5,11 @@ use Cake\Utility\Hash;
 $this->Html->script('causality', ['block' => true]);
 ?>
 <br>
+<?php
+    if(($prefix == 'evaluator') && $this->request->session()->read('Auth.User.id') != $saefi->assigned_to) { ?>
+
+<p class="page-header">You must be assigned this report to review.</p>
+<?php } else { ?>
 <?php if ($this->request->params['_ext'] != 'pdf') { ?>
 <div class="amend-form">
     <h5 class="text-center"><u>INTERNAL COMMENTS/QUERIES</u></h5>
@@ -880,4 +885,4 @@ $this->Html->script('causality', ['block' => true]);
     </div>
 </div>
 
-<?php } ?>
+<?php } } ?>
