@@ -55,12 +55,20 @@ $this->start('sidebar'); ?>
             <?php foreach ($ce2bs as $ce2b) : ?>
             <?php $a = ($ce2b['assigned_to']) ? '<small class="muted">' . Hash::combine($users->toArray(), '{n}.id', '{n}.name')[$ce2b->assigned_to] . '</small>' : '<small class="muted">Unassigned</small>'; ?>
             <?php
-                if ($ce2b->reporter_email == "dataentry@mcaz.co.zw") {
-                    $tr = '#00FFFF';
-                } else {
-                    $tr = '';
-                } ?>
-            <tr style="background-color:<?php echo $tr; ?>">
+             if ($ce2b->reporter_email != "dataentry@mcaz.co.zw") {
+                $tr = '  <i class="fa fa-internet-explorer" aria-hidden="true"></i>';
+            } else {
+                $tr = '';
+            }
+
+            // check the submission status
+            if ($ce2b->resubmit > 0) {
+                $color = '#0000FF';
+            } else {
+                $color = '';
+            }
+            ?>
+            <tr style="background-color:<?php echo $color; ?>">
                 <td>
                     <?php
                         echo $this->Form->control('active' . $ce2b->id, [
@@ -74,6 +82,8 @@ $this->start('sidebar'); ?>
                 <td>
                     <?php
                         echo $this->Html->link($ce2b->reference_number, ['action' => 'view', $ce2b->id, 'prefix' => $prefix, 'status' => $ce2b->status], ['escape' => false, 'class' => 'btn-zangu']);
+
+                        echo $tr;
                         ?>
                 </td>
                 <td><?= h($ce2b->company_name) ?></td>

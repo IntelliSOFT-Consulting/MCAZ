@@ -56,12 +56,20 @@ $this->start('sidebar'); ?>
             <?php foreach ($aefis as $aefi) : ?>
             <?php $a = ($aefi['assigned_to']) ? '<small class="muted">' . Hash::combine($users->toArray(), '{n}.id', '{n}.name')[$aefi->assigned_to] . '</small>' : '<small class="muted">Unassigned</small>'; ?>
             <?php
-        if ($aefi->reporter_email == "dataentry@mcaz.co.zw") {
-          $tr = '#00FFFF';
-        } else {
-          $tr = '';
-        } ?>
-            <tr style="background-color:<?php echo $tr; ?>">
+       if ($aefi->reporter_email != "dataentry@mcaz.co.zw") {
+        $tr = '  <i class="fa fa-internet-explorer" aria-hidden="true"></i>';
+    } else {
+        $tr = '';
+    }
+
+    // check the submission status
+    if ($aefi->resubmit > 0) {
+        $color = '#0000FF';
+    } else {
+        $color = '';
+    }
+    ?>
+            <tr style="background-color:<?php echo $color; ?>">
                 <td><?php
               // $this->Number->format($aefi->id) 
               echo $this->Form->control('active' . $aefi->id, [
@@ -74,7 +82,9 @@ $this->start('sidebar'); ?>
                 </td>
                 <td><?php
               echo ($aefi->submitted == 2) ? $this->Html->link($aefi->reference_number, ['action' => 'view', $aefi->id, 'prefix' => $prefix, 'status' => $aefi->status], ['escape' => false, 'class' => 'btn-zangu']) :
-                $this->Html->link($aefi->created, ['action' => 'edit', $aefi->id, 'prefix' => $prefix, 'status' => $aefi->status], ['escape' => false, 'class' => 'btn-zangu']); ?>
+                $this->Html->link($aefi->created, ['action' => 'edit', $aefi->id, 'prefix' => $prefix, 'status' => $aefi->status], ['escape' => false, 'class' => 'btn-zangu']);
+                echo $tr;
+                ?>
                 </td>
                 <td><?= h($aefi->name_of_vaccination_center) ?></td>
                 <td><?= h($aefi->status) ?><br><?= $a ?><br><?= $aefi->report_type ?></td>
