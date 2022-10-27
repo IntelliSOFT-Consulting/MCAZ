@@ -6,9 +6,11 @@ $arr1 = explode('?', $this->request->getRequestTarget());
 if (count($arr1) > 1) {
     $url = implode('.csv?', explode('?', $this->request->getRequestTarget()));
     $pdf = implode('.pdf?', explode('?', $this->request->getRequestTarget()));
+    $timeline = implode('/time.pdf?', explode('?', $this->request->getRequestTarget()));
 } else {
     $url = implode('.csv?', explode('?', $this->request->getRequestTarget())) . '.csv';
     $pdf = implode('.pdf?', explode('?', $this->request->getRequestTarget())) . '.pdf';
+    $timeline = implode('/time.pdf?', explode('?', $this->request->getRequestTarget())) . '/time.pdf';
 }
 ?>
 
@@ -281,7 +283,11 @@ if (count($arr1) > 1) {
             <a class="btn btn-warning btn-sm btn-block" href="<?= $pdf ?>" style="margin-top: 4px;">
                 <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Summary Report
             </a>
-            
+            <?php if ($prefix == 'manager') { ?>
+                <a class="btn btn-primary btn-sm btn-block" href="<?= $timeline ?>" style="margin-top: 4px;">
+                <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Timeline Report
+            </a>
+            <?php } ?>
             <div class="dropdown" style="margin-top: 14px;">
                 <button class="btn btn-default btn-sm btn-block  dropdown-toggle" type="button" id="dropdownMenu1"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

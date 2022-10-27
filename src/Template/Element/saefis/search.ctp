@@ -6,9 +6,11 @@ $arr1 = explode('?', $this->request->getRequestTarget());
 if (count($arr1) > 1) {
     $url = implode('.csv?', explode('?', $this->request->getRequestTarget()));
     $pdf = implode('.pdf?', explode('?', $this->request->getRequestTarget()));
+    $timeline = implode('/time.pdf?', explode('?', $this->request->getRequestTarget()));
 } else {
     $url = implode('.csv?', explode('?', $this->request->getRequestTarget())) . '.csv';
     $pdf = implode('.pdf?', explode('?', $this->request->getRequestTarget())) . '.pdf';
+    $timeline = implode('/time.pdf?', explode('?', $this->request->getRequestTarget())) . '/time.pdf';
 }
 ?>
 
@@ -238,6 +240,13 @@ if (count($arr1) > 1) {
                 <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Summary Report
             </a>
             
+            <?php } ?>
+
+            <!-- check if prefix is manager -->
+            <?php if ($prefix == 'manager') { ?>
+                <a class="btn btn-primary btn-sm btn-block" href="<?= $timeline ?>" style="margin-top: 4px;">
+                <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Timeline Report
+            </a>
             <?php } ?>
 
             <div class="dropdown" style="margin-top: 14px;">

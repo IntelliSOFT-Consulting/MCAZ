@@ -97,7 +97,29 @@ class Ce2bsBaseController extends AppController
             $this->render('/Base/Ce2bs/index');
         }
     }
-
+    public function time()
+    {
+        $this->paginate = [
+            'contain' => ['Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews', 'Reviews.Users','ReportStages']
+        ];
+        $query = $this->Ce2bs
+            ->find('search', ['search' => $this->request->query])
+            ->order(['created' => 'DESC'])
+            ->where(['IFNULL(copied, "N") !=' => 'old copy']);
+        $users = $this->Ce2bs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        $this->set(compact('query', 'users')); 
+            $this->set('ce2bs', $query->contain($this->paginate['contain']));
+        
+            $query->where([['Ce2bs.active' => '1']]);
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'orientation' => 'landscape',
+                    'filename' => 'CE2BS_'.date('d-m-Y').'_Timeline.pdf'
+                ]
+            ]);
+            $this->render('/Base/Ce2bs/pdf/timeline');
+        
+    }
 
     public function restore() {
         $this->paginate = [

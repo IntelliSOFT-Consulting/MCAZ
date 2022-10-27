@@ -147,6 +147,40 @@ class AdrsBaseController extends AppController
             $this->render('/Base/Adrs/index');
         }
     }
+    public function time()
+    {
+        $this->paginate = [
+            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrListOfDrugs.Doses', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews', 'Reviews.Users','ReportStages']
+        ];
+        $query = $this->Adrs
+            ->find('search', ['search' => $this->request->query])
+            // ->order(['created' => 'DESC'])
+            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
+        $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
+        $users = $this->Adrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
+        $this->set(compact('designations', 'query', 'doses', 'users'));
+        if ($this->request->params['_ext'] === 'pdf' || $this->request->params['_ext'] === 'csv') {
+            $this->set('adrs', $query->contain($this->paginate['contain']));
+        } else {
+            $this->set('adrs', $this->paginate($query->contain($this->paginate['contain'])));
+        }
+
+        $_designations = $designations->toArray();
+         
+            // $this->viewBuilder()->setLayout('pdf/default');            
+            $query->where([['Adrs.active' => '1']]);
+            $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'orientation' => 'landscape',
+                    'filename' => 'SAE'.date('d-m-Y').'Timeline.pdf'
+                ]
+            ]);
+        
+            $this->render('/Base/Adrs/pdf/timeline');
+       
+    }
     public function restore() {
         $this->paginate = [
             'contain' => []

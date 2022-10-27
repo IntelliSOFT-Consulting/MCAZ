@@ -121,6 +121,40 @@ class AefisBaseController extends AppController
         }
     }
  
+    public function time()
+    {
+        $this->paginate = [
+            'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiCausalities.Users', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 'Committees', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments','ReportStages']
+        ];
+
+
+        $query = $this->Aefis
+            ->find('search', ['search' => $this->request->query])
+            // ->order(['created' => 'DESC'])
+            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
+        $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
+        $users = $this->Aefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
+        $this->set(compact('provinces', 'designations', 'query', 'users'));
+        if ($this->request->params['_ext'] === 'pdf' || $this->request->params['_ext'] === 'csv') {
+            $this->set('aefis', $query->contain($this->paginate['contain']));
+        } else {
+            $this->set('aefis', $this->paginate($query));
+        }
+
+        $_provinces = $provinces->toArray();
+        $_designations = $designations->toArray();
+            
+            $query->where([['Aefis.active' => '1']]);
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'orientation' => 'landscape',
+                    'filename' => 'AEFIS_'.date('d-m-Y').'Timeline.pdf'
+                ]
+            ]);
+            $this->render('/Base/Aefis/pdf/timeline');
+         
+    }
     public function restore() {
         $this->paginate = [
             'contain' => []
