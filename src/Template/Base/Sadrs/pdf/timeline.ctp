@@ -34,7 +34,7 @@ use Cake\Utility\Hash;
 
       <!-- Start of Manipulation -->
       <?php
-      
+      $number++;
       $prev_date = null;
       $total_days = 0;
       //array of stage name and days
@@ -91,11 +91,11 @@ use Cake\Utility\Hash;
           if ($days == 1) {
             $days = 0;
           }
-          $stage_days =  $days . ' Days<br>';
+          $stage_days =  $days ;
           $total_days += $days;
-          $days_array[] = $days;
+        
         } else {
-          $stage_days =  '0 Days<br>';
+          $stage_days =  '0';
           $total_days += 0;
         }
 
@@ -107,14 +107,15 @@ use Cake\Utility\Hash;
         $mcaz_time = $total_days - $applicant_time;
 
         //add the stage name and days to the array
-        $stage_days_array[] = $stage_name . $stage_days;
+        $stage_days_array[] = $stage_name . $stage_days.' Days<br>';
+        $days_array[] = $stage_days;
         $prev_date = $curr_date;
       }
       ?>
 
       <!-- End of Manipulation -->
       <tr>
-        <td><?php echo $number;?></td>
+        <td><?php echo $number; ?></td>
         <td><?= $sadr->reference_number ?></td>
         <td><?= $total_days . ' Days' ?></td>
         <td><?= $mcaz_time . ' Days' ?></td>
@@ -135,8 +136,28 @@ use Cake\Utility\Hash;
             ?>
         </td>
         <td>
- 
-        </td>
+          <?php
+
+          //sort days_array in ascending order
+          sort($days_array);
+          //check if the array is not empty
+          if (!empty($days_array)) {
+            //get the middle index of the array
+            $middle_index = floor(count($days_array) / 2);
+            //check if the array is even
+            if (count($days_array) % 2 == 0) {
+              //get the two middle values
+              $median = ($days_array[$middle_index] + $days_array[$middle_index - 1]) / 2;
+            } else {
+              //get the middle value
+              $median = $days_array[$middle_index];
+            }
+            echo $median . ' Days';
+          } else {
+            echo '0 Days';
+          }
+          
+          ?>
         </td>
       </tr>
     <?php endforeach; ?>
