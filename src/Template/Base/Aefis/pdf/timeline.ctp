@@ -7,103 +7,157 @@
       <h3 class="text-center"><span class="text-center"><?= $this->Html->image("mcaz_3.png", ['fullBase' => true, 'style' => 'width: 70%;']); ?></span> <br>
       PHARMACOVIGILANCE AND CLINICAL TRIALS DIVISION</h3> 
       <div class="row">
-        <div class="col-xs-12"><h5 class="text-center">ADVERSE EVENT FOLLOWING IMMUNISATION (AEFI) IN-HOUSE REPORT FORM</h5></div>
+        <div class="col-xs-12"><h5 class="text-center">ADVERSE EVENT FOLLOWING IMMUNISATION (AEFI) TIMELINE REPORT</h5></div>
       </div>
     </div>
   </div>
     
-    <table class="table table-striped table-bordered">
-            <tr>
-                <th width="4%"><b>#</b></th>
-                <th scope="col" width="9%"><b>Reference #</b></th>
-                <th scope="col" width="10%"><b>Patient Details</b></th>
-                <th scope="col" width="27%"><b>AEFI </b></th>
-                <th scope="col" width="10%"><b>Suspected Vaccine(s)</b></th>
-                <th scope="col" width="10%"><b>Batch No. <br> and Expiry date</b></th>
-                <th scope="col" width="20%"><b>Clinical Findings</b></th>
-                <th scope="col" width="10%"><b>Management & Outcome</b></th>
-            </tr>
-        <tbody>
-            <?php $i = 0; ?>
-            <?php foreach ($query as $aefi): ?>
-            <?php $i++ ?>
-            <tr style="border-top: 2px solid #333;">
-                <td><?= $i ?></td>
-                <td><?=  $aefi->reference_number ?></td>
-                <td>
-                  <?=  $aefi->patient_name ?>
-                    <br>
-                  <?php  $today = date("Y-m-d");
-                  if(!empty($aefi->date_of_birth)){
-                    $dob=$aefi->date_of_birth;
-                    if($dob!='--'){
+  <table class="table table-striped table-bordered">
+  <thead>
+    <th>#</th>
+    <th>Protocol No</th>
+    <th>Approval Time</th>
+    <th>MCAZ Time</th>
+    <th>Applicant Time</th>
+    <th>Stage Time</th>
+    <th>Mean Time</th>
+    <th>Median Time</th>
+  </thead>
+  <tbody>
 
-                  $diff = date_diff(date_create($dob), date_create($today));
-                  echo 'Age: '.$diff->format('%y');
-                    }else{ 
-                  echo 'Age: '.$aefi->year_of_birth;}}else{
-                  echo "Age: ".$aefi->date_of_birth;} ?><br>
-                  <?php echo "Gender: ".$aefi->gender ?><br>
-                </td>
-                <td>
-                  <?= h($aefi->description_of_reaction) ?></td>
-                <td>
-                    <?php foreach($aefi->aefi_list_of_vaccines as $list_of_drug): ?>    
-                      <p><?= $list_of_drug->vaccine_name.' - '.$list_of_drug->dosage ?></p>        
-                      <p><?= $list_of_drug->vaccination_date ?></p>        
-                    <?php endforeach; ?>
-                </td>
-                <td>
-                    <?php foreach($aefi->aefi_list_of_vaccines as $list_of_drug): ?>    
-                      <p><?= $list_of_drug->batch_number.' - '.$list_of_drug->expiry_date ?></p>        
-                    <?php endforeach; ?>
-                </td>
-                <td>
-                  <?= h($aefi->past_medical_history) ?>  <br>                
-                  <?= h($aefi->comments) ?>                  
-                </td>  
-                <td><?= "Outcome: ".$aefi->outcome ?> </td>
-            </tr>
-              <?php foreach ($aefi->aefi_causalities as $causality): ?>
-                <?php if($causality->chosen == 1) { ?>
-                <tr>
-                  <td></td>
-                  <td colspan="2">
-                    <p><b>Classificication</b></p>
-                    <?php if($causality->consistent_i) echo "A1. Vaccine product-related reaction (As per published literature) <br>"; ?>
-                    <?php if($causality->consistent_ii) echo "A2. Vaccine quality defect-related reaction <br>"; ?>
-                    <?php if($causality->consistent_iii) echo "A3. Immunization error-related reaction <br>"; ?>
-                    <?php if($causality->consistent_iv) echo "A4. Immunization anxiety-related reaction <br> <b>(ITSR**)</b> <br>"; ?>
-                    <?php if($causality->indeterminate_i) echo "B1. *Temporal relationship is consistent but there is insufficient definitive evidence for vaccine causing event (may be new vaccine-linked event) <br>"; ?>
-                    <?php if($causality->indeterminate_ii) echo "B2. Reviewing factors result in conflicting trends of consistency and inconsistency with causal association to immunization <br>"; ?>
-                    <?php if($causality->inconsistent) echo "C. Coincidental Underlying or emerging condition(s), or conditions caused by exposure to something other than vaccine <br>"; ?>
-                    <?php if($causality->unclassifiable) echo "Unclassifiable <br>"; ?>
-                    <?php if($causality->unclassifiable_specify) echo $causality->unclassifiable_specify; ?>
-                  </td>
-                  <td colspan="3">
-                    <p><b>Summary</b></p>
-                    <p>With available evidence, we could conclude that the claffication is <?= $causality->conclude ?> because 
-                      <?= $causality->conclude_reason ?>. <br> 
-                      <?php if(!empty($causality->conclude_inability)) { ?>
-                      with available evidence, we could NOT classify the case because: <?= $causality->conclude_inability ?>
-                      <?php } ?>
-                    </p>
-                  </td>
-                  <td colspan="2">
-                    <p><b>Signatures</b></p>
-                    <p><?php          
-                        echo ($causality->signature) ? "<img src='".$this->Url->build(substr($causality->user->dir, 8) . '/' . $causality->user->file, true)."' style='width: 30%;' alt=''>" : '';
-                        ?>
-                    </p>
-                    <p>
-                      <?php          
-                        echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$aefi->assigned_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$aefi->assigned_by], true)."' style='width: 30%;' alt=''>";
-                      ?>                        
-                    </p>
-                  </td>
-                </tr>
-                <?php } ?>
-              <?php endforeach; ?>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+    <?php
+    $number = 0;
+
+    foreach ($aefis as $report) : ?>
+
+      <!-- Start of Manipulation -->
+      <?php
+      $number++;
+      $prev_date = null;
+      $total_days = 0;
+      //array of stage name and days
+      $stage_days_array = array();
+      $mcaz_time = 0;
+      $applicant_time = 0;
+      //array of days only
+      $days_array = array();
+      foreach ($report->report_stages as $application_stage) {
+        $curr_date = (($application_stage->alt_date)) ?? $application_stage->stage_date;
+        $stage_name = '<b>' . $application_stage->stage . '</b> : <br>';
+
+        if (!empty($curr_date) && !empty($prev_date)) {
+          //get the days between the two dates
+          $date1 = new DateTime($prev_date);
+          $date2 = new DateTime($curr_date);
+          $count = $date1->diff($date2)->days;
+          //get the day name 
+          $name = $date1->format('l');
+          //get the date in the format of 2017-01-01
+          $prev_date = $date1->format('Y-m-d');
+          $curr_date = $date2->format('Y-m-d');
+          //get the number of days between the two dates
+          $count = $date1->diff($date2)->days;
+          //loop through the dates and get the number of days
+          $dates = array();
+          $dates[] = $prev_date;
+
+          if ($count > 0) {
+            for ($i = 1; $i < $count; $i++) {
+              $date1->modify('+1 day');
+              $name = $date1->format('l');
+              //add a flag to the date to indicate if it is a weekend
+              if ($name == 'Saturday' || $name == 'Sunday') {
+                $dates[] = $date1->format('Y-m-d') . ' Weekend';
+              } else {
+                $dates[] = $date1->format('Y-m-d');
+              }
+              //remove the weekends from the array
+              $dates = array_filter($dates, function ($value) {
+                return strpos($value, 'Weekend') === false;
+              });
+            }
+          }
+          $dates[] = $curr_date;
+          //remove duplicates from the array and make it unique
+          $dates = array_unique($dates);
+
+          //for each date in the array, echo the date and the day name
+
+          //count the number of days in the array
+          $days = count($dates);
+          //if days==1 then return 0
+          if ($days == 1) {
+            $days = 0;
+          }
+          $stage_days =  $days ;
+          $total_days += $days;
+        
+        } else {
+          $stage_days =  '0';
+          $total_days += 0;
+        }
+
+        //applicant time = days under correspondence stage
+        if ($application_stage->stage == 'ApplicantResponse') {
+          $applicant_time += $days;
+        }
+
+        $mcaz_time = $total_days - $applicant_time;
+
+        //add the stage name and days to the array
+        $stage_days_array[] = $stage_name . $stage_days.' Days<br>';
+        $days_array[] = $stage_days;
+        $prev_date = $curr_date;
+      }
+      ?>
+
+      <!-- End of Manipulation -->
+      <tr>
+        <td><?php echo $number; ?></td>
+        <td><?= $report->reference_number ?></td>
+        <td><?= $total_days . ' Days' ?></td>
+        <td><?= $mcaz_time . ' Days' ?></td>
+        <td><?= $applicant_time . ' Days' ?></td>
+        <td><?php foreach ($stage_days_array as $stage_days) {
+              echo $stage_days;
+            } ?></td>
+        <td><?php
+            //check if there are report dtages
+            if (!empty($report->report_stages)) {
+              $days_per_stage = $total_days / count($report->report_stages);
+              //limit the number of decimal places to 2
+              $days_per_stage = number_format($days_per_stage, 2);
+              echo $days_per_stage . ' Days';
+            } else {
+              echo '0 Days';
+            }
+            ?>
+        </td>
+        <td>
+          <?php
+
+          //sort days_array in ascending order
+          sort($days_array);
+          //check if the array is not empty
+          if (!empty($days_array)) {
+            //get the middle index of the array
+            $middle_index = floor(count($days_array) / 2);
+            //check if the array is even
+            if (count($days_array) % 2 == 0) {
+              //get the two middle values
+              $median = ($days_array[$middle_index] + $days_array[$middle_index - 1]) / 2;
+            } else {
+              //get the middle value
+              $median = $days_array[$middle_index];
+            }
+            echo $median . ' Days';
+          } else {
+            echo '0 Days';
+          }
+          
+          ?>
+        </td>
+      </tr>
+    <?php endforeach; ?>
+  </tbody>
+</table>

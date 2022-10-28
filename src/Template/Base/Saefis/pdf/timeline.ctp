@@ -16,6 +16,7 @@ use Cake\Utility\Hash;
 </div>
 <table class="table table-striped table-bordered">
   <thead>
+    <th>#</th>
     <th>Protocol No</th>
     <th>Approval Time</th>
     <th>MCAZ Time</th>
@@ -25,5 +26,143 @@ use Cake\Utility\Hash;
     <th>Median Time</th>
   </thead>
   <tbody>
+
+    <?php
+    $number = 0;
+
+    foreach ($query as $report) : ?>
+
+      <!-- Start of Manipulation -->
+      <?php
+      $number++;
+      $prev_date = null;
+      $total_days = 0;
+      //array of stage name and days
+      $stage_days_array = array();
+      $mcaz_time = 0;
+      $applicant_time = 0;
+      //array of days only
+      $days_array = array();
+      //check if the report has stages
+      // if (!empty($report->report_stages)) {
+      foreach ($report->report_stages as $application_stage) {
+        $curr_date = (($application_stage->alt_date)) ?? $application_stage->stage_date;
+        $stage_name = '<b>' . $application_stage->stage . '</b> : <br>';
+
+        if (!empty($curr_date) && !empty($prev_date)) {
+          //get the days between the two dates
+          $date1 = new DateTime($prev_date);
+          $date2 = new DateTime($curr_date);
+          $count = $date1->diff($date2)->days;
+          //get the day name 
+          $name = $date1->format('l');
+          //get the date in the format of 2017-01-01
+          $prev_date = $date1->format('Y-m-d');
+          $curr_date = $date2->format('Y-m-d');
+          //get the number of days between the two dates
+          $count = $date1->diff($date2)->days;
+          //loop through the dates and get the number of days
+          $dates = array();
+          $dates[] = $prev_date;
+
+          if ($count > 0) {
+            for ($i = 1; $i < $count; $i++) {
+              $date1->modify('+1 day');
+              $name = $date1->format('l');
+              //add a flag to the date to indicate if it is a weekend
+              if ($name == 'Saturday' || $name == 'Sunday') {
+                $dates[] = $date1->format('Y-m-d') . ' Weekend';
+              } else {
+                $dates[] = $date1->format('Y-m-d');
+              }
+              //remove the weekends from the array
+              $dates = array_filter($dates, function ($value) {
+                return strpos($value, 'Weekend') === false;
+              });
+            }
+          }
+          $dates[] = $curr_date;
+          //remove duplicates from the array and make it unique
+          $dates = array_unique($dates);
+
+          //for each date in the array, echo the date and the day name
+
+          //count the number of days in the array
+          $days = count($dates);
+          //if days==1 then return 0
+          if ($days == 1) {
+            $days = 0;
+          }
+          $stage_days =  $days ;
+          $total_days += $days;
+        
+        } else {
+          $stage_days =  '0';
+          $total_days += 0;
+        }
+
+        //applicant time = days under correspondence stage
+        if ($application_stage->stage == 'ApplicantResponse') {
+          $applicant_time += $days;
+        }
+
+        $mcaz_time = $total_days - $applicant_time;
+
+        //add the stage name and days to the array
+        $stage_days_array[] = $stage_name . $stage_days.' Days<br>';
+        $days_array[] = $stage_days;
+        $prev_date = $curr_date;
+      }  
+    // }
+      ?>
+
+      <!-- End of Manipulation -->
+      <tr>
+        <td><?php echo $number; ?></td>
+        <td><?= $report->reference_number ?></td>
+        <td><?= $total_days . ' Days' ?></td>
+        <td><?= $mcaz_time . ' Days' ?></td>
+        <td><?= $applicant_time . ' Days' ?></td>
+        <td><?php foreach ($stage_days_array as $stage_days) {
+              echo $stage_days;
+            } ?></td>
+        <td><?php
+            //check if there are report dtages
+            if (!empty($report->report_stages)) {
+              $days_per_stage = $total_days / count($report->report_stages);
+              //limit the number of decimal places to 2
+              $days_per_stage = number_format($days_per_stage, 2);
+              echo $days_per_stage . ' Days';
+            } else {
+              echo '0 Days';
+            }
+            ?>
+        </td>
+        <td>
+          <?php
+
+          //sort days_array in ascending order
+          sort($days_array);
+          //check if the array is not empty
+          if (!empty($days_array)) {
+            //get the middle index of the array
+            $middle_index = floor(count($days_array) / 2);
+            //check if the array is even
+            if (count($days_array) % 2 == 0) {
+              //get the two middle values
+              $median = ($days_array[$middle_index] + $days_array[$middle_index - 1]) / 2;
+            } else {
+              //get the middle value
+              $median = $days_array[$middle_index];
+            }
+            echo $median . ' Days';
+          } else {
+            echo '0 Days';
+          }
+          
+          ?>
+        </td>
+      </tr>
+    <?php endforeach; ?>
   </tbody>
 </table>

@@ -119,8 +119,7 @@ class SaefisBaseController extends AppController
 
             $this->set(compact('query', '_serialize', '_header', '_extract'));
         }
-
-
+ 
         if ($this->request->params['_ext'] === 'pdf') {
             $query->where([['Saefis.active' => '1']]);
             $this->viewBuilder()->options([
@@ -137,7 +136,7 @@ class SaefisBaseController extends AppController
     public function time()
     {
         $this->paginate = [
-            'contain' => ['AefiListOfVaccines', 'SaefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiCausalities.Users', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews']
+            'contain' => ['AefiListOfVaccines', 'SaefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiCausalities.Users', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews','ReportStages']
         ];
         $query = $this->Saefis
             ->find('search', ['search' => $this->request->query])

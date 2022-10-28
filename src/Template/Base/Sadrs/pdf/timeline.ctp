@@ -161,4 +161,5 @@ use Cake\Utility\Hash;
         </td>
       </tr>
     <?php endforeach; ?>
+  </tbody>
 </table>
