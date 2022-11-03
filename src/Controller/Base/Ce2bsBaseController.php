@@ -31,7 +31,7 @@ class Ce2bsBaseController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews', 'Reviews.Users']
+            'contain' => ['Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews', 'Reviews.Users','ReportStages']
         ];
         $query = $this->Ce2bs
             ->find('search', ['search' => $this->request->query])
@@ -97,7 +97,29 @@ class Ce2bsBaseController extends AppController
             $this->render('/Base/Ce2bs/index');
         }
     }
-
+    public function time()
+    {
+        $this->paginate = [
+            'contain' => ['Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews', 'Reviews.Users','ReportStages']
+        ];
+        $query = $this->Ce2bs
+            ->find('search', ['search' => $this->request->query])
+            ->order(['created' => 'DESC'])
+            ->where(['IFNULL(copied, "N") !=' => 'old copy']);
+        $users = $this->Ce2bs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        $this->set(compact('query', 'users')); 
+            $this->set('ce2bs', $query->contain($this->paginate['contain']));
+        
+            $query->where([['Ce2bs.active' => '1']]);
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'orientation' => 'landscape',
+                    'filename' => 'CE2BS_'.date('d-m-Y').'_Timeline.pdf'
+                ]
+            ]);
+            $this->render('/Base/Ce2bs/pdf/timeline');
+        
+    }
 
     public function restore() {
         $this->paginate = [
@@ -108,7 +130,7 @@ class Ce2bsBaseController extends AppController
             ->find('search', ['search' => $this->request->query, 'withDeleted'])
             ->where(['deleted IS NOT' =>  null]);
             
-        $this->set('sadrs', $this->paginate($query));
+        $this->set('ce2bs', $this->paginate($query));
     }
     public function restoreDeleted($id = null)
     {
@@ -159,13 +181,23 @@ class Ce2bsBaseController extends AppController
             ]);
         }
 
+        $current_id=$this->Auth->user('id'); 
+        $assignees = $this->Ce2bs->Users
+        ->find('list', ['limit' => 200])
+        ->where(['group_id' => 4])
+        ->orWhere(['id'=>$ce2b->assigned_to ? $ce2b->assigned_to : $current_id]); //use current id if unassigned else assigned user
+        
+
         $evaluators = $this->Ce2bs->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
         $users = $this->Ce2bs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+
+        $ce2b_content=$ce2b->e2b_content;
+        
 
         $xml = (Xml::toArray(Xml::build($ce2b->e2b_content)));
         $arr = Hash::flatten($xml);
 
-        $this->set(compact('ce2b', 'evaluators', 'users', 'ekey', 'arr'));
+        $this->set(compact('ce2b','assignees', 'evaluators', 'users', 'ekey', 'arr'));
         $this->set('_serialize', ['ce2b']);
         $this->render('/Base/Ce2bs/view');
     }
@@ -221,7 +253,7 @@ class Ce2bsBaseController extends AppController
                 // $ref = $this->Ce2bs->find()->count() + 1;
                 //$ref = $this->Ce2bs->find('all', ['conditions' => ['date_format(Ce2bs.created,"%Y")' => date("Y"), 'Ce2bs.reference_number IS NOT' => null]])->count() + $var;
                 $ref = $this->Ce2bs->find()->select(['Ce2bs.reference_number'])->distinct(['Ce2bs.reference_number'])->where(['date_format(Ce2bs.created,"%Y")' => date("Y"), 'Ce2bs.reference_number IS NOT' => null])->count() + $var;
-                $ce2b->reference_number = (($ce2b->reference_number)) ?? 'CE2B'.$ref.'/'.date('Y');
+                $ce2b->reference_number = (!empty($ce2b->reference_number)) ?$ce2b->reference_number: 'CE2B'.$ref.'/'.date('Y');
                 try {                    
                     if ($this->Ce2bs->save($ce2b)) {
                         $datum = $this->Imports->newEntity(['filename' => $this->request->data['e2b_file']['name']]);
@@ -322,6 +354,12 @@ class Ce2bsBaseController extends AppController
     public function causality() {
         $ce2b = $this->Ce2bs->get($this->request->getData('ce2b_pr_id'), ['contain' => ['ReportStages']]);
         if (isset($ce2b->id) && $this->request->is('post')) {
+                 
+            // Only Allowed Evaluators
+            if (($this->Auth->user('group_id')==4) && ($this->Auth->user('id') != $ce2b->assigned_to)) {
+                $this->Flash->error('You have not been assigned the report for review!');
+                return $this->redirect($this->referer());
+            }
             $ce2b = $this->Ce2bs->patchEntity($ce2b, $this->request->getData());
             $ce2b->reviews[0]->user_id = $this->Auth->user('id');
             $ce2b->reviews[0]->model = 'Ce2bs';
@@ -567,12 +605,12 @@ class Ce2bsBaseController extends AppController
             ->set(['status' => 'Archived'])
             ->where(['id' => $ce2b->id])
             ->execute();
-        $this->Flash->success(__('The SAE has been archived.'));
+        $this->Flash->success(__('The CE2B has been archived.'));
         //
 
         return $this->redirect(['action' => 'index']);
     }
-
+    
     /**
      * Delete method
      *

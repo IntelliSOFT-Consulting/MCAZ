@@ -35,7 +35,20 @@
                 <td><?=  $sadr->reference_number ?></td>
                 <td><?=  $sadr->patient_name ?></td>
                 <td>
-                  <?php echo "Age: ".$sadr->date_of_birth ?><br>
+                  
+                  <?php
+                  $today = date("Y-m-d");
+                  if(!empty($sadr->date_of_birth)){
+                    $dob=$sadr->date_of_birth;
+                    if($dob!='--'){
+
+                  $diff = date_diff(date_create($dob), date_create($today));
+                  echo 'Age: '.$diff->format('%y');
+                    }else{ 
+                  echo 'Age: '.$sadr->year_of_birth;}}else{
+                  echo "Age: ".$sadr->date_of_birth;}
+                   ?>
+                  <br>
                   <?php echo "Gender: ".$sadr->gender ?><br>
                   <?php echo "Weight: ".$sadr->weight ?>
                 </td>
@@ -105,13 +118,24 @@
                       <li><p><?= $review->causality_decision ?></p></li>
                     </ul>
                   </td>
-                  <td colspan="3">
+                  <td colspan="2">
                     <ul class="list-unstyled">
                       <li>
                         <p><b>References</b></p>
                       </li>
                       <li>
                         <p><?= $this->Text->autoParagraph($review->references_text) ?></p>
+                      </li>
+                    </ul>
+                  </td>
+                  <!-- Added Column for Comments -->
+                  <td colspan="2">
+                    <ul class="list-unstyled">
+                      <li>
+                        <p><b>Comments</b></p>
+                      </li>
+                      <li>
+                        <p><?= $review->comments ?></p>
                       </li>
                     </ul>
                   </td>

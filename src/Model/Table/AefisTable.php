@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -45,12 +46,14 @@ class AefisTable extends Table
         $this->addBehavior('Timestamp');
         $this->addBehavior('Search.Search');
         $this->addBehavior('Duplicatable.Duplicatable', [
-            'contain' => ['AefiListOfVaccines', 'Uploads', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 
-                          'AefiCausalities.Users', 'AefiComments', 'AefiComments.Attachments',  
-                          'Committees', 'Committees.Users', 'Committees.AefiComments', 'Committees.AefiComments.Attachments', 
-                          'ReportStages', 
-                          'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments', 
-                          'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments'],
+            'contain' => [
+                'AefiListOfVaccines', 'Uploads', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators',
+                'AefiCausalities.Users', 'AefiComments', 'AefiComments.Attachments',
+                'Committees', 'Committees.Users', 'Committees.AefiComments', 'Committees.AefiComments.Attachments',
+                'ReportStages',
+                'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments',
+                'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments', 'AefiReactions'
+            ],
             'remove' => ['created', 'modified'],
             'set' => [
                 'copied' => 'new copy'
@@ -81,7 +84,7 @@ class AefisTable extends Table
             'foreignKey' => 'aefi_id'
         ]);
 
-        
+
         $this->hasMany('AefiComments', [
             'className' => 'Comments',
             'foreignKey' => 'foreign_key',
@@ -150,11 +153,16 @@ class AefisTable extends Table
             'dependent' => true,
             'conditions' => array('AefiFollowups.report_type' => 'FollowUp'),
         ]);
+
+        // Added section for Reactions
+        $this->hasMany('AefiReactions', [
+            'foreignKey' => 'aefi_id'
+        ]);
     }
 
     /**
-    * @return \Search\Manager
-    */
+     * @return \Search\Manager
+     */
     public function searchManager()
     {
         $searchManager = $this->behaviors()->Search->searchManager();
@@ -190,8 +198,8 @@ class AefisTable extends Table
             ->add('vaccine_name', 'Search.Callback', [
                 'callback' => function ($query, $args, $filter) {
                     $vaccine_name = $args['vaccine_name'];
-                    $query->matching('AefiListOfVaccines', function ($q) use($vaccine_name) {
-                        return $q->where(['AefiListOfVaccines.vaccine_name LIKE' => '%'.$vaccine_name.'%']);
+                    $query->matching('AefiListOfVaccines', function ($q) use ($vaccine_name) {
+                        return $q->where(['AefiListOfVaccines.vaccine_name LIKE' => '%' . $vaccine_name . '%']);
                     });
                 }
             ])

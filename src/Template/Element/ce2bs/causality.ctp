@@ -4,6 +4,12 @@
   $checked = '<i class="fa fa-check-square-o" aria-hidden="true"></i>';
   $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i>';
 ?>
+<hr>
+<?php
+    if(($prefix == 'evaluator') && $this->request->session()->read('Auth.User.id') != $ce2b->assigned_to) { ?>
+
+<p class="page-header">You must be assigned this report to review.</p>
+<?php } else { ?>
 
  <?php foreach ($ce2b->reviews as $review) {  ?>
       <div class="row">
@@ -257,3 +263,5 @@
     </div>
     <?php // } ?>
   </div>
+
+  <?php } ?>

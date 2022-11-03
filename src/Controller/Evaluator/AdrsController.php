@@ -19,9 +19,10 @@ class AdrsController extends AdrsBaseController
     public function view($id = null) {
         parent::view($id);
         $ladr = $this->Adrs->get($id);
-        if ($this->Auth->user('id') != $ladr->assigned_to) {
-            $this->Flash->error('You have not been assigned the report for review!');
-            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator']);
-        }
+        // Allow All Evaluators to View 
+        // if ($this->Auth->user('id') != $ladr->assigned_to) {
+        //     $this->Flash->error('You have not been assigned the report for review!');
+        //     return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator']);
+        // }
     }
 }

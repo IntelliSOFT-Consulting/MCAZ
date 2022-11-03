@@ -19,11 +19,11 @@ class AefisController extends AefisBaseController
     public function view($id = null) {
         parent::view($id);
         $laefi = $this->Aefis->get($id);
-        // if (!empty($laefi->assigned_to) && $this->Auth->user('id') != $laefi->assigned_to) {
-        if ($this->Auth->user('id') != $laefi->assigned_to) {
-            $this->Flash->error('You have not been assigned the report for review!');
-            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator']);
-        }
+        // Allow All Evaluators to View 
+        // if ($this->Auth->user('id') != $laefi->assigned_to) {
+        //     $this->Flash->error('You have not been assigned the report for review!');
+        //     return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator']);
+        // }
     }
 
 }

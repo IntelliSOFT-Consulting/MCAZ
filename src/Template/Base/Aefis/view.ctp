@@ -19,7 +19,7 @@
             if(empty($aefi->assigned_to)) {
                 echo 'Assign Evaluator';
             } else {
-                echo "Assigned to:".$evaluators->toArray()[$aefi->assigned_to];
+                echo "Assigned to:".$assignees->toArray()[$aefi->assigned_to];
             }
          ?>
     </a></li>
@@ -48,7 +48,7 @@
     <?php if(empty($aefi->assigned_to)) {?>
         <!-- <button type="button" class="btn btn-info" data-toggle="modal" data-target="#assignModal"><i class="fa fa-share-square-o" aria-hidden="true"></i> Assign Evaluator</button> -->
     <?php } else { ?>
-        <small><?= '<b>Assigned To</b>:'.$evaluators->toArray()[$aefi->assigned_to]?></small>
+        <small><?= '<b>Assigned To</b>:'.$assignees->toArray()[$aefi->assigned_to]?></small>
     <?php }  ?>
 <?php $this->end(); ?>
 
