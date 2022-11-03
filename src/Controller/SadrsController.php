@@ -192,7 +192,7 @@ class SadrsController extends AppController
             $this->Flash->warning(__('Kindly submit Report ' . $sadr->reference_number . ' before viewing.'));
             return $this->redirect(['action' => 'edit', $sadr->id]);
         }
- 
+
         if (strpos($this->request->url, 'pdf')) {
             // $this->viewBuilder()->setLayout('pdf/default');
             $this->viewBuilder()->helpers(['Form' => ['templates' => 'view_form',]]);
@@ -211,7 +211,7 @@ class SadrsController extends AppController
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
         $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');
         $frequencies = $this->Sadrs->SadrListOfDrugs->Frequencies->find('list');
-       
+
         $this->set(compact('sadr', 'users', 'designations', 'provinces', 'doses', 'routes', 'frequencies'));
         $this->set('_serialize', ['sadr', 'provinces']);
         // $this->set('sadr', $sadr);
@@ -376,12 +376,12 @@ class SadrsController extends AppController
             $this->Sadrs->save($vsadr);
 
             $this->set([
-                'umc' => $umc->json, 
+                'umc' => $umc->json,
                 'status' => 'Successfull integration with vigibase',
                 '_serialize' => ['umc', 'status']
-            ]); 
+            ]);
 
-          return $this->redirect($this->referer());
+            return $this->redirect($this->referer());
         } else {
             $this->response->body('Failure');
             $this->response->statusCode($umc->getStatusCode());
@@ -390,8 +390,8 @@ class SadrsController extends AppController
                 'status' => 'Failed',
                 '_serialize' => ['umc', 'status']
             ]);
-           
-          return $this->redirect($this->referer());
+
+            return $this->redirect($this->referer());
         }
     }
     public function resubmitvigibase($id = null)
@@ -416,15 +416,15 @@ class SadrsController extends AppController
         // render to a variable
         $payload = $view->render();
 
-        $http = new Client(); 
+        $http = new Client();
 
         //get the count of submissions
 
-        $resubmit=$sadr->resubmit;
-        if(!empty($resubmit)){
-            $resubmit=$resubmit+1;
-        }else{
-            $resubmit=1; 
+        $resubmit = $sadr->resubmit;
+        if (!empty($resubmit)) {
+            $resubmit = $resubmit + 1;
+        } else {
+            $resubmit = 1;
         }
         // debug($resubmit);
         // exit;
@@ -436,31 +436,31 @@ class SadrsController extends AppController
         );
 
         if ($umc->isOK()) {
-            $messageid = $umc->json; 
+            $messageid = $umc->json;
 
             $vsadr = $this->Sadrs->get($id, [
                 'contain' => ['SadrListOfDrugs', 'Attachments', 'ReportStages']
             ]);
-           
-           
+
+
             $stage1  = $this->Sadrs->ReportStages->newEntity();
             $stage1->model = 'Sadrs';
-            $stage1->stage = 'VigiBase Re-Submission '. $resubmit;
+            $stage1->stage = 'VigiBase Re-Submission ' . $resubmit;
             $stage1->description = 'Stage 10';
             $stage1->stage_date = date("Y-m-d H:i:s");
             $vsadr->report_stages = [$stage1];
             $vsadr->messageid = $messageid['MessageId'];
             $vsadr->status = 'VigiBase';
-            $vsadr->resubmit=$resubmit;
+            $vsadr->resubmit = $resubmit;
             $this->Sadrs->save($vsadr);
 
             $this->set([
-                'umc' => $umc->json, 
+                'umc' => $umc->json,
                 'status' => 'Successfull integration with vigibase',
                 '_serialize' => ['umc', 'status']
-            ]); 
+            ]);
 
-          return $this->redirect($this->referer());
+            return $this->redirect($this->referer());
         } else {
             $this->response->body('Failure');
             $this->response->statusCode($umc->getStatusCode());
@@ -469,8 +469,8 @@ class SadrsController extends AppController
                 'status' => 'Failed',
                 '_serialize' => ['umc', 'status']
             ]);
-           
-          return $this->redirect($this->referer());
+
+            return $this->redirect($this->referer());
         }
     }
 
@@ -605,11 +605,24 @@ class SadrsController extends AppController
         return $sadr;
     }
 
+    public function getNewReferenceNumber($id)
+    {
+        $refid = $this->Sadrs->Refids->newEntity(['foreign_key' => $id, 'model' => 'Sadrs', 'year' => date('Y')]);
+        $this->Sadrs->Refids->save($refid);
+        $refid = $this->Sadrs->Refids->get($refid->id);
+        $reference_number =  'ADR' . $refid->refid . '/' . $refid->year;
+        //ensure this reference number is unique
+        $count = $this->Sadrs->find('all', ['conditions' => ['Sadrs.reference_number' => $reference_number]])->count();
+
+        if ($count > 0) {
+            return  $this->getNewReferenceNumber($id);
+        } else {
+            return $reference_number;
+        }
+    }
+
     public function edit($id = null)
     {
-        return "Hey";
-     
-
         $sadr = $this->Sadrs->get($id, [
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'ReportStages', 'Reactions'],
             'conditions' => ['user_id' => $this->Auth->user('id')]
@@ -666,10 +679,13 @@ class SadrsController extends AppController
                 if ($this->Sadrs->save($sadr)) {
                     //New method to update reference number
                     if (empty($sadr->reference_number)) {
-                        $refid = $this->Sadrs->Refids->newEntity(['foreign_key' => $sadr->id, 'model' => 'Sadrs', 'year' => date('Y')]);
-                        $this->Sadrs->Refids->save($refid);
-                        $refid = $this->Sadrs->Refids->get($refid->id);
-                        $sadr->reference_number = (!empty($sadr->reference_number)) ? $sadr->reference_number : 'ADR' . $refid->refid . '/' . $refid->year;
+                        // $refid = $this->Sadrs->Refids->newEntity(['foreign_key' => $sadr->id, 'model' => 'Sadrs', 'year' => date('Y')]);
+                        // $this->Sadrs->Refids->save($refid);
+                        // $refid = $this->Sadrs->Refids->get($refid->id);
+                        // $sadr->reference_number = (!empty($sadr->reference_number)) ? $sadr->reference_number : 'ADR' . $refid->refid . '/' . $refid->year;
+                        //
+                        $reference_number = $this->getNewReferenceNumber($sadr->id);
+                        $sadr->reference_number = $reference_number;
                         $this->Sadrs->save($sadr);
                     }
                     //
@@ -739,8 +755,8 @@ class SadrsController extends AppController
 
     public function sadrFollowup($id)
     {
-      
-        
+
+
         $this->loadModel('SadrFollowups');
         $orig_sadr = $this->Sadrs->get($id, ['contain' => []]);
 
@@ -770,7 +786,7 @@ class SadrsController extends AppController
 
     public function followup($id = null, $fid = null)
     {
-         
+
         //Controller for creating follow up report.. should be able to support both new and edit
         $this->loadModel('SadrFollowups');
         $sadr = $this->Sadrs->get($id, [

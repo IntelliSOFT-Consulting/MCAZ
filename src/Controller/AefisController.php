@@ -236,7 +236,7 @@ class AefisController extends AppController
                 '_serialize' => ['umc', 'status']
             ]);
 
-          return $this->redirect($this->referer());
+            return $this->redirect($this->referer());
         } else {
             $this->response->body('Failure');
             $this->response->statusCode($umc->getStatusCode());
@@ -244,9 +244,9 @@ class AefisController extends AppController
                 'umc' => $umc->json,
                 'status' => 'Failed',
                 '_serialize' => ['umc', 'status']
-            ]); 
+            ]);
 
-          return $this->redirect($this->referer());
+            return $this->redirect($this->referer());
         }
     }
     public function resubmitvigibase($id = null)
@@ -271,13 +271,13 @@ class AefisController extends AppController
 
         $http = new Client();
 
-        $resubmit=$aefi->resubmit;
-        if(!empty($resubmit)){
-            $resubmit=$resubmit+1;
-        }else{
-            $resubmit=1; 
+        $resubmit = $aefi->resubmit;
+        if (!empty($resubmit)) {
+            $resubmit = $resubmit + 1;
+        } else {
+            $resubmit = 1;
         }
- 
+
         $umc = $http->post(
             Configure::read('vigi_post_url'),
             (string)$payload,
@@ -288,17 +288,17 @@ class AefisController extends AppController
             $messageid = $umc->json;
 
             $vaefi = $this->Aefis->get($id, [
-                'contain' => ['AefiListOfVaccines', 'Attachments','ReportStages']
+                'contain' => ['AefiListOfVaccines', 'Attachments', 'ReportStages']
             ]);
             $stage1  = $this->Aefis->ReportStages->newEntity();
             $stage1->model = 'Aefis';
-            $stage1->stage = 'VigiBase Re-Submission '. $resubmit;
+            $stage1->stage = 'VigiBase Re-Submission ' . $resubmit;
             $stage1->description = 'Stage 10';
             $stage1->stage_date = date("Y-m-d H:i:s");
             $vaefi->report_stages = [$stage1];
             $vaefi->messageid = $messageid['MessageId'];
             $vaefi->status = 'VigiBase';
-            $vaefi->resubmit=$resubmit;
+            $vaefi->resubmit = $resubmit;
             $this->Aefis->save($vaefi);
 
             $this->set([
@@ -307,7 +307,7 @@ class AefisController extends AppController
                 '_serialize' => ['umc', 'status']
             ]);
 
-          return $this->redirect($this->referer());
+            return $this->redirect($this->referer());
         } else {
             $this->response->body('Failure');
             $this->response->statusCode($umc->getStatusCode());
@@ -315,9 +315,9 @@ class AefisController extends AppController
                 'umc' => $umc->json,
                 'status' => 'Failed',
                 '_serialize' => ['umc', 'status']
-            ]); 
+            ]);
 
-          return $this->redirect($this->referer());
+            return $this->redirect($this->referer());
         }
     }
 
@@ -382,7 +382,7 @@ class AefisController extends AppController
         $this->set('_serialize', ['aefi']);
     }
 
-    
+
     /**
      * Edit method
      *
@@ -390,6 +390,24 @@ class AefisController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
+
+    public function generateReferenceNumber($id)
+    {
+        $refid = $this->Aefis->Refids->newEntity(['foreign_key' => $id, 'model' => 'Aefis', 'year' => date('Y')]);
+        $this->Aefis->Refids->save($refid);
+        $refid = $this->Aefis->Refids->get($refid->id);
+
+        $reference_number =  'AEFI' . $refid->refid . '/' . $refid->year;
+        //ensure this reference number is unique
+        $count = $this->Aefis->find('all', ['conditions' => ['reference_number' => $reference_number]])->count();
+        if ($count > 0) {
+            return $this->generateReferenceNumber($id);
+        } else {
+            return $reference_number;
+        }
+    }
+
+
     public function edit($id = null)
     {
 
@@ -444,10 +462,10 @@ class AefisController extends AppController
                 if ($this->Aefis->save($aefi)) {
                     //New method to update reference number
                     if (empty($aefi->reference_number)) {
-                        $refid = $this->Aefis->Refids->newEntity(['foreign_key' => $aefi->id, 'model' => 'Aefis', 'year' => date('Y')]);
-                        $this->Aefis->Refids->save($refid);
-                        $refid = $this->Aefis->Refids->get($refid->id);
-                        $aefi->reference_number = (!empty($aefi->reference_number)) ? $aefi->reference_number : 'AEFI' . $refid->refid . '/' . $refid->year;
+                        // $refid = $this->Aefis->Refids->newEntity(['foreign_key' => $aefi->id, 'model' => 'Aefis', 'year' => date('Y')]);
+                        // $this->Aefis->Refids->save($refid);
+                        // $refid = $this->Aefis->Refids->get($refid->id);
+                        $aefi->reference_number = $this->generateReferenceNumber($aefi->id);
                         $this->Aefis->save($aefi);
                     }
                     //

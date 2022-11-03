@@ -169,7 +169,7 @@ class SaefisController extends AppController
                 '_serialize' => ['umc', 'status']
             ]);
 
-          return $this->redirect($this->referer());
+            return $this->redirect($this->referer());
         } else {
             $this->response->body('Failure');
             $this->response->statusCode($umc->getStatusCode());
@@ -178,8 +178,8 @@ class SaefisController extends AppController
                 'status' => 'Failed',
                 '_serialize' => ['umc', 'status']
             ]);
-            
-          return $this->redirect($this->referer());
+
+            return $this->redirect($this->referer());
         }
     }
 
@@ -292,6 +292,26 @@ class SaefisController extends AppController
         return $saefi;
     }
 
+    public function generateReferenceNumber($id)
+    {
+        $refid = $this->Saefis->Refids->newEntity(['foreign_key' => $id, 'model' => 'Saefis', 'year' => date('Y')]);
+        $this->Saefis->Refids->save($refid);
+        $refid = $this->Saefis->Refids->get($refid->id);
+        $reference = 'SAEFI' . $refid->refid . '/' . $refid->year;
+
+        //ensure that the reference number is unique
+        $count = $this->Saefis->find('all', ['conditions' => ['Saefis.reference_number' => $reference]])->count();
+        if ($count > 0) {
+           return  $this->generateReferenceNumber($id);
+        } else {
+            return $reference;
+        }
+    }
+
+
+
+
+
     public function edit($id = null)
     {
         $saefi = $this->Saefis->get($id, [
@@ -359,10 +379,8 @@ class SaefisController extends AppController
                 if ($this->Saefis->save($saefi, ['validate' => false])) {
                     //New method to update reference number
                     if (empty($saefi->reference_number)) {
-                        $refid = $this->Saefis->Refids->newEntity(['foreign_key' => $saefi->id, 'model' => 'Saefis', 'year' => date('Y')]);
-                        $this->Saefis->Refids->save($refid);
-                        $refid = $this->Saefis->Refids->get($refid->id);
-                        $saefi->reference_number = (!empty($saefi->reference_number)) ? $saefi->reference_number : 'SAEFI' . $refid->refid . '/' . $refid->year;
+
+                        $saefi->reference_number = $this->generateReferenceNumber($saefi->id);
                         $this->Saefis->save($saefi);
                     }
                     //

@@ -51,7 +51,7 @@ class AdrsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews','ReportStages']
+            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews', 'ReportStages']
         ];
         $query = $this->Adrs
             ->find('search', ['search' => $this->request->query])
@@ -171,9 +171,9 @@ class AdrsController extends AppController
                     return implode('|', Hash::extract($row['attachments'], '{n}.file'));
                 }, //'attachments.file'
             ];
-             
 
-//            $this->set(compact('query', '_serialize', '_header', '_extract'));
+
+            //            $this->set(compact('query', '_serialize', '_header', '_extract'));
         }
     }
 
@@ -223,7 +223,7 @@ class AdrsController extends AppController
         $this->set('adr', $adr);
         $this->set('_serialize', ['adr']);
     }
-    
+
     public function vigibase($id = null)
     {
         $adr = $this->Adrs->get($id, [
@@ -279,7 +279,7 @@ class AdrsController extends AppController
                 '_serialize' => ['umc', 'status']
             ]);
 
-          return $this->redirect($this->referer());
+            return $this->redirect($this->referer());
         } else {
             $this->response->body('Failure');
             $this->response->statusCode($umc->getStatusCode());
@@ -288,7 +288,7 @@ class AdrsController extends AppController
                 'status' => 'Failed',
                 '_serialize' => ['umc', 'status']
             ]);
-        
+
             return $this->redirect($this->referer());
         }
     }
@@ -296,7 +296,7 @@ class AdrsController extends AppController
     public function resubmitvigibase($id = null)
     {
         $adr = $this->Adrs->get($id, [
-            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments','ReportStages']
+            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'ReportStages']
         ]);
 
         // create a builder (hint: new ViewBuilder() constructor works too)
@@ -318,11 +318,11 @@ class AdrsController extends AppController
 
         $http = new Client();
 
-        $resubmit=$adr->resubmit;
-        if(!empty($resubmit)){
-            $resubmit=$resubmit+1;
-        }else{
-            $resubmit=1; 
+        $resubmit = $adr->resubmit;
+        if (!empty($resubmit)) {
+            $resubmit = $resubmit + 1;
+        } else {
+            $resubmit = 1;
         }
         $umc = $http->post(
             Configure::read('vigi_post_url'),
@@ -334,17 +334,17 @@ class AdrsController extends AppController
             $messageid = $umc->json;
 
             $vadr = $this->Adrs->get($id, [
-                'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments','ReportStages']
+                'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'ReportStages']
             ]);
             $stage1  = $this->Adrs->ReportStages->newEntity();
             $stage1->model = 'Adrs';
-            $stage1->stage = 'VigiBase Re-Submission '. $resubmit;
+            $stage1->stage = 'VigiBase Re-Submission ' . $resubmit;
             $stage1->description = 'Stage 10';
             $stage1->stage_date = date("Y-m-d H:i:s");
             $vadr->report_stages = [$stage1];
             $vadr->messageid = $messageid['MessageId'];
             $vadr->status = 'VigiBase';
-            $vadr->resubmit=$resubmit;
+            $vadr->resubmit = $resubmit;
             $this->Adrs->save($vadr);
 
             $this->set([
@@ -353,7 +353,7 @@ class AdrsController extends AppController
                 '_serialize' => ['umc', 'status']
             ]);
 
-          return $this->redirect($this->referer());
+            return $this->redirect($this->referer());
         } else {
             $this->response->body('Failure');
             $this->response->statusCode($umc->getStatusCode());
@@ -362,7 +362,7 @@ class AdrsController extends AppController
                 'status' => 'Failed',
                 '_serialize' => ['umc', 'status']
             ]);
-        
+
             return $this->redirect($this->referer());
         }
     }
@@ -440,6 +440,22 @@ class AdrsController extends AppController
         return $adr;
     }
 
+    public function generateReferenceNumber($id)
+    {
+        $refid = $this->Adrs->Refids->newEntity(['foreign_key' => $id, 'model' => 'Adrs', 'year' => date('Y')]);
+        $this->Adrs->Refids->save($refid);
+        $refid = $this->Adrs->Refids->get($refid->id);
+        $reference_number =  'SAE' . $refid->refid . '/' . $refid->year;
+
+        //ensure that the reference number is unique
+        $count = $this->Adrs->find('all', ['conditions' => ['reference_number' => $reference_number]])->count();
+        if ($count > 0) {
+            return $this->generateReferenceNumber($id);
+        } else {
+            return $reference_number;
+        }
+    }
+
     public function edit($id = null)
     {
         $adr = $this->Adrs->get($id, [
@@ -494,10 +510,8 @@ class AdrsController extends AppController
                 if ($this->Adrs->save($adr, ['validate' => false])) {
                     //New method to update reference number
                     if (empty($adr->reference_number)) {
-                        $refid = $this->Adrs->Refids->newEntity(['foreign_key' => $adr->id, 'model' => 'Adrs', 'year' => date('Y')]);
-                        $this->Adrs->Refids->save($refid);
-                        $refid = $this->Adrs->Refids->get($refid->id);
-                        $adr->reference_number = (!empty($adr->reference_number)) ? $adr->reference_number : 'SAE' . $refid->refid . '/' . $refid->year;
+
+                        $adr->reference_number = $this->generateReferenceNumber($adr->id);
                         $this->Adrs->save($adr);
                     }
                     //

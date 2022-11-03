@@ -720,9 +720,7 @@ class SadrsBaseController extends AppController
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'Reactions', 'OriginalSadrs']
         ]);
 
-        //  debug($sadr);
-        //  exit;
-
+       
         // Option only available to assigned
         if (($this->Auth->user('group_id') == 4) && ($this->Auth->user('id') != $sadr->assigned_to)) {
             $this->Flash->error('You have not been assigned the report, you can only create a copy of assigned reports!');
