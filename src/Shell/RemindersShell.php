@@ -21,7 +21,9 @@ class RemindersShell extends Shell
 
     public function main()
     {
-        // $this->out('Hello world.');
+         $this->out('Hello world.');
+        //  debug('test');
+        //  exit;
 
         //AEFIS
         $aefis = $this->Aefis->find('all')

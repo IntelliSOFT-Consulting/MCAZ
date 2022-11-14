@@ -273,7 +273,7 @@ class SadrsBaseController extends AppController
         }
 
         $sadr = $this->Sadrs->get($id, [
-            'contain' => $this->sadr_contain, 'withDeleted'
+            'contain' => $this->sadr_contain, 'withDeleted' //withDeleted will return all the records including the deleted ones
         ]);
 
         // debug($sadr);

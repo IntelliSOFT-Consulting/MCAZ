@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
@@ -8,10 +9,12 @@ use Cake\Core\Configure;
 use Cake\Utility\Xml;
 use Cake\Filesystem\File;
 use Cake\Utility\Hash;
-use Cake\View\Helper\HtmlHelper; 
+use Cake\View\Helper\HtmlHelper;
 use Cake\Log\Log;
 use Cake\Core\Exception\Exception;
 use Cake\Core\Exception\PDOException;
+
+use function Psy\debug;
 
 /**
  * Ce2bs Controller
@@ -48,33 +51,33 @@ class Ce2bsController extends AppController
             'contain' => $this->ce2b_contain,
             'conditions' => ['Ce2bs.user_id' => $this->Auth->user('id')]
         ]);
-
+      
 
         // $this->viewBuilder()->setLayout('pdf/default');
-        if(strpos($this->request->url, 'pdf')) {
+        if (strpos($this->request->url, 'pdf')) {
             $this->viewBuilder()->helpers(['Form' => ['templates' => 'view_form',]]);
             $this->viewBuilder()->options([
                 'pdfConfig' => [
                     'orientation' => 'portrait',
-                    'filename' => $ce2b->reference_number.'.pdf'
+                    'filename' => $ce2b->reference_number . '.pdf'
                 ]
             ]);
         }
         try {
             $xml = (Xml::toArray(Xml::build($ce2b->e2b_content)));
-        } 
-        /*catch (\XmlException $e) {
-            $this->Flash->error('Not a valid E2B file. '.$e->getMessage());
+        }
+        // catch (\Cake\Utility\Exception\XmlException $e) {
+        //     $this->Flash->error('Not a valid E2B file. '.$e->getMessage());
+        //     return $this->redirect(['action' => 'index']);
+        // }
+        catch (\Exception $e) {
+            $this->Flash->error('Not a valid E2B file. ' . $e->getMessage());
             return $this->redirect(['action' => 'index']);
-        } catch (\Exception $e) {
-            $this->Flash->error('Not a valid E2B file. '.$e->getMessage());
-            return $this->redirect(['action' => 'index']);
-        } */ 
-        catch (\Cake\Utility\Exception\XmlException $e) {
-            $this->Flash->error('Not a valid E2B file. '.$e->getMessage());
+        } catch (\Cake\Utility\Exception\XmlException $e) {
+            $this->Flash->error('Not a valid E2B file. ' . $e->getMessage());
             return $this->redirect(['action' => 'index']);
         }
-        
+
         $arr = Hash::flatten($xml);
         $this->set('arr', $arr);
         $this->set('ce2b', $ce2b);
@@ -82,8 +85,9 @@ class Ce2bsController extends AppController
         $this->set('_serialize', ['ce2b']);
     }
 
-    
-    public function vigibase($id = null) {
+
+    public function vigibase($id = null)
+    {
         $ce2b = $this->Ce2bs->get($id, [
             'contain' => [],
         ]);
@@ -91,17 +95,19 @@ class Ce2bsController extends AppController
         // render to a variable
         $payload = $ce2b->e2b_content;
         //$matches = $eggs->xpath('//drugresult');
-        
+
         $http = new Client();
 
         //Log::write('debug', 'Payload :: '.$payload);
-        $umc = $http->post(Configure::read('vigi_post_url'), 
+        $umc = $http->post(
+            Configure::read('vigi_post_url'),
             (string)$payload,
-            ['headers' => Configure::read('vigi_headers')]);  
+            ['headers' => Configure::read('vigi_headers')]
+        );
 
         if ($umc->isOK()) {
             $messageid = $umc->json;
- 
+
             $stage1  = $this->Ce2bs->ReportStages->newEntity();
             $stage1->model = 'Ce2bs';
             $stage1->stage = 'VigiBase';
@@ -113,23 +119,26 @@ class Ce2bsController extends AppController
             $this->Ce2bs->save($ce2b);
 
             $this->set([
-                    'umc' => $umc->json, 
-                    'status' => 'Successfull integration with vigibase', 
-                    '_serialize' => ['umc', 'status']]);
+                'umc' => $umc->json,
+                'status' => 'Successfull integration with vigibase',
+                '_serialize' => ['umc', 'status']
+            ]);
 
-          return $this->redirect($this->referer());
+            return $this->redirect($this->referer());
         } else {
             $this->response->body('Failure');
             $this->response->statusCode($umc->getStatusCode());
             $this->set([
-                'umc' => $umc->json, 
-                'status' => 'Failed', 
-                '_serialize' => ['umc', 'status']]);
-         
-                return $this->redirect($this->referer());
+                'umc' => $umc->json,
+                'status' => 'Failed',
+                '_serialize' => ['umc', 'status']
+            ]);
+
+            return $this->redirect($this->referer());
         }
     }
-    public function resubmitvigibase($id = null) {
+    public function resubmitvigibase($id = null)
+    {
         $ce2b = $this->Ce2bs->get($id, [
             'contain' => [],
         ]);
@@ -138,49 +147,53 @@ class Ce2bsController extends AppController
         $payload = $ce2b->e2b_content;
         //$matches = $eggs->xpath('//drugresult');
 
-        $resubmit=$ce2b->resubmit;
-        if(!empty($resubmit)){
-            $resubmit=$resubmit+1;
-        }else{
-            $resubmit=1; 
+        $resubmit = $ce2b->resubmit;
+        if (!empty($resubmit)) {
+            $resubmit = $resubmit + 1;
+        } else {
+            $resubmit = 1;
         }
-        
+
         $http = new Client();
 
         //Log::write('debug', 'Payload :: '.$payload);
-        $umc = $http->post(Configure::read('vigi_post_url'), 
+        $umc = $http->post(
+            Configure::read('vigi_post_url'),
             (string)$payload,
-            ['headers' => Configure::read('vigi_headers')]);  
+            ['headers' => Configure::read('vigi_headers')]
+        );
 
         if ($umc->isOK()) {
             $messageid = $umc->json;
- 
+
             $stage1  = $this->Ce2bs->ReportStages->newEntity();
             $stage1->model = 'Ce2bs';
-            $stage1->stage = 'VigiBase Re-Submission '. $resubmit;
+            $stage1->stage = 'VigiBase Re-Submission ' . $resubmit;
             $stage1->description = 'Stage 10';
             $stage1->stage_date = date("Y-m-d H:i:s");
             $ce2b->report_stages = [$stage1];
             $ce2b->messageid = $messageid['MessageId'];
             $ce2b->status = 'VigiBase';
-            $ce2b->resubmit=$resubmit;
+            $ce2b->resubmit = $resubmit;
             $this->Ce2bs->save($ce2b);
 
             $this->set([
-                    'umc' => $umc->json, 
-                    'status' => 'Successfull integration with vigibase', 
-                    '_serialize' => ['umc', 'status']]);
+                'umc' => $umc->json,
+                'status' => 'Successfull integration with vigibase',
+                '_serialize' => ['umc', 'status']
+            ]);
 
-          return $this->redirect($this->referer());
+            return $this->redirect($this->referer());
         } else {
             $this->response->body('Failure');
             $this->response->statusCode($umc->getStatusCode());
             $this->set([
-                'umc' => $umc->json, 
-                'status' => 'Failed', 
-                '_serialize' => ['umc', 'status']]);
-         
-                return $this->redirect($this->referer());
+                'umc' => $umc->json,
+                'status' => 'Failed',
+                '_serialize' => ['umc', 'status']
+            ]);
+
+            return $this->redirect($this->referer());
         }
     }
     public function add()
@@ -190,11 +203,11 @@ class Ce2bsController extends AppController
             $ce2b = $this->Ce2bs->patchEntity($ce2b, $this->request->getData());
             //Attachments
             if (!empty($ce2b->attachments)) {
-                  for ($i = 0; $i <= count($ce2b->attachments)-1; $i++) { 
+                for ($i = 0; $i <= count($ce2b->attachments) - 1; $i++) {
                     $ce2b->attachments[$i]->model = 'Ce2bs';
                     $ce2b->attachments[$i]->category = 'attachments';
-                  }
                 }
+            }
 
             //Get file contents
             $this->loadModel('Imports');
@@ -202,7 +215,7 @@ class Ce2bsController extends AppController
             $import = $this->Imports->findByFilename($this->request->data['e2b_file']['name']);
             if (!$import->isEmpty()) {
                 $import_dates = implode(', ', Hash::extract($import->toArray(), '{n}.created'));
-                $this->Flash->warning('The file <b>'.$this->request->data['e2b_file']['name'].'</b> has been imported before on '.$import_dates.'. If the file is different, rename the file (e.g. filename_v2) and import it again.', ['escape' => false]);
+                $this->Flash->warning('The file <b>' . $this->request->data['e2b_file']['name'] . '</b> has been imported before on ' . $import_dates . '. If the file is different, rename the file (e.g. filename_v2) and import it again.', ['escape' => false]);
                 return $this->redirect(['action' => 'add']);
             } else {
                 $file = new File($this->request->data['e2b_file']['tmp_name']);
@@ -220,20 +233,23 @@ class Ce2bsController extends AppController
                 try {
                     $xmlObject = Xml::build($xmlString); // Here will throw an exception
                 } catch (\Cake\Utility\Exception\XmlException $e) {
-                    $this->Flash->error('Not a valid E2B file. '.$e->getMessage());
+                    $this->Flash->error('Not a valid E2B file. ' . $e->getMessage());
                     return $this->redirect(['action' => 'add']);
                 }
                 $ce2b->e2b_content = iconv(
-                    mb_detect_encoding($xmlString, mb_detect_order(), true), 'utf-8//IGNORE', $xmlString); //iconv(mb_detect_encoding($xmlString), "UTF-8", $xmlString);
+                    mb_detect_encoding($xmlString, mb_detect_order(), true),
+                    'utf-8//IGNORE',
+                    $xmlString
+                ); //iconv(mb_detect_encoding($xmlString), "UTF-8", $xmlString);
                 $var = (date("Y") == 2019) ? 28 : 1;
                 // $ref = $this->Ce2bs->find()->count() + 1;
                 //$ref = $this->Ce2bs->find('all', ['conditions' => ['date_format(Ce2bs.created,"%Y")' => date("Y"), 'Ce2bs.reference_number IS NOT' => null]])->count() + $var;
                 $ref = $this->Ce2bs->find()->select(['Ce2bs.reference_number'])
-                ->distinct(['Ce2bs.reference_number'])
-                ->where(['date_format(Ce2bs.created,"%Y")' => date("Y"), 'Ce2bs.reference_number IS NOT' => null])
-                ->count() + $var;
-                $ce2b->reference_number = (($ce2b->reference_number)) ?? 'CE2B'.$ref.'/'.date('Y');
-                try {                    
+                    ->distinct(['Ce2bs.reference_number'])
+                    ->where(['date_format(Ce2bs.created,"%Y")' => date("Y"), 'Ce2bs.reference_number IS NOT' => null])
+                    ->count() + $var;
+                $ce2b->reference_number = (($ce2b->reference_number)) ?? 'CE2B' . $ref . '/' . date('Y');
+                try {
                     if ($this->Ce2bs->save($ce2b)) {
                         $datum = $this->Imports->newEntity(['filename' => $this->request->data['e2b_file']['name']]);
                         $this->Imports->save($datum);
@@ -242,11 +258,11 @@ class Ce2bsController extends AppController
 
                         return $this->redirect(['action' => 'index']);
                     }
-                } catch (\PDOException $e) {                    
-                    $this->Flash->error('The E2B File was not saved. '.$e->getMessage());
+                } catch (\PDOException $e) {
+                    $this->Flash->error('The E2B File was not saved. ' . $e->getMessage());
                     return $this->redirect(['action' => 'add']);
-                } 
-                
+                }
+
                 $this->Flash->error(__('The E2B File could not be saved. Please, try again.'));
             }
         }
@@ -278,5 +294,4 @@ class Ce2bsController extends AppController
         $this->set(compact('ce2b'));
         $this->set('_serialize', ['ce2b']);
     }
-
 }

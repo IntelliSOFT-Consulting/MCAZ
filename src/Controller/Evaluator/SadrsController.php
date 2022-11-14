@@ -14,5 +14,9 @@ class SadrsController extends SadrsBaseController
         //     $this->Flash->error('You have not been assigned the report for review!');
         //     return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator']);
         // }
+
+        /**
+         * Remove this section in order to allow all evaluators to view all reports         *
+         */
     }
 }

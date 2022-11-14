@@ -34,9 +34,9 @@ class SadrsController extends SadrsBaseController
             $data['vars']['user_message'] = $message;
             $data['vars']['name'] = $evaluator->name;
             //notify applicant
-            $this->QueuedJobs->createJob('GenericEmail', $data);
-            $data['type'] = 'manager_assign_evaluator_notification';
-            $this->QueuedJobs->createJob('GenericNotification', $data);
+            $this->QueuedJobs->createJob('GenericEmail', $data); //create the alert
+            $data['type'] = 'manager_assign_evaluator_notification';  //select the template for the notification
+            $this->QueuedJobs->createJob('GenericNotification', $data); //prepare data to be saved in the notifications table
             if ($message) {
               $data['type'] = 'manager_assign_evaluator_message';
               $data['user_message'] = $message;
@@ -83,13 +83,13 @@ class SadrsController extends SadrsBaseController
         $sadr = $this->Sadrs->get($this->request->getData('sadr_pr_id'), ['contain' => 'ReportStages']);
         if (isset($sadr->id) && $this->request->is('post')) {
 
-            $current_user= $this->Auth->user('id');
+            $current_user= $this->Auth->user('id'); //retrieve the current user
             $sadr->assigned_by = $current_user;
-            $sadr->assigned_to =  $current_user;
+            $sadr->assigned_to =  $current_user;  //update the assigned_to field and mark the report as assigned
             $sadr->assigned_date = date("Y-m-d H:i:s");
             $sadr->status = 'Assigned';
             $evaluator = $this->Sadrs->Users->get($current_user);            
-            $message=$this->request->getData('reminder_note');
+            $message=$this->request->getData('reminder_note');   // get the note added by the manager
 
            $this->processAssignment($sadr,$evaluator,$message);
 
