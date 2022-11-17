@@ -78,12 +78,15 @@ class SadrsController extends SadrsBaseController
           }
         }
     }
-    public function assignSelf()
+    public function assignSelf()  // Assign Self
     {
         $sadr = $this->Sadrs->get($this->request->getData('sadr_pr_id'), ['contain' => 'ReportStages']);
+      
         if (isset($sadr->id) && $this->request->is('post')) {
 
             $current_user= $this->Auth->user('id'); //retrieve the current user
+
+
             $sadr->assigned_by = $current_user;
             $sadr->assigned_to =  $current_user;  //update the assigned_to field and mark the report as assigned
             $sadr->assigned_date = date("Y-m-d H:i:s");
