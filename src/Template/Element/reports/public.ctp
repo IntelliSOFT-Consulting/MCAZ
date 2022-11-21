@@ -40,6 +40,17 @@ $this->Html->script('aefi_edit', ['block' => true]);
 
     <div class="col-xs-3">
 
+        <h4 class="page-header text-center"> SAEFI</h4>
+        <?php echo $this->Form->control('saefi_year', ['type' => 'checkbox', 'label' => 'SAEFI per Year', 'templates' =>  'checkbox_form']);
+        echo $this->Form->control('saefi_month', ['type' => 'checkbox', 'label' => 'SAEFI per Month', 'templates' =>  'checkbox_form']);
+        echo $this->Form->control('saefi_inst', ['type' => 'checkbox', 'label' => 'SAEFI per Institution', 'templates' =>  'checkbox_form']);
+        echo $this->Form->control('saefi_med', ['type' => 'checkbox', 'label' => 'SAEFI per Medicine', 'templates' =>  'checkbox_form']);
+        ?>
+
+    </div>
+
+    <div class="col-xs-3">
+
         <h4 class="page-header text-center"> </h4>
 
         <p class="text-center">

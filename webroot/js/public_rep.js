@@ -87,6 +87,7 @@ $(function () {
 
     // Added
 
+    // PER YEAR
     $.ajax({
         url: "/reports/per-year.json",
         type: "GET",
@@ -142,7 +143,8 @@ $(function () {
         },
     });
 
-    // Per Year
+    // PER YEAR
+
     $.ajax({
         url: "/reports/public-aefis-per-year.json",
         type: "GET",
@@ -164,6 +166,16 @@ $(function () {
             sadrChart(data, "sadrs-year", "ADR Per Year");
         },
     });
+    $.ajax({
+        url: "/reports/public-sae-per-year.json",
+        type: "GET",
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            sadrChart(data, "sae-year", "SAE Per Year");
+        },
+    });
 
     $.ajax({
         url: "/reports/public-saefis-per-year.json",
@@ -172,11 +184,11 @@ $(function () {
         dataType: "json",
         success: function (data) {
             console.info(data);
-            sadrChart(data, "saefis-year", "SAE Per Year");
+            sadrChart(data, "saefis-year", "SAEFIS Per Year");
         },
     });
 
-    // Per Month
+    // PER MONTH
     $.ajax({
         url: "/reports/public-aefis-per-month.json",
         type: "GET",
@@ -185,6 +197,16 @@ $(function () {
         success: function (data) {
             console.info(data);
             sadrChart(data, "aefis-month", "AEFI Per Month");
+        },
+    });
+    $.ajax({
+        url: "/reports/public-saefis-per-month.json",
+        type: "GET",
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            sadrChart(data, "saefis-month", "SAEFI Per Month");
         },
     });
 
@@ -200,13 +222,13 @@ $(function () {
     });
 
     $.ajax({
-        url: "/reports/public-saefis-per-month.json",
+        url: "/reports/public-sae-per-month.json",
         type: "GET",
         async: true,
         dataType: "json",
         success: function (data) {
             console.info(data);
-            sadrChart(data, "saefis-month", "SAE Per Month");
+            sadrChart(data, "sae-month", "SAE Per Month");
         },
     });
 

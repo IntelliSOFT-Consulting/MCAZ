@@ -19,6 +19,10 @@ use Cake\ORM\Entity;
  * @property int $aefi_month
  * @property int $aefi_inst
  * @property int $aefi_med
+ * @property int $saefi_year
+ * @property int $saefi_month
+ * @property int $saefi_inst
+ * @property int $saefi_med
  * @property \Cake\I18n\FrozenTime $created
  */
 class ReportSetting extends Entity
@@ -46,6 +50,10 @@ class ReportSetting extends Entity
         'aefi_month' => true,
         'aefi_inst' => true,
         'aefi_med' => true,
+        'saefi_year' => true,
+        'saefi_month' => true,
+        'saefi_inst' => true,
+        'saefi_med' => true,
         'created' => true
     ];
 }
