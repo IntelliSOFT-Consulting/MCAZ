@@ -65,8 +65,9 @@ class AdrsBaseController extends AppController
         ];
         $query = $this->Adrs
             ->find('search', ['search' => $this->request->query])
-            // ->order(['created' => 'DESC'])
-            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
+            ->order(['created' => 'DESC'])
+            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy'])
+            ;// ->group('reference_number');
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
         $users = $this->Adrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');

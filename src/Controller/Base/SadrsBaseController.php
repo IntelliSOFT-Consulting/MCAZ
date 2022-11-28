@@ -77,6 +77,9 @@ class SadrsBaseController extends AppController
             ->find('search', ['search' => $this->request->query])
             ->order(['created' => 'DESC'])
             ->where(['Sadrs.status !=' => (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
+
+            // get unique reference numbers for all
+            
         // You can add extra things to the query if you need to
         //->where([['ifnull(report_type,-1) !=' => 'FollowUp']]);
         // if($this->Auth->user('group_id') == 5) $query->where(['Sadrs.name_of_institution' => $this->Auth->user('name_of_institution')]);
