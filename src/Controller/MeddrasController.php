@@ -22,18 +22,21 @@ class MeddrasController extends AppController
 
     public function terminology($query = null)
     {
-        $llts = $this->Meddras->find('all', ['fields' => ['terminology']])->distinct()
-            ->where(['terminology LIKE' => '%' . $this->request->getQuery('term') . '%'])
-            ->limit(50);
-
-        // Adjust limit above to load more
-
-        $codes = array();
-        foreach ($llts as $key => $value) {
-            $codes[] = array('value' => $value['terminology'], 'label' => $value['terminology']);
-        }
-        $this->set('codes', $codes);
-        $this->set('_serialize', 'codes');
+         
+		$meddras = $this->Meddras->find('all', array(
+			'conditions' => array(
+				'Meddras.terminology LIKE' => $this->request->query['term'] . '%'
+			),
+			'fields' => array('Meddras.terminology'),
+			'limit' => 10
+		));
+		// return the results
+		$groups = array();
+		foreach ($meddras as $key => $value) { 
+            $groups[] = array('value' => $value['terminology'], 'label' => $value['terminology']);
+		}
+		$this->set('codes', array_values($groups));
+		$this->set('_serialize', 'codes');
     }
 
     /**

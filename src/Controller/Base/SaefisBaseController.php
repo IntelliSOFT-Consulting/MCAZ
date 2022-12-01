@@ -40,7 +40,7 @@ class SaefisBaseController extends AppController
         ];
         $query = $this->Saefis
             ->find('search', ['search' => $this->request->query])
-            ->order(['id' => 'DESC'])
+            ->order(['created' => 'DESC'])
             ->where(['status !=' => (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
         $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
         $users = $this->Saefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);

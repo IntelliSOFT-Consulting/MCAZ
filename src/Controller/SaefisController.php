@@ -302,7 +302,7 @@ class SaefisController extends AppController
         //ensure that the reference number is unique
         $count = $this->Saefis->find('all', ['conditions' => ['Saefis.reference_number' => $reference]])->count();
         if ($count > 0) {
-           return  $this->generateReferenceNumber($id);
+            return  $this->generateReferenceNumber($id);
         } else {
             return $reference;
         }

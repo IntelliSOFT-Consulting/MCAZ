@@ -87,6 +87,18 @@ class ReportSettingsTable extends Table
         $validator
             ->allowEmpty('aefi_med');
 
+        $validator
+            ->allowEmpty('saefi_year');
+
+        $validator
+            ->allowEmpty('saefi_month');
+
+        $validator
+            ->allowEmpty('saefi_inst');
+
+        $validator
+            ->allowEmpty('saefi_med');
+
         return $validator;
     }
 }

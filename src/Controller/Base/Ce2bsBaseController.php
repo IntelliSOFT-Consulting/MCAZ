@@ -192,10 +192,17 @@ class Ce2bsBaseController extends AppController
         $users = $this->Ce2bs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
 
         $ce2b_content=$ce2b->e2b_content;
-        
+        try {
 
         $xml = (Xml::toArray(Xml::build($ce2b->e2b_content)));
         $arr = Hash::flatten($xml);
+        }catch (\Exception $e) {
+            $this->Flash->error('Not a valid E2B file. ' . $e->getMessage());
+            return $this->redirect(['action' => 'index']);
+        } catch (\Cake\Utility\Exception\XmlException $e) {
+            $this->Flash->error('Not a valid E2B file. ' . $e->getMessage());
+            return $this->redirect(['action' => 'index']);
+        }
 
         $this->set(compact('ce2b','assignees', 'evaluators', 'users', 'ekey', 'arr'));
         $this->set('_serialize', ['ce2b']);

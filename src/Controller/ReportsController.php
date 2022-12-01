@@ -20,13 +20,15 @@ class ReportsController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->Auth->allow(['publicReports',  'publicSadrsPerYear', 'publicSaefisPerYear', 'publicAefisPerYear', 'sadrsPerDesignation', 'aefisPerDesignation', 'saefisPerDesignation', 'adrsPerDesignation', 'publicSadrsPerMonth', 'publicSaefisPerMonth', 'publicAefisPerMonth', 'publicAefisPerInstitution', 'publicSadrsPerInstitution', 'sadrsPerMedicine', 'aefisPerMedicine', 'saefisPerMedicine']);
+        $this->Auth->allow(['publicReports',  'publicSadrsPerYear', 'publicSaefisPerYear', 'publicAefisPerYear', 'publicSaePerYear', 'sadrsPerDesignation', 'aefisPerDesignation', 'saefisPerDesignation', 'adrsPerDesignation', 'publicSadrsPerMonth', 'publicSaePerMonth', 'publicSaefisPerMonth', 'publicAefisPerMonth', 'publicSadrsPerInstitution', 'publicSaePerInstitution', 'publicAefisPerInstitution', 'publicSaefisPerInstitution', 'sadrsPerMedicine', 'aefisPerMedicine', 'saefisPerMedicine', 'adrPerMedicine']);
         $this->loadComponent('Search.Prg', [
             'actions' => ['index']
         ]);
     }
 
     // Added Reports
+
+    // PER YEAR DATA
     public function publicSadrsPerYear()
     {
         $this->loadModel('Sadrs');
@@ -69,13 +71,13 @@ class ReportsController extends AppController
             $data[] = [
                 'name' => $value['year'],
                 'y' => $value['count'],
-                'color' => '#71C7A0'
+                'color' =>  '#ff92c9'
             ];
         }
         if ($this->request->is('json')) {
             $this->set([
                 'message' => 'Success',
-                'title' => 'SAE per year',
+                'title' => 'SAEFIS per year',
                 'data' => $data,
                 '_serialize' => ['message', 'data', 'title']
             ]);
@@ -108,8 +110,34 @@ class ReportsController extends AppController
             return;
         }
     }
+    public function publicSaePerYear()
+    {
+        $this->loadModel('Adrs');
+        $sadr_stats = $this->Adrs->find('all')->select([
+            'year' => 'date_format(created,"%Y")',
+            'count' => $this->Adrs->find('all')->func()->count('*')
+        ])
+            // ->where(['province_id IS NOT' => null])
+            ->group('year')
+            ->hydrate(false);
+        foreach ($sadr_stats->toArray() as $key => $value) {
+            $data[] = [
+                'name' => $value['year'],
+                'y' => $value['count'], 'color' => '#71C7A0'
+            ];
+        }
+        if ($this->request->is('json')) {
+            $this->set([
+                'message' => 'Success',
+                'title' => 'SAE per year',
+                'data' => $data,
+                '_serialize' => ['message', 'data', 'title']
+            ]);
+            return;
+        }
+    }
 
-    //Per Month
+    //PER MONTH DATA
     public function publicSadrsPerMonth()
     {
         $this->loadModel('Sadrs');
@@ -127,6 +155,8 @@ class ReportsController extends AppController
                 'color' => '#7f7fff'
             ];
         }
+
+        $data = $this->generate_from_current_month($data);
         if ($this->request->is('json')) {
             $this->set([
                 'message' => 'Success',
@@ -137,12 +167,12 @@ class ReportsController extends AppController
             return;
         }
     }
-    public function publicSaefisPerMonth()
+    public function publicSaePerMonth()
     {
-        $this->loadModel('Saefis');
-        $sadr_stats = $this->Saefis->find('all')->select([
+        $this->loadModel('Adrs');
+        $sadr_stats = $this->Adrs->find('all')->select([
             'year' => 'date_format(created,"%b")',
-            'count' => $this->Saefis->find('all')->func()->count('*')
+            'count' => $this->Adrs->find('all')->func()->count('*')
         ])
             // ->where(['province_id IS NOT' => null])
             ->group('year')
@@ -154,6 +184,8 @@ class ReportsController extends AppController
                 'color' => '#71C7A0'
             ];
         }
+
+        $data = $this->generate_from_current_month($data);
         if ($this->request->is('json')) {
             $this->set([
                 'message' => 'Success',
@@ -180,6 +212,8 @@ class ReportsController extends AppController
                 'y' => $value['count'], 'color' => '#ff92c9'
             ];
         }
+
+        $data = $this->generate_from_current_month($data);
         if ($this->request->is('json')) {
             $this->set([
                 'message' => 'Success',
@@ -190,7 +224,140 @@ class ReportsController extends AppController
             return;
         }
     }
+    public function publicSaefisPerMonth()
+    {
+        $this->loadModel('Saefis');
+        $sadr_stats = $this->Saefis->find('all')->select([
+            'year' => 'date_format(created,"%b")',
+            'count' => $this->Saefis->find('all')->func()->count('*')
+        ])
+            // ->where(['province_id IS NOT' => null])
+            ->group('year')
+            ->hydrate(false);
+        foreach ($sadr_stats->toArray() as $key => $value) {
+            $data[] = [
+                'name' => $value['year'],
+                'y' => $value['count'], 'color' => '#ff92c9'
+            ];
+        }
 
+        $data = $this->generate_from_current_month($data);
+        if ($this->request->is('json')) {
+            $this->set([
+                'message' => 'Success',
+                'title' => 'SAEFI per month',
+                'data' => $data,
+                '_serialize' => ['message', 'data', 'title']
+            ]);
+            return;
+        }
+    }
+    public function generate_from_current_month($data)
+    {
+        // generate a list of months from the current month to the last month of the year 
+        $months = array();
+        for ($i = 0; $i < 12; $i++) {
+            $months[] = date('M', strtotime("-$i months"));
+        }
+        // loop through the months and check if the month is in the data array
+        // if it is not, add it to the data array with a value of 0
+        foreach ($months as $month) {
+            $new_data[] = [];;
+            foreach ($data as $key => $value) {
+                if ($value['name'] == $month) {
+                    $new_data[]  = [
+                        'name' => $value['name'],
+                        'y' => $value['y'],
+                        'color' => $value['color']
+                    ];
+                }
+            }
+        }
+        // revers the $new_data
+        return $new_data = array_reverse($new_data);
+    }
+    // PER INSTITUTION DATA 
+    public function publicSadrsPerInstitution()
+    {
+        function outer_rand_color()
+        {
+            return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+        }
+        $this->loadModel('Sadrs');
+        $sadr_stats = $this->Sadrs->find('all')
+            ->select([
+                'facility_name' => 'facility_name',
+                'count' => $this->Sadrs->find('all')->func()->count('distinct facility_name')
+            ])
+            ->join([
+                'table' => 'facilities',
+                'alias' => 'f',
+                'type' => 'INNER',
+                'conditions' => 'f.facility_code = institution_code'
+            ])
+            ->group('facility_name')
+            ->where(['institution_code!="" ', 'institution_code IS NOT' => null])
+            ->hydrate(false);
+
+        foreach ($sadr_stats->toArray() as $key => $value) {
+            $data[] = ['y' => $value['count'], 'name' => $value['facility_name'], 'color' => outer_rand_color()];
+            $columns[] = [$value['facility_name']];
+        }
+
+        if ($this->request->is('json')) {
+            $this->set([
+                'message' => 'Success',
+                'title' => 'ADR by Institution',
+                'data' => $data,
+                'columns' => $columns,
+                '_serialize' => ['message', 'data', 'columns', 'title']
+            ]);
+            return;
+        }
+    }
+    public function publicSaePerInstitution()
+    {
+        function sae_outer_rand_color()
+        {
+            return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+        }
+        $this->loadModel('Adrs');
+        $sadr_stats = $this->Adrs->find('all')
+            ->select([
+                'facility_name' => 'facility_name',
+                'count' => $this->Adrs->find('all')->func()->count('distinct facility_name')
+            ])
+            ->join([
+                'table' => 'facilities',
+                'alias' => 'f',
+                'type' => 'INNER',
+                'conditions' => 'f.facility_code = institution_code'
+            ])
+            ->group('facility_name')
+            ->where(['institution_code!="" ', 'institution_code IS NOT' => null])
+            ->hydrate(false);
+            $data[] =[];
+            $columns[] =[];
+
+ 
+            foreach ($sadr_stats->toArray() as $key => $value) {
+                $data[] = ['y' => $value['count'], 'name' => $value['facility_name'], 'color' => sae_outer_rand_color()];
+                $columns[] = [$value['facility_name']];
+            }
+
+
+            if ($this->request->is('json')) {
+                $this->set([
+                    'message' => 'Success',
+                    'title' => 'ADR by Institution',
+                    'data' => $data,
+                    'columns' => $columns,
+                    '_serialize' => ['message', 'data', 'columns', 'title']
+                ]);
+                return;
+            }
+         
+    }
     public function publicAefisPerInstitution()
     {
         $this->loadModel('Aefis');
@@ -228,36 +395,36 @@ class ReportsController extends AppController
             return;
         }
     }
-    public function publicSadrsPerInstitution()
+    public function publicSaefisPerInstitution()
     {
-        function outer_rand_color()
+        $this->loadModel('Saefis');
+        function inners_rand_color()
         {
             return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
         }
-        $this->loadModel('Sadrs');
-        $sadr_stats = $this->Sadrs->find('all')
+        $sadr_stats = $this->Saefis->find('all')
             ->select([
                 'facility_name' => 'facility_name',
-                'count' => $this->Sadrs->find('all')->func()->count('distinct facility_name')
+                'count' => $this->Saefis->find('all')->func()->count('distinct facility_name')
             ])
             ->join([
                 'table' => 'facilities',
                 'alias' => 'f',
                 'type' => 'INNER',
-                'conditions' => 'f.facility_code = institution_code'
+                'conditions' => 'f.facility_name = reporter_institution'
             ])
             ->group('facility_name')
-            ->where(['institution_code!="" ', 'institution_code IS NOT' => null])
+            ->where(['reporter_institution!="" ', 'reporter_institution IS NOT' => null])
             ->hydrate(false);
 
         foreach ($sadr_stats->toArray() as $key => $value) {
-            $data[] = ['y' => $value['count'], 'name' => $value['facility_name'], 'color' => outer_rand_color()];
+            $data[] = ['y' => $value['count'], 'name' => $value['facility_name'], 'color' => inners_rand_color()];
             $columns[] = [$value['facility_name']];
         }
         if ($this->request->is('json')) {
             $this->set([
                 'message' => 'Success',
-                'title' => 'ADR by Institution',
+                'title' => 'SAEFIS by Institution',
                 'data' => $data,
                 'columns' => $columns,
                 '_serialize' => ['message', 'data', 'columns', 'title']
@@ -265,6 +432,7 @@ class ReportsController extends AppController
             return;
         }
     }
+
     public function sadrsPerMedicine()
     {
 
@@ -282,7 +450,7 @@ class ReportsController extends AppController
                 'table' => 'sadr_list_of_drugs',
                 'alias' => 'f',
                 'type' => 'INNER',
-                'conditions' => 'f.sadr_id = sadrs.id'
+                'conditions' => 'f.sadr_id = Sadrs.id'
             ])
             ->group('drug_name')
             ->hydrate(false);
@@ -320,7 +488,7 @@ class ReportsController extends AppController
                 'table' => 'aefi_list_of_vaccines',
                 'alias' => 'f',
                 'type' => 'INNER',
-                'conditions' => 'f.aefi_id = aefis.id'
+                'conditions' => 'f.aefi_id = Aefis.id'
             ])
             ->group('vaccine_name')
             ->hydrate(false);
@@ -344,8 +512,45 @@ class ReportsController extends AppController
     public function saefisPerMedicine()
     {
 
-        $this->loadModel('Adrs');
+        $this->loadModel('Saefis');
         function saefis_rand_color()
+        {
+            return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+        }
+        $sadr_stats = $this->Saefis->find('all')
+            ->select([
+                'vaccine_name' => 'vaccine_name',
+                'count' => $this->Saefis->find('all')->func()->count('*')
+            ])
+            ->join([
+                'table' => 'saefi_list_of_vaccines',
+                'alias' => 'f',
+                'type' => 'INNER',
+                'conditions' => 'f.saefi_id = Saefis.id'
+            ])
+            ->group('vaccine_name')
+            ->hydrate(false);
+
+        foreach ($sadr_stats->toArray() as $key => $value) {
+            $data[] = ['y' => $value['count'], 'name' => $value['vaccine_name'], 'color' => saefis_rand_color()];
+            $columns[] = [$value['vaccine_name']];
+        }
+        if ($this->request->is('json')) {
+            $this->set([
+                'message' => 'Success',
+                'title' => 'SAEFIS per Medicine',
+                'data' => $data,
+                'columns' => $columns,
+                '_serialize' => ['message', 'data', 'columns', 'title']
+            ]);
+            return;
+        }
+    }
+    public function adrPerMedicine()
+    {
+
+        $this->loadModel('Adrs');
+        function adr_rand_color()
         {
             return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
         }
@@ -358,19 +563,19 @@ class ReportsController extends AppController
                 'table' => 'adr_list_of_drugs',
                 'alias' => 'f',
                 'type' => 'INNER',
-                'conditions' => 'f.adr_id = adrs.id'
+                'conditions' => 'f.adr_id = Adrs.id'
             ])
             ->group('drug_name')
             ->hydrate(false);
 
         foreach ($sadr_stats->toArray() as $key => $value) {
-            $data[] = ['y' => $value['count'], 'name' => $value['drug_name'], 'color' => saefis_rand_color()];
+            $data[] = ['y' => $value['count'], 'name' => $value['drug_name'], 'color' => adr_rand_color()];
             $columns[] = [$value['drug_name']];
         }
         if ($this->request->is('json')) {
             $this->set([
                 'message' => 'Success',
-                'title' => 'SAE per Medicine',
+                'title' => 'SAEs per Medicine',
                 'data' => $data,
                 'columns' => $columns,
                 '_serialize' => ['message', 'data', 'columns', 'title']
@@ -378,7 +583,6 @@ class ReportsController extends AppController
             return;
         }
     }
-
 
     // End of Reports
 
@@ -390,13 +594,12 @@ class ReportsController extends AppController
                 'contain' => []
             ]);
         } catch (Exception $e) {
-            
-        $report = $this->ReportSettings->newEntity();
-        $this->ReportSettings->save($report);
+
+            $report = $this->ReportSettings->newEntity();
+            $this->ReportSettings->save($report);
         }
         $this->set(compact('report'));
         $this->set('_serialize', ['report']);
-         
     }
 
     public function sadrsPerDesignation()
@@ -536,13 +739,12 @@ class ReportsController extends AppController
                 'contain' => []
             ]);
         } catch (Exception $e) {
-            
-        $report = $this->ReportSettings->newEntity();
-        $this->ReportSettings->save($report);
+
+            $report = $this->ReportSettings->newEntity();
+            $this->ReportSettings->save($report);
         }
         $this->set(compact('report'));
         $this->set('_serialize', ['report']);
-        
     }
     public function updateSettings($id = null)
     {

@@ -13,11 +13,10 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i>';
     <?php
     // check if prefix is evaluator
 
-  
-    if(($prefix == 'evaluator') && $this->request->session()->read('Auth.User.id') != $sadr->assigned_to) { ?>
+    if (($prefix == 'evaluator') && $this->request->session()->read('Auth.User.id') != $sadr->assigned_to) { ?>
 
-<p class="page-header">You must be assigned this report to review.</p>
-<?php } else { ?>
+      <p class="page-header">You must be assigned this report to review.</p>
+    <?php } else { ?>
 
       <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
         Causality Assessment Rules

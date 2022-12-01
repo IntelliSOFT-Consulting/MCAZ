@@ -214,38 +214,37 @@ class SadrsTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
+        $validator
+            ->scalar('name_of_institution')
+            ->notEmpty('name_of_institution', ['message' => 'Please enter the institution name']);
 
-        // $validator
-        //     ->scalar('name_of_institution')
-        //     ->notEmpty('name_of_institution', ['message' => 'Please enter the institution name']);
-
-        // $validator
-        //     ->scalar('institution_code')
-        //     ->notEmpty('institution_code', ['message' => 'Please enter the institution code']);
+        $validator
+            ->scalar('institution_code')
+            ->notEmpty('institution_code', ['message' => 'Please enter the institution code']);
 
         /*$validator
-            ->allowEmpty('suspected_drugy')
-            ->add('suspected_drugy', 'custom', [
-            'rule' => function ($value, $context) {
-                // Custom logic that returns true/false
-                if (isset($context['data']['sadr_list_of_drugs'])) {
-                    foreach ($context['data']['sadr_list_of_drugs'] as $val){
-                        if ($val['suspected_drug'] == 1) {
-                            //$this->data['Sadr']['list'] = 1;
-                            $context['data']['suspected_drugy'] = 1;
-                            return true;
-                        }
-                    }
-                }
-                return false;
-            },
-            'message' => 'Kindly select at least one suspected drug'
-        ]);*/
-
-        /*$validator->allowEmpty('suspected_drugy', function ($context) {
-            // return !$context['data']['is_taxable'];
+        ->allowEmpty('suspected_drugy')
+        ->add('suspected_drugy', 'custom', [
+        'rule' => function ($value, $context) {
+            // Custom logic that returns true/false
             if (isset($context['data']['sadr_list_of_drugs'])) {
                 foreach ($context['data']['sadr_list_of_drugs'] as $val){
+                    if ($val['suspected_drug'] == 1) {
+                        //$this->data['Sadr']['list'] = 1;
+                        $context['data']['suspected_drugy'] = 1;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        },
+        'message' => 'Kindly select at least one suspected drug'
+    ]);*/
+
+        $validator->allowEmpty('suspected_drugy', function ($context) {
+            // return !$context['data']['is_taxable'];
+            if (isset($context['data']['sadr_list_of_drugs'])) {
+                foreach ($context['data']['sadr_list_of_drugs'] as $val) {
                     if ($val['suspected_drug']) {
                         //$this->data['Sadr']['list'] = 1;
                         $context['data']['suspected_drugy'] = 1;
@@ -254,11 +253,11 @@ class SadrsTable extends Table
                 }
             }
             return false;
-        }, ['message' => 'Kindly select at least one suspected drug']);*/
+        }, ['message' => 'Kindly select at least one suspected drug']);
 
-        // $validator
-        //     ->scalar('patient_name')
-        //     ->notEmpty('patient_name', ['message' => 'Patient Initials required!']);   
+        $validator
+            ->scalar('patient_name')
+            ->notEmpty('patient_name', ['message' => 'Patient Initials required!']);
 
         //Age at onset values
         $validator
@@ -287,78 +286,79 @@ class SadrsTable extends Table
             ]);
 
         //date of birth or onset
-        /*$validator
+        $validator
             ->allowEmpty('date_of_birth')
             ->add('date_of_birth', 'dob-or-door', [
-                'rule' => function ($value, $context) {                    
+                'rule' => function ($value, $context) {
                     $dob = ($value == '--') ? null : $value;
-                    if(!$dob && empty($context['data']['year_of_birth']) 
-                             && empty($context['data']['month_of_birth']) 
-                             && empty($context['data']['day_of_birth'])) return false;
-                    if($dob && !empty($context['data']['year_of_birth'])) return false;
+                    if (
+                        !$dob && empty($context['data']['year_of_birth'])
+                        && empty($context['data']['month_of_birth'])
+                        && empty($context['data']['day_of_birth'])
+                    ) return false;
+                    if ($dob && !empty($context['data']['year_of_birth'])) return false;
                     return true;
-            }, 'message' => 'Date of birth OR age at onset required'
+                }, 'message' => 'Date of birth OR age at onset required'
             ])
             //date of birth: year of birth required
             ->add('date_of_birth', 'dob-select-year', [
-               'rule' => function ($value, $context) {          
-                $dob = (($value)) ?? '--';
-                $a = explode('-', $dob);
-                if($value != '--')
-                    if($a[2] < (date('Y')-120) || $a[2] > date('Y')) return false;
-                return true;
-            }, 'message' => 'Year of birth required']);*/
+                'rule' => function ($value, $context) {
+                    $dob = (($value)) ?? '--';
+                    $a = explode('-', $dob);
+                    if ($value != '--')
+                        if ($a[2] < (date('Y') - 120) || $a[2] > date('Y')) return false;
+                    return true;
+                }, 'message' => 'Year of birth required'
+            ]);
 
         //date of onset of reaction: year of reaction required
-        /*$validator
+        $validator
             ->add('date_of_onset_of_reaction', 'door-select-year', [
                 'rule' => function ($value, $context) {
-                $door = (($value)) ?? '--';
-                $a = explode('-', $door);
-                if ($a[2] > (date('Y')-120) && $a[2] <= date('Y')) return true;
-                return false;
-            }, 'message' => 'Year of onset of reaction required']);*/
+                    $door = (($value)) ?? '--';
+                    $a = explode('-', $door);
+                    if ($a[2] > (date('Y') - 120) && $a[2] <= date('Y')) return true;
+                    return false;
+                }, 'message' => 'Year of onset of reaction required'
+            ]);
         //date of birth less than date of onset of reaction
-        /*$validator->add('date_of_birth', 'dob-less-door', [
+        $validator->add('date_of_birth', 'dob-less-door', [
             'rule' => function ($value, $context) {
                 //Normalize dob and door
                 $dob = (($value)) ?? '--';
                 $a = explode('-', $dob);
-                $a[0] = (empty($a[0])) ? '01' : $a[0]; 
-                $a[1] = (empty($a[1])) ? '01' : $a[1]; 
-                $dob = implode('-', $a); 
+                $a[0] = (empty($a[0])) ? '01' : $a[0];
+                $a[1] = (empty($a[1])) ? '01' : $a[1];
+                $dob = implode('-', $a);
 
                 $door = (($context['data']['date_of_onset_of_reaction'])) ?? '--';
                 $b = explode('-', $door);
-                $b[0] = (empty($b[0])) ? '01' : $b[0]; 
+                $b[0] = (empty($b[0])) ? '01' : $b[0];
                 $b[1] = (empty($b[1])) ? '01' : $b[1];
-                $door = implode('-', $b); 
+                $door = implode('-', $b);
 
-                if($context['data']['in_utero']) return strtotime($dob) <= strtotime("+240 day", strtotime($door)); // can be before birth
                 return strtotime($dob) <= strtotime($door);
-
             }, 'message' => 'Date of birth must less than or equal to date of onset of reaction'
-        ]);*/
+        ]);
         //date of birth less than drug start dates
-        // $validator->add('date_of_birth', 'dob-less-drug-dates', [
-        //     'rule' => function ($value, $context) {
-        //         //Normalize dob and door
-        //         $dob = (($value)) ?? '--';
-        //         $a = explode('-', $dob);
-        //         $a[0] = (empty($a[0])) ? '01' : $a[0]; 
-        //         $a[1] = (empty($a[1])) ? '01' : $a[1]; 
-        //         $dob = implode('-', $a); 
+        $validator->add('date_of_birth', 'dob-less-drug-dates', [
+            'rule' => function ($value, $context) {
+                //Normalize dob and door
+                $dob = (($value)) ?? '--';
+                $a = explode('-', $dob);
+                $a[0] = (empty($a[0])) ? '01' : $a[0];
+                $a[1] = (empty($a[1])) ? '01' : $a[1];
+                $dob = implode('-', $a);
 
-        //         if (isset($context['data']['sadr_list_of_drugs'])) {
-        //             foreach ($context['data']['sadr_list_of_drugs'] as $val){
-        //                 if (strtotime($dob) > strtotime($val['start_date']) && empty($context['data']['in_utero'])) return false;
-        //             }
-        //         }
+                if (isset($context['data']['sadr_list_of_drugs'])) {
+                    foreach ($context['data']['sadr_list_of_drugs'] as $val) {
+                        if (strtotime($dob) > strtotime($val['start_date'])) return false;
+                    }
+                }
 
-        //         return true;
-
-        //     }, 'message' => 'Date of birth must less than drug start date'
-        // ]);
+                return true;
+            }, 'message' => 'Date of birth must less than drug start date'
+        ]);
         //date of onset of reaction must be less than reaction end date
         $validator->add('date_of_onset_of_reaction', 'door-less-doer', [
             'rule' => function ($value, $context) {
@@ -368,14 +368,14 @@ class SadrsTable extends Table
                     $context['data']['date_of_end_of_reaction'] != '--' &&
                     !empty($context['data']['date_of_end_of_reaction'])
                 ) {
-                    $doer = (!empty($context['data']['date_of_end_of_reaction'])) ? $context['data']['date_of_end_of_reaction'] : '--';
+                    $doer = (($context['data']['date_of_end_of_reaction'])) ?? '--';
                     $a = explode('-', $doer);
                     $a[0] = (empty($a[0])) ? '01' : $a[0];
                     $a[1] = (empty($a[1])) ? '01' : $a[1];
                     $a[2] = (empty($a[2])) ? date('Y') : $a[2];
                     $doer = implode('-', $a);
 
-                    $door = (!empty($value)) ? $value : '--';
+                    $door = (($value)) ?? '--';
                     $b = explode('-', $door);
                     $b[0] = (empty($b[0])) ? '01' : $b[0];
                     $b[1] = (empty($b[1])) ? '01' : $b[1];
@@ -389,25 +389,25 @@ class SadrsTable extends Table
         ]);
 
 
-        // $validator
-        //     ->scalar('gender')
-        //     ->notEmpty('gender', ['message' => 'Gender required!']);
+        $validator
+            ->scalar('gender')
+            ->notEmpty('gender', ['message' => 'Gender required!']);
 
-        // $validator
-        //     ->scalar('description_of_reaction')
-        //     ->notEmpty('description_of_reaction', ['message' => 'Description of reaction required']);
+        $validator
+            ->scalar('description_of_reaction')
+            ->notEmpty('description_of_reaction', ['message' => 'Description of reaction required']);
 
-        // $validator
-        //     ->scalar('severity')
-        //     ->notEmpty('severity', ['message' => 'Severity required!']);
+        $validator
+            ->scalar('severity')
+            ->notEmpty('severity', ['message' => 'Severity required!']);
 
-        // $validator
-        //     ->scalar('outcome')
-        //     ->notEmpty('outcome', ['message' => 'Outcome required!']);
+        $validator
+            ->scalar('outcome')
+            ->notEmpty('outcome', ['message' => 'Outcome required!']);
 
-        // $validator
-        //     ->scalar('action_taken')
-        //     ->notEmpty('action_taken', ['message' => 'Action taken required!']);
+        $validator
+            ->scalar('action_taken')
+            ->notEmpty('action_taken', ['message' => 'Action taken required!']);
 
         return $validator;
     }
