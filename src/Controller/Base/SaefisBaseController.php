@@ -689,7 +689,8 @@ class SaefisBaseController extends AppController
     {
         $aefi_causality = $this->Saefis->AefiCausalities->get($id, ['contain' => ['Saefis']]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $aefi_causality = $this->Saefis->AefiCausalities->patchEntity($aefi_causality, ['chosen' => 1, 'saefi' => ['signature' => 1]], ['associated' => ['Saefis']]);
+            $aefi_causality = $this->Saefis->AefiCausalities->patchEntity($aefi_causality,
+             ['chosen' => 1, 'saefi' => ['signature' => 1]], ['associated' => ['Saefis']]);
             if ($this->Saefis->AefiCausalities->save($aefi_causality)) {
                 $this->Flash->success('Signature successfully attached to assessment');
                 return $this->redirect($this->referer());

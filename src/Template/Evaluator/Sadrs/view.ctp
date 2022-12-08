@@ -28,6 +28,9 @@
     <li role="presentation"><a href="#request_reporter" aria-controls="request_reporter" role="tab" data-toggle="tab">Request info</a></li>
     <li role="presentation"><a href="#committee_review" aria-controls="committee_review" role="tab" data-toggle="tab">Committee Review</a></li>
     <?php } ?>
+    <?php if ($sadr->report_type === 'FollowUp') { ?>
+        <li role="presentation"><a href="#initial" aria-controls="initial" role="tab" data-toggle="tab">Initial Report</a></li>
+    <?php } ?>
         <?php if($sadr->copied === 'new copy') { ?>
     <li role="presentation"><a href="#original" aria-controls="original" role="tab" data-toggle="tab">Original Report</a></li>
         <?php } ?>
