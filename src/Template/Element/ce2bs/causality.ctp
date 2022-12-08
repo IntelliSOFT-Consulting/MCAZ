@@ -116,11 +116,11 @@
                           <?php if($review->chosen == 1) { ?>
                             <div class="form-group">
                               <div class="control-label">
-                                <label>Signature</label>
+                                <label>Manager's Signature</label>
                               </div>
                               <div>
                                 <h4 class="form-control-static text-info text-left"><?php          
-                                  echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$ce2b->assigned_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$ce2b->assigned_by], true)."' style='width: 30%;' alt=''>";
+                                  echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$review->reviewed_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$review->reviewed_by], true)."' style='width: 30%;' alt=''>";
                                 ?></h4>
                               </div>
                             </div>                          
