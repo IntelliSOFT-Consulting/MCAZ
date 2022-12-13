@@ -87,15 +87,15 @@ if (count($arr1) > 1) {
                     </tr>
                     <tr>
                         <td colspan="3">
-                            <a class="btn" role="button" data-toggle="collapse" href="#collapseExample"
-                                aria-expanded="false" aria-controls="collapseExample">
+                            <a class="btn" role="button" data-toggle="collapse" href="#collapseSadr"
+                                aria-expanded="false" aria-controls="collapseSadr">
                                 View more
                             </a>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <div class="collapse" id="collapseExample">
+            <div class="collapse" id="collapseSadr">
                 <table class="table">
                     <tbody>
                         <tr>
@@ -261,7 +261,8 @@ if (count($arr1) > 1) {
                             <!-- Added -->
                            <td>
                                 <?php
-                                echo $this->Form->control('status',
+                                echo $this->Form->control(
+                                    'status',
                                     [
                                         'type' => 'select', 'label' => false, 'templates' => 'clear_form', 'empty' => true,
                                         'options' => [
