@@ -692,7 +692,10 @@ class AefisBaseController extends AppController
     public function attachSignature($id = null) {
         $aefi_causality = $this->Aefis->AefiCausalities->get($id, ['contain' => ['Aefis']]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $aefi_causality = $this->Aefis->AefiCausalities->patchEntity($aefi_causality, ['chosen' => 1, 'aefi' => ['signature' => 1]], ['associated' => ['Aefis']]);
+            $aefi_causality = $this->Aefis->AefiCausalities->patchEntity($aefi_causality, [
+                'chosen' => 1, 
+                'reviewed_by' => $this->Auth->user('id'), 
+                'aefi' => ['signature' => 1]], ['associated' => ['Aefis']]);
             if ($this->Aefis->AefiCausalities->save($aefi_causality)) {
                 $this->Flash->success('Signature successfully attached to assessment');
                 return $this->redirect($this->referer());

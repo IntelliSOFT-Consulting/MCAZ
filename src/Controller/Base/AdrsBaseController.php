@@ -715,7 +715,10 @@ class AdrsBaseController extends AppController
     public function attachSignature($id = null) {
         $review = $this->Adrs->Reviews->get($id, ['contain' => ['Adrs']]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $review = $this->Adrs->Reviews->patchEntity($review, ['chosen' => 1, 'adr' => ['signature' => 1]], ['associated' => ['Adrs']]);
+            $review = $this->Adrs->Reviews->patchEntity($review, [
+                'chosen' => 1, 
+                'reviewed_by' => $this->Auth->user('id'), 
+                'adr' => ['signature' => 1]], ['associated' => ['Adrs']]);
             if ($this->Adrs->Reviews->save($review)) {
                 $this->Flash->success('Signature successfully attached to review');
                 return $this->redirect($this->referer());
