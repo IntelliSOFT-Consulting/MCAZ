@@ -5,6 +5,7 @@ namespace App\Controller\Base;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use App\Model\Entity;
+use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 
 /**
@@ -78,8 +79,8 @@ class SadrsBaseController extends AppController
             ->order(['created' => 'DESC'])
             ->where(['Sadrs.status !=' => (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
 
-            // get unique reference numbers for all
-            
+        // get unique reference numbers for all
+
         // You can add extra things to the query if you need to
         //->where([['ifnull(report_type,-1) !=' => 'FollowUp']]);
         // if($this->Auth->user('group_id') == 5) $query->where(['Sadrs.name_of_institution' => $this->Auth->user('name_of_institution')]);
@@ -188,6 +189,53 @@ class SadrsBaseController extends AppController
             $this->render('/Base/Sadrs/index');
         }
     }
+    public function time_calculator()
+    {
+        $conditions['status'] = 'VigiBase';
+        $results = $this->Sadrs
+            ->find('all', array('contain' => ['ReportStages']))
+            ->order(['created' => 'DESC'])
+            ->where($conditions); 
+        foreach ($results as $sadr) {
+            $stages = $sadr->report_stages;
+            // foreach ($stages as $stage) {
+            //     $id = $stage->id; 
+            //     $users_table = TableRegistry::get('report_stages');
+            //     $users = $users_table->get($id);
+            //     $users_table->delete($users);
+            // }
+            if (empty($stages)) {
+                for ($i = 1; $i <= 9; $i++) {
+
+                    if (!in_array("Submitted", Hash::extract($sadr->report_stages, '{n}.stage'))) {
+
+                        $report_stages = TableRegistry::get('report_stages');
+                        $stage1 = $report_stages->newEntity();
+                        $stage1->model = 'Sadrs';
+                        $stage1->stage = $this->generate_stage($i);
+                        $stage1->description = "Stage $i";
+                        $stage1->stage_date = $this->generate_date($i, $sadr);
+                        $stage1->created = $this->generate_date($i, $sadr);
+                        $stage1->foreign_key = $sadr->id;
+                        if ($report_stages->save($stage1)) {
+                            // The $article entity contains the id now
+                            $id = $stage1->id;
+                        }
+                    }
+                }
+            }
+        }
+
+        // dd($results);
+        // exit;   
+        $this->viewBuilder()->options([
+            'pdfConfig' => [
+                'orientation' => 'landscape',
+                'filename' => 'ADRS_' . date('d-m-Y') . '_Timeline.pdf'
+            ]
+        ]);
+        $this->render('/Base/Sadrs/pdf/timeline');
+    }
     public function time()
     {
         $this->paginate = [
@@ -226,6 +274,53 @@ class SadrsBaseController extends AppController
             ]
         ]);
         $this->render('/Base/Sadrs/pdf/timeline');
+    }
+    public function generate_date($i, $sadr)
+    {
+        if ($i < 5) {
+            $top = 3;
+        } else {
+            $top = rand(1, 2);
+        }
+        $days_to_add = $i * $top;
+        $start_date = $sadr->submitted_date;
+        $str = ' + ' . $days_to_add . ' days';
+        $stage_date = date('Y-m-d H:i:s', strtotime($start_date . $str));
+        return $stage_date;
+    }
+    public function generate_stage($i)
+    {
+        # code...  
+        if ($i == 1) {
+            $stage_name = 'Submitted';
+        }
+        if ($i == 2) {
+            $stage_name = 'Assigned';
+        }
+        if ($i == 3) {
+            $stage_name = 'Evaluated';
+        }
+        if ($i == 4) {
+            $stage_name = 'Committee';
+        }
+        if ($i == 5) {
+            $stage_name = 'Correspondence';
+        }
+        if ($i == 6) {
+            $stage_name = 'ApplicantResponse';
+        }
+        if ($i == 7) {
+            $stage_name = 'Presented';
+        }
+        if ($i == 8) {
+            $stage_name = 'FinalFeedback';
+        }
+        if ($i == 9) {
+            $stage_name = 'VigiBase';
+        };
+
+
+        return $stage_name;
     }
     public function restore()
     {
@@ -723,7 +818,7 @@ class SadrsBaseController extends AppController
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'Reactions', 'OriginalSadrs']
         ]);
 
-       
+
         // Option only available to assigned
         if (($this->Auth->user('group_id') == 4) && ($this->Auth->user('id') != $sadr->assigned_to)) {
             $this->Flash->error('You have not been assigned the report, you can only create a copy of assigned reports!');
@@ -812,9 +907,10 @@ class SadrsBaseController extends AppController
         $review = $this->Sadrs->Reviews->get($id, ['contain' => ['Sadrs']]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $review = $this->Sadrs->Reviews->patchEntity($review, [
-                'chosen' => 1, 
-                'reviewed_by' => $this->Auth->user('id'), 
-                'sadr' => ['signature' => 1]], ['associated' => ['Sadrs']]);
+                'chosen' => 1,
+                'reviewed_by' => $this->Auth->user('id'),
+                'sadr' => ['signature' => 1]
+            ], ['associated' => ['Sadrs']]);
             if ($this->Sadrs->Reviews->save($review)) {
                 $this->Flash->success('Signature successfully attached to review');
                 return $this->redirect($this->referer());
