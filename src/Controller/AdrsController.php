@@ -53,9 +53,23 @@ class AdrsController extends AppController
         $this->paginate = [
             'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews', 'ReportStages']
         ];
-        $query = $this->Adrs
-            ->find('search', ['search' => $this->request->query])
-            ->where([['user_id' => $this->Auth->user('id')]]);
+        $query = $this->Adrs->find('search', array(
+            'recursive' => 0, 
+            'search' => $this->request->query,
+            // 'fields'=>array('DISTINCT Adrs.reference_number')
+            ))
+            // ->order(['Adrs.created' => 'DESC']) 
+            ->distinct()
+            ->where([['user_id' => $this->Auth->user('id')]]); 
+        //    dd($query);
+
+        // $results = array();
+        // foreach($query as $item){
+        //     //pick only 1st report unique by reference_number
+        //     $results = $item['Adrs'];
+           
+        // }
+        // $query =$results;
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
         $this->set(compact('designations'));
         if ($this->request->params['_ext'] === 'pdf' || $this->request->params['_ext'] === 'csv') {

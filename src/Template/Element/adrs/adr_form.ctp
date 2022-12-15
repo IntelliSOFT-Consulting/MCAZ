@@ -107,7 +107,7 @@ Please use a separate adverse event reporting form for separate reportable adver
                   echo $this->Form->control('report_type', ['type' => 'radio', 
                      'label' => '<b>Type of Report </b>', 'escape' => false,
                      'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
-                       'options' => ['Initial' => 'Initial', 'Follow-up' => 'Follow-up', 'Resolution' => 'Resolution']]);
+                       'options' => ['Initial' => 'Initial', 'FollowUp' => 'FollowUp', 'Resolution' => 'Resolution']]);
 
                   echo $this->Form->control('date_of_birth', array(
                     'type' => 'date',

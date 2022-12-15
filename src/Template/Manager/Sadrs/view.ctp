@@ -67,25 +67,25 @@ $this->Html->script('jquery/assign_evaluator', ['block' => true]);
 
     <?php $this->start('other_tabs'); ?>
   </div> <!-- Firstly, close the first tab!! IMPORTANT -->
-</div>
 
-<div role="tabpanel" class="tab-pane" id="assign">
-  <?= $this->element('sadrs/assign_evaluator') ?>
-</div>
-<div role="tabpanel" class="tab-pane" id="causality">
-  <?= $this->element('sadrs/causality') ?>
-</div>
-<div role="tabpanel" class="tab-pane" id="request_reporter">
-  <?= $this->element('sadrs/request_reporter') ?>
-</div>
-<div role="tabpanel" class="tab-pane" id="committee_review">
-  <?= $this->element('sadrs/committee_review') ?>
-</div>
-<?php if ($sadr->copied === 'new copy') { ?>
-  <div role="tabpanel" class="tab-pane" id="original">
-    <?php echo $this->element('sadrs/clean') ?>
+
+  <div role="tabpanel" class="tab-pane" id="assign">
+    <?= $this->element('sadrs/assign_evaluator') ?>
   </div>
-<?php } ?>
+  <div role="tabpanel" class="tab-pane" id="causality">
+    <?= $this->element('sadrs/causality') ?>
+  </div>
+  <div role="tabpanel" class="tab-pane" id="request_reporter">
+    <?= $this->element('sadrs/request_reporter') ?>
+  </div>
+  <div role="tabpanel" class="tab-pane" id="committee_review">
+    <?= $this->element('sadrs/committee_review') ?>
+  </div>
+  <?php if ($sadr->copied === 'new copy') { ?>
+    <div role="tabpanel" class="tab-pane" id="original">
+      <?php echo $this->element('sadrs/clean') ?>
+    </div>
+  <?php } ?>
 </div>
 
 <div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">

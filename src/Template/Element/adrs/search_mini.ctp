@@ -75,7 +75,7 @@
                         <?php
                             echo $this->Form->control('report_type', 
                                 ['type' => 'radio', 'label' => 'Report type', 'templates' => 'radio_form', 
-                                 'options' => ['Initial' => 'Initial', 'Follow-up' => 'Follow-up', 'Resolution' => 'Resolution']]);
+                                 'options' => ['Initial' => 'Initial', 'FollowUp' => 'FollowUp', 'Resolution' => 'Resolution']]);
                         ?>
 
                 <a onclick="$('input[name=report_type]').removeAttr('checked');" class="tiptip"  data-original-title="clear!!">

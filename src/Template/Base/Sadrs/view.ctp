@@ -47,7 +47,6 @@ $this->Html->script('jquery/assign_evaluator', ['block' => true]);
     }
     ?>
     <?php if (empty($sadr->assigned_to)) { ?>
-      <!-- <button type="button" class="btn btn-info" data-toggle="modal" data-target="#assignModal"><i class="fa fa-share-square-o" aria-hidden="true"></i> Assign Evaluator</button> -->
     <?php } else { ?>
       <small><?= '<b>Assigned To</b>:' . $evaluators->toArray()[$sadr->assigned_to] ?></small>
     <?php }  ?>
@@ -66,28 +65,27 @@ $this->Html->script('jquery/assign_evaluator', ['block' => true]);
     <?php $this->end() ?>
 
     <?php $this->start('other_tabs'); ?>
-  </div> <!-- Firstly, close the first tab!! IMPORTANT -->
-</div>
-
-<div role="tabpanel" class="tab-pane" id="assign">
-  <?= $this->element('sadrs/assign_evaluator') ?>
-</div>
-<div role="tabpanel" class="tab-pane" id="causality">
-  <?= $this->element('sadrs/causality') ?>
-</div>
-<div role="tabpanel" class="tab-pane" id="committee_review">
-  <?= $this->element('sadrs/committee_review') ?>
-</div>
-<?php if ($sadr->copied === 'new copy') { ?>
-  <div role="tabpanel" class="tab-pane" id="original">
-    <?php  //echo $this->element('sadrs/clean') 
-    ?>
-    <?php echo $this->element('sadrs/sadr_view', ['sadr' => $sadr->original_sadr, 'nfetch' => true]) ?>
   </div>
-<?php } ?>
-<div role="tabpanel" class="tab-pane" id="stages">
-  <?= $this->element('sadrs/stages') ?>
-</div>
+
+  <div role="tabpanel" class="tab-pane" id="assign">
+    <?= $this->element('sadrs/assign_evaluator') ?>
+  </div>
+  <div role="tabpanel" class="tab-pane" id="causality">
+    <?= $this->element('sadrs/causality') ?>
+  </div>
+  <div role="tabpanel" class="tab-pane" id="committee_review">
+    <?= $this->element('sadrs/committee_review') ?>
+  </div>
+  <?php if ($sadr->copied === 'new copy') { ?>
+    <div role="tabpanel" class="tab-pane" id="original">
+      <?php  //echo $this->element('sadrs/clean') 
+      ?>
+      <?php echo $this->element('sadrs/sadr_view', ['sadr' => $sadr->original_sadr, 'nfetch' => true]) ?>
+    </div>
+  <?php } ?>
+  <div role="tabpanel" class="tab-pane" id="stages">
+    <?= $this->element('sadrs/stages') ?>
+  </div>
 </div>
 
 <?php $this->end(); ?>
