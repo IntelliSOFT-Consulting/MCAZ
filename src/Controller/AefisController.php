@@ -71,6 +71,7 @@ class AefisController extends AppController
 
         $query = $this->Aefis
             ->find('search', ['search' => $this->request->query])
+            ->order(['created' => 'DESC'])  
             ->where([['user_id' => $this->Auth->user('id')]]);
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);

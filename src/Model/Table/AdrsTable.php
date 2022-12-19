@@ -264,9 +264,9 @@ class AdrsTable extends Table
             ->scalar('participant_number')
             ->allowEmpty('participant_number');
 
-        // $validator
-        //     ->scalar('report_type')
-        //     ->allowEmpty('report_type');
+        $validator
+            ->scalar('report_type')
+            ->notEmpty('report_type',['message'=>'Please specify report type']);
 
         // $validator
         //     ->date('date_of_site_awareness')

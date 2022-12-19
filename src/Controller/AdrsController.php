@@ -55,27 +55,21 @@ class AdrsController extends AppController
         ];
         $query = $this->Adrs->find('search', array(
             'recursive' => 0, 
-            'search' => $this->request->query,
-            // 'fields'=>array('DISTINCT Adrs.reference_number')
+            'search' => $this->request->query, 
             ))
-            // ->order(['Adrs.created' => 'DESC']) 
-            ->distinct()
-            ->where([['user_id' => $this->Auth->user('id')]]); 
-        //    dd($query);
-
-        // $results = array();
-        // foreach($query as $item){
-        //     //pick only 1st report unique by reference_number
-        //     $results = $item['Adrs'];
-           
-        // }
-        // $query =$results;
+            ->order(['Adrs.created' => 'DESC'])  
+            ->where([['user_id' => $this->Auth->user('id')]])
+            // ->distinct(['reference_number'])
+            ;
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
-        $this->set(compact('designations'));
+        $this->set(compact('designations')); 
+
+        $data=$this->paginate($query->contain($this->paginate['contain']));
+        
         if ($this->request->params['_ext'] === 'pdf' || $this->request->params['_ext'] === 'csv') {
             $this->set('adrs', $query->contain($this->paginate['contain']));
         } else {
-            $this->set('adrs', $this->paginate($query->contain($this->paginate['contain'])));
+            $this->set('adrs', $data);
         }
 
         $_designations = $designations->toArray();
@@ -419,6 +413,7 @@ class AdrsController extends AppController
             $adr->institution_code = $this->Auth->user('name_of_institution');
             $adr->reporter_phone = $this->Auth->user('phone_no');
             $adr->reporter_name = $this->Auth->user('name');
+            $adr->report_type = 'Initial';
             if ($this->Adrs->save($adr, ['validate' => false])) {
                 $this->Flash->success(__('The SAE has been saved.'));
 

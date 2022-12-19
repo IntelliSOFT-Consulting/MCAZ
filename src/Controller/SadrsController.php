@@ -75,6 +75,7 @@ class SadrsController extends AppController
             ->find('search', ['search' => $this->request->query])
             // You can add extra things to the query if you need to
             // ->where([['OR' => ['Sadrs.user_id' => $this->Auth->user('id'), 'Sadrs.name_of_institution' => $this->Auth->user('name_of_institution')]]]);
+            ->order(['Sadrs.created' => 'DESC'])  
             ->where([['Sadrs.user_id' => $this->Auth->user('id')]]);
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);

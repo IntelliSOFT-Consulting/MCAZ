@@ -1,4 +1,8 @@
-<?php $this->start('sidebar'); ?>
+<?php
+
+use Cake\Utility\Hash;
+
+ $this->start('sidebar'); ?>
   <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
@@ -23,7 +27,21 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($aefis as $aefi): ?>
+            <?php  $filtered = [];
+            foreach ($aefis as $sample) : ?>
+                <?php
+                // check if the  $filtered  is empty
+                if (empty($filtered)) {
+                    $filtered[] = $sample;
+                } else {
+                    // 
+                    if (!in_array($sample->reference_number, Hash::extract($filtered, '{n}.reference_number'))) {
+                        $filtered[] = $sample;
+                    }
+                }
+
+                ?>
+            <?php endforeach;foreach ($filtered as $aefi): ?>
             <tr>
                 <td><?= $this->Number->format($aefi->id) ?></td>
                 <td><?php
