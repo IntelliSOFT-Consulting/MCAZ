@@ -77,7 +77,9 @@ $this->assign('editable', false);
     <?php if ($saefi->report_type === 'FollowUp') { ?>
         <div role="tabpanel" class="tab-pane" id="initial">
             
-            <?php echo $this->element('saefis/saefi_view', ['saefi' => $saefi->original_saefi, 'nfetch' => true]) ?>
+            <?php 
+            //echo $this->element('saefis/saefi_view', ['saefi' => $saefi->original_saefi, 'nfetch' => true]) 
+            ?>
         </div>
     <?php } ?>
     <?php if ($saefi->copied === 'new copy') { ?>
