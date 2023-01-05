@@ -72,7 +72,8 @@ class AppController extends Controller
         'AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators',
         'Reviews', 'Reviews.Users', 'Reviews.AdrComments', 'Reviews.AdrComments.Attachments',
         'Committees', 'Committees.Users', 'Committees.AdrComments', 'Committees.AdrComments.Attachments', 'ReportStages',
-        'OriginalAdrs', 'OriginalAdrs.AdrListOfDrugs', 'OriginalAdrs.AdrOtherDrugs', 'OriginalAdrs.Attachments'
+        'OriginalAdrs', 'OriginalAdrs.AdrListOfDrugs', 'OriginalAdrs.AdrOtherDrugs', 'OriginalAdrs.Attachments',
+        'InitialAdrs', 'InitialAdrs.AdrListOfDrugs', 'InitialAdrs.AdrOtherDrugs', 'InitialAdrs.Attachments'
     ];
 
     public $ce2b_contain = [

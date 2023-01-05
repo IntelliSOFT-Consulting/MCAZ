@@ -76,6 +76,12 @@ class AdrsTable extends Table
             'dependent' => true,
             'conditions' => array('OriginalAdrs.copied' => 'old copy')
         ]);
+        $this->belongsTo('InitialAdrs', [
+            'className' => 'Adrs',
+            'foreignKey' => 'initial_id',
+            'dependent' => true,
+            'conditions' => array('InitialAdrs.report_type' => 'Initial')
+        ]);
         $this->hasMany('AdrLabTests', [
             'foreignKey' => 'adr_id'
         ]);
@@ -266,7 +272,7 @@ class AdrsTable extends Table
 
         $validator
             ->scalar('report_type')
-            ->notEmpty('report_type',['message'=>'Please specify report type']);
+            ->notEmpty('report_type', ['message' => 'Please specify report type']);
 
         // $validator
         //     ->date('date_of_site_awareness')

@@ -73,6 +73,11 @@ $this->assign('editable', false);
     <div role="tabpanel" class="tab-pane" id="committee_review">
         <?php echo $this->element('adrs/committee_review') ?>
     </div>
+    <?php if ($adr->report_type === 'FollowUp') { ?>
+        <div role="tabpanel" class="tab-pane" id="initial">
+            <?php echo $this->element('adrs/initial',['initial'=>$adr->initial_adr]) ?>
+        </div>
+    <?php } ?>
     <?php if ($adr->copied === 'new copy') { ?>
         <div role="tabpanel" class="tab-pane" id="original">
             <?php echo $this->element('adrs/clean') ?>

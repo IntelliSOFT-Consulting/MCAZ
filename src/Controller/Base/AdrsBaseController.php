@@ -234,6 +234,7 @@ class AdrsBaseController extends AppController
             'contain' => $this->adr_contain, 'withDeleted'
         ]);
 
+        // dd($adr);
         $ekey = 100;
         if ($this->request->is(['patch', 'post', 'put'])) {
             foreach ($adr->reviews as $key => $value) {
