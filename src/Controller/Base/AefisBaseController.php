@@ -207,6 +207,9 @@ class AefisBaseController extends AppController
             'contain' => $this->aefi_contain, 'withDeleted'
         ]);
 
+        // dd($aefi);
+        // exit;
+
         $ekey = 100;
         if ($this->request->is(['patch', 'post', 'put'])) {
             foreach ($aefi->aefi_causalities as $key => $value) {

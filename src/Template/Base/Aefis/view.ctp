@@ -79,6 +79,15 @@ $this->assign('editable', false);
     <div role="tabpanel" class="tab-pane" id="committee_review">
         <?php echo $this->element('aefis/committee_review') ?>
     </div>
+    <?php if ($aefi->report_type === 'FollowUp') { ?>
+        <div role="tabpanel" class="tab-pane" id="initial">
+            <?php  //echo $this->element('aefis/clean') 
+            ?>
+            <?php
+            echo $this->element('aefis/aefi_view', ['aefi' => $aefi->initial_aefi, 'nfetch' => true])
+             ?>
+        </div>
+    <?php } ?>
     <?php if ($aefi->copied === 'new copy') { ?>
         <div role="tabpanel" class="tab-pane" id="original">
             <?php  //echo $this->element('aefis/clean') 

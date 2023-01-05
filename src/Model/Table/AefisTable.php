@@ -52,7 +52,9 @@ class AefisTable extends Table
                 'Committees', 'Committees.Users', 'Committees.AefiComments', 'Committees.AefiComments.Attachments',
                 'ReportStages',
                 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments',
-                'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments', 'AefiReactions'
+                'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments',
+                'InitialAefis', 'InitialAefis.AefiListOfVaccines', 'InitialAefis.Attachments',
+                 'AefiReactions'
             ],
             'remove' => ['created', 'modified'],
             'set' => [
@@ -73,6 +75,12 @@ class AefisTable extends Table
             'foreignKey' => 'aefi_id',
             'dependent' => true,
             'conditions' => array('OriginalAefis.copied' => 'old copy')
+        ]);
+        $this->belongsTo('InitialAefis', [
+            'className' => 'Aefis',
+            'foreignKey' => 'initial_id',
+            'dependent' => true,
+            'conditions' => array('InitialAefis.report_type' => 'Initial')
         ]);
         $this->hasMany('AefiListOfVaccines', [
             'foreignKey' => 'aefi_id'

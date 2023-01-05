@@ -56,7 +56,8 @@ class AppController extends Controller
         'Committees', 'Committees.Users', 'Committees.AefiComments', 'Committees.AefiComments.Attachments',
         'ReportStages', 'AefiReactions',
         'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments',
-        'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments'
+        'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments',
+        'InitialAefis', 'InitialAefis.AefiListOfVaccines', 'InitialAefis.Attachments'
     ];
 
     public $saefi_contain = [
