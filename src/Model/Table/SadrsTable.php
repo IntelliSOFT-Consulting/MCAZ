@@ -60,6 +60,7 @@ class SadrsTable extends Table
                 'ReportStages', 'Reactions',
                 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
                 'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments',
+                'InitialSadrs', 'InitialSadrs.SadrListOfDrugs', 'InitialSadrs.Attachments',
             ],
             'remove' =>  [
                 'created', 'modified', 'sadr_list_of_drugs.created',  'reactions.created',  'attachments.created',
@@ -80,10 +81,16 @@ class SadrsTable extends Table
         $this->belongsTo('Provinces', [
             'foreignKey' => 'province_id'
         ]);
-        $this->belongsTo('OriginalSadrs', [
+        $this->belongsTo('OriginalSadrs', [ 
             'foreignKey' => 'sadr_id',
             'dependent' => true,
             'conditions' => array('OriginalSadrs.copied' => 'old copy')
+        ]);
+        $this->belongsTo('InitialSadrs', [
+            'className' => 'Sadrs',
+            'foreignKey' => 'initial_id',
+            'dependent' => true, 
+            'conditions' => array('InitialSadrs.report_type' => 'Initial')
         ]);
         $this->hasMany('ReportStages', [
             'className' => 'ReportStages',

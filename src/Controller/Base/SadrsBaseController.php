@@ -374,7 +374,7 @@ class SadrsBaseController extends AppController
             'contain' => $this->sadr_contain, 'withDeleted' //withDeleted will return all the records including the deleted ones
         ]);
 
-        // debug($sadr);
+        // dd($sadr);
         // exit;
 
         $ekey = 100;
