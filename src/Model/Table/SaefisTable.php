@@ -51,8 +51,9 @@ class SaefisTable extends Table
                 'SaefiListOfVaccines', 'AefiListOfVaccines', 'Uploads', 'RequestReporters', 'RequestEvaluators', 'Committees',
                 'SaefiComments', 'SaefiComments.Attachments',
                 'Committees.Users', 'Committees.SaefiComments', 'Committees.SaefiComments.Attachments',
-                'ReportStages', 'AefiCausalities', 'AefiCausalities.Users', 'Reports',
-                'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports'
+                'ReportStages', 'AefiCausalities', 'AefiCausalities.Users', 'Reports','SaefiReactions',
+                'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports','OriginalSaefis.SaefiReactions',
+                'InitialSaefis', 'InitialSaefis.SaefiListOfVaccines', 'InitialSaefis.Attachments', 'InitialSaefis.Reports','InitialSaefis.SaefiReactions'
             ],
             'remove' => [
                 'created', 'modified', 'saefi_list_of_vaccines.created',  'attachments.created', 'reports.created',
@@ -74,11 +75,18 @@ class SaefisTable extends Table
             'foreignKey' => 'province_id'
         ]);
         $this->belongsTo('OriginalSaefis', [
+            'className' => 'Saefis',
             'foreignKey' => 'saefi_id',
             'dependent' => true,
             'conditions' => array('OriginalSaefis.copied' => 'old copy')
         ]);
-
+        $this->belongsTo('InitialSaefis', [
+            'className' => 'Saefis',
+            'foreignKey' => 'initial_id',
+            'dependent' => true,
+            'conditions' => array('InitialSaefis.report_type' => 'Initial')
+        ]);
+        
         $this->hasMany('SaefiComments', [
             'className' => 'Comments',
             'foreignKey' => 'foreign_key',

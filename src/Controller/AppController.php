@@ -64,8 +64,10 @@ class AppController extends Controller
         'SaefiListOfVaccines', 'AefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees',
         'SaefiComments', 'SaefiComments.Attachments',
         'Committees.Users', 'Committees.SaefiComments', 'Committees.SaefiComments.Attachments',
-        'ReportStages', 'AefiCausalities', 'AefiCausalities.Users', 'Reports',
-        'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports'
+        'ReportStages', 'AefiCausalities', 'AefiCausalities.Users', 'Reports','SaefiReactions',
+        'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports','OriginalSaefis.SaefiReactions',
+        'InitialSaefis', 'InitialSaefis.SaefiListOfVaccines', 'InitialSaefis.Attachments', 'InitialSaefis.Reports','InitialSaefis.SaefiReactions'
+        
     ];
 
     public $adr_contain = [

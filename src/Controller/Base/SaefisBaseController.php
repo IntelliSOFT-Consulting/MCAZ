@@ -236,6 +236,7 @@ class SaefisBaseController extends AppController
         $users = $this->Saefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
 
 
+        // dd($saefi);
         $designations = $this->Saefis->Designations->find('list', array('order' => 'Designations.name ASC'));
         $provinces = $this->Saefis->Provinces->find('list', ['limit' => 200]);
         $this->set(compact('saefi', 'assignees', 'designations', 'provinces', 'evaluators', 'users', 'ekey'));

@@ -78,7 +78,7 @@ $this->assign('editable', false);
         <div role="tabpanel" class="tab-pane" id="initial">
             
             <?php 
-            //echo $this->element('saefis/saefi_view', ['saefi' => $saefi->original_saefi, 'nfetch' => true]) 
+            echo $this->element('saefis/saefi_view', ['saefi' => $saefi->initial_saefi, 'nfetch' => true]) 
             ?>
         </div>
     <?php } ?>

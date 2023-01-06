@@ -481,6 +481,7 @@ class SaefisController extends AppController
 
         $saefi = $this->SaefiFollowups->duplicateEntity($id);
         $saefi->saefi_id = $id;
+        $saefi->initial_id = $id;
         $saefi->messageid = null;
         $saefi->user_id = $this->Auth->user('id'); //the report is reassigned to the user
         $saefi->report_type = 'FollowUp';
