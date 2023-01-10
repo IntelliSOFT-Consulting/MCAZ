@@ -1,16 +1,18 @@
 <?php
+
 namespace App\Shell;
 
 use Cake\Console\Shell;
-use Cake\View\Helper\HtmlHelper; 
+use Cake\View\Helper\HtmlHelper;
 use Cake\I18n\Time;
 use Cake\Core\Configure;
+use Cake\Utility\Hash;
 
 class RemindersShell extends Shell
 {
     public function initialize()
     {
-        parent::initialize();        
+        parent::initialize();
         $this->loadModel('Aefis');
         $this->loadModel('Saefis');
         $this->loadModel('Sadrs');
@@ -21,9 +23,8 @@ class RemindersShell extends Shell
 
     public function main()
     {
-         $this->out('Hello world.');
-        //  debug('test');
-        //  exit;
+        $this->out('Generating Reminders********.');
+         
 
         //AEFIS
         // $aefis = $this->Aefis->find('all')
@@ -284,7 +285,7 @@ class RemindersShell extends Shell
         //     }            
         // }
 
-        // //USERS
+        //USERS
         // $users = $this->Users->find('all')
         //     ->contain([])
         //     ->where(['ifnull(Users.deactivated, 0) =' => 0, 'Users.last_password <=' => new \DateTime(Configure::read('password_expire_timeout'))
@@ -312,5 +313,41 @@ class RemindersShell extends Shell
         //         $this->Users->save($user);
         //     }            
         // }
+
+        //Notify Manager that a report has not been assigned to an evaluator in 7 days
+        // SADR Reports
+        
+        $unUssignedSadrs = $this->Sadrs->find('all')
+        ->contain([])
+        ->where([
+            'Sadrs.status' => 'Submitted', 'DATE(Sadrs.action_date) <=' => date('Y-m-d', strtotime('-2 minutes'))
+        ])
+        ->notMatching('Reminders', function ($q) {
+            $managers = $this->Sadrs->Users->find('all')->where(['Users.group_id IN' => [2], 'Users.deactivated' => 0]);
+            return $q->where(['Reminders.user_id IN' => Hash::extract($managers->toArray(), '{n}.id'), 'Reminders.reminder_type' => 'unassigned_sadr_reminder_email']);
+        });
+
+    foreach ($unUssignedSadrs as $sadr) {
+        $managers = $this->Sadrs->Users->find('all')->where(['Users.group_id IN' => [2], 'Users.deactivated' => 0]);
+        foreach ($managers as $manager) {
+
+            $data = [
+                'email_address' => $manager->email, 'user_id' => $manager->id,
+                'type' => 'unassigned_sadr_reminder_email',
+                'model' => 'Sadrs', 'foreign_key' => $sadr->id,
+                'vars' =>  $sadr->toArray()
+            ];
+
+            $data['vars']['name'] = $manager->name; 
+            $this->QueuedJobs->createJob('GenericEmail', $data);
+            $rem  = $this->Sadrs->Reminders->newEntity();
+            $rem->user_id = $manager->id;
+            $rem->model = 'Sadrs';
+            $rem->reminder_type = 'unassigned_sadr_reminder_email';
+            $sadr->reminders = [$rem];
+            $this->Sadrs->save($sadr);
+        } 
+    }
+
     }
 }

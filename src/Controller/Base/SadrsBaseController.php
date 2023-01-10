@@ -65,6 +65,8 @@ class SadrsBaseController extends AppController
      */
     public function index()
     {
+      
+
         $this->paginate = [
             'contain' => ['SadrListOfDrugs', 'SadrListOfDrugs.Doses', 'SadrOtherDrugs', 'Attachments',  'Reviews', 'Reviews.Users', 'RequestReporters', 'RequestEvaluators', 'Committees', 'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments', 'ReportStages', 'Reactions']
         ];
@@ -195,7 +197,7 @@ class SadrsBaseController extends AppController
         $results = $this->Sadrs
             ->find('all', array('contain' => ['ReportStages']))
             ->order(['created' => 'DESC'])
-            ->where($conditions); 
+            ->where($conditions);
         foreach ($results as $sadr) {
             $stages = $sadr->report_stages;
             // foreach ($stages as $stage) {
