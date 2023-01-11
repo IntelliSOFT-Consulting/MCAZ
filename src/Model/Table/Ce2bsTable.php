@@ -88,6 +88,15 @@ class Ce2bsTable extends Table
             'conditions' => array('RequestEvaluators.model' => 'Ce2bs', 'RequestEvaluators.type' => 'request_evaluator_info'),
         ]);
 
+        // Added reminders
+        $this->hasMany('Reminders', [
+            'className' => 'Reminders',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('Reminders.model' => 'Ce2bs'),
+        ]);
+
+
     }
 
     /**

@@ -7,3 +7,7 @@ UPDATE sadrs SET initial_id=sadr_id WHERE report_type='FollowUp';
 -- Action Date 
 
 ALTER TABLE `sadrs` ADD `action_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `modified`;
+ALTER TABLE `adrs` ADD `action_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `modified`;
+ALTER TABLE `aefis` ADD `action_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `modified`;
+ALTER TABLE `saefis` ADD `action_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `modified`;
+ALTER TABLE `ce2bs` ADD `action_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `modified`;
