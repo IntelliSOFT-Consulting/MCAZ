@@ -324,6 +324,8 @@ class AefisBaseController extends AppController
             }
             $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
 
+            // update action date  
+            $aefi->action_date = date("Y-m-d H:i:s");  
             //new stage only once
             if(!in_array("Evaluated", Hash::extract($aefi->report_stages, '{n}.stage'))) {
                 $stage1  = $this->Aefis->ReportStages->newEntity();

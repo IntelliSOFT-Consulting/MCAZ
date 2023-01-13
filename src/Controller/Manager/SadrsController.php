@@ -86,11 +86,11 @@ class SadrsController extends SadrsBaseController
 
             $current_user= $this->Auth->user('id'); //retrieve the current user
 
-
             $sadr->assigned_by = $current_user;
             $sadr->assigned_to =  $current_user;  //update the assigned_to field and mark the report as assigned
             $sadr->assigned_date = date("Y-m-d H:i:s");
             $sadr->status = 'Assigned';
+            $sadr->action_date = date("Y-m-d H:i:s"); //Updated report action date
             $evaluator = $this->Sadrs->Users->get($current_user);            
             $message=$this->request->getData('reminder_note');   // get the note added by the manager
 
@@ -119,6 +119,7 @@ class SadrsController extends SadrsBaseController
             $sadr->assigned_to = $this->request->getData('evaluator');
             $sadr->assigned_date = date("Y-m-d H:i:s");
             $sadr->status = 'Assigned';
+            $sadr->action_date = date("Y-m-d H:i:s"); //Updated report action date
             $evaluator = $this->Sadrs->Users->get($this->request->getData('evaluator'));
             $message=$this->request->getData('user_message');
 
@@ -146,6 +147,7 @@ class SadrsController extends SadrsBaseController
             $sadr->assigned_by = $this->Auth->user('id');
             $sadr->assigned_to = $this->request->getData('assigned_to');
             $sadr->assigned_date = date("Y-m-d H:i:s");
+            $sadr->action_date = date("Y-m-d H:i:s"); //Updated report action date
             $evaluator = $this->Sadrs->Users->get($this->request->getData('assigned_to'));
 
             if ($this->Sadrs->save($sadr)) {

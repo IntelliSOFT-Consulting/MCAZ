@@ -438,6 +438,10 @@ class SadrsBaseController extends AppController
             $sadr->reviews[0]->user_id = $this->Auth->user('id');
             $sadr->reviews[0]->model = 'Sadrs';
             $sadr->reviews[0]->category = 'causality';
+            
+            // update action date  
+            $sadr->action_date = date("Y-m-d H:i:s");  
+            // dd($sadr);
 
             //new stage only once
             if (!in_array("Evaluated", Hash::extract($sadr->report_stages, '{n}.stage'))) {

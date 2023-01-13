@@ -343,6 +343,8 @@ class AdrsBaseController extends AppController
             $adr->reviews[0]->model = 'Adrs';
             $adr->reviews[0]->category = 'causality';
 
+            // update action date  
+            $adr->action_date = date("Y-m-d H:i:s");  
             //new stage only once
             if(!in_array("Evaluated", Hash::extract($adr->report_stages, '{n}.stage'))) {
                 $stage1  = $this->Adrs->ReportStages->newEntity();

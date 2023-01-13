@@ -74,6 +74,7 @@ class SaefisController extends SaefisBaseController
             $saefi->assigned_by = $current;
             $saefi->assigned_to = $current;
             $saefi->assigned_date = date("Y-m-d H:i:s");
+            $saefi->action_date = date("Y-m-d H:i:s"); //Updated report action date
             $saefi->status = 'Assigned';
             $evaluator = $this->Saefis->Users->get($current);
             $message=$this->request->getData('reminder_note');
@@ -92,6 +93,7 @@ class SaefisController extends SaefisBaseController
             $saefi->assigned_by = $this->Auth->user('id');
             $saefi->assigned_to = $this->request->getData('evaluator');
             $saefi->assigned_date = date("Y-m-d H:i:s");
+            $saefi->action_date = date("Y-m-d H:i:s"); //Updated report action date
             $saefi->status = 'Assigned';
             $evaluator = $this->Saefis->Users->get($this->request->getData('evaluator'));            
             $message=$this->request->getData('user_message');
@@ -110,6 +112,7 @@ class SaefisController extends SaefisBaseController
             $saefi->assigned_by = $this->Auth->user('id');
             $saefi->assigned_to = $this->request->getData('assigned_to');
             $saefi->assigned_date = date("Y-m-d H:i:s");
+            $saefi->action_date = date("Y-m-d H:i:s"); //Updated report action date
             $evaluator = $this->Saefis->Users->get($this->request->getData('assigned_to'));
 
             if ($this->Saefis->save($saefi)) {

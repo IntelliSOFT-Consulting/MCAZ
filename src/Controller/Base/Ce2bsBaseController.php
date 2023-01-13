@@ -399,6 +399,8 @@ class Ce2bsBaseController extends AppController
             $ce2b->reviews[0]->model = 'Ce2bs';
             $ce2b->reviews[0]->category = 'causality';
 
+            // update action date  
+            $ce2b->action_date = date("Y-m-d H:i:s");  
             //new stage only once
             if (!in_array("Evaluated", Hash::extract($ce2b->report_stages, '{n}.stage'))) {
                 $stage1  = $this->Ce2bs->ReportStages->newEntity();
