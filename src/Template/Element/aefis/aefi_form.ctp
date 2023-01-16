@@ -8,7 +8,8 @@
 use Cake\Utility\Hash;
 
 // pr($aefi);
-$this->Html->script('aefi_edit', ['block' => true]);
+$this->Html->script('aefi_edit_new', ['block' => true]); 
+// $this->Html->css('aefi', ['block' => true]);
 $editable = $this->fetch('editable');
 ?>
 <?php
@@ -19,42 +20,41 @@ echo $this->fetch('actions');
 <?php $this->ValidationMessages->display($aefi->errors()) ?>
 
 <div class="<?= $this->fetch('baseClass'); ?>">
-    <div class="row">
+  <div class="row">
+    <div class="col-xs-12">
+      <h3 class="text-center">
+        <span class="text-center"><?= $this->Html->image("mcaz_3.png", ['fullBase' => true, 'style' => 'width: 70%;']); ?></span>
+        <br>
+        Adverse Event Following Immunization (AEFI) Report Form
+      </h3>
+      <div class="row">
         <div class="col-xs-12">
-            <h3 class="text-center">
-                <span
-                    class="text-center"><?= $this->Html->image("mcaz_3.png", ['fullBase' => true, 'style' => 'width: 70%;']); ?></span>
-                <br>
-                Adverse Event Following Immunization (AEFI) Report Form
-            </h3>
-            <div class="row">
-                <div class="col-xs-12">
-                    <h5 class="text-center">ZIMBABWE REPORTING FORM FOR ADVERSE EVENTS FOLLOWING IMMUNIZATION (AEFI)
-                    </h5>
-                </div>
-            </div>
+          <h5 class="text-center">ZIMBABWE REPORTING FORM FOR ADVERSE EVENTS FOLLOWING IMMUNIZATION (AEFI)
+          </h5>
         </div>
+      </div>
     </div>
+  </div>
 
-    <hr>
-    <div class="row">
+  <hr>
+  <div class="row">
+    <div class="col-xs-12">
+      <?= $this->Form->create($aefi, ['type' => 'file']) ?>
+      <div class="row">
         <div class="col-xs-12">
-            <?= $this->Form->create($aefi, ['type' => 'file']) ?>
-            <div class="row">
-                <div class="col-xs-12">
-                    <h5 class="text-center">MCAZ Reference Number:
-                        <strong><?= ($aefi->reference_number) ? $aefi->reference_number : $aefi->created->i18nFormat('dd-MM-yyyy HH:mm:ss'); ?></strong>
-                    </h5>
-                </div>
-            </div>
+          <h5 class="text-center">MCAZ Reference Number:
+            <strong><?= ($aefi->reference_number) ? $aefi->reference_number : $aefi->created->i18nFormat('dd-MM-yyyy HH:mm:ss'); ?></strong>
+          </h5>
+        </div>
+      </div>
 
-            <div class="row">
-                <div class="col-xs-6">
-                    <?php
+      <div class="row">
+        <div class="col-xs-6">
+          <?php
 
-          echo $this->Form->control('patient_name', ['label' => 'Patient first name ', 'escape' => false]);
+          echo $this->Form->control('patient_name', ['label' => 'Patient Name/ Initials ', 'escape' => false]);
 
-          echo $this->Form->control('patient_surname', ['label' => 'Patient Surname ', 'escape' => false]);
+          // echo $this->Form->control('patient_surname', ['label' => 'Patient Surname ', 'escape' => false]);
 
           echo $this->Form->control('patient_next_of_kin', ['label' => 'Patient next of Kin', 'escape' => false]);
 
@@ -65,9 +65,17 @@ echo $this->fetch('actions');
             'type' => 'radio',
             'label' => '<b>Gender</b> ', 'escape' => false,
             'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
+            'class' => 'gender-field', 
             'options' => ['Male' => 'Male', 'Female' => 'Female', 'Unknown' => 'Unknown']
           ]);
 
+          echo $this->Form->control('female_status', [
+            'type' => 'radio',
+            'label' => '<b>If female</b> ', 'escape' => false,
+            'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
+            'class' => 'female_status-field',
+            'options' => ['Pregnant' => 'Pregnant', 'Lactating' => 'Lactating']
+          ]);
           echo $this->Form->control('date_of_birth', array(
             'type' => 'date', 'escape' => false, 'default' => null,
             'label' => 'Date of Birth ',
@@ -81,18 +89,17 @@ echo $this->fetch('actions');
           echo $this->Form->control('age_at_onset_years', ['label' => 'OR Age at onset:', 'escape' => false, 'placeholder' => 'years...']);
           echo $this->Form->control('age_at_onset_months', ['label' => '', 'escape' => false, 'placeholder' => 'months...']);
           echo $this->Form->control('age_at_onset_days', ['label' => '', 'escape' => false, 'placeholder' => 'days...']);
-          // echo $this->Form->control('age_at_onset', ['type' => 'radio', 
-          //    'label' => 'OR Age at onset:', 'escape' => false,
-          //    'templates' => ($editable) ? 'radio_form': 'view_form_radio' ,
-          //    'options' => ['Years' => 'Years', 'Months'=>'Months','Days' => 'Days']]);
-
-          // echo $this->Form->control('age_at_onset_specify', ['label' => '', 'escape' => false]);
-
+          echo $this->Form->control('age_group', [
+            'type' => 'select', 'empty' => true,
+            'label' => '<b>OR Age Group</b>:', 'escape' => false,
+            'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
+            'options' => ['0<1 year' => '0<1 year', '1-5 years' => '1-5 years', '>5-18years' => '>5-18 years', '>18-60 years' => '>18-60 years', '>60 years' => '>60 years']
+          ]);
 
           ?>
-                </div>
-                <div class="col-xs-6">
-                    <?php
+        </div>
+        <div class="col-xs-6">
+          <?php
           echo $this->Form->control('reporter_name', ['label' => 'Reporter\'s name ', 'escape' => false]);
           echo $this->Form->input('designation_id', ['options' => $designations, 'empty' => true, 'label' => 'Designation <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
           echo $this->Form->control('reporter_institution', ['label' => 'Reporter Institution']);
@@ -104,27 +111,32 @@ echo $this->fetch('actions');
           echo $this->Form->control('reporter_phone', ['label' => 'Reporter phone']);
           echo $this->Form->control('reporter_email', ['label' => 'Reporter email']);
           ?>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-12">
-                    <?php
-          echo $this->Form->control('name_of_vaccination_center', ['label' => 'Name of vaccination center ', 'escape' => false]);
+        </div>
+      </div>
+<hr>
+      <div class="row">
+        <div class="col-xs-8">
+        <div class="input-field">
+          <?php
+          echo $this->Form->control('name_of_vaccination_center', [
+            'label' => 'Name of vaccination center ', 
+            'class' => 'input-field',
+            'escape' => false]);
           ?>
-                </div>
-            </div>
+        </div>
+        </div>
+      </div>
 
-            <div class="row">
-                <div class="col-xs-12">
-                    <?php echo $this->element('multi/list_of_vaccines', ['editable' => $editable]); ?>
-                </div>
-            </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <?php echo $this->element('multi/list_of_vaccines', ['editable' => $editable]); ?>
+        </div>
+      </div>
 
-            <div class="row">
-                <div class="col-xs-2">
-                    <h4>Adverse Event(s) :</h4>
-                    <?php
+      <div class="row">
+        <div class="col-xs-2">
+          <h4>Adverse Event(s) :</h4>
+          <?php
           echo '<label>Seizures</label>';
           echo $this->Form->control('ae_afebrile', ['type' => 'checkbox', 'label' => 'afebrile', 'templates' => ($editable) ? 'checkbox_form' : 'view_form_checkbox']);
           echo $this->Form->control('ae_febrile', ['type' => 'checkbox', 'label' => 'febrile', 'templates' => ($editable) ? 'checkbox_form' : 'view_form_checkbox']);
@@ -135,10 +147,10 @@ echo $this->fetch('actions');
 
 
           ?>
-                </div>
-                <div class="col-xs-3">
-                    <br><br>
-                    <?php
+        </div>
+        <div class="col-xs-3">
+          <br><br>
+          <?php
 
           echo $this->Form->control('ae_encephalopathy', ['type' => 'checkbox', 'label' => 'Encephalopathy', 'templates' => ($editable) ? 'checkbox_form' : 'view_form_checkbox']);
           echo $this->Form->control('ae_abscess', ['type' => 'checkbox', 'label' => 'Abscess', 'templates' => ($editable) ? 'checkbox_form' : 'view_form_checkbox']);
@@ -149,10 +161,10 @@ echo $this->fetch('actions');
           echo $this->Form->control('ae_thrombocytopenia', ['type' => 'checkbox', 'label' => 'Thrombocytopenia', 'templates' => ($editable) ? 'checkbox_form' : 'view_form_checkbox']);
 
           ?>
-                </div>
-                <div class="col-xs-3">
-                    <br><br>
-                    <?php
+        </div>
+        <div class="col-xs-3">
+          <br><br>
+          <?php
           // echo $this->Form->input('description_of_reaction', [
           //   //  'options' =>  Hash::extract($adverse, '{n}.terminology'),
           //   'options' =>   $adverse,
@@ -178,10 +190,10 @@ echo $this->fetch('actions');
 
 
           ?>
-                </div>
-                <div class="col-xs-3">
-                    <br><br><br>
-                    <?php
+        </div>
+        <div class="col-xs-3">
+          <br><br><br>
+          <?php
           //  echo $this->Form->control('description_of_reaction', ['label' => 'Describe AEFI (Signs and symptoms):']);
 
           echo $this->Form->control('aefi_date', [
@@ -211,32 +223,31 @@ echo $this->fetch('actions');
           ]);
 
           ?>
-                </div>
-            </div>
+        </div>
+      </div>
 
-            <!-- Start of new section -->
+      <!-- Start of new section -->
 
 
-            <div class="row">
-                <div class="col-xs-8">
-                    <?php
+      <div class="row">
+        <div class="col-xs-8">
+          <?php
 
           echo $this->Form->control('description_of_reaction', ['label' => 'Additional Adverse Events:']);
           echo $this->element('multi/aefi_reactions', ['editable' => $editable]);
           ?>
-                </div>
-                <div class="col-xs-4">
-                    <h5 class="controls pull-left"><b> </b><small>Other Reactions?
-                            <button title="add reaction" id="addReactionDetail"
-                                class="btn btn-primary btn-xs multiple_reactions" type="button">Add
-                                Reaction</button></small><b></b></h5>
-                </div>
-            </div>
-            <!-- End of the section -->
+        </div>
+        <div class="col-xs-4">
+          <h5 class="controls pull-left"><b> </b><small>Other Reactions?
+              <button title="add reaction" id="addReactionDetail" class="btn btn-primary btn-xs multiple_reactions" type="button">Add
+                Reaction</button></small><b></b></h5>
+        </div>
+      </div>
+      <!-- End of the section -->
 
-            <div class="row">
-                <div class="col-xs-12">
-                    <?php
+      <div class="row">
+        <div class="col-xs-12">
+          <?php
 
           echo $this->Form->control('user_description', ['label' => 'Describe AEFI (Signs and symptoms) ']);
 
@@ -247,11 +258,11 @@ echo $this->fetch('actions');
             'options' => ['Yes' => 'Yes', 'No' => 'No']
           ]);
           ?>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <?php
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <?php
           echo $this->Form->control('serious', [
             'type' => 'radio',
             'label' => '<b>Serious? </b>', 'escape' => false,
@@ -267,12 +278,12 @@ echo $this->fetch('actions');
           ]);
           echo $this->Form->control('other_reason', ['label' => 'Other medically important reason']);
           ?>
-                </div>
-            </div>
+        </div>
+      </div>
 
-            <div class="row">
-                <div class="col-xs-6">
-                    <?php
+      <div class="row">
+        <div class="col-xs-6">
+          <?php
           echo $this->Form->control('outcome', [
             'type' => 'select', 'empty' => true,
             'label' => 'Outcome ',
@@ -288,33 +299,34 @@ echo $this->fetch('actions');
             'options' => ['Yes' => 'Yes', 'No' => 'No', 'Unknown' => 'Unknown']
           ]);
           ?>
-                </div>
-            </div>
+        </div>
+      </div>
 
-            <div class="row">
-                <div class="col-xs-12">
-                    <?php
-          echo $this->Form->control('past_medical_history', ['label' => 'Past medical history (including history of similar reaction or other allergies), concomitant medication and other relevant information 
+      <div class="row">
+        <div class="col-xs-12">
+          <?php
+          echo $this->Form->control('past_medical_history', ['label' => 'Past medical history (including history of similar reaction or other allergies), concomitant medication and dates of administration (exclude
+          those used to treat reaction) and other relevant information 
   (e.g. other cases).']);
           ?>
-                </div>
-            </div>
+        </div>
+      </div>
 
-            <!-- <p>Attachments!!</p> -->
-            <div class="row">
-                <div class="col-xs-12"><?php echo $this->element('multi/attachments', ['editable' => $editable]); ?>
-                </div>
-            </div>
+      <!-- <p>Attachments!!</p> -->
+      <div class="row">
+        <div class="col-xs-12"><?php echo $this->element('multi/attachments', ['editable' => $editable]); ?>
+        </div>
+      </div>
 
-            <p><b>First decision making level to complete (District level):</b></p>
-            <div class="row">
-                <div class="col-xs-6">
-                    <?php
+      <p><b>First decision making level to complete (District level):</b></p>
+      <div class="row">
+        <div class="col-xs-6">
+          <?php
           echo $this->Form->control('district_receive_date', ['label' => 'Date report received at district level', 'type' => 'text']);
           ?>
-                </div>
-                <div class="col-xs-6">
-                    <?php
+        </div>
+        <div class="col-xs-6">
+          <?php
           echo $this->Form->control('investigation_needed', [
             'type' => 'radio',
             'label' => '<b>Investigation needed</b>', 'escape' => false,
@@ -323,41 +335,41 @@ echo $this->fetch('actions');
           ]);
           echo $this->Form->control('investigation_date', ['label' => 'If yes, date investigation planned', 'type' => 'text']);
           ?>
-                </div>
-            </div>
+        </div>
+      </div>
 
-            <p><b>National level top complete:</b></p>
-            <div class="row">
-                <div class="col-xs-12">
-                    <?php
+      <p><b>National level top complete:</b></p>
+      <div class="row">
+        <div class="col-xs-12">
+          <?php
           echo $this->Form->control('national_receive_date', ['label' => 'Date report received at national level', 'type' => 'text']);
           ?>
-                </div>
-            </div>
+        </div>
+      </div>
 
-            <p><b>Comments:</b></p>
-            <div class="row">
-                <div class="col-xs-12">
-                    <?php
+      <p><b>Comments:</b></p>
+      <div class="row">
+        <div class="col-xs-12">
+          <?php
           echo $this->Form->control('comments', ['label' => false]);
           ?>
-                </div>
-            </div>
+        </div>
+      </div>
 
-            <?php
+      <?php
       echo $this->fetch('submit_buttons');
       ?>
 
-            <?= $this->Form->end() ?>
-        </div>
-        <div class="col-xs-12">
-            <?php
+      <?= $this->Form->end() ?>
+    </div>
+    <div class="col-xs-12">
+      <?php
       // $this->start('submit_buttons'); 
       echo $this->fetch('followups');
       // $this->end(); 
       ?>
-        </div>
     </div>
+  </div>
 
 </div>
 

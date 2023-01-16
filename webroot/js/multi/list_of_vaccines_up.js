@@ -48,7 +48,7 @@ $(function() {
       }
         
       //var intId = $("#listOfVaccinesTable tr").length - 1;
-      if ($('#listOfVaccinesTable tbody tr').length < 101) {            
+      if ($('#listOfVaccinesTable tbody tr').length < 10) {            
           trVar = $.parseHTML(constructLOVTr(intId));
           $("#listOfVaccinesTable tbody").append(trVar);
       } else {
@@ -57,16 +57,17 @@ $(function() {
     });
 
     function constructLOVTr(intId) {
-        var intId2 = intId + 1;
-        // <div class="col-xs-6"> <input class="form-control date-pick-field" name="aefi_list_of_vaccines[{i}][vaccination_date]" id="aefi-list-of-vaccines-{i}-vaccination-date" type="text"></div>\
-                // <div class="col-xs-6"> <input class="form-control " name="aefi_list_of_vaccines[{i}][vaccination_time]" id="aefi-list-of-vaccines-{i}-vaccination-time" placeholder="14:00" type="text" ></div> </td>\
+        var intId2 = intId + 1; 
             
         var trWrapper = '\
           <tr>\
             <td>{i2}</td>\
             <td><input class="form-control" name="aefi_list_of_vaccines[{i}][id]" id="aefi-list-of-vaccines-{i}-id" type="hidden"> \
-                <input class="form-control" name="aefi_list_of_vaccines[{i}][vaccine_name]" id="aefi-list-of-vaccines-{i}-vaccine-name" type="text">  </td>\
+                <input class="form-control" name="aefi_list_of_vaccines[{i}][vaccine_name]" id="aefi-list-of-vaccines-{i}-vaccine-name" type="text"></td>\
             <td>\
+            <td>\
+            <input class="form-control" name="aefi_list_of_vaccines[{i}][manufacturer]" id="aefi-list-of-vaccines-{i}-manufacturer-name" type="text"></td>\
+        <td>\
                 <input class="form-control date-pick-field" placeholder="01-01-2017" name="aefi_list_of_vaccines[{i}][vaccination_date]" id="aefi-list-of-vaccines-{i}-vaccination-date" type="text"></td>\
             <td>\
                 <input class="form-control" placeholder="14:00" name="aefi_list_of_vaccines[{i}][vaccination_time]" id="aefi-list-of-vaccines-{i}-vaccination-time" type="text">\
