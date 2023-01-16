@@ -13,15 +13,13 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;';
     <div class="row">
         <div class="col-xs-12">
             <h3 class="text-center">
-                <span
-                    class="text-center"><?= $this->Html->image("mcaz_3.png", ['fullBase' => true, 'style' => 'width: 70%;']); ?></span>
+                <span class="text-center"><?= $this->Html->image("mcaz_3.png", ['fullBase' => true, 'style' => 'width: 70%;']); ?></span>
                 <br>
                 Adverse Event After Immunization (AEFI) Investigation Form
             </h3>
             <div class="row">
                 <div class="col-xs-12">
-                    <h5 class="text-center has-error">(Only for Serious Adverse Events Following Immunization <i
-                            class="fa fa-minus" aria-hidden="true"></i> Death / Disability / Hospitalization / Cluster)
+                    <h5 class="text-center has-error">(Only for Serious Adverse Events Following Immunization <i class="fa fa-minus" aria-hidden="true"></i> Death / Disability / Hospitalization / Cluster)
                     </h5>
                 </div>
             </div>
@@ -233,10 +231,10 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;';
                                         <th colspan="5">Diluent</th>
                                     </tr>
                                     <tr>
-                                        <th colspan="2" style="width: 20%"> Name </th>
+                                        <th colspan="2" style="width: 20%"> Name of vaccine<br>(Generic) </th>
+                                        <th colspan="1" style="width: 20%"> *Brand Name <br>incl. Name of<br>Manufacturer </th>
                                         <th colspan="2" style="width: 20%">
-                                            <h5>Date and Time of Vaccination <br><small id="helpBlock"
-                                                    class="has-warning">Format dd-mm-yyyy hh24:min</small></h5>
+                                            <h5>Date and Time of Vaccination <br><small id="helpBlock" class="has-warning">Format dd-mm-yyyy hh24:min</small></h5>
                                         </th>
                                         <th style="width: 5%"> Dose (1st, 2nd...) </th>
                                         <th style="width: 5%"> Batch/Lot number </th>
@@ -250,30 +248,31 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;';
                                 </thead>
                                 <tbody>
                                     <?php
-                  //Dynamic fields
-                  $list_of_vaccines = (!empty($saefi['aefi_list_of_vaccines'])) ? $saefi['aefi_list_of_vaccines'] : '';
-                  if (!empty($list_of_vaccines)) {
-                    for ($i = 0; $i <= count($list_of_vaccines) - 1; $i++) {
-                      // pr($saefi);
-                  ?>
-                                    <tr>
-                                        <td><?= $i + 1; ?></td>
-                                        <td><?= $saefi->aefi_list_of_vaccines[$i]['vaccine_name']; ?> </td>
-                                        <td><?= $saefi->aefi_list_of_vaccines[$i]['vaccination_date']; ?> </td>
-                                        <td><?= $saefi->aefi_list_of_vaccines[$i]['vaccination_time']; ?> </td>
-                                        <td><?= $saefi->aefi_list_of_vaccines[$i]['dosage']; ?> </td>
-                                        <td><?= $saefi->aefi_list_of_vaccines[$i]['batch_number']; ?> </td>
-                                        <td><?= $saefi->aefi_list_of_vaccines[$i]['expiry_date']; ?> </td>
+                                    //Dynamic fields
+                                    $list_of_vaccines = (!empty($saefi['aefi_list_of_vaccines'])) ? $saefi['aefi_list_of_vaccines'] : '';
+                                    if (!empty($list_of_vaccines)) {
+                                        for ($i = 0; $i <= count($list_of_vaccines) - 1; $i++) {
+                                            // pr($saefi);
+                                    ?>
+                                            <tr>
+                                                <td><?= $i + 1; ?></td>
+                                                <td><?= $saefi->aefi_list_of_vaccines[$i]['vaccine_name']; ?> </td>
+                                                <td><?= $saefi->aefi_list_of_vaccines[$i]['manufacturer']; ?> </td>
+                                                <td><?= $saefi->aefi_list_of_vaccines[$i]['vaccination_date']; ?> </td>
+                                                <td><?= $saefi->aefi_list_of_vaccines[$i]['vaccination_time']; ?> </td>
+                                                <td><?= $saefi->aefi_list_of_vaccines[$i]['dosage']; ?> </td>
+                                                <td><?= $saefi->aefi_list_of_vaccines[$i]['batch_number']; ?> </td>
+                                                <td><?= $saefi->aefi_list_of_vaccines[$i]['expiry_date']; ?> </td>
 
-                                        <td><?= $saefi->aefi_list_of_vaccines[$i]['diluent_batch_number']; ?> </td>
-                                        <td><?= $saefi->aefi_list_of_vaccines[$i]['diluent_expiry_date']; ?> </td>
-                                        <td><?= $saefi->aefi_list_of_vaccines[$i]['diluent_date']; ?> </td>
-                                        <td><?= ($saefi->aefi_list_of_vaccines[$i]['suspected_drug']) ? $checked : $nChecked; ?>
-                                        </td>
-                                    </tr>
+                                                <td><?= $saefi->aefi_list_of_vaccines[$i]['diluent_batch_number']; ?> </td>
+                                                <td><?= $saefi->aefi_list_of_vaccines[$i]['diluent_expiry_date']; ?> </td>
+                                                <td><?= $saefi->aefi_list_of_vaccines[$i]['diluent_date']; ?> </td>
+                                                <td><?= ($saefi->aefi_list_of_vaccines[$i]['suspected_drug']) ? $checked : $nChecked; ?>
+                                                </td>
+                                            </tr>
 
                                     <?php }
-                  } ?>
+                                    } ?>
 
                                 </tbody>
                             </table>
@@ -356,9 +355,19 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;';
                                 <td><?= $saefi->allergy_history_remarks ?> </td>
                             </tr>
                             <tr>
-                                <td><label>Pre-existing illness (30 days) / congenital disorder</label></td>
+                                <td><label>Pre-existing comorbidity/ congenital disorder</label></td>
+                                <td><?= $saefi->comorbidity_disorder ?> </td>
+                                <td><?= $saefi->comorbidity_disorder_remarks ?> </td>
+                            </tr>
+                            <tr>
+                                <td><label>Pre-existing acute illness (30 days) prior to vaccination</label></td>
                                 <td><?= $saefi->existing_illness ?> </td>
                                 <td><?= $saefi->existing_illness_remarks ?> </td>
+                            </tr>
+                            <tr>
+                                <td><label>Has the patient tested Covid19 positive prior to vaccination</label></td>
+                                <td><?= $saefi->covid_positive ?> </td>
+                                <td><?= $saefi->covid_positive_remarks ?> </td>
                             </tr>
                             <tr>
                                 <td><label>History of hospitalization in last 30 days, with cause</label></td>
@@ -551,7 +560,7 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;';
             </div>
 
             <h5><strong>**Instructions – Attach copies of ALL available documents (including case sheet, discharge
-                    summary, case notes, laboratory reports and autopsy reports) and then complete additional
+                    summary, case notes, laboratory reports and autopsy reports, prescriptions for concomitant medication)) and then complete additional
                     information NOT AVAILABLE in existing documents, i.e.</strong> </h5><br>
             <ul>
                 <li><strong>If patient has received medical care </strong>– attach copies of all available documents
@@ -590,19 +599,19 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;';
                 </div>
                 <div class="col-xs-7">
                     <?php
-          if (!empty($saefi['reports'])) {
-            echo '<p><b>File attachment:</b></p>';
-            echo $this->Html->link($saefi['reports'][0]->file, substr($saefi['reports'][0]->dir, 8) . '/' . $saefi['reports'][0]->file, ['fullBase' => true]);
-          }
-          ?>
+                    if (!empty($saefi['reports'])) {
+                        echo '<p><b>File attachment:</b></p>';
+                        echo $this->Html->link($saefi['reports'][0]->file, substr($saefi['reports'][0]->dir, 8) . '/' . $saefi['reports'][0]->file, ['fullBase' => true]);
+                    }
+                    ?>
                 </div>
             </div>
             <!-- <p>Attachments!!</p> -->
             <div class="row">
                 <div class="col-xs-12">
                     <?php
-          $att = $saefi['attachments'];
-          ?>
+                    $att = $saefi['attachments'];
+                    ?>
                     <div class="row">
                         <div class="col-md-12">
                             <h4>Do you have files that you would like to attach? click on the button to add them: </h4>
@@ -621,24 +630,24 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;';
                                 </thead>
                                 <tbody>
                                     <?php
-                  //Dynamic fields
-                  if (!empty($att)) {
-                    for ($i = 0; $i <= count($att) - 1; $i++) {
-                  ?>
+                                    //Dynamic fields
+                                    if (!empty($att)) {
+                                        for ($i = 0; $i <= count($att) - 1; $i++) {
+                                    ?>
 
-                                    <tr>
-                                        <td><?= $i + 1; ?></td>
-                                        <td>
-                                            <p class="text-info text-left">
-                                                <?php
-                            echo $this->Html->link($att[$i]->file, substr($att[$i]->dir, 8) . '/' . $att[$i]->file, ['fullBase' => true]);
-                            ?></p>
-                                        </td>
-                                        <td><?= $saefi->attachments[$i]['description']; ?> </td>
-                                        <td> </td>
-                                    </tr>
+                                            <tr>
+                                                <td><?= $i + 1; ?></td>
+                                                <td>
+                                                    <p class="text-info text-left">
+                                                        <?php
+                                                        echo $this->Html->link($att[$i]->file, substr($att[$i]->dir, 8) . '/' . $att[$i]->file, ['fullBase' => true]);
+                                                        ?></p>
+                                                </td>
+                                                <td><?= $saefi->attachments[$i]['description']; ?> </td>
+                                                <td> </td>
+                                            </tr>
                                     <?php }
-                  }; ?>
+                                    }; ?>
 
                                 </tbody>
                             </table>
@@ -657,14 +666,14 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;';
                         <!-- Added option for other reactions -->
 
                         <?php
-            foreach ($saefi->saefi_reactions as $key => $reaction) { ?>
-                        <tr>
-                            <th></th>
-                            <td><?php echo $reaction->reaction_name; ?></td>
-                        </tr>
+                        foreach ($saefi->saefi_reactions as $key => $reaction) { ?>
+                            <tr>
+                                <th></th>
+                                <td><?php echo $reaction->reaction_name; ?></td>
+                            </tr>
 
                         <?php }
-            ?>
+                        ?>
 
                     </table>
                 </div>
@@ -691,17 +700,17 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;';
                             </thead>
                             <tbody>
                                 <?php
-                if (!empty($saefi['saefi_list_of_vaccines'])) {
-                  for ($i = 0; $i <= count($saefi['saefi_list_of_vaccines']) - 1; $i++) {
-                ?>
-                                <tr>
-                                    <td><?= $i + 1; ?></td>
-                                    <td><?= $saefi->saefi_list_of_vaccines[$i]['vaccine_name']; ?> </td>
-                                    <td><?= $saefi->saefi_list_of_vaccines[$i]['vaccination_doses']; ?> </td>
-                                </tr>
+                                if (!empty($saefi['saefi_list_of_vaccines'])) {
+                                    for ($i = 0; $i <= count($saefi['saefi_list_of_vaccines']) - 1; $i++) {
+                                ?>
+                                        <tr>
+                                            <td><?= $i + 1; ?></td>
+                                            <td><?= $saefi->saefi_list_of_vaccines[$i]['vaccine_name']; ?> </td>
+                                            <td><?= $saefi->saefi_list_of_vaccines[$i]['vaccination_doses']; ?> </td>
+                                        </tr>
 
                                 <?php }
-                } ?>
+                                } ?>
 
                             </tbody>
                         </table>
@@ -1114,8 +1123,8 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;';
             </table>
 
             <?php
-      echo $this->fetch('submit_buttons');
-      ?>
+            echo $this->fetch('submit_buttons');
+            ?>
 
         </div>
     </div>
