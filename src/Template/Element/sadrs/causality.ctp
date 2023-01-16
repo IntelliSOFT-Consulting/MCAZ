@@ -222,9 +222,10 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i>';
                   <div class="form-group">
                     <label class="control-label">File</label>
                     <div class="">
-                      <p class="form-control-static text-info text-left"><?php
-                                                                          echo $this->Html->link($review->file, substr($review->dir, 8) . '/' . $review->file, ['fullBase' => true]);
-                                                                          ?></p>
+                      <p class="form-control-static text-info text-left">
+                        <?php
+                        echo $this->Html->link($review->file, substr($review->dir, 8) . '/' . $review->file, ['fullBase' => true]);
+                        ?></p>
                     </div>
                   </div>
 
@@ -233,9 +234,10 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i>';
                       <label><?= ($review->signature) ? $checked : $nChecked; ?> Signature</label>
                     </div>
                     <div>
-                      <h4 class="form-control-static text-info text-left"><?php
-                                                                          echo ($review->signature) ? "<img src='" . $this->Url->build(substr($review->user->dir, 8) . '/' . $review->user->file, true) . "' style='width: 30%;' alt=''>" : '';
-                                                                          ?></h4>
+                      <h4 class="form-control-static text-info text-left">
+                        <?php
+                        echo ($review->signature) ? "<img src='" . $this->Url->build(substr($review->user->dir, 8) . '/' . $review->user->file, true) . "' style='width: 30%;' alt=''>" : '';
+                        ?></h4>
                     </div>
                   </div>
 
@@ -247,10 +249,11 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i>';
                       <label>Manager's Signature</label>
                     </div>
                     <div>
-                      <h4 class="form-control-static text-info text-left"><?php
-                                                                          // echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$sadr->assigned_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$sadr->assigned_by], true)."' style='width: 30%;' alt=''>";
-                                                                          echo $this->cell('Signature', [$review->reviewed_by]);
-                                                                          ?></h4>
+                      <h4 class="form-control-static text-info text-left">
+                        <?php
+                        // echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$sadr->assigned_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$sadr->assigned_by], true)."' style='width: 30%;' alt=''>";
+                        echo $this->cell('Signature', [$review->reviewed_by]);
+                        ?></h4>
                     </div>
                   </div>
                 <?php

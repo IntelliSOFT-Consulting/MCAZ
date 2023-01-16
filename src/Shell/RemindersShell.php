@@ -391,7 +391,7 @@ class RemindersShell extends Shell
         }
 
         // SAEs 
-        $nadrs = $this->Adrs->find('all')
+        $unEvaluatedAdrs = $this->Adrs->find('all')
             ->contain([])
             ->where([
                 'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Adrs.status' => 'Assigned',
@@ -403,28 +403,27 @@ class RemindersShell extends Shell
             ->notMatching('Reminders', function ($q) {
                 return $q->where(['Reminders.user_id = Adrs.assigned_to', 'Reminders.reminder_type' => 'evaluator_sae_reminder_email']);
             });
-        foreach ($nadrs as $adr) {
-            if (!empty($adr->reporter_email)) {
-                $evaluator = $this->Adrs->Users->get($adr->assigned_to);
-                $manager = $this->Adrs->Users->get($adr->assigned_by);
-                $data = [
-                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
-                    'type' => 'evaluator_sae_reminder_email',
-                    'model' => 'Adrs', 'foreign_key' => $adr->id,
-                    'vars' =>  $adr->toArray()
-                ];
+        foreach ($unEvaluatedAdrs as $adr) {
+            dd($adr);
+            $evaluator = $this->Adrs->Users->get($adr->assigned_to);
+            $manager = $this->Adrs->Users->get($adr->assigned_by);
+            $data = [
+                'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                'type' => 'evaluator_sae_reminder_email',
+                'model' => 'Adrs', 'foreign_key' => $adr->id,
+                'vars' =>  $adr->toArray()
+            ];
 
-                $data['vars']['name'] = $evaluator->name;
-                $data['vars']['assigned_by_name'] = $manager->name;
-                $data['vars']['cc'] = $manager->email;
-                // $this->QueuedJobs->createJob('GenericEmail', $data);
-                $rem  = $this->Adrs->Reminders->newEntity();
-                $rem->user_id = $evaluator->id;
-                $rem->model = 'Adrs';
-                $rem->reminder_type = 'evaluator_sae_reminder_email';
-                $adr->reminders = [$rem];
-                $this->Adrs->save($adr);
-            }
+            $data['vars']['name'] = $evaluator->name;
+            $data['vars']['assigned_by_name'] = $manager->name;
+            $data['vars']['cc'] = $manager->email;
+            $this->QueuedJobs->createJob('GenericEmail', $data);
+            $rem  = $this->Adrs->Reminders->newEntity();
+            $rem->user_id = $evaluator->id;
+            $rem->model = 'Adrs';
+            $rem->reminder_type = 'evaluator_sae_reminder_email';
+            $adr->reminders = [$rem];
+            $this->Adrs->save($adr);
         }
 
         // AEFIs 
@@ -454,7 +453,7 @@ class RemindersShell extends Shell
                 $data['vars']['name'] = $evaluator->name;
                 $data['vars']['assigned_by_name'] = $manager->name;
                 $data['vars']['cc'] = $manager->email;
-                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $this->QueuedJobs->createJob('GenericEmail', $data);
                 $rem  = $this->Aefis->Reminders->newEntity();
                 $rem->user_id = $evaluator->id;
                 $rem->model = 'Aefis';
@@ -492,7 +491,7 @@ class RemindersShell extends Shell
                 $data['vars']['name'] = $evaluator->name;
                 $data['vars']['assigned_by_name'] = $manager->name;
                 $data['vars']['cc'] = $manager->email;
-                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $this->QueuedJobs->createJob('GenericEmail', $data);
                 $rem  = $this->Saefis->Reminders->newEntity();
                 $rem->user_id = $evaluator->id;
                 $rem->model = 'Saefis';
@@ -510,7 +509,7 @@ class RemindersShell extends Shell
                 'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Ce2bs.status' => 'Assigned',
                 'DATE(Ce2bs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
             ])
-            
+
             ->notMatching('Reminders', function ($q) {
                 return $q->where(['Reminders.user_id = Ce2bs.assigned_to', 'Reminders.reminder_type' => 'evaluator_ce2b_reminder_email']);
             });
@@ -528,7 +527,7 @@ class RemindersShell extends Shell
                 $data['vars']['name'] = $evaluator->name;
                 $data['vars']['assigned_by_name'] = $manager->name;
                 $data['vars']['cc'] = $manager->email;
-                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $this->QueuedJobs->createJob('GenericEmail', $data);
                 $rem  = $this->Ce2bs->Reminders->newEntity();
                 $rem->user_id = $evaluator->id;
                 $rem->model = 'Ce2bs';
@@ -541,42 +540,80 @@ class RemindersShell extends Shell
 
         // STAYED FOR LONG WITHOUT COMMITTEE ACTION
         $nsadrs = $this->Sadrs->find('all')
-        ->contain([])
-        ->where([
-            'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Sadrs.status' => 'Submitted',
-            'DATE(Sadrs.created) <=' => date('Y-m-d', strtotime('-7 days'))
-        ]) 
-        ->notMatching('Reminders', function ($q) {
-            return $q->where(['Reminders.user_id = Sadrs.assigned_to', 'Reminders.reminder_type' => 'evaluator_sadr_reminder_email']);
-        });
-    foreach ($nsadrs as $sadr) {
-        if (!empty($sadr->reporter_email)) {
-            $evaluator = $this->Sadrs->Users->get($sadr->assigned_to);
-            $manager = $this->Sadrs->Users->get($sadr->assigned_by);
-            $data = [
-                'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
-                'type' => 'evaluator_sadr_reminder_email',
-                'model' => 'Sadrs', 'foreign_key' => $sadr->id,
-                'vars' =>  $sadr->toArray()
-            ];
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Sadrs.status' => 'Evaluated',
+                'DATE(Sadrs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('Committees', function ($q) {
+                return $q->where(['Committees.category' => 'committee', 'Committees.user_id = Sadrs.assigned_to'])->orWhere(['Committees.category' => 'committee', 'Committees.user_id = Sadrs.assigned_by']);
+            })
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Sadrs.assigned_to', 'Reminders.reminder_type' => 'committee_sadr_reminder_email']);
+            });
+        foreach ($nsadrs as $sadr) {
+            if (!empty($sadr->reporter_email)) {
+                $evaluator = $this->Sadrs->Users->get($sadr->assigned_to);
+                $manager = $this->Sadrs->Users->get($sadr->assigned_by);
+                $data = [
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'committee_sadr_reminder_email',
+                    'model' => 'Sadrs', 'foreign_key' => $sadr->id,
+                    'vars' =>  $sadr->toArray()
+                ];
 
-            $data['vars']['name'] = $evaluator->name;
-            $data['vars']['assigned_by_name'] = $manager->name;
-            $data['vars']['cc'] = $manager->email;
-            // $this->QueuedJobs->createJob('GenericEmail', $data);
-            $rem  = $this->Sadrs->Reminders->newEntity();
-            $rem->user_id = $evaluator->id;
-            $rem->model = 'Sadrs';
-            $rem->reminder_type = 'evaluator_sadr_reminder_email';
-            $sadr->reminders = [$rem];
-            $this->Sadrs->save($sadr);
+                $data['vars']['name'] = $evaluator->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                $data['vars']['cc'] = $manager->email;
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Sadrs->Reminders->newEntity();
+                $rem->user_id = $evaluator->id;
+                $rem->model = 'Sadrs';
+                $rem->reminder_type = 'committee_sadr_reminder_email';
+                $sadr->reminders = [$rem];
+                $this->Sadrs->save($sadr);
+            }
         }
-    }
+        $nAdrs = $this->Adrs->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Adrs.status' => 'Evaluated',
+                'DATE(Adrs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('Committees', function ($q) {
+                return $q->where(['Committees.category' => 'committee', 'Committees.user_id = Adrs.assigned_to'])->orWhere(['Committees.category' => 'committee', 'Committees.user_id = Adrs.assigned_by']);
+            })
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Adrs.assigned_to', 'Reminders.reminder_type' => 'committee_adr_reminder_email']);
+            });
+        foreach ($nAdrs as $report) {
+            if (!empty($report->reporter_email)) {
+                $evaluator = $this->Adrs->Users->get($report->assigned_to);
+                $manager = $this->Adrs->Users->get($report->assigned_by);
+                $data = [
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'committee_adr_reminder_email',
+                    'model' => 'Adrs', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $evaluator->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                $data['vars']['cc'] = $manager->email;
+                $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Adrs->Reminders->newEntity();
+                $rem->user_id = $evaluator->id;
+                $rem->model = 'Adrs';
+                $rem->reminder_type = 'committee_adr_reminder_email';
+                $report->reminders = [$rem];
+                $this->Adrs->save($report);
+            }
+        }
 
         // STAYED FOR LONG WITHOUT CORESPONDENCE ACTION
 
         // STAYED LONG AT APPLICANT'S RESPONSE
-        
+
         // STAYED LONG AT FINAL FEEDBACK STAGE
     }
 }

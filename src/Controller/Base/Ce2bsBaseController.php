@@ -529,6 +529,9 @@ class Ce2bsBaseController extends AppController
              * Else Application status is set to Committee. Committee process always visible to PI (except internal comments)
              * 
              */
+
+            // update action date  
+            $ce2b->action_date = date("Y-m-d H:i:s");  
             if (!empty($this->request->getData('committees.100.status'))) {
                 $stage1  = $this->Ce2bs->ReportStages->newEntity();
                 $stage1->model = 'Ce2bs';

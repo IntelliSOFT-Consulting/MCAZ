@@ -497,6 +497,9 @@ class AefisBaseController extends AppController
              * Else Application status is set to Committee. Committee process always visible to PI (except internal comments)
              * 
              */
+
+            // update action date  
+            $aefi->action_date = date("Y-m-d H:i:s");  
             if(!empty($this->request->getData('committees.100.status'))) {
                 $stage1  = $this->Aefis->ReportStages->newEntity();
                 $stage1->model = 'Aefis';

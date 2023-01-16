@@ -95,7 +95,7 @@ class SadrsBaseController extends AppController
         } else {
             $this->set('sadrs', $this->paginate($query));
         }
-
+ 
         // $this->set(compact('sadrs'));
         // $this->set('_serialize', ['sadrs']);
         $_provinces = $provinces->toArray();
@@ -625,6 +625,8 @@ class SadrsBaseController extends AppController
             $sadr->committees[0]->model = 'Sadrs';
             $sadr->committees[0]->category = 'committee';
 
+            // update action date  
+            $sadr->action_date = date("Y-m-d H:i:s");  
             /**
              * Committee decision 
              * If decision is Approved, the status is set to Committee or Stage 9
