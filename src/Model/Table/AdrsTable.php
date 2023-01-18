@@ -116,6 +116,12 @@ class AdrsTable extends Table
             'dependent' => true,
             'conditions' => array('Reminders.model' => 'Adrs'),
         ]);
+        $this->hasMany('AdrComments', [
+            'className' => 'Comments',
+            'foreignKey' => 'model_id',
+            'dependent' => true,
+            'conditions' => array('AdrComments.model' => 'Adrs'),
+        ]);
 
 
         $this->hasMany('Refids', [

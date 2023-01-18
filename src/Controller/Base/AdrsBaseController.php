@@ -62,27 +62,20 @@ class AdrsBaseController extends AppController
      */
     public function index()
     {
-
-        $unEvaluatedAdrs = $this->Adrs->find('all')
-            ->contain([])
-            ->where([
-                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Adrs.status' => 'Assigned',
-                'DATE(Adrs.action_date) <=' => date('Y-m-d', strtotime('-10 days'))
-            ])
-            // ->notMatching('Reviews', function ($q) {
-            //     return $q->where(['Reviews.user_id = Adrs.assigned_to']);
-            // })
-            // ->notMatching('Reminders', function ($q) {
-            //     return $q->where(['Reminders.user_id = Adrs.assigned_to', 'Reminders.reminder_type' => 'evaluator_sae_reminder_email']);
-            // })
-            ;
-        //     debug(count($unEvaluatedAdrs));
-        //     exit;
-        // foreach ($unEvaluatedAdrs as $adr) {
+        $nAdrs = $this->Adrs->find('all')
+        ->contain([])
+        ->where([
+            'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Adrs.status' => 'FinalFeedback',
+            'DATE(Adrs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+        ])
+        ->notMatching('Reminders', function ($q) {
+            return $q->where(['Reminders.user_id = Adrs.assigned_by', 'Reminders.reminder_type' => 'feedback_adr_reminder_email']);
+        });
+        // foreach ($nAdrs as $adr) {
         //     debug($adr);
         //     exit;
         // }
-        // exit;
+       
 
 
         $this->paginate = [

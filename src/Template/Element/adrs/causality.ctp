@@ -108,9 +108,10 @@ if (($prefix == 'evaluator') && $this->request->session()->read('Auth.User.id') 
                                             <label><?= ($review->signature) ? $checked : $nChecked; ?> Signature</label>
                                         </div>
                                         <div>
-                                            <h4 class="form-control-static text-info text-left"><?php
-                                                                                                echo ($review->signature) ? "<img src='" . $this->Url->build(substr($review->user->dir, 8) . '/' . $review->user->file, true) . "' style='width: 30%;' alt=''>" : '';
-                                                                                                ?></h4>
+                                            <h4 class="form-control-static text-info text-left">
+                                                <?php
+                                                echo ($review->signature) ? "<img src='" . $this->Url->build(substr($review->user->dir, 8) . '/' . $review->user->file, true) . "' style='width: 30%;' alt=''>" : '';
+                                                ?></h4>
                                         </div>
                                     </div>
 
@@ -126,7 +127,7 @@ if (($prefix == 'evaluator') && $this->request->session()->read('Auth.User.id') 
                                                 <?php
                                                 // echo "<img src='" . $this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$adr->assigned_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$adr->assigned_by], true) . "' style='width: 30%;' alt=''>";
                                                 echo $this->cell('Signature', [$review->reviewed_by]);
-                                               ?></h4>
+                                                ?></h4>
                                         </div>
                                     </div>
                                 <?php
