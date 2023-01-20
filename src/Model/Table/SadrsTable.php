@@ -129,6 +129,12 @@ class SadrsTable extends Table
             'dependent' => true,
             'conditions' => array('Reviews.model' => 'Sadrs', 'Reviews.category' => 'causality'),
         ]);
+        $this->hasMany('SadrComments', [
+            'className' => 'Comments',
+            'foreignKey' => 'model_id',
+            'dependent' => true,
+            'conditions' => array('SadrComments.model' => 'Sadrs'),
+        ]);
         $this->hasMany('Committees', [
             'className' => 'Reviews',
             'foreignKey' => 'foreign_key',

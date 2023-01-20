@@ -615,8 +615,151 @@ class RemindersShell extends Shell
                 $this->Adrs->save($report);
             }
         }
+        // AEFI
+        $nAefis = $this->Aefis->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Aefis.status' => 'Evaluated',
+                'DATE(Aefis.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('Committees', function ($q) {
+                return $q->where(['Committees.category' => 'committee', 'Committees.user_id = Aefis.assigned_to'])->orWhere(['Committees.category' => 'committee', 'Committees.user_id = Aefis.assigned_by']);
+            })
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Aefis.assigned_to', 'Reminders.reminder_type' => 'committee_aefi_reminder_email']);
+            });
+        foreach ($nAefis as $report) {
+            if (!empty($report->reporter_email)) {
+                $evaluator = $this->Aefis->Users->get($report->assigned_to);
+                $manager = $this->Aefis->Users->get($report->assigned_by);
+                $data = [
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'committee_aefi_reminder_email',
+                    'model' => 'Aefis', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $evaluator->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                $data['vars']['cc'] = $manager->email;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Aefis->Reminders->newEntity();
+                $rem->user_id = $evaluator->id;
+                $rem->model = 'Aefis';
+                $rem->reminder_type = 'committee_aefi_reminder_email';
+                $report->reminders = [$rem];
+                $this->Aefis->save($report);
+            }
+        }
+
+        // SAEFIS
+        $nSaefis = $this->Saefis->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Saefis.status' => 'Evaluated',
+                'DATE(Saefis.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('Committees', function ($q) {
+                return $q->where(['Committees.category' => 'committee', 'Committees.user_id = Saefis.assigned_to'])->orWhere(['Committees.category' => 'committee', 'Committees.user_id = Saefis.assigned_by']);
+            })
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Saefis.assigned_to', 'Reminders.reminder_type' => 'committee_saefi_reminder_email']);
+            });
+        foreach ($nSaefis as $report) {
+            if (!empty($report->reporter_email)) {
+                $evaluator = $this->Saefis->Users->get($report->assigned_to);
+                $manager = $this->Saefis->Users->get($report->assigned_by);
+                $data = [
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'committee_saefi_reminder_email',
+                    'model' => 'Saefis', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $evaluator->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                $data['vars']['cc'] = $manager->email;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Saefis->Reminders->newEntity();
+                $rem->user_id = $evaluator->id;
+                $rem->model = 'Saefis';
+                $rem->reminder_type = 'committee_saefi_reminder_email';
+                $report->reminders = [$rem];
+                $this->Saefis->save($report);
+            }
+        }
+
+        // CE2B
+        $nCe2bs = $this->Ce2bs->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Ce2bs.status' => 'Evaluated',
+                'DATE(Ce2bs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('Committees', function ($q) {
+                return $q->where(['Committees.category' => 'committee', 'Committees.user_id = Ce2bs.assigned_to'])->orWhere(['Committees.category' => 'committee', 'Committees.user_id = Ce2bs.assigned_by']);
+            })
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Ce2bs.assigned_to', 'Reminders.reminder_type' => 'committee_ce2b_reminder_email']);
+            });
+        foreach ($nCe2bs as $report) {
+            if (!empty($report->reporter_email)) {
+                $evaluator = $this->Ce2bs->Users->get($report->assigned_to);
+                $manager = $this->Ce2bs->Users->get($report->assigned_by);
+                $data = [
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'committee_ce2b_reminder_email',
+                    'model' => 'Ce2bs', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $evaluator->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                $data['vars']['cc'] = $manager->email;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Ce2bs->Reminders->newEntity();
+                $rem->user_id = $evaluator->id;
+                $rem->model = 'Ce2bs';
+                $rem->reminder_type = 'committee_ce2b_reminder_email';
+                $report->reminders = [$rem];
+                $this->Ce2bs->save($report);
+            }
+        }
 
         //STAYED LONG WITHOUT COMMITTEE ACTION
+        // SADRS
+        $nSadrs = $this->Sadrs->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Sadrs.status' => 'Committee',
+                'DATE(Sadrs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Sadrs.assigned_to', 'Reminders.reminder_type' => 'committee_action_sadr_reminder_email']);
+            });
+        foreach ($nSadrs as $report) {
+            if (!empty($report->reporter_email)) {
+                $evaluator = $this->Sadrs->Users->get($report->assigned_to);
+                $manager = $this->Sadrs->Users->get($report->assigned_by);
+                $data = [
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'committee_action_sadr_reminder_email',
+                    'model' => 'Sadrs', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $evaluator->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                $data['vars']['cc'] = $manager->email;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Sadrs->Reminders->newEntity();
+                $rem->user_id = $evaluator->id;
+                $rem->model = 'Sadrs';
+                $rem->reminder_type = 'committee_action_sadr_reminder_email';
+                $report->reminders = [$rem];
+                $this->Sadrs->save($report);
+            }
+        }
         // SAE
         $nAdrs = $this->Adrs->find('all')
             ->contain([])
@@ -650,8 +793,145 @@ class RemindersShell extends Shell
                 $this->Adrs->save($report);
             }
         }
+        // AEFIS
+        $nAefis = $this->Aefis->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Aefis.status' => 'Committee',
+                'DATE(Aefis.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Aefis.assigned_to', 'Reminders.reminder_type' => 'committee_action_aefis_reminder_email']);
+            });
+        foreach ($nAefis as $report) {
+            if (!empty($report->reporter_email)) {
+                $evaluator = $this->Aefis->Users->get($report->assigned_to);
+                $manager = $this->Aefis->Users->get($report->assigned_by);
+                $data = [
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'committee_action_aefis_reminder_email',
+                    'model' => 'Aefis', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $evaluator->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                $data['vars']['cc'] = $manager->email;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Aefis->Reminders->newEntity();
+                $rem->user_id = $evaluator->id;
+                $rem->model = 'Aefis';
+                $rem->reminder_type = 'committee_action_aefis_reminder_email';
+                $report->reminders = [$rem];
+                $this->Aefis->save($report);
+            }
+        }
+        // SAEFIS
+        $nSaefis = $this->Saefis->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Saefis.status' => 'Committee',
+                'DATE(Saefis.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Saefis.assigned_to', 'Reminders.reminder_type' => 'committee_action_saefi_reminder_email']);
+            });
+        foreach ($nSaefis as $report) {
+            if (!empty($report->reporter_email)) {
+                $evaluator = $this->Saefis->Users->get($report->assigned_to);
+                $manager = $this->Saefis->Users->get($report->assigned_by);
+                $data = [
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'committee_action_saefi_reminder_email',
+                    'model' => 'Saefis', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $evaluator->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                $data['vars']['cc'] = $manager->email;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Saefis->Reminders->newEntity();
+                $rem->user_id = $evaluator->id;
+                $rem->model = 'Saefis';
+                $rem->reminder_type = 'committee_action_saefi_reminder_email';
+                $report->reminders = [$rem];
+                $this->Saefis->save($report);
+            }
+        }
+
+        // CE2B
+        $nCe2bs = $this->Ce2bs->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Ce2bs.status' => 'Committee',
+                'DATE(Ce2bs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Ce2bs.assigned_to', 'Reminders.reminder_type' => 'committee_action_ce2b_reminder_email']);
+            });
+        foreach ($nCe2bs as $report) {
+            if (!empty($report->reporter_email)) {
+                $evaluator = $this->Ce2bs->Users->get($report->assigned_to);
+                $manager = $this->Ce2bs->Users->get($report->assigned_by);
+                $data = [
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'committee_action_ce2b_reminder_email',
+                    'model' => 'Ce2bs', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $evaluator->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                $data['vars']['cc'] = $manager->email;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Ce2bs->Reminders->newEntity();
+                $rem->user_id = $evaluator->id;
+                $rem->model = 'Ce2bs';
+                $rem->reminder_type = 'committee_action_ce2b_reminder_email';
+                $report->reminders = [$rem];
+                $this->Ce2bs->save($report);
+            }
+        }
 
         // STAYED FOR LONG WITHOUT CORESPONDENCE ACTION
+        // SADRs
+        $corespondenceSadrs = $this->Sadrs->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Sadrs.status' => 'Correspondence',
+                'DATE(Sadrs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('AdrComments', function ($q) {
+                return $q->where(['AdrComments.user_id = Sadrs.user_id']);
+            })
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Sadrs.user_id', 'Reminders.reminder_type' => 'correspondence_sadr_reminder_email']);
+            });
+        foreach ($corespondenceSadrs as $report) {
+            if (!empty($report->reporter_email)) {
+                $evaluator = $this->Sadrs->Users->get($report->user_id);
+                $manager = $this->Sadrs->Users->get($report->assigned_by);
+                $data = [
+
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'correspondence_sadr_reminder_email',
+                    'model' => 'Sadrs', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $evaluator->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                $data['vars']['cc'] = $manager->email;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Sadrs->Reminders->newEntity();
+                $rem->user_id = $evaluator->id;
+                $rem->model = 'Sadrs';
+                $rem->reminder_type = 'correspondence_sadr_reminder_email';
+                $report->reminders = [$rem];
+                $this->Sadrs->save($report);
+            }
+        }
         // SAE
         $corespondenceAdrs = $this->Adrs->find('all')
             ->contain([])
@@ -690,7 +970,158 @@ class RemindersShell extends Shell
             }
         }
 
+        // AEFIS
+        $corespondenceAefis = $this->Aefis->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Aefis.status' => 'Correspondence',
+                'DATE(Aefis.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('AdrComments', function ($q) {
+                return $q->where(['AdrComments.user_id = Aefis.user_id']);
+            })
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Aefis.user_id', 'Reminders.reminder_type' => 'correspondence_aefi_reminder_email']);
+            });
+        foreach ($corespondenceAefis as $report) {
+            if (!empty($report->reporter_email)) {
+                $evaluator = $this->Aefis->Users->get($report->user_id);
+                $manager = $this->Aefis->Users->get($report->assigned_by);
+                $data = [
+
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'correspondence_aefi_reminder_email',
+                    'model' => 'Aefis', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $evaluator->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                $data['vars']['cc'] = $manager->email;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Aefis->Reminders->newEntity();
+                $rem->user_id = $evaluator->id;
+                $rem->model = 'Aefis';
+                $rem->reminder_type = 'correspondence_aefi_reminder_email';
+                $report->reminders = [$rem];
+                $this->Aefis->save($report);
+            }
+        }
+
+
+        // SAEFIS
+        $corespondenceSaefis = $this->Saefis->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Saefis.status' => 'Correspondence',
+                'DATE(Saefis.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('AdrComments', function ($q) {
+                return $q->where(['AdrComments.user_id = Saefis.user_id']);
+            })
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Saefis.user_id', 'Reminders.reminder_type' => 'correspondence_saefi_reminder_email']);
+            });
+        foreach ($corespondenceSaefis as $report) {
+            if (!empty($report->reporter_email)) {
+                $evaluator = $this->Saefis->Users->get($report->user_id);
+                $manager = $this->Saefis->Users->get($report->assigned_by);
+                $data = [
+
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'correspondence_saefi_reminder_email',
+                    'model' => 'Saefis', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $evaluator->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                $data['vars']['cc'] = $manager->email;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Saefis->Reminders->newEntity();
+                $rem->user_id = $evaluator->id;
+                $rem->model = 'Saefis';
+                $rem->reminder_type = 'correspondence_saefi_reminder_email';
+                $report->reminders = [$rem];
+                $this->Saefis->save($report);
+            }
+        }
+        // CE2BS
+        $corespondenceCe2bs = $this->Ce2bs->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Ce2bs.status' => 'Correspondence',
+                'DATE(Ce2bs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('AdrComments', function ($q) {
+                return $q->where(['AdrComments.user_id = Ce2bs.user_id']);
+            })
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Ce2bs.user_id', 'Reminders.reminder_type' => 'correspondence_ce2b_reminder_email']);
+            });
+        foreach ($corespondenceCe2bs as $report) {
+            if (!empty($report->reporter_email)) {
+                $evaluator = $this->Ce2bs->Users->get($report->user_id);
+                $manager = $this->Ce2bs->Users->get($report->assigned_by);
+                $data = [
+
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'correspondence_ce2b_reminder_email',
+                    'model' => 'Ce2bs', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $evaluator->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                $data['vars']['cc'] = $manager->email;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Ce2bs->Reminders->newEntity();
+                $rem->user_id = $evaluator->id;
+                $rem->model = 'Ce2bs';
+                $rem->reminder_type = 'correspondence_ce2b_reminder_email';
+                $report->reminders = [$rem];
+                $this->Ce2bs->save($report);
+            }
+        }
+
         // STAYED LONG AT APPLICANT'S RESPONSE
+        // SADRS
+        $applicantResponseSadrs = $this->Sadrs->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Sadrs.status' => 'ApplicantResponse',
+                'DATE(Sadrs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('SadrComments', function ($q) {
+                return $q->where(['SadrComments.user_id = Sadrs.assigned_to']);
+            })
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Sadrs.assigned_to', 'Reminders.reminder_type' => 'reponse_sadr_reminder_email']);
+            });
+        foreach ($applicantResponseSadrs as $report) {
+            if (!empty($report->reporter_email)) {
+                $evaluator = $this->Sadrs->Users->get($report->assigned_to);
+                $manager = $this->Sadrs->Users->get($report->assigned_by);
+                $data = [
+
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'reponse_sadr_reminder_email',
+                    'model' => 'Sadrs', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $evaluator->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                $data['vars']['cc'] = $manager->email;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Sadrs->Reminders->newEntity();
+                $rem->user_id = $evaluator->id;
+                $rem->model = 'Sadrs';
+                $rem->reminder_type = 'reponse_sadr_reminder_email';
+                $report->reminders = [$rem];
+                $this->Sadrs->save($report);
+            }
+        }
         // SAE
         $applicantResponseAdrs = $this->Adrs->find('all')
             ->contain([])
@@ -729,7 +1160,154 @@ class RemindersShell extends Shell
             }
         }
 
+        // AEFIS
+        $applicantResponseAefis = $this->Aefis->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Aefis.status' => 'ApplicantResponse',
+                'DATE(Aefis.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('AefiComments', function ($q) {
+                return $q->where(['AefiComments.user_id = Aefis.assigned_to']);
+            })
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Aefis.assigned_to', 'Reminders.reminder_type' => 'reponse_aefi_reminder_email']);
+            });
+        foreach ($applicantResponseAefis as $report) {
+            if (!empty($report->reporter_email)) {
+                $evaluator = $this->Aefis->Users->get($report->assigned_to);
+                $manager = $this->Aefis->Users->get($report->assigned_by);
+                $data = [
+
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'reponse_aefi_reminder_email',
+                    'model' => 'Aefis', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $evaluator->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                $data['vars']['cc'] = $manager->email;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Aefis->Reminders->newEntity();
+                $rem->user_id = $evaluator->id;
+                $rem->model = 'Aefis';
+                $rem->reminder_type = 'reponse_aefi_reminder_email';
+                $report->reminders = [$rem];
+                $this->Aefis->save($report);
+            }
+        }
+
+        // SAEFIS
+        $applicantResponseSaefis = $this->Saefis->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Saefis.status' => 'ApplicantResponse',
+                'DATE(Saefis.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('SaefiComments', function ($q) {
+                return $q->where(['SaefiComments.user_id = Saefis.assigned_to']);
+            })
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Saefis.assigned_to', 'Reminders.reminder_type' => 'reponse_saefi_reminder_email']);
+            });
+        foreach ($applicantResponseSaefis as $report) {
+            if (!empty($report->reporter_email)) {
+                $evaluator = $this->Saefis->Users->get($report->assigned_to);
+                $manager = $this->Saefis->Users->get($report->assigned_by);
+                $data = [
+
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'reponse_saefi_reminder_email',
+                    'model' => 'Saefis', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $evaluator->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                $data['vars']['cc'] = $manager->email;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Saefis->Reminders->newEntity();
+                $rem->user_id = $evaluator->id;
+                $rem->model = 'Saefis';
+                $rem->reminder_type = 'reponse_saefi_reminder_email';
+                $report->reminders = [$rem];
+                $this->Saefis->save($report);
+            }
+        }
+
+        // CE2Bs
+        // $applicantResponseCe2bs = $this->Ce2bs->find('all')
+        //     ->contain([])
+        //     ->where([
+        //         'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Ce2bs.status' => 'ApplicantResponse',
+        //         'DATE(Ce2bs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+        //     ])
+        //     ->notMatching('SaefiComments', function ($q) {
+        //         return $q->where(['SaefiComments.user_id = Ce2bs.assigned_to']);
+        //     })
+        //     ->notMatching('Reminders', function ($q) {
+        //         return $q->where(['Reminders.user_id = Ce2bs.assigned_to', 'Reminders.reminder_type' => 'reponse_saefi_reminder_email']);
+        //     });
+        // foreach ($applicantResponseCe2bs as $report) {
+        //     if (!empty($report->reporter_email)) {
+        //         $evaluator = $this->Ce2bs->Users->get($report->assigned_to);
+        //         $manager = $this->Ce2bs->Users->get($report->assigned_by);
+        //         $data = [
+
+        //             'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+        //             'type' => 'reponse_saefi_reminder_email',
+        //             'model' => 'Ce2bs', 'foreign_key' => $report->id,
+        //             'vars' =>  $report->toArray()
+        //         ];
+
+        //         $data['vars']['name'] = $evaluator->name;
+        //         $data['vars']['assigned_by_name'] = $manager->name;
+        //         $data['vars']['cc'] = $manager->email;
+        //         // $this->QueuedJobs->createJob('GenericEmail', $data);
+        //         $rem  = $this->Ce2bs->Reminders->newEntity();
+        //         $rem->user_id = $evaluator->id;
+        //         $rem->model = 'Ce2bs';
+        //         $rem->reminder_type = 'reponse_saefi_reminder_email';
+        //         $report->reminders = [$rem];
+        //         $this->Ce2bs->save($report);
+        //     }
+        // }
+
         // STAYED FOR LONG WITHOUT PRESENTER'S ACTION
+        // SADRS
+        $nSadrs = $this->Sadrs->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Sadrs.status' => 'Presented',
+                'DATE(Sadrs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Sadrs.assigned_to', 'Reminders.reminder_type' => 'presented_sadr_reminder_email']);
+            });
+        foreach ($nSadrs as $report) {
+            if (!empty($report->reporter_email)) {
+                $evaluator = $this->Sadrs->Users->get($report->assigned_to);
+                $manager = $this->Sadrs->Users->get($report->assigned_by);
+                $data = [
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'presented_sadr_reminder_email',
+                    'model' => 'Sadrs', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $evaluator->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                $data['vars']['cc'] = $manager->email;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Sadrs->Reminders->newEntity();
+                $rem->user_id = $evaluator->id;
+                $rem->model = 'Sadrs';
+                $rem->reminder_type = 'presented_sadr_reminder_email';
+                $report->reminders = [$rem];
+                $this->Sadrs->save($report);
+            }
+        }
         // SAE
         $nAdrs = $this->Adrs->find('all')
             ->contain([])
@@ -764,8 +1342,141 @@ class RemindersShell extends Shell
             }
         }
 
+        // AEFIS
+        $nAefis = $this->Aefis->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Aefis.status' => 'Presented',
+                'DATE(Aefis.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Aefis.assigned_to', 'Reminders.reminder_type' => 'presented_aefi_reminder_email']);
+            });
+        foreach ($nAefis as $report) {
+            if (!empty($report->reporter_email)) {
+                $evaluator = $this->Aefis->Users->get($report->assigned_to);
+                $manager = $this->Aefis->Users->get($report->assigned_by);
+                $data = [
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'presented_aefi_reminder_email',
+                    'model' => 'Aefis', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $evaluator->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                $data['vars']['cc'] = $manager->email;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Aefis->Reminders->newEntity();
+                $rem->user_id = $evaluator->id;
+                $rem->model = 'Aefis';
+                $rem->reminder_type = 'presented_aefi_reminder_email';
+                $report->reminders = [$rem];
+                $this->Aefis->save($report);
+            }
+        }
+
+        // SAEFIS
+        $nSaefis = $this->Saefis->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Saefis.status' => 'Presented',
+                'DATE(Saefis.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Saefis.assigned_to', 'Reminders.reminder_type' => 'presented_saefi_reminder_email']);
+            });
+        foreach ($nSaefis as $report) {
+            if (!empty($report->reporter_email)) {
+                $evaluator = $this->Saefis->Users->get($report->assigned_to);
+                $manager = $this->Saefis->Users->get($report->assigned_by);
+                $data = [
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'presented_saefi_reminder_email',
+                    'model' => 'Saefis', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $evaluator->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                $data['vars']['cc'] = $manager->email;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Saefis->Reminders->newEntity();
+                $rem->user_id = $evaluator->id;
+                $rem->model = 'Saefis';
+                $rem->reminder_type = 'presented_saefi_reminder_email';
+                $report->reminders = [$rem];
+                $this->Saefis->save($report);
+            }
+        }
+        // CE2BS
+        $presentedCe2bs = $this->Ce2bs->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Ce2bs.status' => 'Presented',
+                'DATE(Ce2bs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Ce2bs.assigned_to', 'Reminders.reminder_type' => 'presented_ce2b_reminder_email']);
+            });
+        foreach ($presentedCe2bs as $report) {
+            if (!empty($report->reporter_email)) {
+                $evaluator = $this->Ce2bs->Users->get($report->assigned_to);
+                $manager = $this->Ce2bs->Users->get($report->assigned_by);
+                $data = [
+                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                    'type' => 'presented_ce2b_reminder_email',
+                    'model' => 'Ce2bs', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $evaluator->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                $data['vars']['cc'] = $manager->email;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Ce2bs->Reminders->newEntity();
+                $rem->user_id = $evaluator->id;
+                $rem->model = 'Ce2bs';
+                $rem->reminder_type = 'presented_ce2b_reminder_email';
+                $report->reminders = [$rem];
+                $this->Ce2bs->save($report);
+            }
+        }
+
+
 
         // STAYED LONG AT FINAL FEEDBACK STAGE
+        // SADRS
+        $feedbackSadrs = $this->Sadrs->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Sadrs.status' => 'FinalFeedback',
+                'DATE(Sadrs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Sadrs.assigned_by', 'Reminders.reminder_type' => 'feedback_sadr_reminder_email']);
+            });
+        foreach ($feedbackSadrs as $report) {
+            if (!empty($report->reporter_email)) {
+                $manager = $this->Sadrs->Users->get($report->assigned_by);
+                $data = [
+                    'email_address' => $manager->email, 'user_id' => $manager->id,
+                    'type' => 'feedback_sadr_reminder_email',
+                    'model' => 'Sadrs', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $manager->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Sadrs->Reminders->newEntity();
+                $rem->user_id = $manager->id;
+                $rem->model = 'Sadrs';
+                $rem->reminder_type = 'feedback_sadr_reminder_email';
+                $report->reminders = [$rem];
+                $this->Sadrs->save($report);
+            }
+        }
         // SAE
         $feedbackAdrs = $this->Adrs->find('all')
             ->contain([])
@@ -795,6 +1506,100 @@ class RemindersShell extends Shell
                 $rem->reminder_type = 'feedback_adr_reminder_email';
                 $report->reminders = [$rem];
                 $this->Adrs->save($report);
+            }
+        }
+
+        // AEFIS
+        $feedbackAefis = $this->Aefis->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Aefis.status' => 'FinalFeedback',
+                'DATE(Aefis.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Aefis.assigned_by', 'Reminders.reminder_type' => 'feedback_aefi_reminder_email']);
+            });
+        foreach ($feedbackAefis as $report) {
+            if (!empty($report->reporter_email)) {
+                $manager = $this->Aefis->Users->get($report->assigned_by);
+                $data = [
+                    'email_address' => $manager->email, 'user_id' => $manager->id,
+                    'type' => 'feedback_aefi_reminder_email',
+                    'model' => 'Aefis', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $manager->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Aefis->Reminders->newEntity();
+                $rem->user_id = $manager->id;
+                $rem->model = 'Aefis';
+                $rem->reminder_type = 'feedback_aefi_reminder_email';
+                $report->reminders = [$rem];
+                $this->Aefis->save($report);
+            }
+        }
+        // SAEFIS
+        $feedbackSaefis = $this->Saefis->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Saefis.status' => 'FinalFeedback',
+                'DATE(Saefis.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Saefis.assigned_by', 'Reminders.reminder_type' => 'feedback_saefi_reminder_email']);
+            });
+        foreach ($feedbackSaefis as $report) {
+            if (!empty($report->reporter_email)) {
+                $manager = $this->Saefis->Users->get($report->assigned_by);
+                $data = [
+                    'email_address' => $manager->email, 'user_id' => $manager->id,
+                    'type' => 'feedback_saefi_reminder_email',
+                    'model' => 'Saefis', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $manager->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Saefis->Reminders->newEntity();
+                $rem->user_id = $manager->id;
+                $rem->model = 'Saefis';
+                $rem->reminder_type = 'feedback_saefi_reminder_email';
+                $report->reminders = [$rem];
+                $this->Saefis->save($report);
+            }
+        }
+        // CE2BS
+        $feedbackCe2bs = $this->Ce2bs->find('all')
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Ce2bs.status' => 'FinalFeedback',
+                'DATE(Ce2bs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Ce2bs.assigned_by', 'Reminders.reminder_type' => 'feedback_ce2b_reminder_email']);
+            });
+        foreach ($feedbackCe2bs as $report) {
+            if (!empty($report->reporter_email)) {
+                $manager = $this->Ce2bs->Users->get($report->assigned_by);
+                $data = [
+                    'email_address' => $manager->email, 'user_id' => $manager->id,
+                    'type' => 'feedback_ce2b_reminder_email',
+                    'model' => 'Ce2bs', 'foreign_key' => $report->id,
+                    'vars' =>  $report->toArray()
+                ];
+
+                $data['vars']['name'] = $manager->name;
+                $data['vars']['assigned_by_name'] = $manager->name;
+                // $this->QueuedJobs->createJob('GenericEmail', $data);
+                $rem  = $this->Ce2bs->Reminders->newEntity();
+                $rem->user_id = $manager->id;
+                $rem->model = 'Ce2bs';
+                $rem->reminder_type = 'feedback_ce2b_reminder_email';
+                $report->reminders = [$rem];
+                $this->Ce2bs->save($report);
             }
         }
     }
