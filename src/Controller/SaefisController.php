@@ -349,6 +349,8 @@ class SaefisController extends AppController
                 }
             }
 
+            // debug($saefi);
+            // exit;
             // debug((string)$saefi);
             // return;
             // debug($this->request->data);
@@ -435,6 +437,8 @@ class SaefisController extends AppController
             }
         }
 
+        // debug($saefi);
+        // exit;
         $designations = $this->Saefis->Designations->find('list', array('order' => 'Designations.name ASC'));
         $provinces = $this->Saefis->Provinces->find('list', ['limit' => 200]);
         $this->set(compact('saefi', 'designations', 'provinces'));

@@ -303,6 +303,8 @@ class UsersController extends AppController
             $user->forgot_password = 0;
             $user->save();
 
+            // create the password history
+
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The password has been reset. You may login using your new password.'));
                 return $this->redirect(['action' => 'login']);

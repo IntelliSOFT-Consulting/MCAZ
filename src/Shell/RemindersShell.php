@@ -902,8 +902,8 @@ class RemindersShell extends Shell
                 'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Sadrs.status' => 'Correspondence',
                 'DATE(Sadrs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
             ])
-            ->notMatching('AdrComments', function ($q) {
-                return $q->where(['AdrComments.user_id = Sadrs.user_id']);
+            ->notMatching('SadrComments', function ($q) {
+                return $q->where(['SadrComments.user_id = Sadrs.user_id']);
             })
             ->notMatching('Reminders', function ($q) {
                 return $q->where(['Reminders.user_id = Sadrs.user_id', 'Reminders.reminder_type' => 'correspondence_sadr_reminder_email']);
@@ -977,8 +977,8 @@ class RemindersShell extends Shell
                 'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Aefis.status' => 'Correspondence',
                 'DATE(Aefis.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
             ])
-            ->notMatching('AdrComments', function ($q) {
-                return $q->where(['AdrComments.user_id = Aefis.user_id']);
+            ->notMatching('AefiComments', function ($q) {
+                return $q->where(['AefiComments.user_id = Aefis.user_id']);
             })
             ->notMatching('Reminders', function ($q) {
                 return $q->where(['Reminders.user_id = Aefis.user_id', 'Reminders.reminder_type' => 'correspondence_aefi_reminder_email']);
@@ -1016,8 +1016,8 @@ class RemindersShell extends Shell
                 'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Saefis.status' => 'Correspondence',
                 'DATE(Saefis.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
             ])
-            ->notMatching('AdrComments', function ($q) {
-                return $q->where(['AdrComments.user_id = Saefis.user_id']);
+            ->notMatching('SaefiComments', function ($q) {
+                return $q->where(['SaefiComments.user_id = Saefis.user_id']);
             })
             ->notMatching('Reminders', function ($q) {
                 return $q->where(['Reminders.user_id = Saefis.user_id', 'Reminders.reminder_type' => 'correspondence_saefi_reminder_email']);
@@ -1047,42 +1047,42 @@ class RemindersShell extends Shell
             }
         }
         // CE2BS
-        $corespondenceCe2bs = $this->Ce2bs->find('all')
-            ->contain([])
-            ->where([
-                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Ce2bs.status' => 'Correspondence',
-                'DATE(Ce2bs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
-            ])
-            ->notMatching('AdrComments', function ($q) {
-                return $q->where(['AdrComments.user_id = Ce2bs.user_id']);
-            })
-            ->notMatching('Reminders', function ($q) {
-                return $q->where(['Reminders.user_id = Ce2bs.user_id', 'Reminders.reminder_type' => 'correspondence_ce2b_reminder_email']);
-            });
-        foreach ($corespondenceCe2bs as $report) {
-            if (!empty($report->reporter_email)) {
-                $evaluator = $this->Ce2bs->Users->get($report->user_id);
-                $manager = $this->Ce2bs->Users->get($report->assigned_by);
-                $data = [
+        // $corespondenceCe2bs = $this->Ce2bs->find('all')
+        //     ->contain([])
+        //     ->where([
+        //         'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Ce2bs.status' => 'Correspondence',
+        //         'DATE(Ce2bs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+        //     ])
+        //     ->notMatching('Ce2bComments', function ($q) {
+        //         return $q->where(['Ce2bComments.user_id = Ce2bs.user_id']);
+        //     })
+        //     ->notMatching('Reminders', function ($q) {
+        //         return $q->where(['Reminders.user_id = Ce2bs.user_id', 'Reminders.reminder_type' => 'correspondence_ce2b_reminder_email']);
+        //     });
+        // foreach ($corespondenceCe2bs as $report) {
+        //     if (!empty($report->reporter_email)) {
+        //         $evaluator = $this->Ce2bs->Users->get($report->user_id);
+        //         $manager = $this->Ce2bs->Users->get($report->assigned_by);
+        //         $data = [
 
-                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
-                    'type' => 'correspondence_ce2b_reminder_email',
-                    'model' => 'Ce2bs', 'foreign_key' => $report->id,
-                    'vars' =>  $report->toArray()
-                ];
+        //             'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+        //             'type' => 'correspondence_ce2b_reminder_email',
+        //             'model' => 'Ce2bs', 'foreign_key' => $report->id,
+        //             'vars' =>  $report->toArray()
+        //         ];
 
-                $data['vars']['name'] = $evaluator->name;
-                $data['vars']['assigned_by_name'] = $manager->name;
-                $data['vars']['cc'] = $manager->email;
-                // $this->QueuedJobs->createJob('GenericEmail', $data);
-                $rem  = $this->Ce2bs->Reminders->newEntity();
-                $rem->user_id = $evaluator->id;
-                $rem->model = 'Ce2bs';
-                $rem->reminder_type = 'correspondence_ce2b_reminder_email';
-                $report->reminders = [$rem];
-                $this->Ce2bs->save($report);
-            }
-        }
+        //         $data['vars']['name'] = $evaluator->name;
+        //         $data['vars']['assigned_by_name'] = $manager->name;
+        //         $data['vars']['cc'] = $manager->email;
+        //         // $this->QueuedJobs->createJob('GenericEmail', $data);
+        //         $rem  = $this->Ce2bs->Reminders->newEntity();
+        //         $rem->user_id = $evaluator->id;
+        //         $rem->model = 'Ce2bs';
+        //         $rem->reminder_type = 'correspondence_ce2b_reminder_email';
+        //         $report->reminders = [$rem];
+        //         $this->Ce2bs->save($report);
+        //     }
+        // }
 
         // STAYED LONG AT APPLICANT'S RESPONSE
         // SADRS

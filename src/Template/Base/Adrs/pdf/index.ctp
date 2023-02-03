@@ -93,8 +93,9 @@
                           echo ($review->signature) ? "<img src='".$this->Url->build(substr($review->user->dir, 8) . '/' . $review->user->file, true)."' style='width: 30%;' alt=''>" : '';
                           ?>
                       &nbsp;
+                      
                         <?php          
-                          echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$adr->assigned_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$adr->assigned_by], true)."' style='width: 30%;' alt=''>";
+                          echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$review->reviewed_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$review->reviewed_by], true)."' style='width: 30%;' alt=''>";
                         ?>                        
                       </p></li>
                     </ul>

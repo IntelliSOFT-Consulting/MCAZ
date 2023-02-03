@@ -5,6 +5,7 @@ namespace App\Controller\Base;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Utility\Hash;
+use DateTime;
 
 /**
  * Adrs Controller
@@ -63,19 +64,19 @@ class AdrsBaseController extends AppController
     public function index()
     {
         $nAdrs = $this->Adrs->find('all')
-        ->contain([])
-        ->where([
-            'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Adrs.status' => 'FinalFeedback',
-            'DATE(Adrs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
-        ])
-        ->notMatching('Reminders', function ($q) {
-            return $q->where(['Reminders.user_id = Adrs.assigned_by', 'Reminders.reminder_type' => 'feedback_adr_reminder_email']);
-        });
+            ->contain([])
+            ->where([
+                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Adrs.status' => 'FinalFeedback',
+                'DATE(Adrs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
+            ])
+            ->notMatching('Reminders', function ($q) {
+                return $q->where(['Reminders.user_id = Adrs.assigned_by', 'Reminders.reminder_type' => 'feedback_adr_reminder_email']);
+            });
         // foreach ($nAdrs as $adr) {
         //     debug($adr);
         //     exit;
         // }
-       
+
 
 
         $this->paginate = [
@@ -234,20 +235,127 @@ class AdrsBaseController extends AppController
             ->find('search', ['search' => $this->request->query])
             ->order(['created' => 'DESC'])
             ->where(['status !=' => (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
-        $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
-        $users = $this->Adrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
-        $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
-        $this->set(compact('designations', 'query', 'doses', 'users'));
-        if ($this->request->params['_ext'] === 'pdf' || $this->request->params['_ext'] === 'csv') {
-            $this->set('adrs', $query->contain($this->paginate['contain']));
+        $query->where([['Adrs.active' => '1']]);
+        $query->contain($this->paginate['contain']);
+
+        $time_line_data = [];
+        $report_count = 0;
+        $total_reports_time = 0;
+        $single_report_total_time_array = array();
+        foreach ($query as $application) {
+
+            // dd($application);
+            $report_count++;
+            // Get a single stage time
+            $days_array = array();
+            $prev_date = null;
+            $total_days = 0;
+            $stage_days_array = array();
+            $mcaz_time = 0;
+            $applicant_time = 0;
+            $total_mcaz_time = 0;
+
+            foreach ($application->report_stages as $application_stage) {
+                $curr_date = (($application_stage->alt_date)) ?? $application_stage->stage_date;
+                $stage_name = '<b>' . $application_stage->stage . '</b> : <br>';
+        
+                if (!empty($curr_date) && !empty($prev_date)) {
+                  //get the days between the two dates
+                  $date1 = new DateTime($prev_date);
+                  $date2 = new DateTime($curr_date);
+                  $count = $date1->diff($date2)->days;
+                  //get the day name 
+                  $name = $date1->format('l');
+                  //get the date in the format of 2017-01-01
+                  $prev_date = $date1->format('Y-m-d');
+                  $curr_date = $date2->format('Y-m-d');
+                  //get the number of days between the two dates
+                  $count = $date1->diff($date2)->days;
+                  //loop through the dates and get the number of days
+                  $dates = array();
+                  $dates[] = $prev_date;
+        
+                  if ($count > 0) {
+                    for ($i = 1; $i < $count; $i++) {
+                      $date1->modify('+1 day');
+                      $name = $date1->format('l');
+                      //add a flag to the date to indicate if it is a weekend
+                      if ($name == 'Saturday' || $name == 'Sunday') {
+                        $dates[] = $date1->format('Y-m-d') . ' Weekend';
+                      } else {
+                        $dates[] = $date1->format('Y-m-d');
+                      }
+                      //remove the weekends from the array
+                      $dates = array_filter($dates, function ($value) {
+                        return strpos($value, 'Weekend') === false;
+                      });
+                    }
+                  }
+                  $dates[] = $curr_date;
+                  //remove duplicates from the array and make it unique
+                  $dates = array_unique($dates);
+        
+                  //for each date in the array, echo the date and the day name
+        
+                  //count the number of days in the array
+                  $days = count($dates);
+                  //if days==1 then return 0
+                  if ($days == 1) {
+                    $days = 0;
+                  }
+                  $stage_days =  $days ;
+                  $total_days += $days;
+                
+                } else {
+                  $stage_days =  '0';
+                  $total_days += 0;
+                }
+        
+                //applicant time = days under correspondence stage
+                if ($application_stage->stage == 'ApplicantResponse') {
+                  $applicant_time += $days;
+                }
+        
+                $mcaz_time = $total_days - $applicant_time;
+        
+                //add the stage name and days to the array
+                $stage_days_array[] = $stage_name . $stage_days.' Days<br>';
+                $days_array[] = $stage_days;
+                $prev_date = $curr_date;
+              }
+            $total_mcaz_time += $mcaz_time;
+            $total_reports_time += $total_mcaz_time;
+            $single_report_total_time_array[] = $total_days;
+
+            $time_line_data[] = [
+                'reference_no' => (($application->submitted == 2) ? $application->reference_number : $application->created),
+                'approval_time' => $total_days . " Days",
+                'mcaz_time' => $total_mcaz_time . " Days",
+                'applicant_time' => $applicant_time . " Days",
+                'stage_time' => $stage_days_array,
+            ];
+        }
+        //divide the total mcaz days by the number of reports
+        $average_time_per_reports = $total_reports_time / $report_count;
+        // limit the number of decimal places to 2
+        $average_time_per_reports = number_format($average_time_per_reports, 0);
+        // dd($single_report_total_time_array);
+
+        // Median Calculation::::order days_array in ascending order
+        sort($single_report_total_time_array);
+        // split the array into two halves
+        $half = count($days_array) / 2;
+        //if the array has an odd number of elements, then get the middle element
+        if (count($days_array) % 2) {
+            $median = $days_array[$half];
         } else {
-            $this->set('adrs', $this->paginate($query->contain($this->paginate['contain'])));
+            //if the array has an even number of elements, then get the average of the two middle elements
+            $median = ($days_array[$half - 1] + $days_array[$half]) / 2;
         }
 
-        $_designations = $designations->toArray();
+        $today = date("Y-m-d");
+        $this->set(['applications' => $time_line_data, 'total_time' => $total_reports_time . ' Days', 'mean_time' => $average_time_per_reports . ' Days', 'median_time' => $median . ' Days', 'report_count' => $report_count]);
 
-        // $this->viewBuilder()->setLayout('pdf/default');            
-        $query->where([['Adrs.active' => '1']]);
         $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
         $this->viewBuilder()->options([
             'pdfConfig' => [

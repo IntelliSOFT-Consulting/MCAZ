@@ -8,8 +8,7 @@
 use Cake\Utility\Hash;
 
 // pr($aefi);
-$this->Html->script('aefi_edit_new', ['block' => true]); 
-// $this->Html->css('aefi', ['block' => true]);
+$this->Html->script('aefi_edit_new', ['block' => true]);
 $editable = $this->fetch('editable');
 ?>
 <?php
@@ -65,17 +64,39 @@ echo $this->fetch('actions');
             'type' => 'radio',
             'label' => '<b>Gender</b> ', 'escape' => false,
             'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
-            'class' => 'gender-field', 
+            'class' => 'gender-field',
             'options' => ['Male' => 'Male', 'Female' => 'Female', 'Unknown' => 'Unknown']
           ]);
 
-          echo $this->Form->control('female_status', [
-            'type' => 'radio',
-            'label' => '<b>If female</b> ', 'escape' => false,
-            'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
-            'class' => 'female_status-field',
-            'options' => ['Pregnant' => 'Pregnant', 'Lactating' => 'Lactating']
-          ]);
+          ?>
+          <table class="table">
+            <tbody>
+              <tr>
+                <td>
+                  <div class="row">
+                    <div class="col-md-9" style="display: flex;
+  justify-content: flex-end;">
+                      <?php
+                      echo $this->Form->control('female_status', [
+                        'type' => 'radio',
+                        'label' => '<b>If female</b> ', 'escape' => false,
+                        'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
+                        'class' => 'female_status-field',
+                        'options' => ['Pregnant' => 'Pregnant', 'Lactating' => 'Lactating']
+                      ]);
+                      ?>
+                    </div>
+                    <div class="col-md-2" style="margin-top: 10px;">
+                      <a onclick="$('input[name=female_status]').removeAttr('checked');" class="tiptip" data-original-title="clear!!">
+                        <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em>
+                      </a>
+                    </div>
+                  </div>
+                <td>
+              </tr>
+            </tbody>
+          </table>
+          <?php
           echo $this->Form->control('date_of_birth', array(
             'type' => 'date', 'escape' => false, 'default' => null,
             'label' => 'Date of Birth ',
@@ -113,17 +134,18 @@ echo $this->fetch('actions');
           ?>
         </div>
       </div>
-<hr>
+      <hr>
       <div class="row">
         <div class="col-xs-8">
-        <div class="input-field">
-          <?php
-          echo $this->Form->control('name_of_vaccination_center', [
-            'label' => 'Name of vaccination center ', 
-            'class' => 'input-field',
-            'escape' => false]);
-          ?>
-        </div>
+          <div class="input-field">
+            <?php
+            echo $this->Form->control('name_of_vaccination_center', [
+              'label' => 'Name of vaccination center ',
+              'class' => 'input-field',
+              'escape' => false
+            ]);
+            ?>
+          </div>
         </div>
       </div>
 

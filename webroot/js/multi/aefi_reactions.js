@@ -71,14 +71,18 @@ $(function () {
     function removeReactionDetail() {
         intId = parseFloat($(this).attr("id").replace("reactionsButton", ""));
         var inputVal = $("#aefi_reactions-" + intId + "-id").val();
+        console.log(inputVal);
         if (inputVal) {
             $.ajax({
                 type: "POST",
                 url: "/aefi_reactions/delete/" + inputVal + ".json",
                 data: { id: inputVal },
                 success: function (data) {
-                    // console.log(data);
-                },
+                    console.log(data);
+                }, error: function (xhr, textStatus, errorThrown) {
+					console.log("Failed to delete reaction with id: " + inputVal);
+					console.log("Error: " + errorThrown);
+				}
             });
         }
         $(this).parent().parent().remove();
