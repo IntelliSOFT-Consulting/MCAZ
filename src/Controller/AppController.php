@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -12,6 +13,7 @@
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
 use Cake\Controller\Controller;
@@ -39,36 +41,44 @@ class AppController extends Controller
      */
     use \Crud\Controller\ControllerTrait;
 
-    public $sadr_contain = ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Reactions',
-                          'Reviews', 'Reviews.Users', 'Reviews.SadrComments', 'Reviews.SadrComments.Attachments',  
-                          'Committees', 'Committees.Users', 'Committees.SadrComments', 'Committees.SadrComments.Attachments', 
-                          'ReportStages',
-                          'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
-                          'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments', 'OriginalSadrs.Reactions'
-                          ];
-                          
-    public $aefi_contain = ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 
-                          'AefiCausalities.Users', 'AefiComments', 'AefiComments.Attachments',  
-                          'Committees', 'Committees.Users', 'Committees.AefiComments', 'Committees.AefiComments.Attachments', 
-                          'ReportStages', 
-                          'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments', 
-                          'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments'];
+    public $sadr_contain = [
+        'SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Reactions',
+        'Reviews', 'Reviews.Users', 'Reviews.SadrComments', 'Reviews.SadrComments.Attachments',
+        'Committees', 'Committees.Users', 'Committees.SadrComments', 'Committees.SadrComments.Attachments',
+        'ReportStages',
+        'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
+        'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments', 'OriginalSadrs.Reactions'
+    ];
 
-    public $saefi_contain = ['SaefiListOfVaccines', 'AefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 
-                          'SaefiComments', 'SaefiComments.Attachments',  
-                          'Committees.Users', 'Committees.SaefiComments', 'Committees.SaefiComments.Attachments', 
-                          'ReportStages', 'AefiCausalities', 'AefiCausalities.Users', 'Reports',
-                          'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports'];
+    public $aefi_contain = [
+        'AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators',
+        'AefiCausalities.Users', 'AefiComments', 'AefiComments.Attachments',
+        'Committees', 'Committees.Users', 'Committees.AefiComments', 'Committees.AefiComments.Attachments',
+        'ReportStages', 'AefiReactions',
+        'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments',
+        'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments'
+    ];
 
-    public $adr_contain = ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 
-                          'Reviews', 'Reviews.Users', 'Reviews.AdrComments', 'Reviews.AdrComments.Attachments',  
-                          'Committees', 'Committees.Users', 'Committees.AdrComments', 'Committees.AdrComments.Attachments', 'ReportStages', 
-                          'OriginalAdrs', 'OriginalAdrs.AdrListOfDrugs', 'OriginalAdrs.AdrOtherDrugs', 'OriginalAdrs.Attachments'];
+    public $saefi_contain = [
+        'SaefiListOfVaccines', 'AefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees',
+        'SaefiComments', 'SaefiComments.Attachments',
+        'Committees.Users', 'Committees.SaefiComments', 'Committees.SaefiComments.Attachments',
+        'ReportStages', 'AefiCausalities', 'AefiCausalities.Users', 'Reports',
+        'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports'
+    ];
 
-    public $ce2b_contain = ['Attachments', 'RequestReporters', 'RequestEvaluators', 
-                          'Reviews', 'Reviews.Users', 'Reviews.Ce2bComments', 'Reviews.Ce2bComments.Attachments',  
-                          'Committees', 'Committees.Users', 'Committees.Ce2bComments', 'Committees.Ce2bComments.Attachments', 'ReportStages', 
-                          ];
+    public $adr_contain = [
+        'AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators',
+        'Reviews', 'Reviews.Users', 'Reviews.AdrComments', 'Reviews.AdrComments.Attachments',
+        'Committees', 'Committees.Users', 'Committees.AdrComments', 'Committees.AdrComments.Attachments', 'ReportStages',
+        'OriginalAdrs', 'OriginalAdrs.AdrListOfDrugs', 'OriginalAdrs.AdrOtherDrugs', 'OriginalAdrs.Attachments'
+    ];
+
+    public $ce2b_contain = [
+        'Attachments', 'RequestReporters', 'RequestEvaluators',
+        'Reviews', 'Reviews.Users', 'Reviews.Ce2bComments', 'Reviews.Ce2bComments.Attachments',
+        'Committees', 'Committees.Users', 'Committees.Ce2bComments', 'Committees.Ce2bComments.Attachments', 'ReportStages',
+    ];
 
     public $components = [
         'Acl' => [
@@ -146,17 +156,20 @@ class AppController extends Controller
     }
 
     /*1. Ported from 1.2*/
-    public function beforeFilter(Event $event) {
+    public function beforeFilter(Event $event)
+    {
         parent::beforeFilter($event);
-        $this->Auth->allow('display'); 
+        $this->Auth->allow('display');
         //if admin prefix, redirect to admin
         // $this->viewBuilder()->setLayout('admin');
-        if($this->request->getParam('prefix') or $this->request->session()->read('Auth.User.group_id') == 1
-            or $this->request->session()->read('Auth.User.group_id') == 2 or $this->request->session()->read('Auth.User.group_id') == 4 
-            or $this->request->session()->read('Auth.User.group_id') == 5) {
+        if (
+            $this->request->getParam('prefix') or $this->request->session()->read('Auth.User.group_id') == 1
+            or $this->request->session()->read('Auth.User.group_id') == 2 or $this->request->session()->read('Auth.User.group_id') == 4
+            or $this->request->session()->read('Auth.User.group_id') == 5
+        ) {
             $this->viewBuilder()->setLayout('admin');
         }
-    }    
+    }
     /*end 1*/
 
 
@@ -171,7 +184,8 @@ class AppController extends Controller
         // Note: These defaults are just to get started quickly with development
         // and should not be used in production. You should instead set "_serialize"
         // in each action as required.
-        if (!array_key_exists('_serialize', $this->viewVars) &&
+        if (
+            !array_key_exists('_serialize', $this->viewVars) &&
             in_array($this->response->type(), ['application/json', 'application/xml'])
         ) {
             $this->set('_serialize', true);
@@ -179,10 +193,18 @@ class AppController extends Controller
 
         //pass prefix to all controllers
         $prefix = null;
-        if($this->request->session()->read('Auth.User.group_id') == 1) {$prefix = 'admin';} 
-        if ($this->request->session()->read('Auth.User.group_id') == 2) { $prefix = 'manager'; }
-        if ($this->request->session()->read('Auth.User.group_id') == 4) { $prefix = 'evaluator'; }
-        if ($this->request->session()->read('Auth.User.group_id') == 5) { $prefix = 'institution'; }
-        $this->set(['prefix'=> $prefix]);
+        if ($this->request->session()->read('Auth.User.group_id') == 1) {
+            $prefix = 'admin';
+        }
+        if ($this->request->session()->read('Auth.User.group_id') == 2) {
+            $prefix = 'manager';
+        }
+        if ($this->request->session()->read('Auth.User.group_id') == 4) {
+            $prefix = 'evaluator';
+        }
+        if ($this->request->session()->read('Auth.User.group_id') == 5) {
+            $prefix = 'institution';
+        }
+        $this->set(['prefix' => $prefix]);
     }
 }

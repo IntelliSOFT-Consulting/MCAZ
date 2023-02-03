@@ -20,7 +20,10 @@ $(function() {
             return false;
         }
     });
+// add autocomplete for name_of_institution
 
+
+    
     //If not serious disable criteria
     $('input[name="report_to_mcaz"]').click(function(){ 
         if ($(this).val() == 'No') {

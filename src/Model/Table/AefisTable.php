@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -45,12 +46,14 @@ class AefisTable extends Table
         $this->addBehavior('Timestamp');
         $this->addBehavior('Search.Search');
         $this->addBehavior('Duplicatable.Duplicatable', [
-            'contain' => ['AefiListOfVaccines', 'Uploads', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 
-                          'AefiCausalities.Users', 'AefiComments', 'AefiComments.Attachments',  
-                          'Committees', 'Committees.Users', 'Committees.AefiComments', 'Committees.AefiComments.Attachments', 
-                          'ReportStages', 
-                          'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments', 
-                          'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments'],
+            'contain' => [
+                'AefiListOfVaccines', 'Uploads', 'AefiCausalities', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators',
+                'AefiCausalities.Users', 'AefiComments', 'AefiComments.Attachments',
+                'Committees', 'Committees.Users', 'Committees.AefiComments', 'Committees.AefiComments.Attachments',
+                'ReportStages',
+                'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments',
+                'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments', 'AefiReactions'
+            ],
             'remove' => ['created', 'modified'],
             'set' => [
                 'copied' => 'new copy'
@@ -81,7 +84,7 @@ class AefisTable extends Table
             'foreignKey' => 'aefi_id'
         ]);
 
-        
+
         $this->hasMany('AefiComments', [
             'className' => 'Comments',
             'foreignKey' => 'foreign_key',
@@ -150,11 +153,16 @@ class AefisTable extends Table
             'dependent' => true,
             'conditions' => array('AefiFollowups.report_type' => 'FollowUp'),
         ]);
+
+        // Added section for Reactions
+        $this->hasMany('AefiReactions', [
+            'foreignKey' => 'aefi_id'
+        ]);
     }
 
     /**
-    * @return \Search\Manager
-    */
+     * @return \Search\Manager
+     */
     public function searchManager()
     {
         $searchManager = $this->behaviors()->Search->searchManager();
@@ -190,8 +198,8 @@ class AefisTable extends Table
             ->add('vaccine_name', 'Search.Callback', [
                 'callback' => function ($query, $args, $filter) {
                     $vaccine_name = $args['vaccine_name'];
-                    $query->matching('AefiListOfVaccines', function ($q) use($vaccine_name) {
-                        return $q->where(['AefiListOfVaccines.vaccine_name LIKE' => '%'.$vaccine_name.'%']);
+                    $query->matching('AefiListOfVaccines', function ($q) use ($vaccine_name) {
+                        return $q->where(['AefiListOfVaccines.vaccine_name LIKE' => '%' . $vaccine_name . '%']);
                     });
                 }
             ])
@@ -212,7 +220,7 @@ class AefisTable extends Table
             ->integer('id')
             ->allowEmpty('id', 'create');
 
-        /*$validator
+        $validator
             ->scalar('patient_name')
             ->notEmpty('patient_name', ['message' => 'Patient name required']);
 
@@ -231,20 +239,20 @@ class AefisTable extends Table
         $validator
             ->scalar('description_of_reaction')
             ->notEmpty('description_of_reaction', ['message' => 'Description of reaction required']);
-            
+
         $validator
             ->scalar('dosage')
-            ->notEmpty('dosage', ['message' => 'Dosage required']);*/
+            ->notEmpty('dosage', ['message' => 'Dosage required']);
 
         $validator
             ->scalar('designation_id')
             ->notEmpty('designation_id', ['message' => 'Designation required']);
 
 
-        /*$validator->allowEmpty('suspected_drug', function ($context) {
+        $validator->allowEmpty('suspected_drug', function ($context) {
             // return !$context['data']['is_taxable'];
             if (isset($context['data']['aefi_list_of_vaccines'])) {
-                foreach ($context['data']['aefi_list_of_vaccines'] as $val){
+                foreach ($context['data']['aefi_list_of_vaccines'] as $val) {
                     if ($val['suspected_drug']) {
                         return true;
                     }
@@ -258,79 +266,84 @@ class AefisTable extends Table
             ->scalar('age_at_onset_years')
             ->allowEmpty('age_at_onset_years')
             ->add('age_at_onset_years', 'year-range', [
-                'rule' => function ($value, $context) { 
+                'rule' => function ($value, $context) {
                     return (($value > 0 && $value < 140));
-                }, 'message' => 'Year at onset must be between 1 and 140']);
-            
+                }, 'message' => 'Year at onset must be between 1 and 140'
+            ]);
+
         $validator
             ->allowEmpty('age_at_onset_months')
             ->add('age_at_onset_months', 'month-range', [
                 'rule' => function ($value, $context) {
                     return $value > 0 && $value < 1280;
-                }, 'message' => 'Months at onset must be between than 1 and 1280']);
+                }, 'message' => 'Months at onset must be between than 1 and 1280'
+            ]);
 
         $validator
             ->allowEmpty('age_at_onset_days')
             ->add('age_at_onset_days', 'days-range', [
                 'rule' => function ($value, $context) {
                     return $value > 0 && $value < 613200;
-            }, 'message' => 'Days at onset must be between 1 and 613200']);
+                }, 'message' => 'Days at onset must be between 1 and 613200'
+            ]);
 
         //date of birth or onset
         $validator
             ->allowEmpty('date_of_birth')
             ->add('date_of_birth', 'dob-or-door', [
-                'rule' => function ($value, $context) {                    
+                'rule' => function ($value, $context) {
                     $dob = ($value == '--') ? null : $value;
-                    if(!$dob && empty($context['data']['age_at_onset_years']) 
-                             && empty($context['data']['age_at_onset_months']) 
-                             && empty($context['data']['age_at_onset_days'])) return false;
-                    if($dob && !empty($context['data']['age_at_onset_years'])) return false;
+                    if (
+                        !$dob && empty($context['data']['age_at_onset_years'])
+                        && empty($context['data']['age_at_onset_months'])
+                        && empty($context['data']['age_at_onset_days'])
+                    ) return false;
+                    if ($dob && !empty($context['data']['age_at_onset_years'])) return false;
                     return true;
-            }, 'message' => 'Date of birth OR age at onset required'
+                }, 'message' => 'Date of birth OR age at onset required'
             ])
             //date of birth: year of birth required
             ->add('date_of_birth', 'dob-select-year', [
-               'rule' => function ($value, $context) {          
-                $dob = (($value)) ?? '--';
-                $a = explode('-', $dob);
-                if($value != '--')
-                    if($a[2] < (date('Y')-120) || $a[2] > date('Y')) return false;
-                return true;
-            }, 'message' => 'Year of birth required']);
+                'rule' => function ($value, $context) {
+                    $dob = (($value)) ?? '--';
+                    $a = explode('-', $dob);
+                    if ($value != '--')
+                        if ($a[2] < (date('Y') - 120) || $a[2] > date('Y')) return false;
+                    return true;
+                }, 'message' => 'Year of birth required'
+            ]);
 
         $validator->add('date_of_birth', 'dob-less-vaccine-dates', [
             'rule' => function ($value, $context) {
                 //Normalize dob and door
                 $dob = (($value)) ?? '--';
                 $a = explode('-', $dob);
-                $a[0] = (empty($a[0])) ? '01' : $a[0]; 
-                $a[1] = (empty($a[1])) ? '01' : $a[1]; 
-                $dob = implode('-', $a); 
+                $a[0] = (empty($a[0])) ? '01' : $a[0];
+                $a[1] = (empty($a[1])) ? '01' : $a[1];
+                $dob = implode('-', $a);
 
                 if (isset($context['data']['aefi_list_of_vaccines'])) {
-                    foreach ($context['data']['aefi_list_of_vaccines'] as $val){
+                    foreach ($context['data']['aefi_list_of_vaccines'] as $val) {
                         if (strtotime($dob) > strtotime($val['vaccination_date'])) return false;
                     }
                 }
-                
-                return true;
 
+                return true;
             }, 'message' => 'Date of birth must less than vaccine date'
         ]);
 
         $validator
             ->scalar('reporter_name')
-            ->notEmpty('reporter_name', ['message' => 'Reporter name required']);*/
+            ->notEmpty('reporter_name', ['message' => 'Reporter name required']);
 
-        /*$validator
+        $validator
             ->scalar('reporter_email')
-            ->notEmpty('reporter_email', ['message' => 'Reporter email required']);*/
+            ->notEmpty('reporter_email', ['message' => 'Reporter email required']);
 
-        /*$validator
+        $validator
             ->allowEmpty('district_receive_date')
             ->add('district_receive_date', 'drd-or-dip', [
-                'rule' => function ($value, $context) {     
+                'rule' => function ($value, $context) {
                     if (isset($context['data']['investigation_date'])) {
                         if (strtotime($value) > strtotime($context['data']['investigation_date'])) return false;
                     }
@@ -341,13 +354,13 @@ class AefisTable extends Table
         $validator
             ->allowEmpty('investigation_date')
             ->add('investigation_date', 'drd-or-dip', [
-                'rule' => function ($value, $context) {     
+                'rule' => function ($value, $context) {
                     if (isset($context['data']['district_receive_date'])) {
                         if (strtotime($value) < strtotime($context['data']['district_receive_date'])) return false;
                     }
                     return true;
                 }, 'message' => 'Date investigation planned must be after date report receieved'
-            ]);*/
+            ]);
 
         return $validator;
     }

@@ -4,6 +4,12 @@
   $checked = '<i class="fa fa-check-square-o" aria-hidden="true"></i>';
   $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i>';
 ?>
+<hr>
+<?php
+    if(($prefix == 'evaluator') && $this->request->session()->read('Auth.User.id') != $ce2b->assigned_to) { ?>
+
+<p class="page-header">You must be assigned this report to review.</p>
+<?php } else { ?>
 
  <?php foreach ($ce2b->reviews as $review) {  ?>
       <div class="row">
@@ -110,11 +116,11 @@
                           <?php if($review->chosen == 1) { ?>
                             <div class="form-group">
                               <div class="control-label">
-                                <label>Signature</label>
+                                <label>Manager's Signature</label>
                               </div>
                               <div>
                                 <h4 class="form-control-static text-info text-left"><?php          
-                                  echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$ce2b->assigned_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$ce2b->assigned_by], true)."' style='width: 30%;' alt=''>";
+                                  echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$review->reviewed_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$review->reviewed_by], true)."' style='width: 30%;' alt=''>";
                                 ?></h4>
                               </div>
                             </div>                          
@@ -257,3 +263,5 @@
     </div>
     <?php // } ?>
   </div>
+
+  <?php } ?>

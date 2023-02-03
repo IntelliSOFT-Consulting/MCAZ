@@ -61,12 +61,13 @@ class AdrsBaseController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrListOfDrugs.Doses', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews', 'Reviews.Users']
+            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrListOfDrugs.Doses', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews', 'Reviews.Users','ReportStages']
         ];
         $query = $this->Adrs
             ->find('search', ['search' => $this->request->query])
-            // ->order(['created' => 'DESC'])
-            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
+            ->order(['created' => 'DESC'])
+            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy'])
+            ;// ->group('reference_number');
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
         $users = $this->Adrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
@@ -93,7 +94,7 @@ class AdrsBaseController extends AppController
                 'attachments.file'
             ];
             $_extract = ['id', 'user_id', 'adr_id', 'reference_number', 'assigned_to', 'assigned_by', 'assigned_date', 'mrcz_protocol_number', 'mcaz_protocol_number', 'principal_investigator', 'reporter_name', 'reporter_email',
-            function ($row) use($_designations) { return $_designations[$row['designation_id']] ?? '' ; }, //'designation_id',
+            function ($row) use($_designations) { return (!empty($_designations[$row['designation_id']])) ?$_designations[$row['designation_id']]: '' ; }, //'designation_id',
             'reporter_phone', 'name_of_institution', 'institution_code', 'study_title', 'study_sponsor', 'date_of_adverse_event', 'participant_number', 'report_type', 'date_of_site_awareness', 'date_of_birth', 'age', 'gender', 'study_week', 'visit_number', 'adverse_event_type', 'sae_type', 'sae_description', 'toxicity_grade', 'previous_events', 'previous_events_number', 'total_saes', 'location_event', 'location_event_specify', 'research_involves', 'research_involves_specify', 'name_of_drug', 'drug_investigational', 'patient_other_drug', 'report_to_mcaz', 'report_to_mcaz_date', 'report_to_mrcz', 'report_to_mrcz_date', 'report_to_sponsor', 'report_to_sponsor_date', 'report_to_irb', 'report_to_irb_date', 'medical_history', 'diagnosis', 'immediate_cause', 'symptoms', 'investigations', 'results', 'management', 'outcome', 'd1_consent_form', 'd2_brochure', 'd3_changes_sae', 'd4_consent_sae', 'changes_explain', 'assess_risk', 'submitted', 'submitted_date', 'status', 'created', 'modified',   
                 function ($row) { return implode('|', Hash::extract($row['adr_list_of_drugs'], '{n}.drug_name')); }, //'.drug_name', 
                 function ($row) { return implode('|', Hash::extract($row['adr_list_of_drugs'], '{n}.dose.name')); }, //'.dose', 
@@ -146,6 +147,40 @@ class AdrsBaseController extends AppController
         } else {
             $this->render('/Base/Adrs/index');
         }
+    }
+    public function time()
+    {
+        $this->paginate = [
+            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrListOfDrugs.Doses', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews', 'Reviews.Users','ReportStages']
+        ];
+        $query = $this->Adrs
+            ->find('search', ['search' => $this->request->query])
+            // ->order(['created' => 'DESC'])
+            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
+        $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
+        $users = $this->Adrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
+        $this->set(compact('designations', 'query', 'doses', 'users'));
+        if ($this->request->params['_ext'] === 'pdf' || $this->request->params['_ext'] === 'csv') {
+            $this->set('adrs', $query->contain($this->paginate['contain']));
+        } else {
+            $this->set('adrs', $this->paginate($query->contain($this->paginate['contain'])));
+        }
+
+        $_designations = $designations->toArray();
+         
+            // $this->viewBuilder()->setLayout('pdf/default');            
+            $query->where([['Adrs.active' => '1']]);
+            $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'orientation' => 'landscape',
+                    'filename' => 'SAE'.date('d-m-Y').'Timeline.pdf'
+                ]
+            ]);
+        
+            $this->render('/Base/Adrs/pdf/timeline');
+       
     }
     public function restore() {
         $this->paginate = [
@@ -219,6 +254,13 @@ class AdrsBaseController extends AppController
             ]);
         }
         
+        $current_id=$this->Auth->user('id'); 
+        $assignees = $this->Adrs->Users
+        ->find('list', ['limit' => 200])
+        ->where(['group_id' => 4])
+        ->orWhere(['id'=>$adr->assigned_to ? $adr->assigned_to : $current_id]); //use current id if unassigned else assigned user
+         
+
         $evaluators = $this->Adrs->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
         $users = $this->Adrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         
@@ -226,7 +268,7 @@ class AdrsBaseController extends AppController
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
         $routes = $this->Adrs->AdrListOfDrugs->Routes->find('list');
         $frequencies = $this->Adrs->AdrListOfDrugs->Frequencies->find('list');
-        $this->set(compact('adr', 'designations', 'doses', 'routes', 'frequencies', 'evaluators', 'users', 'ekey'));
+        $this->set(compact('adr','assignees', 'designations', 'doses', 'routes', 'frequencies', 'evaluators', 'users', 'ekey'));
         $this->set('_serialize', ['adr']);
 
         $this->set('adr', $adr);
@@ -288,6 +330,13 @@ class AdrsBaseController extends AppController
     public function causality() {
         $adr = $this->Adrs->get($this->request->getData('adr_pr_id'), ['contain' => ['ReportStages']]);
         if (isset($adr->id) && $this->request->is('post')) {
+
+            // Only Allowed Evaluators
+            if (($this->Auth->user('group_id')==4) && ($this->Auth->user('id') != $adr->assigned_to)) {
+                $this->Flash->error('You have not been assigned the report for review!');
+                return $this->redirect($this->referer());
+            }
+
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
             $adr->reviews[0]->user_id = $this->Auth->user('id');
             $adr->reviews[0]->model = 'Adrs';
@@ -572,6 +621,11 @@ class AdrsBaseController extends AppController
         $adr->adr_id = $id;        
         $adr->user_id = $this->Auth->user('id'); //the report is reassigned to the evaluator... the reporter should only have original report
 
+          // Create a copy if only Allowed
+          if (($this->Auth->user('group_id')==4) && ($this->Auth->user('id') != $adr->assigned_to)) {
+            $this->Flash->error('You have not been assigned the report, you can only create a copy of assigned reports!');
+            return $this->redirect($this->referer());
+        }
         if ($this->Adrs->save($adr, ['validate' => false])) {            
             $query = $this->Adrs->query();
             $query->update()
@@ -599,6 +653,11 @@ class AdrsBaseController extends AppController
             'contain' => ['AdrListOfDrugs', 'AdrOtherDrugs', 'AdrLabTests', 'Attachments']
         ]);
 
+        // Option only available to assigned
+        if (($this->Auth->user('group_id')==4) && ($this->Auth->user('id') != $adr->assigned_to)) {
+            $this->Flash->error('You have not been assigned the report, you can only create a copy of assigned reports!');
+            return $this->redirect($this->referer());
+        }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $adr = $this->Adrs->patchEntity($adr, $this->request->getData());
             if (!empty($adr->attachments)) {
@@ -656,7 +715,10 @@ class AdrsBaseController extends AppController
     public function attachSignature($id = null) {
         $review = $this->Adrs->Reviews->get($id, ['contain' => ['Adrs']]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $review = $this->Adrs->Reviews->patchEntity($review, ['chosen' => 1, 'adr' => ['signature' => 1]], ['associated' => ['Adrs']]);
+            $review = $this->Adrs->Reviews->patchEntity($review, [
+                'chosen' => 1, 
+                'reviewed_by' => $this->Auth->user('id'), 
+                'adr' => ['signature' => 1]], ['associated' => ['Adrs']]);
             if ($this->Adrs->Reviews->save($review)) {
                 $this->Flash->success('Signature successfully attached to review');
                 return $this->redirect($this->referer());

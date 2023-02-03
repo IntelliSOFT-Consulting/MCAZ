@@ -34,7 +34,7 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * @return string The type of the value
+     * @return string|null The type of the value
      */
     public function getType()
     {
@@ -58,10 +58,12 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
         if (Stub::TYPE_RESOURCE === $item->type) {
             return $item->class.' resource';
         }
+
+        return null;
     }
 
     /**
-     * @param bool $recursive Whether values should be resolved recursively or not
+     * @param array|bool $recursive Whether values should be resolved recursively or not
      *
      * @return string|int|float|bool|array|Data[]|null A native representation of the original value
      */
@@ -112,10 +114,12 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
     public function getIterator()
     {
         if (!\is_array($value = $this->getValue())) {
-            throw new \LogicException(sprintf('%s object holds non-iterable type "%s".', self::class, \gettype($value)));
+            throw new \LogicException(sprintf('"%s" object holds non-iterable type "%s".', self::class, \gettype($value)));
         }
 
-        yield from $value;
+        foreach ($value as $k => $v) {
+            yield $k => $v;
+        }
     }
 
     public function __get($key)
@@ -125,6 +129,8 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
 
             return $item instanceof Stub || [] === $item ? $data : $item;
         }
+
+        return null;
     }
 
     public function __isset($key)
@@ -164,11 +170,23 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
+     * @return array The raw data structure
+     *
+     * @deprecated since version 3.3. Use array or object access instead.
+     */
+    public function getRawData()
+    {
+        @trigger_error(sprintf('The "%s()" method is deprecated since Symfony 3.3 and will be removed in 4.0. Use the array or object access instead.', __METHOD__));
+
+        return $this->data;
+    }
+
+    /**
      * Returns a depth limited clone of $this.
      *
      * @param int $maxDepth The max dumped depth level
      *
-     * @return self A clone of $this
+     * @return static
      */
     public function withMaxDepth($maxDepth)
     {
@@ -183,7 +201,7 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @param int $maxItemsPerDepth The max number of items dumped per depth level
      *
-     * @return self A clone of $this
+     * @return static
      */
     public function withMaxItemsPerDepth($maxItemsPerDepth)
     {
@@ -198,7 +216,7 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @param bool $useRefHandles False to hide global ref. handles
      *
-     * @return self A clone of $this
+     * @return static
      */
     public function withRefHandles($useRefHandles)
     {
@@ -213,7 +231,7 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
      *
      * @param string|int $key The key to seek to
      *
-     * @return self|null A clone of $this or null if the key is not set
+     * @return static|null Null if the key is not set
      */
     public function seek($key)
     {
@@ -223,7 +241,7 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
             $item = $item->value;
         }
         if (!($item = $this->getStub($item)) instanceof Stub || !$item->position) {
-            return;
+            return null;
         }
         $keys = [$key];
 
@@ -238,7 +256,7 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
             case Stub::TYPE_RESOURCE:
                 break;
             default:
-                return;
+                return null;
         }
 
         $data = null;
@@ -288,7 +306,7 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
             }
         } elseif (Stub::TYPE_REF === $item->type) {
             if ($item->handle) {
-                if (!isset($refs[$r = $item->handle - (PHP_INT_MAX >> 1)])) {
+                if (!isset($refs[$r = $item->handle - (\PHP_INT_MAX >> 1)])) {
                     $cursor->refIndex = $refs[$r] = $cursor->refIndex ?: ++$refs[0];
                 } else {
                     $firstSeen = false;
@@ -356,7 +374,7 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
                     break;
 
                 default:
-                    throw new \RuntimeException(sprintf('Unexpected Stub type: %s', $item->type));
+                    throw new \RuntimeException(sprintf('Unexpected Stub type: "%s".', $item->type));
             }
         } elseif ('array' === $type) {
             $dumper->enterHash($cursor, Cursor::HASH_INDEXED, 0, false);

@@ -18,7 +18,7 @@ $this->Html->css('combo-box', ['block' => true]);
           if(empty($ce2b->assigned_to)) {
               echo 'Assign Evaluator';
           } else {
-              echo "Assigned to:".$evaluators->toArray()[$ce2b->assigned_to];
+              echo "Assigned to:".$assignees->toArray()[$ce2b->assigned_to];
           }
        ?>
   </a></li>
@@ -38,7 +38,7 @@ $this->Html->css('combo-box', ['block' => true]);
     <?php if(empty($ce2b->assigned_to)) { ?>
         <!-- <button type="button" class="btn btn-info" data-toggle="modal" data-target="#assignModal"><i class="fa fa-share-square-o" aria-hidden="true"></i> Assign Evaluator</button> -->
     <?php } else { ?>
-        <small><?= '<b>Assigned To</b>:'.$evaluators->toArray()[$ce2b->assigned_to]?></small>
+        <small><?= '<b>Assigned To</b>:'.$assignees->toArray()[$ce2b->assigned_to]?></small>
     <?php }  ?>
 
 

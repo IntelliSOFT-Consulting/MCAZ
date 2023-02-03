@@ -252,9 +252,13 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $user = $this->Users->findByEmail($this->request->getData('email'))->first();
             if ($user) {
+
+                $new_pass= date('smiYhd', strtotime($user->created));
+                $hasher = new DefaultPasswordHasher();
+                $password=$hasher->hash($new_pass);
                 $query = $this->Users->query();
                 $query->update()
-                    ->set(['forgot_password' => 1, 'last_password' => Time::now()])
+                    ->set(['forgot_password' => 1, 'last_password' => Time::now(),'password'=>$password,'confirm_password'=>$password])
                     ->where(['id' => $user->id])
                     ->execute();
 
@@ -264,15 +268,16 @@ class UsersController extends AppController
                     'email_address' => $user->email, 'user_id' => $user->id, 'type' => 'forgot_password_email', 'model' => 'Users', 
                     'foreign_key' => $user->id, 'vars' =>  $user->toArray()                
                 ]; 
+                $pass=$this->Util->generateXOR($user->id); 
                 $html = new HtmlHelper(new \Cake\View\View());
                 $data['vars']['name'] = (isset($user->name)) ? $user->name : 'Sir/Madam' ;
-                $data['vars']['new_password'] = date('smiYhd', strtotime($user->created));
+                $data['vars']['new_password'] = $new_pass;
                 $data['vars']['pv_site'] = $html->link('MCAZ PV website', ['controller' => 'Pages', 'action' => 'home', '_full' => true]);
-                $data['vars']['reset_password_link'] = $html->link('Reset Password', ['controller' => 'Users', 'action' => 'resetPassword', $this->Util->generateXOR($user->id), 
+                $data['vars']['reset_password_link'] = $html->link('Reset Password', ['controller' => 'Users', 'action' => 'resetPassword', $pass, 
                                           '_full' => true]);
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 
-                $this->Flash->success(__('A new password has been sent to the requested email address.'));
+                $this->Flash->success(__('A new password has been sent to the requested email address.'.$new_pass));
                 $this->redirect('/');
             } else {
                 $this->Flash->error(__('Could not verify your email address.'));
@@ -296,6 +301,7 @@ class UsersController extends AppController
             $user->password = date('smiYhd', strtotime($check->created));
             $user->confirm_password = date('smiYhd', strtotime($check->created));
             $user->forgot_password = 0;
+            $user->save();
 
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The password has been reset. You may login using your new password.'));

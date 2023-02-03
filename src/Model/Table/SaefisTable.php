@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -46,13 +47,17 @@ class SaefisTable extends Table
         $this->addBehavior('Search.Search');
         // add Duplicatable behavior
         $this->addBehavior('Duplicatable.Duplicatable', [
-            'contain' => ['SaefiListOfVaccines', 'AefiListOfVaccines', 'Uploads', 'RequestReporters', 'RequestEvaluators', 'Committees', 
-                          'SaefiComments', 'SaefiComments.Attachments',  
-                          'Committees.Users', 'Committees.SaefiComments', 'Committees.SaefiComments.Attachments', 
-                          'ReportStages', 'AefiCausalities', 'AefiCausalities.Users', 'Reports',
-                          'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports'],
-            'remove' => ['created', 'modified', 'saefi_list_of_vaccines.created',  'attachments.created', 'reports.created',
-                          'saefi_list_of_vaccines.modified',  'attachments.modified', 'reports.modified'],
+            'contain' => [
+                'SaefiListOfVaccines', 'AefiListOfVaccines', 'Uploads', 'RequestReporters', 'RequestEvaluators', 'Committees',
+                'SaefiComments', 'SaefiComments.Attachments',
+                'Committees.Users', 'Committees.SaefiComments', 'Committees.SaefiComments.Attachments',
+                'ReportStages', 'AefiCausalities', 'AefiCausalities.Users', 'Reports',
+                'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports'
+            ],
+            'remove' => [
+                'created', 'modified', 'saefi_list_of_vaccines.created',  'attachments.created', 'reports.created',
+                'saefi_list_of_vaccines.modified',  'attachments.modified', 'reports.modified'
+            ],
             // mark invoice as copied
             'set' => [
                 'copied' => 'new copy'
@@ -80,7 +85,7 @@ class SaefisTable extends Table
             'dependent' => true,
             'conditions' => array('SaefiComments.model' => 'Saefis'),
         ]);
-        
+
         $this->hasMany('SaefiListOfVaccines', [
             'foreignKey' => 'saefi_id'
         ]);
@@ -153,12 +158,15 @@ class SaefisTable extends Table
             'dependent' => true,
             'conditions' => array('RequestEvaluators.model' => 'Saefis', 'RequestEvaluators.type' => 'request_evaluator_info'),
         ]);
-
+        // Added section for Reactions
+        $this->hasMany('SaefiReactions', [
+            'foreignKey' => 'saefi_id'
+        ]);
     }
 
     /**
-    * @return \Search\Manager
-    */
+     * @return \Search\Manager
+     */
     public function searchManager()
     {
         $searchManager = $this->behaviors()->Search->searchManager();
@@ -194,7 +202,7 @@ class SaefisTable extends Table
             ->integer('id')
             ->allowEmpty('id', 'create');
 
-        /*$validator
+        $validator
             ->scalar('name_of_vaccination_site')
             ->notEmpty('name_of_vaccination_site', ['message' => 'Name of vaccination site required']);
 
@@ -221,7 +229,7 @@ class SaefisTable extends Table
         $validator->allowEmpty('suspected_drug', function ($context) {
             // return !$context['data']['is_taxable'];
             if (isset($context['data']['aefi_list_of_vaccines'])) {
-                foreach ($context['data']['aefi_list_of_vaccines'] as $val){
+                foreach ($context['data']['aefi_list_of_vaccines'] as $val) {
                     if ($val['suspected_drug']) {
                         return true;
                     }
@@ -230,58 +238,60 @@ class SaefisTable extends Table
             return false;
         }, ['message' => 'Kindly select at least one suspected vaccine']);
 
-         //Age at onset values
+        //Age at onset values
         $validator
             ->scalar('age_at_onset_years')
             ->allowEmpty('age_at_onset_years')
             ->add('age_at_onset_years', 'year-range', [
-                'rule' => function ($value, $context) { 
+                'rule' => function ($value, $context) {
                     return (($value > 0 && $value < 140));
-                }, 'message' => 'Year at onset must be between 1 and 140']);
-            
+                }, 'message' => 'Year at onset must be between 1 and 140'
+            ]);
+
         $validator
             ->allowEmpty('age_at_onset_months')
             ->add('age_at_onset_months', 'month-range', [
                 'rule' => function ($value, $context) {
                     return $value > 0 && $value < 1280;
-                }, 'message' => 'Months at onset must be between than 1 and 1280']);
+                }, 'message' => 'Months at onset must be between than 1 and 1280'
+            ]);
 
         $validator
             ->allowEmpty('age_at_onset_days')
             ->add('age_at_onset_days', 'days-range', [
                 'rule' => function ($value, $context) {
                     return $value > 0 && $value < 613200;
-            }, 'message' => 'Days at onset must be between 1 and 613200']);
+                }, 'message' => 'Days at onset must be between 1 and 613200'
+            ]);
 
         //date of birth or onset
         $validator
             ->allowEmpty('date_of_birth')
             ->add('date_of_birth', 'dob-or-door', [
-                'rule' => function ($value, $context) {                    
+                'rule' => function ($value, $context) {
                     $dob = ($value == '--') ? null : $value;
-                    if(!$dob && empty($context['data']['age_at_onset_years'])) return false;
-                    if($dob && !empty($context['data']['age_at_onset_years'])) return false;
+                    if (!$dob && empty($context['data']['age_at_onset_years'])) return false;
+                    if ($dob && !empty($context['data']['age_at_onset_years'])) return false;
                     return true;
-            }, 'message' => 'Date of birth OR age at onset required'
+                }, 'message' => 'Date of birth OR age at onset required'
             ]);
 
         $validator->add('date_of_birth', 'dob-less-vaccine-dates', [
             'rule' => function ($value, $context) {
                 if (isset($context['data']['aefi_list_of_vaccines'])) {
-                    foreach ($context['data']['aefi_list_of_vaccines'] as $val){
+                    foreach ($context['data']['aefi_list_of_vaccines'] as $val) {
                         if (strtotime($value) > strtotime($val['vaccination_date'])) return false;
                     }
                 }
-                
-                return true;
 
+                return true;
             }, 'message' => 'Date of birth must less than vaccine date'
         ]);
 
         $validator
             ->allowEmpty('report_date')
             ->add('report_date', 'drd-or-dip', [
-                'rule' => function ($value, $context) {     
+                'rule' => function ($value, $context) {
                     if (isset($context['data']['start_date'])) {
                         if (strtotime($value) > strtotime($context['data']['start_date'])) return false;
                     }
@@ -292,24 +302,24 @@ class SaefisTable extends Table
         $validator
             ->allowEmpty('start_date')
             ->add('start_date', 'drd-or-dip', [
-                'rule' => function ($value, $context) {     
+                'rule' => function ($value, $context) {
                     if (isset($context['data']['report_date'])) {
                         if (strtotime($value) < strtotime($context['data']['report_date'])) return false;
                     }
                     return true;
                 }, 'message' => 'Date investigation started must be after date AEFI reported'
             ]);
-            
+
         $validator
             ->allowEmpty('symptom_date')
             ->add('symptom_date', 'drd-or-dip', [
-                'rule' => function ($value, $context) {     
+                'rule' => function ($value, $context) {
                     if (isset($context['data']['complete_date'])) {
                         if (strtotime($value) > strtotime($context['data']['complete_date'])) return false;
                     }
                     return true;
                 }, 'message' => 'Date and time of 1st key symptom should be before the date and time the report is completed'
-            ]);*/
+            ]);
 
         return $validator;
     }

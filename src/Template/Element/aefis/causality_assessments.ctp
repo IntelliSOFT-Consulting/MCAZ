@@ -590,13 +590,15 @@
         <?php if($aefi_causality->chosen == 1) { ?>
         <div class="row">
             <div class="col-xs-4">
-                <label>Signature</label>
+                <label>Manager's Signature</label>
             </div>
             <div class="col-xs-8">
                 <h4 class="form-control-static text-info text-left">
                     <?php          
-                        echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$aefi->assigned_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$aefi->assigned_by], true)."' style='width: 30%;' alt=''>";
-                    ?>
+                    if(isset($aefi_causality->reviewed_by)){
+                        echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$aefi_causality->reviewed_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$aefi_causality->reviewed_by], true)."' style='width: 30%;' alt=''>";
+                    }
+                        // echo $this->cell('Signature', [$aefi_causality->reviewed_by]); ?>
                 </h4>
             </div>
         </div>                          

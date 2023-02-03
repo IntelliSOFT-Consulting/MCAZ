@@ -38,13 +38,13 @@ class AefisBaseController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiCausalities.Users', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 'Committees', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments']
+            'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiCausalities.Users', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 'Committees', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments','ReportStages']
         ];
 
 
         $query = $this->Aefis
             ->find('search', ['search' => $this->request->query])
-            // ->order(['created' => 'DESC'])
+            ->order(['created' => 'DESC'])
             ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
         $users = $this->Aefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
@@ -58,6 +58,11 @@ class AefisBaseController extends AppController
 
         $_provinces = $provinces->toArray();
         $_designations = $designations->toArray();
+
+        // debug($this->request->params['_ext']);
+        // exit;
+
+
         if ($this->request->params['_ext'] === 'csv') {
             $_serialize = 'query';
             $_header = ['id',    'user_id',    'aefi_id',    'province_id',    'reference_number',    'assigned_to',    'assigned_by',    'assigned_date',    'patient_name',    'patient_surname',    'patient_next_of_kin',    'patient_address',    'patient_telephone',    'report_type',    'gender',    'date_of_birth',    'age_at_onset',    'age_at_onset_years',    'age_at_onset_months',    'age_at_onset_days',    'age_at_onset_specify',    'reporter_name',    'designation_id',    'reporter_department',    'reporter_address',    'reporter_institution',    'reporter_district',    'reporter_province',    'reporter_phone',    'reporter_email',    'name_of_vaccination_center',    'adverse_events',    'ae_severe_local_reaction',    'ae_seizures',    'ae_abscess',    'ae_sepsis',    'ae_encephalopathy',    'ae_toxic_shock',    'ae_thrombocytopenia',    'ae_anaphylaxis',    'ae_fever',    'ae_3days',    'ae_febrile',    'ae_beyond_joint',    'ae_afebrile',    'ae_other',    'adverse_events_specify',    'aefi_date',
@@ -72,9 +77,9 @@ class AefisBaseController extends AppController
                 // 'reviews.system_message', 'reviews.user_message', 
                 'attachments.file'];
             $_extract = ['id',    'user_id',    'aefi_id',    
-                function ($row) use ($_provinces) { return $_provinces[$row['province_id']] ?? ''; }, //provinces    
+                function ($row) use ($_provinces) { return (!empty($_provinces[$row['province_id']])) ?$_provinces[$row['province_id']]: ''; }, //provinces    
                 'reference_number',    'assigned_to',    'assigned_by',    'assigned_date',    'patient_name',    'patient_surname',    'patient_next_of_kin',    'patient_address',    'patient_telephone',    'report_type',    'gender',    'date_of_birth',    'age_at_onset',    'age_at_onset_years',    'age_at_onset_months',    'age_at_onset_days',    'age_at_onset_specify',    'reporter_name',    
-                function ($row) use($_designations) { return $_designations[$row['designation_id']] ?? '' ; }, //designation_id     
+                function ($row) use($_designations) { return (!empty($_designations[$row['designation_id']])) ?$_designations[$row['designation_id']]: '' ; }, //designation_id     
                'reporter_department',    'reporter_address',    'reporter_institution',    'reporter_district',    'reporter_province',    'reporter_phone',    'reporter_email',    'name_of_vaccination_center',    'adverse_events',    'ae_severe_local_reaction',    'ae_seizures',    'ae_abscess',    'ae_sepsis',    'ae_encephalopathy',    'ae_toxic_shock',    'ae_thrombocytopenia',    'ae_anaphylaxis',    'ae_fever',    'ae_3days',    'ae_febrile',    'ae_beyond_joint',    'ae_afebrile',    'ae_other',    'adverse_events_specify',    'aefi_date',
                 'notification_date', 'description_of_reaction',    'treatment_provided',    'serious',    'serious_yes',    'outcome',    'died_date', 
                  'autopsy',    'past_medical_history',    'district_receive_date',  'investigation_needed',    'investigation_date', 'national_receive_date', 
@@ -109,9 +114,46 @@ class AefisBaseController extends AppController
                 ]
             ]);
             $this->render('/Base/Aefis/pdf/index');
-        } else {
+        } 
+                
+        else {
             $this->render('/Base/Aefis/index');
         }
+    }
+ 
+    public function time()
+    {
+        $this->paginate = [
+            'contain' => ['AefiListOfVaccines', 'Attachments', 'AefiCausalities', 'AefiCausalities.Users', 'AefiFollowups', 'RequestReporters', 'RequestEvaluators', 'Committees', 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments','ReportStages']
+        ];
+
+
+        $query = $this->Aefis
+            ->find('search', ['search' => $this->request->query])
+            // ->order(['created' => 'DESC'])
+            ->where(['status !=' =>  (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
+        $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
+        $users = $this->Aefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
+        $this->set(compact('provinces', 'designations', 'query', 'users'));
+        if ($this->request->params['_ext'] === 'pdf' || $this->request->params['_ext'] === 'csv') {
+            $this->set('aefis', $query->contain($this->paginate['contain']));
+        } else {
+            $this->set('aefis', $this->paginate($query));
+        }
+
+        $_provinces = $provinces->toArray();
+        $_designations = $designations->toArray();
+            
+            $query->where([['Aefis.active' => '1']]);
+            $this->viewBuilder()->options([
+                'pdfConfig' => [
+                    'orientation' => 'landscape',
+                    'filename' => 'AEFIS_'.date('d-m-Y').'Timeline.pdf'
+                ]
+            ]);
+            $this->render('/Base/Aefis/pdf/timeline');
+         
     }
     public function restore() {
         $this->paginate = [
@@ -184,12 +226,18 @@ class AefisBaseController extends AppController
             ]);
         }
 
+        $current_id=$this->Auth->user('id'); 
+        $assignees = $this->Aefis->Users
+        ->find('list', ['limit' => 200])
+        ->where(['group_id' => 4])
+        ->orWhere(['id'=>$aefi->assigned_to ? $aefi->assigned_to : $current_id]); //use current id if unassigned else assigned user
+        
         $evaluators = $this->Aefis->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
         $users = $this->Aefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
-        $this->set(compact('aefi', 'designations', 'provinces', 'evaluators', 'users', 'ekey'));
+        $this->set(compact('aefi','assignees', 'designations', 'provinces', 'evaluators', 'users', 'ekey'));
         $this->set('_serialize', ['aefi', 'designations', 'provinces']);
 
         $this->render('/Base/Aefis/view');
@@ -264,6 +312,13 @@ class AefisBaseController extends AppController
     public function causality() {
         $aefi = $this->Aefis->get($this->request->getData('aefi_pr_id'), ['contain' => 'ReportStages']);
         if (isset($aefi->id) && $this->request->is('post')) {
+
+            
+            // Only Allowed Evaluators
+            if (($this->Auth->user('group_id')==4) && ($this->Auth->user('id') != $aefi->assigned_to)) {
+                $this->Flash->error('You have not been assigned the report for review!');
+                return $this->redirect($this->referer());
+            }
             $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
 
             //new stage only once
@@ -540,6 +595,12 @@ class AefisBaseController extends AppController
         $aefi->aefi_id = $id;        
         $aefi->user_id = $this->Auth->user('id'); //the report is reassigned to the evaluator... the reporter should only have original report
 
+          // Create a copy if only Allowed
+          if (($this->Auth->user('group_id')==4) && ($this->Auth->user('id') != $aefi->assigned_to)) {
+            $this->Flash->error('You have not been assigned the report, you can only create a copy of assigned reports!');
+            return $this->redirect($this->referer());
+        }
+        
         if ($this->Aefis->save($aefi, ['validate' => false])) { 
             $query = $this->Aefis->query();
             $query->update()
@@ -567,6 +628,11 @@ class AefisBaseController extends AppController
             'contain' => ['AefiListOfVaccines', 'Attachments']
         ]);
 
+        // Option only available to assigned
+        if (($this->Auth->user('group_id')==4) && ($this->Auth->user('id') != $aefi->assigned_to)) {
+            $this->Flash->error('You have not been assigned the report, you can only create a copy of assigned reports!');
+            return $this->redirect($this->referer());
+        }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $aefi = $this->Aefis->patchEntity($aefi, $this->request->getData());
             if (!empty($aefi->attachments)) {
@@ -626,7 +692,10 @@ class AefisBaseController extends AppController
     public function attachSignature($id = null) {
         $aefi_causality = $this->Aefis->AefiCausalities->get($id, ['contain' => ['Aefis']]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $aefi_causality = $this->Aefis->AefiCausalities->patchEntity($aefi_causality, ['chosen' => 1, 'aefi' => ['signature' => 1]], ['associated' => ['Aefis']]);
+            $aefi_causality = $this->Aefis->AefiCausalities->patchEntity($aefi_causality, [
+                'chosen' => 1, 
+                'reviewed_by' => $this->Auth->user('id'), 
+                'aefi' => ['signature' => 1]], ['associated' => ['Aefis']]);
             if ($this->Aefis->AefiCausalities->save($aefi_causality)) {
                 $this->Flash->success('Signature successfully attached to assessment');
                 return $this->redirect($this->referer());

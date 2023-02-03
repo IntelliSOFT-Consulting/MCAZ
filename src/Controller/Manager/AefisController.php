@@ -15,7 +15,73 @@ use App\Controller\Base\AefisBaseController;
  */
 class AefisController extends AefisBaseController
 {
-    
+    public function processAssignment($aefi,$evaluator,$message)
+    {
+         //new stage only once
+         if(!in_array("Assigned", Hash::extract($aefi->report_stages, '{n}.stage'))) {
+            $stage1  = $this->Aefis->ReportStages->newEntity();
+            $stage1->model = 'Aefis';
+            $stage1->stage = 'Assigned';
+            $stage1->description = 'Stage 2';
+            $stage1->stage_date = date("Y-m-d H:i:s");
+            $aefi->report_stages = [$stage1];
+            $aefi->status = 'Assigned';
+        }
+
+        if ($this->Aefis->save($aefi)) {
+            //Send email and message (if present!!!) to evaluator
+            $this->loadModel('Queue.QueuedJobs');    
+            $data = [
+                'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
+                'type' => 'manager_assign_evaluator_email', 'model' => 'Aefis', 'foreign_key' => $aefi->id,
+                'vars' =>  $aefi->toArray()
+            ];
+            $data['vars']['assigned_by_name'] = $this->Auth->user('name');                
+            $data['vars']['user_message'] = $message;
+            $data['vars']['name'] = $evaluator->name;
+            //notify applicant
+            $this->QueuedJobs->createJob('GenericEmail', $data);
+            $data['type'] = 'manager_assign_evaluator_notification';
+            $this->QueuedJobs->createJob('GenericNotification', $data);
+            if ($message) {
+              $data['type'] = 'manager_assign_evaluator_message';
+              $data['user_message'] = $message;
+              $this->QueuedJobs->createJob('GenericNotification', $data);
+            }
+            
+            //notify manager                
+            $data = ['user_id' => $aefi->assigned_by, 'model' => 'Aefis', 'foreign_key' => $aefi->id,'vars' =>  $aefi->toArray()];
+            $data['vars']['assigned_to_name'] = $evaluator->name;
+            $data['type'] = 'manager_assign_notification';
+            $this->QueuedJobs->createJob('GenericNotification', $data);
+            //end 
+            
+           $this->Flash->success('Evaluator '.$evaluator->name.' assigned AEFI '.$aefi->reference_number);
+
+            return $this->redirect($this->referer());
+        } else {
+            $this->Flash->error(__('Unable to assign evaluator. Please, try again.')); 
+            return $this->redirect($this->referer());
+        }
+    }
+    public function assignSelf()
+    {
+        $aefi = $this->Aefis->get($this->request->getData('aefi_pr_id'), ['contain' => 'ReportStages']);
+        if (isset($aefi->id) && $this->request->is('post')) {
+            $current=$this->Auth->user('id');
+            $aefi->assigned_by =$current;
+            $aefi->assigned_to =$current;
+            $aefi->assigned_date = date("Y-m-d H:i:s");
+            $aefi->status = 'Assigned';
+            $evaluator = $this->Aefis->Users->get($current);
+            $message=$this->request->getData('reminder_note');
+
+            $this->processAssignment($aefi,$evaluator,$message);
+        } else {
+                $this->Flash->error(__('Unknown AEFI Report. Please correct.')); 
+                return $this->redirect($this->referer());
+        }
+    }
     public function assignEvaluator() {
         $aefi = $this->Aefis->get($this->request->getData('aefi_pr_id'), ['contain' => 'ReportStages']);
         if (isset($aefi->id) && $this->request->is('post')) {
@@ -24,54 +90,10 @@ class AefisController extends AefisBaseController
             $aefi->assigned_date = date("Y-m-d H:i:s");
             $aefi->status = 'Assigned';
             $evaluator = $this->Aefis->Users->get($this->request->getData('evaluator'));
+            $message=$this->request->getData('user_message');
+            
+            $this->processAssignment($aefi,$evaluator,$message);
 
-            //new stage only once
-            if(!in_array("Assigned", Hash::extract($aefi->report_stages, '{n}.stage'))) {
-                $stage1  = $this->Aefis->ReportStages->newEntity();
-                $stage1->model = 'Aefis';
-                $stage1->stage = 'Assigned';
-                $stage1->description = 'Stage 2';
-                $stage1->stage_date = date("Y-m-d H:i:s");
-                $aefi->report_stages = [$stage1];
-                $aefi->status = 'Assigned';
-            }
-
-            if ($this->Aefis->save($aefi)) {
-                //Send email and message (if present!!!) to evaluator
-                $this->loadModel('Queue.QueuedJobs');    
-                $data = [
-                    'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
-                    'type' => 'manager_assign_evaluator_email', 'model' => 'Aefis', 'foreign_key' => $aefi->id,
-                    'vars' =>  $aefi->toArray()
-                ];
-                $data['vars']['assigned_by_name'] = $this->Auth->user('name');                
-                $data['vars']['user_message'] = $this->request->getData('user_message');
-                $data['vars']['name'] = $evaluator->name;
-                //notify applicant
-                $this->QueuedJobs->createJob('GenericEmail', $data);
-                $data['type'] = 'manager_assign_evaluator_notification';
-                $this->QueuedJobs->createJob('GenericNotification', $data);
-                if ($this->request->getData('user_message')) {
-                  $data['type'] = 'manager_assign_evaluator_message';
-                  $data['user_message'] = $this->request->getData('user_message');
-                  $this->QueuedJobs->createJob('GenericNotification', $data);
-                }
-                
-                //notify manager                
-                $data = ['user_id' => $aefi->assigned_by, 'model' => 'Aefis', 'foreign_key' => $aefi->id,
-                    'vars' =>  $aefi->toArray()];
-                $data['vars']['assigned_to_name'] = $evaluator->name;
-                $data['type'] = 'manager_assign_notification';
-                $this->QueuedJobs->createJob('GenericNotification', $data);
-                //end 
-                
-               $this->Flash->success('Evaluator '.$evaluator->name.' assigned AEFI '.$aefi->reference_number);
-
-                return $this->redirect($this->referer());
-            } else {
-                $this->Flash->error(__('Unable to assign evaluator. Please, try again.')); 
-                return $this->redirect($this->referer());
-            }
         } else {
                 $this->Flash->error(__('Unknown AEFI Report. Please correct.')); 
                 return $this->redirect($this->referer());

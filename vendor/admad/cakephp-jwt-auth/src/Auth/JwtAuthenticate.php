@@ -60,6 +60,7 @@ class JwtAuthenticate extends BaseAuthenticate
      *
      * Settings for this object.
      *
+     * - `cookie` - Cookie name to check. Defaults to `false`.
      * - `header` - Header name to check. Defaults to `'authorization'`.
      * - `prefix` - Token prefix. Defaults to `'bearer'`.
      * - `parameter` - The url parameter name of the token. Defaults to `token`.
@@ -78,7 +79,7 @@ class JwtAuthenticate extends BaseAuthenticate
      * - `finder` - Finder method.
      * - `unauthenticatedException` - Fully namespaced exception name. Exception to
      *   throw if authentication fails. Set to false to do nothing.
-     *   Defaults to '\Cake\Htttp\Exception\UnauthorizedException'.
+     *   Defaults to '\Cake\Http\Exception\UnauthorizedException'.
      * - `key` - The key, or map of keys used to decode JWT. If not set, value
      *   of Security::salt() will be used.
      *
@@ -89,6 +90,7 @@ class JwtAuthenticate extends BaseAuthenticate
     public function __construct(ComponentRegistry $registry, $config)
     {
         $defaultConfig = [
+            'cookie' => false,
             'header' => 'authorization',
             'prefix' => 'bearer',
             'parameter' => 'token',
@@ -198,6 +200,15 @@ class JwtAuthenticate extends BaseAuthenticate
         $header = $request->getHeaderLine($config['header']);
         if ($header && stripos($header, $config['prefix']) === 0) {
             return $this->_token = str_ireplace($config['prefix'] . ' ', '', $header);
+        }
+
+        if (!empty($this->_config['cookie'])) {
+            $token = $request->getCookie($this->_config['cookie']);
+            if ($token !== null) {
+                $token = (string)$token;
+            }
+
+            return $this->_token = $token;
         }
 
         if (!empty($this->_config['parameter'])) {

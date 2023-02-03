@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
@@ -13,22 +14,29 @@ use App\Controller\AppController;
 class MeddrasController extends AppController
 {
 
-    public function initialize() {
-       parent::initialize();
-       $this->Auth->allow(['terminology']);       
+    public function initialize()
+    {
+        parent::initialize();
+        $this->Auth->allow(['terminology']);
     }
-    
-    public function terminology($query = null) {
-        $llts = $this->Meddras->find('all', ['fields' => ['terminology']])->distinct()
-                ->where(['terminology LIKE' => '%'.$this->request->getQuery('term').'%'])
-                ->limit(10); 
-        
-        $codes = array();
-        foreach ($llts as $key => $value) {
-            $codes[] = array('value' => $value['terminology'], 'label' => $value['terminology']);
-        }
-        $this->set('codes', $codes);
-        $this->set('_serialize', 'codes');
+
+    public function terminology($query = null)
+    {
+         
+		$meddras = $this->Meddras->find('all', array(
+			'conditions' => array(
+				'Meddras.terminology LIKE' => $this->request->query['term'] . '%'
+			),
+			'fields' => array('Meddras.terminology'),
+			'limit' => 10
+		));
+		// return the results
+		$groups = array();
+		foreach ($meddras as $key => $value) { 
+            $groups[] = array('value' => $value['terminology'], 'label' => $value['terminology']);
+		}
+		$this->set('codes', array_values($groups));
+		$this->set('_serialize', 'codes');
     }
 
     /**

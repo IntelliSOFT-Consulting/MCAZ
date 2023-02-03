@@ -103,9 +103,13 @@
                     <div style="word-wrap: break-word; word-break: break-all;"><p><b>Recommended Causality Assessment</b></p>
                     <?= $review->causality_decision ?></div>
                   </td>
-                  <td colspan="3">
+                  <td colspan="2">
                     <div style="word-wrap: break-word; word-break: break-all;"><p><b>References</b></p>
                     <?= $review->references_text ?></div>
+                  </td>
+                  <td colspan="2">
+                    <div style="word-wrap: break-word; word-break: break-all;"><p><b>Comments</b></p>
+                    <?= $review->comments ?></div>
                   </td>
                 </tr>
                 <?php //} ?>

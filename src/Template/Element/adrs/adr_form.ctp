@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Adr $adr
  */
 $this->Html->script('adr_edit', ['block' => true]);
+$this->Html->script('adr_autocomplete', ['block' => true]);
 $this->Html->css('combo-box', ['block' => true]);
 $editable = $this->fetch('editable');
 ?>
@@ -58,9 +59,10 @@ Please use a separate adverse event reporting form for separate reportable adver
                   ?>
             </div>      
             <div class="col-xs-6">
-              <?php
-                echo $this->Form->control('name_of_institution', ['label' => 'Institution <span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false]);
-              ?>
+              <?php 
+              echo $this->Form->control('name_of_institution', ['label' => 'Institution<span class="sterix fa fa-asterisk" aria-hidden="true"></span>', 'escape' => false, 'class' => 'name_of_institution', 'id' => 'name_of_institution']);
+              
+               ?>
             </div>      
            
           </div>
