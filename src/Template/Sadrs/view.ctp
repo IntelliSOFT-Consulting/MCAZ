@@ -22,7 +22,7 @@
   <div role="tabpanel" class="tab-pane active" id="report">
 	<?php echo $this->Html->link('<button class="btn btn-primary"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF </button>', ['controller' => 'Sadrs', 'action' => 'view', '_ext' => 'pdf', $sadr->id], ['escape' => false]); ?>
   <?php 
-      echo $this->Html->link('<button class="btn btn-success"> <i class="fa fa-plus" aria-hidden="true"></i> Create Followup Report </button>', ['controller' => 'Sadrs', 'action' => 'sadrFollowup', $sadr->id], ['escape' => false]);  
+      echo $this->Html->link('<button class="btn btn-success"> <i class="fa fa-plus" aria-hidden="true"></i> Create Followup Report </button>', ['controller' => 'Sadrs', 'action' => 'sadrFollowup', $sadr->id], ['escape' => false]); 
   ?>
 <?php $this->end(); ?>
 

@@ -47,7 +47,8 @@ class AppController extends Controller
         'Committees', 'Committees.Users', 'Committees.SadrComments', 'Committees.SadrComments.Attachments',
         'ReportStages',
         'SadrFollowups', 'SadrFollowups.SadrListOfDrugs', 'SadrFollowups.Attachments',
-        'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments', 'OriginalSadrs.Reactions'
+        'OriginalSadrs', 'OriginalSadrs.SadrListOfDrugs', 'OriginalSadrs.Attachments', 'OriginalSadrs.Reactions',
+        'InitialSadrs', 'InitialSadrs.SadrListOfDrugs', 'InitialSadrs.Attachments', 'InitialSadrs.Reactions'
     ];
 
     public $aefi_contain = [
@@ -56,22 +57,26 @@ class AppController extends Controller
         'Committees', 'Committees.Users', 'Committees.AefiComments', 'Committees.AefiComments.Attachments',
         'ReportStages', 'AefiReactions',
         'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments',
-        'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments'
+        'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments',
+        'InitialAefis', 'InitialAefis.AefiListOfVaccines', 'InitialAefis.Attachments'
     ];
 
     public $saefi_contain = [
         'SaefiListOfVaccines', 'AefiListOfVaccines', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees',
         'SaefiComments', 'SaefiComments.Attachments',
         'Committees.Users', 'Committees.SaefiComments', 'Committees.SaefiComments.Attachments',
-        'ReportStages', 'AefiCausalities', 'AefiCausalities.Users', 'Reports',
-        'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports'
+        'ReportStages', 'AefiCausalities', 'AefiCausalities.Users', 'Reports','SaefiReactions',
+        'OriginalSaefis', 'OriginalSaefis.SaefiListOfVaccines', 'OriginalSaefis.Attachments', 'OriginalSaefis.Reports','OriginalSaefis.SaefiReactions',
+        'InitialSaefis', 'InitialSaefis.SaefiListOfVaccines', 'InitialSaefis.Attachments', 'InitialSaefis.Reports','InitialSaefis.SaefiReactions'
+        
     ];
 
     public $adr_contain = [
         'AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators',
         'Reviews', 'Reviews.Users', 'Reviews.AdrComments', 'Reviews.AdrComments.Attachments',
         'Committees', 'Committees.Users', 'Committees.AdrComments', 'Committees.AdrComments.Attachments', 'ReportStages',
-        'OriginalAdrs', 'OriginalAdrs.AdrListOfDrugs', 'OriginalAdrs.AdrOtherDrugs', 'OriginalAdrs.Attachments'
+        'OriginalAdrs', 'OriginalAdrs.AdrListOfDrugs', 'OriginalAdrs.AdrOtherDrugs', 'OriginalAdrs.Attachments',
+        'InitialAdrs', 'InitialAdrs.AdrListOfDrugs', 'InitialAdrs.AdrOtherDrugs', 'InitialAdrs.Attachments'
     ];
 
     public $ce2b_contain = [

@@ -75,6 +75,7 @@ class SadrsController extends AppController
             ->find('search', ['search' => $this->request->query])
             // You can add extra things to the query if you need to
             // ->where([['OR' => ['Sadrs.user_id' => $this->Auth->user('id'), 'Sadrs.name_of_institution' => $this->Auth->user('name_of_institution')]]]);
+            ->order(['Sadrs.created' => 'DESC'])  
             ->where([['Sadrs.user_id' => $this->Auth->user('id')]]);
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
@@ -766,6 +767,7 @@ class SadrsController extends AppController
         }
         $sadr = $this->SadrFollowups->duplicateEntity($id);
         $sadr->sadr_id = $id;
+        $sadr->initial_id = $id;
         $sadr->messageid = null;
         $sadr->user_id = $this->Auth->user('id'); //the report is reassigned to the user
         $sadr->report_type = 'FollowUp';
@@ -773,8 +775,7 @@ class SadrsController extends AppController
         if ($this->Sadrs->save($sadr, ['validate' => false])) {
             $query = $this->Sadrs->query();
             $query->update()
-                ->set(['report_type' => 'Initial'])
-                ->set(['copied' => 'old copy'])
+                ->set(['report_type' => 'Initial']) 
                 ->where(['id' => $orig_sadr->id])
                 ->execute();
             $this->Flash->success(__('A follow-up report for the ADR has been created. make changes and submit.'));

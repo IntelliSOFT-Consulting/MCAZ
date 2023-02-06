@@ -50,7 +50,21 @@ $this->start('sidebar'); ?>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($saefis as $saefi) : ?>
+            <?php  $filtered = [];
+            foreach ($saefis as $sample) : ?>
+                <?php
+                // check if the  $filtered  is empty
+                if (empty($filtered)) {
+                    $filtered[] = $sample;
+                } else {
+                    // 
+                    if (!in_array($sample->reference_number, Hash::extract($filtered, '{n}.reference_number'))) {
+                        $filtered[] = $sample;
+                    }
+                }
+
+                ?>
+            <?php endforeach;foreach ($filtered  as $saefi) : ?>
                 <?php $a = ($saefi['assigned_to']) ? '<small class="muted">' . Hash::combine($users->toArray(), '{n}.id', '{n}.name')[$saefi->assigned_to] . '</small>' : '<small class="muted">Unassigned</small>'; ?>
                 <?php
                 if ($saefi->reporter_email != "dataentry@mcaz.co.zw") {

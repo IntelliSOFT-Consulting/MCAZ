@@ -97,7 +97,7 @@ if (count($arr1) > 1) {
                                     'report_type',
                                     [
                                         'type' => 'radio', 'label' => 'Report type', 'templates' => 'radio_form',
-                                        'options' => ['Initial' => 'Initial', 'Follow-up' => 'Follow-up', 'Resolution' => 'Resolution']
+                                        'options' => ['Initial' => 'Initial', 'FollowUp' => 'FollowUp', 'Resolution' => 'Resolution']
                                     ]
                                 );
                                 ?>

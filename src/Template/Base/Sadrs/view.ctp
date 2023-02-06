@@ -22,15 +22,14 @@ $this->Html->script('jquery/assign_evaluator', ['block' => true]);
         } else {
           echo "Assigned to:" . $assignees->toArray()[$sadr->assigned_to];
         }
-
         ?>
       </a></li>
     <li role="presentation"><a href="#causality" aria-controls="causality" role="tab" data-toggle="tab">Causality Assessment</a></li>
     <li role="presentation"><a href="#committee_review" aria-controls="committee_review" role="tab" data-toggle="tab">Committee Review</a></li>
   <?php } ?>
   <?php if ($sadr->report_type === 'FollowUp') { ?>
-        <li role="presentation"><a href="#initial" aria-controls="initial" role="tab" data-toggle="tab">Initial Report</a></li>
-    <?php } ?>
+    <li role="presentation"><a href="#initial" aria-controls="initial" role="tab" data-toggle="tab">Initial Report</a></li>
+  <?php } ?>
   <?php if ($sadr->copied === 'new copy') { ?>
     <li role="presentation"><a href="#original" aria-controls="original" role="tab" data-toggle="tab">Original Report</a></li>
   <?php } ?>
@@ -51,9 +50,10 @@ $this->Html->script('jquery/assign_evaluator', ['block' => true]);
     }
     ?>
     <?php if (empty($sadr->assigned_to)) { ?>
+      <!-- <button type="button" class="btn btn-info" data-toggle="modal" data-target="#assignModal"><i class="fa fa-share-square-o" aria-hidden="true"></i> Assign Evaluator</button> -->
     <?php } else { ?>
       <small><?= '<b>Assigned To</b>:' . $assignees->toArray()[$sadr->assigned_to] ?></small>
-    <?php } ?>
+    <?php }  ?>
     <?php $this->end(); ?>
 
 
@@ -62,7 +62,7 @@ $this->Html->script('jquery/assign_evaluator', ['block' => true]);
     <?php $this->end(); ?>
 
 
-    <?php $this->start('followups'); ?>
+    <?php $this->start('followups');  ?>
     <hr>
     <h2 class="text-center"><u>Follow Ups Section</u></h2>
     <?= $this->element('sadrs/view_followups') ?>
@@ -80,10 +80,13 @@ $this->Html->script('jquery/assign_evaluator', ['block' => true]);
 <div role="tabpanel" class="tab-pane" id="committee_review">
   <?= $this->element('sadrs/committee_review') ?>
 </div>
+<?php if ($sadr->report_type === 'FollowUp') { ?>
+  <div role="tabpanel" class="tab-pane" id="initial">
+    <?php echo $this->element('sadrs/sadr_view', ['sadr' => $sadr->initial_sadr, 'nfetch' => true]) ?>
+  </div>
+<?php } ?>
 <?php if ($sadr->copied === 'new copy') { ?>
   <div role="tabpanel" class="tab-pane" id="original">
-    <?php //echo $this->element('sadrs/clean') 
-    ?>
     <?php echo $this->element('sadrs/sadr_view', ['sadr' => $sadr->original_sadr, 'nfetch' => true]) ?>
   </div>
 <?php } ?>
@@ -147,7 +150,8 @@ $this->Html->script('jquery/assign_evaluator', ['block' => true]);
       <div class="modal-footer">
         <div class="row">
           <div class="col-sm-12">
-
+            <!-- <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>
+Close</button>   -->
             <div class="form-group">
               <div class="col-sm-offset-2 col-sm-10">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>

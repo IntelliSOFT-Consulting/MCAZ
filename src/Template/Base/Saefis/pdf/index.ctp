@@ -87,8 +87,9 @@
                         ?>
                     </p>
                     <p>
-                      <?php          
-                        echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$saefi->assigned_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$saefi->assigned_by], true)."' style='width: 30%;' alt=''>";
+                      <?php  
+                        echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$causality->reviewed_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$causality->reviewed_by], true)."' style='width: 30%;' alt=''>";        
+                        // echo "<img src='".$this->Url->build(substr(Hash::combine($users->toArray(), '{n}.id', '{n}.dir')[$saefi->assigned_by], 8) . '/' . Hash::combine($users->toArray(), '{n}.id', '{n}.file')[$saefi->assigned_by], true)."' style='width: 30%;' alt=''>";
                       ?>                        
                     </p>
                   </td>

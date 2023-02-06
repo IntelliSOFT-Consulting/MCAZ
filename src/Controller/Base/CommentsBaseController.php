@@ -56,6 +56,7 @@ class CommentsBaseController extends AppController
             $stage1->stage_date = date("Y-m-d H:i:s");
             $report->report_stages = [$stage1];
             $report->status = 'Correspondence';
+            $report->action_date = date("Y-m-d H:i:s");
 
             if ($this->Comments->save($comment) && $entity->save($report)) {
                 //Send email, notification and message to managers and assigned evaluators

@@ -54,7 +54,22 @@ $this->start('sidebar'); ?>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($sadrs as $sadr) : ?>
+            <?php $filtered = [];
+            foreach ($sadrs as $sample) : ?>
+                <?php
+                // check if the  $filtered  is empty
+                if (empty($filtered)) {
+                    $filtered[] = $sample;
+                } else {
+                    // 
+                    if (!in_array($sample->reference_number, Hash::extract($filtered, '{n}.reference_number'))) {
+                        $filtered[] = $sample;
+                    }
+                }
+
+                ?>
+            <?php endforeach;
+            foreach ($filtered as $sadr) : ?>
                 <?php $a = ($sadr['assigned_to']) ? '<small class="muted">' . Hash::combine($users->toArray(), '{n}.id', '{n}.name')[$sadr->assigned_to] . '</small>' : '<small class="muted">Unassigned</small>'; ?>
                 <?php
                 if ($sadr->reporter_email != "dataentry@mcaz.co.zw") {
@@ -84,12 +99,12 @@ $this->start('sidebar'); ?>
                     </td>
                     <td><?php
                         echo ($sadr->submitted == 2) ? $this->Html->link($sadr->reference_number, ['action' => 'view', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']) :
-                            $this->Html->link($sadr->created, ['action' => 'edit', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']); 
+                            $this->Html->link($sadr->created, ['action' => 'edit', $sadr->id, 'prefix' => $prefix, 'status' => $sadr->status], ['escape' => false, 'class' => 'btn-zangu']);
 
-                            echo $tr;                            
-                            
-                            ?>
-                            
+                        echo $tr;
+
+                        ?>
+
                     </td>
                     <td><?= h($sadr->institution_name) ?></td>
                     <td><?= h($sadr->status) ?><br><?= $a ?><br><?= $sadr->report_type ?></td>

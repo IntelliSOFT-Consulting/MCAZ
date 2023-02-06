@@ -52,7 +52,9 @@ class AefisTable extends Table
                 'Committees', 'Committees.Users', 'Committees.AefiComments', 'Committees.AefiComments.Attachments',
                 'ReportStages',
                 'AefiFollowups.AefiListOfVaccines', 'AefiFollowups.Attachments',
-                'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments', 'AefiReactions'
+                'OriginalAefis', 'OriginalAefis.AefiListOfVaccines', 'OriginalAefis.Attachments',
+                'InitialAefis', 'InitialAefis.AefiListOfVaccines', 'InitialAefis.Attachments',
+                 'AefiReactions'
             ],
             'remove' => ['created', 'modified'],
             'set' => [
@@ -73,6 +75,12 @@ class AefisTable extends Table
             'foreignKey' => 'aefi_id',
             'dependent' => true,
             'conditions' => array('OriginalAefis.copied' => 'old copy')
+        ]);
+        $this->belongsTo('InitialAefis', [
+            'className' => 'Aefis',
+            'foreignKey' => 'initial_id',
+            'dependent' => true,
+            'conditions' => array('InitialAefis.report_type' => 'Initial')
         ]);
         $this->hasMany('AefiListOfVaccines', [
             'foreignKey' => 'aefi_id'
@@ -287,7 +295,7 @@ class AefisTable extends Table
                 }, 'message' => 'Days at onset must be between 1 and 613200'
             ]);
 
-        //date of birth or onset
+        //date of birth or onset or age_group
         $validator
             ->allowEmpty('date_of_birth')
             ->add('date_of_birth', 'dob-or-door', [
@@ -297,6 +305,7 @@ class AefisTable extends Table
                         !$dob && empty($context['data']['age_at_onset_years'])
                         && empty($context['data']['age_at_onset_months'])
                         && empty($context['data']['age_at_onset_days'])
+                        && empty($context['data']['age_group'])
                     ) return false;
                     if ($dob && !empty($context['data']['age_at_onset_years'])) return false;
                     return true;

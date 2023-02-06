@@ -53,15 +53,23 @@ class AdrsController extends AppController
         $this->paginate = [
             'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews', 'ReportStages']
         ];
-        $query = $this->Adrs
-            ->find('search', ['search' => $this->request->query])
-            ->where([['user_id' => $this->Auth->user('id')]]);
+        $query = $this->Adrs->find('search', array(
+            'recursive' => 0, 
+            'search' => $this->request->query, 
+            ))
+            ->order(['Adrs.created' => 'DESC'])  
+            ->where([['user_id' => $this->Auth->user('id')]])
+            // ->distinct(['reference_number'])
+            ;
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
-        $this->set(compact('designations'));
+        $this->set(compact('designations')); 
+
+        $data=$this->paginate($query->contain($this->paginate['contain']));
+        
         if ($this->request->params['_ext'] === 'pdf' || $this->request->params['_ext'] === 'csv') {
             $this->set('adrs', $query->contain($this->paginate['contain']));
         } else {
-            $this->set('adrs', $this->paginate($query->contain($this->paginate['contain'])));
+            $this->set('adrs', $data);
         }
 
         $_designations = $designations->toArray();
@@ -405,6 +413,7 @@ class AdrsController extends AppController
             $adr->institution_code = $this->Auth->user('name_of_institution');
             $adr->reporter_phone = $this->Auth->user('phone_no');
             $adr->reporter_name = $this->Auth->user('name');
+            $adr->report_type = 'Initial';
             if ($this->Adrs->save($adr, ['validate' => false])) {
                 $this->Flash->success(__('The SAE has been saved.'));
 
@@ -585,6 +594,7 @@ class AdrsController extends AppController
 
         $adr = $this->AdrFollowups->duplicateEntity($id);
         $adr->adr_id = $id;
+        $adr->initial_id = $id;
         $adr->messageid = null;
         $adr->user_id = $this->Auth->user('id'); //the report is reassigned to the user
         $adr->report_type = 'FollowUp';

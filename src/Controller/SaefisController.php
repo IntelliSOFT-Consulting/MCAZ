@@ -349,6 +349,8 @@ class SaefisController extends AppController
                 }
             }
 
+            // debug($saefi);
+            // exit;
             // debug((string)$saefi);
             // return;
             // debug($this->request->data);
@@ -435,6 +437,8 @@ class SaefisController extends AppController
             }
         }
 
+        // debug($saefi);
+        // exit;
         $designations = $this->Saefis->Designations->find('list', array('order' => 'Designations.name ASC'));
         $provinces = $this->Saefis->Provinces->find('list', ['limit' => 200]);
         $this->set(compact('saefi', 'designations', 'provinces'));
@@ -481,6 +485,7 @@ class SaefisController extends AppController
 
         $saefi = $this->SaefiFollowups->duplicateEntity($id);
         $saefi->saefi_id = $id;
+        $saefi->initial_id = $id;
         $saefi->messageid = null;
         $saefi->user_id = $this->Auth->user('id'); //the report is reassigned to the user
         $saefi->report_type = 'FollowUp';

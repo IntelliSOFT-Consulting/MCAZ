@@ -71,6 +71,7 @@ class AefisController extends AppController
 
         $query = $this->Aefis
             ->find('search', ['search' => $this->request->query])
+            ->order(['created' => 'DESC'])  
             ->where([['user_id' => $this->Auth->user('id')]]);
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
@@ -591,6 +592,7 @@ class AefisController extends AppController
         $aefi = $this->AefiFollowups->duplicateEntity($id);
         $aefi->aefi_id = $id;
         $aefi->messageid = null;
+        $aefi->initial_id=$id;
         $aefi->user_id = $this->Auth->user('id'); //the report is reassigned to the user
         $aefi->report_type = 'FollowUp';
 

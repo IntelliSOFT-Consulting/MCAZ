@@ -64,6 +64,10 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;';
                             <td><?= $aefi->gender ?></td>
                         </tr>
                         <tr>
+                            <th><label>If Female,</label></th>
+                            <td><?= $aefi->female_status ?></td>
+                        </tr>
+                        <tr>
                             <th><label>Date of Birth </label></th>
                             <td><?= $aefi->date_of_birth ?></td>
                         </tr>
@@ -72,6 +76,11 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;';
                             <td><?= $aefi->age_at_onset_years ?> <small class="muted">years </small><br>
                                 <?= $aefi->age_at_onset_months ?> <small class="muted">months </small> <br>
                                 <?= $aefi->age_at_onset_days ?> <small class="muted">days </small>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><label>OR Age Group:</label></th>
+                            <td><?= $aefi->age_group ?>  
                             </td>
                         </tr>
                     </table>
@@ -139,7 +148,8 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;';
                                 <th colspan="5">Diluent</th>
                             </tr>
                             <tr>
-                                <th colspan="2" style="width: 20%"> Name </th>
+                                <th colspan="2" style="width: 20%"> Name of vaccine<br>(Generic) </th>
+                                <th colspan="1" style="width: 20%"> *Brand Name <br>incl. Name of<br>Manufacturer </th>
                                 <th colspan="2" style="width: 20%">
                                     <h5>Date and Time of Vaccination <br><small id="helpBlock" class="has-warning">Format dd-mm-yyyy hh24:min</small></h5>
                                 </th>
@@ -164,6 +174,7 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;';
                                     <tr>
                                         <td><?= $i + 1; ?></td>
                                         <td><?= $aefi->aefi_list_of_vaccines[$i]['vaccine_name']; ?> </td>
+                                        <td><?= $aefi->aefi_list_of_vaccines[$i]['manufacturer']; ?> </td>
                                         <td><?= $aefi->aefi_list_of_vaccines[$i]['vaccination_date']; ?> </td>
                                         <td><?= $aefi->aefi_list_of_vaccines[$i]['vaccination_time']; ?> </td>
                                         <td><?= $aefi->aefi_list_of_vaccines[$i]['dosage']; ?> </td>
@@ -291,14 +302,15 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;';
                         <!-- Added option for other reactions -->
 
                         <?php
-                        if(!empty($aefi->aefi_reactions)){
-                        foreach ($aefi->aefi_reactions as $key => $reaction) { ?>
-                            <tr>
-                                <th></th>
-                                <td><?php echo $reaction->reaction_name; ?></td>
-                            </tr>
+                        if (!empty($aefi->aefi_reactions)) {
+                            foreach ($aefi->aefi_reactions as $key => $reaction) { ?>
+                                <tr>
+                                    <th></th>
+                                    <td><?php echo $reaction->reaction_name; ?></td>
+                                </tr>
 
-                        <?php } }
+                        <?php }
+                        }
                         ?>
                         <tr>
 
@@ -356,9 +368,9 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;';
                 <div class="col-xs-12">
                     <table class="table table-condensed vertical-table">
                         <tr>
-                            <th><label>Past medical history (including history of similar reaction or other allergies),
-                                    concomitant medication and other relevant information
-                                    (e.g. other cases).</label></th>
+                            <th><label>Past medical history (including history of similar reaction or other allergies), concomitant medication and dates of administration (exclude
+          those used to treat reaction) and other relevant information 
+  (e.g. other cases)..</label></th>
                             <td><?= $aefi->past_medical_history ?></td>
                         </tr>
                     </table>

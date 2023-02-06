@@ -1,12 +1,16 @@
-<?php $this->start('sidebar'); ?>
-  <?= $this->cell('SideBar'); ?>
+<?php
+
+use Cake\Utility\Hash;
+
+$this->start('sidebar'); ?>
+<?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
 
 <h1 class="page-header"><?= isset($this->request->query['status']) ? $this->request->query['status'] : 'All' ?> SAE
-    :: <small style="font-size: small;"><i class="fa fa-search-plus" aria-hidden="true"></i> Search, 
-              <i class="fa fa-filter" aria-hidden="true"></i>Filter or  
-              <i class="fa fa-download" aria-hidden="true"></i>  Download Reports</small>
+    :: <small style="font-size: small;"><i class="fa fa-search-plus" aria-hidden="true"></i> Search,
+        <i class="fa fa-filter" aria-hidden="true"></i>Filter or
+        <i class="fa fa-download" aria-hidden="true"></i> Download Reports</small>
 </h1>
 
 <?= $this->element('adrs/search_mini') ?>
@@ -24,33 +28,50 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($adrs as $adr): ?>
-            <tr>
-                <td><?= $this->Number->format($adr->id) ?></td>
-                <td><?php
-                      echo ($adr->submitted == 2) ? 
-                        $this->Html->link($adr->reference_number, ['action' => 'view', $adr->id, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']) : 
-                        $this->Html->link($adr->created, ['action' => 'edit', $adr->id, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']) ; ?>
-                      </td>
-                <td><?= h($adr->status) ?></td>
-                <td><?= h($adr->report_type) ?></td>
-                <td><?= h($adr->modified) ?></td>
-                <td>                   
-                   <span class="label label-primary">                     
-                     <?= $this->Html->link('View', ['action' => 'view', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'class' => 'label-link'])
-                     ?>
-                    </span> &nbsp;
-                   <span class="label label-primary">                    
-                     <?= $this->Html->link('PDF', ['action' => 'view', $adr->id, 'prefix' => $prefix, 'status' => $adr->status, '_ext' => 'pdf'], ['escape' => false, 'class' => 'label-link'])
-                     ?>
-                    </span>  &nbsp;
-                    <?php if($adr->submitted == 0 or $adr->submitted == 1) { ?>
-                    <span class="label label-danger">                     
-                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $adr->id], ['confirm' => __('Are you sure you want to delete # {0}?', $adr->id), 'class' => 'label-link']) ?>
-                    </span> 
-                    <?php } ?>
-                </td>
-            </tr>
+
+            <?php
+            $filtered = [];
+            foreach ($adrs as $sample) : ?>
+                <?php
+                // check if the  $filtered  is empty
+                if (empty($filtered)) {
+                    $filtered[] = $sample;
+                } else {
+                    // 
+                    if (!in_array($sample->reference_number, Hash::extract($filtered, '{n}.reference_number'))) {
+                        $filtered[] = $sample;
+                    }
+                }
+
+                ?>
+            <?php endforeach;
+            foreach ($filtered as $adr) : ?>
+                <tr>
+                    <td><?= $this->Number->format($adr->id) ?></td>
+                    <td><?php
+                        echo ($adr->submitted == 2) ?
+                            $this->Html->link($adr->reference_number, ['action' => 'view', $adr->id, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']) :
+                            $this->Html->link($adr->created, ['action' => 'edit', $adr->id, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']); ?>
+                    </td>
+                    <td><?= h($adr->status) ?></td>
+                    <td><?= h($adr->report_type) ?></td>
+                    <td><?= h($adr->modified) ?></td>
+                    <td>
+                        <span class="label label-primary">
+                            <?= $this->Html->link('View', ['action' => 'view', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'class' => 'label-link'])
+                            ?>
+                        </span> &nbsp;
+                        <span class="label label-primary">
+                            <?= $this->Html->link('PDF', ['action' => 'view', $adr->id, 'prefix' => $prefix, 'status' => $adr->status, '_ext' => 'pdf'], ['escape' => false, 'class' => 'label-link'])
+                            ?>
+                        </span> &nbsp;
+                        <?php if ($adr->submitted == 0 or $adr->submitted == 1) { ?>
+                            <span class="label label-danger">
+                                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $adr->id], ['confirm' => __('Are you sure you want to delete # {0}?', $adr->id), 'class' => 'label-link']) ?>
+                            </span>
+                        <?php } ?>
+                    </td>
+                </tr>
             <?php endforeach; ?>
         </tbody>
     </table>

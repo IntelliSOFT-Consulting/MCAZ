@@ -74,6 +74,7 @@ class AdrsController extends AdrsBaseController
             $adr->assigned_by =  $current;
             $adr->assigned_to =  $current;
             $adr->assigned_date = date("Y-m-d H:i:s");
+            $adr->action_date = date("Y-m-d H:i:s"); //Updated report action date
             $evaluator = $this->Adrs->Users->get($current);
             $message=$this->request->getData('reminder_note');
            
@@ -91,6 +92,7 @@ class AdrsController extends AdrsBaseController
             $adr->assigned_by = $this->Auth->user('id');
             $adr->assigned_to = $this->request->getData('evaluator');
             $adr->assigned_date = date("Y-m-d H:i:s");
+            $adr->action_date = date("Y-m-d H:i:s"); //Updated report action date
             $evaluator = $this->Adrs->Users->get($this->request->getData('evaluator'));
             $message=$this->request->getData('user_message');
             
@@ -108,6 +110,7 @@ class AdrsController extends AdrsBaseController
             $adr->assigned_by = $this->Auth->user('id');
             $adr->assigned_to = $this->request->getData('assigned_to');
             $adr->assigned_date = date("Y-m-d H:i:s");
+            $adr->action_date = date("Y-m-d H:i:s"); //Updated report action date
             $evaluator = $this->Adrs->Users->get($this->request->getData('assigned_to'));
 
             if ($this->Adrs->save($adr)) {

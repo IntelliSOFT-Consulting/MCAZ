@@ -136,9 +136,35 @@
                                 ['label' => false, 'templates' => 'clear_form', 'placeholder' => '*Patient name*']);
                         ?>
                     </td>
-                    <td>  
-                      
-                    </td>
+                    
+                       <!-- Added -->
+                       <td>
+                                <?php
+                                echo $this->Form->control(
+                                    'status',
+                                    [
+                                        'type' => 'select', 'label' => false, 'templates' => 'clear_form', 'empty' => true,
+                                        'options' => [
+                                            'Submitted' => 'Submitted',
+                                            'UnSubmitted' => 'UnSubmitted',
+                                            'Assigned' => 'Assigned',
+                                            'Evaluated' => 'Evaluated',
+                                            'Presented' => 'Presented',
+                                            'ApplicantResponse' => 'ApplicantResponse',
+                                            'Correspondence' => 'Correspondence',
+                                            'Committee' => 'Committee',
+                                            'VigiBase' => 'VigiBase',
+                                            'FinalFeedback' => 'FinalFeedback',
+                                            'Archived' => 'Archived'
+                                        ]
+                                    ]
+                                );
+                                ?>
+                                <a onclick="$('#relatedness').val('');" class="tiptip" data-original-title="clear!!">
+                                    <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
+                                <br>
+                                <small class="text-warning">Evaluation Status</small>
+                            </td>
                 </tr>   
             </tbody>
         </table>

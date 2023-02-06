@@ -51,7 +51,23 @@ $this->start('sidebar'); ?>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($adrs as $adr) : ?>
+            <?php 
+            $filtered = [];
+            foreach ($adrs as $sample) : ?>
+                <?php
+                // check if the  $filtered  is empty
+                if (empty($filtered)) {
+                    $filtered[] = $sample;
+                } else {
+                    // 
+                    if (!in_array($sample->reference_number, Hash::extract($filtered, '{n}.reference_number'))) {
+                        $filtered[] = $sample;
+                    }
+                }
+
+                ?>
+            <?php endforeach;
+            foreach ($filtered as $adr) : ?>
                 <?php $a = ($adr['assigned_to']) ? '<small class="muted">' . Hash::combine($users->toArray(), '{n}.id', '{n}.name')[$adr->assigned_to] . '</small>' : '<small class="muted">Unassigned</small>'; ?>
 
                 <?php

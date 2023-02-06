@@ -75,7 +75,7 @@
                         <?php
                             echo $this->Form->control('report_type', 
                                 ['type' => 'radio', 'label' => 'Report type', 'templates' => 'radio_form', 
-                                 'options' => ['Initial' => 'Initial', 'Follow-up' => 'Follow-up', 'Resolution' => 'Resolution']]);
+                                 'options' => ['Initial' => 'Initial', 'FollowUp' => 'FollowUp', 'Resolution' => 'Resolution']]);
                         ?>
 
                 <a onclick="$('input[name=report_type]').removeAttr('checked');" class="tiptip"  data-original-title="clear!!">
@@ -133,9 +133,34 @@
                     <td>
                         
                     </td>
-                    <td> 
-
-                    </td>
+                      <!-- Added -->
+                      <td>
+                                <?php
+                                echo $this->Form->control(
+                                    'status',
+                                    [
+                                        'type' => 'select', 'label' => false, 'templates' => 'clear_form', 'empty' => true,
+                                        'options' => [
+                                            'Submitted' => 'Submitted',
+                                            'UnSubmitted' => 'UnSubmitted',
+                                            'Assigned' => 'Assigned',
+                                            'Evaluated' => 'Evaluated',
+                                            'Presented' => 'Presented',
+                                            'ApplicantResponse' => 'ApplicantResponse',
+                                            'Correspondence' => 'Correspondence',
+                                            'Committee' => 'Committee',
+                                            'VigiBase' => 'VigiBase',
+                                            'FinalFeedback' => 'FinalFeedback',
+                                            'Archived' => 'Archived'
+                                        ]
+                                    ]
+                                );
+                                ?>
+                                <a onclick="$('#relatedness').val('');" class="tiptip" data-original-title="clear!!">
+                                    <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
+                                <br>
+                                <small class="text-warning">Evaluation Status</small>
+                            </td>
                 </tr>
                 <tr>
                     <td colspan="3">                        

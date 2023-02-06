@@ -72,6 +72,7 @@ class Ce2bsController extends Ce2bsBaseController
             $ce2b->assigned_by = $current;
             $ce2b->assigned_to = $current;
             $ce2b->assigned_date = date("Y-m-d H:i:s");
+            $ce2b->action_date = date("Y-m-d H:i:s"); //Updated report action date
             $evaluator = $this->Ce2bs->Users->get($current);
             $message=$this->request->getData('reminder_note');
             
@@ -87,6 +88,7 @@ class Ce2bsController extends Ce2bsBaseController
             $ce2b->assigned_by = $this->Auth->user('id');
             $ce2b->assigned_to = $this->request->getData('evaluator');
             $ce2b->assigned_date = date("Y-m-d H:i:s");
+            $ce2b->action_date = date("Y-m-d H:i:s"); //Updated report action date
             $evaluator = $this->Ce2bs->Users->get($this->request->getData('evaluator'));
             $message=$this->request->getData('user_message');
             
@@ -104,6 +106,7 @@ class Ce2bsController extends Ce2bsBaseController
             $ce2b->assigned_by = $this->Auth->user('id');
             $ce2b->assigned_to = $this->request->getData('assigned_to');
             $ce2b->assigned_date = date("Y-m-d H:i:s");
+            $ce2b->action_date = date("Y-m-d H:i:s"); //Updated report action date
             $evaluator = $this->Ce2bs->Users->get($this->request->getData('assigned_to'));
 
             if ($this->Ce2bs->save($ce2b)) {

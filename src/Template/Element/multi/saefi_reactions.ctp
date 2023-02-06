@@ -7,11 +7,11 @@ $this->Html->script('multi/saefi_reactions', ['block' => true]);
     </div>
     <div id="saefi_reactions">
         <?php
-        if (!empty($aefi['saefi_reactions'])) {
-            for ($i = 0; $i <= count($aefi['aefi_reactions']) - 1; $i++) {
+        if (!empty($saefi['saefi_reactions'])) {
+            for ($i = 0; $i <= count($saefi['saefi_reactions']) - 1; $i++) {
         ?>
-        <div class="reaction-group">
-            <?php
+                <div class="reaction-group">
+                    <?php
                     echo $this->Form->input('saefi_reactions.' . $i . '.id', ['templates' => 'table_form']);
                     echo $this->Form->input('saefi_reactions.' . $i . '.reaction_name', array(
                         'label' => ($i + 1) . '. ',  'escape' => false, 'class' => 'other_reactions'
@@ -21,7 +21,7 @@ $this->Html->script('multi/saefi_reactions', ['block' => true]);
                         'class' => 'controls', 'escape' => false
                     ));
                     ?>
-        </div>
+                </div>
         <?php
             }
         }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -47,13 +48,17 @@ class AdrsTable extends Table
         $this->addBehavior('Timestamp');
         $this->addBehavior('Search.Search');
         $this->addBehavior('Duplicatable.Duplicatable', [
-            'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Uploads', 'RequestReporters', 'RequestEvaluators', 
-                          'Reviews', 'Reviews.Users', 'Reviews.AdrComments', 'Reviews.AdrComments.Attachments',  
-                          'Committees', 'Committees.Users', 'Committees.AdrComments', 'Committees.AdrComments.Attachments', 'ReportStages', 
-                          'AdrFollowups', 'AdrFollowups.AdrListOfDrugs', 'AdrFollowups.AdrOtherDrugs', 'AdrFollowups.Attachments',
-                          'OriginalAdrs', 'OriginalAdrs.AdrListOfDrugs', 'OriginalAdrs.AdrOtherDrugs', 'OriginalAdrs.Attachments'],
-            'remove' => ['created', 'modified', 'adr_list_of_drugs.created',  'attachments.created',
-                          'adr_list_of_drugs.modified',  'attachments.modified'],
+            'contain' => [
+                'AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Uploads', 'RequestReporters', 'RequestEvaluators',
+                'Reviews', 'Reviews.Users', 'Reviews.AdrComments', 'Reviews.AdrComments.Attachments',
+                'Committees', 'Committees.Users', 'Committees.AdrComments', 'Committees.AdrComments.Attachments', 'ReportStages',
+                'AdrFollowups', 'AdrFollowups.AdrListOfDrugs', 'AdrFollowups.AdrOtherDrugs', 'AdrFollowups.Attachments',
+                'OriginalAdrs', 'OriginalAdrs.AdrListOfDrugs', 'OriginalAdrs.AdrOtherDrugs', 'OriginalAdrs.Attachments'
+            ],
+            'remove' => [
+                'created', 'modified', 'adr_list_of_drugs.created',  'attachments.created',
+                'adr_list_of_drugs.modified',  'attachments.modified'
+            ],
             'set' => [
                 'submitted' => 2,
                 'copied' => 'new copy'
@@ -70,6 +75,12 @@ class AdrsTable extends Table
             'foreignKey' => 'adr_id',
             'dependent' => true,
             'conditions' => array('OriginalAdrs.copied' => 'old copy')
+        ]);
+        $this->belongsTo('InitialAdrs', [
+            'className' => 'Adrs',
+            'foreignKey' => 'initial_id',
+            'dependent' => true,
+            'conditions' => array('InitialAdrs.report_type' => 'Initial')
         ]);
         $this->hasMany('AdrLabTests', [
             'foreignKey' => 'adr_id'
@@ -105,6 +116,12 @@ class AdrsTable extends Table
             'dependent' => true,
             'conditions' => array('Reminders.model' => 'Adrs'),
         ]);
+        $this->hasMany('AdrComments', [
+            'className' => 'Comments',
+            'foreignKey' => 'model_id',
+            'dependent' => true,
+            'conditions' => array('AdrComments.model' => 'Adrs'),
+        ]);
 
 
         $this->hasMany('Refids', [
@@ -113,7 +130,7 @@ class AdrsTable extends Table
             'dependent' => true,
             'conditions' => array('Refids.model' => 'Adrs'),
         ]);
-        
+
         $this->hasMany('Reviews', [
             'className' => 'Reviews',
             'foreignKey' => 'foreign_key',
@@ -147,8 +164,8 @@ class AdrsTable extends Table
     }
 
     /**
-    * @return \Search\Manager
-    */
+     * @return \Search\Manager
+     */
     public function searchManager()
     {
         $searchManager = $this->behaviors()->Search->searchManager();
@@ -157,7 +174,7 @@ class AdrsTable extends Table
             ->like('reference_number')
             ->compare('created_start', ['operator' => '>=', 'field' => ['created']])
             ->compare('created_end', ['operator' => '<=', 'field' => ['created']])
-            ->like('mrcz_protocol_number') 
+            ->like('mrcz_protocol_number')
             ->like('mcaz_protocol_number')
             ->like('name_of_institution')
             ->like('study_title')
@@ -173,11 +190,27 @@ class AdrsTable extends Table
             ->add('drug_name', 'Search.Callback', [
                 'callback' => function ($query, $args, $filter) {
                     $drug_name = $args['drug_name'];
-                    $query->matching('AdrListOfDrugs', function ($q) use($drug_name) {
-                        return $q->where(['AdrListOfDrugs.drug_name LIKE' => '%'.$drug_name.'%']);
+                    $query->matching('AdrListOfDrugs', function ($q) use ($drug_name) {
+                        return $q->where(['AdrListOfDrugs.drug_name LIKE' => '%' . $drug_name . '%']);
                     });
                 }
             ])
+            // ->add('reference_number', 'Search.Callback', [
+            //     'callback' => function ($query, $args, $filter) {
+            //         $drug_name = $args['reference_number'];
+            //         $query->distinct('Adr.reference_number', function ($q) use($drug_name) {
+            //             return $q->where(['Adr.reference_number LIKE' => '%'.$drug_name.'%']);
+            //         });
+            //     }
+            // ])
+            // ->add('adr.reference_number', 'Search.Callback', [
+            //     'callback' => function ($query, $args, $filter) {
+            //         $query->matching('Adr', function ($q) use ($args) {
+            //             return $q->where(['reference_number' => $args['reference_number']]);
+            //         });
+            //         return $query;
+            //     }
+            // ])
             ->like('participant_number');
 
         return $searchManager;
@@ -243,9 +276,9 @@ class AdrsTable extends Table
             ->scalar('participant_number')
             ->allowEmpty('participant_number');
 
-        // $validator
-        //     ->scalar('report_type')
-        //     ->allowEmpty('report_type');
+        $validator
+            ->scalar('report_type')
+            ->notEmpty('report_type', ['message' => 'Please specify report type']);
 
         // $validator
         //     ->date('date_of_site_awareness')
