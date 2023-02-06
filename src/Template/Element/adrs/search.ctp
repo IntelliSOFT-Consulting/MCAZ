@@ -283,7 +283,7 @@ if (count($arr1) > 1) {
             <a class="btn btn-warning btn-sm btn-block" href="<?= $pdf ?>" style="margin-top: 4px;">
                 <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Summary Report
             </a>
-            <?php if ($prefix == 'manager') { ?>
+            <?php if ($prefix == 'manager' || $prefix == 'evaluator') { ?>
                 <a class="btn btn-primary btn-sm btn-block" href="<?= $timeline ?>" style="margin-top: 4px;">
                 <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Timeline Report
             </a>
