@@ -1,5 +1,6 @@
 <div class="row">
     <div class="col-xs-12">
+        <hr>
         <?php 
             foreach ($sadr->report_stages as $application_stage) {
         ?>
