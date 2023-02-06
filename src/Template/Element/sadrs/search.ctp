@@ -18,9 +18,7 @@ if (count($arr1) > 1) {
 <div class="well">
     <div class="row">
         <div class="col-md-10">
-            <h5 class="text-center"><small><em>Use wildcard <span class="sterix fa fa-asterisk"
-                            aria-hidden="true"></span> to match any character e.g. adr4* to match adr4/2017, adr49/2018
-                        etc.</em></small></h5>
+            <h5 class="text-center"><small><em>Use wildcard <span class="sterix fa fa-asterisk" aria-hidden="true"></span> to match any character e.g. adr4* to match adr4/2017, adr49/2018 etc.</em></small></h5>
 
             <table class="table">
                 <tbody>
@@ -79,23 +77,20 @@ if (count($arr1) > 1) {
                             );
                             ?>
 
-                            <a onclick="$('input[name=severity]').removeAttr('checked');" class="tiptip"
-                                data-original-title="clear!!">
-                                <em class="accordion-toggle"><i class="fa fa-window-close-o"
-                                        aria-hidden="true"></i></em></a>
+                            <a onclick="$('input[name=severity]').removeAttr('checked');" class="tiptip" data-original-title="clear!!">
+                                <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="3">
-                            <a class="btn" role="button" data-toggle="collapse" href="#collapseSadr"
-                                aria-expanded="false" aria-controls="collapseSadr">
+                            <a class="btn" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                                 View more
                             </a>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <div class="collapse" id="collapseSadr">
+            <div class="collapse" id="collapseExample">
                 <table class="table">
                     <tbody>
                         <tr>
@@ -109,10 +104,8 @@ if (count($arr1) > 1) {
                                     ]
                                 );
                                 ?>
-                                <a onclick="$('#severity-reason').val('');" class="tiptip"
-                                    data-original-title="clear!!">
-                                    <em class="accordion-toggle"><i class="fa fa-window-close-o"
-                                            aria-hidden="true"></i></em></a>
+                                <a onclick="$('#severity-reason').val('');" class="tiptip" data-original-title="clear!!">
+                                    <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                                 <br>
                                 <small class="text-warning">Reason for seriousness</small>
                             </td>
@@ -141,8 +134,7 @@ if (count($arr1) > 1) {
                                 );
                                 ?>
                                 <a onclick="$('#outcome').val('');" class="tiptip" data-original-title="clear!!">
-                                    <em class="accordion-toggle"><i class="fa fa-window-close-o"
-                                            aria-hidden="true"></i></em></a>
+                                    <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                                 <br>
                                 <small class="text-warning">Outcome</small>
                             </td>
@@ -167,12 +159,11 @@ if (count($arr1) > 1) {
                                 );
                                 ?>
                                 <a onclick="$('#action-taken').val('');" class="tiptip" data-original-title="clear!!">
-                                    <em class="accordion-toggle"><i class="fa fa-window-close-o"
-                                            aria-hidden="true"></i></em></a>
+                                    <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                                 <br>
                                 <small class="text-warning">Action taken</small>
                             </td>
-                            <td>
+                            <td colspan="2">
                                 <?php
                                 echo $this->Form->control(
                                     'relatedness',
@@ -190,11 +181,12 @@ if (count($arr1) > 1) {
                                 );
                                 ?>
                                 <a onclick="$('#relatedness').val('');" class="tiptip" data-original-title="clear!!">
-                                    <em class="accordion-toggle"><i class="fa fa-window-close-o"
-                                            aria-hidden="true"></i></em></a>
+                                    <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                                 <br>
                                 <small class="text-warning">Relatedness to ADR</small>
                             </td>
+                        </tr>
+                        <tr>
                             <td>
                                 <?php
                                 echo $this->Form->control(
@@ -206,14 +198,10 @@ if (count($arr1) > 1) {
                                 );
                                 ?>
                                 <a onclick="$('#province-id').val('');" class="tiptip" data-original-title="clear!!">
-                                    <em class="accordion-toggle"><i class="fa fa-window-close-o"
-                                            aria-hidden="true"></i></em></a>
+                                    <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                                 <br>
                                 <small class="text-warning">Province</small>
                             </td>
-                        </tr>
-                        <tr>
-
                             <td>
                                 <?php
                                 echo $this->Form->control(
@@ -230,7 +218,9 @@ if (count($arr1) > 1) {
                                 );
                                 ?>
                             </td>
-                            <td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
                                 <?php
                                 echo $this->Form->control(
                                     'designation_id',
@@ -241,14 +231,10 @@ if (count($arr1) > 1) {
                                 );
                                 ?>
                                 <a onclick="$('#designation-id').val('');" class="tiptip" data-original-title="clear!!">
-                                    <em class="accordion-toggle"><i class="fa fa-window-close-o"
-                                            aria-hidden="true"></i></em></a>
+                                    <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                                 <br>
                                 <small class="text-warning">Designations</small>
                             </td>
-                        </tr>
-                        <tr>
-
                             <td>
                                 <?php
                                 echo $this->Form->control(
@@ -257,35 +243,6 @@ if (count($arr1) > 1) {
                                 );
                                 ?>
                             </td>
-
-                            <!-- Added -->
-                           <td>
-                                <?php
-                                echo $this->Form->control(
-                                    'status',
-                                    [
-                                        'type' => 'select', 'label' => false, 'templates' => 'clear_form', 'empty' => true,
-                                        'options' => [
-                                            'Submitted' => 'Submitted',
-                                            'UnSubmitted' => 'UnSubmitted',
-                                            'Assigned' => 'Assigned',
-                                            'Evaluated' => 'Evaluated',
-                                            'Presented' => 'Presented',
-                                            'ApplicantResponse' => 'ApplicantResponse',
-                                            'Correspondence' => 'Correspondence',
-                                            'Committee' => 'Committee',
-                                            'VigiBase' => 'VigiBase',
-                                            'FinalFeedback' => 'FinalFeedback',
-                                            'Archived'=>'Archived'
-                                        ]
-                                    ]
-                                );
-                                ?>
-                                <a onclick="$('#status').val('');" class="tiptip" data-original-title="clear!!">
-                                    <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
-                                <br>
-                                <small class="text-warning">Evaluation Status</small>
-                            </td> 
                         </tr>
                     </tbody>
                 </table>
@@ -293,8 +250,7 @@ if (count($arr1) > 1) {
         </div>
         <div class="col-md-2">
             <br>
-            <button type="submit" class="btn btn-primary btn-sm btn-block" id="search" style="margin-bottom: 4px;"><i
-                    class="fa fa-search-plus" aria-hidden="true"></i> Search</button>
+            <button type="submit" class="btn btn-primary btn-sm btn-block" id="search" style="margin-bottom: 4px;"><i class="fa fa-search-plus" aria-hidden="true"></i> Search</button>
             <?php
             echo $this->Html->link('<i class="fa fa-close" aria-hidden="true"></i> Reset', ['action' => 'index'], ['class' => 'btn btn-default btn-sm btn-block', 'escape' => false]);
             ?>
@@ -304,21 +260,16 @@ if (count($arr1) > 1) {
             </a>
 
             <?php if ($prefix !== 'institution') { ?>
-            <a class="btn btn-warning btn-sm btn-block" href="<?= $pdf ?>" style="margin-top: 4px;">
-                <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Summary Report
-            </a>
-           
-            <?php } ?>
-
-            <?php if ($prefix == 'manager') { ?>
+                <a class="btn btn-warning btn-sm btn-block" href="<?= $pdf ?>" style="margin-top: 4px;">
+                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Summary Report
+                </a>
                 <a class="btn btn-primary btn-sm btn-block" href="<?= $timeline ?>" style="margin-top: 4px;">
-                <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Timeline Report
-            </a>
+                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Timeline Report
+                </a>
             <?php } ?>
 
             <div class="dropdown" style="margin-top: 14px;">
-                <button class="btn btn-default btn-sm btn-block dropdown-toggle" type="button" id="dropdownMenu1"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <button class="btn btn-default btn-sm btn-block dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     Sort by
                     <span class="caret"></span>
                 </button>

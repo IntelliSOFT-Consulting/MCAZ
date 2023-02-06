@@ -39,12 +39,12 @@ $this->Html->script('bootstrap/bootstrap-editable', ['block' => true]);
             <?php echo $this->Form->create($sadr, ['url' => ['action' => 'assign-self']]) ?>
             <div class="row">
               <div class="col-xs-12">
-                <h5 class="text-center">Assign report to Self for review</h5>
+                <h5 class="text-center">Assign report to self for review</h5>
               </div>
               <div class="col-xs-12">
                 <?php
                 echo $this->Form->control('sadr_pr_id', ['type' => 'hidden', 'value' => $sadr->id, 'escape' => false, 'templates' => 'table_form']);
-              
+             
                 echo $this->Form->control('reminder_note', ['type' => 'textarea', 'escape' => false, 'templates' => 'app_form']);
                 ?>
               </div>
