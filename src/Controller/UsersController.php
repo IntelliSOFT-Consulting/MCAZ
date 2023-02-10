@@ -8,7 +8,9 @@ use Cake\Log\Log;
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\View\Helper\HtmlHelper; 
 use Cake\Core\Configure;
+use Cake\Filesystem\File;
 use Cake\I18n\Time;
+use Cake\Utility\Hash;
 
 /**
  * Users Controller
@@ -252,8 +254,8 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $user = $this->Users->findByEmail($this->request->getData('email'))->first();
             if ($user) {
-
-                $new_pass= date('smiYhd', strtotime($user->created));
+ 
+                $new_pass= date('sYmdHi', strtotime(Time::now()));
                 $hasher = new DefaultPasswordHasher();
                 $password=$hasher->hash($new_pass);
                 $query = $this->Users->query();
@@ -277,7 +279,7 @@ class UsersController extends AppController
                                           '_full' => true]);
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 
-                $this->Flash->success(__('A new password has been sent to the requested email address.'.$new_pass));
+                $this->Flash->success(__('A new password has been sent to the requested email address.'));
                 $this->redirect('/');
             } else {
                 $this->Flash->error(__('Could not verify your email address.'));

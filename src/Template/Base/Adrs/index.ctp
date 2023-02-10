@@ -6,6 +6,8 @@ $this->start('sidebar'); ?>
 <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
+
+<?= $this->Html->script('jquery/vigibasenew', ['block' => true]); ?>
 <?= $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
 <?= $this->Html->script('jquery/readmore', ['block' => true]); ?>
 <?= $this->Html->script('jquery/adr_index', ['block' => true]); ?>
@@ -114,10 +116,10 @@ $this->start('sidebar'); ?>
                     <td><?= h($adr->modified) ?></td>
                     <td>
                         <?php if ($adr->submitted == 2 && empty($adr->messageid)) {
-                            echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $adr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'initiate', 'confirm' => __('Are you sure you want to send report {0}?', $adr->reference_number)]);
+                            echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $adr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']);
                         } elseif (!empty($adr->messageid)) {
                             echo $adr->messageid;
-                            echo  $this->Html->link('&nbsp;<span class="label label-warning"> Resubmit <small class="badge badge-adr pull-right">' . $adr->resubmit . '</small></span>', ['action' => 'resubmitvigibase', $adr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'confirm', 'confirm' => __('Are you sure you want to resubmit report {0}?', $adr->reference_number)]);
+                            // echo  $this->Html->link('&nbsp;<span class="label label-warning"> Resubmit <small class="badge badge-adr pull-right">' . $adr->resubmit . '</small></span>', ['action' => 'resubmitvigibase', $adr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'confirm', 'confirm' => __('Are you sure you want to resubmit report {0}?', $adr->reference_number)]);
                         }
                         ?>
                     </td>

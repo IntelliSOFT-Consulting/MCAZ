@@ -13,7 +13,8 @@ class HelloShell extends Shell
         $this->Email = new Email('default');
         $this->Email
             ->emailFormat('html')  
-           ->to('jkiprotich@intellisoftkenya.com')
+        //    ->to('jkiprotich@intellisoftkenya.com')
+        ->to('lchirinda@gmail.com')
             ->subject(Text::insert("Email Configuration", "Email Configuration"));
         $this->Email->send(Text::insert("Test Email Configuration","Test Email Configuration"));
         $this->out('Email Sent!!.');

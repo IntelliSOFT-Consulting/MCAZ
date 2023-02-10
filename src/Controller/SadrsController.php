@@ -320,8 +320,71 @@ class SadrsController extends AppController
 
         $this->response->download(($sadr->submitted == 2) ? str_replace('/', '_', $sadr->reference_number) . '.xml' : 'ADR_' . $sadr->created->i18nFormat('dd-MM-yyyy_HHmmss') . '.xml');
     }
-
     public function vigibase($id = null)
+    {
+        $sadr = $this->Sadrs->get($id, [
+            'contain' => ['SadrListOfDrugs', 'Attachments', 'ReportStages', 'Reactions']
+        ]);
+
+        // create a builder (hint: new ViewBuilder() constructor works too)
+        $builder = $this->viewBuilder();
+
+        // configure as needed
+        $builder->setLayout(false);
+        $builder->template('Sadrs/xml/e2b');
+
+        // create a view instance
+        $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
+        $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list', ['keyField' => 'id', 'valueField' => 'icsr_code']);
+        $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list', ['keyField' => 'id', 'valueField' => 'icsr_code']);
+        $view = $builder->build(compact('sadr', 'doses', 'routes', 'designations'));
+
+        // render to a variable
+        $payload = $view->render();
+
+        $http = new Client();
+
+        //$payload = $this->VigibaseApi->sadr_e2b($sadr, $doses, $routes);
+        //Log::write('debug', 'Payload :: '.$payload);
+        $umc = $http->post(
+            Configure::read('vigi_post_url'),
+            (string)$payload,
+            ['headers' => Configure::read('vigi_headers')]
+        );
+
+        if ($umc->isOK()) {
+            $messageid = $umc->json; 
+
+            $vsadr = $this->Sadrs->get($id, [
+                'contain' => ['SadrListOfDrugs', 'Attachments', 'ReportStages']
+            ]);
+            $stage1  = $this->Sadrs->ReportStages->newEntity();
+            $stage1->model = 'Sadrs';
+            $stage1->stage = 'VigiBase';
+            $stage1->description = 'Stage 9';
+            $stage1->stage_date = date("Y-m-d H:i:s");
+            $vsadr->report_stages = [$stage1];
+            $vsadr->messageid = $messageid['MessageId'];
+            $vsadr->status = 'VigiBase';
+            $this->Sadrs->save($vsadr);
+
+            $this->set([
+                'umc' => $umc->json,
+                'status' => 'Successfull integration with vigibase',
+                '_serialize' => ['umc', 'status']
+            ]);
+        } else {
+            $this->response->body('Failure');
+            $this->response->statusCode($umc->getStatusCode());
+            $this->set([
+                'umc' => $umc->json,
+                'status' => 'Failed',
+                '_serialize' => ['umc', 'status']
+            ]);
+            return;
+        }
+    }
+    public function vigibase_current($id = null)
     {
         $sadr = $this->Sadrs->get($id, [
             'contain' => ['SadrListOfDrugs', 'Attachments', 'ReportStages', 'Reactions']

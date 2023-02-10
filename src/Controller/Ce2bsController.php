@@ -124,7 +124,7 @@ class Ce2bsController extends AppController
                 '_serialize' => ['umc', 'status']
             ]);
 
-            return $this->redirect($this->referer());
+            // return $this->redirect($this->referer());
         } else {
             $this->response->body('Failure');
             $this->response->statusCode($umc->getStatusCode());
@@ -134,7 +134,7 @@ class Ce2bsController extends AppController
                 '_serialize' => ['umc', 'status']
             ]);
 
-            return $this->redirect($this->referer());
+            return;// $this->redirect($this->referer());
         }
     }
     public function resubmitvigibase($id = null)
