@@ -169,7 +169,7 @@ class SaefisController extends AppController
                 '_serialize' => ['umc', 'status']
             ]);
 
-            return $this->redirect($this->referer());
+            // return $this->redirect($this->referer());
         } else {
             $this->response->body('Failure');
             $this->response->statusCode($umc->getStatusCode());
@@ -179,7 +179,7 @@ class SaefisController extends AppController
                 '_serialize' => ['umc', 'status']
             ]);
 
-            return $this->redirect($this->referer());
+            return ;//$this->redirect($this->referer());
         }
     }
 

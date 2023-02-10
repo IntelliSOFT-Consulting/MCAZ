@@ -6,6 +6,8 @@ $this->start('sidebar'); ?>
 <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
  
+
+<?= $this->Html->script('jquery/vigibasenew', ['block' => true]); ?>
 <?= $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
 <?= $this->Html->script('jquery/readmore', ['block' => true]); ?>
 <?= $this->Html->script('jquery/ce2b_index', ['block' => true]); ?>
@@ -108,10 +110,10 @@ $this->start('sidebar'); ?>
                 </td>
                 <td>
                     <?php if (empty($ce2b->messageid)) {
-                            echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $ce2b->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase' ,'confirm' => __('Are you sure you want to send report {0}?', $ce2b->reference_number)]);
+                            echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $ce2b->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']);
                         } elseif (!empty($ce2b->messageid)) {
                             echo $ce2b->messageid;
-                            echo  $this->Html->link('<span class="label label-warning"> Resubmit<small class="badge badge-ce2b pull-right">'.$ce2b->resubmit.'</small></span>', ['action' => 'resubmitvigibase', $ce2b->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase', 'confirm' => __('Are you sure you want to resubmit report {0}?', $ce2b->reference_number)]);
+                            // echo  $this->Html->link('<span class="label label-warning"> Resubmit<small class="badge badge-ce2b pull-right">'.$ce2b->resubmit.'</small></span>', ['action' => 'resubmitvigibase', $ce2b->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase', 'confirm' => __('Are you sure you want to resubmit report {0}?', $ce2b->reference_number)]);
                         }
                         ?>
                 </td>
