@@ -4,10 +4,10 @@ services:
     image: mysql:5.7
     container_name: db
     environment:
-      MYSQL_ROOT_PASSWORD: hatua.
+      MYSQL_ROOT_PASSWORD: changeme.
       MYSQL_DATABASE: mcaz_pv_prod
-      MYSQL_USER: imeja
-      MYSQL_PASSWORD: hatua.
+      MYSQL_USER: changeme
+      MYSQL_PASSWORD: changeme.
       UPLOAD_LIMIT: 10000000000
     ports:
       - "9907:3306"
@@ -32,9 +32,9 @@ services:
     ports:
       - 8184:80
     environment:
-      MYSQL_USER: imeja
-      MYSQL_PASSWORD: hatua.
-      MYSQL_ROOT_PASSWORD: hatua.
+      MYSQL_USER: changeme
+      MYSQL_PASSWORD: changeme.
+      MYSQL_ROOT_PASSWORD: changeme.
       UPLOAD_LIMIT: 10000000000
     networks:
       - mydb
