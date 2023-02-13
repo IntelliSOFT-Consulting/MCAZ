@@ -1,0 +1,36 @@
+2023-02-13 12:38:04,681 CRIT Supervisor running as root (no user in config file)
+2023-02-13 12:38:04,683 INFO supervisord started with pid 1
+2023-02-13 12:38:05,687 INFO spawned: 'cake_queue_worker' with pid 9
+2023-02-13 12:38:05,694 INFO exited: cake_queue_worker (exit status 127; not expected)
+2023-02-13 12:38:06,697 INFO spawned: 'cake_queue_worker' with pid 10
+2023-02-13 12:38:06,705 INFO exited: cake_queue_worker (exit status 127; not expected)
+2023-02-13 12:38:08,710 INFO spawned: 'cake_queue_worker' with pid 11
+2023-02-13 12:38:08,720 INFO exited: cake_queue_worker (exit status 127; not expected)
+2023-02-13 12:38:11,727 INFO spawned: 'cake_queue_worker' with pid 12
+2023-02-13 12:38:11,734 INFO exited: cake_queue_worker (exit status 127; not expected)
+2023-02-13 12:38:12,734 INFO gave up: cake_queue_worker entered FATAL state, too many start retries too quickly
+2023-02-13 12:38:24,197 WARN received SIGTERM indicating exit request
+2023-02-13 12:38:38,063 CRIT Supervisor running as root (no user in config file)
+2023-02-13 12:38:38,066 INFO supervisord started with pid 1
+2023-02-13 12:38:39,069 INFO spawned: 'cake_queue_worker' with pid 9
+2023-02-13 12:38:39,076 INFO exited: cake_queue_worker (exit status 127; not expected)
+2023-02-13 12:38:40,080 INFO spawned: 'cake_queue_worker' with pid 10
+2023-02-13 12:38:40,088 INFO exited: cake_queue_worker (exit status 127; not expected)
+2023-02-13 12:38:42,093 INFO spawned: 'cake_queue_worker' with pid 11
+2023-02-13 12:38:42,105 INFO exited: cake_queue_worker (exit status 127; not expected)
+2023-02-13 12:38:45,111 INFO spawned: 'cake_queue_worker' with pid 12
+2023-02-13 12:38:45,122 INFO exited: cake_queue_worker (exit status 127; not expected)
+2023-02-13 12:38:46,123 INFO gave up: cake_queue_worker entered FATAL state, too many start retries too quickly
+2023-02-13 12:40:52,733 WARN received SIGTERM indicating exit request
+2023-02-13 12:40:53,443 CRIT Supervisor running as root (no user in config file)
+2023-02-13 12:40:53,445 INFO supervisord started with pid 1
+2023-02-13 12:40:54,448 INFO spawned: 'cake_queue_worker' with pid 9
+2023-02-13 12:40:54,466 INFO exited: cake_queue_worker (exit status 127; not expected)
+2023-02-13 12:40:55,470 INFO spawned: 'cake_queue_worker' with pid 10
+2023-02-13 12:40:55,479 INFO exited: cake_queue_worker (exit status 127; not expected)
+2023-02-13 12:40:57,484 INFO spawned: 'cake_queue_worker' with pid 11
+2023-02-13 12:40:57,493 INFO exited: cake_queue_worker (exit status 127; not expected)
+2023-02-13 12:41:00,499 INFO spawned: 'cake_queue_worker' with pid 12
+2023-02-13 12:41:00,509 INFO exited: cake_queue_worker (exit status 127; not expected)
+2023-02-13 12:41:01,511 INFO gave up: cake_queue_worker entered FATAL state, too many start retries too quickly
+2023-02-13 12:42:15,289 WARN received SIGTERM indicating exit request

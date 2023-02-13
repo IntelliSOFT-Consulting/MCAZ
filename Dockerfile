@@ -14,6 +14,7 @@ RUN docker-php-ext-install mbstring
 RUN docker-php-ext-install mysqli
 RUN apt-get update && apt-get install -y libicu-dev \
     libzip-dev \
+    cron \
     libmcrypt-dev \   
     libxrender1 libfontconfig1 libx11-dev libjpeg-dev \
     && docker-php-ext-install zip \ 
@@ -22,7 +23,6 @@ RUN apt-get update && apt-get install -y libicu-dev \
     && docker-php-ext-install pdo_mysql
   
 RUN mkdir -p /var/www/html 
-COPY . /var/www/html/ 
-
-RUN chmod -R 777 /var/www/html/tmp/cache
-# RUN ./permissions.sh
+COPY . /var/www/html/ /
+ 
+ 
