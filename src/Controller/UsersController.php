@@ -148,7 +148,7 @@ class UsersController extends AppController
                 $user->activation_key = $this->Util->generateXOR($user->id);
                 $query = $this->Users->query();
                 $query->update()
-                    ->set(['activation_key' => $this->Util->generateXOR($user->id)])
+                    ->set(['activation_key' => $this->Util->generateXOR($user->id),'last_password'=>date('Y-m-d H:i:s')])
                     ->where(['id' => $user->id])
                     ->execute();
 
