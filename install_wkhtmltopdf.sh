@@ -6,15 +6,4 @@ _url=$WKHTMLTOX_X64
 wget $_url
 gdebi --n `basename $_url`
 ln -s /usr/local/bin/wkhtmltopdf /usr/bin
-ln -s /usr/local/bin/wkhtmltoimage /usr/bin
-# apt-get install wget git python-pip gdebi xvfb -y
-
-# apt-get install gdebi -y
-# _url=$WKHTMLTOX_X64
- 
-# # wget $_url
-
-# apt install wkhtmltopdf.deb
-# gdebi  --non-interactive wkhtmltopdf.deb
-# ln -s /usr/local/bin/wkhtmltopdf /usr/bin
-# ln -s /usr/local/bin/wkhtmltoimage /usr/bin
+ln -s /usr/local/bin/wkhtmltoimage /usr/bin 

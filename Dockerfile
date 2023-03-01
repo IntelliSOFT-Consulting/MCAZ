@@ -26,4 +26,9 @@ RUN mkdir -p /var/www/html
 COPY . /var/www/html/ 
 WORKDIR /var/www/html
 RUN ./install_wkhtmltopdf.sh
-RUN ./register_cron.sh
+ 
+RUN apt-get update && apt-get install -y supervisor
+RUN mkdir -p /var/log/supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+CMD supervisord -c /etc/supervisor/conf.d/supervisord.conf && apache2-foreground
+ 

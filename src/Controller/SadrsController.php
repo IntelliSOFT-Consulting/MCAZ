@@ -75,7 +75,7 @@ class SadrsController extends AppController
             ->find('search', ['search' => $this->request->query])
             // You can add extra things to the query if you need to
             // ->where([['OR' => ['Sadrs.user_id' => $this->Auth->user('id'), 'Sadrs.name_of_institution' => $this->Auth->user('name_of_institution')]]]);
-            ->order(['Sadrs.created' => 'DESC'])  
+            ->order(['Sadrs.created' => 'DESC'])
             ->where([['Sadrs.user_id' => $this->Auth->user('id')]]);
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
@@ -353,7 +353,7 @@ class SadrsController extends AppController
         );
 
         if ($umc->isOK()) {
-            $messageid = $umc->json; 
+            $messageid = $umc->json;
 
             $vsadr = $this->Sadrs->get($id, [
                 'contain' => ['SadrListOfDrugs', 'Attachments', 'ReportStages']
@@ -671,12 +671,23 @@ class SadrsController extends AppController
 
     public function getNewReferenceNumber($id)
     {
-        $refid = $this->Sadrs->Refids->newEntity(['foreign_key' => $id, 'model' => 'Sadrs', 'year' => date('Y')]);
+        $refid = $this->Sadrs->Refids->newEntity(
+            [
+                'foreign_key' => $id,
+                'model' => 'Sadrs',
+                'year' => date('Y')
+            ]
+        );
         $this->Sadrs->Refids->save($refid);
         $refid = $this->Sadrs->Refids->get($refid->id);
         $reference_number =  'ADR' . $refid->refid . '/' . $refid->year;
         //ensure this reference number is unique
-        $count = $this->Sadrs->find('all', ['conditions' => ['Sadrs.reference_number' => $reference_number]])->count();
+        $count = $this->Sadrs->find(
+            'all',
+            [
+                'conditions' => ['Sadrs.reference_number' => $reference_number]
+            ]
+        )->count();
 
         if ($count > 0) {
             return  $this->getNewReferenceNumber($id);
@@ -838,7 +849,7 @@ class SadrsController extends AppController
         if ($this->Sadrs->save($sadr, ['validate' => false])) {
             $query = $this->Sadrs->query();
             $query->update()
-                ->set(['report_type' => 'Initial']) 
+                ->set(['report_type' => 'Initial'])
                 ->where(['id' => $orig_sadr->id])
                 ->execute();
             $this->Flash->success(__('A follow-up report for the ADR has been created. make changes and submit.'));

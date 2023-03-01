@@ -1,5 +1,5 @@
 #!/bin/bash
  
 # chmod 0777 tmp/
-chmod 755 -R /var/www/html/tmp
+sudo chmod 0777 -R tmp/cache
 echo "$(ls -lah /tmp)" > output 

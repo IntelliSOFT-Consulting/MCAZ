@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Routes configuration
  *
@@ -42,17 +43,16 @@ use Cake\Routing\Route\DashedRoute;
  *
  */
 Router::defaultRouteClass(DashedRoute::class);
-//added
-Router::extensions(['pdf']);
+
 Router::extensions(['json', 'xml', 'csv']);
 Router::prefix('api', function ($routes) {
     $routes->extensions(['json', 'xml']);
     $routes->resources('Sadrs', [
-            'connectOptions' => [
-                //'id' => '[a-zA-Z0-9\-]{2,30}'
-                'id' => '[a-zA-Z0-9+/]+={0,2}$'
-            ]
-        ]);
+        'connectOptions' => [
+            //'id' => '[a-zA-Z0-9\-]{2,30}'
+            'id' => '[a-zA-Z0-9+/]+={0,2}$'
+        ]
+    ]);
     $routes->resources('Aefis', ['connectOptions' => ['id' => '[a-zA-Z0-9+/]+={0,2}$']]);
     $routes->resources('Adrs', ['connectOptions' => ['id' => '[a-zA-Z0-9+/]+={0,2}$']]);
     $routes->resources('Saefis', ['connectOptions' => ['id' => '[a-zA-Z0-9+/]+={0,2}$']]);
@@ -89,6 +89,14 @@ Router::prefix('evaluator', function ($routes) {
 
     $routes->fallbacks(DashedRoute::class);
 });
+
+// Technical Section 
+Router::prefix('technical', function ($routes) {
+    $routes->connect('/', ['controller' => 'users', 'action' => 'dashboard', 'prefix' => 'technical']);
+
+    $routes->fallbacks(DashedRoute::class);
+});
+
 //
 Router::scope('/', function (RouteBuilder $routes) {
     /**

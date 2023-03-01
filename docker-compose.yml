@@ -18,7 +18,7 @@ services:
       - ~/epv-mysql-data:/var/lib/mysql
   web:
     build: .
-    container_name: php_web
+    container_name: epv_web
     depends_on:
       - db
     volumes:
@@ -30,6 +30,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
+    container_name: pv_admin
     ports:
       - 8184:80
     environment:
