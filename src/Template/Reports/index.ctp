@@ -13,7 +13,7 @@
  * Check the current logged in user
  */
 $user = $this->request->session()->read('Auth.User.group_id');
-if ($user == 1 or $user == 2) { ?>
+if ($user == 1 or $user == 2 ) { ?>
 <?= $this->element('reports/public') ?>
 <?php }
 ?>

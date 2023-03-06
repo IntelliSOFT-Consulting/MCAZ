@@ -111,4 +111,13 @@ bin/cake acl grant Groups.3 controllers/Notifications/index
 bin/cake acl grant Groups.3 controllers/Notifications/view
 bin/cake acl grant Groups.3 controllers/Comments
 
+echo "*************** Assign Technical Users *******************"
+bin/cake acl deny Groups.6 controllers
+bin/cake acl grant Groups.6 controllers/Technical
+bin/cake acl grant Groups.6 controllers/Reports
+bin/cake acl grant Groups.6 controllers/Users/profile
+bin/cake acl grant Groups.6 controllers/Users/edit
+bin/cake acl grant Groups.6 controllers/Users/dashboard
+bin/cake acl grant Groups.6 controllers/Users/home
+
 # sudo chmod -R 777 .

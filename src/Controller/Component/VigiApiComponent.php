@@ -167,7 +167,7 @@ class VigibaseApiComponent extends Component
         <seriousnesslifethreatening>'.(($sadr['severity_reason'] == 'Life-threatening') ? 1 : 2).'</seriousnesslifethreatening>
         <seriousnesshospitalization>'.(($sadr['severity_reason'] == 'Hospitalization/Prolonged') ? 1 : 2).'</seriousnesshospitalization>
         <seriousnessdisabling>'.(($sadr['severity_reason'] == 'Disabling') ? 1 : 2).'</seriousnessdisabling>
-        <seriousnesscongenitalanomali>'.(($sadr['severity_reason'] == 'Congenital-anomaly') ? 1 : 2;).'</seriousnesscongenitalanomali>
+        <seriousnesscongenitalanomali>'.(($sadr['severity_reason'] == 'Congenital-anomaly') ? 1 : 2).'</seriousnesscongenitalanomali>
         <seriousnessother>'.(($sadr['severity_reason'] == 'Other Medically Important Reason') ? 1 : 2).'</seriousnessother>
         <receivedateformat>102</receivedateformat>
         <receivedate>'.date('Ymd', strtotime($sadr['created'])).'</receivedate>
@@ -176,13 +176,13 @@ class VigibaseApiComponent extends Component
         <additionaldocument>'.((count($sadr['attachments']) > 0) ? 1: 2 .'
         </additionaldocument>
         <documentlist>'.$attachments.'</documentlist>
-        <fulfillexpeditecriteria>'.(($sadr['severity'] == 'Yes') ? 1: 2.'</fulfillexpeditecriteria>
+        <fulfillexpeditecriteria>'.(($sadr['severity'] == 'Yes') ? 1: 2).'</fulfillexpeditecriteria>
         <authoritynumb>ZW-MCAZ-'.$sadr['reference_number'].'</authoritynumb>
         <companynumb/>
         <duplicate/>
         <casenullification/>
         <nullificationreason/>
-        <medicallyconfirm>'.(($sadr['designation_id'] == 1 || $sadr['designation_id'] == 2 || $sadr['designation_id'] == 3 ) ? 1 : 2.'</medicallyconfirm>
+        <medicallyconfirm>'.(($sadr['designation_id'] == 1 || $sadr['designation_id'] == 2 || $sadr['designation_id'] == 3 ) ? 1 : 2).'</medicallyconfirm>
         <primarysource>
             <reportergivename>'.(isset($arr[0])) ? $arr[0] : ''.'</reportergivename>
             <reporterfamilyname>'.(isset($arr[1])) ? $arr[1] : ''.(isset($arr[2])) ? $arr[2] : ''.'</reporterfamilyname>

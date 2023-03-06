@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
@@ -6,7 +7,7 @@ use Cake\Validation\Validation;
 use Cake\Event\Event;
 use Cake\Log\Log;
 use Cake\Auth\DefaultPasswordHasher;
-use Cake\View\Helper\HtmlHelper; 
+use Cake\View\Helper\HtmlHelper;
 use Cake\Core\Configure;
 use Cake\Filesystem\File;
 use Cake\I18n\Time;
@@ -22,28 +23,31 @@ use Cake\Utility\Hash;
 class UsersController extends AppController
 {
     public $paginate = [
-            // 'limit' => 2,
-            'Sadrs' => ['scope' => 'sadr'],
-            'Adrs' => ['scope' => 'adr'],
-            'Aefis' => ['scope' => 'aefi'],
-            'Saefis' => ['scope' => 'saefi'],
-            'Ce2bs' => ['scope' => 'ce2b'],
-            'Notifications' => ['scope' => 'notification'],
-        ];
+        // 'limit' => 2,
+        'Sadrs' => ['scope' => 'sadr'],
+        'Adrs' => ['scope' => 'adr'],
+        'Aefis' => ['scope' => 'aefi'],
+        'Saefis' => ['scope' => 'saefi'],
+        'Ce2bs' => ['scope' => 'ce2b'],
+        'Notifications' => ['scope' => 'notification'],
+    ];
 
-    public function initialize() {
-       parent::initialize();
-       $this->loadComponent('Paginator');
-       $this->Auth->allow('logout', 'activate');       
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('Paginator');
+        $this->Auth->allow('logout', 'activate');
     }
 
-    public function beforeFilter(Event $event) {
-        parent::beforeFilter($event);
-        // $this->Auth->allow();
-        $this->Auth->allow(['register', 'login', 'logout', 'activate', 'forgotPassword', 'resetPassword', 'view']);
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event); 
+        $this->Auth->allow(['register', 'login', 'logout', 'activate', 
+        'forgotPassword', 'resetPassword', 'view']);
     }
 
-    public function dashboard() {
+    public function dashboard()
+    {
         if ($this->request->session()->read('Auth.User.group_id') == 1) {
             return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'admin', 'plugin' => false]);
         } elseif ($this->request->session()->read('Auth.User.group_id') == 2) {
@@ -53,13 +57,18 @@ class UsersController extends AppController
         } elseif ($this->request->session()->read('Auth.User.group_id') == 5) {
             return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'institution', 'plugin' => false]);
         }
+
+        // Added for the Technical User
+        elseif ($this->request->session()->read('Auth.User.group_id') == 6) {
+            return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'technical', 'plugin' => false]);
+        }
     }
 
     //Login with username or password
     public function login()
-    {   
+    {
         if ($this->Auth->user()) {
-            return $this->redirect($this->Auth->redirectUrl()); 
+            return $this->redirect($this->Auth->redirectUrl());
         }
 
         if ($this->request->is('post')) {
@@ -80,11 +89,11 @@ class UsersController extends AppController
             if ($user) {
                 $this->Auth->setUser($user);
 
-                $this->log($user['email'].' logged in at '.date('d-m-Y H:i:s'), 'info', 'dblog');
+                $this->log($user['email'] . ' logged in at ' . date('d-m-Y H:i:s'), 'info', 'dblog');
 
                 $date = new \DateTime(Configure::read('password_expire_timeout'));
-                if($user['is_active'] == 0) {
-                $this->Flash->error('Your account is not activated! If you have just registered, please click the activation link sent to your email. Remember to check you spam folder too!');
+                if ($user['is_active'] == 0) {
+                    $this->Flash->error('Your account is not activated! If you have just registered, please click the activation link sent to your email. Remember to check you spam folder too!');
                     $this->redirect($this->Auth->logout());
                 } elseif ($user['deactivated'] == 1) {
                     $this->Flash->error('Your account has been deactivated! Please contact MCAZ.');
@@ -94,8 +103,8 @@ class UsersController extends AppController
                     $this->redirect($this->Auth->logout());
                 }
 
-                if(strlen($this->Auth->redirectUrl()) > 12) {
-                    return $this->redirect($this->Auth->redirectUrl());           
+                if (strlen($this->Auth->redirectUrl()) > 12) {
+                    return $this->redirect($this->Auth->redirectUrl());
                 } else {
                     if ($user['group_id'] == 1) {
                         return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'admin', 'plugin' => false]);
@@ -105,40 +114,47 @@ class UsersController extends AppController
                         return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'evaluator', 'plugin' => false]);
                     } elseif ($user['group_id'] == 5) {
                         return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'institution', 'plugin' => false]);
-                    }  
-                }  
-                return $this->redirect($this->Auth->redirectUrl());            
-                
+                    }
+
+                    // Added for technical user
+                    elseif ($user['group_id'] == 6) {
+                        return $this->redirect(['controller' => 'Users', 'action' => 'dashboard', 'prefix' => 'technical', 'plugin' => false]);
+                    }
+                }
+                return $this->redirect($this->Auth->redirectUrl());
             }
 
             $this->Flash->error(__('Invalid username or password, try again'));
         }
     }
- 
-    public function logout() {
+
+    public function logout()
+    {
         //Leave empty for now.
         $this->Flash->success(__('Good-Bye'));
-        $this->log($this->Auth->user('username').' logged out at '.date('d-m-Y H:i:s'), 'info', 'dblog');
+        $this->log($this->Auth->user('username') . ' logged out at ' . date('d-m-Y H:i:s'), 'info', 'dblog');
         $this->redirect($this->Auth->logout());
     }
 
-    public function register() {
+    public function register()
+    {
         $this->Users->addBehavior('Captcha.Captcha');
         if ($this->Auth->user()) {
-            return $this->redirect($this->Auth->redirectUrl()); 
+            return $this->redirect($this->Auth->redirectUrl());
         }
-        
+
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
 
-            if($user->errors()) {
+            if ($user->errors()) {
                 $this->response->body('Failure');
                 $this->response->statusCode(403);
                 $this->set([
-                    'errors' => $user->errors(), 
-                    'message' => 'Validation errors', 
-                    '_serialize' => ['errors', 'message']]);
+                    'errors' => $user->errors(),
+                    'message' => 'Validation errors',
+                    '_serialize' => ['errors', 'message']
+                ]);
             }
 
             $user->group_id = 3;
@@ -148,21 +164,23 @@ class UsersController extends AppController
                 $user->activation_key = $this->Util->generateXOR($user->id);
                 $query = $this->Users->query();
                 $query->update()
-                    ->set(['activation_key' => $this->Util->generateXOR($user->id)])
+                    ->set(['activation_key' => $this->Util->generateXOR($user->id), 'last_password' => date('Y-m-d H:i:s')])
                     ->where(['id' => $user->id])
                     ->execute();
 
                 //Send registration confirm email
-                $this->loadModel('Queue.QueuedJobs'); 
+                $this->loadModel('Queue.QueuedJobs');
                 $data = [
-                    'email_address' => $user->email, 'user_id' => $user->id, 'type' => 'registration_email', 'model' => 'Users', 
-                    'foreign_key' => $user->id, 'vars' =>  $user->toArray()                
-                ]; 
+                    'email_address' => $user->email, 'user_id' => $user->id, 'type' => 'registration_email', 'model' => 'Users',
+                    'foreign_key' => $user->id, 'vars' =>  $user->toArray()
+                ];
                 $html = new HtmlHelper(new \Cake\View\View());
-                $data['vars']['name'] = (isset($user->name)) ? $user->name : 'Sir/Madam' ;
+                $data['vars']['name'] = (isset($user->name)) ? $user->name : 'Sir/Madam';
                 $data['vars']['pv_site'] = $html->link('MCAZ PV website', ['controller' => 'Pages', 'action' => 'home', '_full' => true, 'prefix' => false]);
-                $data['vars']['activation_link'] = $html->link('ACTIVATE', ['controller' => 'Users', 'action' => 'activate', $user->activation_key, 
-                                          '_full' => true, 'prefix' => false]);
+                $data['vars']['activation_link'] = $html->link('ACTIVATE', [
+                    'controller' => 'Users', 'action' => 'activate', $user->activation_key,
+                    '_full' => true, 'prefix' => false
+                ]);
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 //Send registration notification
                 $data['type'] = 'registration_notification';
@@ -171,12 +189,12 @@ class UsersController extends AppController
                 //Send email and notification to institution
                 if (!empty($user->name_of_institution)) {
                     $institution = $this->Users->find('all', ['conditions' => ['group_id' => 5, 'lower(Users.name_of_institution) LIKE' => strtolower($user->name_of_institution)]])->first();
-                    if(!empty($institution->email)) {
+                    if (!empty($institution->email)) {
                         $data = [
-                            'email_address' => $institution->email, 'user_id' => $institution->id, 'type' => 'registration_institution_email', 'model' => 'Users', 
-                            'foreign_key' => $institution->id, 'vars' =>  $institution->toArray()                
-                        ]; 
-                        $data['vars']['name'] = (isset($institution->name)) ? $institution->name : 'Sir/Madam' ;
+                            'email_address' => $institution->email, 'user_id' => $institution->id, 'type' => 'registration_institution_email', 'model' => 'Users',
+                            'foreign_key' => $institution->id, 'vars' =>  $institution->toArray()
+                        ];
+                        $data['vars']['name'] = (isset($institution->name)) ? $institution->name : 'Sir/Madam';
                         $this->QueuedJobs->createJob('GenericEmail', $data);
                         //Send registration notification
                         $data['type'] = 'registration_institution_notification';
@@ -188,12 +206,13 @@ class UsersController extends AppController
                 $this->Flash->success(__('You have successfully registered. Please click on the link sent to your email address to
                     activate your account. Check your spam folder if you
                     don\'t see it in your inbox.'));
-                
-                
-                if($this->request->is('json')) {
+
+
+                if ($this->request->is('json')) {
                     $this->set([
-                        'message' => 'Registration successfull. Click on link sent on email to complete registration', 
-                        '_serialize' => ['message']]);
+                        'message' => 'Registration successfull. Click on link sent on email to complete registration',
+                        '_serialize' => ['message']
+                    ]);
                     return;
                 }
 
@@ -201,7 +220,7 @@ class UsersController extends AppController
 
                 //return $this->redirect('/');
             } else {
-                $this->Flash->error(__('The user could not be registered. Please, try again.'));     
+                $this->Flash->error(__('The user could not be registered. Please, try again.'));
                 // $user->success = false;
                 // $user->message =            
             }
@@ -213,9 +232,10 @@ class UsersController extends AppController
     }
 
     //TODO: Add forgot password functionality
-    
-    public function activate($id = null) {
-        if($id) {
+
+    public function activate($id = null)
+    {
+        if ($id) {
             $user = $this->Users->findByActivationKey($id)->first();
             // pr($id);
             // pr($this->Util->reverseXOR($id));
@@ -234,7 +254,6 @@ class UsersController extends AppController
                 $this->Flash->success(__('You have successfully activated your account.'));
                 $this->Auth->setUser($user);
                 return $this->redirect($this->Auth->redirectUrl());
-
             } else {
                 $this->Flash->error(__('Invalid activation token.'));
                 $this->redirect('/');
@@ -246,7 +265,8 @@ class UsersController extends AppController
     }
 
 
-    public function forgotPassword() {
+    public function forgotPassword()
+    {
         if ($this->Auth->user()) {
             $this->Flash->success('You are logged in!');
             $this->redirect('/', null, false);
@@ -254,31 +274,33 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $user = $this->Users->findByEmail($this->request->getData('email'))->first();
             if ($user) {
- 
-                $new_pass= date('sYmdHi', strtotime(Time::now()));
+
+                $new_pass = date('sYmdHi', strtotime(Time::now()));
                 $hasher = new DefaultPasswordHasher();
-                $password=$hasher->hash($new_pass);
+                $password = $hasher->hash($new_pass);
                 $query = $this->Users->query();
                 $query->update()
-                    ->set(['forgot_password' => 1, 'last_password' => Time::now(),'password'=>$password,'confirm_password'=>$password])
+                    ->set(['forgot_password' => 1, 'last_password' => Time::now(), 'password' => $password, 'confirm_password' => $password])
                     ->where(['id' => $user->id])
                     ->execute();
 
                 //Send registration confirm email
-                $this->loadModel('Queue.QueuedJobs'); 
+                $this->loadModel('Queue.QueuedJobs');
                 $data = [
-                    'email_address' => $user->email, 'user_id' => $user->id, 'type' => 'forgot_password_email', 'model' => 'Users', 
-                    'foreign_key' => $user->id, 'vars' =>  $user->toArray()                
-                ]; 
-                $pass=$this->Util->generateXOR($user->id); 
+                    'email_address' => $user->email, 'user_id' => $user->id, 'type' => 'forgot_password_email', 'model' => 'Users',
+                    'foreign_key' => $user->id, 'vars' =>  $user->toArray()
+                ];
+                $pass = $this->Util->generateXOR($user->id);
                 $html = new HtmlHelper(new \Cake\View\View());
-                $data['vars']['name'] = (isset($user->name)) ? $user->name : 'Sir/Madam' ;
+                $data['vars']['name'] = (isset($user->name)) ? $user->name : 'Sir/Madam';
                 $data['vars']['new_password'] = $new_pass;
                 $data['vars']['pv_site'] = $html->link('MCAZ PV website', ['controller' => 'Pages', 'action' => 'home', '_full' => true]);
-                $data['vars']['reset_password_link'] = $html->link('Reset Password', ['controller' => 'Users', 'action' => 'resetPassword', $pass, 
-                                          '_full' => true]);
+                $data['vars']['reset_password_link'] = $html->link('Reset Password', [
+                    'controller' => 'Users', 'action' => 'resetPassword', $pass,
+                    '_full' => true
+                ]);
                 $this->QueuedJobs->createJob('GenericEmail', $data);
-                
+
                 $this->Flash->success(__('A new password has been sent to the requested email address.'));
                 $this->redirect('/');
             } else {
@@ -288,7 +310,8 @@ class UsersController extends AppController
     }
 
 
-    public function resetPassword($id = null) {
+    public function resetPassword($id = null)
+    {
         //confirm user id hash for authenticity
         $check = $this->Users->find('all')->where(['id' => $this->Util->reverseXOR($id), 'is_active' => 1])->first();
         if (!$check) {
@@ -316,7 +339,8 @@ class UsersController extends AppController
         }
     }
 
-    public function home() {
+    public function home()
+    {
         $this->loadModel('Sadrs');
         $this->loadModel('Adrs');
         $this->loadModel('Aefis');
@@ -336,14 +360,22 @@ class UsersController extends AppController
         // pr($this->Sadrs->find()->select(['reference_number'])->distinct(['reference_number'])->where(['date_format(Sadrs.created,"%Y")' => date("Y"), 'Sadrs.reference_number IS NOT' => null])->count());
         // pr($this->Sadrs->find()->select(['reference_number'])->distinct()->where(['date_format(Sadrs.created,"%Y")' => date("Y"), 'Sadrs.reference_number IS NOT' => null])->count());
 
-        $sadrs = $this->paginate($this->Sadrs->findByUserId($this->Auth->user('id')), ['scope' => 'sadr', 'order' => ['Sadrs.id' => 'desc'],
-                                    'fields' => ['Sadrs.id', 'Sadrs.created', 'Sadrs.reference_number', 'Sadrs.submitted', 'Sadrs.report_type']]);
-        $adrs = $this->paginate($this->Adrs->findByUserId($this->Auth->user('id')), ['scope' => 'adr', 'order' => ['Adrs.id' => 'desc'],
-                                    'fields' => ['Adrs.id', 'Adrs.created', 'Adrs.reference_number', 'Adrs.submitted', 'Adrs.report_type']]);
-        $aefis = $this->paginate($this->Aefis->findByUserId($this->Auth->user('id')), ['scope' => 'aefi', 'order' => ['Aefis.id' => 'desc'],
-                                    'fields' => ['Aefis.id', 'Aefis.created', 'Aefis.reference_number', 'Aefis.submitted', 'Aefis.report_type']]);
-        $saefis = $this->paginate($this->Saefis->findByUserId($this->Auth->user('id')), ['scope' => 'saefi', 'order' => ['Saefis.id' => 'desc'],
-                                    'fields' => ['Saefis.id', 'Saefis.created', 'Saefis.reference_number', 'Saefis.submitted', 'Saefis.report_type']]);
+        $sadrs = $this->paginate($this->Sadrs->findByUserId($this->Auth->user('id')), [
+            'scope' => 'sadr', 'order' => ['Sadrs.id' => 'desc'],
+            'fields' => ['Sadrs.id', 'Sadrs.created', 'Sadrs.reference_number', 'Sadrs.submitted', 'Sadrs.report_type']
+        ]);
+        $adrs = $this->paginate($this->Adrs->findByUserId($this->Auth->user('id')), [
+            'scope' => 'adr', 'order' => ['Adrs.id' => 'desc'],
+            'fields' => ['Adrs.id', 'Adrs.created', 'Adrs.reference_number', 'Adrs.submitted', 'Adrs.report_type']
+        ]);
+        $aefis = $this->paginate($this->Aefis->findByUserId($this->Auth->user('id')), [
+            'scope' => 'aefi', 'order' => ['Aefis.id' => 'desc'],
+            'fields' => ['Aefis.id', 'Aefis.created', 'Aefis.reference_number', 'Aefis.submitted', 'Aefis.report_type']
+        ]);
+        $saefis = $this->paginate($this->Saefis->findByUserId($this->Auth->user('id')), [
+            'scope' => 'saefi', 'order' => ['Saefis.id' => 'desc'],
+            'fields' => ['Saefis.id', 'Saefis.created', 'Saefis.reference_number', 'Saefis.submitted', 'Saefis.report_type']
+        ]);
         $ce2bs = $this->paginate($this->Ce2bs->findByUserId($this->Auth->user('id')), ['scope' => 'ce2b', 'order' => ['Ce2bs.id' => 'desc']]);
         $notifications = $this->paginate($this->Notifications->findByUserId($this->Auth->user('id')), ['scope' => 'notification', 'order' => ['Notification.id' => 'desc'],]);
 
@@ -395,15 +427,15 @@ class UsersController extends AppController
         // $this->QueuedJobs->createJob('GenericEmail', $data);
 
         //
-                // $this->loadModel('Queue.QueuedJobs');
-                // $user->activation_key = (new DefaultPasswordHasher)->hash($user->email);
-                // $data = [
-                //     'vars' => [
-                //         'user' => $user->toArray()
-                //     ]
-                // ];
-                // $this->QueuedJobs->createJob('RegisterEmail', $data);
-                //end
+        // $this->loadModel('Queue.QueuedJobs');
+        // $user->activation_key = (new DefaultPasswordHasher)->hash($user->email);
+        // $data = [
+        //     'vars' => [
+        //         'user' => $user->toArray()
+        //     ]
+        // ];
+        // $this->QueuedJobs->createJob('RegisterEmail', $data);
+        //end
         //
         // debug((new DefaultPasswordHasher)->hash($user->email));
 
@@ -454,13 +486,11 @@ class UsersController extends AppController
                 $this->Flash->error(__('The details could not be saved. Please, try again.'));
             } else {
                 $this->Flash->error(__('Your old password does not match.'));
-            }            
-            
+            }
         }
 
         $this->set('user', $user);
         $this->set('_serialize', ['user']);
-
     }
 
     /**
@@ -498,8 +528,10 @@ class UsersController extends AppController
     {
         $user = $this->Users->get($id, [
             'contain' => [],
-            'fields' => ['id' , 'designation_id', 'province_id', 'username' , 'name' , 'email' , 'name_of_institution' , 'file', 'dir',
-                                'institution_address' , 'institution_code' , 'institution_contact' , 'phone_no', 'group_id' ]
+            'fields' => [
+                'id', 'designation_id', 'province_id', 'username', 'name', 'email', 'name_of_institution', 'file', 'dir',
+                'institution_address', 'institution_code', 'institution_contact', 'phone_no', 'group_id'
+            ]
         ]);
         if ($this->Auth->user('group_id') != 1 && $this->Auth->user('id') != $id) {
             $this->Flash->error(__('You can only edit your profile.'));
@@ -509,8 +541,10 @@ class UsersController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             // debug($this->request->getData())
             $user = $this->Users->patchEntity($user, $this->request->getData(), [
-                'fieldList' => ['id' , 'designation_id', 'province_id', 'username' , 'name' , 'email' , 'name_of_institution' , 'file',
-                                'institution_address' , 'institution_code' , 'institution_contact' , 'phone_no' ]
+                'fieldList' => [
+                    'id', 'designation_id', 'province_id', 'username', 'name', 'email', 'name_of_institution', 'file',
+                    'institution_address', 'institution_code', 'institution_contact', 'phone_no'
+                ]
             ]);
             // debug($this->request->getData());
             // debug($user);
@@ -526,8 +560,9 @@ class UsersController extends AppController
         $this->set(compact('user', 'designations', 'provinces', 'groups'));
         $this->set('_serialize', ['user']);
     }
-    
-    public function imports() {
+
+    public function imports()
+    {
         if ($this->request->is('post')) {
 
             $this->loadModel('Sadrs');
@@ -550,7 +585,7 @@ class UsersController extends AppController
                 $entity = $this->Saefis;
                 $pre = 'SAEFIS';
             } else {
-                $this->Flash->error(__('Unable to process request. Please, try again.')); 
+                $this->Flash->error(__('Unable to process request. Please, try again.'));
                 return $this->redirect($this->referer());
             }
 
@@ -558,7 +593,7 @@ class UsersController extends AppController
             $import = $this->Imports->findByFilename($this->request->data['sadr_files']['name']);
             if (!$import->isEmpty()) {
                 $import_dates = implode(', ', Hash::extract($import->toArray(), '{n}.created'));
-                $this->Flash->warning('The file <b>'.$this->request->data['sadr_files']['name'].'</b> has been imported before on '.$import_dates.'. If the file is different, rename the file (e.g. filename_v2) and import it again.', ['escape' => false]);
+                $this->Flash->warning('The file <b>' . $this->request->data['sadr_files']['name'] . '</b> has been imported before on ' . $import_dates . '. If the file is different, rename the file (e.g. filename_v2) and import it again.', ['escape' => false]);
                 return $this->redirect(['action' => 'imports']);
             } else {
                 $datum = $this->Imports->newEntity(['filename' => $this->request->data['sadr_files']['name']]);
@@ -571,18 +606,18 @@ class UsersController extends AppController
             $xmlArray = Xml::toArray(Xml::build($xmlString, array('return' => 'domdocument')));
             // debug($xmlArray);
             // return;
-            if(array_key_exists(0, $xmlArray['response'][$this->request->getData('submitted')])) {
+            if (array_key_exists(0, $xmlArray['response'][$this->request->getData('submitted')])) {
                 // debug("array key exists");
                 $retVal = $xmlArray['response'][$this->request->getData('submitted')];
             } else {
                 // debug("array key does not exists");
                 $retVal[] = $xmlArray['response'][$this->request->getData('submitted')];
-            } 
-                          
+            }
+
             // debug(count($xmlArray['response'][$this->request->getData('submitted')]));
             // debug($retVal);
             // return;
-            foreach ($retVal as $sadrArr) {       
+            foreach ($retVal as $sadrArr) {
                 $sadr = $entity->newEntity();
                 if ($this->request->is('post')) {
                     $this->_attachments();
@@ -598,18 +633,18 @@ class UsersController extends AppController
                         //update field
                         $query = $entity->query();
                         $query->update()
-                            ->set(['reference_number' => $pre.$sadr->id.'/'.$sadr->created->i18nFormat('yyyy')])
+                            ->set(['reference_number' => $pre . $sadr->id . '/' . $sadr->created->i18nFormat('yyyy')])
                             ->where(['id' => $sadr->id])
                             ->execute();
-                        
-                        $this->Flash->success(__('The '.$pre.'(s) have been imported.'));
-                    } else {                
-                        $this->Flash->error(__('The '.$pre.'(s) could not be imported. Please, try again.'));
+
+                        $this->Flash->success(__('The ' . $pre . '(s) have been imported.'));
+                    } else {
+                        $this->Flash->error(__('The ' . $pre . '(s) could not be imported. Please, try again.'));
                     }
                 }
             }
             //return $this->redirect(['controller' => 'UsersBase', 'action' => 'imports', 'prefix' => 'base']);
-        } 
+        }
         // $this->render('/Base/Users/imports');
     }
     /**
@@ -630,5 +665,23 @@ class UsersController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+
+
+
+    // Demo of a Queuedjob
+    public function introduction_queue()
+    {
+        # code...
+        //load the queue model
+        $this->loadModel('Queue.QueuedJobs'); 
+        // generate the data for the queue
+        $data = [
+            'name' => 'Technical Capacity Building',
+            'description' => __('Technical Capacity Building'),
+        ];
+        // create the queue job [Requires a Task and data]
+        $this->QueuedJobs->createJob('Technical', $data);
     }
 }
