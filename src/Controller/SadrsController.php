@@ -691,10 +691,10 @@ class SadrsController extends AppController
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'ReportStages', 'Reactions'],
             'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
-        if ($sadr->submitted == 2) {
-            $this->Flash->success(__('Report ' . $sadr->reference_number . ' already submitted.'));
-            return $this->redirect(['action' => 'view', $sadr->id]);
-        }
+        // if ($sadr->submitted == 2) {
+        //     $this->Flash->success(__('Report ' . $sadr->reference_number . ' already submitted.'));
+        //     return $this->redirect(['action' => 'view', $sadr->id]);
+        // }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData(), [
                 'validate' => ($this->request->getData('submitted') == 2) ? true : false,
@@ -752,6 +752,26 @@ class SadrsController extends AppController
                         $sadr->reference_number = $reference_number;
                         $this->Sadrs->save($sadr);
                     }
+
+
+                    // Check if it's a follow up report: update the original report as well
+                    if($sadr->report_type=="FollowUp"){
+                        //get the original report
+                        $original_sadr = $this->Sadrs->get($sadr->initial_id, [
+                            'contain' => ['ReportStages'],
+                            'conditions' => ['user_id' => $this->Auth->user('id')]
+                        ]);
+
+                        $original_sadr = $this->Sadrs->patchEntity($original_sadr, $this->request->getData(), [
+                            'validate' => ($this->request->getData('submitted') == 2) ? true : false,
+                             
+                        ]); 
+                        if ($this->Sadrs->save($original_sadr)) {
+                        } 
+                    }
+
+
+
                     //
                     $this->Flash->success(__('Report ' . $sadr->reference_number . ' has been successfully submitted to MCAZ for review.'));
                     //send email and notification
