@@ -770,8 +770,6 @@ class SadrsController extends AppController
                         } 
                     }
 
-
-
                     //
                     $this->Flash->success(__('Report ' . $sadr->reference_number . ' has been successfully submitted to MCAZ for review.'));
                     //send email and notification

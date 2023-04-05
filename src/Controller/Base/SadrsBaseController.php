@@ -565,13 +565,14 @@ class SadrsBaseController extends AppController
                 $this->loadModel('Queue.QueuedJobs');
                 if (!empty($sadr->assigned_to)) {
                     $evaluator = $this->Sadrs->Users->get($sadr->assigned_to);
+                    $assigner = $this->Sadrs->Users->get($sadr->assigned_by);
                     $data = [
                         'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
                         'type' => 'manager_review_assigned_email', 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
                         'vars' =>  $sadr->toArray()
                     ];
                     $data['vars']['name'] = $evaluator->name;
-                    $data['vars']['assigned_by_name'] = $this->Auth->user('name');
+                    $data['vars']['assigned_by_name'] = $assigner->name;
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);
                     $data['type'] = 'manager_review_assigned_notification';

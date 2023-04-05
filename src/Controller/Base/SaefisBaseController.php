@@ -502,13 +502,14 @@ class SaefisBaseController extends AppController
                 $this->loadModel('Queue.QueuedJobs');
                 if (!empty($saefi->assigned_to)) {
                     $evaluator = $this->Saefis->Users->get($saefi->assigned_to);
+                    $assigner = $this->Saefis->Users->get($saefi->assigned_by);
                     $data = [
                         'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
                         'type' => 'manager_review_assigned_email', 'model' => 'Saefis', 'foreign_key' => $saefi->id,
                         'vars' =>  $saefi->toArray()
                     ];
                     $data['vars']['name'] = $evaluator->name;
-                    $data['vars']['assigned_by_name'] = $this->Auth->user('name');
+                    $data['vars']['assigned_by_name'] = $assigner->name;
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);
                     $data['type'] = 'manager_review_assigned_notification';

@@ -534,13 +534,14 @@ class Ce2bsBaseController extends AppController
                 $this->loadModel('Queue.QueuedJobs');
                 if (!empty($ce2b->assigned_to)) {
                     $evaluator = $this->Ce2bs->Users->get($ce2b->assigned_to);
+                    $assigner = $this->Ce2bs->Users->get($ce2b->assigned_by);
                     $data = [
                         'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
                         'type' => 'manager_review_assigned_email', 'model' => 'Ce2bs', 'foreign_key' => $ce2b->id,
                         'vars' =>  $ce2b->toArray()
                     ];
                     $data['vars']['name'] = $evaluator->name;
-                    $data['vars']['assigned_by_name'] = $this->Auth->user('name');
+                    $data['vars']['assigned_by_name'] = $assigner->name;
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);
                     $data['type'] = 'manager_review_assigned_notification';
