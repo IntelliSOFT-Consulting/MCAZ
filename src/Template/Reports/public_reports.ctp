@@ -1,27 +1,35 @@
 <?= $this->Html->script('highcharts/highcharts', ['block' => true]); ?>
 <?= $this->Html->script('highcharts/modules/exporting', ['block' => true]); ?>
-<?= $this->Html->script('public_rep', ['block' => true]); ?>
+<?= $this->Html->script('public_reports', ['block' => true]); ?>
 
 <h1 class="page-header text-center"><img alt="" src="/img/report.ico" style="width: 37px;">&nbsp; Reports
 </h1>
-
-<div class="row">
-    <div class="col-xs-6 col-sm-6">
-        <div id="sadrs-index"></div>
+<?php if (($report->adr_desig == 1) | ($report->sae_design == 1) | ($report->aefi_desig == 1) | ($report->sae_desig == 1)) { ?>
+    <div class="row">
+        <?php if ($report->adr_desig == 1) { ?>
+            <div class="col-xs-6 col-sm-6">
+                <div id="sadrs-index"></div>
+            </div>
+        <?php } ?>
+        <?php if ($report->aefi_desig == 1) { ?>
+            <div class="col-xs-6 col-sm-6">
+                <div id="aefis-index"></div>
+            </div>
+        <?php } ?>
     </div>
-    <div class="col-xs-6 col-sm-6">
-        <div id="aefis-index"></div>
+    <div class="row">
+        <?php if ($report->sae_desig == 1) { ?>
+            <div class="col-xs-6 col-sm-6">
+                <div id="adrs-index"></div>
+            </div>
+        <?php } ?>
+        <?php if ($report->saefi_desig == 1) { ?>
+            <div class="col-xs-6 col-sm-6">
+                <div id="saefis-index"></div>
+            </div>
+        <?php } ?>
     </div>
-</div>
-<div class="row">
-    <div class="col-xs-6 col-sm-6">
-        <div id="adrs-index"></div>
-    </div>
-    <div class="col-xs-6 col-sm-6">
-        <div id="saefis-index"></div>
-    </div>
-</div>
-
+<?php  } ?>
 
 <!-- Additional Reports -->
 <?php if (($report->adr_year == 1) | ($report->sae_year == 1) | ($report->aefi_year == 1) | ($report->sae_year == 1)) { ?>
@@ -109,7 +117,7 @@
         <?php  } ?>
     </div>
 <?php  } ?>
-<?php if (($report->adr_med == 1) | ($report->sae_med == 1) | ($report->aefi_med == 1)| ($report->saefi_med == 1)) { ?>
+<?php if (($report->adr_med == 1) | ($report->sae_med == 1) | ($report->aefi_med == 1) | ($report->saefi_med == 1)) { ?>
     <h4 class="page-header text-center"><img alt="" src="/img/report.ico" style="width: 37px;">&nbsp; Reports per
         Medicine
     </h4>
@@ -132,6 +140,35 @@
         <?php if ($report->saefi_med == 1) { ?>
             <div class="col-xs-12 col-sm-12">
                 <div id="saefis-medicine"></div>
+            </div>
+        <?php  } ?>
+    </div>
+<?php  } ?>
+
+<!-- Reports per Province -->
+<?php if (($report->adr_province == 1) | ($report->sae_province == 1) | ($report->aefi_province == 1) | ($report->saefi_province == 1)) { ?>
+    <h4 class="page-header text-center"><img alt="" src="/img/report.ico" style="width: 37px;">&nbsp; Reports per
+        Province
+    </h4>
+    <div class="row">
+        <?php if ($report->adr_province == 1) { ?>
+            <div class="col-xs-12 col-sm-12">
+                <div id="sadrs-province"></div>
+            </div>
+        <?php  } ?>
+    </div>
+    
+    <div class="row">
+        <?php if ($report->aefi_province == 1) { ?>
+            <div class="col-xs-12 col-sm-12">
+                <div id="aefis-province"></div>
+            </div>
+        <?php  } ?>
+    </div>
+    <div class="row">
+        <?php if ($report->saefi_province == 1) { ?>
+            <div class="col-xs-12 col-sm-12">
+                <div id="saefis-province"></div>
             </div>
         <?php  } ?>
     </div>

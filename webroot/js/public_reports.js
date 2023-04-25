@@ -89,7 +89,7 @@ $(function () {
 
     // PER YEAR
     $.ajax({
-        url: "/reports/per-year.json",
+        url: "/reports/sadrs-per-year.json",
         type: "GET",
         async: true,
         dataType: "json",
@@ -100,7 +100,7 @@ $(function () {
     });
 
     $.ajax({
-        url: "/reports/per-month.json",
+        url: "/reports/sadrs-per-month.json",
         type: "GET",
         async: true,
         dataType: "json",
@@ -286,6 +286,41 @@ $(function () {
         success: function (data) {
             console.info(data);
             sadrChart(data, "saefis-medicine", "SAE Per Medicine");
+        },
+    });
+    // Per Province
+
+    $.ajax({
+        url: "/reports/public-sadrs-per-province.json",
+        type: "GET",
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            sadrChart(data, "sadrs-province", "ADR Per Province");
+        },
+    });
+
+    
+    $.ajax({
+        url: "/reports/public-aefis-per-province.json",
+        type: "GET",
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            sadrChart(data, "aefis-province", "AEFI Per Province");
+        },
+    });
+
+    $.ajax({
+        url: "/reports/public-saefis-per-province.json",
+        type: "GET",
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            sadrChart(data, "saefis-province", "SAE Per Province");
         },
     });
 });

@@ -13,6 +13,8 @@ $this->Html->script('aefi_edit', ['block' => true]);
         echo $this->Form->control('adr_month', ['type' => 'checkbox', 'label' => 'ADR per Month', 'templates' =>  'checkbox_form']);
         echo $this->Form->control('adr_inst', ['type' => 'checkbox', 'label' => 'ADR per Institution', 'templates' =>  'checkbox_form']);
         echo $this->Form->control('adr_med', ['type' => 'checkbox', 'label' => 'ADR per Medicine', 'templates' =>  'checkbox_form']);
+        echo $this->Form->control('adr_province', ['type' => 'checkbox', 'label' => 'ADR per Province', 'templates' =>  'checkbox_form']);
+        echo $this->Form->control('adr_desig', ['type' => 'checkbox', 'label' => 'ADR per Designation', 'templates' =>  'checkbox_form']);
         ?>
 
     </div>
@@ -23,6 +25,8 @@ $this->Html->script('aefi_edit', ['block' => true]);
         echo $this->Form->control('sae_month', ['type' => 'checkbox', 'label' => 'SAE per Month', 'templates' =>  'checkbox_form']);
         echo $this->Form->control('sae_inst', ['type' => 'checkbox', 'label' => 'SAE per Institution', 'templates' =>  'checkbox_form']);
         echo $this->Form->control('sae_med', ['type' => 'checkbox', 'label' => 'SAE per Medicine', 'templates' =>  'checkbox_form']);
+        // echo $this->Form->control('sae_province', ['type' => 'checkbox', 'label' => 'SAE per Province', 'templates' =>  'checkbox_form']);
+        echo $this->Form->control('sae_desig', ['type' => 'checkbox', 'label' => 'SAE per Designation', 'templates' =>  'checkbox_form']);
         ?>
 
     </div>
@@ -34,6 +38,8 @@ $this->Html->script('aefi_edit', ['block' => true]);
         echo $this->Form->control('aefi_month', ['type' => 'checkbox', 'label' => 'AEFI per Month', 'templates' =>  'checkbox_form']);
         echo $this->Form->control('aefi_inst', ['type' => 'checkbox', 'label' => 'AEFI per Institution', 'templates' =>  'checkbox_form']);
         echo $this->Form->control('aefi_med', ['type' => 'checkbox', 'label' => 'AEFI per Medicine', 'templates' =>  'checkbox_form']);
+        echo $this->Form->control('aefi_province', ['type' => 'checkbox', 'label' => 'AEFI per Province', 'templates' =>  'checkbox_form']);
+        echo $this->Form->control('aefi_desig', ['type' => 'checkbox', 'label' => 'AEFI per Designation', 'templates' =>  'checkbox_form']);
         ?>
 
     </div>
@@ -45,6 +51,8 @@ $this->Html->script('aefi_edit', ['block' => true]);
         echo $this->Form->control('saefi_month', ['type' => 'checkbox', 'label' => 'SAEFI per Month', 'templates' =>  'checkbox_form']);
         echo $this->Form->control('saefi_inst', ['type' => 'checkbox', 'label' => 'SAEFI per Institution', 'templates' =>  'checkbox_form']);
         echo $this->Form->control('saefi_med', ['type' => 'checkbox', 'label' => 'SAEFI per Medicine', 'templates' =>  'checkbox_form']);
+        echo $this->Form->control('saefi_province', ['type' => 'checkbox', 'label' => 'SAEFI per Province', 'templates' =>  'checkbox_form']);
+        echo $this->Form->control('saefi_desig', ['type' => 'checkbox', 'label' => 'SAEFI per Designation', 'templates' =>  'checkbox_form']);
         ?>
 
     </div>

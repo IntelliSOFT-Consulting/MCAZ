@@ -99,6 +99,30 @@ class ReportSettingsTable extends Table
         $validator
             ->allowEmpty('saefi_med');
 
+        $validator
+            ->allowEmpty('adr_province');
+
+        $validator
+            ->allowEmpty('sae_province');
+
+        $validator
+            ->allowEmpty('aefi_province');
+
+        $validator
+            ->allowEmpty('saefi_province');
+
+        $validator
+            ->allowEmpty('adr_desig');
+
+        $validator
+            ->allowEmpty('sae_desig');
+
+        $validator
+            ->allowEmpty('aefi_desig');
+
+        $validator
+            ->allowEmpty('saefi_desig');
+
         return $validator;
     }
 }
