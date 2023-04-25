@@ -447,8 +447,8 @@ class AdrsBaseController extends AppController
             ->orWhere(['id' => $adr->assigned_to ? $adr->assigned_to : $current_id]); //use current id if unassigned else assigned user
 
 
-        $evaluators = $this->Adrs->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
-        $users = $this->Adrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        $evaluators = $this->Adrs->Users->find('list', ['limit' => 200])->where(['group_id' => 4,'deactivated'=>0]);
+        $users = $this->Adrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4],'deactivated'=>0]);
 
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');

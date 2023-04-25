@@ -510,10 +510,10 @@ class SadrsBaseController extends AppController
             ->where(['group_id' => 4])
             ->orWhere(['id' => $sadr->assigned_to ? $sadr->assigned_to : $current_id]); //use current id if unassigned else assigned user
 
-        $evaluators = $this->Sadrs->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
+        $evaluators = $this->Sadrs->Users->find('list', ['limit' => 200])->where(['group_id' => 4,'deactivated'=>0]);
 
 
-        $users = $this->Sadrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        $users = $this->Sadrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4],'deactivated'=>0]);
         $designations = $this->Sadrs->Designations->find('list', array('order' => 'Designations.name ASC'));
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
@@ -849,7 +849,7 @@ class SadrsBaseController extends AppController
             }
             $this->Flash->error(__('The ADR could not be saved. Kindly correct the errors below and retry.'));
         }
-        $users = $this->Sadrs->Users->find('list', ['limit' => 200]);
+        $users = $this->Sadrs->Users->find('list', ['limit' => 200])->where(['deactivated'=>0]);
         $designations = $this->Sadrs->Designations->find('list', array('order' => 'Designations.name ASC'));
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
         $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');

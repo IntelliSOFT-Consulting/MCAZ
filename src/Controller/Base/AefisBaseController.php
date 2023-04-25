@@ -379,8 +379,8 @@ class AefisBaseController extends AppController
             ->where(['group_id' => 4])
             ->orWhere(['id' => $aefi->assigned_to ? $aefi->assigned_to : $current_id]); //use current id if unassigned else assigned user
 
-        $evaluators = $this->Aefis->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
-        $users = $this->Aefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        $evaluators = $this->Aefis->Users->find('list', ['limit' => 200])->where(['group_id' => 4,'deactivated'=>0]);
+        $users = $this->Aefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4],'deactivated'=>0]);
 
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);

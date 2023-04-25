@@ -326,8 +326,8 @@ class Ce2bsBaseController extends AppController
             ->orWhere(['id' => $ce2b->assigned_to ? $ce2b->assigned_to : $current_id]); //use current id if unassigned else assigned user
 
 
-        $evaluators = $this->Ce2bs->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
-        $users = $this->Ce2bs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        $evaluators = $this->Ce2bs->Users->find('list', ['limit' => 200])->where(['group_id' => 4,'deactivated'=>0]);
+        $users = $this->Ce2bs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4],'deactivated'=>0]);
 
         $ce2b_content = $ce2b->e2b_content;
         try {

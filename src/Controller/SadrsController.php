@@ -206,7 +206,7 @@ class SadrsController extends AppController
         }
 
 
-        $users = $this->Sadrs->Users->find('list', ['limit' => 200]);
+        $users = $this->Sadrs->Users->find('list', ['limit' => 200])->where(['deactivated'=>0]);
         $designations = $this->Sadrs->Designations->find('list', array('order' => 'Designations.name ASC'));
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
@@ -702,10 +702,10 @@ class SadrsController extends AppController
             'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'ReportStages', 'Reactions'],
             'conditions' => ['user_id' => $this->Auth->user('id')]
         ]);
-        // if ($sadr->submitted == 2) {
-        //     $this->Flash->success(__('Report ' . $sadr->reference_number . ' already submitted.'));
-        //     return $this->redirect(['action' => 'view', $sadr->id]);
-        // }
+        if ($sadr->submitted == 2) {
+            $this->Flash->success(__('Report ' . $sadr->reference_number . ' already submitted.'));
+            return $this->redirect(['action' => 'view', $sadr->id]);
+        }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $sadr = $this->Sadrs->patchEntity($sadr, $this->request->getData(), [
                 'validate' => ($this->request->getData('submitted') == 2) ? true : false,
@@ -802,7 +802,7 @@ class SadrsController extends AppController
                     $data['type'] = ($sadr->report_type == 'FollowUp') ? 'applicant_submit_sadr_followup_notification' : 'applicant_submit_sadr_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                     //notify managers
-                    $managers = $this->Sadrs->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
+                    $managers = $this->Sadrs->Users->find('all')->where(['Users.group_id IN' => [2, 4],'deactivated'=>0]);
                     foreach ($managers as $manager) {
                         $data = [
                             'email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
@@ -944,7 +944,7 @@ class SadrsController extends AppController
                         $data['vars']['created'] = $followup->created;
                         $this->QueuedJobs->createJob('GenericNotification', $data);
                         //notify managers
-                        $managers = $this->Sadrs->Users->find('all')->where(['group_id IN' => [2, 4]]);
+                        $managers = $this->Sadrs->Users->find('all')->where(['group_id IN' => [2, 4],'deactivated'=>0]);
                         foreach ($managers as $manager) {
                             $data = [
                                 'email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
