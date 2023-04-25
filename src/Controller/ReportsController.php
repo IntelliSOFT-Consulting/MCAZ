@@ -331,7 +331,7 @@ class ReportsController extends AppController
                 'table' => 'facilities',
                 'alias' => 'f',
                 'type' => 'INNER',
-                'conditions' => 'f.facility_code = institution_code'
+                'conditions' => 'f.facility_name = institution_code'
             ])
             ->group('facility_name')
             ->where(['institution_code!="" ', 'institution_code IS NOT' => null])
@@ -349,7 +349,7 @@ class ReportsController extends AppController
         if ($this->request->is('json')) {
             $this->set([
                 'message' => 'Success',
-                'title' => 'ADR by Institution',
+                'title' => 'SAE by Institution',
                 'data' => $data,
                 'columns' => $columns,
                 '_serialize' => ['message', 'data', 'columns', 'title']
@@ -707,7 +707,7 @@ class ReportsController extends AppController
         if ($this->request->is('json')) {
             $this->set([
                 'message' => 'Success',
-                'title' => 'AEFIs Investigational by designation',
+                'title' => 'SAEFIs by designation',
                 'data' => $data,
                 '_serialize' => ['message', 'data', 'title']
             ]);

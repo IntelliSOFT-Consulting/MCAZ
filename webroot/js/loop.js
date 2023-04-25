@@ -254,7 +254,26 @@ $(function () {
             sadrChart(data, "sadrs-institution", "ADR Per Institution");
         },
     });
-
+    $.ajax({
+        url: "/reports/public-sae-per-institution.json",
+        type: "GET",
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            sadrChart(data, "sae-institution", "SAE Per Institution");
+        },
+    });
+    $.ajax({
+        url: "/reports/public-saefis-per-institution.json",
+        type: "GET",
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            sadrChart(data, "saefis-institution", "SAEFIs Per Institution");
+        },
+    });
     // Per Medicine
 
     $.ajax({
@@ -265,6 +284,16 @@ $(function () {
         success: function (data) {
             console.info(data);
             sadrChart(data, "sadrs-medicine", "ADR Per Medicine");
+        },
+    });
+    $.ajax({
+        url: "/reports/adr-per-medicine.json",
+        type: "GET",
+        async: true,
+        dataType: "json",
+        success: function (data) {
+            console.info(data);
+            sadrChart(data, "sae-medicine", "SAE Per Medicine");
         },
     });
     $.ajax({

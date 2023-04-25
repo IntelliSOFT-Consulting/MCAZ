@@ -1,6 +1,8 @@
 <?php
 
+$this->Html->css('public_reports', ['block' => true]);
 $this->Html->script('aefi_edit', ['block' => true]);
+$this->Html->script('loop', ['block' => true]); 
 
 ?>
 <div class="row">
@@ -8,7 +10,7 @@ $this->Html->script('aefi_edit', ['block' => true]);
     <div class="col-xs-3">
 
         <h4 class="page-header text-center"> ADR</h4>
-        <?= $this->Form->create($report, ['type' => 'file' ,'url' => ['action' => 'update-settings']]) ?>
+        <?= $this->Form->create($report, ['type' => 'file', 'url' => ['action' => 'update-settings']]) ?>
         <?php echo $this->Form->control('adr_year', ['type' => 'checkbox', 'label' => 'ADR per Year', 'templates' =>  'checkbox_form']);
         echo $this->Form->control('adr_month', ['type' => 'checkbox', 'label' => 'ADR per Month', 'templates' =>  'checkbox_form']);
         echo $this->Form->control('adr_inst', ['type' => 'checkbox', 'label' => 'ADR per Institution', 'templates' =>  'checkbox_form']);
@@ -62,12 +64,33 @@ $this->Html->script('aefi_edit', ['block' => true]);
         <h4 class="page-header text-center"> </h4>
 
         <p class="text-center">
-            <button type="submit" class="btn btn-primary btn-lg active text-center"
-                onclick="return confirm('Are you sure you want to update public reports?');"><i class="fa fa-save"
-                    aria-hidden="true"></i>
+            <button type="submit" class="btn btn-primary btn-sm active text-center" onclick="return confirm('Are you sure you want to update public reports?');"><i class="fa fa-save" aria-hidden="true"></i>
                 Update</button>
+            <button type="button" class="btn btn-success btn-sm active text-center" data-toggle="modal" data-target="#myModal">
+                <i class="fa fa-eye" aria-hidden="true"></i> Preview
+            </button>
         </p>
 
         <?= $this->Form->end() ?>
     </div>
 </div>
+
+<div class="modal fade modal-fullscreen" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 80%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Public Reports</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <?= $this->element('reports/public-common') ?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
+            </div>
+        </div>
+    </div>
+</div>
+ 
