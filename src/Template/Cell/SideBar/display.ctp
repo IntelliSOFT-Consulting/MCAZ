@@ -105,7 +105,7 @@
     <?php if($prefix != 'admin') { ?> 
     <li class="<?=  ($this->request->params['controller'] == 'Sadrs') ? 'active' : ''; ?>">
       <?= $this->Html->link('<i class="fa fa-file" aria-hidden="true"></i> &nbsp; ADRS', ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-        <?php if (($prefix == 'manager' || $prefix == 'evaluator') && $this->request->params['controller'] == 'Sadrs' ) { ?>
+        <?php if (($prefix == 'manager' || $prefix == 'evaluator' || $prefix == 'technical') && $this->request->params['controller'] == 'Sadrs' ) { ?>
           <ul class="nav van-<?= $prefix ?>">
             <li><a href="#" style="text-decoration: underline; padding-left: 15px;">REPORT STAGES</a></li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Submitted') ? 'active' : ''; ?>"><?= $this->Html->link('<b>1.</b> Submitted '.$Submitted, ['controller' => 'Sadrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Submitted'], array('escape' => false)); ?> </li>
@@ -129,7 +129,7 @@
     </li>
     <li class="<?=  ($this->request->params['controller'] == 'Aefis') ? 'active' : ''; ?>">
       <?= $this->Html->link('<i class="fa fa-file-text-o" aria-hidden="true"></i> &nbsp; AEFIs', ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-      <?php if (($prefix == 'manager' || $prefix == 'evaluator') && $this->request->params['controller'] == 'Aefis' ) { ?>
+      <?php if (($prefix == 'manager' || $prefix == 'evaluator' || $prefix == 'technical') && $this->request->params['controller'] == 'Aefis' ) { ?>
           <ul class="nav van-<?= $prefix ?>">
             <li><a href="#" style="text-decoration: underline; padding-left: 15px;">REPORT STAGES</a></li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Submitted') ? 'active' : ''; ?>"><?= $this->Html->link('<b>1.</b> Submitted '. $aSubmitted , ['controller' => 'Aefis', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Submitted'], array('escape' => false)); ?> </li>
@@ -150,7 +150,7 @@
     </li>
     <li class="<?=  ($this->request->params['controller'] == 'Saefis') ? 'active' : ''; ?>">
       <?= $this->Html->link('<i class="fa fa-file-text" aria-hidden="true"></i> &nbsp; SAEFIS', ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-      <?php if (($prefix == 'manager' || $prefix == 'evaluator') && $this->request->params['controller'] == 'Saefis' ) { ?>
+      <?php if (($prefix == 'manager' || $prefix == 'evaluator' || $prefix == 'technical') && $this->request->params['controller'] == 'Saefis' ) { ?>
           <ul class="nav van-<?= $prefix ?>">
             <li><a href="#" style="text-decoration: underline; padding-left: 15px;">REPORT STAGES</a></li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Submitted') ? 'active' : ''; ?>"><?= $this->Html->link('<b>1.</b> Submitted '. $saSubmitted , ['controller' => 'Saefis', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Submitted'], array('escape' => false)); ?> </li>
@@ -171,7 +171,7 @@
     </li>
     <li class="<?=  ($this->request->params['controller'] == 'Adrs') ? 'active' : ''; ?>">
       <?= $this->Html->link('<i class="fa fa-file-o" aria-hidden="true"></i> &nbsp; SAES', ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-      <?php if (($prefix == 'manager' || $prefix == 'evaluator') && $this->request->params['controller'] == 'Adrs' ) { ?>
+      <?php if (($prefix == 'manager' || $prefix == 'evaluator' || $prefix == 'technical') && $this->request->params['controller'] == 'Adrs' ) { ?>
           <ul class="nav van-<?= $prefix ?>">
             <li><a href="#" style="text-decoration: underline; padding-left: 15px;">REPORT STAGES</a></li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Submitted') ? 'active' : ''; ?>"><?= $this->Html->link('<b>1.</b> Submitted '. $rSubmitted , ['controller' => 'Adrs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Submitted'], array('escape' => false)); ?> </li>
@@ -192,7 +192,7 @@
     </li>
     <li class="<?=  ($this->request->params['controller'] == 'Ce2bs') ? 'active' : ''; ?>">
       <?= $this->Html->link('<i class="fa fa-file-code-o" aria-hidden="true"></i> &nbsp; Company E2B ', ['controller' => 'Ce2bs', 'action' => 'index', 'prefix' => $prefix], array('escape' => false)); ?>
-      <?php if (($prefix == 'manager' || $prefix == 'evaluator') && $this->request->params['controller'] == 'Ce2bs' ) { ?>
+      <?php if (($prefix == 'manager' || $prefix == 'evaluator' || $prefix == 'technical') && $this->request->params['controller'] == 'Ce2bs' ) { ?>
           <ul class="nav van-<?= $prefix ?>">
             <li><a href="#" style="text-decoration: underline; padding-left: 15px;">REPORT STAGES</a></li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Submitted') ? 'active' : ''; ?>"><?= $this->Html->link('<b>1.</b> Submitted '.$cSubmitted , ['controller' => 'Ce2bs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'Submitted'], array('escape' => false)); ?> </li>
@@ -217,7 +217,7 @@
     <?php if($prefix !== 'institution') { ?>
     <li class="<?=  ($this->request->params['controller'] === 'Reports') ? 'active' : ''; ?>">
       <?= $this->Html->link('<i class="fa fa-bar-chart" aria-hidden="true"></i> &nbsp;REPORTS', ['controller' => 'Reports', 'action' => 'index', 'prefix' => false, 'plugin' => false ], array('escape' => false)); ?>
-      <?php if (($prefix == 'manager' || $prefix == 'evaluator') && ($this->request->params['controller'] === 'Reports')) { ?>
+      <?php if (($prefix == 'manager' || $prefix == 'evaluator' || $prefix == 'technical') && ($this->request->params['controller'] === 'Reports')) { ?>
           <ul class="nav van-<?= $prefix ?>">
             <li class="<?= ($this->request->params['action'] == 'sadrReports') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> ADR reports ', ['controller' => 'Reports', 'action' => 'sadrReports', 'prefix' => false, 'plugin' => false ], array('escape' => false)); ?> 
             </li>
@@ -236,7 +236,7 @@
     </li>
     <?php } ?>
 
-    <?php if( $prefix == 'manager' || $prefix == 'evaluator') { ?>
+    <?php if( $prefix == 'manager' || $prefix == 'evaluator' || $prefix == 'technical') { ?>
      <li class="<?=  ($this->request->params['controller'] == 'Users' && $this->request->params['action'] == 'import') ? 'active' : ''; ?>">
       <?= $this->Html->link('<i class="fa fa-upload" aria-hidden="true"></i> &nbsp; IMPORT', ['controller' => 'Users', 'action' => 'imports', 'prefix' => $prefix, 'plugin' => false], array('escape' => false)); ?>
      </li>

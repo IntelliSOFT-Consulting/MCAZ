@@ -33,7 +33,10 @@ class MeddrasController extends AppController
 		// return the results
 		$groups = array();
 		foreach ($meddras as $key => $value) { 
-            $groups[] = array('value' => $value['terminology'], 'label' => $value['terminology']);
+            $groups[] = array(
+                'value' => $value['terminology'],
+                'label' => $value['terminology']
+            );
 		}
 		$this->set('codes', array_values($groups));
 		$this->set('_serialize', 'codes');
