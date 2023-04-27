@@ -6,7 +6,7 @@ use Cake\Utility\Hash;
   <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
-<?=     $this->Html->script('jquery/vigibase', ['block' => true]); ?>
+<?=     $this->Html->script('jquery/vigibasenew', ['block' => true]); ?>
 <?=     $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
 
 <?php //pr($sadrs) ?>

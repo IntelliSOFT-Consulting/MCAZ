@@ -5,6 +5,8 @@ use Cake\Utility\Hash;
 $this->start('sidebar'); ?>
 <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
+
+<?= $this->Html->script('jquery/vigibasenew', ['block' => true]); ?>
 <?= $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
 <?= $this->Html->script('jquery/readmore', ['block' => true]); ?>
 <?= $this->Html->script('jquery/sadr_index', ['block' => true]); ?>
@@ -122,13 +124,22 @@ $this->start('sidebar'); ?>
                     ?>
                     <td>
                         <?php if ($sadr->submitted == 2 && empty($sadr->messageid)) {
-                            echo  $this->Html->link('<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'initiate', 'confirm' => __('Are you sure you want to send report {0}?', $sadr->reference_number)]);
+                            echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']);
                         } elseif (!empty($sadr->messageid)) {
                             echo $sadr->messageid;
-                            echo  $this->Html->link('<span class="label label-warning"> Resubmit <small class="badge badge-sadr pull-right">' . $sadr->resubmit . '</small></span>', ['action' => 'resubmitvigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'confirm', 'confirm' => __('Are you sure you want to resubmit report {0}?', $sadr->reference_number)]);
                         }
                         ?>
                     </td>
+                    <!-- <td>
+                        <?php
+                        // if ($sadr->submitted == 2 && empty($sadr->messageid)) {
+                        // echo  $this->Html->link('<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'initiate', 'confirm' => __('Are you sure you want to send report {0}?', $sadr->reference_number)]);
+                        // } elseif (!empty($sadr->messageid)) {
+                        // echo $sadr->messageid;
+                        // echo  $this->Html->link('<span class="label label-warning"> Resubmit <small class="badge badge-sadr pull-right">' . $sadr->resubmit . '</small></span>', ['action' => 'resubmitvigibase', $sadr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'confirm', 'confirm' => __('Are you sure you want to resubmit report {0}?', $sadr->reference_number)]);
+                        // }
+                        ?>
+                    </td> -->
                     <?php //} else { echo "<td></td>"; } 
                     ?>
                     <td>

@@ -281,6 +281,8 @@ class SaefisBaseController extends AppController
             ->find('search', ['search' => $this->request->query, 'withDeleted'])
             ->where(['deleted IS NOT' =>  null]);
 
+            $designations = $this->Saefis->Designations->find('list', array('order' => 'Designations.name ASC'));
+            $this->set(['designations'=>$designations]);
         $this->set('saefis', $this->paginate($query));
     }
     public function restoreDeleted($id = null)
@@ -340,10 +342,10 @@ class SaefisBaseController extends AppController
             ->where(['group_id' => 4])
             ->orWhere(['id' => $saefi->assigned_to ? $saefi->assigned_to : $current_id]); //use current id if unassigned else assigned user
 
-        $evaluators = $this->Saefis->Users->find('list', ['limit' => 200])->where(['group_id' => 4]); //Original
+        $evaluators = $this->Saefis->Users->find('list', ['limit' => 200])->where(['group_id' => 4,'deactivated'=>0]); //Original
 
 
-        $users = $this->Saefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        $users = $this->Saefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4],'deactivated'=>0]);
 
 
         // dd($saefi);
@@ -502,13 +504,14 @@ class SaefisBaseController extends AppController
                 $this->loadModel('Queue.QueuedJobs');
                 if (!empty($saefi->assigned_to)) {
                     $evaluator = $this->Saefis->Users->get($saefi->assigned_to);
+                    $assigner = $this->Saefis->Users->get($saefi->assigned_by);
                     $data = [
                         'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
                         'type' => 'manager_review_assigned_email', 'model' => 'Saefis', 'foreign_key' => $saefi->id,
                         'vars' =>  $saefi->toArray()
                     ];
                     $data['vars']['name'] = $evaluator->name;
-                    $data['vars']['assigned_by_name'] = $this->Auth->user('name');
+                    $data['vars']['assigned_by_name'] = $assigner->name;
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);
                     $data['type'] = 'manager_review_assigned_notification';

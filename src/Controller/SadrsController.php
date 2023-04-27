@@ -75,7 +75,7 @@ class SadrsController extends AppController
             ->find('search', ['search' => $this->request->query])
             // You can add extra things to the query if you need to
             // ->where([['OR' => ['Sadrs.user_id' => $this->Auth->user('id'), 'Sadrs.name_of_institution' => $this->Auth->user('name_of_institution')]]]);
-            ->order(['Sadrs.created' => 'DESC'])  
+            ->order(['Sadrs.created' => 'DESC'])
             ->where([['Sadrs.user_id' => $this->Auth->user('id')]]);
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
@@ -206,7 +206,7 @@ class SadrsController extends AppController
         }
 
 
-        $users = $this->Sadrs->Users->find('list', ['limit' => 200]);
+        $users = $this->Sadrs->Users->find('list', ['limit' => 200])->where(['deactivated'=>0]);
         $designations = $this->Sadrs->Designations->find('list', array('order' => 'Designations.name ASC'));
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
@@ -320,8 +320,71 @@ class SadrsController extends AppController
 
         $this->response->download(($sadr->submitted == 2) ? str_replace('/', '_', $sadr->reference_number) . '.xml' : 'ADR_' . $sadr->created->i18nFormat('dd-MM-yyyy_HHmmss') . '.xml');
     }
-
     public function vigibase($id = null)
+    {
+        $sadr = $this->Sadrs->get($id, [
+            'contain' => ['SadrListOfDrugs', 'Attachments', 'ReportStages', 'Reactions']
+        ]);
+
+        // create a builder (hint: new ViewBuilder() constructor works too)
+        $builder = $this->viewBuilder();
+
+        // configure as needed
+        $builder->setLayout(false);
+        $builder->template('Sadrs/xml/e2b');
+
+        // create a view instance
+        $designations = $this->Sadrs->Designations->find('list', ['limit' => 200]);
+        $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list', ['keyField' => 'id', 'valueField' => 'icsr_code']);
+        $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list', ['keyField' => 'id', 'valueField' => 'icsr_code']);
+        $view = $builder->build(compact('sadr', 'doses', 'routes', 'designations'));
+
+        // render to a variable
+        $payload = $view->render();
+
+        $http = new Client();
+
+        //$payload = $this->VigibaseApi->sadr_e2b($sadr, $doses, $routes);
+        //Log::write('debug', 'Payload :: '.$payload);
+        $umc = $http->post(
+            Configure::read('vigi_post_url'),
+            (string)$payload,
+            ['headers' => Configure::read('vigi_headers')]
+        );
+
+        if ($umc->isOK()) {
+            $messageid = $umc->json;
+
+            $vsadr = $this->Sadrs->get($id, [
+                'contain' => ['SadrListOfDrugs', 'Attachments', 'ReportStages']
+            ]);
+            $stage1  = $this->Sadrs->ReportStages->newEntity();
+            $stage1->model = 'Sadrs';
+            $stage1->stage = 'VigiBase';
+            $stage1->description = 'Stage 9';
+            $stage1->stage_date = date("Y-m-d H:i:s");
+            $vsadr->report_stages = [$stage1];
+            $vsadr->messageid = $messageid['MessageId'];
+            $vsadr->status = 'VigiBase';
+            $this->Sadrs->save($vsadr);
+
+            $this->set([
+                'umc' => $umc->json,
+                'status' => 'Successfull integration with vigibase',
+                '_serialize' => ['umc', 'status']
+            ]);
+        } else {
+            $this->response->body('Failure');
+            $this->response->statusCode($umc->getStatusCode());
+            $this->set([
+                'umc' => $umc->json,
+                'status' => 'Failed',
+                '_serialize' => ['umc', 'status']
+            ]);
+            return;
+        }
+    }
+    public function vigibase_current($id = null)
     {
         $sadr = $this->Sadrs->get($id, [
             'contain' => ['SadrListOfDrugs', 'Attachments', 'ReportStages', 'Reactions']
@@ -608,12 +671,23 @@ class SadrsController extends AppController
 
     public function getNewReferenceNumber($id)
     {
-        $refid = $this->Sadrs->Refids->newEntity(['foreign_key' => $id, 'model' => 'Sadrs', 'year' => date('Y')]);
+        $refid = $this->Sadrs->Refids->newEntity(
+            [
+                'foreign_key' => $id,
+                'model' => 'Sadrs',
+                'year' => date('Y')
+            ]
+        );
         $this->Sadrs->Refids->save($refid);
         $refid = $this->Sadrs->Refids->get($refid->id);
         $reference_number =  'ADR' . $refid->refid . '/' . $refid->year;
         //ensure this reference number is unique
-        $count = $this->Sadrs->find('all', ['conditions' => ['Sadrs.reference_number' => $reference_number]])->count();
+        $count = $this->Sadrs->find(
+            'all',
+            [
+                'conditions' => ['Sadrs.reference_number' => $reference_number]
+            ]
+        )->count();
 
         if ($count > 0) {
             return  $this->getNewReferenceNumber($id);
@@ -689,6 +763,24 @@ class SadrsController extends AppController
                         $sadr->reference_number = $reference_number;
                         $this->Sadrs->save($sadr);
                     }
+
+
+                    // Check if it's a follow up report: update the original report as well
+                    if($sadr->report_type=="FollowUp"){
+                        //get the original report
+                        $original_sadr = $this->Sadrs->get($sadr->initial_id, [
+                            'contain' => ['ReportStages'],
+                            'conditions' => ['user_id' => $this->Auth->user('id')]
+                        ]);
+
+                        $original_sadr = $this->Sadrs->patchEntity($original_sadr, $this->request->getData(), [
+                            'validate' => ($this->request->getData('submitted') == 2) ? true : false,
+                             
+                        ]); 
+                        if ($this->Sadrs->save($original_sadr)) {
+                        } 
+                    }
+
                     //
                     $this->Flash->success(__('Report ' . $sadr->reference_number . ' has been successfully submitted to MCAZ for review.'));
                     //send email and notification
@@ -710,7 +802,7 @@ class SadrsController extends AppController
                     $data['type'] = ($sadr->report_type == 'FollowUp') ? 'applicant_submit_sadr_followup_notification' : 'applicant_submit_sadr_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                     //notify managers
-                    $managers = $this->Sadrs->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
+                    $managers = $this->Sadrs->Users->find('all')->where(['Users.group_id IN' => [2, 4],'deactivated'=>0]);
                     foreach ($managers as $manager) {
                         $data = [
                             'email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
@@ -775,7 +867,7 @@ class SadrsController extends AppController
         if ($this->Sadrs->save($sadr, ['validate' => false])) {
             $query = $this->Sadrs->query();
             $query->update()
-                ->set(['report_type' => 'Initial']) 
+                ->set(['report_type' => 'Initial'])
                 ->where(['id' => $orig_sadr->id])
                 ->execute();
             $this->Flash->success(__('A follow-up report for the ADR has been created. make changes and submit.'));
@@ -852,7 +944,7 @@ class SadrsController extends AppController
                         $data['vars']['created'] = $followup->created;
                         $this->QueuedJobs->createJob('GenericNotification', $data);
                         //notify managers
-                        $managers = $this->Sadrs->Users->find('all')->where(['group_id IN' => [2, 4]]);
+                        $managers = $this->Sadrs->Users->find('all')->where(['group_id IN' => [2, 4],'deactivated'=>0]);
                         foreach ($managers as $manager) {
                             $data = [
                                 'email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Sadrs', 'foreign_key' => $sadr->id,

@@ -326,8 +326,8 @@ class Ce2bsBaseController extends AppController
             ->orWhere(['id' => $ce2b->assigned_to ? $ce2b->assigned_to : $current_id]); //use current id if unassigned else assigned user
 
 
-        $evaluators = $this->Ce2bs->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
-        $users = $this->Ce2bs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        $evaluators = $this->Ce2bs->Users->find('list', ['limit' => 200])->where(['group_id' => 4,'deactivated'=>0]);
+        $users = $this->Ce2bs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4],'deactivated'=>0]);
 
         $ce2b_content = $ce2b->e2b_content;
         try {
@@ -534,13 +534,14 @@ class Ce2bsBaseController extends AppController
                 $this->loadModel('Queue.QueuedJobs');
                 if (!empty($ce2b->assigned_to)) {
                     $evaluator = $this->Ce2bs->Users->get($ce2b->assigned_to);
+                    $assigner = $this->Ce2bs->Users->get($ce2b->assigned_by);
                     $data = [
                         'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
                         'type' => 'manager_review_assigned_email', 'model' => 'Ce2bs', 'foreign_key' => $ce2b->id,
                         'vars' =>  $ce2b->toArray()
                     ];
                     $data['vars']['name'] = $evaluator->name;
-                    $data['vars']['assigned_by_name'] = $this->Auth->user('name');
+                    $data['vars']['assigned_by_name'] = $assigner->name;
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);
                     $data['type'] = 'manager_review_assigned_notification';

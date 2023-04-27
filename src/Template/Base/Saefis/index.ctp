@@ -5,6 +5,8 @@ use Cake\Utility\Hash;
 $this->start('sidebar'); ?>
 <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
+
+<?= $this->Html->script('jquery/vigibasenew', ['block' => true]); ?>
 <?= $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
 <?= $this->Html->script('jquery/readmore', ['block' => true]); ?>
 <?= $this->Html->script('jquery/saefi_index', ['block' => true]); ?>
@@ -43,14 +45,14 @@ $this->start('sidebar'); ?>
                 </th>
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('reference_number') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('status') ?></th> 
+                <th scope="col"><?= $this->Paginator->sort('status') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('messageid', 'VigiBase') ?></th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
-            <?php  $filtered = [];
+            <?php $filtered = [];
             foreach ($saefis as $sample) : ?>
                 <?php
                 // check if the  $filtered  is empty
@@ -58,13 +60,18 @@ $this->start('sidebar'); ?>
                     $filtered[] = $sample;
                 } else {
                     // 
-                    if (!in_array($sample->reference_number, Hash::extract($filtered, '{n}.reference_number'))) {
+                    if (($sample->submitted == 2)) {
+                        if (!in_array($sample->reference_number, Hash::extract($filtered, '{n}.reference_number'))) {
+                            $filtered[] = $sample;
+                        }
+                    } else {
                         $filtered[] = $sample;
                     }
                 }
 
                 ?>
-            <?php endforeach;foreach ($filtered  as $saefi) : ?>
+            <?php endforeach;
+            foreach ($filtered  as $saefi) : ?>
                 <?php $a = ($saefi['assigned_to']) ? '<small class="muted">' . Hash::combine($users->toArray(), '{n}.id', '{n}.name')[$saefi->assigned_to] . '</small>' : '<small class="muted">Unassigned</small>'; ?>
                 <?php
                 if ($saefi->reporter_email != "dataentry@mcaz.co.zw") {
@@ -101,16 +108,16 @@ $this->start('sidebar'); ?>
                     <td><?= h($saefi->status) ?><br><?= $a ?><br><?= $saefi->report_type ?></td>
 
                     <!-- Added stages column -->
-                   
+
 
                     <!-- End -->
                     <td><?= h($saefi->modified) ?></td>
                     <td>
                         <?php if ($saefi->submitted == 2 && empty($saefi->messageid)) {
-                            echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $saefi->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'initiate', 'confirm' => __('Are you sure you want to send report {0}?', $saefi->reference_number)]);
+                            echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $saefi->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']);
                         } elseif (!empty($saefi->messageid)) {
                             echo $saefi->messageid;
-                            echo  $this->Html->link('&nbsp;<span class="label label-warning"> Resubmit</span>', ['action' => 'vigibase', $saefi->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'confirm', 'confirm' => __('Are you sure you want to resubmit report {0}?', $saefi->reference_number)]);
+                            // echo  $this->Html->link('&nbsp;<span class="label label-warning"> Resubmit</span>', ['action' => 'vigibase', $saefi->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'confirm', 'confirm' => __('Are you sure you want to resubmit report {0}?', $saefi->reference_number)]);
                         }
                         ?>
                     </td>

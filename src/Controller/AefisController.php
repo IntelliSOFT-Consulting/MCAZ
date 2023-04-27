@@ -237,7 +237,7 @@ class AefisController extends AppController
                 '_serialize' => ['umc', 'status']
             ]);
 
-            return $this->redirect($this->referer());
+            // return $this->redirect($this->referer());
         } else {
             $this->response->body('Failure');
             $this->response->statusCode($umc->getStatusCode());
@@ -247,7 +247,7 @@ class AefisController extends AppController
                 '_serialize' => ['umc', 'status']
             ]);
 
-            return $this->redirect($this->referer());
+            return ;//$this->redirect($this->referer());
         }
     }
     public function resubmitvigibase($id = null)
@@ -490,7 +490,7 @@ class AefisController extends AppController
                     $data['type'] = ($aefi->report_type == 'FollowUp') ? 'applicant_submit_aefi_followup_notification' : 'applicant_submit_aefi_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                     //notify managers
-                    $managers = $this->Aefis->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
+                    $managers = $this->Aefis->Users->find('all')->where(['Users.group_id IN' => [2, 4],'deactivated'=>0]);
                     foreach ($managers as $manager) {
                         $data = [
                             'email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Aefis', 'foreign_key' => $aefi->id,

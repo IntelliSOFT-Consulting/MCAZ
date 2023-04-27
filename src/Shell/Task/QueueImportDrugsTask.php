@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author eddyokemwa@gmail.com
  * @link http://github.com/zipate
@@ -15,7 +16,8 @@ use Cake\Datasource\ConnectionManager;
 /**
  * Send registration emails.
  */
-class QueueImportDrugsTask extends QueueTask {
+class QueueImportDrugsTask extends QueueTask
+{
 
     public function initialize()
     {
@@ -34,18 +36,14 @@ class QueueImportDrugsTask extends QueueTask {
      * @param int $jobId The id of the QueuedJob entity
      * @return bool Success
      */
-    public function run(array $data, $jobId) {
+    public function run(array $data, $jobId)
+    {
         //Log::write('debug', 'Notification to ::: '.$data['email_address']);
         // Log::write('debug', $data['vars']['user']);
         $conn = ConnectionManager::get('default');
-        $stmt = $conn->execute('delete
-                                    from who_drugs using who_drugs,
-                                        who_drugs e1
-                                    where who_drugs.id > e1.id
-                                        and who_drugs.drug_name = e1.drug_name ');
+        $stmt = $conn->execute('delete from who_drugs using who_drugs,who_drugs e1 where who_drugs.id > e1.id and who_drugs.drug_name = e1.drug_name ');
 
         Log::write('debug', 'IMPORT DRUGS ::: delete duplicates');
         return true;
     }
-
 }

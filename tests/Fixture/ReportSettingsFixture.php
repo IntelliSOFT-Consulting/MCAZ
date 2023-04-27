@@ -34,6 +34,14 @@ class ReportSettingsFixture extends TestFixture
         'saefi_month' => ['type' => 'tinyinteger', 'length' => 4, 'unsigned' => false, 'null' => true, 'default' => '0', 'comment' => '', 'precision' => null],
         'saefi_inst' => ['type' => 'tinyinteger', 'length' => 4, 'unsigned' => false, 'null' => true, 'default' => '0', 'comment' => '', 'precision' => null],
         'saefi_med' => ['type' => 'tinyinteger', 'length' => 4, 'unsigned' => false, 'null' => true, 'default' => '0', 'comment' => '', 'precision' => null],
+        'adr_province' => ['type' => 'tinyinteger', 'length' => 4, 'unsigned' => false, 'null' => true, 'default' => '0', 'comment' => '', 'precision' => null],
+        'sae_province' => ['type' => 'tinyinteger', 'length' => 4, 'unsigned' => false, 'null' => true, 'default' => '0', 'comment' => '', 'precision' => null],
+        'aefi_province' => ['type' => 'tinyinteger', 'length' => 4, 'unsigned' => false, 'null' => true, 'default' => '0', 'comment' => '', 'precision' => null],
+        'saefi_province' => ['type' => 'tinyinteger', 'length' => 4, 'unsigned' => false, 'null' => true, 'default' => '0', 'comment' => '', 'precision' => null],
+        'adr_desig' => ['type' => 'tinyinteger', 'length' => 4, 'unsigned' => false, 'null' => true, 'default' => '0', 'comment' => '', 'precision' => null],
+        'sae_desig' => ['type' => 'tinyinteger', 'length' => 4, 'unsigned' => false, 'null' => true, 'default' => '0', 'comment' => '', 'precision' => null],
+        'aefi_desig' => ['type' => 'tinyinteger', 'length' => 4, 'unsigned' => false, 'null' => true, 'default' => '0', 'comment' => '', 'precision' => null],
+        'saefi_desig' => ['type' => 'tinyinteger', 'length' => 4, 'unsigned' => false, 'null' => true, 'default' => '0', 'comment' => '', 'precision' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => 'CURRENT_TIMESTAMP(6)', 'comment' => '', 'precision' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
@@ -71,7 +79,15 @@ class ReportSettingsFixture extends TestFixture
                 'saefi_month' => 1,
                 'saefi_inst' => 1,
                 'saefi_med' => 1,
-                'created' => '2022-11-18 13:35:30'
+                'adr_province' => 1,
+                'sae_province' => 1,
+                'aefi_province' => 1,
+                'saefi_province' => 1,
+                'adr_desig' => 1,
+                'sae_desig' => 1,
+                'aefi_desig' => 1,
+                'saefi_desig' => 1,
+                'created' => '2023-04-25 08:51:55'
             ],
         ];
         parent::init();

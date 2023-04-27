@@ -287,7 +287,7 @@ class AdrsController extends AppController
                 '_serialize' => ['umc', 'status']
             ]);
 
-            return $this->redirect($this->referer());
+            // return $this->redirect($this->referer());
         } else {
             $this->response->body('Failure');
             $this->response->statusCode($umc->getStatusCode());
@@ -297,7 +297,7 @@ class AdrsController extends AppController
                 '_serialize' => ['umc', 'status']
             ]);
 
-            return $this->redirect($this->referer());
+            return ;//$this->redirect($this->referer());
         }
     }
 
@@ -544,7 +544,7 @@ class AdrsController extends AppController
                     $data['type'] = ($adr->report_type == 'FollowUp') ? 'applicant_submit_adr_followup_notification' : 'applicant_submit_adr_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                     //notify managers
-                    $managers = $this->Adrs->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
+                    $managers = $this->Adrs->Users->find('all')->where(['Users.group_id IN' => [2, 4],'deactivated'=>0]);
                     foreach ($managers as $manager) {
                         $data = [
                             'email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Adrs', 'foreign_key' => $adr->id,

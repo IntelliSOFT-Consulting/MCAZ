@@ -169,7 +169,7 @@ class SaefisController extends AppController
                 '_serialize' => ['umc', 'status']
             ]);
 
-            return $this->redirect($this->referer());
+            // return $this->redirect($this->referer());
         } else {
             $this->response->body('Failure');
             $this->response->statusCode($umc->getStatusCode());
@@ -179,7 +179,7 @@ class SaefisController extends AppController
                 '_serialize' => ['umc', 'status']
             ]);
 
-            return $this->redirect($this->referer());
+            return ;//$this->redirect($this->referer());
         }
     }
 
@@ -407,7 +407,7 @@ class SaefisController extends AppController
                     $data['type'] = ($saefi->report_type == 'FollowUp') ? 'applicant_submit_saefi_followup_notification' : 'applicant_submit_saefi_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                     //notify managers
-                    $managers = $this->Saefis->Users->find('all')->where(['Users.group_id IN' => [2, 4]]);
+                    $managers = $this->Saefis->Users->find('all')->where(['Users.group_id IN' => [2, 4],'deactivated'=>0]);
                     foreach ($managers as $manager) {
                         $data = [
                             'email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Saefis', 'foreign_key' => $saefi->id,

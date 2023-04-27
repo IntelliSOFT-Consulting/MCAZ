@@ -4,7 +4,7 @@ $this->start('sidebar'); ?>
   <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
-<?=     $this->Html->script('jquery/vigibase', ['block' => true]); ?>
+<?=     $this->Html->script('jquery/vigibasenew', ['block' => true]); ?>
 <?=     $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
 <?=     $this->Html->script('jquery/readmore', ['block' => true]); ?>
 <?=     $this->Html->script('jquery/saefi_index', ['block' => true]); ?>

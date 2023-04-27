@@ -6,6 +6,8 @@ $this->start('sidebar'); ?>
 <?= $this->cell('SideBar'); ?>
 <?php $this->end(); ?>
 
+
+<?= $this->Html->script('jquery/vigibasenew', ['block' => true]); ?>
 <?= $this->Html->script('jquery/jquery.blockUI.min', ['block' => true]); ?>
 <?= $this->Html->script('jquery/readmore', ['block' => true]); ?>
 <?= $this->Html->script('jquery/adr_index', ['block' => true]); ?>
@@ -51,7 +53,7 @@ $this->start('sidebar'); ?>
             </tr>
         </thead>
         <tbody>
-            <?php 
+            <?php
             $filtered = [];
             foreach ($adrs as $sample) : ?>
                 <?php
@@ -60,7 +62,11 @@ $this->start('sidebar'); ?>
                     $filtered[] = $sample;
                 } else {
                     // 
-                    if (!in_array($sample->reference_number, Hash::extract($filtered, '{n}.reference_number'))) {
+                    if (($sample->submitted == 2)) {
+                        if (!in_array($sample->reference_number, Hash::extract($filtered, '{n}.reference_number'))) {
+                            $filtered[] = $sample;
+                        }
+                    } else {
                         $filtered[] = $sample;
                     }
                 }
@@ -97,9 +103,9 @@ $this->start('sidebar'); ?>
                     </td>
                     <td><?php
                         echo ($adr->submitted == 2) ? $this->Html->link($adr->reference_number, ['action' => 'view', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']) :
-                            $this->Html->link($adr->created, ['action' => 'edit', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']); 
-                            echo $tr;
-                            ?>
+                            $this->Html->link($adr->created, ['action' => 'edit', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']);
+                        echo $tr;
+                        ?>
                     </td>
                     <td><?= h($adr->status) ?><br><?= $a ?><br><?= $adr->report_type ?></td>
                     <td>
@@ -114,10 +120,10 @@ $this->start('sidebar'); ?>
                     <td><?= h($adr->modified) ?></td>
                     <td>
                         <?php if ($adr->submitted == 2 && empty($adr->messageid)) {
-                            echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $adr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'initiate', 'confirm' => __('Are you sure you want to send report {0}?', $adr->reference_number)]);
+                            echo  $this->Html->link('&nbsp;<span class="label label-success"> VigiBase</span>', ['action' => 'vigibase', $adr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'vigibase']);
                         } elseif (!empty($adr->messageid)) {
                             echo $adr->messageid;
-                            echo  $this->Html->link('&nbsp;<span class="label label-warning"> Resubmit <small class="badge badge-adr pull-right">' . $adr->resubmit . '</small></span>', ['action' => 'resubmitvigibase', $adr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'confirm', 'confirm' => __('Are you sure you want to resubmit report {0}?', $adr->reference_number)]);
+                            // echo  $this->Html->link('&nbsp;<span class="label label-warning"> Resubmit <small class="badge badge-adr pull-right">' . $adr->resubmit . '</small></span>', ['action' => 'resubmitvigibase', $adr->id, '_ext' => 'json', 'prefix' => false], ['escape' => false, 'style' => 'color: whitesmoke;', 'class' => 'confirm', 'confirm' => __('Are you sure you want to resubmit report {0}?', $adr->reference_number)]);
                         }
                         ?>
                     </td>

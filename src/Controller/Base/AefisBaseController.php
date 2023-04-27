@@ -379,8 +379,8 @@ class AefisBaseController extends AppController
             ->where(['group_id' => 4])
             ->orWhere(['id' => $aefi->assigned_to ? $aefi->assigned_to : $current_id]); //use current id if unassigned else assigned user
 
-        $evaluators = $this->Aefis->Users->find('list', ['limit' => 200])->where(['group_id' => 4]);
-        $users = $this->Aefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
+        $evaluators = $this->Aefis->Users->find('list', ['limit' => 200])->where(['group_id' => 4,'deactivated'=>0]);
+        $users = $this->Aefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4],'deactivated'=>0]);
 
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
@@ -489,13 +489,14 @@ class AefisBaseController extends AppController
                 $this->loadModel('Queue.QueuedJobs');
                 if (!empty($aefi->assigned_to)) {
                     $evaluator = $this->Aefis->Users->get($aefi->assigned_to);
+                    $assigner = $this->Aefis->Users->get($aefi->assigned_by);
                     $data = [
                         'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
                         'type' => 'manager_review_assigned_email', 'model' => 'Aefis', 'foreign_key' => $aefi->id,
                         'vars' =>  $aefi->toArray()
                     ];
                     $data['vars']['name'] = $evaluator->name;
-                    $data['vars']['assigned_by_name'] = $this->Auth->user('name');
+                    $data['vars']['assigned_by_name'] = $assigner->name;
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);
                     $data['type'] = 'manager_review_assigned_notification';
