@@ -179,7 +179,7 @@ class SaefisController extends AppController
                 '_serialize' => ['umc', 'status']
             ]);
 
-            return ;//$this->redirect($this->referer());
+            return; //$this->redirect($this->referer());
         }
     }
 
@@ -241,7 +241,13 @@ class SaefisController extends AppController
                 $saefi->autopsy_done = $aefi->autopsy;
                 $saefi->aefi_date = $aefi->symptom_date;
                 $saefi->report_date = $aefi->notification_date;
-                // debug($saefi); return;
+                
+                $query = $this->Aefis->query();
+                $query->update()
+                    ->set(['status' => 'Archived'])
+                    ->where(['id' => $aefi->id])
+                    ->execute(); 
+                        
             } else {
                 $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
             }
@@ -256,6 +262,12 @@ class SaefisController extends AppController
                 return $this->redirect(['action' => 'edit', $saefi->id]);
             }
             $this->Flash->error(__('The saefi could not be saved. Please, try again.'));
+            // $errors = $saefi->getErrors();
+            // foreach ($errors as $field => $errorMessages) {
+            //     foreach ($errorMessages as $errorMessage) {
+            //         $this->Flash->error(__($errorMessage));
+            //     }
+            // }
         }
         $users = $this->Saefis->Users->find('list', ['limit' => 200]);
         // $designations = $this->Saefis->Designations->find('list',array('order'=>'Designations.name ASC'));
@@ -407,7 +419,7 @@ class SaefisController extends AppController
                     $data['type'] = ($saefi->report_type == 'FollowUp') ? 'applicant_submit_saefi_followup_notification' : 'applicant_submit_saefi_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                     //notify managers
-                    $managers = $this->Saefis->Users->find('all')->where(['Users.group_id IN' => [2, 4],'deactivated'=>0]);
+                    $managers = $this->Saefis->Users->find('all')->where(['Users.group_id IN' => [2, 4], 'deactivated' => 0]);
                     foreach ($managers as $manager) {
                         $data = [
                             'email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Saefis', 'foreign_key' => $saefi->id,

@@ -895,7 +895,7 @@
                 "shasum": ""
             },
             "require": {
-                "cakephp/cakephp": "^3.5"
+                "cakephp/cakephp": "3.10.3"
             },
             "replace": {
                 "ceeram/cakepdf": "self.version"
