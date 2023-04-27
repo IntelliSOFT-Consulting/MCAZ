@@ -241,7 +241,13 @@ class SaefisController extends AppController
                 $saefi->autopsy_done = $aefi->autopsy;
                 $saefi->aefi_date = $aefi->symptom_date;
                 $saefi->report_date = $aefi->notification_date;
-                // debug($saefi); return;
+                
+                $query = $this->Aefis->query();
+                $query->update()
+                    ->set(['status' => 'Archived'])
+                    ->where(['id' => $aefi->id])
+                    ->execute(); 
+               
             } else {
                 $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
             }
