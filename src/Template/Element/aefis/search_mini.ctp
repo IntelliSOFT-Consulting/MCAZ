@@ -149,7 +149,7 @@
                                             'UnSubmitted' => 'UnSubmitted',
                                             'Assigned' => 'Assigned',
                                             'Evaluated' => 'Evaluated',
-                                            'Presented' => 'Presented',
+                                            'Presented' => 'PVCT 2',
                                             'ApplicantResponse' => 'ApplicantResponse',
                                             'Correspondence' => 'Correspondence',
                                             'Committee' => 'Committee',
