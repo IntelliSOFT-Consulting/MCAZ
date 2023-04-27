@@ -20,7 +20,7 @@ class ReportsController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->Auth->allow(['publicReports',  'publicSadrsPerYear', 'publicSaefisPerYear', 'publicAefisPerYear', 'publicSaePerYear', 'sadrsPerDesignation', 'aefisPerDesignation', 'saefisPerDesignation', 'adrsPerDesignation', 'publicSadrsPerMonth', 'publicSaePerMonth', 'publicSaefisPerMonth', 'publicAefisPerMonth', 'publicSadrsPerInstitution', 'publicSaePerInstitution', 'publicAefisPerInstitution', 'publicSaefisPerInstitution', 'sadrsPerMedicine', 'aefisPerMedicine', 'saefisPerMedicine', 'adrPerMedicine']);
+        $this->Auth->allow(['publicReports',  'publicSadrsPerYear', 'publicSaefisPerYear', 'publicAefisPerYear', 'publicSaePerYear', 'sadrsPerDesignation', 'aefisPerDesignation', 'saefisPerDesignation', 'adrsPerDesignation', 'publicSadrsPerMonth', 'publicSaePerMonth', 'publicSaefisPerMonth', 'publicAefisPerMonth', 'publicSadrsPerInstitution', 'publicSaePerInstitution', 'publicAefisPerInstitution', 'publicSaefisPerInstitution', 'sadrsPerMedicine', 'aefisPerMedicine', 'saefisPerMedicine', 'adrPerMedicine', 'publicSadrsPerProvince', 'publicAefisPerProvince', 'publicSaefisPerProvince']);
         $this->loadComponent('Search.Prg', [
             'actions' => ['index']
         ]);
@@ -331,32 +331,31 @@ class ReportsController extends AppController
                 'table' => 'facilities',
                 'alias' => 'f',
                 'type' => 'INNER',
-                'conditions' => 'f.facility_code = institution_code'
+                'conditions' => 'f.facility_name = institution_code'
             ])
             ->group('facility_name')
             ->where(['institution_code!="" ', 'institution_code IS NOT' => null])
             ->hydrate(false);
-            $data[] =[];
-            $columns[] =[];
-
- 
-            foreach ($sadr_stats->toArray() as $key => $value) {
-                $data[] = ['y' => $value['count'], 'name' => $value['facility_name'], 'color' => sae_outer_rand_color()];
-                $columns[] = [$value['facility_name']];
-            }
+        $data[] = [];
+        $columns[] = [];
 
 
-            if ($this->request->is('json')) {
-                $this->set([
-                    'message' => 'Success',
-                    'title' => 'ADR by Institution',
-                    'data' => $data,
-                    'columns' => $columns,
-                    '_serialize' => ['message', 'data', 'columns', 'title']
-                ]);
-                return;
-            }
-         
+        foreach ($sadr_stats->toArray() as $key => $value) {
+            $data[] = ['y' => $value['count'], 'name' => $value['facility_name'], 'color' => sae_outer_rand_color()];
+            $columns[] = [$value['facility_name']];
+        }
+
+
+        if ($this->request->is('json')) {
+            $this->set([
+                'message' => 'Success',
+                'title' => 'SAE by Institution',
+                'data' => $data,
+                'columns' => $columns,
+                '_serialize' => ['message', 'data', 'columns', 'title']
+            ]);
+            return;
+        }
     }
     public function publicAefisPerInstitution()
     {
@@ -433,6 +432,7 @@ class ReportsController extends AppController
         }
     }
 
+    // PER MEDICINE DATA
     public function sadrsPerMedicine()
     {
 
@@ -602,6 +602,8 @@ class ReportsController extends AppController
         $this->set('_serialize', ['report']);
     }
 
+
+    // PER DESIGNATION 
     public function sadrsPerDesignation()
     {
         $this->loadModel('Sadrs');
@@ -705,7 +707,7 @@ class ReportsController extends AppController
         if ($this->request->is('json')) {
             $this->set([
                 'message' => 'Success',
-                'title' => 'AEFIs Investigational by designation',
+                'title' => 'SAEFIs by designation',
                 'data' => $data,
                 '_serialize' => ['message', 'data', 'title']
             ]);
@@ -819,6 +821,96 @@ class ReportsController extends AppController
                 'message' => 'Success',
                 'title' => 'AEFIs by provinces',
                 'data' => $data,
+                '_serialize' => ['message', 'data', 'title']
+            ]);
+            return;
+        }
+    }
+
+
+    // PER PROVINCE DATA
+    public function publicSadrsPerProvince()
+    {
+        # code...
+        $this->loadModel('Sadrs');
+        $sadr_stats = $this->Sadrs->find('all')->select([
+            'Provinces.province_name',
+            'count' => $this->Sadrs->find('all')->func()->count('*')
+        ])
+            ->where(['province_id IS NOT' => null])
+            ->group('Provinces.province_name')
+            ->contain(['Provinces'])
+            ->hydrate(false);
+        foreach ($sadr_stats->toArray() as $key => $value) {
+            $data[] = [
+                'name' => (!empty($value['province']['province_name'])) ? $value['province']['province_name'] : 'Unknown',
+                'y' => $value['count']
+            ];
+        }
+        if ($this->request->is('json')) {
+            $this->set([
+                'message' => 'Success',
+                'title' => 'ADRs by provinces',
+                'data' => $data, //Hash::combine($sadr_stats->toArray(), '{n}.province.province_name', '{n}.count'), //$data, 
+                '_serialize' => ['message', 'data', 'title']
+            ]);
+            return;
+        }
+    }
+
+    
+
+    public function publicAefisPerProvince()
+    {
+        # code...
+        $this->loadModel('Aefis');
+        $sadr_stats = $this->Aefis->find('all')->select([
+            'Provinces.province_name',
+            'count' => $this->Aefis->find('all')->func()->count('*')
+        ])
+            ->where(['province_id IS NOT' => null])
+            ->group('Provinces.province_name')
+            ->contain(['Provinces'])
+            ->hydrate(false);
+        foreach ($sadr_stats->toArray() as $key => $value) {
+            $data[] = [
+                'name' => (!empty($value['province']['province_name'])) ? $value['province']['province_name'] : 'Unknown',
+                'y' => $value['count']
+            ];
+        }
+        if ($this->request->is('json')) {
+            $this->set([
+                'message' => 'Success',
+                'title' => 'AEFIs by provinces',
+                'data' => $data, //Hash::combine($sadr_stats->toArray(), '{n}.province.province_name', '{n}.count'), //$data, 
+                '_serialize' => ['message', 'data', 'title']
+            ]);
+            return;
+        }
+    }
+    public function publicSaefisPerProvince()
+    {
+        # code...
+        $this->loadModel('Saefis');
+        $sadr_stats = $this->Saefis->find('all')->select([
+            'Provinces.province_name',
+            'count' => $this->Saefis->find('all')->func()->count('*')
+        ])
+            ->where(['province_id IS NOT' => null])
+            ->group('Provinces.province_name')
+            ->contain(['Provinces'])
+            ->hydrate(false);
+        foreach ($sadr_stats->toArray() as $key => $value) {
+            $data[] = [
+                'name' => (!empty($value['province']['province_name'])) ? $value['province']['province_name'] : 'Unknown',
+                'y' => $value['count']
+            ];
+        }
+        if ($this->request->is('json')) {
+            $this->set([
+                'message' => 'Success',
+                'title' => 'SAEFIs by provinces',
+                'data' => $data, //Hash::combine($sadr_stats->toArray(), '{n}.province.province_name', '{n}.count'), //$data, 
                 '_serialize' => ['message', 'data', 'title']
             ]);
             return;

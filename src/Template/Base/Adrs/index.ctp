@@ -53,7 +53,7 @@ $this->start('sidebar'); ?>
             </tr>
         </thead>
         <tbody>
-            <?php 
+            <?php
             $filtered = [];
             foreach ($adrs as $sample) : ?>
                 <?php
@@ -62,7 +62,11 @@ $this->start('sidebar'); ?>
                     $filtered[] = $sample;
                 } else {
                     // 
-                    if (!in_array($sample->reference_number, Hash::extract($filtered, '{n}.reference_number'))) {
+                    if (($sample->submitted == 2)) {
+                        if (!in_array($sample->reference_number, Hash::extract($filtered, '{n}.reference_number'))) {
+                            $filtered[] = $sample;
+                        }
+                    } else {
                         $filtered[] = $sample;
                     }
                 }
@@ -99,9 +103,9 @@ $this->start('sidebar'); ?>
                     </td>
                     <td><?php
                         echo ($adr->submitted == 2) ? $this->Html->link($adr->reference_number, ['action' => 'view', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']) :
-                            $this->Html->link($adr->created, ['action' => 'edit', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']); 
-                            echo $tr;
-                            ?>
+                            $this->Html->link($adr->created, ['action' => 'edit', $adr->id, 'prefix' => $prefix, 'status' => $adr->status], ['escape' => false, 'class' => 'btn-zangu']);
+                        echo $tr;
+                        ?>
                     </td>
                     <td><?= h($adr->status) ?><br><?= $a ?><br><?= $adr->report_type ?></td>
                     <td>
