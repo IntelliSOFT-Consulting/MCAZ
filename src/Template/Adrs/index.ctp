@@ -38,7 +38,11 @@ $this->start('sidebar'); ?>
                     $filtered[] = $sample;
                 } else {
                     // 
-                    if (!in_array($sample->reference_number, Hash::extract($filtered, '{n}.reference_number'))) {
+                    if (($sample->submitted == 2)) {
+                        if (!in_array($sample->reference_number, Hash::extract($filtered, '{n}.reference_number'))) {
+                            $filtered[] = $sample;
+                        }
+                    } else {
                         $filtered[] = $sample;
                     }
                 }

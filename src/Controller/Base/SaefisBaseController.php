@@ -281,6 +281,8 @@ class SaefisBaseController extends AppController
             ->find('search', ['search' => $this->request->query, 'withDeleted'])
             ->where(['deleted IS NOT' =>  null]);
 
+            $designations = $this->Saefis->Designations->find('list', array('order' => 'Designations.name ASC'));
+            $this->set(['designations'=>$designations]);
         $this->set('saefis', $this->paginate($query));
     }
     public function restoreDeleted($id = null)
