@@ -18,8 +18,7 @@ if (count($arr1) > 1) {
 <div class="well">
     <div class="row">
         <div class="col-md-10">
-            <h5 class="text-center"><small><em>Use wildcard <span class="sterix fa fa-asterisk"
-                            aria-hidden="true"></span> to match any character e.g. saefi4* to match saefi4/2017,
+            <h5 class="text-center"><small><em>Use wildcard <span class="sterix fa fa-asterisk" aria-hidden="true"></span> to match any character e.g. saefi4* to match saefi4/2017,
                         saefi49/2018 etc.</em></small></h5>
 
             <table class="table">
@@ -69,16 +68,13 @@ if (count($arr1) > 1) {
                             );
                             ?>
 
-                            <a onclick="$('input[name=status_on_date]').removeAttr('checked');" class="tiptip"
-                                data-original-title="clear!!">
-                                <em class="accordion-toggle"><i class="fa fa-window-close-o"
-                                        aria-hidden="true"></i></em></a>
+                            <a onclick="$('input[name=status_on_date]').removeAttr('checked');" class="tiptip" data-original-title="clear!!">
+                                <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="3">
-                            <a class="btn" role="button" data-toggle="collapse" href="#collapseSaefi"
-                                aria-expanded="false" aria-controls="collapseSaefi">
+                            <a class="btn" role="button" data-toggle="collapse" href="#collapseSaefi" aria-expanded="false" aria-controls="collapseSaefi">
                                 View more...
                             </a>
                         </td>
@@ -100,10 +96,8 @@ if (count($arr1) > 1) {
                                 );
                                 ?>
 
-                                <a onclick="$('input[name=pregnant]').removeAttr('checked');" class="tiptip"
-                                    data-original-title="clear!!">
-                                    <em class="accordion-toggle"><i class="fa fa-window-close-o"
-                                            aria-hidden="true"></i></em></a>
+                                <a onclick="$('input[name=pregnant]').removeAttr('checked');" class="tiptip" data-original-title="clear!!">
+                                    <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                             </td>
                             <td colspan="2">
                                 <?php
@@ -116,10 +110,8 @@ if (count($arr1) > 1) {
                                 );
                                 ?>
 
-                                <a onclick="$('input[name=infant]').removeAttr('checked');" class="tiptip"
-                                    data-original-title="clear!!">
-                                    <em class="accordion-toggle"><i class="fa fa-window-close-o"
-                                            aria-hidden="true"></i></em></a>
+                                <a onclick="$('input[name=infant]').removeAttr('checked');" class="tiptip" data-original-title="clear!!">
+                                    <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                             </td>
                         </tr>
                         <tr>
@@ -134,10 +126,8 @@ if (count($arr1) > 1) {
                                 );
                                 ?>
 
-                                <a onclick="$('input[name=delivery_procedure]').removeAttr('checked');" class="tiptip"
-                                    data-original-title="clear!!">
-                                    <em class="accordion-toggle"><i class="fa fa-window-close-o"
-                                            aria-hidden="true"></i></em></a>
+                                <a onclick="$('input[name=delivery_procedure]').removeAttr('checked');" class="tiptip" data-original-title="clear!!">
+                                    <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                             </td>
                         </tr>
                         <tr>
@@ -178,8 +168,7 @@ if (count($arr1) > 1) {
                                 );
                                 ?>
                                 <a onclick="$('#designation-id').val('');" class="tiptip" data-original-title="clear!!">
-                                    <em class="accordion-toggle"><i class="fa fa-window-close-o"
-                                            aria-hidden="true"></i></em></a>
+                                    <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                                 <br>
                                 <small class="text-warning">Designations</small>
                             </td>
@@ -194,7 +183,8 @@ if (count($arr1) > 1) {
                             <!-- Added -->
                             <td>
                                 <?php
-                                echo $this->Form->control('status',
+                                echo $this->Form->control(
+                                    'status',
                                     [
                                         'type' => 'select', 'label' => false, 'templates' => 'clear_form', 'empty' => true,
                                         'options' => [
@@ -213,10 +203,33 @@ if (count($arr1) > 1) {
                                 );
                                 ?>
                                 <a onclick="$('#status').val('');" class="tiptip" data-original-title="clear!!">
-                                    <em class="accordion-toggle"><i class="fa fa-window-close-o"
-                                            aria-hidden="true"></i></em></a>
+                                    <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                                 <br>
                                 <small class="text-warning">Evaluation Status</small>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="1">
+                                <?php
+                                echo $this->Form->control(
+                                    'minimal',
+                                    [
+                                        'type' => 'select',
+                                        'label' => false,
+                                        'templates' => 'clear_form',
+                                        'empty' => true,
+                                        'class' => 'span9',
+                                        'options' => [
+                                            'External' => 'External Reporters',
+                                            'Internal' => 'Internal Reporter',
+                                        ]
+                                    ]
+                                );
+                                ?>
+                                <a onclick="$('#minimal').val('');" class="tiptip" data-original-title="clear!!">
+                                    <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
+                                <br>
+                                <small class="text-warning">External/Internal Reporter</small>
                             </td>
                         </tr>
                     </tbody>
@@ -225,8 +238,7 @@ if (count($arr1) > 1) {
         </div>
         <div class="col-md-2">
             <br>
-            <button type="submit" class="btn btn-primary btn-sm btn-block " id="search" style="margin-bottom: 4px;"><i
-                    class="fa fa-search-plus" aria-hidden="true"></i> Search</button>
+            <button type="submit" class="btn btn-primary btn-sm btn-block " id="search" style="margin-bottom: 4px;"><i class="fa fa-search-plus" aria-hidden="true"></i> Search</button>
             <?php
             echo $this->Html->link('<i class="fa fa-close" aria-hidden="true"></i> Reset', ['action' => 'index'], ['class' => 'btn btn-default btn-sm btn-block ', 'escape' => false]);
             ?>
@@ -236,22 +248,21 @@ if (count($arr1) > 1) {
             </a>
 
             <?php if ($prefix !== 'institution') { ?>
-            <a class="btn btn-warning btn-sm btn-block" href="<?= $pdf ?>" style="margin-top: 4px;">
-                <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Summary Report
-            </a>
-            
+                <a class="btn btn-warning btn-sm btn-block" href="<?= $pdf ?>" style="margin-top: 4px;">
+                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Summary Report
+                </a>
+
             <?php } ?>
 
             <!-- check if prefix is manager -->
             <?php if ($prefix == 'manager' || $prefix == 'evaluator') { ?>
                 <a class="btn btn-primary btn-sm btn-block" href="<?= $timeline ?>" style="margin-top: 4px;">
-                <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Timeline Report
-            </a>
+                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Timeline Report
+                </a>
             <?php } ?>
 
             <div class="dropdown" style="margin-top: 14px;">
-                <button class="btn btn-default btn-sm btn-block  dropdown-toggle" type="button" id="dropdownMenu1"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <button class="btn btn-default btn-sm btn-block  dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     Sort by
                     <span class="caret"></span>
                 </button>

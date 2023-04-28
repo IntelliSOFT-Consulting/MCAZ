@@ -163,7 +163,7 @@ if (count($arr1) > 1) {
                                 <br>
                                 <small class="text-warning">Action taken</small>
                             </td>
-                            <td colspan="2">
+                            <td colspan="1">
                                 <?php
                                 echo $this->Form->control(
                                     'relatedness',
@@ -184,6 +184,28 @@ if (count($arr1) > 1) {
                                     <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
                                 <br>
                                 <small class="text-warning">Relatedness to ADR</small>
+                            </td>
+                            <td colspan="1">
+                                <?php
+                                echo $this->Form->control(
+                                    'minimal',
+                                    [
+                                        'type' => 'select', 
+                                        'label' => false, 
+                                        'templates' => 'clear_form', 
+                                        'empty' => true,
+                                        'class'=>'span9',
+                                        'options' => [
+                                            'External' => 'External Reporters',
+                                            'Internal' => 'Internal Reporter', 
+                                        ]
+                                    ]
+                                );
+                                ?>
+                                <a onclick="$('#minimal').val('');" class="tiptip" data-original-title="clear!!">
+                                    <em class="accordion-toggle"><i class="fa fa-window-close-o" aria-hidden="true"></i></em></a>
+                                <br>
+                                <small class="text-warning">External/Internal Reporter</small>
                             </td>
                         </tr>
                         <tr>

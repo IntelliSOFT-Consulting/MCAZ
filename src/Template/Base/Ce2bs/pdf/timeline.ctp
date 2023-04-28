@@ -46,7 +46,7 @@ use Cake\Utility\Xml;
   <thead>
     <th>#</th>
     <th>Reference No</th>
-    <th>Approval Time</th>
+    <th>Overall Time</th>
     <th>MCAZ Time</th>
     <th>Applicant Time</th>
     <th>Stage Time</th>

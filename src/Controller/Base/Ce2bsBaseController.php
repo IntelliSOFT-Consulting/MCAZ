@@ -40,6 +40,14 @@ class Ce2bsBaseController extends AppController
             ->find('search', ['search' => $this->request->query])
             ->order(['created' => 'DESC'])
             ->where(['IFNULL(copied, "N") !=' => 'old copy']);
+
+        if ($this->request->getQuery('minimal')) {
+            if ($this->request->getQuery('minimal') == 'External') {
+                $query = $query->where(['reporter_email !=' => 'dataentry@mcaz.co.zw']);
+            } elseif ($this->request->getQuery('minimal') == 'Internal') {
+                $query = $query->where(['reporter_email' => 'dataentry@mcaz.co.zw']);
+            }
+        }
         $users = $this->Ce2bs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $this->set(compact('query', 'users'));
         if ($this->request->params['_ext'] === 'pdf' || $this->request->params['_ext'] === 'csv') {
@@ -809,7 +817,7 @@ class Ce2bsBaseController extends AppController
                 $latestReportStage = $reportStage;
             }
         }
-        $stage=$latestReportStage->stage;
+        $stage = $latestReportStage->stage;
 
         //get the last stage 
         $query = $this->Ce2bs->query();

@@ -75,14 +75,19 @@ class SadrsBaseController extends AppController
         if($this->request->getQuery('status')) {$sadrs = $this->paginate($this->Sadrs->find('all')->where(['status' => $this->request->getQuery('status'), 'ifnull(report_type,-1) !=' => 'FollowUp']), ['order' => ['Sadrs.id' => 'desc']]); }
         else {$sadrs = $this->paginate($this->Sadrs->find('all')->where(['ifnull(report_type,-1) !=' => 'FollowUp']), ['order' => ['Sadrs.id' => 'desc']]);}*/
 
-        $query = $this->Sadrs
-            // Use the plugins 'search' custom finder and pass in the
-            // processed query params
+        $query = $this->Sadrs 
             ->find('search', ['search' => $this->request->query])
             ->order(['created' => 'DESC'])
             ->where(['Sadrs.status !=' => (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
-
+            if ($this->request->getQuery('minimal')) {
+                if ($this->request->getQuery('minimal') == 'External') {
+                    $query = $query->where(['Sadrs.reporter_email !=' => 'dataentry@mcaz.co.zw']);
+                } elseif ($this->request->getQuery('minimal') == 'Internal') {
+                    $query = $query->where(['Sadrs.reporter_email' => 'dataentry@mcaz.co.zw']);
+                }
+            }
         // get unique reference numbers for all
+
 
         // You can add extra things to the query if you need to
         //->where([['ifnull(report_type,-1) !=' => 'FollowUp']]);
@@ -181,6 +186,8 @@ class SadrsBaseController extends AppController
 
         if ($this->request->params['_ext'] === 'pdf') {
             $query->where([['Sadrs.active' => '1']]);
+
+            $this->viewBuilder()->helpers(['Form' => ['templates' => 'pdf_form',]]);
             $this->viewBuilder()->options([
                 'pdfConfig' => [
                     'orientation' => 'landscape',

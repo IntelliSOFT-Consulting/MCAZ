@@ -63,20 +63,7 @@ class AdrsBaseController extends AppController
      */
     public function index()
     {
-        $nAdrs = $this->Adrs->find('all')
-            ->contain([])
-            ->where([
-                'assigned_to IS NOT' => null, 'assigned_by IS NOT' => null, 'Adrs.status' => 'FinalFeedback',
-                'DATE(Adrs.action_date) <=' => date('Y-m-d', strtotime('-7 days'))
-            ])
-            ->notMatching('Reminders', function ($q) {
-                return $q->where(['Reminders.user_id = Adrs.assigned_by', 'Reminders.reminder_type' => 'feedback_adr_reminder_email']);
-            });
-        // foreach ($nAdrs as $adr) {
-        //     debug($adr);
-        //     exit;
-        // }
-
+       
 
 
         $this->paginate = [
@@ -86,7 +73,16 @@ class AdrsBaseController extends AppController
             ->find('search', ['search' => $this->request->query])
             ->order(['created' => 'DESC'])
             ->where(['status !=' => (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']); // ->group('reference_number');
-        $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
+      
+            if ($this->request->getQuery('minimal')) {
+                if ($this->request->getQuery('minimal') == 'External') {
+                    $query = $query->where(['reporter_email !=' => 'dataentry@mcaz.co.zw']);
+                } elseif ($this->request->getQuery('minimal') == 'Internal') {
+                    $query = $query->where(['reporter_email' => 'dataentry@mcaz.co.zw']);
+                }
+            }
+      
+            $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
         $users = $this->Adrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
         $this->set(compact('designations', 'query', 'doses', 'users'));

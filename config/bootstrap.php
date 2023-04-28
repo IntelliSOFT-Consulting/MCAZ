@@ -74,7 +74,6 @@ try {
     exit($e->getMessage() . "\n");
 }
 Configure::write('password_expire_timeout', '-6 months');
-// Configure::write('password_expire_timeout', '-2 weeks');
 
 /*
  * Load an environment local configuration file.
@@ -233,7 +232,7 @@ Plugin::load('Josegonzalez/Upload');
  * Debug Kit should not be installed on a production system
  */
 if (Configure::read('debug')) {
-    Plugin::load('DebugKit', ['bootstrap' => false]);
+    Plugin::load('DebugKit', ['bootstrap' => true]);
 }
 
 Plugin::load('Acl', ['bootstrap' => true]);

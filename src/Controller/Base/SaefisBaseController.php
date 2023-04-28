@@ -43,6 +43,14 @@ class SaefisBaseController extends AppController
             ->find('search', ['search' => $this->request->query])
             ->order(['created' => 'DESC'])
             ->where(['status !=' => (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
+        if ($this->request->getQuery('minimal')) {
+            if ($this->request->getQuery('minimal') == 'External') {
+                $query = $query->where(['reporter_email !=' => 'dataentry@mcaz.co.zw']);
+            } elseif ($this->request->getQuery('minimal') == 'Internal') {
+                $query = $query->where(['reporter_email' => 'dataentry@mcaz.co.zw']);
+            }
+        }
+
         $designations = $this->Saefis->Designations->find('list', ['limit' => 200]);
         $users = $this->Saefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $provinces = $this->Saefis->Provinces->find('list', ['limit' => 200]);
@@ -281,8 +289,8 @@ class SaefisBaseController extends AppController
             ->find('search', ['search' => $this->request->query, 'withDeleted'])
             ->where(['deleted IS NOT' =>  null]);
 
-            $designations = $this->Saefis->Designations->find('list', array('order' => 'Designations.name ASC'));
-            $this->set(['designations'=>$designations]);
+        $designations = $this->Saefis->Designations->find('list', array('order' => 'Designations.name ASC'));
+        $this->set(['designations' => $designations]);
         $this->set('saefis', $this->paginate($query));
     }
     public function restoreDeleted($id = null)
@@ -342,10 +350,10 @@ class SaefisBaseController extends AppController
             ->where(['group_id' => 4])
             ->orWhere(['id' => $saefi->assigned_to ? $saefi->assigned_to : $current_id]); //use current id if unassigned else assigned user
 
-        $evaluators = $this->Saefis->Users->find('list', ['limit' => 200])->where(['group_id' => 4,'deactivated'=>0]); //Original
+        $evaluators = $this->Saefis->Users->find('list', ['limit' => 200])->where(['group_id' => 4, 'deactivated' => 0]); //Original
 
 
-        $users = $this->Saefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4],'deactivated'=>0]);
+        $users = $this->Saefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4], 'deactivated' => 0]);
 
 
         // dd($saefi);
