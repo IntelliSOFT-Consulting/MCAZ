@@ -206,10 +206,8 @@
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'VigiBase') ? 'active' : ''; ?>"><?= $this->Html->link('<b>9.</b> VigiBase '. $cVigiBase , ['controller' => 'Ce2bs', 'action' => 'index', 'prefix' => $prefix, 'status' => 'VigiBase'], array('escape' => false)); ?> </li>   
             <li><a href="#" style="text-decoration: underline; padding-left: 15px;">OTHERS</a></li>
 
-            <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'UnSubmitted') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Unsubmitted '. $Unsubmitted , ['controller' => 'Ce2bs', 'action' => 'index', 'status' => 'UnSubmitted', 'prefix' => $prefix], array('escape' => false)); ?> </li>
             <li class="<?= (isset($this->request->query['status']) && $this->request->query['status'] == 'Archived') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-minus" aria-hidden="true"></i> Archived '. $archived , ['controller' => 'Ce2bs', 'action' => 'index', 'status' => 'Archived', 'prefix' => $prefix], array('escape' => false)); ?> </li>
-            <li class="<?=  ($this->request->params['controller'] == 'Ce2bs' && $this->request->params['action'] == 'restore') ? 'active' : ''; ?>"><?= $this->Html->link('<i class="fa fa-plus" aria-hidden="true"></i> Restore archived <small class="badge badge-sadr pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i></small>', ['controller' => 'Ce2bs', 'action' => 'restore', 'prefix' => $prefix], array('escape' => false)); ?> </li>
-          </ul>
+           </ul>
         <?php } ?>
     </li>
     <?php } ?>

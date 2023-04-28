@@ -326,8 +326,8 @@ class Ce2bsBaseController extends AppController
             ->orWhere(['id' => $ce2b->assigned_to ? $ce2b->assigned_to : $current_id]); //use current id if unassigned else assigned user
 
 
-        $evaluators = $this->Ce2bs->Users->find('list', ['limit' => 200])->where(['group_id' => 4,'deactivated'=>0]);
-        $users = $this->Ce2bs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4],'deactivated'=>0]);
+        $evaluators = $this->Ce2bs->Users->find('list', ['limit' => 200])->where(['group_id' => 4, 'deactivated' => 0]);
+        $users = $this->Ce2bs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4], 'deactivated' => 0]);
 
         $ce2b_content = $ce2b->e2b_content;
         try {
@@ -796,5 +796,28 @@ class Ce2bsBaseController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+    public function restoreArchived($id = null)
+    {
+        # code...
+        // $this->request->allowMethod(['post', 'delete']);
+        $ce2b = $this->Ce2bs->get($id, ['contain' => ['ReportStages']]);
+
+        $latestReportStage = null;
+        foreach ($ce2b->report_stages as $reportStage) {
+            if (!$latestReportStage || strtotime($latestReportStage->created) < strtotime($reportStage->created)) {
+                $latestReportStage = $reportStage;
+            }
+        }
+        $stage=$latestReportStage->stage;
+
+        //get the last stage 
+        $query = $this->Ce2bs->query();
+        $query->update()
+            ->set(['status' => $stage])
+            ->where(['id' => $ce2b->id])
+            ->execute();
+
+        return $this->redirect($this->referer());
     }
 }
