@@ -21,7 +21,7 @@
             <?= $this->Form->create($initial, ['type' => 'file']) ?>
             <div class="row">
                 <div class="col-xs-12">
-                    <h5 class="text-center">MCAZ Reference Number: <strong><?= $initial->reference_number ?></strong></h5>
+                    <h5 class="text-center">MCAZ Reference Number: <strong><?= $initial?$initial->reference_number:"" ?></strong></h5>
                 </div>
             </div>
 

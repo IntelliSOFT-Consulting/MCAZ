@@ -957,6 +957,19 @@ $nChecked = '<i class="fa fa-square-o" aria-hidden="true"></i> &nbsp;';
                 </div>
             </div>
 
+            <p><strong>Reconstitution: (complete only if applicable, NA if not applicable)</strong></p>
+            <p><b>Reconstitution procedure :</b></p>
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-condensed vertical-table">
+                        <tr>
+                            <th><label>Same reconstitution syringe used for multiple vials of same vaccine?</label></th>
+                            <td><?= $saefi->reconstitution_multiple ?></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
             <h4> Section F Cold chain and transport <br>
                 <small>(Complete this section by asking and/or observing practice)</small>
             </h4>

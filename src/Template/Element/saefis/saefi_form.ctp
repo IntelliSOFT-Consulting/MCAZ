@@ -435,8 +435,8 @@ echo $this->fetch('actions');
               </tr>
               <tr>
                 <td><label>
-                  <!-- Was patient on medication at time of vaccination? -->
-                  Was the patient receiving any concomitant medication?
+                    <!-- Was patient on medication at time of vaccination? -->
+                    Was the patient receiving any concomitant medication?
                     (If yes, name the drug, indication, doses & treatment dates)</label></td>
                 <td>
                   <div class="col-xs-12">
@@ -1061,11 +1061,6 @@ echo $this->fetch('actions');
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-xs-12">
-          <?php echo $this->Form->control('syringes_used_findings', ['label' => 'Specific key findings/additional observations and comments:']); ?>
-        </div>
-      </div>
 
       <p><strong>Reconstitution: (complete only if applicable, NA if not applicable)</strong></p>
       <p><b>Reconstitution procedure :</b></p>
@@ -1123,6 +1118,56 @@ echo $this->fetch('actions');
         <div class="col-xs-12">
           <?php
           echo $this->Form->control('reconstitution_observations', ['label' => 'Specific key findings/additional observations and comments:']);
+          ?>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <p><strong>Injection technique in vaccinator(s): (Observe another session in the same locality – same or different place)</strong></p>
+        </div>
+        <div class="col-xs-12">
+          <?php
+            echo $this->Form->control('injection_dose_route', [
+              'type' => 'radio',
+              'label' => 'Correct dose and route?', 'escape' => false,
+              'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
+              'options' => ['Yes' => 'Yes', 'No' => 'No']
+            ]);
+             echo $this->Form->control('injection_time_mentioned', [
+              'type' => 'radio',
+              'label' => 'Time of reconstitution mentioned on the vial? (in case of freeze dried vaccines) ', 'escape' => false,
+              'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
+              'options' => ['Yes' => 'Yes', 'No' => 'No']
+            ]);
+          echo $this->Form->control('injection_no_touch', [
+            'type' => 'radio',
+            'label' => 'Non-touch technique followed?', 'escape' => false,
+            'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
+            'options' => ['Yes' => 'Yes', 'No' => 'No']
+          ]);
+          echo $this->Form->control('injection_contraindications', [
+            'type' => 'radio',
+            'label' => 'Contraindications screened prior to vaccination?', 'escape' => false,
+            'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
+            'options' => ['Yes' => 'Yes', 'No' => 'No']
+          ]);
+          echo $this->Form->control('injection_reported', ['label' => 'How many AEFI were reported from the centre that distributed the vaccine in the last 30 days?']);
+          echo $this->Form->control('injection_vaccines', [
+            'type' => 'radio',
+            'label' => 'Training received by the vaccinator?', 'escape' => false,
+            'templates' => ($editable) ? 'radio_form' : 'view_form_radio',
+            'options' => ['Yes' => 'Yes', 'No' => 'No']
+          ]);
+          ?>
+        </div>
+        <div class="col-xs-12">
+          <?php
+          echo $this->Form->control('injection_vaccines_yes', ['label' => 'If yes, specify']);
+          ?>
+        </div>
+        <div class="col-xs-12">
+          <?php
+          echo $this->Form->control('injection_observations', ['label' => 'Specific key findings/additional observations and comments:']);
           ?>
         </div>
       </div>

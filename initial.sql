@@ -18,3 +18,6 @@ ALTER TABLE `aefis` CHANGE `age_group` `age_group` VARCHAR(255) CHARACTER SET ut
 ALTER TABLE `aefis` ADD `female_status` VARCHAR(255) NULL DEFAULT NULL AFTER `gender`;
 
 ALTER TABLE `saefis` ADD `comorbidity_disorder` VARCHAR(255) NULL DEFAULT NULL AFTER `allergy_history_remarks`, ADD `comorbidity_disorder_remarks` TEXT NULL DEFAULT NULL AFTER `comorbidity_disorder`, ADD `covid_positive` VARCHAR(255) NULL DEFAULT NULL AFTER `comorbidity_disorder_remarks`, ADD `covid_positive_remarks` TEXT NULL DEFAULT NULL AFTER `covid_positive`;
+
+
+ALTER TABLE `saefis` ADD `injection_dose_route` VARCHAR(255) NULL AFTER `syringes_used_findings`, ADD `injection_time_mentioned` VARCHAR(255) NULL AFTER `injection_dose_route`, ADD `injection_no_touch` VARCHAR(255) NULL AFTER `injection_time_mentioned`, ADD `injection_contraindications` VARCHAR(255) NULL AFTER `injection_no_touch`, ADD `injection_reported` VARCHAR(255) NULL AFTER `injection_contraindications`, ADD `injection_vaccines` VARCHAR(255) NULL AFTER `injection_reported`, ADD `injection_vaccines_yes` VARCHAR(255) NULL AFTER `injection_vaccines`, ADD `injection_observations` TEXT NULL AFTER `injection_vaccines_yes`;
