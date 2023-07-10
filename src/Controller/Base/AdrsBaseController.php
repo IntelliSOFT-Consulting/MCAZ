@@ -63,7 +63,7 @@ class AdrsBaseController extends AppController
      */
     public function index()
     {
-       
+
 
 
         $this->paginate = [
@@ -73,16 +73,16 @@ class AdrsBaseController extends AppController
             ->find('search', ['search' => $this->request->query])
             ->order(['created' => 'DESC'])
             ->where(['status !=' => (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']); // ->group('reference_number');
-      
-            if ($this->request->getQuery('minimal')) {
-                if ($this->request->getQuery('minimal') == 'External') {
-                    $query = $query->where(['reporter_email !=' => 'dataentry@mcaz.co.zw']);
-                } elseif ($this->request->getQuery('minimal') == 'Internal') {
-                    $query = $query->where(['reporter_email' => 'dataentry@mcaz.co.zw']);
-                }
+
+        if ($this->request->getQuery('minimal')) {
+            if ($this->request->getQuery('minimal') == 'External') {
+                $query = $query->where(['reporter_email !=' => 'dataentry@mcaz.co.zw']);
+            } elseif ($this->request->getQuery('minimal') == 'Internal') {
+                $query = $query->where(['reporter_email' => 'dataentry@mcaz.co.zw']);
             }
-      
-            $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
+        }
+
+        $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
         $users = $this->Adrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
         $this->set(compact('designations', 'query', 'doses', 'users'));
@@ -254,71 +254,70 @@ class AdrsBaseController extends AppController
             foreach ($application->report_stages as $application_stage) {
                 $curr_date = (($application_stage->alt_date)) ?? $application_stage->stage_date;
                 $stage_name = '<b>' . $application_stage->stage . '</b> : <br>';
-        
+
                 if (!empty($curr_date) && !empty($prev_date)) {
-                  //get the days between the two dates
-                  $date1 = new DateTime($prev_date);
-                  $date2 = new DateTime($curr_date);
-                  $count = $date1->diff($date2)->days;
-                  //get the day name 
-                  $name = $date1->format('l');
-                  //get the date in the format of 2017-01-01
-                  $prev_date = $date1->format('Y-m-d');
-                  $curr_date = $date2->format('Y-m-d');
-                  //get the number of days between the two dates
-                  $count = $date1->diff($date2)->days;
-                  //loop through the dates and get the number of days
-                  $dates = array();
-                  $dates[] = $prev_date;
-        
-                  if ($count > 0) {
-                    for ($i = 1; $i < $count; $i++) {
-                      $date1->modify('+1 day');
-                      $name = $date1->format('l');
-                      //add a flag to the date to indicate if it is a weekend
-                      if ($name == 'Saturday' || $name == 'Sunday') {
-                        $dates[] = $date1->format('Y-m-d') . ' Weekend';
-                      } else {
-                        $dates[] = $date1->format('Y-m-d');
-                      }
-                      //remove the weekends from the array
-                      $dates = array_filter($dates, function ($value) {
-                        return strpos($value, 'Weekend') === false;
-                      });
+                    //get the days between the two dates
+                    $date1 = new DateTime($prev_date);
+                    $date2 = new DateTime($curr_date);
+                    $count = $date1->diff($date2)->days;
+                    //get the day name 
+                    $name = $date1->format('l');
+                    //get the date in the format of 2017-01-01
+                    $prev_date = $date1->format('Y-m-d');
+                    $curr_date = $date2->format('Y-m-d');
+                    //get the number of days between the two dates
+                    $count = $date1->diff($date2)->days;
+                    //loop through the dates and get the number of days
+                    $dates = array();
+                    $dates[] = $prev_date;
+
+                    if ($count > 0) {
+                        for ($i = 1; $i < $count; $i++) {
+                            $date1->modify('+1 day');
+                            $name = $date1->format('l');
+                            //add a flag to the date to indicate if it is a weekend
+                            if ($name == 'Saturday' || $name == 'Sunday') {
+                                $dates[] = $date1->format('Y-m-d') . ' Weekend';
+                            } else {
+                                $dates[] = $date1->format('Y-m-d');
+                            }
+                            //remove the weekends from the array
+                            $dates = array_filter($dates, function ($value) {
+                                return strpos($value, 'Weekend') === false;
+                            });
+                        }
                     }
-                  }
-                  $dates[] = $curr_date;
-                  //remove duplicates from the array and make it unique
-                  $dates = array_unique($dates);
-        
-                  //for each date in the array, echo the date and the day name
-        
-                  //count the number of days in the array
-                  $days = count($dates);
-                  //if days==1 then return 0
-                  if ($days == 1) {
-                    $days = 0;
-                  }
-                  $stage_days =  $days ;
-                  $total_days += $days;
-                
+                    $dates[] = $curr_date;
+                    //remove duplicates from the array and make it unique
+                    $dates = array_unique($dates);
+
+                    //for each date in the array, echo the date and the day name
+
+                    //count the number of days in the array
+                    $days = count($dates);
+                    //if days==1 then return 0
+                    if ($days == 1) {
+                        $days = 0;
+                    }
+                    $stage_days =  $days;
+                    $total_days += $days;
                 } else {
-                  $stage_days =  '0';
-                  $total_days += 0;
+                    $stage_days =  '0';
+                    $total_days += 0;
                 }
-        
+
                 //applicant time = days under correspondence stage
                 if ($application_stage->stage == 'ApplicantResponse') {
-                  $applicant_time += $days;
+                    $applicant_time += $days;
                 }
-        
+
                 $mcaz_time = $total_days - $applicant_time;
-        
+
                 //add the stage name and days to the array
-                $stage_days_array[] = $stage_name . $stage_days.' Days<br>';
+                $stage_days_array[] = $stage_name . $stage_days . ' Days<br>';
                 $days_array[] = $stage_days;
                 $prev_date = $curr_date;
-              }
+            }
             $total_mcaz_time += $mcaz_time;
             $total_reports_time += $total_mcaz_time;
             $single_report_total_time_array[] = $total_days;
@@ -443,8 +442,8 @@ class AdrsBaseController extends AppController
             ->orWhere(['id' => $adr->assigned_to ? $adr->assigned_to : $current_id]); //use current id if unassigned else assigned user
 
 
-        $evaluators = $this->Adrs->Users->find('list', ['limit' => 200])->where(['group_id' => 4,'deactivated'=>0]);
-        $users = $this->Adrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4],'deactivated'=>0]);
+        $evaluators = $this->Adrs->Users->find('list', ['limit' => 200])->where(['group_id' => 4, 'deactivated' => 0]);
+        $users = $this->Adrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4], 'deactivated' => 0]);
 
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
         $doses = $this->Adrs->AdrListOfDrugs->Doses->find('list');
@@ -547,8 +546,11 @@ class AdrsBaseController extends AppController
                 if (!empty($adr->assigned_to)) {
                     $evaluator = $this->Adrs->Users->get($adr->assigned_to);
                     $data = [
-                        'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
-                        'type' => 'manager_review_assigned_email', 'model' => 'Adrs', 'foreign_key' => $adr->id,
+                        'email_address' => $evaluator->email,
+                        'user_id' => $evaluator->id,
+                        'type' => 'manager_review_assigned_email',
+                        'model' => 'Adrs',
+                        'foreign_key' => $adr->id,
                         'vars' =>  $adr->toArray()
                     ];
                     $data['vars']['name'] = $evaluator->name;
@@ -559,14 +561,20 @@ class AdrsBaseController extends AppController
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
 
-                //notify manager                
-                $data = [
-                    'user_id' => $this->Auth->user('id'), 'model' => 'Adrs', 'foreign_key' => $adr->id,
-                    'vars' =>  $adr->toArray()
-                ];
-                $data['type'] = 'manager_review_notification';
-                $this->QueuedJobs->createJob('GenericNotification', $data);
-                //end 
+                $managers = $this->Adrs->Users->find('all')->where(['Users.group_id IN' => [2], 'deactivated' => 0]);
+                foreach ($managers as $manager) {
+                    //notify manager                
+                    $data = [
+                        'email_address' => $manager->email,
+                        'user_id' => $manager->id,
+                        'model' => 'Adrs',
+                        'foreign_key' => $adr->id,
+                        'vars' =>  $adr->toArray()
+                    ];
+                    $data['type'] = 'manager_review_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                    //end 
+                }
 
                 $this->Flash->success('Review successfully done for SAE ' . $adr->reference_number);
 

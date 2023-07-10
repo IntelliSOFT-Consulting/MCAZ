@@ -556,15 +556,20 @@ class Ce2bsBaseController extends AppController
                     $data['type'] = 'manager_review_assigned_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
-
-                //notify manager                
-                $data = [
-                    'user_id' => $this->Auth->user('id'), 'model' => 'Ce2bs', 'foreign_key' => $ce2b->id,
-                    'vars' =>  $ce2b->toArray()
-                ];
-                $data['type'] = 'manager_review_notification';
-                $this->QueuedJobs->createJob('GenericNotification', $data);
-                //end 
+                $managers = $this->Ce2bs->Users->find('all')->where(['Users.group_id IN' => [2], 'deactivated' => 0]);
+                foreach ($managers as $manager) {
+                    //notify manager                
+                    $data = [
+                        'email_address' => $manager->email,
+                        'user_id' => $manager->id,
+                        'model' => 'Ce2bs',
+                        'foreign_key' => $ce2b->id,
+                        'vars' =>  $ce2b->toArray()
+                    ];
+                    $data['type'] = 'manager_review_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                    //end 
+                }
 
                 $this->Flash->success('Review successfully done for SAE ' . $ce2b->reference_number);
 

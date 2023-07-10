@@ -48,16 +48,16 @@ class AefisBaseController extends AppController
             ->find('search', ['search' => $this->request->query])
             ->order(['id' => 'DESC'])
             ->where(['status !=' => (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
-            if ($this->request->getQuery('minimal')) {
-                if ($this->request->getQuery('minimal') == 'External') {
-                    $query = $query->where(['reporter_email !=' => 'dataentry@mcaz.co.zw']);
-                } elseif ($this->request->getQuery('minimal') == 'Internal') {
-                    $query = $query->where(['reporter_email' => 'dataentry@mcaz.co.zw']);
-                }
+        if ($this->request->getQuery('minimal')) {
+            if ($this->request->getQuery('minimal') == 'External') {
+                $query = $query->where(['reporter_email !=' => 'dataentry@mcaz.co.zw']);
+            } elseif ($this->request->getQuery('minimal') == 'Internal') {
+                $query = $query->where(['reporter_email' => 'dataentry@mcaz.co.zw']);
             }
-      
-      
-            $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
+        }
+
+
+        $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
         $users = $this->Aefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4]]);
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
         $this->set(compact('provinces', 'designations', 'query', 'users'));
@@ -388,8 +388,8 @@ class AefisBaseController extends AppController
             ->where(['group_id' => 4])
             ->orWhere(['id' => $aefi->assigned_to ? $aefi->assigned_to : $current_id]); //use current id if unassigned else assigned user
 
-        $evaluators = $this->Aefis->Users->find('list', ['limit' => 200])->where(['group_id' => 4,'deactivated'=>0]);
-        $users = $this->Aefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4],'deactivated'=>0]);
+        $evaluators = $this->Aefis->Users->find('list', ['limit' => 200])->where(['group_id' => 4, 'deactivated' => 0]);
+        $users = $this->Aefis->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4], 'deactivated' => 0]);
 
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
@@ -512,15 +512,20 @@ class AefisBaseController extends AppController
                     $data['type'] = 'manager_review_assigned_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
-
-                //notify manager                
-                $data = [
-                    'user_id' => $this->Auth->user('id'), 'model' => 'Aefis', 'foreign_key' => $aefi->id,
-                    'vars' =>  $aefi->toArray()
-                ];
-                $data['type'] = 'manager_review_notification';
-                $this->QueuedJobs->createJob('GenericNotification', $data);
-                //end 
+                $managers = $this->Aefis->Users->find('all')->where(['Users.group_id IN' => [2], 'deactivated' => 0]);
+                foreach ($managers as $manager) {
+                    //notify manager                
+                    $data = [
+                        'email_address' => $manager->email,
+                        'user_id' => $manager->id,
+                        'model' => 'Aefis',
+                        'foreign_key' => $aefi->id,
+                        'vars' =>  $aefi->toArray()
+                    ];
+                    $data['type'] = 'manager_review_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                    //end 
+                }
 
                 $this->Flash->success('Review successfully done for AEFI ' . $aefi->reference_number);
 

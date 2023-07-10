@@ -75,17 +75,17 @@ class SadrsBaseController extends AppController
         if($this->request->getQuery('status')) {$sadrs = $this->paginate($this->Sadrs->find('all')->where(['status' => $this->request->getQuery('status'), 'ifnull(report_type,-1) !=' => 'FollowUp']), ['order' => ['Sadrs.id' => 'desc']]); }
         else {$sadrs = $this->paginate($this->Sadrs->find('all')->where(['ifnull(report_type,-1) !=' => 'FollowUp']), ['order' => ['Sadrs.id' => 'desc']]);}*/
 
-        $query = $this->Sadrs 
+        $query = $this->Sadrs
             ->find('search', ['search' => $this->request->query])
             ->order(['created' => 'DESC'])
             ->where(['Sadrs.status !=' => (!$this->request->getQuery('status')) ? 'UnSubmitted' : 'something_not', 'IFNULL(copied, "N") !=' => 'old copy']);
-            if ($this->request->getQuery('minimal')) {
-                if ($this->request->getQuery('minimal') == 'External') {
-                    $query = $query->where(['Sadrs.reporter_email !=' => 'dataentry@mcaz.co.zw']);
-                } elseif ($this->request->getQuery('minimal') == 'Internal') {
-                    $query = $query->where(['Sadrs.reporter_email' => 'dataentry@mcaz.co.zw']);
-                }
+        if ($this->request->getQuery('minimal')) {
+            if ($this->request->getQuery('minimal') == 'External') {
+                $query = $query->where(['Sadrs.reporter_email !=' => 'dataentry@mcaz.co.zw']);
+            } elseif ($this->request->getQuery('minimal') == 'Internal') {
+                $query = $query->where(['Sadrs.reporter_email' => 'dataentry@mcaz.co.zw']);
             }
+        }
         // get unique reference numbers for all
 
 
@@ -517,10 +517,10 @@ class SadrsBaseController extends AppController
             ->where(['group_id' => 4])
             ->orWhere(['id' => $sadr->assigned_to ? $sadr->assigned_to : $current_id]); //use current id if unassigned else assigned user
 
-        $evaluators = $this->Sadrs->Users->find('list', ['limit' => 200])->where(['group_id' => 4,'deactivated'=>0]);
+        $evaluators = $this->Sadrs->Users->find('list', ['limit' => 200])->where(['group_id' => 4, 'deactivated' => 0]);
 
 
-        $users = $this->Sadrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4],'deactivated'=>0]);
+        $users = $this->Sadrs->Users->find('all', ['limit' => 200])->where(['group_id IN' => [2, 4], 'deactivated' => 0]);
         $designations = $this->Sadrs->Designations->find('list', array('order' => 'Designations.name ASC'));
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
@@ -586,15 +586,20 @@ class SadrsBaseController extends AppController
                     $data['type'] = 'manager_review_assigned_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
-
-                //notify manager                
-                $data = [
-                    'user_id' => $this->Auth->user('id'), 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
-                    'vars' =>  $sadr->toArray()
-                ];
-                $data['type'] = 'manager_review_notification';
-                $this->QueuedJobs->createJob('GenericNotification', $data);
-                //end 
+                $managers = $this->Sadrs->Users->find('all')->where(['Users.group_id IN' => [2], 'deactivated' => 0]);
+                foreach ($managers as $manager) {
+                    //notify manager                
+                    $data = [
+                        'email_address' => $manager->email,
+                        'user_id' => $manager->id,
+                        'model' => 'Sadrs',
+                        'foreign_key' => $sadr->id,
+                        'vars' =>  $sadr->toArray()
+                    ];
+                    $data['type'] = 'manager_review_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                    //end 
+                }
 
                 $this->Flash->success('Review successfully done for SADR ' . $sadr->reference_number);
 
@@ -857,7 +862,7 @@ class SadrsBaseController extends AppController
             }
             $this->Flash->error(__('The ADR could not be saved. Kindly correct the errors below and retry.'));
         }
-        $users = $this->Sadrs->Users->find('list', ['limit' => 200])->where(['deactivated'=>0]);
+        $users = $this->Sadrs->Users->find('list', ['limit' => 200])->where(['deactivated' => 0]);
         $designations = $this->Sadrs->Designations->find('list', array('order' => 'Designations.name ASC'));
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
         $routes = $this->Sadrs->SadrListOfDrugs->Routes->find('list');

@@ -527,15 +527,20 @@ class SaefisBaseController extends AppController
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
 
-                //notify manager                
-                $data = [
-                    'user_id' => $this->Auth->user('id'), 'model' => 'Saefis', 'foreign_key' => $saefi->id,
-                    'vars' =>  $saefi->toArray()
-                ];
-                $data['type'] = 'manager_review_notification';
-                $this->QueuedJobs->createJob('GenericNotification', $data);
-                //end 
-
+                $managers = $this->Saefis->Users->find('all')->where(['Users.group_id IN' => [2], 'deactivated' => 0]);
+                foreach ($managers as $manager) {
+                    //notify manager                
+                    $data = [
+                        'email_address' => $manager->email,
+                        'user_id' => $manager->id,
+                        'model' => 'Saefis',
+                        'foreign_key' => $saefi->id,
+                        'vars' =>  $saefi->toArray()
+                    ];
+                    $data['type'] = 'manager_review_notification';
+                    $this->QueuedJobs->createJob('GenericNotification', $data);
+                    //end 
+                }
                 $this->Flash->success('Review successfully done for AEFI Investigation Report ' . $saefi->reference_number);
 
                 return $this->redirect($this->referer());
