@@ -505,6 +505,7 @@ class SaefisBaseController extends AppController
                 $stage1->stage_date = date("Y-m-d H:i:s");
                 $saefi->report_stages = [$stage1];
                 $saefi->status = 'Evaluated';
+                $saefi->signature = '0';
             }
             //Notification should be sent to manager and assigned_to evaluator if exists
             if ($this->Saefis->save($saefi)) {

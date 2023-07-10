@@ -564,6 +564,7 @@ class SadrsBaseController extends AppController
                 $stage1->stage_date = date("Y-m-d H:i:s");
                 $sadr->report_stages = [$stage1];
                 $sadr->status = 'Evaluated';
+                $sadr->signature = '0';
             }
 
             //Notification should be sent to manager and assigned_to evaluator if exists

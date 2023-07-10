@@ -490,6 +490,7 @@ class AefisBaseController extends AppController
                 $stage1->stage_date = date("Y-m-d H:i:s");
                 $aefi->report_stages = [$stage1];
                 $aefi->status = 'Evaluated';
+                $aefi->signature = '0';
             }
 
             //Notification should be sent to manager and assigned_to evaluator if exists

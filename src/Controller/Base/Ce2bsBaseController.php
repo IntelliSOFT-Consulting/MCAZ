@@ -534,6 +534,7 @@ class Ce2bsBaseController extends AppController
                 $stage1->stage_date = date("Y-m-d H:i:s");
                 $ce2b->report_stages = [$stage1];
                 $ce2b->status = 'Evaluated';
+                $ce2b->signature = '0';
             }
 
             //Notification should be sent to manager and assigned_to evaluator if exists

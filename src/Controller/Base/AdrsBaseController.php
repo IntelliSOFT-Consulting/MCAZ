@@ -537,6 +537,7 @@ class AdrsBaseController extends AppController
                 $stage1->stage_date = date("Y-m-d H:i:s");
                 $adr->report_stages = [$stage1];
                 $adr->status = 'Evaluated';
+                $adr->signature = '0';
             }
 
             //Notification should be sent to manager and assigned_to evaluator if exists
