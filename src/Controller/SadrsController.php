@@ -905,6 +905,7 @@ class SadrsController extends AppController
                 $followup = $this->SadrFollowups->patchEntity($followup, $this->request->getData());
                 $followup->report_type = 'FollowUp';
                 $followup->sadr_id = $sadr->id;
+                $followup->initial_id = $id;
                 $followup->messageid = null;
                 //Attachments
                 if (!empty($followup->attachments)) {

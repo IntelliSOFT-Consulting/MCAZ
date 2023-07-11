@@ -536,8 +536,9 @@ class SaefisBaseController extends AppController
                         'model' => 'Saefis',
                         'foreign_key' => $saefi->id,
                         'vars' =>  $saefi->toArray()
-                    ];
+                    ]; 
                     $data['type'] = 'manager_review_notification';
+                    $data['vars']['name'] = $manager->name; 
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                     //end 
                 }

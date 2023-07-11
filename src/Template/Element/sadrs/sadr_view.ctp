@@ -7,7 +7,9 @@
 ?>
 
   <?= $this->Flash->render() ?>
-  <?php $this->ValidationMessages->display($sadr->errors()) ?>
+  <?php 
+  //$this->ValidationMessages->display($sadr->errors()) 
+  ?>
 
 <div class="<?= $this->fetch('baseClass');?>">
   <div class="row">

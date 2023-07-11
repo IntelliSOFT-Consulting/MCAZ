@@ -575,8 +575,11 @@ class SadrsBaseController extends AppController
                     $evaluator = $this->Sadrs->Users->get($sadr->assigned_to);
                     $assigner = $this->Sadrs->Users->get($sadr->assigned_by);
                     $data = [
-                        'email_address' => $evaluator->email, 'user_id' => $evaluator->id,
-                        'type' => 'manager_review_assigned_email', 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
+                        'email_address' => $evaluator->email,
+                        'user_id' => $evaluator->id,
+                        'type' => 'manager_review_assigned_email',
+                        'model' => 'Sadrs',
+                        'foreign_key' => $sadr->id,
                         'vars' =>  $sadr->toArray()
                     ];
                     $data['vars']['name'] = $evaluator->name;
@@ -596,7 +599,11 @@ class SadrsBaseController extends AppController
                         'foreign_key' => $sadr->id,
                         'vars' =>  $sadr->toArray()
                     ];
+
                     $data['type'] = 'manager_review_notification';
+                    $data['vars']['name'] = $manager->name; 
+
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                     //end 
                 }

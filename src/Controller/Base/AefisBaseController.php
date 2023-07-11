@@ -521,8 +521,10 @@ class AefisBaseController extends AppController
                         'model' => 'Aefis',
                         'foreign_key' => $aefi->id,
                         'vars' =>  $aefi->toArray()
-                    ];
+                    ]; 
                     $data['type'] = 'manager_review_notification';
+                    $data['vars']['name'] = $manager->name; 
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                     //end 
                 }

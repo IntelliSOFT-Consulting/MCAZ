@@ -567,6 +567,8 @@ class Ce2bsBaseController extends AppController
                         'vars' =>  $ce2b->toArray()
                     ];
                     $data['type'] = 'manager_review_notification';
+                    $data['vars']['name'] = $manager->name; 
+                    $this->QueuedJobs->createJob('GenericEmail', $data);
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                     //end 
                 }
