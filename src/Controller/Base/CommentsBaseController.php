@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller\Base;
 
 use App\Controller\AppController;
@@ -19,6 +20,7 @@ class CommentsBaseController extends AppController
         $comment = $this->Comments->newEntity();
         if ($this->request->is('post')) {
 
+            $model=null;
             $this->loadModel('Sadrs');
             $this->loadModel('Adrs');
             $this->loadModel('Aefis');
@@ -27,16 +29,21 @@ class CommentsBaseController extends AppController
 
             if ($parm === 'sadrs') {
                 $entity = $this->Sadrs;
+                $model = "Sadrs";
             } elseif ($parm == 'adrs') {
                 $entity = $this->Adrs;
+                $model = "Adrs";
             } elseif ($parm == 'aefis') {
                 $entity = $this->Aefis;
+                $model = "Aefis";
             } elseif ($parm == 'saefis') {
                 $entity = $this->Saefis;
+                $model = "Saefis";
             } elseif ($parm == 'ce2bs') {
                 $entity = $this->Ce2bs;
+                $model = "Ce2bs";
             } else {
-                $this->Flash->error(__('Unable to process request. Please, try again.')); 
+                $this->Flash->error(__('Unable to process request. Please, try again.'));
                 return $this->redirect($this->referer());
             }
 
@@ -63,38 +70,41 @@ class CommentsBaseController extends AppController
                 $filt = [$this->Auth->user('id'), $report->assigned_to];
                 $managers = $entity->Users->find('all', ['limit' => 200])->Where(['id IN' => $filt]);
 
-                $this->loadModel('Queue.QueuedJobs'); 
+                $this->loadModel('Queue.QueuedJobs');
 
                 foreach ($managers as $manager) {
                     //Notify managers  
                     $data = [
                         'email_address' => $manager->email, 'user_id' => $manager->id,
-                        'type' => 'manager_'.$parm.'_reporter_query_email', 'model' => $pparm[$parm], 'foreign_key' => $report->id,
+                        'type' => 'manager_' . $parm . '_reporter_query_email', 'model' => $pparm[$parm], 'foreign_key' => $report->id,
                     ];
                     $data['vars']['name'] = $manager->name;
                     $data['vars']['reference_number'] = $report->reference_number;
-                    $data['vars']['subject'] = $comment->subject;  
-                    $data['vars']['content'] = $comment->content;              
+                    $data['vars']['subject'] = $comment->subject;
+                    $data['vars']['content'] = $comment->content;
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);
-                    $data['type'] = 'manager_'.$parm.'_reporter_query_notification';
+                    $data['type'] = 'manager_' . $parm . '_reporter_query_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
 
                 //Notify Applicant 
                 $applicant = $entity->Users->get($report->user_id);
                 $data = [
-                        'email_address' => $report->email_address, 'user_id' => $report->user_id,
-                        'type' => 'applicant_pvct_query_email', 'model' => 'Applications', 'foreign_key' => $report->id,
+                    'email_address' => $report->email_address, 'user_id' => $report->user_id,
+                    'type' => 'applicant_pvct_query_email', 'model' => 'Applications', 'foreign_key' => $report->id,
                 ];
                 $data['vars']['reference_number'] = $report->reference_number;
                 $data['vars']['name'] = $applicant->name;
-                $data['vars']['subject'] = $comment->subject;  
-                $data['vars']['content'] = $comment->content;    
+                $data['vars']['subject'] = $comment->subject;
+                $data['vars']['content'] = $comment->content;
                 //notify applicant
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_pvct_query_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
+
+                $message = "The comment has been sent to the user";
+                $this->generate_audit_trail($report->id, $message,$model);
 
                 $this->Flash->success(__('The comment has been sent to the user.'));
 
@@ -102,7 +112,6 @@ class CommentsBaseController extends AppController
             }
             $this->Flash->error(__('The comment could not be saved. Please, try again.'));
         }
-        
     }
 
     public function addFromCausality($parm)
@@ -110,6 +119,7 @@ class CommentsBaseController extends AppController
         $comment = $this->Comments->newEntity();
         if ($this->request->is('post')) {
 
+            $model = null;
             $this->loadModel('Sadrs');
             $this->loadModel('Adrs');
             $this->loadModel('Aefis');
@@ -118,16 +128,21 @@ class CommentsBaseController extends AppController
 
             if ($parm === 'sadrs') {
                 $entity = $this->Sadrs;
+                $model = "Sadrs";
             } elseif ($parm == 'adrs') {
                 $entity = $this->Adrs;
+                $model = "Adrs";
             } elseif ($parm == 'aefis') {
                 $entity = $this->Aefis;
+                $model = "Aefis";
             } elseif ($parm == 'saefis') {
                 $entity = $this->Saefis;
+                $model = "Saefis";
             } elseif ($parm == 'ce2bs') {
                 $entity = $this->Ce2bs;
+                $model = "Ce2bs";
             } else {
-                $this->Flash->error(__('Unable to process request. Please, try again.')); 
+                $this->Flash->error(__('Unable to process request. Please, try again.'));
                 return $this->redirect($this->referer());
             }
 
@@ -146,7 +161,7 @@ class CommentsBaseController extends AppController
                 $filt = [$this->Auth->user('id'), $report->assigned_to];
                 $managers = $entity->Users->find('all', ['limit' => 200])->Where(['id IN' => $filt]);
 
-                $this->loadModel('Queue.QueuedJobs'); 
+                $this->loadModel('Queue.QueuedJobs');
 
                 foreach ($managers as $manager) {
                     //Notify managers  
@@ -156,13 +171,15 @@ class CommentsBaseController extends AppController
                     ];
                     $data['vars']['name'] = $manager->name;
                     $data['vars']['reference_number'] = $report->reference_number;
-                    $data['vars']['subject'] = $comment->subject;  
-                    $data['vars']['content'] = $comment->content;              
+                    $data['vars']['subject'] = $comment->subject;
+                    $data['vars']['content'] = $comment->content;
                     //notify applicant
                     $this->QueuedJobs->createJob('GenericEmail', $data);
                     $data['type'] = 'manager_evaluator_query_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                 }
+                $message = "The internal comment has been successfully raised";
+                $this->generate_audit_trail($report->id, $message, $model);
 
                 $this->Flash->success(__('The internal comment has been successfully raised.'));
 
@@ -170,7 +187,15 @@ class CommentsBaseController extends AppController
             }
             $this->Flash->error(__('The internal comment could not be saved. Please, try again.'));
         }
-        
     }
+    public function generate_audit_trail($id, $message, $model)
 
+    {
+        $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+        $ipAddress = $_SERVER['REMOTE_ADDR'];
+        $name = $this->Auth->user('email');
+        $time = date('Y-m-d H:i:s');
+        $message = $message . " at {$time} by {$name}";
+        $logsTable->createLogEntry($id, $model, $message, $ipAddress);
+    }
 }

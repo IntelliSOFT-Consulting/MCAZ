@@ -37,7 +37,16 @@ class Ce2bsController extends AppController
         $this->set(compact('ce2bs'));
         $this->set('_serialize', ['ce2bs']);
     }
+    public function generate_audit_trail($id, $message)
 
+    {
+        $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+        $ipAddress = $_SERVER['REMOTE_ADDR'];
+        $name = $this->Auth->user('email');
+        $time = date('Y-m-d H:i:s');
+        $message = $message . " at {$time} by {$name}";
+        $logsTable->createLogEntry($id, 'Ce2b', $message, $ipAddress);
+    }
     /**
      * View method
      *
@@ -254,6 +263,8 @@ class Ce2bsController extends AppController
                         $datum = $this->Imports->newEntity(['filename' => $this->request->data['e2b_file']['name']]);
                         $this->Imports->save($datum);
 
+                        $message = "A new Ce2b report has been submitted successfully";
+                        $this->generate_audit_trail($ce2b->id, $message);
                         $this->Flash->success(__('The E2B File has been saved.'));
 
                         return $this->redirect(['action' => 'index']);
@@ -285,6 +296,8 @@ class Ce2bsController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $ce2b = $this->Ce2bs->patchEntity($ce2b, $this->request->getData());
             if ($this->Ce2bs->save($ce2b)) {
+                $message = "The Ce2b report has been deleted successfully";
+                $this->generate_audit_trail($ce2b->id, $message);
                 $this->Flash->success(__('The ce2b has been saved.'));
 
                 return $this->redirect(['action' => 'index']);

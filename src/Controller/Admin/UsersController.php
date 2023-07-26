@@ -172,7 +172,7 @@ class UsersController extends AppController
             'fields' => $fieldList,
             'contain' => []
         ]);
-
+// dd($user);
         
         $user->last_password = Time::now();
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -182,7 +182,8 @@ class UsersController extends AppController
             }
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
-                $this->generate_audit_trail($user);
+                $message="User ".$user->name." details edited successfully";
+                $this->generate_audit_trail($user,$message);
                 $this->Flash->success(__('The user\'s details have been updated.'));
 
                 return $this->redirect(['action' => 'edit', $user->id]);
@@ -196,26 +197,14 @@ class UsersController extends AppController
         $this->set('_serialize', ['user']);
     }
 
-    public  function generate_audit_trail($user)
+    public  function generate_audit_trail($id,$message)
     {
-        $auditTrail = $this->Users->AuditTrails->newEntity();
-
-        $id = $_SERVER['REMOTE_ADDR'];
-        $data = [
-            'model' => 'Users',
-            'message' => 'Change of user details',
-            'ip' => $id,
-            'hostname' => '',
-            'uri' => '',
-            'refer' => '',
-            'user_agent' => ''
-        ];
-        $auditTrail = $this->AuditTrails->patchEntity($auditTrail, $this->request->getData());
-        if ($this->AuditTrails->save($auditTrail)) {
-            return true;
-        }
-
-        return false;
+        $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+        $ipAddress = $_SERVER['REMOTE_ADDR'];
+        $name = $this->Auth->user('email');
+        $time = date('Y-m-d H:i:s');
+        $message = $message . " at {$time} by {$name}";
+        $logsTable->createLogEntry($id, 'Sadr', $message, $ipAddress);
     }
 
     public function deactivate($id = null)

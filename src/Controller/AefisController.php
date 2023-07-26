@@ -27,6 +27,17 @@ class AefisController extends AppController
         $this->loadModel('Meddras');
     }
 
+    public function generate_audit_trail($id, $message)
+
+    {
+        $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+        $ipAddress = $_SERVER['REMOTE_ADDR'];
+        $name = $this->Auth->user('email');
+        $time = date('Y-m-d H:i:s');
+        $message = $message . " at {$time} by {$name}";
+        $logsTable->createLogEntry($id, 'Aefi', $message, $ipAddress);
+    }
+
     public function reports($query = null)
     {
         $llts = $this->Aefis->find('all', ['fields' => ['reference_number', 'id']])->distinct()
@@ -71,7 +82,7 @@ class AefisController extends AppController
 
         $query = $this->Aefis
             ->find('search', ['search' => $this->request->query])
-            ->order(['created' => 'DESC'])  
+            ->order(['created' => 'DESC'])
             ->where([['user_id' => $this->Auth->user('id')]]);
         $provinces = $this->Aefis->Provinces->find('list', ['limit' => 200]);
         $designations = $this->Aefis->Designations->find('list', ['limit' => 200]);
@@ -247,7 +258,7 @@ class AefisController extends AppController
                 '_serialize' => ['umc', 'status']
             ]);
 
-            return ;//$this->redirect($this->referer());
+            return; //$this->redirect($this->referer());
         }
     }
     public function resubmitvigibase($id = null)
@@ -370,6 +381,8 @@ class AefisController extends AppController
             $aefi->reporter_name = $this->Auth->user('name');
 
             if ($this->Aefis->save($aefi, ['validate' => false])) {
+                $message = "New AEFI report created";
+                $this->generate_audit_trail($aefi->id, $message);
 
                 $this->Flash->success(__('The aefi has been saved.'));
 
@@ -470,6 +483,8 @@ class AefisController extends AppController
                         $this->Aefis->save($aefi);
                     }
                     //
+                    $message = "AEFI report successfully submitted to MCAZ for review";
+                    $this->generate_audit_trail($aefi->id, $message);
                     $this->Flash->success(__('Report ' . $aefi->reference_number . ' has been successfully submitted to MCAZ for review.'));
                     //send email and notification
                     $this->loadModel('Queue.QueuedJobs');
@@ -490,7 +505,7 @@ class AefisController extends AppController
                     $data['type'] = ($aefi->report_type == 'FollowUp') ? 'applicant_submit_aefi_followup_notification' : 'applicant_submit_aefi_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                     //notify managers
-                    $managers = $this->Aefis->Users->find('all')->where(['Users.group_id IN' => [2, 4],'deactivated'=>0]);
+                    $managers = $this->Aefis->Users->find('all')->where(['Users.group_id IN' => [2, 4], 'deactivated' => 0]);
                     foreach ($managers as $manager) {
                         $data = [
                             'email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Aefis', 'foreign_key' => $aefi->id,
@@ -592,7 +607,7 @@ class AefisController extends AppController
         $aefi = $this->AefiFollowups->duplicateEntity($id);
         $aefi->aefi_id = $id;
         $aefi->messageid = null;
-        $aefi->initial_id=$id;
+        $aefi->initial_id = $id;
         $aefi->user_id = $this->Auth->user('id'); //the report is reassigned to the user
         $aefi->report_type = 'FollowUp';
 
@@ -602,6 +617,8 @@ class AefisController extends AppController
                 ->set(['report_type' => 'Initial'])
                 ->where(['id' => $orig_aefi->id])
                 ->execute();
+            $message = "A follow-up report for the AEFI has been created";
+            $this->generate_audit_trail($aefi->id, $message);
             $this->Flash->success(__('A follow-up report for the AEFI has been created. make changes and submit.'));
             return $this->redirect(['action' => 'edit', $aefi->id]);
         }
@@ -659,6 +676,8 @@ class AefisController extends AppController
 
                     //TODO: validate linked data here since validate will be false
                     if ($this->AefiFollowups->save($followup, ['validate' => false])) {
+                        $message = "Follow up for report " . $aefi->reference_number . " has been successfully submitted to MCAZ for review";
+                        $this->generate_audit_trail($aefi->id, $message);
                         $this->Flash->success(__('Follow up for report ' . $aefi->reference_number . ' has been successfully submitted to MCAZ for review.'));
 
                         //send email and notification
@@ -723,6 +742,8 @@ class AefisController extends AppController
         $aefi = $this->Aefis->get($id);
         if ($aefi->user_id == $this->Auth->user('id') && ($aefi->submitted == 0 or $aefi->submitted == 1)) {
             if ($this->Aefis->delete($aefi)) {
+                $message = "AEFI report " . $aefi->reference_number . " has been successfully deleted";
+                $this->generate_audit_trail($aefi->id, $message);
                 $this->Flash->success(__('The aefi has been deleted.'));
             } else {
                 $this->Flash->error(__('The aefi could not be deleted. Please, try again.'));

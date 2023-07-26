@@ -25,6 +25,17 @@ class SaefisController extends AppController
         //$this->Auth->allow(['add', 'edit']);       
         $this->loadComponent('Search.Prg', ['actions' => ['index']]);
     }
+
+    public function generate_audit_trail($id, $message)
+
+    {
+        $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+        $ipAddress = $_SERVER['REMOTE_ADDR'];
+        $name = $this->Auth->user('email');
+        $time = date('Y-m-d H:i:s');
+        $message = $message . " at {$time} by {$name}";
+        $logsTable->createLogEntry($id, 'Saefi', $message, $ipAddress);
+    }
     /**
      * Index method
      *
@@ -179,7 +190,7 @@ class SaefisController extends AppController
                 '_serialize' => ['umc', 'status']
             ]);
 
-            return ;//$this->redirect($this->referer());
+            return; //$this->redirect($this->referer());
         }
     }
 
@@ -241,13 +252,15 @@ class SaefisController extends AppController
                 $saefi->autopsy_done = $aefi->autopsy;
                 $saefi->aefi_date = $aefi->symptom_date;
                 $saefi->report_date = $aefi->notification_date;
-                
+
                 $query = $this->Aefis->query();
                 $query->update()
                     ->set(['status' => 'Archived'])
                     ->where(['id' => $aefi->id])
-                    ->execute(); 
-               
+                    ->execute();
+
+                $message = "AEFI report ".$aefi->reference_number." has been archived";
+                $this->generate_audit_trail($aefi->id, $message);
             } else {
                 $saefi = $this->Saefis->patchEntity($saefi, $this->request->getData());
             }
@@ -256,6 +269,9 @@ class SaefisController extends AppController
             $saefi->mobile = $this->Auth->user('phone_no');
             $saefi->reporter_name = $this->Auth->user('name');
             if ($this->Saefis->save($saefi, ['validate' => false])) {
+
+                $message = "A new SAEFI report has been created";
+                $this->generate_audit_trail($saefi->id, $message);
 
                 $this->Flash->success(__('The saefi has been saved.'));
 
@@ -355,12 +371,6 @@ class SaefisController extends AppController
                 }
             }
 
-            // debug($saefi);
-            // exit;
-            // debug((string)$saefi);
-            // return;
-            // debug($this->request->data);
-
             if ($saefi->submitted == 1) {
                 //save changes button
                 if ($this->Saefis->save($saefi, ['validate' => false])) {
@@ -392,6 +402,9 @@ class SaefisController extends AppController
                         $this->Saefis->save($saefi);
                     }
                     //
+
+                    $message = "Report " . $saefi->reference_number . " has been successfully submitted to MCAZ for review";
+                    $this->generate_audit_trail($saefi->id, $message);
                     $this->Flash->success(__('Report ' . $saefi->reference_number . ' has been successfully submitted to MCAZ for review.'));
 
                     //send email and notification
@@ -413,7 +426,7 @@ class SaefisController extends AppController
                     $data['type'] = ($saefi->report_type == 'FollowUp') ? 'applicant_submit_saefi_followup_notification' : 'applicant_submit_saefi_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                     //notify managers
-                    $managers = $this->Saefis->Users->find('all')->where(['Users.group_id IN' => [2, 4],'deactivated'=>0]);
+                    $managers = $this->Saefis->Users->find('all')->where(['Users.group_id IN' => [2, 4], 'deactivated' => 0]);
                     foreach ($managers as $manager) {
                         $data = [
                             'email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Saefis', 'foreign_key' => $saefi->id,
@@ -502,6 +515,9 @@ class SaefisController extends AppController
                 ->set(['report_type' => 'Initial'])
                 ->where(['id' => $orig_saefi->id])
                 ->execute();
+
+            $message = "A follow-up report for the AEFI Investigation has been created";
+            $this->generate_audit_trail($saefi->id, $message);
             $this->Flash->success(__('A follow-up report for the AEFI Investigation has been created. make changes and submit.'));
             return $this->redirect(['action' => 'edit', $saefi->id]);
         }
@@ -522,6 +538,8 @@ class SaefisController extends AppController
         $saefi = $this->Saefis->get($id);
         if ($saefi->user_id == $this->Auth->user('id') && ($saefi->submitted == 0 or $saefi->submitted == 1)) {
             if ($this->Saefis->delete($saefi)) {
+                $message = "The SAEFI report has been deleted successfully";
+                $this->generate_audit_trail($saefi->id, $message);
                 $this->Flash->success(__('The saefi has been deleted.'));
             } else {
                 $this->Flash->error(__('The saefi could not be deleted. Please, try again.'));

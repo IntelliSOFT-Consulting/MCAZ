@@ -368,6 +368,10 @@ class SadrsController extends AppController
             $vsadr->status = 'VigiBase';
             $this->Sadrs->save($vsadr);
 
+
+            $message = "SADR successfully sent to Vigibase";
+            $this->generate_audit_trail($id, $message);
+
             $this->set([
                 'umc' => $umc->json,
                 'status' => 'Successfull integration with vigibase',
@@ -438,6 +442,9 @@ class SadrsController extends AppController
             $vsadr->messageid = $messageid['MessageId'];
             $vsadr->status = 'VigiBase';
             $this->Sadrs->save($vsadr);
+
+            $message = "SADR successfully sent to Vigibase";
+            $this->generate_audit_trail($id, $message);
 
             $this->set([
                 'umc' => $umc->json,
@@ -517,6 +524,8 @@ class SadrsController extends AppController
             $vsadr->status = 'VigiBase';
             $vsadr->resubmit = $resubmit;
             $this->Sadrs->save($vsadr);
+            $message = "SADR successfully resubmitted to Vigibase";
+            $this->generate_audit_trail($id, $message);
 
             $this->set([
                 'umc' => $umc->json,
@@ -1040,5 +1049,17 @@ class SadrsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+
+    public function generate_audit_trail($id, $message)
+
+    {
+        $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+        $ipAddress = $_SERVER['REMOTE_ADDR'];
+        $name = $this->Auth->user('email');
+        $time = date('Y-m-d H:i:s');
+        $message = $message . " at {$time} by {$name}";
+        $logsTable->createLogEntry($id, 'Sadr', $message, $ipAddress);
     }
 }

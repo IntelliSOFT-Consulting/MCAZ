@@ -19,22 +19,27 @@ class CommentsController extends AppController
         $comment = $this->Comments->newEntity();
         if ($this->request->is('post')) {
 
+            $model=null;
             $this->loadModel('Sadrs');
             $this->loadModel('Adrs');
             $this->loadModel('Aefis');
             $this->loadModel('Saefis');
             $this->loadModel('Ce2bs');
-
             if ($parm === 'sadrs') {
                 $entity = $this->Sadrs;
+                $model = "Sadrs";
             } elseif ($parm == 'adrs') {
                 $entity = $this->Adrs;
+                $model = "Adrs";
             } elseif ($parm == 'aefis') {
                 $entity = $this->Aefis;
+                $model = "Aefis";
             } elseif ($parm == 'saefis') {
                 $entity = $this->Saefis;
+                $model = "Saefis";
             } elseif ($parm == 'ce2bs') {
                 $entity = $this->Ce2bs;
+                $model = "Ce2bs";
             } else {
                 $this->Flash->error(__('Unable to process request. Please, try again.')); 
                 return $this->redirect($this->referer());
@@ -94,6 +99,8 @@ class CommentsController extends AppController
                 $this->QueuedJobs->createJob('GenericEmail', $data);
                 $data['type'] = 'applicant_response_query_notification';
                 $this->QueuedJobs->createJob('GenericNotification', $data);
+                $message = "The comment has been submitted for review";
+                $this->generate_audit_trail($report->id, $message,$model);
 
                 $this->Flash->success(__('The comment has been submitted for review.'));
 
@@ -102,6 +109,16 @@ class CommentsController extends AppController
             $this->Flash->error(__('The comment could not be saved. Please, try again.'));
         }
         
+    }
+    public function generate_audit_trail($id, $message, $model)
+
+    {
+        $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+        $ipAddress = $_SERVER['REMOTE_ADDR'];
+        $name = $this->Auth->user('email');
+        $time = date('Y-m-d H:i:s');
+        $message = $message . " at {$time} by {$name}";
+        $logsTable->createLogEntry($id, $model, $message, $ipAddress);
     }
 
 }

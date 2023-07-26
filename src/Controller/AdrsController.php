@@ -43,6 +43,17 @@ class AdrsController extends AppController
         }
     }
 
+    public function generate_audit_trail($id, $message)
+
+    {
+        $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+        $ipAddress = $_SERVER['REMOTE_ADDR'];
+        $name = $this->Auth->user('email');
+        $time = date('Y-m-d H:i:s');
+        $message = $message . " at {$time} by {$name}";
+        $logsTable->createLogEntry($id, 'Adr', $message, $ipAddress);
+    }
+
     /**
      * Index method
      *
@@ -54,18 +65,18 @@ class AdrsController extends AppController
             'contain' => ['AdrLabTests', 'AdrListOfDrugs', 'AdrOtherDrugs', 'Attachments', 'RequestReporters', 'RequestEvaluators', 'Committees', 'Reviews', 'ReportStages']
         ];
         $query = $this->Adrs->find('search', array(
-            'recursive' => 0, 
-            'search' => $this->request->query, 
-            ))
-            ->order(['Adrs.created' => 'DESC'])  
+            'recursive' => 0,
+            'search' => $this->request->query,
+        ))
+            ->order(['Adrs.created' => 'DESC'])
             ->where([['user_id' => $this->Auth->user('id')]])
             // ->distinct(['reference_number'])
-            ;
+        ;
         $designations = $this->Adrs->Designations->find('list', ['limit' => 200]);
-        $this->set(compact('designations')); 
+        $this->set(compact('designations'));
 
-        $data=$this->paginate($query->contain($this->paginate['contain']));
-        
+        $data = $this->paginate($query->contain($this->paginate['contain']));
+
         if ($this->request->params['_ext'] === 'pdf' || $this->request->params['_ext'] === 'csv') {
             $this->set('adrs', $query->contain($this->paginate['contain']));
         } else {
@@ -297,7 +308,7 @@ class AdrsController extends AppController
                 '_serialize' => ['umc', 'status']
             ]);
 
-            return ;//$this->redirect($this->referer());
+            return; //$this->redirect($this->referer());
         }
     }
 
@@ -415,6 +426,9 @@ class AdrsController extends AppController
             $adr->reporter_name = $this->Auth->user('name');
             $adr->report_type = 'Initial';
             if ($this->Adrs->save($adr, ['validate' => false])) {
+
+                $message = "New SAE report has beeen created";
+                $this->generate_audit_trail($adr->id, $message);
                 $this->Flash->success(__('The SAE has been saved.'));
 
                 return $this->redirect(['action' => 'edit', $adr->id]);
@@ -524,7 +538,8 @@ class AdrsController extends AppController
                         $this->Adrs->save($adr);
                     }
                     //
-
+                    $message = "SAE Report " . $adr->reference_number . " has been successfully submitted to MCAZ for review";
+                    $this->generate_audit_trail($adr->id, $message);
                     $this->Flash->success(__('Report ' . $adr->reference_number . ' has been successfully submitted to MCAZ for review.'));                //send email and notification
                     $this->loadModel('Queue.QueuedJobs');
                     $data = [
@@ -544,7 +559,7 @@ class AdrsController extends AppController
                     $data['type'] = ($adr->report_type == 'FollowUp') ? 'applicant_submit_adr_followup_notification' : 'applicant_submit_adr_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                     //notify managers
-                    $managers = $this->Adrs->Users->find('all')->where(['Users.group_id IN' => [2, 4],'deactivated'=>0]);
+                    $managers = $this->Adrs->Users->find('all')->where(['Users.group_id IN' => [2, 4], 'deactivated' => 0]);
                     foreach ($managers as $manager) {
                         $data = [
                             'email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Adrs', 'foreign_key' => $adr->id,
@@ -605,6 +620,8 @@ class AdrsController extends AppController
                 ->set(['report_type' => 'Initial'])
                 ->where(['id' => $orig_adr->id])
                 ->execute();
+                $message = "A follow-up report for the SAE report has been created";
+                $this->generate_audit_trail($adr->id, $message);
             $this->Flash->success(__('A follow-up report for the SAE report has been created. make changes and submit.'));
             return $this->redirect(['action' => 'edit', $adr->id]);
         }
@@ -625,6 +642,8 @@ class AdrsController extends AppController
         $adr = $this->Adrs->get($id);
         if ($adr->user_id == $this->Auth->user('id') && ($adr->submitted == 0 or $adr->submitted == 1)) {
             if ($this->Adrs->delete($adr)) {
+                $message = "The SAE report has been deleted successfully";
+                $this->generate_audit_trail($adr->id, $message);
                 $this->Flash->success(__('The adr has been deleted.'));
             } else {
                 $this->Flash->error(__('The adr could not be deleted. Please, try again.'));

@@ -59,6 +59,18 @@ class SadrsBaseController extends AppController
         }
     }
 
+
+    public function generate_audit_trail($id, $message)
+
+    {
+        $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+        $ipAddress = $_SERVER['REMOTE_ADDR'];
+        $name = $this->Auth->user('email');
+        $time = date('Y-m-d H:i:s');
+        $message = $message . " at {$time} by {$name}";
+        $logsTable->createLogEntry($id, 'Sadr', $message, $ipAddress);
+    }
+
     /**
      * Index method
      *
@@ -460,6 +472,8 @@ class SadrsBaseController extends AppController
             $this->Sadrs->save($sadr);
         } else {
             if ($this->Sadrs->restore($sadr)) {
+                $message="The ADR report has been restored";
+                $this->generate_audit_trail($id, $message);
                 $this->Flash->success(__('The ADR has been restored.'));
             } else {
                 $this->Flash->error(__('The ADR could not be restored. Please, try again.'));
@@ -607,7 +621,8 @@ class SadrsBaseController extends AppController
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                     //end 
                 }
-
+                $message="Review successfully done for SADR " . $sadr->reference_number;
+                $this->generate_audit_trail($sadr->id, $message);
                 $this->Flash->success('Review successfully done for SADR ' . $sadr->reference_number);
 
                 return $this->redirect($this->referer());
@@ -673,7 +688,8 @@ class SadrsBaseController extends AppController
                 }
                 //manager does not get a notificatoin
                 //end 
-
+                $message="Request successfully sent to reporter for SADR " . $sadr->reference_number;
+                $this->generate_audit_trail($sadr->id, $message);
                 $this->Flash->success('Request successfully sent to reporter for SADR ' . $sadr->reference_number);
 
                 return $this->redirect($this->referer());
@@ -727,6 +743,8 @@ class SadrsBaseController extends AppController
                 }
 
                 //end 
+                $message="Request successfully sent to evaluator for ADR" . $sadr->reference_number;
+                $this->generate_audit_trail($sadr->id, $message);
 
                 $this->Flash->success('Request successfully sent to evaluator for ADR ' . $sadr->reference_number);
 
@@ -830,6 +848,8 @@ class SadrsBaseController extends AppController
                 }
                 //end 
 
+                $message="Committee Review successfully done for ADR " . $sadr->reference_number;
+                $this->generate_audit_trail($sadr->id, $message);
                 $this->Flash->success('Committee Review successfully done for ADR ' . $sadr->reference_number);
 
                 return $this->redirect($this->referer());
@@ -931,6 +951,8 @@ class SadrsBaseController extends AppController
                 ->set(['copied' => 'old copy'])
                 ->where(['id' => $orig_sadr->id])
                 ->execute();
+                $message="The SADR has been successfully copied";
+                $this->generate_audit_trail($sadr->id, $message);
             $this->Flash->success(__('The SADR has been successfully copied. make changes and submit.'));
             return $this->redirect(['action' => 'edit', $sadr->id]);
         }
@@ -991,9 +1013,7 @@ class SadrsBaseController extends AppController
                     $old_copy = $this->Sadrs->get($sadr->original_sadr->id, [
                         'contain' => ['SadrListOfDrugs', 'SadrOtherDrugs', 'Attachments', 'Reactions', 'OriginalSadrs']
                     ]);
-
-                    // debug($old_copy);
-                    // exit;
+ 
 
                     $update = $this->Sadrs->patchEntity($old_copy, $this->request->getData(), [
                         'validate' => ($this->request->getData('submitted') == 2) ? true : false,
@@ -1004,7 +1024,8 @@ class SadrsBaseController extends AppController
                     ]);
                     $this->Sadrs->save($update);
 
-
+                    $message="Report " . $sadr->reference_number . " has been successfully submitted to MCAZ for review.";
+                    $this->generate_audit_trail($sadr->id, $message);
                     $this->Flash->success(__('Report ' . $sadr->reference_number . ' has been successfully submitted to MCAZ for review.'));
                     return $this->redirect(['action' => 'view', $sadr->id]);
                 } else {
@@ -1046,6 +1067,8 @@ class SadrsBaseController extends AppController
                 'sadr' => ['signature' => 1]
             ], ['associated' => ['Sadrs']]);
             if ($this->Sadrs->Reviews->save($review)) {
+                $message="Signature successfully attached to review";
+                $this->generate_audit_trail($review->id, $message);
                 $this->Flash->success('Signature successfully attached to review');
                 return $this->redirect($this->referer());
             } else {
@@ -1073,6 +1096,8 @@ class SadrsBaseController extends AppController
             ->set(['status' => 'Archived'])
             ->where(['id' => $sadr->id])
             ->execute();
+            $message="The ADR report has been archived successfully";
+            $this->generate_audit_trail($sadr->id, $message);
         $this->Flash->success(__('The ADR has been archived.'));
         //
 
