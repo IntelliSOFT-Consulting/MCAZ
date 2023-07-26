@@ -172,6 +172,8 @@ class UsersController extends AppController
             'fields' => $fieldList,
             'contain' => []
         ]);
+
+        
         $user->last_password = Time::now();
         if ($this->request->is(['patch', 'post', 'put'])) {
             if (empty($this->request->data['password'])) {
@@ -180,6 +182,7 @@ class UsersController extends AppController
             }
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
+                $this->generate_audit_trail($user);
                 $this->Flash->success(__('The user\'s details have been updated.'));
 
                 return $this->redirect(['action' => 'edit', $user->id]);
@@ -191,6 +194,28 @@ class UsersController extends AppController
         $groups = $this->Users->Groups->find('list', ['limit' => 200]);
         $this->set(compact('user', 'designations', 'groups'));
         $this->set('_serialize', ['user']);
+    }
+
+    public  function generate_audit_trail($user)
+    {
+        $auditTrail = $this->Users->AuditTrails->newEntity();
+
+        $id = $_SERVER['REMOTE_ADDR'];
+        $data = [
+            'model' => 'Users',
+            'message' => 'Change of user details',
+            'ip' => $id,
+            'hostname' => '',
+            'uri' => '',
+            'refer' => '',
+            'user_agent' => ''
+        ];
+        $auditTrail = $this->AuditTrails->patchEntity($auditTrail, $this->request->getData());
+        if ($this->AuditTrails->save($auditTrail)) {
+            return true;
+        }
+
+        return false;
     }
 
     public function deactivate($id = null)

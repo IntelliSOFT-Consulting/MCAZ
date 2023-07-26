@@ -97,6 +97,13 @@ class UsersTable extends Table
         $this->hasMany('Reviews', [
             'foreignKey' => 'user_id'
         ]);
+       
+        $this->hasMany('AuditTrails', [
+            'className' => 'AuditTrails',
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'conditions' => array('AuditTrails.model' => 'Users'),
+        ]);
     }
 
     /**

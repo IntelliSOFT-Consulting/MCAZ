@@ -1,16 +1,10 @@
-total 40K
-drwxrwxrwx 10 root       root       4.0K Apr 28 06:25 .
+total 36K
+drwxrwxrwt  9 root       root       4.0K Jul 26 06:17 .
 drwxr-xr-x 23 root       root       4.0K May 27  2020 ..
-drwxrwxrwx  2 jkiprotich jkiprotich 4.0K Jan 11 07:22 appInsights-node6cd0c2a4-fbb8-43a1-a550-b58a5bcff1dc
-drwxrwxrwx  2 root       root       4.0K Mar  1  2022 .font-unix
--rwxrwxrwx  1 jkiprotich jkiprotich    0 Nov 22 07:14 get_models_cache_lock.lock
-drwxrwxrwx  2 root       root       4.0K Mar  1  2022 .ICE-unix
--rwxrwxrwx  1 jkiprotich jkiprotich    0 Nov 22 07:14 migrate_db
--rwxrwxrwx  1 jkiprotich jkiprotich    0 Nov 22 07:14 model.model.ce94127b
--rwxrwxrwx  1 jkiprotich jkiprotich    0 Nov 22 07:14 models_api_cache_dir_lock
-drwxrwxrwx  3 root       root       4.0K Mar  1  2022 systemd-private-cd10f70151de4e51b25e0f0b0dde47e0-systemd-timesyncd.service-wa4AX7
-drwxrwxrwx  2 root       root       4.0K Mar  1  2022 .Test-unix
--rwxrwxrwx  1 jkiprotich jkiprotich    0 Aug 13  2022 tmp.BtdbGz40Km
-drwxrwxrwx  2 jkiprotich jkiprotich 4.0K Apr 27 09:34 vscode-typescript1001
-drwxrwxrwx  2 root       root       4.0K Mar  1  2022 .X11-unix
-drwxrwxrwx  2 root       root       4.0K Mar  1  2022 .XIM-unix
+drwxrwxrwt  2 root       root       4.0K Jun 29 20:53 .font-unix
+drwxrwxrwt  2 root       root       4.0K Jun 29 20:53 .ICE-unix
+drwx------  3 root       root       4.0K Jun 29 20:53 systemd-private-ddf05fb13acd4b61ad847f064ff6332f-systemd-timesyncd.service-JmuqGk
+drwxrwxrwt  2 root       root       4.0K Jun 29 20:53 .Test-unix
+drwxrwxr-x  2 jkiprotich jkiprotich 4.0K Jul  4 18:20 vscode-typescript1001
+drwxrwxrwt  2 root       root       4.0K Jun 29 20:53 .X11-unix
+drwxrwxrwt  2 root       root       4.0K Jun 29 20:53 .XIM-unix

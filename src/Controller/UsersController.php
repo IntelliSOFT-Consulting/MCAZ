@@ -41,9 +41,11 @@ class UsersController extends AppController
 
     public function beforeFilter(Event $event)
     {
-        parent::beforeFilter($event); 
-        $this->Auth->allow(['register', 'login', 'logout', 'activate', 
-        'forgotPassword', 'resetPassword', 'view']);
+        parent::beforeFilter($event);
+        $this->Auth->allow([
+            'register', 'login', 'logout', 'activate',
+            'forgotPassword', 'resetPassword', 'view'
+        ]);
     }
 
     public function dashboard()
@@ -547,8 +549,16 @@ class UsersController extends AppController
                 ]
             ]);
             // debug($this->request->getData());
-            // debug($user);
+            // dd($user);
             if ($this->Users->save($user)) {
+                $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+                $ipAddress = $_SERVER['REMOTE_ADDR'];
+                $name = $this->Auth->user('name');
+                $time = date('Y-m-d H:i:s');
+                $message = "User details for {$user->email} updated at {$time} by {$name}";
+                $logsTable->createLogEntry($id, 'Users', $message, $ipAddress);
+                $this->Flash->success(__('The user\'s details have been updated.'));
+
                 $this->Flash->success(__('The details have been updated.'));
                 return $this->redirect(['action' => 'profile']);
             }
@@ -561,6 +571,29 @@ class UsersController extends AppController
         $this->set('_serialize', ['user']);
     }
 
+    public  function generate_audit_trail($user, $id)
+    {
+        $auditTrail = $this->Users->AuditTrails->newEntity();
+
+        $ipAddress = $_SERVER['REMOTE_ADDR'];
+        $data = [
+            'model' => 'Users',
+            'message' => 'Change of user details',
+            'ip' => $ipAddress,
+            'hostname' => '',
+            'uri' => '',
+            'refer' => '',
+            'user_agent' => ''
+        ];
+        $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+        $logsTable->createLogEntry($id, 'Users', 'User Details Updated', $ipAddress);
+        // $auditTrail = $this->Users->AuditTrails->patchEntity($auditTrail, $data);
+        // if ($this->Users->AuditTrails->save($auditTrail)) {
+        //     return true;
+        // }
+
+        return false;
+    }
     public function imports()
     {
         if ($this->request->is('post')) {
@@ -675,7 +708,7 @@ class UsersController extends AppController
     {
         # code...
         //load the queue model
-        $this->loadModel('Queue.QueuedJobs'); 
+        $this->loadModel('Queue.QueuedJobs');
         // generate the data for the queue
         $data = [
             'name' => 'Technical Capacity Building',

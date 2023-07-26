@@ -206,7 +206,7 @@ class SadrsController extends AppController
         }
 
 
-        $users = $this->Sadrs->Users->find('list', ['limit' => 200])->where(['deactivated'=>0]);
+        $users = $this->Sadrs->Users->find('list', ['limit' => 200])->where(['deactivated' => 0]);
         $designations = $this->Sadrs->Designations->find('list', array('order' => 'Designations.name ASC'));
         $provinces = $this->Sadrs->Provinces->find('list', ['limit' => 200]);
         $doses = $this->Sadrs->SadrListOfDrugs->Doses->find('list');
@@ -630,6 +630,13 @@ class SadrsController extends AppController
             $sadr->reporter_name = $this->Auth->user('name');
             if ($this->Sadrs->save($sadr, ['validate' => false])) {
 
+                $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+                $ipAddress = $_SERVER['REMOTE_ADDR'];
+                $name = $this->Auth->user('email');
+                $time = date('Y-m-d H:i:s');
+                $message = "SADR report created at {$time} by {$name}";
+                $logsTable->createLogEntry($sadr->id, 'Sadr', $message, $ipAddress);
+
                 $this->Flash->success(__('The changes to the ADR have been saved.'));
 
                 return $this->redirect(['action' => 'edit', $sadr->id]);
@@ -722,9 +729,7 @@ class SadrsController extends AppController
                     $sadr->attachments[$i]->category = 'attachments';
                 }
             }
-            // debug((string)$sadr);
-            // debug($this->request->data);
-            // return;
+
             if ($sadr->submitted == 1) {
                 //save changes button
                 // debug($sadr); return;
@@ -766,7 +771,7 @@ class SadrsController extends AppController
 
 
                     // Check if it's a follow up report: update the original report as well
-                    if($sadr->report_type=="FollowUp"){
+                    if ($sadr->report_type == "FollowUp") {
                         //get the original report
                         $original_sadr = $this->Sadrs->get($sadr->initial_id, [
                             'contain' => ['ReportStages'],
@@ -775,12 +780,18 @@ class SadrsController extends AppController
 
                         $original_sadr = $this->Sadrs->patchEntity($original_sadr, $this->request->getData(), [
                             'validate' => ($this->request->getData('submitted') == 2) ? true : false,
-                             
-                        ]); 
+
+                        ]);
                         if ($this->Sadrs->save($original_sadr)) {
-                        } 
+                        }
                     }
 
+                    $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+                    $ipAddress = $_SERVER['REMOTE_ADDR'];
+                    $name = $this->Auth->user('email');
+                    $time = date('Y-m-d H:i:s');
+                    $message = "SADR report successfully submitted to MCAZ for review at {$time} by {$name}";
+                    $logsTable->createLogEntry($sadr->id, 'Sadr', $message, $ipAddress);
                     //
                     $this->Flash->success(__('Report ' . $sadr->reference_number . ' has been successfully submitted to MCAZ for review.'));
                     //send email and notification
@@ -802,7 +813,7 @@ class SadrsController extends AppController
                     $data['type'] = ($sadr->report_type == 'FollowUp') ? 'applicant_submit_sadr_followup_notification' : 'applicant_submit_sadr_notification';
                     $this->QueuedJobs->createJob('GenericNotification', $data);
                     //notify managers
-                    $managers = $this->Sadrs->Users->find('all')->where(['Users.group_id IN' => [2, 4],'deactivated'=>0]);
+                    $managers = $this->Sadrs->Users->find('all')->where(['Users.group_id IN' => [2, 4], 'deactivated' => 0]);
                     foreach ($managers as $manager) {
                         $data = [
                             'email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
@@ -870,6 +881,13 @@ class SadrsController extends AppController
                 ->set(['report_type' => 'Initial'])
                 ->where(['id' => $orig_sadr->id])
                 ->execute();
+
+            $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+            $ipAddress = $_SERVER['REMOTE_ADDR'];
+            $name = $this->Auth->user('email');
+            $time = date('Y-m-d H:i:s');
+            $message = "A Follow Up SADR report has been created at {$time} by {$name}";
+            $logsTable->createLogEntry($sadr->id, 'Sadr', $message, $ipAddress);
             $this->Flash->success(__('A follow-up report for the ADR has been created. make changes and submit.'));
             return $this->redirect(['action' => 'edit', $sadr->id]);
         }
@@ -930,6 +948,13 @@ class SadrsController extends AppController
 
                     //TODO: validate linked data here since validate will be false
                     if ($this->SadrFollowups->save($followup, ['validate' => false])) {
+
+                        $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+                        $ipAddress = $_SERVER['REMOTE_ADDR'];
+                        $name = $this->Auth->user('email');
+                        $time = date('Y-m-d H:i:s');
+                        $message = "A Follow Up SADR report has been successfully submitted to MCAZ for review at {$time} by {$name}";
+                        $logsTable->createLogEntry($sadr->id, 'Sadr', $message, $ipAddress);
                         $this->Flash->success(__('Follow up for report ' . $sadr->reference_number . ' has been successfully submitted to MCAZ for review.'));
 
                         //send email and notification
@@ -945,7 +970,7 @@ class SadrsController extends AppController
                         $data['vars']['created'] = $followup->created;
                         $this->QueuedJobs->createJob('GenericNotification', $data);
                         //notify managers
-                        $managers = $this->Sadrs->Users->find('all')->where(['group_id IN' => [2, 4],'deactivated'=>0]);
+                        $managers = $this->Sadrs->Users->find('all')->where(['group_id IN' => [2, 4], 'deactivated' => 0]);
                         foreach ($managers as $manager) {
                             $data = [
                                 'email_address' => $manager->email, 'user_id' => $manager->id, 'model' => 'Sadrs', 'foreign_key' => $sadr->id,
@@ -999,6 +1024,13 @@ class SadrsController extends AppController
         $sadr = $this->Sadrs->get($id);
         if ($sadr->user_id == $this->Auth->user('id') && ($sadr->submitted == 0 or $sadr->submitted == 1)) {
             if ($this->Sadrs->delete($sadr)) {
+
+                $logsTable = \Cake\ORM\TableRegistry::getTableLocator()->get('AuditTrails');
+                $ipAddress = $_SERVER['REMOTE_ADDR'];
+                $name = $this->Auth->user('email');
+                $time = date('Y-m-d H:i:s');
+                $message = "SADR report deleted successfully at {$time} by {$name}";
+                $logsTable->createLogEntry($id, 'Sadr', $message, $ipAddress);
                 $this->Flash->success(__('The sadr has been deleted.'));
             } else {
                 $this->Flash->error(__('The sadr could not be deleted. Please, try again.'));

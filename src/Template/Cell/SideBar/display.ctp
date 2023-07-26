@@ -308,6 +308,11 @@
         echo $this->Html->link('<i class="fa fa-list-alt" aria-hidden="true"></i> &nbsp; SYSTEM LOGS', ['controller' => 'Logs', 'action' => 'index', 'prefix' => $prefix, 'plugin' => 'DatabaseLog'], array('escape' => false, 'class' => 'btn-zangu')); 
       ?>
     </li>
+    <li class="<?=  ($this->request->params['controller'] == 'AuditTrails') ? 'active' : ''; ?>">
+      <?php
+        echo $this->Html->link('<i class="fa fa-history" aria-hidden="true"></i> &nbsp; Audit Trail', ['controller' => 'AuditTrails', 'action' => 'index', 'prefix' => $prefix,'plugin' => false ], array('escape' => false,'class' => 'btn-zangu')); 
+      ?>
+    </li>
     <?php }; ?>
     <?php if($prefix == 'admin' || $prefix == 'manager' || $prefix == 'evaluator') { ?>
     <li class="<?=  ($this->request->params['controller'] == 'Feedbacks') ? 'active' : ''; ?>">

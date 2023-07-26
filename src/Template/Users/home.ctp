@@ -163,11 +163,9 @@
   <!-- SAE -->
   <div class="col-md-4">
     <?= $this->Html->script('jquery/jquery.shorten', ['block' => true]); ?>
-    <div class="col-md-8">
+    <div class="col-md-12">
       <?= $this->cell('Notification'); ?>
     </div>
-    <div class="col-md-4">
-      <?= $this->cell('Imeja'); ?>
-    </div>
+    
   </div>
 </div>
